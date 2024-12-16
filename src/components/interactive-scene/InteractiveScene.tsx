@@ -20,6 +20,7 @@ type SceneInteractionEvent = {
 };
 
 export class InteractiveScene extends Scene {
+  add(_arg0: Object): void {}
   clock: Clock;
 
   sceneFunctions: InteractiveSceneFunctions;

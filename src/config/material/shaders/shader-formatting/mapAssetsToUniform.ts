@@ -1,6 +1,8 @@
 import { Asset } from "assets/asset.types";
 import { UniformObject } from "../build-shader/types";
 import { AssetToUniformMappingConfig } from "config/material/materials.types";
+import { getCentroid } from "utils/three-dimension-space/getCentroid";
+import { Vector2 } from "three";
 
 const ASSET_MAPPING_RELATIONSHIPS = {
   TEXTURE: "TEXTURE",

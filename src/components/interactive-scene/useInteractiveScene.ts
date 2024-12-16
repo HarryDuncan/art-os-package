@@ -7,11 +7,12 @@ import {
 import { EventConfig } from "interaction/interactions.types";
 import { AnimationConfig } from "animation/animation.types";
 import { Object3D } from "three";
-import { SceneLight } from "scene-elements/lights/lights.types";
+
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { SceneProperties } from "config/config.types";
 import { setSceneProperties } from "utils/scene/setSceneProperties";
 import { GLTF } from "three/examples/jsm/loaders/GLTFLoader";
+import { SceneLight } from "config/lights/lights.types";
 
 export const useInteractiveScene = (
   sceneFunction: InteractiveSceneFunctions,

@@ -1,7 +1,7 @@
 import { Material, Mesh, SphereGeometry, Vector3 } from "three";
 import { SphericalBackgroundProps } from "./threeJsComponents.types";
-import { DEFAULT_MATERIAL } from "/materials/materials.defaults";
-import { DEFAULT_ROTATION } from "visual/utils/three-dimension-space/threeDSpace.constants";
+import { DEFAULT_ROTATION } from "utils/three-dimension-space/threeDSpace.constants";
+import { DEFAULT_MATERIAL } from "config/material/materials.default";
 
 export const SphericalBackground = ({
   id,

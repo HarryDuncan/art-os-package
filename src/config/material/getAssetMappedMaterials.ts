@@ -1,5 +1,4 @@
 import { Material, Texture } from "three";
-import { getMaterial } from "materials/getMaterial";
 import {
   EnvMapMaterialProps,
   MatcapMaterialProps,
@@ -8,10 +7,8 @@ import {
   VideoMaterialProps,
 } from "config/material/materials.types";
 import { Asset } from "../../assets/asset.types";
-import {
-  ASSET_MAPPED_MATERIALS,
-  MATERIAL_TYPES,
-} from "materials/materials.consts";
+import { ASSET_MAPPED_MATERIALS, MATERIAL_TYPES } from "./materials.consts";
+import { getMaterial } from "./getMaterial";
 
 export const getAssetMappedMaterials = (
   materialConfig: MaterialConfig[],

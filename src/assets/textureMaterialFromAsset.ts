@@ -1,9 +1,9 @@
 import { Material, Texture } from "three";
-import { getMaterial } from "materials/getMaterial";
 import { EnvMapType, MaterialType } from "config/material/materials.types";
 import { hasCommonValues } from "utils/hasCommonElement";
 import { Asset, ASSET_TAG } from "./asset.types";
-import { ENV_MAP_TYPES } from "materials/materials.consts";
+import { getMaterial } from "config/material/getMaterial";
+import { ENV_MAP_TYPES } from "config/material/materials.consts";
 
 export const textureMaterialFromAsset = (assets: Asset[]) =>
   sortMaterialsFromAssets(assets).flatMap((asset: Asset) => {

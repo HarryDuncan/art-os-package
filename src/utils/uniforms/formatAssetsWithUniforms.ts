@@ -1,6 +1,7 @@
-import { Asset } from "visual/set-up/assets/asset.types";
-
 // links assets to uniforms - using name as the uniform name
+
+import { Asset } from "assets/asset.types";
+
 // Must follow the uniform naming convention
 export const formatAssetWithUniforms = (
   uniforms: Record<string, unknown>,

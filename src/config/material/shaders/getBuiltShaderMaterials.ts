@@ -1,12 +1,12 @@
 import { Asset } from "assets/asset.types";
 import { SceneConfig } from "../../config.types";
-import { MATERIAL_TYPES } from "materials/materials.consts";
 import { DoubleSide, ShaderMaterial } from "three";
 import { buildShader } from "./build-shader/buildShader";
 import { formatBuiltShaderConfig } from "./shader-formatting/formatBuiltShaderConfig";
 import { formatBuiltShaderUniforms } from "./shader-formatting/formatBuiltShaderUniforms";
 import { configureBlendingOptions } from "../blending-options/configureBlendingOptions";
 import { getAttributeValuesFromAssets } from "../../mesh/attributes/getAttributeValuesFromAsset";
+import { MATERIAL_TYPES } from "../materials.consts";
 
 export const getBuiltShaderMaterials = (
   config: SceneConfig,

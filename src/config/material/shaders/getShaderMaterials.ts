@@ -1,13 +1,13 @@
 import { Asset } from "assets/asset.types";
 import { SceneConfig } from "../../config.types";
-import { MATERIAL_TYPES, SHADER_MATERIALS } from "materials/materials.consts";
 import {
   MaterialConfig,
   ShaderMaterialProps,
 } from "config/material/materials.types";
-
 import { ShaderMaterial } from "three";
 import { configureBlendingOptions } from "../blending-options/configureBlendingOptions";
+import { configureShaders } from "./configureShaders";
+import { MATERIAL_TYPES, SHADER_MATERIALS } from "../materials.consts";
 
 export const getShaderMaterials = (config: SceneConfig, assets: Asset[]) => {
   const { globalMaterialConfigs } = config;

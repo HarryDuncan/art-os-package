@@ -1,5 +1,10 @@
 import { Asset } from "assets/asset.types";
-import { MaterialUniform } from "../materials.types";
+import {
+  AssetToUniformMappingConfig,
+  MaterialUniform,
+  ShaderConfig,
+} from "../materials.types";
+import { importShader } from "./importShader";
 
 export const configureShaders = (
   shaderConfig: ShaderConfig,
@@ -32,7 +37,7 @@ const configureUniforms = (
 // TODO - refactor to use mapAssetsToUniforms
 const mapAssets = (
   uniforms: Record<string, unknown>,
-  assetMapping: AssetMap[],
+  assetMapping: AssetToUniformMappingConfig[],
   assets: Asset[]
 ) => {
   if (assetMapping) {
@@ -46,7 +51,10 @@ const mapAssets = (
   return uniforms;
 };
 
-const getMappedAsset = (assetMapping: AssetMap, assets: Asset[]) => {
+const getMappedAsset = (
+  assetMapping: AssetToUniformMappingConfig,
+  assets: Asset[]
+) => {
   const mappedAsset = assets.find((asset) => asset.id === assetMapping.assetId);
   if (mappedAsset && mappedAsset.data) {
     const texture = mappedAsset.data;

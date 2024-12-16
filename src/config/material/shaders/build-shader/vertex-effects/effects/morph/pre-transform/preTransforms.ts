@@ -1,6 +1,5 @@
 import { PositionConfig } from "utils/three-dimension-space/position/position.types";
 import { shaderSafeVector } from "utils/conversion/shaderConversions";
-import { vertexTranslate } from "materials/webgl-shaders/shader-functions/translation/translate";
 import {
   capitalizeFirstLetter,
   lowerCaseFirstLetter,
@@ -11,6 +10,7 @@ import {
   PreTransformData,
   TranslateTransformProps,
 } from "../../../../types";
+import { vertexTranslate } from "config/material/shaders/build-shader/shader-properties/functions/translation/translate";
 
 export const preTransforms = (
   preTransformedItems: PreTransformConfig[]

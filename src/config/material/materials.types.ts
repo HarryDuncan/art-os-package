@@ -17,6 +17,13 @@ export type StandardMaterialProps = MaterialProps & {
   displacementScale: number;
   normalScale: number;
 };
+export interface ShaderConfig {
+  shaderId: string;
+  assetMapping?: AssetToUniformMappingConfig[];
+  fragmentShaderId?: string;
+  vertexShaderId?: string;
+}
+
 export type ShaderMaterialProps = MaterialProps & {
   shaderConfig: ShaderConfig;
   uniforms: MaterialUniform;

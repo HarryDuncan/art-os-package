@@ -81,6 +81,7 @@ const getGeometryForMeshConfig = (
   }
   const meshGeometry = geometries.find(
     (geometry) =>
+      // @ts-ignore
       geometry.name === geometryId || geometry.assetId === geometryId
   );
   if (!meshGeometry) {

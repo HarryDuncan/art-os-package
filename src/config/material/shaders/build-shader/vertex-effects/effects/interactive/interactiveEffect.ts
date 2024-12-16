@@ -1,4 +1,3 @@
-import { randomFloat } from "materials/webgl-shaders/shader-functions/random/random";
 import { ShaderPropertyValueTypes } from "../../../constants/buildShader.consts";
 import {
   AttributeConfig,
@@ -18,6 +17,7 @@ import { reduceFunctions } from "../../../helpers/reduceFunctions";
 import { mergeAttributeConfigs } from "../../../shader-properties/attributes/helpers/mergeAttributeConfigs";
 import { VertexEffectData } from "../../vertexEffects.types";
 import { DEFAULT_VERTEX_EFFECT } from "../../../constants";
+import { randomFloat } from "../../../shader-properties/functions/random/random";
 
 export const interactiveEffect = (
   previousPointName: string,

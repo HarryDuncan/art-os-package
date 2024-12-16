@@ -1,6 +1,6 @@
+import { InteractiveScene } from "components/interactive-scene/InteractiveScene";
 import { MarchingCubes } from "three/examples/jsm/objects/MarchingCubes";
-import { InteractiveScene } from "/components/interactive-scene/InteractiveScene";
-import { getMeshesByIdentifier } from "visual/utils/scene/object-finding/getMeshesByIdentifier";
+import { getMeshesByIdentifier } from "utils/scene/object-finding/getMeshesByIdentifier";
 
 export const animateMarchingCube = (scene: InteractiveScene) => {
   const time = scene.clock.getElapsedTime() * 0.08;

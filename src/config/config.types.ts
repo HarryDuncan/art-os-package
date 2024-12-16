@@ -1,14 +1,9 @@
 import { AnimationConfig } from "animation/animation.types";
-import { LightConfigs, SceneLight } from "scene-elements/lights/lights.types";
 import { MaterialConfig } from "config/material/materials.types";
 import { InteractionConfig } from "interaction/interactions.types";
 import { Asset } from "assets/asset.types";
 import { GeometryConfig } from "../assets/geometry/geometry.types";
 import { CameraConfig } from "config/three-js/use-camera/camera.types";
-import {
-  ComponentProps,
-  SceneElementType,
-} from "scene-elements/components/threeJsComponents.types";
 import { MESH_TRANSFORM } from "./mesh/mesh.consts";
 import { ScreenType } from "compat/window-state/types";
 import {
@@ -23,6 +18,11 @@ import { AttributeConfig } from "./material/shaders/build-shader/types";
 import { SceneConfigType } from "./config.constants";
 import { AdvancedMeshConfig } from "./mesh/advanced-mesh/advancedMesh.types";
 import { GLTF } from "three/examples/jsm/loaders/GLTFLoader";
+import {
+  ComponentProps,
+  SceneElementType,
+} from "./components/threeJsComponents.types";
+import { LightConfigs, SceneLight } from "./lights/lights.types";
 
 export type MultipleConfig = {
   instanceCount: number;
