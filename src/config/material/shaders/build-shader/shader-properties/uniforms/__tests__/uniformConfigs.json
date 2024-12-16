@@ -1,0 +1,13 @@
+[
+  { "defaultUniforms": [], "customUniforms": [] },
+  {
+    "defaultUniforms": ["uPosition", "uResolution"]
+  },
+  {
+    "defaultUniforms": ["uPosition", "uResolution"],
+    "customUniforms": [
+      { "id": "uPower", "valueType": "FLOAT" },
+      { "id": "uReduced", "valueType": "FLOAT", "value": 15.5 }
+    ]
+  }
+]

@@ -1,0 +1,6 @@
+[
+  [],
+  [{ "id": "vUv", "valueType": "VEC2", "varyingType": "DEFAULT" }],
+  [{ "id": "vColor", "valueType": "VEC3", "varyingType": "CUSTOM" }],
+  [{ "id": "vPointId", "valueType": "FLOAT", "varyingType": "ATTRIBUTE" }]
+]

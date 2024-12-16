@@ -1,0 +1,23 @@
+[
+  [],
+  [
+    {
+      "defaultUniforms": ["uPosition"],
+      "customUniforms": [{ "id": "uPower", "valueType": "FLOAT", "value": 1.5 }]
+    },
+    {
+      "defaultUniforms": ["uResolution"],
+      "customUniforms": [{ "id": "uTest", "valueType": "FLOAT", "value": 1.5 }]
+    }
+  ],
+  [
+    {
+      "defaultUniforms": ["uPosition"],
+      "customUniforms": [{ "id": "uPower", "valueType": "FLOAT", "value": 1.5 }]
+    },
+    {
+      "defaultUniforms": ["uPosition"],
+      "customUniforms": [{ "id": "uPower", "valueType": "FLOAT", "value": 1.5 }]
+    }
+  ]
+]

@@ -1,0 +1,92 @@
+// ATTRIBUTE DECLARATION
+attribute float size;
+attribute vec3 color;
+attribute float pointIndex;
+attribute float angle;
+
+// UNIFORM DECLARATION
+uniform float uTime;
+uniform vec3 uPosition;
+uniform vec3 uRotation;
+uniform float uPower;
+uniform float uReduced;
+
+// VARYING DECLARATION
+varying vec3 vColor;
+varying float vPointId;
+varying vec2 vPUv;
+varying vec2 vUv;
+varying float vAffected;
+
+// IMPORTED FUNCTION DECLARATION
+float random(float n) {
+    return fract(sin(n) * 43758.5453123);
+}
+
+float rand(vec2 n) {
+    return fract(sin(dot(n, vec2(12.9898, 4.1414))) * 43758.5453);
+}
+
+float noise(vec2 p){
+    vec2 ip = floor(p);
+    vec2 u = fract(p);
+    u = u*u*(3.0-2.0*u);
+    float res = mix(
+        mix(rand(ip),rand(ip+vec2(1.0,0.0)),u.x),
+        mix(rand(ip+vec2(0.0,1.0)),rand(ip+vec2(1.0,1.0)),u.x),u.y);
+    return res*res;
+}
+
+void main() {
+
+// DEFAULT VARYING INSTANTIATION
+    vUv = uv;
+
+// ATTRIBUTE AS VARYING
+    vPointId = pointIndex;
+
+// CUSTOM VARYING   
+    vColor = vec3(1.0,1.0,0.5);
+    vAffected = 0.0;
+
+// EXPLODE AT POSITION
+  vec3 displacedExploded = position;
+  if(uPosition.x > -2000.0){
+    vec3 displacedPosition = position;
+    vec3 effectPosition = uPosition;
+    vec3 effectDistanceVector =  effectPosition - displacedPosition;
+    float effectDistanceLength = length(effectDistanceVector);
+    float effectStrength =  1.5 * uPower;
+    if(effectDistanceLength <= 1.25 * uPower){
+      float rand = random(uTime);
+      displacedExploded.x += cos(angle) * effectStrength;
+      displacedExploded.y += sin(angle) * effectStrength;
+      vAffected = 1.0;
+    }
+  }
+
+// FILTER
+  if(mod(pointIndex, uReduced) == 0.0){
+    vec3 translated =  inverseRotate(position);
+    gl_PointSize = max(8.0, min(18.0, 18.0 *  (9.0 / translated.z)) );
+  }else{
+    gl_PointSize = 0.0;
+  }
+  if(vAffected == 1.0){
+    gl_PointSize = 64.0;
+  }
+  
+// ROTATION
+  float angle = uTime * 0.1; // calculate the angle based on time
+  mat4 rotationMatrix = mat4(
+    vec4(cos(angle), 0, sin(angle), 0),
+    vec4(0, 1, 0, 0),
+    vec4(-sin(angle), 0, cos(angle), 0),
+    vec4(0, 0, 0, 1)
+  ); 
+  vec4 rotatedPosition = vec4(displacedExploded,1.0) * rotationMatrix;
+
+// FINAL 
+  gl_Position = projectionMatrix * modelViewMatrix * rotatedPosition;
+}
+`;

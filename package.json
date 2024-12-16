@@ -1,0 +1,39 @@
+{
+  "name": "art-os-package",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "lint": "npx eslint src",
+    "test": "vitest",
+    "build": "tsc"
+  },
+  "keywords": [
+    "npm",
+    "typescript",
+    "package",
+    "template"
+  ],
+  "author": "Harry Duncan",
+  "license": "MIT",
+  "dependencies": {
+    "react": "^19.0.0",
+    "styled-components": "^5.2.1",
+    "three": "^0.142.0",
+    "typescript": "^4.6.3"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.1.0",
+    "@types/node": "^18.0.0",
+    "@types/react": "^19.0.0",
+    "@types/styled-components": "^5.1.25",
+    "@vitejs/plugin-react": "4.3.4",
+    "jsdom": "^25.0.1",
+    "typescript": "^4.4.3",
+    "vite": "6.0.3",
+    "vite-tsconfig-paths": "^5.1.4",
+    "vitest": "2.1.8"
+  }
+}
