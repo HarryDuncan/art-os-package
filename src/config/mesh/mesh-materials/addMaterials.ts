@@ -1,5 +1,5 @@
 import { Material } from "three";
-import { DEFAULT_MATERIAL } from "display/materials/materials.defaults";
+import { DEFAULT_MATERIAL } from "materials/materials.defaults";
 import { FormattedGeometry, MeshConfig } from "assets/geometry/geometry.types";
 import { MeshComponentConfig } from "../../config.types";
 

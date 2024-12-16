@@ -1,6 +1,6 @@
 import { AnimationClip, BufferGeometry, Group, Object3D, Texture } from "three";
 import { GLTF } from "three/examples/jsm/loaders/GLTFLoader";
-import { MATERIAL_TYPES } from "display/materials/materials.consts";
+import { MATERIAL_TYPES } from "materials/materials.consts";
 import { BoundingBox } from "utils/three-dimension-space/position/position.types";
 
 export const ASSET_TYPES = {

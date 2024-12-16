@@ -1,9 +1,9 @@
 import { EventConfig } from "interaction/interactions.types";
-import { AnimationConfig } from "display/animation/animation.types";
+import { AnimationConfig } from "animation/animation.types";
 import {
   InteractiveSceneFunctions,
   SceneInteraction,
-} from "display/components/interactive-scene/InteractiveScene";
+} from "components/interactive-scene/InteractiveScene";
 import { SceneData } from "config/config.types";
 
 export interface NodeProps {

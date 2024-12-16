@@ -1,4 +1,4 @@
-import { Position3d } from "display/helpers/three-dimension-space/position/position.types";
+import { Position3d } from "helpers/three-dimension-space/position/position.types";
 
 export const getPosition = (positionConfig: Partial<Position3d>) => {
   return {

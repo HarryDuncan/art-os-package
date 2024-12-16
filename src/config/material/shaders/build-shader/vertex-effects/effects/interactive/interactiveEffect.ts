@@ -1,4 +1,4 @@
-import { randomFloat } from "display/materials/webgl-shaders/shader-functions/random/random";
+import { randomFloat } from "materials/webgl-shaders/shader-functions/random/random";
 import { ShaderPropertyValueTypes } from "../../../constants/buildShader.consts";
 import {
   AttributeConfig,

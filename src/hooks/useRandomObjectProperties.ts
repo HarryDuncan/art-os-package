@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { getRandomCoordinates } from "utils/randomize/getRandomCoordinates";
 import { Bounds3D } from "utils/three-dimension-space/position/position.types";
-import { xyzToArray } from "../helpers/xyzToArray";
+import { xyzToArray } from "utils/xyzToArray";
 
 export const useRandomObjectProperties = (
   numberOfObjects: number,

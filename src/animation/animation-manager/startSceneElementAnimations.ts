@@ -1,4 +1,4 @@
-import { InteractiveScene } from "display/components/interactive-scene/InteractiveScene";
+import { InteractiveScene } from "components/interactive-scene/InteractiveScene";
 
 export const startSceneElementAnimations = (scene: InteractiveScene) => {
   const sceneElementAnimationIds =

@@ -1,8 +1,5 @@
-import {
-  Mirror,
-  MarchingCubesElement,
-} from "display/scene-elements/components";
-import { Cube } from "display/scene-elements/components/Cube";
+import { Mirror, MarchingCubesElement } from "scene-elements/components";
+import { Cube } from "scene-elements/components/Cube";
 import {
   SCENE_ELEMENTS,
   MarchingCubesProps,
@@ -10,10 +7,10 @@ import {
   PlaneProps,
   CubeProps,
   ShaderBackgroundProps,
-} from "display/scene-elements/components/threeJsComponents.types";
-import { PlaneElement } from "display/scene-elements/components/PlaneElement";
+} from "scene-elements/components/threeJsComponents.types";
+import { PlaneElement } from "scene-elements/components/PlaneElement";
 import { SceneComponentConfig } from "../config.types";
-import { ShaderBackground } from "display/scene-elements/components/shader-background/ShaderBackground";
+import { ShaderBackground } from "scene-elements/components/shader-background/ShaderBackground";
 
 export const getSceneComponents = (
   componentConfigs: SceneComponentConfig[] = []

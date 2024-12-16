@@ -1,0 +1,3 @@
+export const DEFAULT_RESOLUTION = 120;
+export const DEFAULT_ISOLATION = 20;
+export const DEFAULT_MARCHING_CUBES_SCALE = 4;

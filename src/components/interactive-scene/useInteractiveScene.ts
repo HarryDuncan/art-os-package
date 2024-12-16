@@ -5,9 +5,9 @@ import {
   SceneInteraction,
 } from "./InteractiveScene";
 import { EventConfig } from "interaction/interactions.types";
-import { AnimationConfig } from "display/animation/animation.types";
+import { AnimationConfig } from "animation/animation.types";
 import { Object3D } from "three";
-import { SceneLight } from "display/scene-elements/lights/lights.types";
+import { SceneLight } from "scene-elements/lights/lights.types";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { SceneProperties } from "config/config.types";
 import { setSceneProperties } from "utils/scene/setSceneProperties";

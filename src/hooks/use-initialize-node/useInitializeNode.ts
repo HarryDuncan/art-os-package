@@ -1,7 +1,11 @@
-import { useEffect } from "react";
+import { JSX, RefObject, useEffect } from "react";
 import { WebGLRenderer } from "three";
 import { CSS3DRenderer } from "three/examples/jsm/renderers/CSS3DRenderer";
-import { ContainerNode } from "display/interfaces";
+
+type ContainerNode =
+  | RefObject<Element>
+  | RefObject<null>
+  | RefObject<JSX.Element>;
 
 export const useInitializeNode = (
   containerRef: ContainerNode,

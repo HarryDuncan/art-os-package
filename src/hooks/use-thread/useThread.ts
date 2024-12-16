@@ -1,12 +1,12 @@
 import { useCallback, useEffect } from "react";
 import { Camera, WebGLRenderer } from "three";
 import { CSS3DRenderer } from "three/examples/jsm/renderers/CSS3DRenderer";
-import { InteractiveScene } from "display/components/interactive-scene/InteractiveScene";
-import { sceneUpdateEvent } from "display/engine/engineEvents";
+import { InteractiveScene } from "components/interactive-scene/InteractiveScene";
+import { sceneUpdateEvent } from "engine/engineEvents";
 
 export const useThread = (
   renderer: WebGLRenderer | CSS3DRenderer | undefined,
-  currentFrameRef: React.MutableRefObject<number>,
+  currentFrameRef: React.RefObject<number>,
   scene: InteractiveScene,
   camera: Camera
 ) => {

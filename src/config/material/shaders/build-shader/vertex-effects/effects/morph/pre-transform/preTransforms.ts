@@ -1,6 +1,6 @@
 import { PositionConfig } from "utils/three-dimension-space/position/position.types";
 import { shaderSafeVector } from "utils/conversion/shaderConversions";
-import { vertexTranslate } from "display/materials/webgl-shaders/shader-functions/translation/translate";
+import { vertexTranslate } from "materials/webgl-shaders/shader-functions/translation/translate";
 import {
   capitalizeFirstLetter,
   lowerCaseFirstLetter,

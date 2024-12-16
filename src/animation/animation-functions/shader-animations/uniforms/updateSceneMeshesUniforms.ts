@@ -1,5 +1,5 @@
 import { RawShaderMaterial } from "three";
-import { InteractiveScene } from "display/components/interactive-scene/InteractiveScene";
+import { InteractiveScene } from "components/interactive-scene/InteractiveScene";
 import { getMeshesByIdentifier } from "utils/scene/object-finding/getMeshesByIdentifier";
 
 export const updateSceneMeshesUniform = (

@@ -8,7 +8,7 @@ import { ThreeJsParams } from "config/config.types";
 export const useThreeJs = (threeJsParams: ThreeJsParams) => {
   const { camera } = threeJsParams;
   const container = useRef<HTMLDivElement | null>(null);
-  const currentFrameRef: React.MutableRefObject<number> = useRef(0);
+  const currentFrameRef: React.RefObject<number> = useRef(0);
   const renderer = useWebGLRenderer(threeJsParams.renderer);
   const cssRenderer = useCssRenderer(threeJsParams.renderer);
   useInitializeNode(container, cssRenderer || renderer);

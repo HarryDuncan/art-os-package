@@ -1,7 +1,7 @@
 import {
   ASSET_MAPPED_MATERIALS,
   SHADER_MATERIALS,
-} from "display/materials/materials.consts";
+} from "materials/materials.consts";
 import { SceneConfig } from "../config.types";
 import { materialConfigToMaterial } from "./materialConfigToMaterial";
 import { Material } from "three";

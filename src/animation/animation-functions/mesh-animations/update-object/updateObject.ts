@@ -5,7 +5,7 @@ import {
   AXIS,
   Axis,
 } from "utils/three-dimension-space/position/position.types";
-import { OBJECT_UPDATE_PROPERTY } from "display/animation/animation.constants";
+import { OBJECT_UPDATE_PROPERTY } from "animation/animation.constants";
 
 export const updateObject = (
   object: Object3D,

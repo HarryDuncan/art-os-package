@@ -1,6 +1,6 @@
 import { expect, test, describe } from "vitest";
 import { preTransforms } from "../preTransforms";
-import { vertexTranslate } from "display/materials/webgl-shaders/shader-functions/translation/translate";
+import { vertexTranslate } from "materials/webgl-shaders/shader-functions/translation/translate";
 import { TransformTypes } from "../../../../vertexEffects.consts";
 
 const TRANSLATE_MOCK = [

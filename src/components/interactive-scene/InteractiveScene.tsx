@@ -5,8 +5,8 @@ import {
 } from "interaction/interactions.types";
 import { Clock, Scene } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-import { AnimationManager } from "display/animation/animation-manager/AnimationManager";
-import { AnimationConfig } from "display/animation/animation.types";
+import { AnimationManager } from "animation/animation-manager/AnimationManager";
+import { AnimationConfig } from "animation/animation.types";
 import { ENGINE_EVENTS } from "engine/engine.consts";
 
 export type InteractiveSceneFunctions = {

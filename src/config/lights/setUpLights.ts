@@ -1,11 +1,7 @@
-import { AmbientLightElement } from "display/scene-elements/lights/AmbientLightElement";
-import { DirectionalLightElement } from "display/scene-elements/lights/DirectionalLightElement";
-import { PointLightElement } from "display/scene-elements/lights/PointLightElement";
-import {
-  LIGHT_TYPES,
-  LightConfigs,
-  SceneLight,
-} from "display/scene-elements/lights/lights.types";
+import { AmbientLightElement } from "./light-elements/AmbientLightElement";
+import { DirectionalLightElement } from "./light-elements/DirectionalLightElement";
+import { PointLightElement } from "./light-elements/PointLightElement";
+import { LIGHT_TYPES, LightConfigs, SceneLight } from "./lights.types";
 
 export const setUpLights = (lightConfigs: LightConfigs[] = []): SceneLight[] =>
   lightConfigs.flatMap(({ name, lightType, props }) => {

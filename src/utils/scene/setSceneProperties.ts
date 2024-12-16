@@ -1,4 +1,4 @@
-import { InteractiveScene } from "display/components/interactive-scene/InteractiveScene";
+import { InteractiveScene } from "components/interactive-scene/InteractiveScene";
 import { SceneProperties } from "config/config.types";
 
 export const setSceneProperties = (
@@ -7,6 +7,7 @@ export const setSceneProperties = (
 ) => {
   if (!sceneProperties) return;
   if (sceneProperties.background !== null) {
+    // @ts-ignore
     scene.background = sceneProperties?.background ?? null;
   }
   const sceneId = sceneProperties.sceneId ?? "";

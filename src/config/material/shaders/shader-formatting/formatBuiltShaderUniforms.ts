@@ -1,12 +1,12 @@
 import { IUniform, Vector2 } from "three";
-import { mapAssetsToUniforms } from "display/materials/webgl-shaders/shader-setup/mapAssetsToUniforms";
-import { AssetMap } from "display/materials/webgl-shaders/shaders.types";
 import { Asset } from "assets/asset.types";
 import { UniformObject } from "../build-shader/types";
+import { AssetToUniformMappingConfig } from "config/material/materials.types";
+import { mapAssetsToUniforms } from "./mapAssetsToUniform";
 
 export const formatBuiltShaderUniforms = (
   uniforms: UniformObject,
-  assetMapping: AssetMap[],
+  assetMapping: AssetToUniformMappingConfig[],
   assets: Asset[]
 ): { [uniform: string]: IUniform<unknown> } => {
   const mappedUniforms = mapAssetsToUniforms(assetMapping, assets, uniforms);

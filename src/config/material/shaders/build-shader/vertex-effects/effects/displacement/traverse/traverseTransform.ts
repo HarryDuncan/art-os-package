@@ -1,7 +1,7 @@
 import { UniformConfig, VaryingConfig } from "../../../../types";
 import { VERTEX_EFFECT_POINT_NAMES } from "../../../vertexEffects.consts";
 import { VertexEffectData } from "../../../vertexEffects.types";
-import { noise3D } from "display/materials/webgl-shaders/shader-functions/noise/simplex/noise3D";
+import { noise3D } from "materials/webgl-shaders/shader-functions/noise/simplex/noise3D";
 
 export const distortFunctions = () => [
   { id: "noise", functionDefinition: noise3D },

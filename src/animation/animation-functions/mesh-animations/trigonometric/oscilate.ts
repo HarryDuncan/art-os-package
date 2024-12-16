@@ -1,5 +1,5 @@
-import { TRIG_FUNCTION_TYPES } from "display/animation/animation.constants";
-import { TrigFunctionType } from "display/animation/animation.types";
+import { TRIG_FUNCTION_TYPES } from "animation/animation.constants";
+import { TrigFunctionType } from "animation/animation.types";
 
 export const oscillate = (
   timestamp: number,

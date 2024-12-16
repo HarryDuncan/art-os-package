@@ -17,5 +17,10 @@
     "jsx": "react-jsx",
     "noImplicitAny": false
   },
-  "include": ["src", "**/*.tsx"]
+  "include": ["src", "**/*.tsx"],
+  "exclude": [
+    "src/test-utils/*",
+    "**/*.spec.ts", // Exclude all test files with .test.ts extension
+    "**/__tests__" // Exclude any folder named __tests__
+  ]
 }

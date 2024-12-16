@@ -6,7 +6,7 @@ import { Layers } from "components/layers/Layers";
 import { SceneProperties } from "config/config.types";
 
 interface IRootContainerProps {
-  containerRef: React.MutableRefObject<HTMLDivElement | null>;
+  containerRef: React.RefObject<HTMLDivElement | null>;
   sceneProperties: SceneProperties;
   layers?: Layer[];
 }

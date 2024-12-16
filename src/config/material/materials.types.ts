@@ -1,13 +1,6 @@
 import { Material, Texture } from "three";
-import {
-  ENV_MAP_TYPES,
-  MATERIAL_TYPES,
-} from "../../../display/materials/materials.consts";
-import {
-  AssetMap,
-  ShaderConfig,
-} from "../../../display/materials/webgl-shaders/shaders.types";
 import { BuiltShaderConfig } from "./shaders/build-shader/types";
+import { ENV_MAP_TYPES, MATERIAL_TYPES } from "./materials.consts";
 
 export type MaterialType = keyof typeof MATERIAL_TYPES;
 export type EnvMapType = keyof typeof ENV_MAP_TYPES;
@@ -57,7 +50,7 @@ export interface MaterialConfig {
   materialType: MaterialType;
   materialProps: MaterialConfigProps;
   builtShaderConfig?: BuiltShaderConfig;
-  assetMapping?: AssetMap[];
+  assetMapping?: AssetToUniformMappingConfig[];
   blendingConfig?: Record<string, unknown>;
 }
 
@@ -67,3 +60,9 @@ export type ShaderMaterial = Material & {
 };
 export type MaterialUniform = Record<string, UniformValue>;
 export type UniformValue = Record<"value", unknown>;
+
+export type AssetToUniformMappingConfig = {
+  uniform: string;
+  assetId: string;
+  relationship: string;
+};

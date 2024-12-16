@@ -1,5 +1,5 @@
 import { sRGBEncoding } from "three";
-import { RENDERER_TYPES } from "display/hooks/use-three-js/renderer/rendererConstants";
+import { RENDERER_TYPES } from "hooks/use-three-js/renderer/rendererConstants";
 import {
   CAMERA_TYPES,
   CameraType,

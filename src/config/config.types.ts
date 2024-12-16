@@ -1,8 +1,5 @@
-import { AnimationConfig } from "display/animation/animation.types";
-import {
-  LightConfigs,
-  SceneLight,
-} from "display/scene-elements/lights/lights.types";
+import { AnimationConfig } from "animation/animation.types";
+import { LightConfigs, SceneLight } from "scene-elements/lights/lights.types";
 import { MaterialConfig } from "config/material/materials.types";
 import { InteractionConfig } from "interaction/interactions.types";
 import { Asset } from "assets/asset.types";
@@ -11,7 +8,7 @@ import { CameraConfig } from "config/three-js/use-camera/camera.types";
 import {
   ComponentProps,
   SceneElementType,
-} from "display/scene-elements/components/threeJsComponents.types";
+} from "scene-elements/components/threeJsComponents.types";
 import { MESH_TRANSFORM } from "./mesh/mesh.consts";
 import { ScreenType } from "compat/window-state/types";
 import {
@@ -20,7 +17,7 @@ import {
   PerspectiveCamera,
   Texture,
 } from "three";
-import { RendererParams } from "display/hooks/use-three-js/renderer/types";
+import { RendererParams } from "hooks/use-three-js/renderer/types";
 import { Position3d } from "utils/three-dimension-space/position/position.types";
 import { AttributeConfig } from "./material/shaders/build-shader/types";
 import { SceneConfigType } from "./config.constants";
