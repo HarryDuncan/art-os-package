@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { Camera, MOUSE, WebGLRenderer } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { CSS3DRenderer } from "three/examples/jsm/renderers/CSS3DRenderer";
-import { ControlConfig } from "config/config.types";
+import { ControlConfig } from "../../../config/config.types";
 
 export const useOrbitControls = (
   camera: Camera,

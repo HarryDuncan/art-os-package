@@ -1,4 +1,5 @@
-import { InteractiveScene } from "components/interactive-scene/InteractiveScene";
+import { InteractiveScene } from "../../components/interactive-scene/InteractiveScene";
+import { AnimatedScene } from "../animation.types";
 
 export const startSceneElementAnimations = (scene: InteractiveScene) => {
   const sceneElementAnimationIds =
@@ -6,6 +7,9 @@ export const startSceneElementAnimations = (scene: InteractiveScene) => {
       ({ isRunning, animationId }) => (!isRunning ? animationId : [])
     );
   sceneElementAnimationIds.forEach((id) => {
-    scene.animationManager.startAnimation(scene, id);
+    scene.animationManager.startAnimation(
+      scene as unknown as AnimatedScene,
+      id
+    );
   });
 };

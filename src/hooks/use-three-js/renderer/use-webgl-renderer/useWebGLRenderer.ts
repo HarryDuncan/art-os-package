@@ -3,7 +3,7 @@ import { SRGBColorSpace, WebGLRenderer } from "three";
 import { useRendererSize } from "../hooks/useRendererSize";
 import { DEFAULT_RENDERER_PARAMS } from "../rendererConstants";
 import { RendererParams } from "../types";
-import { useWindowState } from "compat/window-state/windowStateProvider";
+import { useWindowState } from "../../../../compat/window-state/windowStateProvider";
 
 export const useWebGLRenderer = (
   rendererParams: RendererParams = DEFAULT_RENDERER_PARAMS as RendererParams

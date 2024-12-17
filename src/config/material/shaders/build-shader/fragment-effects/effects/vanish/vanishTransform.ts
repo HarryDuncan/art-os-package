@@ -1,4 +1,4 @@
-import { shaderSafeFloat } from "utils/conversion/shaderConversions";
+import { shaderSafeFloat } from "../../../../../../../utils/conversion/shaderConversions";
 import { VanishFragmentEffectProps } from "../../../types";
 
 export const vanishTransform = (

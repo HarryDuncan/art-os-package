@@ -1,5 +1,5 @@
-import { InteractiveScene } from "components/interactive-scene/InteractiveScene";
-import { SceneProperties } from "config/config.types";
+import { InteractiveScene } from "../../components/interactive-scene/InteractiveScene";
+import { SceneProperties } from "../../config/config.types";
 
 export const setSceneProperties = (
   sceneProperties: SceneProperties | undefined,

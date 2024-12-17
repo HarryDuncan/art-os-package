@@ -1,6 +1,6 @@
 import { OrthographicCamera, PerspectiveCamera } from "three";
 import { RendererParams } from "./renderer/types";
-import { ControlConfig } from "config/config.types";
+import { ControlConfig } from "../../config/config.types";
 
 export type ThreeJsParams = {
   camera: PerspectiveCamera | OrthographicCamera;

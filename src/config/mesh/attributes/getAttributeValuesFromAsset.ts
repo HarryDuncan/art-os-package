@@ -1,4 +1,4 @@
-import { Asset, ASSET_TYPES } from "assets/asset.types";
+import { Asset, ASSET_TYPES } from "../../../assets/asset.types";
 import { AttributeConfig } from "../../material/shaders/build-shader/types";
 import { BufferAttribute } from "three";
 

@@ -1,7 +1,7 @@
 import {
   AXIS,
   Axis,
-} from "utils/three-dimension-space/position/position.types";
+} from "../../../../../../../utils/three-dimension-space/position/position.types";
 import { RotationEffectProps } from "../../../types";
 import {
   rotateX,
@@ -9,7 +9,7 @@ import {
   rotateZ,
 } from "../../../shader-properties/functions/rotation/rotation";
 import { ROTATION_EFFECT_TYPES, ROTATION_UNIFORMS } from "./rotation.consts";
-import { shaderSafeFloat } from "utils/conversion/shaderConversions";
+import { shaderSafeFloat } from "../../../../../../../utils/conversion/shaderConversions";
 import { vertexEffectToEffectData } from "../../../helpers/vertexEffectToEffectData";
 
 const getFunctionName = (axis: Axis) => {

@@ -1,16 +1,16 @@
-import { PositionConfig } from "utils/three-dimension-space/position/position.types";
-import { shaderSafeVector } from "utils/conversion/shaderConversions";
+import { PositionConfig } from "../../../../../../../../utils/three-dimension-space/position/position.types";
+import { shaderSafeVector } from "../../../../../../../../utils/conversion/shaderConversions";
 import {
   capitalizeFirstLetter,
   lowerCaseFirstLetter,
-} from "utils/strings/stringUtils";
+} from "../../../../../../../../utils/strings/stringUtils";
 import { TransformTypes } from "../../../vertexEffects.consts";
 import {
   PreTransformConfig,
   PreTransformData,
   TranslateTransformProps,
 } from "../../../../types";
-import { vertexTranslate } from "config/material/shaders/build-shader/shader-properties/functions/translation/translate";
+import { vertexTranslate } from "../../../../../../../../config/material/shaders/build-shader/shader-properties/functions/translation/translate";
 
 export const preTransforms = (
   preTransformedItems: PreTransformConfig[]

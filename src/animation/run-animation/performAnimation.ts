@@ -19,9 +19,9 @@ import { traverseThroughtArray } from "../animation-functions/mesh-animations/tr
 import { rotateMeshAlongAxis } from "../animation-functions/rotation/rotateMeshAlongAxis";
 import { updateObject } from "../animation-functions/mesh-animations/update-object/updateObject";
 import { spinMeshAlongAxis } from "../animation-functions/rotation/spinMeshAlongAxis";
-import { MeshObject } from "config/mesh/mesh.types";
+import { MeshObject } from "../../config/mesh/mesh.types";
 import { updateTimeStamp } from "../animation-functions/mesh-animations/trigonometric/updateTimestampTrigonometric";
-import { easeOut } from "utils/maths/maths";
+import { easeOut } from "../../utils/maths/maths";
 import { moveObject } from "../animation-functions/mesh-animations/move/moveObject";
 import { fallAnimation } from "../animation-functions/mesh-animations/fall/fallAnimation";
 

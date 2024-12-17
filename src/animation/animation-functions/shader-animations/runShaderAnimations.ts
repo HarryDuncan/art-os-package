@@ -1,4 +1,4 @@
-import { ShaderMeshObject } from "config/mesh/mesh.types";
+import { ShaderMeshObject } from "../../../config/mesh/mesh.types";
 import { AnimatedScene, ShaderAnimationConfig } from "../../animation.types";
 import { setUpAnimationLoop } from "./animation-loop/setUpAnimationLoop";
 import { snapAnimationLoopOnPause } from "./animation-loop/snapAnimationLoopOnPause";

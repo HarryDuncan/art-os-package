@@ -1,6 +1,6 @@
 import { Vector3 } from "three";
-import { MeshComponentConfig } from "config/config.types";
-import { DEFAULT_POSITION } from "consts/threejs";
+import { MeshComponentConfig } from "../../config/config.types";
+import { DEFAULT_POSITION } from "../../consts/threejs";
 import { vector3DegreesToEuler } from "./degreesToEuler";
 
 export const formatRotationFromConfig = (config: MeshComponentConfig) => {

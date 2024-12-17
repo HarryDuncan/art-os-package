@@ -50,10 +50,7 @@ export default class PostProcessor extends EffectComposer {
 
   addPasses(passes: Pass[]) {
     const renderPass = new RenderPass(this.scene, this.camera);
-    this.addPasses(renderPass);
-    passes.forEach((pass) => {
-      this.addPasses(pass);
-    });
+    // this.addPasses([renderPass, ...passes]);
   }
 
   updateProcessorParams({

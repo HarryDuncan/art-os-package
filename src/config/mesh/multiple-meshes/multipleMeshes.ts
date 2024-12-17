@@ -1,10 +1,10 @@
 import { MeshComponentConfig } from "../../config.types";
-import { createBoundingBox } from "utils/three-dimension-space/createBoundingBox";
-import { getEquidistantCoordinates } from "utils/three-dimension-space/position/getEquidistantCoordinates";
+import { createBoundingBox } from "../../../utils/three-dimension-space/createBoundingBox";
+import { getEquidistantCoordinates } from "../../../utils/three-dimension-space/position/getEquidistantCoordinates";
 import {
   AXIS,
   Axis,
-} from "utils/three-dimension-space/position/position.types";
+} from "../../../utils/three-dimension-space/position/position.types";
 
 export const multipleMeshes = (
   meshComponentConfigs: MeshComponentConfig[]

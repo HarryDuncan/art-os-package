@@ -1,8 +1,8 @@
-import { ShaderMeshObject } from "config/mesh/mesh.types";
+import { ShaderMeshObject } from "../../../../config/mesh/mesh.types";
 import { getLoopType } from "./loops/getLoopTypes";
 import { updateObjectUniformByKey } from "../uniforms/updateObjectUniformByKey";
 import { AnimationLoopConfigItem } from "./animationloop.types";
-import { composeFunctions } from "utils/composeFunctions";
+import { composeFunctions } from "../../../../utils/composeFunctions";
 // import { transitionLoop } from "./transition-loop/transitionLoop";
 
 const defaultConfig = [

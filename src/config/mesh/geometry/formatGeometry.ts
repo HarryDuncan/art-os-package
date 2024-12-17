@@ -1,18 +1,18 @@
 import { BufferGeometry, Vector3 } from "three";
-import { Asset } from "assets/asset.types";
+import { Asset } from "../../../assets/asset.types";
 import {
   FormattedGeometry,
   GeometryConfig,
   MESH_TYPES,
-} from "assets/geometry/geometry.types";
-import { DEFAULT_MODEL3D_CONFIG } from "assets/assets.constants";
+} from "../../../assets/geometry/geometry.types";
+import { DEFAULT_MODEL3D_CONFIG } from "../../../assets/assets.constants";
 import { MeshComponentConfig } from "../../config.types";
-import { getAssetGeometries } from "config/mesh/geometry/getAssetGeometries";
+import { getAssetGeometries } from "../../../config/mesh/geometry/getAssetGeometries";
 
 import {
   formatPositionFromConfig,
   formatRotationFromConfig,
-} from "utils/three-dimension-space/formatFromConfig";
+} from "../../../utils/three-dimension-space/formatFromConfig";
 import { CUSTOM_GEOMETRY_TYPES } from "../mesh.consts";
 import { setUpCustomBufferGeometry } from "./custom-buffer-geometry/setupCustomBufferGeometry";
 import { CustomBufferGeometryType } from "../mesh.types";
@@ -22,7 +22,7 @@ export const formatGeometry = (
   meshComponentConfigs: MeshComponentConfig[]
 ): FormattedGeometry[] => {
   const geometries = getAssetGeometries(loadedAssets);
-  console.log(geometries);
+
   return meshComponentConfigs.flatMap((meshConfig) => {
     const geometry = getGeometryForMeshConfig(
       geometries,

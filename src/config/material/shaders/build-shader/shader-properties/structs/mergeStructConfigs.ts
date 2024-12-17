@@ -1,4 +1,4 @@
-import { removeDuplicatesByKey } from "utils/removeDuplicatesByKey";
+import { removeDuplicatesByKey } from "../../../../../../utils/removeDuplicatesByKey";
 import { StructConfig } from "../../types";
 
 export const mergeStructConfigs = (

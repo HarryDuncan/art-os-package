@@ -1,5 +1,5 @@
 import { Object3D } from "three";
-import { degreesToEuler } from "utils/three-dimension-space/degreesToEuler";
+import { degreesToEuler } from "../../../utils/three-dimension-space/degreesToEuler";
 
 const ANIMATION_DURATION = 2000;
 const ANIMATION_PAUSE = 1000;

@@ -1,4 +1,4 @@
-import { Position3d } from "utils/three-dimension-space/position/position.types";
+import { Position3d } from "../../../../../utils/three-dimension-space/position/position.types";
 import {
   POINT_PARENTS,
   ShaderPropertyValueTypes,
@@ -20,7 +20,7 @@ import {
   VertexEffectProps,
 } from "./vertexShader.types";
 import { DEFAULT_UNIFORMS } from "../constants";
-import { AssetType } from "assets/asset.types";
+import { AssetType } from "../../../../../assets/asset.types";
 
 // GENERAL TYPES
 export type ShaderPropertyConfig = {

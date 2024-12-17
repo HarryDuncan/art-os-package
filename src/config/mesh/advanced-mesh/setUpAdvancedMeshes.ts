@@ -1,4 +1,4 @@
-import { AdvancedScene, Asset } from "assets/asset.types";
+import { AdvancedScene, Asset } from "../../../assets/asset.types";
 import { AdvancedMeshConfig } from "./advancedMesh.types";
 import { MeshComponentConfig, MeshTransformConfig } from "../../config.types";
 import { Group, Material } from "three";
@@ -6,7 +6,7 @@ import { ShaderAttributeConfig } from "../../material/shaders/build-shader/types
 import {
   formatPositionFromConfig,
   formatRotationFromConfig,
-} from "utils/three-dimension-space/formatFromConfig";
+} from "../../../utils/three-dimension-space/formatFromConfig";
 import { clone } from "three/examples/jsm/utils/SkeletonUtils";
 
 export const setUpAdvancedMeshes = (

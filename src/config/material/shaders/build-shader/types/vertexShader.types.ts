@@ -1,4 +1,4 @@
-import { Axis } from "utils/three-dimension-space/position/position.types";
+import { Axis } from "../../../../../utils/three-dimension-space/position/position.types";
 import { NOISE_EFFECT_TYPES } from "../vertex-effects/effects/displacement/noise/noise.consts";
 import { EffectParameters, PreTransformConfig } from "./buildShader.types";
 import {

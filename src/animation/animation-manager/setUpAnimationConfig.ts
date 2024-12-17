@@ -2,7 +2,7 @@ import { calculateCurve } from "../animation-functions/mesh-animations/traversal
 import { ANIMATION_TYPES } from "../animation.constants";
 import { AnimationConfig, TraversalAnimationConfig } from "../animation.types";
 import { DEFAULT_ANIMATION_DURATION_MILIS } from "../animation.defaults";
-import { position3dToVector } from "utils/conversion/conversion";
+import { position3dToVector } from "../../utils/conversion/conversion";
 
 export const setUpAnimationConfig = (
   animationConfig: AnimationConfig

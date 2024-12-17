@@ -1,5 +1,5 @@
 import { BufferGeometry, Material } from "three";
-import { Position3d } from "utils/three-dimension-space/position/position.types";
+import { Position3d } from "../../utils/three-dimension-space/position/position.types";
 
 export const MESH_TYPES = {
   MESH: "MESH",

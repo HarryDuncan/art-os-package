@@ -4,8 +4,8 @@ import { ObjectUpdateProperty } from "../../../animation.types";
 import {
   AXIS,
   Axis,
-} from "utils/three-dimension-space/position/position.types";
-import { OBJECT_UPDATE_PROPERTY } from "animation/animation.constants";
+} from "../../../../utils/three-dimension-space/position/position.types";
+import { OBJECT_UPDATE_PROPERTY } from "../../../../animation/animation.constants";
 
 export const updateObject = (
   object: Object3D,

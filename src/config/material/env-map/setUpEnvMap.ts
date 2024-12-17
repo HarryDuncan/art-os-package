@@ -1,4 +1,4 @@
-import { FILE_TYPES } from "consts";
+import { FILE_TYPES } from "../../../consts";
 import { ENV_MAP_TYPES } from "../materials.consts";
 import { setUpReflectionEnvMap } from "./setUpReflectionEnvMap";
 

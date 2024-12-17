@@ -1,9 +1,9 @@
 import { sRGBEncoding } from "three";
-import { RENDERER_TYPES } from "hooks/use-three-js/renderer/rendererConstants";
+import { RENDERER_TYPES } from "../../hooks/use-three-js/renderer/rendererConstants";
 import {
   CAMERA_TYPES,
   CameraType,
-} from "config/three-js/use-camera/camera.types";
+} from "../../config/three-js/use-camera/camera.types";
 
 export const DEFAULT_THREE_JS = {
   camera: {

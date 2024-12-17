@@ -1,6 +1,6 @@
-import { DEFAULT_VECTOR_POSITION } from "consts/threejs";
+import { DEFAULT_VECTOR_POSITION } from "../../../consts/threejs";
 import { PointLight as ThreePointLight } from "three";
-import { setObjectPosition } from "utils/three-dimension-space/position/setObjectPosition";
+import { setObjectPosition } from "../../../utils/three-dimension-space/position/setObjectPosition";
 import { DEFAULT_LIGHT_COLOR } from "../lights.consts";
 import { DEFAULT_LIGHT_INTENSITY } from "../lights.default";
 import { PointLightConfig } from "../lights.types";

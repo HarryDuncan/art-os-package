@@ -1,4 +1,4 @@
-import { AXIS } from "utils/three-dimension-space/position/position.types";
+import { AXIS } from "../../../../../../../utils/three-dimension-space/position/position.types";
 import { ShaderPropertyValueTypes } from "../../../constants/buildShader.consts";
 
 export const ROTATION_UNIFORMS = {

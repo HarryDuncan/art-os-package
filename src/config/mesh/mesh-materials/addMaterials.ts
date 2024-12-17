@@ -1,8 +1,11 @@
 import { Material } from "three";
 
-import { FormattedGeometry, MeshConfig } from "assets/geometry/geometry.types";
+import {
+  FormattedGeometry,
+  MeshConfig,
+} from "../../../assets/geometry/geometry.types";
 import { MeshComponentConfig } from "../../config.types";
-import { DEFAULT_MATERIAL } from "config/material/materials.default";
+import { DEFAULT_MATERIAL } from "../../../config/material/materials.default";
 
 export const addMaterials = (
   formattedGeometries: FormattedGeometry[],

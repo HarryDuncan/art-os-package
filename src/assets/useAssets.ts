@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { ASSET_TYPES, Asset } from "./asset.types";
-import { getFileTypeFromFilename } from "utils/file/file";
+import { getFileTypeFromFilename } from "../utils/file/file";
 import { loadFont } from "./fonts/loadFont";
 
 import { loadImage } from "./image/load-image/LoadImage";

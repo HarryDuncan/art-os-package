@@ -1,8 +1,8 @@
-import { MeshObject } from "config/mesh/mesh.types";
+import { MeshObject } from "../../../config/mesh/mesh.types";
 import { Object3D } from "three";
 import { AnimationProperties } from "../../animation.types";
 import { performAnimation } from "../performAnimation";
-import { stepAndWrap } from "utils/maths/maths";
+import { stepAndWrap } from "../../../utils/maths/maths";
 
 export const chainAnimation = (
   animationProperties: AnimationProperties,

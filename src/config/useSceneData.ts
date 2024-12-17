@@ -1,14 +1,14 @@
-import { formatSceneComponentConfigs } from "config/components/formatSceneComponentConfigs";
-import { getLightsFromConfig } from "config/lights/getLightsFromConfig";
-import { formatGlobalMaterials } from "config/material/formatGlobalMaterials";
-import { getMeshesFromConfig } from "config/mesh/getMeshesFromConfig";
+import { formatSceneComponentConfigs } from "../config/components/formatSceneComponentConfigs";
+import { getLightsFromConfig } from "../config/lights/getLightsFromConfig";
+import { formatGlobalMaterials } from "../config/material/formatGlobalMaterials";
+import { getMeshesFromConfig } from "../config/mesh/getMeshesFromConfig";
 import { SceneConfig, SceneData } from "./config.types";
 import { Asset } from "../assets/asset.types";
 import { getScenePropertiesFromConfig } from "./scene-properties/setSceneProperties";
 import { useThreeJsFromConfig } from "./three-js/useThreeJsFromConfig";
 import { useMemo } from "react";
 import { useScreenSizeProperties } from "./scene-properties/useScreenSizeProperties";
-import { useWindowState } from "compat/window-state/windowStateProvider";
+import { useWindowState } from "../compat/window-state/windowStateProvider";
 import { useInitializeVideos } from "../assets/animated-texture/useInitializeVideos";
 
 export const useSceneData = (
@@ -24,7 +24,7 @@ export const useSceneData = (
   const formattedConfig = useScreenSizeProperties(config, screenType);
   return useMemo(() => {
     if (!areAssetsInitialized || !formattedConfig) return null;
-    const threeJs = setUpThreeJs(formattedConfig.threeJsConfig);
+    const threeJsParams = setUpThreeJs(formattedConfig.threeJsConfig);
     const { materials, attributeConfigs } = formatGlobalMaterials(
       assets,
       formattedConfig
@@ -45,7 +45,7 @@ export const useSceneData = (
     );
 
     return {
-      threeJs,
+      threeJsParams,
       meshes: meshes ?? [],
       sceneComponents: sceneComponents ?? [],
       lights: lights ?? [],

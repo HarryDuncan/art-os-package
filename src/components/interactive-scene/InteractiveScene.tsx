@@ -2,12 +2,12 @@ import {
   EventConfig,
   InteractionConfig,
   InteractionEvent,
-} from "interaction/interactions.types";
+} from "../../interaction/interactions.types";
 import { Clock, Scene } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-import { AnimationManager } from "animation/animation-manager/AnimationManager";
-import { AnimationConfig } from "animation/animation.types";
-import { ENGINE_EVENTS } from "engine/engine.consts";
+import { AnimationManager } from "../../animation/animation-manager/AnimationManager";
+import { AnimationConfig } from "../../animation/animation.types";
+import { ENGINE_EVENTS } from "../../engine/engine.consts";
 
 export type InteractiveSceneFunctions = {
   onTimeUpdate?: (scene: InteractiveScene) => void;
@@ -20,7 +20,6 @@ type SceneInteractionEvent = {
 };
 
 export class InteractiveScene extends Scene {
-  add(_arg0: Object): void {}
   clock: Clock;
 
   sceneFunctions: InteractiveSceneFunctions;
@@ -65,6 +64,7 @@ export class InteractiveScene extends Scene {
     }
     // @ts-ignore
     document.addEventListener(ENGINE_EVENTS.MESH_ADDED, ({ detail }) => {
+      // @ts-ignore
       this.add(detail);
     });
   }

@@ -1,19 +1,19 @@
-import { AnimationConfig } from "animation/animation.types";
-import { MaterialConfig } from "config/material/materials.types";
-import { InteractionConfig } from "interaction/interactions.types";
-import { Asset } from "assets/asset.types";
+import { AnimationConfig } from "../animation/animation.types";
+import { MaterialConfig } from "../config/material/materials.types";
+import { InteractionConfig } from "../interaction/interactions.types";
+import { Asset } from "../assets/asset.types";
 import { GeometryConfig } from "../assets/geometry/geometry.types";
-import { CameraConfig } from "config/three-js/use-camera/camera.types";
+import { CameraConfig } from "../config/three-js/use-camera/camera.types";
 import { MESH_TRANSFORM } from "./mesh/mesh.consts";
-import { ScreenType } from "compat/window-state/types";
+import { ScreenType } from "../compat/window-state/types";
 import {
   Object3D,
   OrthographicCamera,
   PerspectiveCamera,
   Texture,
 } from "three";
-import { RendererParams } from "hooks/use-three-js/renderer/types";
-import { Position3d } from "utils/three-dimension-space/position/position.types";
+import { RendererParams } from "../hooks/use-three-js/renderer/types";
+import { Position3d } from "../utils/three-dimension-space/position/position.types";
 import { AttributeConfig } from "./material/shaders/build-shader/types";
 import { SceneConfigType } from "./config.constants";
 import { AdvancedMeshConfig } from "./mesh/advanced-mesh/advancedMesh.types";
@@ -156,7 +156,7 @@ export type ThreeJsParams = {
 };
 
 export type SceneData = {
-  threeJs: ThreeJsParams;
+  threeJsParams: ThreeJsParams;
   meshes: Object3D[] | GLTF[];
   sceneComponents: Object3D[];
   lights: SceneLight[];

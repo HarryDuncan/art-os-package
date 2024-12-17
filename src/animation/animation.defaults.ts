@@ -1,4 +1,4 @@
-import { AXIS } from "utils/three-dimension-space/position/position.types";
+import { AXIS } from "../utils/three-dimension-space/position/position.types";
 import { ANIMATION_TYPES } from "./animation.constants";
 
 export const DEFAULT_ANIMATION_DURATION_MILIS = 1000;

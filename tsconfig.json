@@ -1,26 +1,16 @@
 {
   "compilerOptions": {
-    "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],
-    "baseUrl": "src",
-    "allowJs": true,
-    "skipLibCheck": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "module": "esnext",
+
+    "target": "ES2015",
+    "module": "ESNext",
     "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "noEmit": true,
+    "outDir": "./dist",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
     "jsx": "react-jsx",
-    "noImplicitAny": false
+    "resolveJsonModule": true
   },
   "include": ["src", "**/*.tsx"],
-  "exclude": [
-    "src/test-utils/*",
-    "**/*.spec.ts", // Exclude all test files with .test.ts extension
-    "**/__tests__" // Exclude any folder named __tests__
-  ]
+  "exclude": ["src/test-utils/*", "**/*.spec.ts", "**/__tests__", "/dist"]
 }

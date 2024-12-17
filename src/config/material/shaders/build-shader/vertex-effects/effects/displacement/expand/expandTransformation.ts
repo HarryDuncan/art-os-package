@@ -1,4 +1,4 @@
-import { shaderSafeFloat } from "utils/conversion/shaderConversions";
+import { shaderSafeFloat } from "../../../../../../../../utils/conversion/shaderConversions";
 import { ExpandEffectProps } from "../../../../types";
 
 export const expandTransformation = (

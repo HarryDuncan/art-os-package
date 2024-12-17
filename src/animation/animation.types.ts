@@ -12,7 +12,7 @@ import {
 import {
   Axis,
   Position3d,
-} from "utils/three-dimension-space/position/position.types";
+} from "../utils/three-dimension-space/position/position.types";
 
 // to avoid dependency cycle
 export type AnimatedScene = Scene & {

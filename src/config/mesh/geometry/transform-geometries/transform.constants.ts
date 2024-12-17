@@ -1,4 +1,4 @@
-import { ShaderPropertyValueTypes } from "config/material/shaders/build-shader/constants/buildShader.consts";
+import { ShaderPropertyValueTypes } from "../../../../config/material/shaders/build-shader/constants/buildShader.consts";
 
 export const DEFAULT_MORPH_ATTRIBUTE_CONFIG = [
   {

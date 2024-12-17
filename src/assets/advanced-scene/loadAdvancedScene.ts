@@ -1,4 +1,4 @@
-import { FILE_TYPES } from "consts";
+import { FILE_TYPES } from "../../consts";
 import { loadGLTF } from "../geometry/load-model/loadGLTF";
 
 export const loadAdvancedScene = async (path: string, fileType: string) => {

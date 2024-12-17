@@ -1,11 +1,11 @@
-import { FILE_TYPES } from "consts";
+import { FILE_TYPES } from "../../../consts";
 import {
   ASSET_TYPES,
   Asset,
   LoadedGroup,
   LoadedObjChild,
 } from "../../../assets/asset.types";
-import { getFileTypeFromFilename } from "utils/file/file";
+import { getFileTypeFromFilename } from "../../../utils/file/file";
 
 export const getAssetGeometries = (assets: Asset[]) =>
   assets.flatMap((asset) => {

@@ -1,4 +1,4 @@
-import { FILE_TYPES } from "consts";
+import { FILE_TYPES } from "../../../consts";
 import { loadGLTF } from "./loadGLTF";
 import { loadObject } from "./loadObject";
 

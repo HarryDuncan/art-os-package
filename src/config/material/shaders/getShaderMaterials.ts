@@ -1,9 +1,9 @@
-import { Asset } from "assets/asset.types";
+import { Asset } from "../../../assets/asset.types";
 import { SceneConfig } from "../../config.types";
 import {
   MaterialConfig,
   ShaderMaterialProps,
-} from "config/material/materials.types";
+} from "../../../config/material/materials.types";
 import { ShaderMaterial } from "three";
 import { configureBlendingOptions } from "../blending-options/configureBlendingOptions";
 import { configureShaders } from "./configureShaders";

@@ -1,5 +1,5 @@
 import { Material } from "three";
-import { MaterialConfig } from "config/material/materials.types";
+import { MaterialConfig } from "../../config/material/materials.types";
 import { getMaterial } from "./getMaterial";
 
 export const materialConfigToMaterial = (materialConfig: MaterialConfig) => {

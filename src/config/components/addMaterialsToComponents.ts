@@ -1,6 +1,6 @@
 import { Material } from "three";
 import { SceneComponentConfig } from "../config.types";
-import { DEFAULT_MATERIAL } from "config/material/materials.default";
+import { DEFAULT_MATERIAL } from "../../config/material/materials.default";
 
 export const addMaterialsToComponents = (
   componentConfigs: SceneComponentConfig[],

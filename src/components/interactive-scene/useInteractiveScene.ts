@@ -4,15 +4,15 @@ import {
   InteractiveSceneFunctions,
   SceneInteraction,
 } from "./InteractiveScene";
-import { EventConfig } from "interaction/interactions.types";
-import { AnimationConfig } from "animation/animation.types";
+import { EventConfig } from "../../interaction/interactions.types";
+import { AnimationConfig } from "../../animation/animation.types";
 import { Object3D } from "three";
 
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-import { SceneProperties } from "config/config.types";
-import { setSceneProperties } from "utils/scene/setSceneProperties";
+import { SceneProperties } from "../../config/config.types";
+import { setSceneProperties } from "../../utils/scene/setSceneProperties";
 import { GLTF } from "three/examples/jsm/loaders/GLTFLoader";
-import { SceneLight } from "config/lights/lights.types";
+import { SceneLight } from "../../config/lights/lights.types";
 
 export const useInteractiveScene = (
   sceneFunction: InteractiveSceneFunctions,
@@ -26,10 +26,14 @@ export const useInteractiveScene = (
   interactionEvents: SceneInteraction[]
 ): null | InteractiveScene => {
   const [initializedScene, setScene] = useState<null | InteractiveScene>(null);
+
   const setUpSceneObjects = useCallback(
     async (scene: InteractiveScene) => {
+      // @ts-ignore
       meshes.forEach((mesh) => scene.add(mesh as Object3D));
+      // @ts-ignore
       lights.forEach((light) => scene.add(light));
+      // @ts-ignore
       sceneComponents.forEach((component) => scene.add(component));
       scene.addOrbitControls(orbitControls);
       setSceneProperties(sceneProperties, scene);
@@ -45,15 +49,19 @@ export const useInteractiveScene = (
         animationConfig,
         interactionEvents
       );
+
       await setUpSceneObjects(scene);
     }
-    setUpScene();
+    if (initializedScene === null) {
+      setUpScene();
+    }
   }, [
     sceneFunction,
     eventConfig,
     animationConfig,
     setUpSceneObjects,
     interactionEvents,
+    initializedScene,
   ]);
 
   return initializedScene;

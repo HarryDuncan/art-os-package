@@ -1,9 +1,9 @@
 import { RefObject, useCallback, useEffect, useRef } from "react";
 import { Camera, WebGLRenderer } from "three";
 import { Pass } from "three/examples/jsm/postprocessing/Pass";
-import { InteractiveScene } from "components/interactive-scene/InteractiveScene";
-import PostProcessor from "components/post-processor/PostProcessor";
-import { sceneUpdateEvent } from "engine/engineEvents";
+import { InteractiveScene } from "../../components/interactive-scene/InteractiveScene";
+import PostProcessor from "../../components/post-processor/PostProcessor";
+import { sceneUpdateEvent } from "../../engine/engineEvents";
 
 export const useThreadWithPostProcessor = (
   currentFrameRef: RefObject<number>,

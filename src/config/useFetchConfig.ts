@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { SceneConfig } from "./config.types";
-import { useAssetLocation } from "compat/asset-location/useAssetLocation";
+import { useAssetLocation } from "../compat/asset-location/useAssetLocation";
 
 export const useFetchConfig = (filePath: string) => {
   const [data, setData] = useState<SceneConfig[] | null>(null);

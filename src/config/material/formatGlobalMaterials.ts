@@ -1,4 +1,4 @@
-import { Asset } from "assets/asset.types";
+import { Asset } from "../../assets/asset.types";
 import { SceneConfig } from "../config.types";
 import { getMaterialsFromConfig } from "./getMaterialsFromConfig";
 import { getShaderMaterials } from "./shaders/getShaderMaterials";

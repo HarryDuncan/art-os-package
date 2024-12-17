@@ -1,4 +1,4 @@
-import { shaderSafeFloat } from "utils/conversion/shaderConversions";
+import { shaderSafeFloat } from "../../../../../../../../utils/conversion/shaderConversions";
 import { NoiseEffectProps } from "../../../../types";
 import { NOISE_EFFECT_TYPES } from "./noise.consts";
 

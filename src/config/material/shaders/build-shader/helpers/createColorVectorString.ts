@@ -1,4 +1,4 @@
-import { hexToRgb } from "utils/conversion/hexToRgb";
+import { hexToRgb } from "../../../../../utils/conversion/hexToRgb";
 
 export const createColorVectorString = (
   hexColor: string,

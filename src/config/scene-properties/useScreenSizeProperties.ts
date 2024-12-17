@@ -1,11 +1,11 @@
-import { ScreenType } from "compat/window-state/types";
+import { ScreenType } from "../../compat/window-state/types";
 import {
   MeshComponentConfig,
   SceneConfig,
   ThreeJSConfig,
 } from "../config.types";
 import { useMemo } from "react";
-import { GeometryConfig } from "assets/geometry/geometry.types";
+import { GeometryConfig } from "../../assets/geometry/geometry.types";
 
 export const useScreenSizeProperties = (
   config: SceneConfig | undefined | null,

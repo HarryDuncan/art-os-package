@@ -1,4 +1,4 @@
-import { Asset } from "assets/asset.types";
+import { Asset } from "../../../assets/asset.types";
 import {
   AssetToUniformMappingConfig,
   MaterialUniform,

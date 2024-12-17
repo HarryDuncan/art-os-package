@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { EventConfig } from "./events.types";
-import { InteractiveScene } from "components/interactive-scene/InteractiveScene";
+import { InteractiveScene } from "../../components/interactive-scene/InteractiveScene";
 
 export const useEvents = (
   scene: InteractiveScene,
