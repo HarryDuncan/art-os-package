@@ -24,7 +24,7 @@ export const useThreadWithPostProcessor = (
         scene.animationManager.startCameraAnimation(camera);
       }
     }
-
+    // console.log(scene);
     // @ts-ignore
     postProcessor.current?.render(performance.now());
     currentFrameRef.current = requestAnimationFrame(update);

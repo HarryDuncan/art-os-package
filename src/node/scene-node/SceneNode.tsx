@@ -4,6 +4,7 @@ import { useThreadWithPostProcessor } from "../../hooks/use-thread";
 import { useThreeJs } from "../../hooks/use-three-js/useThreeJs";
 import { NodeProps } from "../node.types";
 import { useSetWindowState } from "../../compat/window-state/useSetWindowState";
+import { useSceneFunctions } from "../../hooks/useSceneFunctions";
 
 const SceneNode = ({
   sceneFunctions,
@@ -22,8 +23,9 @@ const SceneNode = ({
   const { container, renderer, camera, currentFrameRef, orbitControls } =
     useThreeJs(threeJsParams);
 
+  const formattedSceneFunctions = useSceneFunctions(sceneFunctions);
   const scene = useInteractiveScene(
-    sceneFunctions,
+    formattedSceneFunctions,
     events,
     animations,
     meshes,

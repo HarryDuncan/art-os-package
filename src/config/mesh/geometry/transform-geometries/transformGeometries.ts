@@ -13,7 +13,6 @@ export const transformGeometry = (
   formattedGeometries: FormattedGeometry[]
 ): FormattedGeometry[] => {
   if (!meshTransforms || !meshTransforms.length) return formattedGeometries;
-
   meshTransforms.forEach(({ type, transformedMeshIds, attributeConfig }) => {
     const transformedMeshes = getTransformedMeshes(
       formattedGeometries,
@@ -72,6 +71,51 @@ export const transformGeometry = (
             });
             return geometry;
           });
+          return attributesSet;
+        }
+        case MESH_TRANSFORM.SET_UP_QUAD: {
+          const attributesSet = transformedMeshes.map((formattedGeometry) => {
+            const { geometry } = formattedGeometry;
+
+            const width = attributeConfig.find(({ id }) => id === "width");
+            const height = attributeConfig.find(({ id }) => id === "height");
+            const pointDisplay = attributeConfig.find(
+              ({ id }) => id === "pointDisplay"
+            );
+            if (width?.value && height.value) {
+              const vertexesNumber = Number(width.value) * Number(height.value);
+              const indices = new Uint16Array(vertexesNumber);
+              const offsets = new Float32Array(vertexesNumber);
+              const normals = new Float32Array(vertexesNumber * 3);
+              for (let i = 0, j = 0; i < vertexesNumber; i += 1) {
+                const x = i % Number(width.value);
+                const y = Math.floor(i / Number(height.value));
+                offsets[j * 3 + 0] = x;
+                offsets[j * 3 + 1] = y;
+                offsets[j * 3 + 2] = 0;
+                indices[j] = i;
+                j += 1;
+
+                normals[j * 3 + 0] = 0; // nx
+                normals[j * 3 + 1] = 0; // ny
+                normals[j * 3 + 2] = 1; // nz
+              }
+              const positions = new BufferAttribute(offsets, 3);
+              const indexes = new BufferAttribute(indices, 3);
+              const normalAttributes = new BufferAttribute(normals, 3);
+              geometry.setAttribute("position", positions);
+              geometry.setAttribute("pointIndex", indexes);
+              geometry.setAttribute("normal", normalAttributes);
+              const attributeSetGeometry = setAttributes(geometry, [
+                pointDisplay,
+              ]);
+              return { ...formattedGeometry, geometry: attributeSetGeometry };
+            } else {
+              console.warn("No width and height configure");
+            }
+            return geometry;
+          });
+          console.log(attributesSet);
           return attributesSet;
         }
         case MESH_TRANSFORM.DEFAULT:

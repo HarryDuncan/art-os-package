@@ -22,6 +22,7 @@ export type Model = GLTF | Group | Object3D;
 export type LoadedObjChild = { geometry: BufferGeometry; name: string };
 export type LoadedGroup = Group & { children: LoadedObjChild[] };
 export type AdvancedScene = { scene: Group; animations: AnimationClip[] };
+
 export type AssetData =
   | Model
   | Texture

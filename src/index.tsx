@@ -1,9 +1,13 @@
+import { useAssets } from "./assets/useAssets";
 import { WindowStateProvider } from "./compat/window-state/windowStateProvider";
 import { useFetchConfig } from "./config/useFetchConfig";
 import { useSceneData } from "./config/useSceneData";
+import { dispatchInteractionEvent } from "./interaction/interactionEvents";
 import SceneNode from "./node/scene-node/SceneNode";
 
+export { useAssets };
 export { WindowStateProvider };
 export { useFetchConfig };
 export { useSceneData };
 export { SceneNode };
+export { dispatchInteractionEvent };
