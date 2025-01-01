@@ -2,7 +2,9 @@ export const setupVideo = (url: string, identifier: string) => {
   const video = document.createElement("video");
   const root = document.getElementById("append-container");
   const videoId = document.getElementById(identifier);
-
+  if (!root) {
+    alert("No append container found");
+  }
   if (!root || videoId) return;
 
   root.appendChild(video);

@@ -2,12 +2,13 @@ import { Asset } from "../../../../assets/asset.types";
 import { UniformObject } from "../build-shader/types";
 import { AssetToUniformMappingConfig } from "../../../../config/material/materials.types";
 import { getCentroid } from "../../../../utils/three-dimension-space/getCentroid";
-import { Vector2 } from "three";
+import { Vector2, VideoTexture, LinearFilter, RGBFormat } from "three";
 
 const ASSET_MAPPING_RELATIONSHIPS = {
   TEXTURE: "TEXTURE",
   DIMENSION: "DIMENSION",
   CENTER3D: "CENTER3D",
+  VIDEO: "VIDEO",
 };
 export const mapAssetsToUniforms = (
   assetMapping: AssetToUniformMappingConfig[],
@@ -47,6 +48,14 @@ const getMappedAsset = (
       case ASSET_MAPPING_RELATIONSHIPS.TEXTURE: {
         const texture = mappedAsset.data;
         return texture;
+      }
+      case ASSET_MAPPING_RELATIONSHIPS.VIDEO: {
+        const video = document.getElementById("video");
+        const videoTexture = new VideoTexture(video);
+        videoTexture.minFilter = LinearFilter;
+        videoTexture.magFilter = LinearFilter;
+        videoTexture.format = RGBFormat;
+        return videoTexture;
       }
 
       case ASSET_MAPPING_RELATIONSHIPS.DIMENSION: {

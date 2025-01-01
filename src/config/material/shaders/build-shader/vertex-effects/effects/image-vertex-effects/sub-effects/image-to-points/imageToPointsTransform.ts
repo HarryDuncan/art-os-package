@@ -30,6 +30,12 @@ export const imageToPointsTransform = (
       varyingType: VARYING_TYPES.CUSTOM,
       valueType: ShaderPropertyValueTypes.VEC2,
     },
+    {
+      id: "vPixelColor",
+      varyingType: VARYING_TYPES.CUSTOM,
+      valueType: ShaderPropertyValueTypes.VEC4,
+      value: `colA`,
+    },
   ];
   const effectFunctions = [
     { id: "rand", functionDefinition: rand },
@@ -48,6 +54,7 @@ export const imageToPointsTransform = (
 
       // pixel color
       vec4 colA = texture2D(uTexture, puv);
+
       float grey = colA.r * 0.2 + colA.g * 0.71 + colA.b * 0.07;
       vec3 displaced = pointOffset;
       // randomise

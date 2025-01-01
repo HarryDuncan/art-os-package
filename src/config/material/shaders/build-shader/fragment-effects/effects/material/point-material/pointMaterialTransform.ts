@@ -2,14 +2,11 @@ import { ShaderPropertyValueTypes } from "../../../../constants";
 import { fragmentEffectToEffectData } from "../../../../helpers/fragmentEffectToEffectData";
 import { mergeUniformConfigs } from "../../../../shader-properties/uniforms/helpers/mergeUniformConfigs";
 import {
-  FragmentEffectData,
   PointMaterialFragmentEffectProps,
   PointTexture,
 } from "../../../../types";
 import { matcapMaterial } from "../matcap/matcap";
 import { phongMaterial } from "../phong-material/phong";
-import { phongTransform } from "../phong-material/phongTransform";
-
 import { getPointColor } from "./point-material-functions/getPointColor";
 import { getPointTexture } from "./point-material-functions/getPointTextures";
 import { textureAsPoints } from "./point-material-functions/textureAsPoints";
@@ -73,6 +70,9 @@ const getEffectData = (
   const { effectProps, effectType } = pointEffectProps;
 
   switch (effectType) {
+    case "PIXEL_COLOR":
+      const pixelColor = getTexturePixelColor(fragName, effectProps);
+      return fragmentEffectToEffectData(pixelColor);
     case "MATCAP": {
       const matcap = matcapMaterial(fragName, effectProps);
       return fragmentEffectToEffectData(matcap);
@@ -101,4 +101,15 @@ const defaultPointMaterial = (
     transformation,
     fragName: `pointColor_${fragName}`,
   });
+};
+
+const getTexturePixelColor = (
+  fragName: string,
+  pointEffectProps: PointMaterialFragmentEffectProps
+) => {
+  const transformation = `vec4 pixel_color_${fragName} = vPixelColor;`;
+  return {
+    transformation,
+    fragName: `pixel_color_${fragName}`,
+  };
 };
