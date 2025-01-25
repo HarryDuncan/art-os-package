@@ -1,4 +1,5 @@
 import { hexToRgb } from "../../../../../utils/conversion/hexToRgb";
+import { shaderSafeFloat } from "../../../../../utils/conversion/shaderConversions";
 
 export const createColorVectorString = (
   hexColor: string,
@@ -9,7 +10,7 @@ export const createColorVectorString = (
     console.warn("invalid color vector");
     return `vec4(1.0, 0.0, 0.0, ${opacity ? "opacity" : "1.0"})`;
   }
-  return `vec4(${colorVector[0]}, ${colorVector[1]}, ${colorVector[2]}, ${
-    opacity ? "opacity" : "1.0"
-  })`;
+  return `vec4(${shaderSafeFloat(colorVector[0])}, ${shaderSafeFloat(
+    colorVector[1]
+  )}, ${shaderSafeFloat(colorVector[2])}, ${opacity ? "opacity" : "1.0"})`;
 };

@@ -73,6 +73,9 @@ const getEffectData = (
     case "PIXEL_COLOR":
       const pixelColor = getTexturePixelColor(fragName, effectProps);
       return fragmentEffectToEffectData(pixelColor);
+    case "OVERLAY_COLOR":
+      const overlayColor = getOverlayPixelColor(fragName, effectProps);
+      return fragmentEffectToEffectData(overlayColor);
     case "MATCAP": {
       const matcap = matcapMaterial(fragName, effectProps);
       return fragmentEffectToEffectData(matcap);
@@ -111,5 +114,16 @@ const getTexturePixelColor = (
   return {
     transformation,
     fragName: `pixel_color_${fragName}`,
+  };
+};
+
+const getOverlayPixelColor = (
+  fragName: string,
+  pointEffectProps: PointMaterialFragmentEffectProps
+) => {
+  const transformation = `vec4 overlay_color_${fragName} = vOverlayPixelColor ;`;
+  return {
+    transformation,
+    fragName: `overlay_color_${fragName}`,
   };
 };

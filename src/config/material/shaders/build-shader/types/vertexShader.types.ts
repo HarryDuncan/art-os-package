@@ -73,9 +73,16 @@ export type PointsEffectProps = {
 // <-------------------- Image Vertex Effects ---------------------------------->
 
 export type ImageToPointsEffectProps = EffectParameters;
-
+export type ImageAsMaskEffectProps = EffectParameters & {
+  removedColors: string[];
+  overlayTexture?: string;
+};
+export type ImageSubEffectProps =
+  | ImageAsMaskEffectProps
+  | ImageToPointsEffectProps;
 type ImageSubEffect = {
   effectType: ImageVertexEffectType;
+  effectProps: ImageSubEffectProps;
 };
 export type ImageVertexEffectProps = EffectParameters & ImageSubEffect;
 

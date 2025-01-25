@@ -15,6 +15,7 @@ import { FRAGMENT_EFFECT } from "../fragmentEffects.consts";
 import { brightness } from "./brightness/brightness";
 import { color } from "./color/color";
 import { defaultFragmentEffect } from "./defaultFragmentEffect/defaultFragmentEffect";
+import { imageAsMask } from "./image-as-mask/imageAsMask";
 import { getInteractiveEffects } from "./interactive/interactiveEffect";
 import { matcapMaterial } from "./material/matcap/matcap";
 import { phongMaterial } from "./material/phong-material/phong";
@@ -65,6 +66,8 @@ export const getFragmentEffects = (
         previousFragName,
         effectProps as Partial<InteractiveFragmentEffect>
       );
+    case FRAGMENT_EFFECT.IMAGE_AS_MASK:
+      return imageAsMask(previousFragName);
     case FRAGMENT_EFFECT.VANISH:
       return vanishEffect(
         previousFragName,

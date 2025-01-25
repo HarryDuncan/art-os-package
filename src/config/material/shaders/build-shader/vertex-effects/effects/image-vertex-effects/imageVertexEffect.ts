@@ -24,15 +24,15 @@ export const imageVertexEffect = (
   effectProps: Partial<ImageVertexEffect>
 ) => {
   const imageVertexEffectProps = formatVertexParameters(
-    DEFAULT_IMAGE_VERTEX_EFFECT_PROPS as ImageVertexEffect,
-    effectProps as ImageVertexEffect
+    effectProps as ImageVertexEffect,
+    DEFAULT_IMAGE_VERTEX_EFFECT_PROPS as ImageVertexEffect
   ) as ImageVertexEffect;
 
   const pointName = generateUniquePointName(
     VERTEX_EFFECT_POINT_NAMES.IMAGE_VERTEX_POINT,
     imageVertexEffectProps.pointParent
   );
-
+  console.log(imageVertexEffectProps);
   const {
     transformation,
     effectUniforms,

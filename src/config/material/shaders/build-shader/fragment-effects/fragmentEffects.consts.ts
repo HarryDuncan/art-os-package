@@ -12,6 +12,7 @@ export const FRAGMENT_EFFECT = {
   BRIGHTNESS: "BRIGHTNESS",
   PHYSICAL_MATERIAL: "PHYSICAL_MATERIAL",
   PHONG: "PHONG",
+  IMAGE_AS_MASK: "IMAGE_AS_MASK",
 };
 
 export const FRAGMENT_COLOR_NAMES = {
@@ -25,6 +26,7 @@ export const FRAGMENT_COLOR_NAMES = {
   VANISH: "fragVanish",
   BRIGHTNESS: "fragBrightness",
   PHYSICAL_MATERIAL: "fragPhysicalMaterial",
+  MASK_MATERIAL: "maskMaterial",
 };
 export const DEFAULT_FRAG_COLOR = "#ff1205";
 
