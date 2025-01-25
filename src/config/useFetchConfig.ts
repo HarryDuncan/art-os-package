@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { SceneConfig } from "./config.types";
 import { useAssetLocation } from "../compat/asset-location/useAssetLocation";
 
-export const useFetchConfig = (filePath: string) => {
+export const useFetchConfig = (filePath: string | null) => {
   const [data, setData] = useState<SceneConfig[] | null>(null);
   const configuredData = useAssetLocation(data);
   useEffect(() => {
@@ -20,8 +20,9 @@ export const useFetchConfig = (filePath: string) => {
         }
       }
     };
-
-    fetchData();
+    if (filePath) {
+      fetchData();
+    }
   }, [filePath, data]);
   return configuredData;
 };

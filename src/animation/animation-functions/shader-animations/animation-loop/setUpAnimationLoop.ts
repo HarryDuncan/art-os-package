@@ -43,6 +43,7 @@ export const setUpAnimationLoop = (
           return [shaderMesh, time];
         }
         const uniformValue = loopFunction(time);
+
         updateObjectUniformByKey(
           shaderMesh,
           uniform,

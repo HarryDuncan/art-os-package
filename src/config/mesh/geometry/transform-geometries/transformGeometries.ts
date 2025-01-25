@@ -115,7 +115,7 @@ export const transformGeometry = (
             }
             return geometry;
           });
-          console.log(attributesSet);
+
           return attributesSet;
         }
         case MESH_TRANSFORM.DEFAULT:

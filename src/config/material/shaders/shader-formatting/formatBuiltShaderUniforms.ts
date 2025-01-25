@@ -10,6 +10,7 @@ export const formatBuiltShaderUniforms = (
   assets: Asset[]
 ): { [uniform: string]: IUniform<unknown> } => {
   const mappedUniforms = mapAssetsToUniforms(assetMapping, assets, uniforms);
+  console.log(uniforms);
   const formattedUniforms = formatDefaultShaderValues(mappedUniforms);
   return formattedUniforms as { [uniform: string]: IUniform<unknown> };
 };

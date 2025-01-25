@@ -5,14 +5,25 @@ import { useThreeJs } from "../../hooks/use-three-js/useThreeJs";
 import { NodeProps } from "../node.types";
 import { useSetWindowState } from "../../compat/window-state/useSetWindowState";
 import { useSceneFunctions } from "../../hooks/useSceneFunctions";
+import { SceneProvider } from "../../context/context";
+import { AppendedNodes } from "../appended-nodes/AppendedNodes";
 
-const SceneNode = ({
+const SceneNode = (props: NodeProps) => (
+  <SceneProvider>
+    <SceneNodeContent {...props} />
+    {props.appendedNodes && (
+      <AppendedNodes appendedNodes={props.appendedNodes} />
+    )}
+  </SceneProvider>
+);
+
+const SceneNodeContent = ({
   sceneFunctions,
-  animations = [],
   interactionEvents = [],
   events,
   sceneData: {
     threeJsParams,
+    animationConfig,
     lights,
     meshes,
     sceneComponents,
@@ -24,10 +35,11 @@ const SceneNode = ({
     useThreeJs(threeJsParams);
 
   const formattedSceneFunctions = useSceneFunctions(sceneFunctions);
-  const scene = useInteractiveScene(
+
+  useInteractiveScene(
     formattedSceneFunctions,
     events,
-    animations,
+    animationConfig,
     meshes,
     lights,
     sceneComponents,
@@ -36,7 +48,7 @@ const SceneNode = ({
     interactionEvents
   );
 
-  useThreadWithPostProcessor(currentFrameRef, scene, camera, renderer, []);
+  useThreadWithPostProcessor(currentFrameRef, camera, renderer, []);
 
   return (
     <RootContainer containerRef={container} sceneProperties={sceneProperties} />

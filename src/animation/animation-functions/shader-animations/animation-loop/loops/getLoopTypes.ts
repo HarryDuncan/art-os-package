@@ -16,9 +16,8 @@ export const getLoopType = (
   duration: number,
   loopProps: Partial<LoopProps>
 ) => {
-  const { steepness, speed, loopLimit, minTrough, maxPeak } = formatLoopProps(
-    loopProps
-  );
+  const { steepness, speed, loopLimit, minTrough, maxPeak } =
+    formatLoopProps(loopProps);
   switch (loopType) {
     case ANIMATION_LOOP_TYPES.ONE_TO_ONE:
       return (time: number) =>
@@ -46,6 +45,16 @@ export const getLoopType = (
     case ANIMATION_LOOP_TYPES.FLICKER: {
       return flickerLoop({ duration, ...loopProps } as FlickerLoopProps);
     }
+
+    case ANIMATION_LOOP_TYPES.MIN_MAX_PAUSE:
+      return (time: number) => {
+        return (
+          Math.max(
+            Math.min(Math.cos(time * speed) * steepness + 0.5, maxPeak),
+            minTrough
+          ) - Math.max((Math.cos(time * speed) * steepness + 0.5) * 0.5, 0)
+        );
+      };
 
     case ANIMATION_LOOP_TYPES.MIN_MAX:
       return (time: number) =>

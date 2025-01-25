@@ -27,8 +27,6 @@ const getVideoAttributeValues = (
   selectedAsset: Asset,
   config: AttributeConfig
 ) => {
-  console.log(selectedAsset);
-  console.log(config);
   return config;
 };
 

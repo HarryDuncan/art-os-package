@@ -7,11 +7,13 @@ export const Root = styled.div<{
   $backgroundUrl?: string;
   $fixed?: boolean;
   $position?: string;
+  $cursor?: string;
 }>`
   height: ${({ $height }) => $height};
   width: ${({ $width }) => $width};
   overflow: hidden;
   margin: 0 auto;
+  cursor: ${({ $cursor }) => $cursor ?? "none"};
   position: ${({ $position }) => $position ?? "relative"};
   background-color: ${({ $backgroundColor }) =>
     $backgroundColor ?? "transparent"};

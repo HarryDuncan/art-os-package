@@ -25,6 +25,7 @@ export const RootContainer = ({
         $width={sceneProperties.viewWidth}
         $fixed={sceneProperties.fixed}
         ref={containerRef}
+        $cursor={sceneProperties.cursor}
         $backgroundColor={sceneProperties.backgroundColor}
         $backgroundUrl={sceneProperties.backgroundUrl}
       >

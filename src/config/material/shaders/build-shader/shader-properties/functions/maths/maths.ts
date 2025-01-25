@@ -77,3 +77,9 @@ export const interpolate = `float interpolate(float x, float min_x, float max_x)
 export const normSin = `float normSin(float x) {
 	return (sin(x) + 1.0) / 2.0;
 }`;
+
+export const orthogonal = `vec3 orthogonal(vec3 v) {
+  return normalize(abs(v.x) > abs(v.z)
+    ? vec3(-v.y, v.x, 0.0)
+    : vec3(0.0, -v.z, v.y));
+}`;

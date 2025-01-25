@@ -13,7 +13,6 @@ export const setUpCustomBufferGeometry = (
     case CUSTOM_BUFFER_GEOMETRY_TYPES.QUAD:
       return setUpQuad();
     case CUSTOM_BUFFER_GEOMETRY_TYPES.EMPTY:
-      console.log("getting custom buffer");
       return emptyBuffer();
     default:
       console.warn(

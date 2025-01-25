@@ -37,7 +37,7 @@ export const getAssetGeometry = (asset: Asset) => {
 
 export const getObjectGeometries = (data: LoadedGroup, name: string) => {
   const { children } = data;
-  console.log(data);
+
   if (children.length) {
     return children.map((child: LoadedObjChild) => ({
       name: child.name,

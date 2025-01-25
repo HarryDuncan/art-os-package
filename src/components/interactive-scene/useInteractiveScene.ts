@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect } from "react";
 import {
   InteractiveScene,
   InteractiveSceneFunctions,
@@ -7,12 +7,12 @@ import {
 import { EventConfig } from "../../interaction/interactions.types";
 import { AnimationConfig } from "../../animation/animation.types";
 import { Object3D } from "three";
-
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { SceneProperties } from "../../config/config.types";
 import { setSceneProperties } from "../../utils/scene/setSceneProperties";
 import { GLTF } from "three/examples/jsm/loaders/GLTFLoader";
 import { SceneLight } from "../../config/lights/lights.types";
+import { useSceneContext } from "../../context/context";
 
 export const useInteractiveScene = (
   sceneFunction: InteractiveSceneFunctions,
@@ -24,8 +24,11 @@ export const useInteractiveScene = (
   orbitControls: OrbitControls | null,
   sceneProperties: SceneProperties,
   interactionEvents: SceneInteraction[]
-): null | InteractiveScene => {
-  const [initializedScene, setScene] = useState<null | InteractiveScene>(null);
+) => {
+  const {
+    dispatch,
+    state: { initializedScene },
+  } = useSceneContext();
 
   const setUpSceneObjects = useCallback(
     async (scene: InteractiveScene) => {
@@ -37,10 +40,14 @@ export const useInteractiveScene = (
       sceneComponents.forEach((component) => scene.add(component));
       scene.addOrbitControls(orbitControls);
       setSceneProperties(sceneProperties, scene);
-      setScene(scene);
+      dispatch({
+        type: "INITIALIZE_SCENE",
+        payload: { initializedScene: scene },
+      });
     },
-    [setScene, meshes, lights, sceneComponents, orbitControls, sceneProperties]
+    [meshes, lights, sceneComponents, orbitControls, sceneProperties]
   );
+
   useEffect(() => {
     async function setUpScene() {
       const scene = new InteractiveScene(
@@ -63,6 +70,4 @@ export const useInteractiveScene = (
     interactionEvents,
     initializedScene,
   ]);
-
-  return initializedScene;
 };

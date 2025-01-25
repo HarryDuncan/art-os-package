@@ -21,7 +21,7 @@ describe("preTransforms", () => {
     expect(result[0].transform).toContain(
       `vec3 translateVector = vec3(0.00, 0.00, 10.00);`
     );
-    console.log(result);
+
     expect(result[0].transform).toContain(
       `vec3 transformTest3 = translateVertex(translateVector, test.xyz);`
     );

@@ -35,6 +35,7 @@ export const useSceneData = (
       formattedConfig,
       attributeConfigs
     );
+    const animationConfig = config.animationConfig ?? [];
     const lights = getLightsFromConfig(formattedConfig);
     const sceneComponents = formatSceneComponentConfigs(
       formattedConfig,
@@ -50,6 +51,7 @@ export const useSceneData = (
       sceneComponents: sceneComponents ?? [],
       lights: lights ?? [],
       sceneProperties,
+      animationConfig,
     };
   }, [setUpThreeJs, formattedConfig, assets, areAssetsInitialized]);
 };

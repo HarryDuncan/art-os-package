@@ -122,6 +122,9 @@ export type ScreenSizeAdjustmentConfig = {
 };
 
 export type SceneConfig = {
+  title?: string;
+  description?: string;
+  id?: string;
   sceneConfigType?: SceneConfigType;
   assets?: Asset[];
   meshComponentConfigs: MeshComponentConfig[];
@@ -147,6 +150,7 @@ export type SceneProperties = {
   background?: Texture;
   videoBackground?: string;
   fixed?: boolean;
+  cursor?: string;
 };
 
 export type ThreeJsParams = {
@@ -157,6 +161,7 @@ export type ThreeJsParams = {
 
 export type SceneData = {
   threeJsParams: ThreeJsParams;
+  animations?: AnimationConfig[];
   meshes: Object3D[] | GLTF[];
   sceneComponents: Object3D[];
   lights: SceneLight[];

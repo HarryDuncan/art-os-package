@@ -6,6 +6,7 @@ export const startSceneElementAnimations = (scene: InteractiveScene) => {
     scene.animationManager.sceneElementAnimations.flatMap(
       ({ isRunning, animationId }) => (!isRunning ? animationId : [])
     );
+
   sceneElementAnimationIds.forEach((id) => {
     scene.animationManager.startAnimation(
       scene as unknown as AnimatedScene,
