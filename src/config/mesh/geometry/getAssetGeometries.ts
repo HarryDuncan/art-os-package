@@ -19,11 +19,11 @@ export const getAssetGeometries = (assets: Asset[]) =>
   });
 
 export const getAssetGeometry = (asset: Asset) => {
-  const { assetType, url, data, name } = asset;
+  const { assetType, path, data, name } = asset;
   if (assetType !== ASSET_TYPES.MODEL3D || !data) {
     return null;
   }
-  const modelFileType = getFileTypeFromFilename(url);
+  const modelFileType = getFileTypeFromFilename(path);
   switch (modelFileType) {
     case FILE_TYPES.MODELS.OBJ:
     case FILE_TYPES.MODELS.GLB:

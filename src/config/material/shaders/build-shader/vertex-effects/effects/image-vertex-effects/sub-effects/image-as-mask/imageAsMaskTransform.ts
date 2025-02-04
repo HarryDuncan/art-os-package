@@ -17,7 +17,7 @@ export const imageAsMaskTransform = (
 ) => {
   const { declareInTransform, removedColors, overlayTexture } =
     imageVertexEffectProps;
-  console.log(overlayTexture);
+
   const effectUniforms = EMPTY_UNIFORM_CONFIG;
   const effectVaryings = [
     {

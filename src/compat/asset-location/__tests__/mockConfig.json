@@ -7,13 +7,13 @@
     "assets": [
       {
         "name": "1-texture",
-        "url": "../assets/textures/point-textures/1.png",
+        "path": "../assets/textures/point-textures/1.png",
         "assetType": "TEXTURE",
         "id": "1-texture"
       },
       {
         "name": "0-texture",
-        "url": "../assets/textures/point-textures/0.png",
+        "path": "../assets/textures/point-textures/0.png",
         "assetType": "TEXTURE",
         "id": "0-texture"
       }

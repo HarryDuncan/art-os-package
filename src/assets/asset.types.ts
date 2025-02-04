@@ -37,9 +37,9 @@ export interface AssetMetaData {
 export type AssetTag = keyof typeof ASSET_TAG;
 export type Asset = {
   id: string;
-  name: string;
-  url: string;
+  path: string;
   assetType: AssetType;
+  name?: string;
   data?: AssetData;
   assetTag?: AssetTag[];
   metaData?: AssetMetaData;

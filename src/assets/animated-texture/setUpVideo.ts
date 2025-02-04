@@ -1,4 +1,4 @@
-export const setupVideo = (url: string, identifier: string) => {
+export const setupVideo = (path: string, identifier: string) => {
   const video = document.createElement("video");
   const root = document.getElementById("append-container");
   const videoId = document.getElementById(identifier);
@@ -19,7 +19,7 @@ export const setupVideo = (url: string, identifier: string) => {
   // Waiting for these 2 events ensures
   // there is data in the video
 
-  video.src = url;
+  video.src = path;
 
   setTimeout(() => {
     video

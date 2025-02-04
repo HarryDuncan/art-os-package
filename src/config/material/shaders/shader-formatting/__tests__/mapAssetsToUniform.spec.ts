@@ -13,7 +13,7 @@ const MOCK_ASSET = [
   {
     id: "chrome",
     name: "chrome-name",
-    url: "",
+    path: "",
     assetType: "TEXTURE",
     data: "tttt" as unknown as AssetData,
   },

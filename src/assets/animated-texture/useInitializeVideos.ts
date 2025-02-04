@@ -14,8 +14,8 @@ export const useInitializeVideos = (
     [loadedAssets]
   );
   if (isInitialized) {
-    videoAssets.forEach(({ url, name }) => {
-      setupVideo(url, name);
+    videoAssets.forEach(({ path, name }) => {
+      setupVideo(path, name);
     });
   }
 };

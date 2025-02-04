@@ -23,7 +23,7 @@ export const textureMaterialFromAsset = (assets: Asset[]) =>
         }
         case ASSET_TAG.MATERIAL.ENV_MAP: {
           const materialProps = {
-            imageUrl: asset.url,
+            imageUrl: asset.path,
             envMapType: ENV_MAP_TYPES.REFLECTION as EnvMapType,
           };
           const material = getMaterial(materialTag, materialProps) as Material;

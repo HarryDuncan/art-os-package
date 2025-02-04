@@ -75,7 +75,7 @@ const getEnvMapMaterial = (
   materialProps: EnvMapMaterialProps,
   asset: Asset
 ): Material => {
-  materialProps.imageUrl = asset.url;
+  materialProps.imageUrl = asset.path;
   return getMaterial(
     MATERIAL_TYPES.ENV_MAP as MaterialType,
     materialProps

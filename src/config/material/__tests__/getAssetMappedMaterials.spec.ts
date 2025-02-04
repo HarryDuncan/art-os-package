@@ -4,7 +4,7 @@ import { expect, test, describe } from "vitest";
 const mockAssets = [
   {
     name: "metal-materials",
-    url: "../assets/textures/matcaps/irredescent-4.jpg",
+    path: "../assets/textures/matcaps/irredescent-4.jpg",
     assetType: "TEXTURE",
     id: "chrome",
   },
@@ -25,7 +25,7 @@ describe("getAssetMappedMaterials", () => {
       mockAssets
     );
   });
-  test("Maps texture url to env map material by asset id", () => {
+  test("Maps texture path to env map material by asset id", () => {
     const configuredMaterials = getAssetMappedMaterials(
       mockMaterialConfig,
       mockAssets

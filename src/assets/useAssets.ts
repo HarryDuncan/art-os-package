@@ -16,7 +16,7 @@ export const useAssets = (assets: Asset[] | undefined | null) => {
   async function loadAssetData(asset: Asset) {
     const loadedAsset = await loadAsset(asset);
     if (!loadedAsset) {
-      console.warn(`asset ${asset.url} not properly loaded`);
+      console.warn(`asset ${asset.path} not properly loaded`);
     }
     return { ...asset, data: loadedAsset };
   }
@@ -43,7 +43,8 @@ export const useAssets = (assets: Asset[] | undefined | null) => {
 };
 
 const loadAsset = async (asset: Asset) => {
-  const { assetType, url: path } = asset;
+  const { assetType, path } = asset;
+
   const fileType = getFileTypeFromFilename(path);
   switch (assetType) {
     case ASSET_TYPES.MODEL3D: {
