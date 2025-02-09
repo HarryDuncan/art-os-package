@@ -1,4 +1,9 @@
-import { MAIN_END, MAIN_START } from "./constants/buildShader.consts";
+import {
+  MAIN_END,
+  MAIN_START,
+  VERTEX_NORMAL_INSTANTIATION,
+  VERTEX_POINT_INSTANTIATION,
+} from "./constants/buildShader.consts";
 import {
   AttributeConfig,
   BuiltShaderConfig,
@@ -60,11 +65,7 @@ export const buildShader = (shaderConfig: BuiltShaderConfig) => {
   const {
     declaration: varyingDeclaration,
     instantiation: varyingInstantiation,
-  } = buildVaryings(
-    mergedShaderVaryings,
-    combinedAttributeConfigs,
-    vertexEffects.previousPointName
-  );
+  } = buildVaryings(mergedShaderVaryings, combinedAttributeConfigs);
 
   const shaderStructConfigs = [
     vertexEffects.structConfigs,
@@ -123,6 +124,8 @@ const formatVertexShader = (
       .map(({ functionDefinition }) => functionDefinition)
       .join(""),
     MAIN_START,
+    VERTEX_POINT_INSTANTIATION,
+    VERTEX_NORMAL_INSTANTIATION,
     vertexTransformations,
     varyingInstantiation,
     viewMatrix,

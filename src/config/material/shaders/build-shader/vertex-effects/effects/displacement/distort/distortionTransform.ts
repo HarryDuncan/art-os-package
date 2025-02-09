@@ -6,48 +6,34 @@ import { stretch } from "./stretch/stretch";
 import { twistTransformation } from "./twist/twistTransformation";
 
 export const distortionTransform = (
-  pointName: string,
-  previousPointName: string,
   distortEffectProps: DistortionEffectProps
 ) => {
   const {
     transformation,
-    vertexPointInstantiation,
+
     uniformConfig,
     varyingConfig,
     requiredFunctions,
-  } = getTransformation(pointName, previousPointName, distortEffectProps);
+  } = getTransformation(distortEffectProps);
   return {
     transformation,
-    vertexPointInstantiation,
+
     uniformConfig,
     requiredFunctions,
     varyingConfig,
   };
 };
 
-const getTransformation = (
-  pointName: string,
-  previousPointName: string,
-  distortEffectProps: DistortionEffectProps
-) => {
+const getTransformation = (distortEffectProps: DistortionEffectProps) => {
   const { distortionType, effectProps } = distortEffectProps;
   switch (distortionType) {
     case DISTORTION_TYPES.STRETCH:
-      return vertexEffectToEffectData(
-        stretch(pointName, previousPointName, effectProps)
-      );
+      return vertexEffectToEffectData(stretch(effectProps));
     case DISTORTION_TYPES.FLEXY_TWISTER:
-      return vertexEffectToEffectData(
-        flexyTwister(pointName, previousPointName, effectProps)
-      );
+      return vertexEffectToEffectData(flexyTwister(effectProps));
     case DISTORTION_TYPES.TWIST:
     default: {
-      const twistTransformationData = twistTransformation(
-        pointName,
-        previousPointName,
-        effectProps
-      );
+      const twistTransformationData = twistTransformation(effectProps);
       return vertexEffectToEffectData(twistTransformationData);
     }
   }

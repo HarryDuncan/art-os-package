@@ -1,7 +1,6 @@
 import {
   AttributeConfig,
-  ImageAsMaskEffectProps,
-  ImageToPointsEffectProps,
+  NoiseTransitionProps,
   ShaderFunction,
   VaryingConfig,
 } from "../../../../../types";
@@ -12,19 +11,19 @@ import { mergeUniformConfigs } from "../../../../../shader-properties/uniforms/h
 import { mergeVaryingConfigs } from "../../../../../shader-properties/varyings/helpers/mergeVaryingConfigs";
 
 import {
-  DEFAULT_IMAGE_AS_MASK_EFFECT_PROPS,
-  IMAGE_AS_MASK_ATTRIBUTE_CONFIG,
-  IMAGE_AS_MASK_REQUIRED_FUNCTIONS,
-  IMAGE_AS_MASK_UNIFORM_CONFIG,
-  IMAGE_AS_MASK_VARYING_CONFIG,
-} from "./imageAsMask.consts";
-import { imageAsMaskTransform } from "./imageAsMaskTransform";
+  DEFAULT_NOISE_TRANSITION_EFFECT_PROPS,
+  NOISE_TRANSITION_ATTRIBUTE_CONFIG,
+  NOISE_TRANSITION_REQUIRED_FUNCTIONS,
+  NOISE_TRANSITION_UNIFORM_CONFIG,
+  NOISE_TRANSITION_VARYING_CONFIG,
+} from "./noiseTranstion.consts";
+import { noiseTransitionTransform } from "./noiseTransitionTransform";
 
-export const imageAsMask = (effectProps: Partial<ImageToPointsEffectProps>) => {
-  const imageAsMaskEffectProps = formatVertexParameters(
+export const noiseTransition = (effectProps: Partial<NoiseTransitionProps>) => {
+  const noiseTransitionEffectProps = formatVertexParameters(
     effectProps,
-    DEFAULT_IMAGE_AS_MASK_EFFECT_PROPS as ImageToPointsEffectProps
-  ) as ImageAsMaskEffectProps;
+    DEFAULT_NOISE_TRANSITION_EFFECT_PROPS
+  ) as NoiseTransitionProps;
 
   const {
     transformation,
@@ -32,12 +31,14 @@ export const imageAsMask = (effectProps: Partial<ImageToPointsEffectProps>) => {
     effectVaryings,
     effectFunctions,
     effectAttributes,
-  } = imageAsMaskTransform(imageAsMaskEffectProps);
+  } = noiseTransitionTransform(noiseTransitionEffectProps);
 
-  const uniformConfig = IMAGE_AS_MASK_UNIFORM_CONFIG;
-  const varyingConfig = IMAGE_AS_MASK_VARYING_CONFIG;
-  const requiredFunctions: ShaderFunction[] = IMAGE_AS_MASK_REQUIRED_FUNCTIONS;
-  const attributeConfig = IMAGE_AS_MASK_ATTRIBUTE_CONFIG as AttributeConfig[];
+  const uniformConfig = NOISE_TRANSITION_UNIFORM_CONFIG;
+  const varyingConfig = NOISE_TRANSITION_VARYING_CONFIG;
+  const requiredFunctions: ShaderFunction[] =
+    NOISE_TRANSITION_REQUIRED_FUNCTIONS;
+  const attributeConfig =
+    NOISE_TRANSITION_ATTRIBUTE_CONFIG as AttributeConfig[];
 
   const mergedUniformConfigs = mergeUniformConfigs([
     effectUniforms,
@@ -55,6 +56,7 @@ export const imageAsMask = (effectProps: Partial<ImageToPointsEffectProps>) => {
     attributeConfig,
     effectAttributes,
   ]);
+
   return {
     requiredFunctions: mergedRequiredFunction,
     uniformConfig: mergedUniformConfigs,

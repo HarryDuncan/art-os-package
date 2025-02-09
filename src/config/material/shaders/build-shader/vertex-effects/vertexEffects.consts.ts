@@ -1,3 +1,5 @@
+export const VERTEX_POINT_NAME = "currentVertexPoint";
+export const VERTEX_NORMAL_NAME = "currentVertexNormal";
 export const VERTEX_EFFECTS = {
   EXPLODE: "EXPLODE",
   FILTER: "FILTER_VERTEX",
@@ -15,24 +17,6 @@ export const VERTEX_EFFECTS = {
   VERTEX_IMAGE_EFFECT: "VERTEX_IMAGE_EFFECT",
   IMAGE_TO_POINT: "IMAGE_TO_POINT",
 };
-export const VERTEX_EFFECT_POINT_NAMES = {
-  DEFAULT_POINT: "position",
-  DISTORT_POINT: "distortPoint",
-  ALIEN_DISTORT: "alienPoint",
-  EXPLODED_POINT: "explodedPoint",
-  FILTERED_POINT: "filteredPoint",
-  ROTATED_POINT: "rotatedPoint",
-  CLOUD_POINT: "cloudPoint",
-  MORPHED_POINT: "morphedPoint",
-  EXPANDED_POINT: "expandedPoint",
-  INTERACTED_POINT: "interactedPoint",
-  TRAVERSE_POINT: "traversePoint",
-  NOISE_POINT: "noisePoint",
-  TRIGGERED_POINT: "triggeredPoint",
-  IMAGE_VERTEX_POINT: "imageVertexPoint",
-  IMAGE_TO_POINT: "imageToPoint",
-  TRANSITION_POINT: "transitionPoint",
-};
 
 export const enum TransformTypes {
   TRANSLATE = "TRANSLATE",
@@ -45,6 +29,10 @@ export const DEFAULT_VERTEX_EFFECT_PARAMS = {
 export const IMAGE_VERTEX_EFFECT = {
   IMAGE_TO_POINTS: "IMAGE_TO_POINT",
   IMAGE_AS_MASK: "IMAGE_AS_MASK",
+};
+
+export const MORPH_TRANSITION_EFFECTS = {
+  NOISE_TRANSITION: "NOISE_TRANSITION",
 };
 
 export const DISPLACEMENT_TYPES = {

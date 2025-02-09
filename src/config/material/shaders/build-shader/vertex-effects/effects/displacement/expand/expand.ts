@@ -5,7 +5,7 @@ import {
 } from "../../../../types";
 import { formatVertexParameters } from "../../../../helpers/formatVertexParameters";
 import { generateUniquePointName } from "../../../../helpers/generateUniquePointName";
-import { VERTEX_EFFECT_POINT_NAMES } from "../../../vertexEffects.consts";
+
 import { VertexEffectData } from "../../../vertexEffects.types";
 import {
   EXPAND_UNIFORMS,
@@ -16,13 +16,8 @@ import {
 import { expandTransformation } from "./expandTransformation";
 
 export const expand = (
-  previousPointName: string,
   effectProps: Partial<ExpandEffectProps>
 ): VertexEffectData => {
-  const pointName = generateUniquePointName(
-    VERTEX_EFFECT_POINT_NAMES.EXPANDED_POINT,
-    effectProps.pointParent
-  );
   const expandEffectProps = formatVertexParameters(
     effectProps ?? {},
     DEFAULT_EXPAND_PARAMETERS
@@ -30,11 +25,8 @@ export const expand = (
 
   const uniformConfig = EXPAND_UNIFORMS as UniformConfig;
   const varyingConfig = EXPAND_VARYINGS;
-  const { transformation, vertexPointInstantiation } = expandTransformation(
-    previousPointName,
-    pointName,
-    expandEffectProps
-  );
+  const { transformation, vertexPointInstantiation } =
+    expandTransformation(expandEffectProps);
   const requiredFunctions = EXPAND_FUNCTIONS;
   const attributeConfig = [] as AttributeConfig[];
 
@@ -44,7 +36,5 @@ export const expand = (
     uniformConfig,
     transformation,
     varyingConfig,
-    pointName,
-    vertexPointInstantiation,
   };
 };

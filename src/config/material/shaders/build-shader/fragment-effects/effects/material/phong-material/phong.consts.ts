@@ -10,7 +10,7 @@ export const DEFAULT_PHONG_UNIFORMS = {
     {
       id: "uLightPosition",
       valueType: ShaderPropertyValueTypes.VEC3,
-      value: new Vector3(5, 5, 5),
+      value: new Vector3(10, 10, 10),
     },
     {
       id: "uDiffuseColor",

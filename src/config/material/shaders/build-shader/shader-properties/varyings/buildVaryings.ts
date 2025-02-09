@@ -8,18 +8,17 @@ import {
   V_DECLARATION,
   V_DEFAULT_INSTANTIATION,
 } from "./varyings.consts";
+import {
+  VERTEX_NORMAL_NAME,
+  VERTEX_POINT_NAME,
+} from "../../vertex-effects/vertexEffects.consts";
 
 export const buildVaryings = (
   varyingSchema: VaryingConfig[],
-  attributeConfig: AttributeConfig[],
-  vertexTransformationName: string
+  attributeConfig: AttributeConfig[]
 ) => {
   const declaration = varyingDeclarations(varyingSchema);
-  const instantiation = varyingInstantiation(
-    varyingSchema,
-    attributeConfig,
-    vertexTransformationName
-  );
+  const instantiation = varyingInstantiation(varyingSchema, attributeConfig);
   return { declaration, instantiation };
 };
 
@@ -37,13 +36,9 @@ const varyingDeclarations = (config: VaryingConfig[]) => {
 
 const varyingInstantiation = (
   varyingConfig: VaryingConfig[],
-  attributeConfig: AttributeConfig[],
-  vertexTransformationName: string
+  attributeConfig: AttributeConfig[]
 ) => {
-  const defaultVaryingStrings = getDefaultVaryingString(
-    varyingConfig,
-    vertexTransformationName
-  );
+  const defaultVaryingStrings = getDefaultVaryingString(varyingConfig);
   const attributeVaryingStrings = getAttributeVaryingStrings(
     varyingConfig,
     attributeConfig
@@ -56,10 +51,7 @@ const varyingInstantiation = (
   ].join(" \n ");
 };
 
-const getDefaultVaryingString = (
-  config: VaryingConfig[],
-  vertexTransformationName: string
-) => {
+const getDefaultVaryingString = (config: VaryingConfig[]) => {
   const defaultVaryings: VaryingConfig[] = config.filter(
     (item) => item.varyingType === VARYING_TYPES.DEFAULT
   );
@@ -71,26 +63,28 @@ const getDefaultVaryingString = (
         strings.push("vUv = uv;");
         break;
       case "vPosition":
-        strings.push(`vPosition = ${vertexTransformationName}.xyz;`);
+        strings.push(`vPosition = ${VERTEX_POINT_NAME}.xyz;`);
         break;
       case "vNormal":
-        strings.push(`vNormal = normal;`);
+        strings.push(`vNormal = ${VERTEX_NORMAL_NAME}.xyz;`);
         break;
       case "vModelViewMatrix":
         strings.push("vModelViewMatrix = modelViewMatrix;");
         break;
       case "vNormalInterpolation":
-        strings.push("vNormalInterpolation = normalMatrix * normal;");
+        strings.push(
+          `vNormalInterpolation = normalize(normalMatrix  * ${VERTEX_NORMAL_NAME}.xyz);`
+        );
         break;
       case "vTexCoord":
         strings.push(`vTexCoord = texcoord;`);
         break;
       case "vGeometryNormal":
-        strings.push("vGeometryNormal = normal;");
+        strings.push(`vGeometryNormal = ${VERTEX_NORMAL_NAME}.xyz`);
         break;
       case "vEye":
         strings.push(
-          `vEye = normalize(vec3(modelViewMatrix * vec4(${vertexTransformationName}.xyz, 1.0)));`
+          `vEye = normalize(vec3(modelViewMatrix * vec4(${VERTEX_POINT_NAME}.xyz, 1.0)));`
         );
         break;
       default:

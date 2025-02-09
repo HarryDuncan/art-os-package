@@ -23,7 +23,9 @@ export const transformGeometry = (
         case MESH_TRANSFORM.MORPH: {
           transformedMeshes.forEach((morphTarget, index) => {
             if (index !== 0) {
-              const { vertices } = getGeometryAttributes(morphTarget.geometry);
+              const { vertices, normals } = getGeometryAttributes(
+                morphTarget.geometry
+              );
 
               transformedMeshes[0].geometry.setAttribute(
                 `morphPosition${index - 1}`,
@@ -32,7 +34,7 @@ export const transformGeometry = (
 
               transformedMeshes[0].geometry.setAttribute(
                 `morphNormal${index - 1}`,
-                new BufferAttribute(vertices, 3)
+                new BufferAttribute(normals, 3)
               );
             }
           });

@@ -11,24 +11,15 @@ import { generateUniquePointName } from "../../../helpers/generateUniquePointNam
 import { rotationTransform } from "./rotationTransform";
 
 export const rotationEffect = (
-  previousPointName: string,
   effectProps: Partial<RotationEffectProps> = {}
 ): VertexEffectData => {
-  const pointName = generateUniquePointName(
-    VERTEX_EFFECT_POINT_NAMES.ROTATED_POINT,
-    effectProps.pointParent
-  );
   const formattedProps = formatVertexParameters(
     effectProps,
     DEFAULT_ROTATION_EFFECT_CONFIG as RotationEffectProps
   ) as RotationEffectProps;
 
-  const {
-    uniformConfig,
-    requiredFunctions,
-    transformation,
-    vertexPointInstantiation,
-  } = rotationTransform(pointName, previousPointName, formattedProps);
+  const { uniformConfig, requiredFunctions, transformation } =
+    rotationTransform(formattedProps);
 
   return {
     requiredFunctions,
@@ -36,7 +27,5 @@ export const rotationEffect = (
     transformation,
     varyingConfig: ROTATION_VARYINGS,
     attributeConfig: ROTATION_ATTRIBUTES,
-    vertexPointInstantiation,
-    pointName,
   };
 };

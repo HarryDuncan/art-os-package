@@ -14,7 +14,6 @@ import { mergeUniformConfigs } from "../../../../shader-properties/uniforms/help
 import { reduceFunctions } from "../../../../helpers/reduceFunctions";
 
 export const distortionEffect = (
-  previousPointName: string,
   effectProps: Partial<DistortionEffectProps>
 ): VertexEffectData => {
   const distortionEffectParameters = formatVertexParameters(
@@ -22,21 +21,12 @@ export const distortionEffect = (
     DEFAULT_DISTORTION_EFFECT_PARAMETERS
   ) as DistortionEffectProps;
 
-  const pointName = generateUniquePointName(
-    VERTEX_EFFECT_POINT_NAMES.DISTORT_POINT,
-    distortionEffectParameters.pointParent
-  );
-
   const {
     transformation,
-    vertexPointInstantiation,
+
     uniformConfig: effectUniformConfig,
     requiredFunctions: effectFunctions,
-  } = distortionTransform(
-    pointName,
-    previousPointName,
-    distortionEffectParameters
-  );
+  } = distortionTransform(distortionEffectParameters);
   const requiredFunctions = reduceFunctions([
     DEFAULT_DISTORT_FUNCTIONS,
     effectFunctions,
@@ -54,7 +44,5 @@ export const distortionEffect = (
     uniformConfig,
     transformation,
     varyingConfig,
-    pointName,
-    vertexPointInstantiation,
   };
 };

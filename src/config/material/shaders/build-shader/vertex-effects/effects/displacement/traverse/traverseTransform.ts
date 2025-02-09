@@ -1,6 +1,9 @@
 import { noise3D } from "../../../../../../../../config/material/shaders/build-shader/shader-properties/functions/noise/noise3d";
 import { UniformConfig, VaryingConfig } from "../../../../types";
-import { VERTEX_EFFECT_POINT_NAMES } from "../../../vertexEffects.consts";
+import {
+  VERTEX_EFFECT_POINT_NAMES,
+  VERTEX_POINT_NAME,
+} from "../../../vertexEffects.consts";
 import { VertexEffectData } from "../../../vertexEffects.types";
 
 export const distortFunctions = () => [
@@ -23,12 +26,9 @@ export const distortVaryings = () =>
     },
   ] as VaryingConfig[];
 
-export const traverseTransform = (
-  previousPointName: string
-): VertexEffectData => {
-  const pointName = VERTEX_EFFECT_POINT_NAMES.TRAVERSE_POINT;
+export const traverseTransform = (): VertexEffectData => {
   const uniformConfig = distortUniforms() as UniformConfig;
-  const transformation = traverseDownTransform(previousPointName, pointName);
+  const transformation = traverseDownTransform();
   const requiredFunctions = distortFunctions();
   return {
     requiredFunctions,
@@ -36,29 +36,25 @@ export const traverseTransform = (
     transformation,
     varyingConfig: [],
     attributeConfig: [],
-    pointName,
   };
 };
 
-export const traverseDownTransform = (
-  previousPointName: string,
-  pointName: string
-) => {
+export const traverseDownTransform = () => {
   return `
     // Generate random offset for each vertex (compute once)
-    float randomOffsetX = (${previousPointName}.xyz.x + 0.0) * 1.0 * uTraverseProgress;
-    float randomOffsetY = (${previousPointName}.xyz.y + 100.0) * 1.0 * uTraverseProgress;
-    float randomOffsetZ = (${previousPointName}.xyz.z + 0.0) * 1.0 * uTraverseProgress;
+    float randomOffsetX = (${VERTEX_POINT_NAME}.xyz.x + 0.0) * 1.0 * uTraverseProgress;
+    float randomOffsetY = (${VERTEX_POINT_NAME}.xyz.y + 100.0) * 1.0 * uTraverseProgress;
+    float randomOffsetZ = (${VERTEX_POINT_NAME}.xyz.z + 0.0) * 1.0 * uTraverseProgress;
   
     // Apply random offset to the vertex position with downward displacement
-    vec4 ${pointName} = vec4(
-      ${previousPointName}.xyz + vec3(randomOffsetX, randomOffsetY, randomOffsetZ),
+    vec4 ${VERTEX_POINT_NAME} = vec4(
+      ${VERTEX_POINT_NAME}.xyz + vec3(randomOffsetX, randomOffsetY, randomOffsetZ),
       1.0
     );
   
     // If the vertex has fallen completely, reset its position
     if (uTraverseProgress >= 1.0) {
-      ${pointName}.xyz = ${previousPointName}.xyz;
+      ${VERTEX_POINT_NAME}.xyz = ${VERTEX_POINT_NAME}.xyz;
     }
     `;
 };

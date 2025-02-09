@@ -7,8 +7,8 @@ export const phongTransform = (fragName: string, _previousFragName: string) => {
   float lambertian = max(dot(N, L), 0.0);
   float specular = 0.0;
   if(lambertian > 0.0) {
-    vec3 R = reflect(-L, N);      // Reflected light vector
-    vec3 V = normalize(-vPosition); // Vector to viewer
+    vec3 R = normalize(reflect(-L, N));      // Reflected light vector
+    vec3 V = normalize(cameraPosition   - vPosition );// Vector to viewer
     // Compute the specular term
     float specAngle = max(dot(R, V), 0.0);
     specular = pow(specAngle, uShininess);

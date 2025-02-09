@@ -14,21 +14,17 @@ import { rotationEffect } from "../rotation/rotation";
 import { DEFAULT_TRIGGERED_EFFECT } from "./triggeredEffect.consts";
 
 export const triggeredEffectTransform = (
-  pointName: string,
-  previousPointName: string,
   triggeredEffectProps: TriggeredEffectProps
 ) => {
   const {
     uniformConfig: effectUniforms,
     varyingConfig: effectVaryings,
     transformation: effectTransform,
-    pointName: effectPointName,
+
     requiredFunctions: effectFunctions,
     attributeConfig: effectAttributes,
-    vertexPointInstantiation,
-  } = getEffectData(pointName, triggeredEffectProps);
-  const transformation = `vec3 ${pointName} = ${previousPointName}.xyz;
-              ${vertexPointInstantiation ?? ""}
+  } = getEffectData(triggeredEffectProps);
+  const transformation = `
               float isTriggered = 0.0;
               if(uIsTriggered >= 1.0){
                   ${effectTransform}
@@ -39,13 +35,11 @@ export const triggeredEffectTransform = (
     transformation,
     effectUniforms,
     effectVaryings,
-    effectPointName,
     effectFunctions,
     effectAttributes,
   };
 };
 const getEffectData = (
-  pointName: string,
   triggeredEffectProps: TriggeredEffectProps
 ): VertexEffectData => {
   const { effectType, effectProps } = triggeredEffectProps;
@@ -55,23 +49,15 @@ const getEffectData = (
   };
   switch (effectType) {
     case VERTEX_EFFECTS.EXPLODE:
-      return explode(
-        pointName,
-        formattedEffectProps as Partial<ExplodeEffectProps>
-      );
+      return explode(formattedEffectProps as Partial<ExplodeEffectProps>);
     case VERTEX_EFFECTS.EXPAND:
-      return expand(
-        pointName,
-        formattedEffectProps as Partial<ExpandEffectProps>
-      );
+      return expand(formattedEffectProps as Partial<ExpandEffectProps>);
     case VERTEX_EFFECTS.ROTATE:
       return rotationEffect(
-        pointName,
         formattedEffectProps as Partial<RotationEffectProps>
       );
     case TRIGGERED_FRAGMENT_EFFECT.EMPTY:
-      return { ...DEFAULT_VERTEX_EFFECT, pointName };
     default:
-      return { ...DEFAULT_VERTEX_EFFECT, pointName };
+      return { ...DEFAULT_VERTEX_EFFECT };
   }
 };

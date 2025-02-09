@@ -11,7 +11,10 @@ import {
   TriggeredVertexEffect,
   VertexEffectConfig,
 } from "../../types";
-import { VERTEX_EFFECTS } from "../vertexEffects.consts";
+import {
+  VERTEX_EFFECT_NORMAL_NAMES,
+  VERTEX_EFFECTS,
+} from "../vertexEffects.consts";
 import { VertexEffectData } from "../vertexEffects.types";
 import { cloudEffect } from "./displacement/cloud/cloudTransform";
 import { distortionEffect } from "./displacement/distort/distortionEffect";
@@ -28,73 +31,50 @@ import { rotationEffect } from "./rotation/rotation";
 import { triggeredEffect } from "./triggered-effect/triggeredEffect";
 
 export const getVertexEffect = (
-  effect: VertexEffectConfig,
-  previousPointName: string
+  effect: VertexEffectConfig
 ): VertexEffectData => {
   const { effectType, effectProps } = effect;
   switch (effectType) {
     case VERTEX_EFFECTS.EXPLODE: {
-      return explode(
-        previousPointName,
-        effectProps as Partial<ExplodeEffectProps>
-      );
+      return explode(effectProps as Partial<ExplodeEffectProps>);
     }
     case VERTEX_EFFECTS.FILTER: {
-      return vertexFilter(previousPointName);
+      return vertexFilter();
     }
     case VERTEX_EFFECTS.POINTS: {
       return pointsVertex(
-        previousPointName,
         effectProps as Partial<PointsEffectProps> | undefined
       );
     }
     case VERTEX_EFFECTS.CLOUD: {
-      return cloudEffect(previousPointName);
+      return cloudEffect();
     }
     case VERTEX_EFFECTS.MORPH: {
-      return morphVertex(
-        previousPointName,
-        effectProps as Partial<MorphEffectProps> | undefined
-      );
+      return morphVertex(effectProps as Partial<MorphEffectProps> | undefined);
     }
     case VERTEX_EFFECTS.TRAVERSE: {
-      return traverseTransform(previousPointName);
+      return traverseTransform();
     }
     case VERTEX_EFFECTS.DISTORT: {
-      return distortionEffect(
-        previousPointName,
-        effectProps as DistortionEffectProps
-      );
+      return distortionEffect(effectProps as DistortionEffectProps);
     }
     case VERTEX_EFFECTS.INTERACTIVE: {
-      return interactiveEffect(
-        previousPointName,
-        effectProps as InteractiveEffectProps
-      );
+      return interactiveEffect(effectProps as InteractiveEffectProps);
     }
     case VERTEX_EFFECTS.EXPAND: {
-      return expand(previousPointName, effectProps as ExpandEffectProps);
+      return expand(effectProps as ExpandEffectProps);
     }
     case VERTEX_EFFECTS.NOISE: {
-      return noise(previousPointName, effectProps as NoiseEffectProps);
+      return noise(effectProps as NoiseEffectProps);
     }
     case VERTEX_EFFECTS.ROTATE: {
-      return rotationEffect(
-        previousPointName,
-        effectProps as RotationEffectProps
-      );
+      return rotationEffect(effectProps as RotationEffectProps);
     }
     case VERTEX_EFFECTS.TRIGGERED_EFFECT: {
-      return triggeredEffect(
-        previousPointName,
-        effectProps as TriggeredVertexEffect
-      );
+      return triggeredEffect(effectProps as TriggeredVertexEffect);
     }
     case VERTEX_EFFECTS.VERTEX_IMAGE_EFFECT: {
-      return imageVertexEffect(
-        previousPointName,
-        effectProps as ImageVertexEffect
-      );
+      return imageVertexEffect(effectProps as ImageVertexEffect);
     }
     default:
       console.warn(
@@ -106,7 +86,6 @@ export const getVertexEffect = (
         uniformConfig: { defaultUniforms: [] },
         transformation: "",
         varyingConfig: [],
-        pointName: previousPointName,
       };
   }
 };

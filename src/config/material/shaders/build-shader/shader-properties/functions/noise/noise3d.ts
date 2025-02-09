@@ -1,4 +1,5 @@
 import {
+  hash33,
   mod289Vec3,
   mod289Vec4,
   permuteVec4,
@@ -87,3 +88,37 @@ export const noise3D = `
     return 42.0 * dot( m*m, vec4( dot(p0,x0), dot(p1,x1),
                                   dot(p2,x2), dot(p3,x3) ) );
     }`;
+
+export const noise3dFunction = {
+  id: "noise3D",
+  functionDefinition: noise3D,
+};
+
+export const virusNoise = {
+  id: "virusNoise",
+  functionDefinition: `
+    ${hash33}
+    float virusNoise(vec3 p) {
+    vec3 pi = floor(p);
+    vec3 pf = p - pi;
+    vec3 w = pf * pf * (3. - 2.0 * pf);
+    return 	mix(
+        		mix(
+                	mix(dot(pf - vec3(0, 0, 0), hash33(pi + vec3(0, 0, 0))),
+                        dot(pf - vec3(1, 0, 0), hash33(pi + vec3(1, 0, 0))),
+                       	w.x),
+                	mix(dot(pf - vec3(0, 0, 1), hash33(pi + vec3(0, 0, 1))),
+                        dot(pf - vec3(1, 0, 1), hash33(pi + vec3(1, 0, 1))),
+                       	w.x),
+                	w.z),
+        		mix(
+                    mix(dot(pf - vec3(0, 1, 0), hash33(pi + vec3(0, 1, 0))),
+                        dot(pf - vec3(1, 1, 0), hash33(pi + vec3(1, 1, 0))),
+                       	w.x),
+                   	mix(dot(pf - vec3(0, 1, 1), hash33(pi + vec3(0, 1, 1))),
+                        dot(pf - vec3(1, 1, 1), hash33(pi + vec3(1, 1, 1))),
+                       	w.x),
+                	w.z),
+    			w.y);
+}`,
+};

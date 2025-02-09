@@ -1,4 +1,3 @@
-import { hexToRgb } from "../../../../../../../../../utils/conversion/hexToRgb";
 import { ShaderPropertyValueTypes } from "../../../../../constants";
 import { createColorVectorString } from "../../../../../helpers/createColorVectorString";
 import {
@@ -9,14 +8,12 @@ import { noise } from "../../../../../shader-properties/functions/noise/noise";
 import { EMPTY_UNIFORM_CONFIG } from "../../../../../shader-properties/uniforms/uniforms.consts";
 import { VARYING_TYPES } from "../../../../../shader-properties/varyings/varyings.consts";
 import { AttributeConfig, ImageAsMaskEffectProps } from "../../../../../types";
+import { VERTEX_POINT_NAME } from "../../../../vertexEffects.consts";
 
 export const imageAsMaskTransform = (
-  pointName: string,
-  previousPointName: string,
   imageVertexEffectProps: ImageAsMaskEffectProps
 ) => {
-  const { declareInTransform, removedColors, overlayTexture } =
-    imageVertexEffectProps;
+  const { removedColors, overlayTexture } = imageVertexEffectProps;
 
   const effectUniforms = EMPTY_UNIFORM_CONFIG;
   const effectVaryings = [
@@ -59,9 +56,8 @@ export const imageAsMaskTransform = (
   ];
   const effectAttributes = [] as AttributeConfig[];
 
-  const vertexPointInstantiation = `vec4 ${pointName} = vec4(${previousPointName}.xyz, 1.0);`;
   const transformation = `
-  ${declareInTransform ? vertexPointInstantiation : ""}
+ 
       vUv = uv;
       // particle uv
       vec2 puv = position.xy / uTextureSize;
@@ -85,7 +81,7 @@ export const imageAsMaskTransform = (
       {
           siz = 12.4 ;
       };
-      ${pointName} =  vec4(displaced, 1.0);
+      ${VERTEX_POINT_NAME} =  vec4(displaced, 1.0);
       psize *= min(grey, siz);
       psize *= uSize;
        gl_PointSize = psize;
@@ -102,10 +98,9 @@ export const imageAsMaskTransform = (
     transformation,
     effectUniforms,
     effectVaryings,
-    pointName,
+
     effectFunctions,
     effectAttributes,
-    vertexPointInstantiation,
   };
 };
 

@@ -10,13 +10,11 @@ import {
   AttributeConfig,
   ImageToPointsEffectProps,
 } from "../../../../../types";
+import { VERTEX_POINT_NAME } from "../../../../vertexEffects.consts";
 
 export const imageToPointsTransform = (
-  pointName: string,
-  previousPointName: string,
-  imageVertexEffectProps: ImageToPointsEffectProps
+  _imageVertexEffectProps: ImageToPointsEffectProps
 ) => {
-  const { declareInTransform } = imageVertexEffectProps;
   const effectUniforms = EMPTY_UNIFORM_CONFIG;
   const effectVaryings = [
     {
@@ -44,9 +42,8 @@ export const imageToPointsTransform = (
   ];
   const effectAttributes = [] as AttributeConfig[];
 
-  const vertexPointInstantiation = `vec4 ${pointName} = vec4(${previousPointName}.xyz, 1.0);`;
   const transformation = `
-  ${declareInTransform ? vertexPointInstantiation : ""}
+  
       vUv = uv;
       // particle uv
       vec2 puv = position.xy / uTextureSize;
@@ -70,7 +67,7 @@ export const imageToPointsTransform = (
       {
           siz = 12.4 ;
       };
-      ${pointName} =  vec4(displaced, 1.0);
+      ${VERTEX_POINT_NAME} =  vec4(displaced, 1.0);
       psize *= min(grey, siz);
       psize *= uSize;
        gl_PointSize = psize;
@@ -82,9 +79,7 @@ export const imageToPointsTransform = (
     transformation,
     effectUniforms,
     effectVaryings,
-    pointName,
     effectFunctions,
     effectAttributes,
-    vertexPointInstantiation,
   };
 };

@@ -11,7 +11,6 @@ import { VertexEffectData } from "../../vertexEffects.types";
 import { pointsTransform } from "./pointsTransform";
 
 export const pointsVertex = (
-  previousPointName: string,
   effectProps: Partial<PointsEffectProps> = {}
 ): VertexEffectData => {
   const formattedEffectProps = formatVertexParameters(
@@ -22,10 +21,7 @@ export const pointsVertex = (
   const requiredFunctions = POINTS_FUNCTIONS;
   const varyingConfig = POINTS_VARYINGS;
   const attributeConfig = POINTS_ATTRIBUTES as AttributeConfig[];
-  const transformation = pointsTransform(
-    previousPointName,
-    formattedEffectProps
-  );
+  const transformation = pointsTransform(formattedEffectProps);
 
   return {
     requiredFunctions,
@@ -33,6 +29,5 @@ export const pointsVertex = (
     transformation,
     varyingConfig,
     attributeConfig,
-    pointName: previousPointName,
   };
 };

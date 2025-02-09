@@ -1,12 +1,9 @@
 import { ShaderPropertyValueTypes } from "../../../../../constants";
 import { twisterDistortion } from "../../../../../shader-properties/functions/distortion/distortion";
 import { ShaderFunction, UniformConfig } from "../../../../../types";
+import { VERTEX_POINT_NAME } from "../../../../vertexEffects.consts";
 
-export const flexyTwister = (
-  pointName: string,
-  _previousPointName: string,
-  _effectProps: unknown
-) => {
+export const flexyTwister = (_effectProps: unknown) => {
   const uniformConfig = {
     defaultUniforms: [],
     customUniforms: [
@@ -26,13 +23,13 @@ export const flexyTwister = (
     float angle = sin(uTime) * uTwistRange;
 
     float twistAngle = angle * howFarUp;
-    vec4 ${pointName} = twister( vec4( position, 1.0 ), twistAngle );
+    vec4 ${VERTEX_POINT_NAME} = twister( vec4( position, 1.0 ), twistAngle );
     vec4 twistNormal = twister( vec4( normal, 1.0 ), twistAngle );
     vec4 twistedNormal = twister( vec4( normal, 1.0 ), twistAngle );`;
   return {
     transformation,
     uniformConfig,
-    pointName,
+
     requiredFunctions,
   };
 };

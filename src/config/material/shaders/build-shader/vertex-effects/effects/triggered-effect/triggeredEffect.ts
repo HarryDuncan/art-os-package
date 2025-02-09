@@ -20,32 +20,22 @@ import { generateUniquePointName } from "../../../helpers/generateUniquePointNam
 import { triggeredEffectTransform } from "./triggeredEffectTransform";
 import { formatVertexParameters } from "../../../helpers/formatVertexParameters";
 
-export const triggeredEffect = (
-  previousPointName: string,
-  effectProps: TriggeredVertexEffect
-) => {
+export const triggeredEffect = (effectProps: TriggeredVertexEffect) => {
   const triggeredEffectProps = formatVertexParameters(
     effectProps,
     DEFAULT_TRIGGERED_EFFECT as TriggeredVertexEffectProps
   ) as TriggeredVertexEffect;
-  const pointName = generateUniquePointName(
-    VERTEX_EFFECT_POINT_NAMES.TRIGGERED_POINT,
-    POINT_PARENTS.TRIGGERED
-  );
+
   const uniformConfig = TRIGGERED_UNIFORM_CONFIG;
   const varyingConfig = TRIGGERED_VARYING_CONFIG;
   const {
     transformation,
     effectUniforms,
     effectVaryings,
-    effectPointName,
+
     effectFunctions,
     effectAttributes,
-  } = triggeredEffectTransform(
-    pointName,
-    previousPointName,
-    triggeredEffectProps
-  );
+  } = triggeredEffectTransform(triggeredEffectProps);
 
   const requiredFunctions: ShaderFunction[] = [];
   const attributeConfig = [] as AttributeConfig[];
@@ -72,6 +62,5 @@ export const triggeredEffect = (
     attributeConfig: mergedAttributeConfigs,
     transformation,
     varyingConfig: mergedVaryingConfigs,
-    pointName: effectPointName,
   };
 };

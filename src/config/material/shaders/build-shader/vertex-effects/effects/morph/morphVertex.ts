@@ -1,10 +1,19 @@
 import { ShaderPropertyValueTypes } from "../../../constants/buildShader.consts";
 import { formatVertexParameters } from "../../../helpers/formatVertexParameters";
-import { MorphEffectProps } from "../../../types";
-import { VERTEX_EFFECT_POINT_NAMES } from "../../vertexEffects.consts";
+import { reduceFunctions } from "../../../helpers/reduceFunctions";
+import { mergeAttributeConfigs } from "../../../shader-properties/attributes/helpers/mergeAttributeConfigs";
+import { mergeUniformConfigs } from "../../../shader-properties/uniforms/helpers/mergeUniformConfigs";
+import { mergeVaryingConfigs } from "../../../shader-properties/varyings/helpers/mergeVaryingConfigs";
+import { MorphEffectProps, ShaderFunction } from "../../../types";
+import {
+  VERTEX_NORMAL_NAME,
+  VERTEX_POINT_NAME,
+} from "../../vertexEffects.consts";
 import { buildMorphTransforms } from "./buildMorphTransforms";
+import { morphTransitions } from "./morph-transitions/morphTransitions";
 import {
   DEFAULT_MORPH_EFFECT_PROPS,
+  DEFAULT_MORPH_VARYING_CONFIG,
   DEFAULT_UNIFORM_CONFIG,
 } from "./morphVertex.consts";
 import { setUpMorphObjects } from "./setUpMorphObjects";
@@ -21,7 +30,6 @@ const getAttributeConfig = (morphCount: number) =>
     },
   ]);
 export const morphVertex = (
-  previousPointName: string,
   effectProps: Partial<MorphEffectProps> | undefined = {}
 ) => {
   const formattedProps = formatVertexParameters(
@@ -29,29 +37,54 @@ export const morphVertex = (
     DEFAULT_MORPH_EFFECT_PROPS
   ) as MorphEffectProps;
 
-  const { morphCount, preTransformConfigs } = formattedProps;
-  const pointName = VERTEX_EFFECT_POINT_NAMES.MORPHED_POINT;
-
+  const { morphCount, preTransformConfigs, transitionConfig } = formattedProps;
   const attributeConfig = getAttributeConfig(morphCount);
   const { requiredFunctions, morphObjects, transforms } = setUpMorphObjects(
     morphCount,
     preTransformConfigs
   );
+
+  const morphTransitionInfo = transitionConfig
+    ? morphTransitions(transitionConfig)
+    : null;
   const transformation = `
-    vec3 currentPosition = ${previousPointName}.xyz;
-    vec3 currentNormal = normal;
+    vec3 currentPosition = ${VERTEX_POINT_NAME}.xyz;
+    vec3 currentNormal = ${VERTEX_NORMAL_NAME}.xyz;
     ${transforms.map((value) => `${value} \n `).join(" \n ")}
     vec3 effect_direction = ${morphObjects[0].pointName} - currentPosition;
-    vec3 normal_effect_direction = ${morphObjects[0].normalName} - normal;
-    ${buildMorphTransforms(morphObjects, previousPointName)}
-    vec3 ${pointName} = currentPosition + (effect_direction * (uProgress));
+    vec3 normal_effect_direction = ${
+      morphObjects[0].normalName
+    } - currentNormal;
+    ${buildMorphTransforms(morphObjects)}
+    ${VERTEX_POINT_NAME} = vec4(currentPosition + (effect_direction * (uProgress)),1.0);
+    ${VERTEX_NORMAL_NAME} = vec4(currentNormal + (normal_effect_direction * (uProgress)), 1.0);
+    ${morphTransitionInfo && morphTransitionInfo?.transformation}
+   
     `;
-  return {
+
+  const mergedRequiredFunctions: ShaderFunction[] = reduceFunctions([
     requiredFunctions,
-    uniformConfig: DEFAULT_UNIFORM_CONFIG,
-    transformation,
+    morphTransitionInfo?.requiredFunctions,
+  ]);
+
+  const mergedUniformConfigs = mergeUniformConfigs([
+    DEFAULT_UNIFORM_CONFIG,
+    morphTransitionInfo?.uniformConfig,
+  ]);
+  const mergedVaryingConfigs = mergeVaryingConfigs([
+    DEFAULT_MORPH_VARYING_CONFIG,
+    morphTransitionInfo?.varyingConfig,
+  ]);
+  const mergedAttributeConfigs = mergeAttributeConfigs([
     attributeConfig,
-    varyingConfig: [],
-    pointName,
+    morphTransitionInfo?.attributeConfig,
+  ]);
+
+  return {
+    requiredFunctions: mergedRequiredFunctions,
+    uniformConfig: mergedUniformConfigs,
+    transformation,
+    attributeConfig: mergedAttributeConfigs,
+    varyingConfig: mergedVaryingConfigs,
   };
 };

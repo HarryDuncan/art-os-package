@@ -11,9 +11,7 @@ export interface VertexEffectData {
   uniformConfig: UniformConfig;
   varyingConfig: VaryingConfig[];
   transformation: string;
-  pointName: string;
   attributeConfig: AttributeConfig[];
-  vertexPointInstantiation?: string;
   structConfigs?: StructConfig[];
 }
 

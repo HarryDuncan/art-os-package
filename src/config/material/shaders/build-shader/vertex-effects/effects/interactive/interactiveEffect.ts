@@ -6,10 +6,7 @@ import {
   UniformConfig,
   VaryingConfig,
 } from "../../../types";
-import {
-  VERTEX_EFFECTS,
-  VERTEX_EFFECT_POINT_NAMES,
-} from "../../vertexEffects.consts";
+import { VERTEX_EFFECTS, VERTEX_POINT_NAME } from "../../vertexEffects.consts";
 import { explode } from "../displacement/explode/explode";
 import { mergeUniformConfigs } from "../../../shader-properties/uniforms/helpers/mergeUniformConfigs";
 import { mergeVaryingConfigs } from "../../../shader-properties/varyings/helpers/mergeVaryingConfigs";
@@ -19,11 +16,7 @@ import { VertexEffectData } from "../../vertexEffects.types";
 import { DEFAULT_VERTEX_EFFECT } from "../../../constants";
 import { randomFloat } from "../../../shader-properties/functions/random/random";
 
-export const interactiveEffect = (
-  previousPointName: string,
-  effectProps: InteractiveEffectProps
-) => {
-  const pointName = VERTEX_EFFECT_POINT_NAMES.INTERACTED_POINT;
+export const interactiveEffect = (effectProps: InteractiveEffectProps) => {
   const uniformConfig = {
     defaultUniforms: ["uPosition", "uStrength"],
     customUniforms: [],
@@ -40,20 +33,18 @@ export const interactiveEffect = (
     uniformConfig: effectUniforms,
     varyingConfig: effectVaryings,
     transformation: effectTransformation,
-    pointName: effectPointName,
     requiredFunctions: effectFunctions,
     attributeConfig: effectAttributes,
-    vertexPointInstantiation,
-  } = getEffectData(pointName, effectProps);
+  } = getEffectData(effectProps);
   const transformation = `
   // uPosition will be set to 2000 is there is no detections made
   // Convert screen coordinates to NDC
   vec2 ndcCoords = (uPosition.xy - 0.5) * 2.0;
   // Assuming zero depth for simplicity
   vec3 ndcPosition = vec3(ndcCoords, 0.0);
-  vec3 ${pointName} = ${previousPointName}.xyz;
+  vec3 ${VERTEX_POINT_NAME} = ${VERTEX_POINT_NAME}.xyz;
   float isAffected = 0.0;
-  ${vertexPointInstantiation};
+  
   if( ndcPosition.x > -2000.0){
     ${effectTransformation}
   } `;
@@ -86,19 +77,17 @@ export const interactiveEffect = (
     attributeConfig: mergedAttributeConfigs,
     transformation,
     varyingConfig: mergedVaryingConfigs,
-    pointName: effectPointName,
   };
 };
 
 const getEffectData = (
-  pointName: string,
   interactiveEffectProps: InteractiveEffectProps
 ): VertexEffectData => {
   const { effectType, effectProps } = interactiveEffectProps;
   switch (effectType) {
     case VERTEX_EFFECTS.EXPLODE:
-      return explode(pointName, effectProps as Partial<ExplodeEffectProps>);
+      return explode(effectProps as Partial<ExplodeEffectProps>);
     default:
-      return { ...DEFAULT_VERTEX_EFFECT, pointName };
+      return { ...DEFAULT_VERTEX_EFFECT };
   }
 };

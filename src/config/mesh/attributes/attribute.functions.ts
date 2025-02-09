@@ -10,7 +10,7 @@ export const getVertices = (geometry: BufferGeometry) =>
   geometry.getAttribute("position").array;
 
 export const getNormals = (geometry: BufferGeometry) =>
-  geometry.getAttribute("normal");
+  geometry.getAttribute("normal").array;
 
 export const getVertexArray = (geometry: BufferGeometry): number[] => {
   const vertices = getVertices(geometry);

@@ -3,12 +3,10 @@ import {
   ImageVertexEffect,
   ShaderFunction,
 } from "../../../types";
-import { VERTEX_EFFECT_POINT_NAMES } from "../../vertexEffects.consts";
 import { mergeUniformConfigs } from "../../../shader-properties/uniforms/helpers/mergeUniformConfigs";
 import { mergeVaryingConfigs } from "../../../shader-properties/varyings/helpers/mergeVaryingConfigs";
 import { reduceFunctions } from "../../../helpers/reduceFunctions";
 import { mergeAttributeConfigs } from "../../../shader-properties/attributes/helpers/mergeAttributeConfigs";
-import { generateUniquePointName } from "../../../helpers/generateUniquePointName";
 import { imageVertexEffectTransform } from "./imageVertexEffectTransform";
 import { formatVertexParameters } from "../../../helpers/formatVertexParameters";
 import {
@@ -19,33 +17,19 @@ import {
   IMAGE_VERTEX_VARYING_CONFIG,
 } from "./imageVertexEffects.consts";
 
-export const imageVertexEffect = (
-  previousPointName: string,
-  effectProps: Partial<ImageVertexEffect>
-) => {
+export const imageVertexEffect = (effectProps: Partial<ImageVertexEffect>) => {
   const imageVertexEffectProps = formatVertexParameters(
     effectProps as ImageVertexEffect,
     DEFAULT_IMAGE_VERTEX_EFFECT_PROPS as ImageVertexEffect
   ) as ImageVertexEffect;
 
-  const pointName = generateUniquePointName(
-    VERTEX_EFFECT_POINT_NAMES.IMAGE_VERTEX_POINT,
-    imageVertexEffectProps.pointParent
-  );
-  console.log(imageVertexEffectProps);
   const {
     transformation,
     effectUniforms,
     effectVaryings,
-    effectPointName,
     effectFunctions,
     effectAttributes,
-    vertexPointInstantiation,
-  } = imageVertexEffectTransform(
-    pointName,
-    previousPointName,
-    imageVertexEffectProps
-  );
+  } = imageVertexEffectTransform(imageVertexEffectProps);
 
   const uniformConfig = IMAGE_VERTEX_UNIFORM_CONFIG;
   const varyingConfig = IMAGE_VERTEX_VARYING_CONFIG;
@@ -74,7 +58,5 @@ export const imageVertexEffect = (
     attributeConfig: mergedAttributeConfigs,
     transformation,
     varyingConfig: mergedVaryingConfigs,
-    pointName: effectPointName,
-    vertexPointInstantiation,
   };
 };

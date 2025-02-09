@@ -11,7 +11,7 @@ import { mergeAttributeConfigs } from "../shader-properties/attributes/helpers/m
 import { mergeUniformConfigs } from "../shader-properties/uniforms/helpers/mergeUniformConfigs";
 import { mergeVaryingConfigs } from "../shader-properties/varyings/helpers/mergeVaryingConfigs";
 import { getVertexEffect } from "./effects/getVertexEffect";
-import { VERTEX_EFFECT_POINT_NAMES } from "./vertexEffects.consts";
+import { VERTEX_POINT_NAME } from "./vertexEffects.consts";
 import { mergeStructConfigs } from "../shader-properties/structs/mergeStructConfigs";
 
 export const setUpVertexEffects = (vertexEffects: VertexEffectConfig[]) => {
@@ -19,13 +19,12 @@ export const setUpVertexEffects = (vertexEffects: VertexEffectConfig[]) => {
     uniformConfigs,
     varyingConfigs,
     transformations,
-    previousPointName,
     requiredFunctions,
     attributeConfigs,
     structConfigs,
   } = getVertexTransformations(vertexEffects);
 
-  const viewMatrix = `gl_Position = projectionMatrix * modelViewMatrix * vec4(${previousPointName}.xyz, 1.0);`;
+  const viewMatrix = `gl_Position = projectionMatrix * modelViewMatrix * vec4(${VERTEX_POINT_NAME}.xyz, 1.0);`;
 
   return {
     uniformConfigs,
@@ -33,14 +32,12 @@ export const setUpVertexEffects = (vertexEffects: VertexEffectConfig[]) => {
     transformations,
     requiredFunctions,
     viewMatrix,
-    previousPointName,
     attributeConfigs,
     structConfigs,
   };
 };
 
 const getVertexTransformations = (vertexEffects: VertexEffectConfig[]) => {
-  let previousPointName = VERTEX_EFFECT_POINT_NAMES.DEFAULT_POINT;
   const unmergedUniformConfigs: UniformConfig[] = [];
   const unmergedVaryingConfigs: VaryingConfig[][] = [];
   const unmergedTransformations: string[] = [];
@@ -52,12 +49,11 @@ const getVertexTransformations = (vertexEffects: VertexEffectConfig[]) => {
       uniformConfig,
       varyingConfig,
       transformation,
-      pointName,
       requiredFunctions,
       attributeConfig = [],
       structConfigs = [],
-    } = getVertexEffect(effect, previousPointName);
-    previousPointName = pointName;
+    } = getVertexEffect(effect);
+
     unmergedUniformConfigs.push(uniformConfig);
     unmergedVaryingConfigs.push(varyingConfig);
     unmergedAttributeConfigs.push(attributeConfig);
@@ -78,7 +74,7 @@ const getVertexTransformations = (vertexEffects: VertexEffectConfig[]) => {
     uniformConfigs: mergedUniformConfigs,
     varyingConfigs: mergedVaryingConfigs,
     transformations,
-    previousPointName,
+
     requiredFunctions: mergedRequiredFunction,
     attributeConfigs: mergedAttributeConfigs,
     structConfigs: mergedStructConfigs,

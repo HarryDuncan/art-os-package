@@ -53,8 +53,16 @@ export type RotationEffectProps = EffectParameters & {
   axis: Axis;
 };
 
+export type NoiseTransitionProps = EffectParameters & {
+  noiseType: string;
+  effectStrength: number;
+  noiseUniformName: string;
+};
+
+export type TransitionConfig = NoiseTransitionProps;
 export type MorphEffectProps = {
   morphCount: number;
+  transitionConfig?: TransitionConfig;
   preTransformConfigs: PreTransformConfig[];
 };
 
