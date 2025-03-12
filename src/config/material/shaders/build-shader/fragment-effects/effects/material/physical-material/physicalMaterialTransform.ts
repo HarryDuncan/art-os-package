@@ -1,7 +1,9 @@
-export const physicalMaterialTransform = (
-  fragName: string,
-  _previousFragName: string
-) => {
+import {
+  FRAG_COLOR_NAME,
+  FRAGMENT_COLOR_NAMES,
+} from "../../../fragmentEffects.consts";
+
+export const physicalMaterialTransform = () => {
   const transform = `
     
   	vec4 diffuseColor = vec4( uDiffuse, uOpacity );
@@ -56,9 +58,9 @@ export const physicalMaterialTransform = (
 	vec3 totalSpecular = reflectedLight.directSpecular + reflectedLight.indirectSpecular;
 	vec3 outgoingLight = totalDiffuse + totalSpecular + totalEmissiveRadiance;
     diffuseColor.a = 0.2;
-    vec4 ${fragName} = vec4( outgoingLight, diffuseColor.a );
-    ${fragName}.rgb = linearToneMapping( ${fragName}.rgb ,uToneMappingExposure);
-   ${fragName} = linearTosRGB( ${fragName} );
+    ${FRAG_COLOR_NAME} = vec4( outgoingLight, diffuseColor.a );
+    ${FRAG_COLOR_NAME}.rgb = linearToneMapping( ${FRAG_COLOR_NAME}.rgb ,uToneMappingExposure);
+   ${FRAG_COLOR_NAME} = linearTosRGB( ${FRAG_COLOR_NAME} );
     `;
 
   return { transform };

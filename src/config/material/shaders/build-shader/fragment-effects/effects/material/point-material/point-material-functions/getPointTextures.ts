@@ -1,8 +1,8 @@
 import { createColorVectorString } from "../../../../../helpers/createColorVectorString";
 import { PointTexture } from "../../../../../types";
+import { FRAG_COLOR_NAME } from "../../../../fragmentEffects.consts";
 
 export const getPointTexture = (
-  fragName: string,
   pointTextures: PointTexture[],
   effectMaterial?: string
 ) => {
@@ -16,7 +16,7 @@ export const getPointTexture = (
       }){
               vec4 textureColor =  texture2D(${id}, gl_PointCoord);
            
-              ${fragName} = ${formatPointColor(
+              ${FRAG_COLOR_NAME} = ${formatPointColor(
         pointColor,
         effectMaterial
       )} * textureColor ;

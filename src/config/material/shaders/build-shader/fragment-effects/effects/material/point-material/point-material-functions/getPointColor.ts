@@ -1,13 +1,13 @@
-import { DEFAULT_FRAG_COLOR } from "../../../../fragmentEffects.consts";
+import {
+  DEFAULT_FRAG_COLOR,
+  FRAG_COLOR_NAME,
+} from "../../../../fragmentEffects.consts";
 import { createColorVectorString } from "../../../../../helpers/createColorVectorString";
 
-export const getPointColor = (
-  fragName: string,
-  defaultColor: string | undefined
-) => {
+export const getPointColor = (defaultColor: string | undefined) => {
   const defaultColorVector = createColorVectorString(
     defaultColor ?? DEFAULT_FRAG_COLOR,
     true
   );
-  return `vec4 pointColor_${fragName} =  ${defaultColorVector};`;
+  return `${FRAG_COLOR_NAME} =  ${defaultColorVector};`;
 };

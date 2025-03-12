@@ -1,4 +1,5 @@
 import {
+  FRAG_COLOR_INSTANTIATION,
   MAIN_END,
   MAIN_START,
   VERTEX_NORMAL_INSTANTIATION,
@@ -147,6 +148,7 @@ export const formatFragmentShader = (
     varyingDeclaration,
     ...fragmentFunctions.map(({ functionDefinition }) => functionDefinition),
     MAIN_START,
+    FRAG_COLOR_INSTANTIATION,
     fragmentTransformations,
     fragColor,
     MAIN_END,

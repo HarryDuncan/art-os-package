@@ -10,19 +10,18 @@ import {
 import { formatFragmentParameters } from "../../../helpers/formatFragmentParameters";
 
 export const color = (
-  _previousFragName: string,
   effectProps: Partial<ColorFragmentEffectProps>
 ): FragmentEffectData => {
   const formattedEffectProps = formatFragmentParameters(
     effectProps,
     DEFAULT_COLOR_EFFECT_PROPS
   ) as ColorFragmentEffectProps;
-  const fragName = FRAGMENT_COLOR_NAMES.COLOR;
+
   const uniformConfig = DEFAULT_COLOR_UNIFORMS;
   const varyingConfig = DEFAULT_COLOR_VARYINGS;
   const requiredFunctions = DEFAULT_COLOR_FUNCTIONS;
 
-  const transformation = colorTransformation(fragName, formattedEffectProps);
+  const transformation = colorTransformation(formattedEffectProps);
 
   return {
     requiredFunctions,
@@ -30,6 +29,5 @@ export const color = (
     transformation,
     varyingConfig,
     attributeConfig: [],
-    fragName,
   };
 };

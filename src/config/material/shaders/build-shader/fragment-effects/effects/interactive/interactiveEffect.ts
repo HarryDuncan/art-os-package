@@ -12,17 +12,12 @@ import { DEFAULT_INTERACTIVE_EFFECT } from "./interactiveEffect.consts";
 import { getInteractiveEffectTransform } from "./interactiveEffectTransform";
 
 export const getInteractiveEffects = (
-  previousFragName: string,
   effectProps: Partial<InteractiveFragmentEffect>
 ) => {
   const effectParams = formatFragmentParameters(
     effectProps,
     DEFAULT_INTERACTIVE_EFFECT
   ) as InteractiveFragmentEffect;
-  const fragName = generateUniquePointName(
-    FRAGMENT_COLOR_NAMES.INTERACTIVE,
-    POINT_PARENTS.INTERACTIVE
-  );
 
   const {
     uniformConfig: effectUniforms,
@@ -30,8 +25,7 @@ export const getInteractiveEffects = (
     transformation,
     requiredFunctions: effectFunctions,
     attributeConfig: effectAttributes,
-    fragmentColorInstantiation,
-  } = getInteractiveEffectTransform(fragName, previousFragName, effectParams);
+  } = getInteractiveEffectTransform(effectParams);
 
   const mergedUniformConfigs = mergeUniformConfigs([effectUniforms]);
   const mergedVaryingConfigs = mergeVaryingConfigs([effectVaryings]);
@@ -43,7 +37,5 @@ export const getInteractiveEffects = (
     transformation,
     varyingConfig: mergedVaryingConfigs,
     attributeConfig: mergedAttributeConfigs,
-    fragName,
-    fragmentColorInstantiation,
   };
 };

@@ -6,9 +6,7 @@ import {
 } from "./imageAsMask.consts";
 import { imageAsMaskTransform } from "./imageAsMaskTransform";
 
-export const imageAsMask = (previousFragName: string, _effectProps = {}) => {
-  const fragName = previousFragName;
-
+export const imageAsMask = (_effectProps = {}) => {
   const { transform } = imageAsMaskTransform();
 
   const mergedUniformConfigs = IMAGE_AS_MASK_UNIFORMS;
@@ -22,6 +20,5 @@ export const imageAsMask = (previousFragName: string, _effectProps = {}) => {
     transformation: transform,
     varyingConfig: mergedVaryings,
     attributeConfig: mergedAttributes,
-    fragName,
   };
 };

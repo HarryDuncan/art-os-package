@@ -1,3 +1,5 @@
+export const FRAG_COLOR_NAME = "currentFragColor";
+
 export const FRAGMENT_EFFECT = {
   DEFAULT: "DEFAULT",
   EMPTY: "EMPTY",

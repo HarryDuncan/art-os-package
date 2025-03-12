@@ -1,4 +1,6 @@
-export const phongTransform = (fragName: string, _previousFragName: string) => {
+import { FRAG_COLOR_NAME } from "../../../fragmentEffects.consts";
+
+export const phongTransform = () => {
   const transformation = `
   vec3 N = normalize(vNormalInterpolation);
   vec3 L = normalize(uLightPosition - vPosition);
@@ -13,7 +15,7 @@ export const phongTransform = (fragName: string, _previousFragName: string) => {
     float specAngle = max(dot(R, V), 0.0);
     specular = pow(specAngle, uShininess);
   }
-  vec4 ${fragName} = vec4(uAmbientReflection * uAmbientColor +
+  ${FRAG_COLOR_NAME} = vec4(uAmbientReflection * uAmbientColor +
                       uDiffuseReflection * lambertian * uDiffuseColor +
                       uSpecularReflection * specular * uSpecularColor, 1.0);
 

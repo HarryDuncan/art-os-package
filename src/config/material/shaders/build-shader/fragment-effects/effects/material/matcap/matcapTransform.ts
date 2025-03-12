@@ -1,22 +1,19 @@
 import { MaterialEffectProps } from "../../../../types";
+import { FRAG_COLOR_NAME } from "../../../fragmentEffects.consts";
 
-export const matcapTransform = (
-  fragName: string,
-  _previousFragName: string,
-  _matcapEffectProps: MaterialEffectProps
-) => {
+export const matcapTransform = (_matcapEffectProps: MaterialEffectProps) => {
   const matcapType = "MESH";
-  const { transform } = getEffectData(fragName, matcapType);
+  const { transform } = getEffectData(matcapType);
 
   return { transform };
 };
 
-const getEffectData = (fragName: string, matcapType: string) => {
+const getEffectData = (matcapType: string) => {
   switch (matcapType) {
     case "TEXTURED_POINT":
       return {
         transform: `  vec4 matcapColor = texture2D(uMaterial, gl_PointCoord);
-        vec4 ${fragName} = vec4( matcapColor.rgb, 0.0);`,
+        ${FRAG_COLOR_NAME} = vec4( matcapColor.rgb, 0.0);`,
       };
     case "POINT":
       return {
@@ -26,7 +23,7 @@ const getEffectData = (fragName: string, matcapType: string) => {
                       float m = 20.8284271247461903 * sqrt(reflection.z + 1.0);
                       vec2 matcapUV = reflection.xy / m + 0.5;
                       vec4 matcapColor = texture2D(uMaterial, matcapUV );
-                    vec4 ${fragName} = vec4( matcapColor.rgb, 1.0);`,
+                      ${FRAG_COLOR_NAME} = vec4( matcapColor.rgb, 1.0);`,
       };
     case "MESH":
     default:
@@ -37,7 +34,7 @@ const getEffectData = (fragName: string, matcapType: string) => {
           vec3 y = cross( vEye, x );
           vec2 uv = vec2( dot( x, newNormal ), dot( y, newNormal ) ) * 0.495 + 0.5;
           vec4 matcapColor = texture2D(uMaterial, uv);
-          vec4 ${fragName} = vec4( matcapColor.rgb, 1.0);`,
+          ${FRAG_COLOR_NAME} = vec4( matcapColor.rgb, 1.0);`,
       };
   }
 };

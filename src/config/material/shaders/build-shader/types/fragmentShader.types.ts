@@ -72,8 +72,6 @@ export interface FragmentEffectData {
   varyingConfig: VaryingConfig[];
   attributeConfig: AttributeConfig[];
   transformation: string;
-  fragName: string;
-  fragmentColorInstantiation?: string;
   structConfigs?: StructConfig[];
 }
 

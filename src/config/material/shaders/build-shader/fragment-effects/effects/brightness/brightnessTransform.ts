@@ -1,17 +1,13 @@
 import { BrightnessFragmentEffectProps } from "../../../types";
+import { FRAG_COLOR_NAME } from "../../fragmentEffects.consts";
 
 export const brightnessTransform = (
-  fragName: string,
-  previousFragName: string,
   brightnessParameters: BrightnessFragmentEffectProps
 ) => {
-  const { declareInTransform } = brightnessParameters;
-  const fragmentColorInstantiation = `vec4 ${fragName} = ${previousFragName};`;
   const transformation = `
         // BRIGHTNESS
-        ${declareInTransform ? fragmentColorInstantiation : ""}
-        vec4 brightnessColor = ${fragName} * uBrightness;
-        ${fragName} = ${fragName} * brightnessColor;
+
+        ${FRAG_COLOR_NAME} = ${FRAG_COLOR_NAME} * uBrightness;
       `;
-  return { fragmentColorInstantiation, transformation };
+  return { transformation };
 };

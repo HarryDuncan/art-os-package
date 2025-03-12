@@ -6,12 +6,12 @@ import { FragmentEffectConfig, ShaderFunction, StructConfig } from "../types";
 import { reduceFunctions } from "../helpers/reduceFunctions";
 import { mergeAttributeConfigs } from "../shader-properties/attributes/helpers/mergeAttributeConfigs";
 import { mergeStructConfigs } from "../shader-properties/structs/mergeStructConfigs";
+import { FRAG_COLOR_NAME } from "./fragmentEffects.consts";
 
 export const setUpFragmentEffects = (
   fragmentEffects: FragmentEffectConfig[]
 ) => {
   const {
-    finalFragmentColor,
     varyingConfigs,
     uniformConfigs,
     transformations,
@@ -20,7 +20,7 @@ export const setUpFragmentEffects = (
     structConfigs,
   } = getFragmentColors(fragmentEffects);
 
-  const fragColor = `gl_FragColor = ${finalFragmentColor};`;
+  const fragColor = `gl_FragColor = ${FRAG_COLOR_NAME};`;
   return {
     fragColor,
     varyingConfigs,
@@ -33,7 +33,6 @@ export const setUpFragmentEffects = (
 };
 
 export const getFragmentColors = (fragmentEffects: FragmentEffectConfig[]) => {
-  let currentFragmentColorName = "fragColor";
   const {
     unmergedVaryingConfigs,
     unmergedUniformConfigs,
@@ -47,18 +46,17 @@ export const getFragmentColors = (fragmentEffects: FragmentEffectConfig[]) => {
       varyingConfig,
       uniformConfig,
       transformation,
-      fragName,
+
       requiredFunctions,
       attributeConfig,
       structConfigs = [],
-    } = getFragmentEffects(effect, currentFragmentColorName);
+    } = getFragmentEffects(effect);
     unmergedVaryingConfigs.push(varyingConfig);
     unmergedUniformConfigs.push(uniformConfig);
     unmergedAttributeConfigs.push(attributeConfig);
     unmergedTransformations.push(transformation);
     unmergedStructConfigs.push(structConfigs);
     allRequiredFunctions.push(requiredFunctions);
-    currentFragmentColorName = fragName;
   });
 
   const mergedUniformConfigs = mergeUniformConfigs(unmergedUniformConfigs);
@@ -70,7 +68,6 @@ export const getFragmentColors = (fragmentEffects: FragmentEffectConfig[]) => {
   const mergedStructConfigs = mergeStructConfigs(unmergedStructConfigs);
   const mergedTransformations = unmergedTransformations.join("");
   return {
-    finalFragmentColor: currentFragmentColorName,
     varyingConfigs: mergedVaryingConfigs,
     uniformConfigs: mergedUniformConfigs,
     transformations: mergedTransformations,

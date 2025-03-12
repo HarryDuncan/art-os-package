@@ -14,20 +14,9 @@ import { phongTransform } from "./phongTransform";
 import { mergeUniformConfigs } from "../../../../shader-properties/uniforms/helpers/mergeUniformConfigs";
 
 export const phongMaterial = (
-  previousFragName: string,
   effectProps: Partial<PhongFragmentEffectProps> = {}
 ): FragmentEffectData => {
-  const fragName = generateUniqueFragName(
-    FRAGMENT_COLOR_NAMES.MATERIAL,
-    effectProps.pointParent
-  );
-
-  // const formattedProps = formatFragmentParameters(
-  //   effectProps,
-  //   DEFAULT_PHONG_EFFECT_PROPS
-  // ) as PhongFragmentEffectProps;
-
-  const { transformation } = phongTransform(fragName, previousFragName);
+  const { transformation } = phongTransform();
   const uniformConfig = mergeUniformConfigs([DEFAULT_PHONG_UNIFORMS]);
   const varyingConfig = PHONG_VARYINGS;
   const requiredFunctions = PHONG_REQUIRED_FUNCTIONS;
@@ -38,6 +27,5 @@ export const phongMaterial = (
     transformation,
     varyingConfig,
     attributeConfig: [],
-    fragName,
   };
 };

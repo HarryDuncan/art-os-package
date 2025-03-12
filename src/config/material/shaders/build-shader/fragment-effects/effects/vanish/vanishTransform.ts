@@ -1,17 +1,16 @@
 import { shaderSafeFloat } from "../../../../../../../utils/conversion/shaderConversions";
 import { VanishFragmentEffectProps } from "../../../types";
+import { FRAG_COLOR_NAME } from "../../fragmentEffects.consts";
 
 export const vanishTransform = (
-  fragName: string,
-  previousFragName: string,
   vanishParameters: VanishFragmentEffectProps
 ) => {
-  const { declareInTransform, numberOfRings, vanishHeight } = vanishParameters;
-  const fragmentColorInstantiation = `vec4 ${fragName} = ${previousFragName};`;
+  const { numberOfRings, vanishHeight } = vanishParameters;
+
   const transformation = `
 
         // VANISH
-        ${declareInTransform ? fragmentColorInstantiation : ""}
+     
         vec3 location = vec3(vPosition * uNoise * 32.0 + uTime);
         float pattern = simplePerlinNoise(location) * uDisplacement;
     
@@ -29,9 +28,9 @@ export const vanishTransform = (
         }
         vec3 col = vec3(simplePerlinNoise(vec3(1.0 - newPosition.z * ${
           numberOfRings ? shaderSafeFloat(numberOfRings) : "uNumberOfRings"
-        })) * 0.0)  * ${fragName}.xyz * brightness;
-        ${fragName}  = vec4(${fragName}.xyz + clamp(col, vec3(0.0), vec3(1.0)), 1.0);
+        })) * 0.0)  * ${FRAG_COLOR_NAME}.xyz * brightness;
+        ${FRAG_COLOR_NAME}  = vec4(${FRAG_COLOR_NAME}.xyz + clamp(col, vec3(0.0), vec3(1.0)), 1.0);
     
       `;
-  return { fragmentColorInstantiation, transformation };
+  return { transformation };
 };

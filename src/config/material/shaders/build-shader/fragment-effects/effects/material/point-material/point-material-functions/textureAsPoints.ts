@@ -1,5 +1,6 @@
-export const textureAsPoints = (_fragName: string, _effectProps: unknown) => {
-  const effectFragName = "textureAsPointFrag";
+import { FRAG_COLOR_NAME } from "../../../../fragmentEffects.consts";
+
+export const textureAsPoints = (_effectProps: unknown) => {
   const transformation = `
         vec4 color = vec4(0.0);
 	vec2 uv = vUv;
@@ -21,7 +22,7 @@ export const textureAsPoints = (_fragName: string, _effectProps: unknown) => {
 	// final color
 	color = colB;
 	color.a = t;
-    vec4 ${effectFragName} = color;
+    ${FRAG_COLOR_NAME} = color;
     `;
-  return { transformation, fragName: effectFragName };
+  return { transformation };
 };

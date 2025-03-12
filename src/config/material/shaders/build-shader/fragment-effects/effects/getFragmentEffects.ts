@@ -26,64 +26,35 @@ import { triggeredEffect } from "./triggered-effect/triggeredEffect";
 import { vanishEffect } from "./vanish/vanish";
 
 export const getFragmentEffects = (
-  effect: FragmentEffectConfig,
-  previousFragName: string
+  effect: FragmentEffectConfig
 ): FragmentEffectData => {
   const { effectType, effectProps } = effect;
   switch (effectType) {
     case FRAGMENT_EFFECT.OPACITY:
-      return opacity(
-        previousFragName,
-        effectProps as Partial<OpacityFragmentEffectProps>
-      );
+      return opacity(effectProps as Partial<OpacityFragmentEffectProps>);
     case FRAGMENT_EFFECT.COLOR:
-      return color(
-        previousFragName,
-        effectProps as Partial<ColorFragmentEffectProps>
-      );
+      return color(effectProps as Partial<ColorFragmentEffectProps>);
     case FRAGMENT_EFFECT.MATCAP:
-      return matcapMaterial(
-        previousFragName,
-        effectProps as Partial<MaterialEffectProps>
-      );
+      return matcapMaterial(effectProps as Partial<MaterialEffectProps>);
     case FRAGMENT_EFFECT.POINT_MATERIAL:
-      return pointMaterial(
-        previousFragName,
-        effectProps as Partial<MaterialEffectProps>
-      );
+      return pointMaterial(effectProps as Partial<MaterialEffectProps>);
     case FRAGMENT_EFFECT.PHONG:
-      return phongMaterial(
-        previousFragName,
-        effectProps as Partial<PhongFragmentEffectProps>
-      );
+      return phongMaterial(effectProps as Partial<PhongFragmentEffectProps>);
     case FRAGMENT_EFFECT.PHYSICAL_MATERIAL:
-      return physicalMaterial(
-        previousFragName,
-        effectProps as Partial<PhysicalMaterialProps>
-      );
+      return physicalMaterial(effectProps as Partial<PhysicalMaterialProps>);
     case FRAGMENT_EFFECT.INTERACTIVE:
       return getInteractiveEffects(
-        previousFragName,
         effectProps as Partial<InteractiveFragmentEffect>
       );
     case FRAGMENT_EFFECT.IMAGE_AS_MASK:
-      return imageAsMask(previousFragName);
+      return imageAsMask();
     case FRAGMENT_EFFECT.VANISH:
-      return vanishEffect(
-        previousFragName,
-        effectProps as Partial<VanishFragmentEffectProps>
-      );
+      return vanishEffect(effectProps as Partial<VanishFragmentEffectProps>);
     case FRAGMENT_EFFECT.TRIGGERED: {
-      return triggeredEffect(
-        previousFragName,
-        effectProps as Partial<TriggeredFragmentEffect>
-      );
+      return triggeredEffect(effectProps as Partial<TriggeredFragmentEffect>);
     }
     case FRAGMENT_EFFECT.BRIGHTNESS: {
-      return brightness(
-        previousFragName,
-        effectProps as Partial<BrightnessFragmentEffectProps>
-      );
+      return brightness(effectProps as Partial<BrightnessFragmentEffectProps>);
     }
     case FRAGMENT_EFFECT.DEFAULT:
     default:

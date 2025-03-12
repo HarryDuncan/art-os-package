@@ -37,10 +37,7 @@ export type ShaderFunction = {
   functionDefinition: string;
 };
 
-export type EffectParameters = {
-  declareInTransform?: boolean;
-  pointParent?: PointParent;
-};
+export type EffectParameters = {};
 
 export type PointParent = keyof typeof POINT_PARENTS;
 

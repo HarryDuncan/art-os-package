@@ -13,6 +13,7 @@ export const VideoStreamNode = ({
     state: { initializedScene },
   } = useSceneContext();
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const textureRef = useRef<Texture | null>(null);
 
   const setFrameAsUniform = useCallback(
     (canvas: HTMLCanvasElement) => {
@@ -23,8 +24,29 @@ export const VideoStreamNode = ({
         );
 
         if (animatedObjects && animatedObjects.length) {
-          const texture = new Texture(canvas); // Create texture from the canvas
-          texture.needsUpdate = true; // Mark texture as needing an update
+          const offscreenCanvas = document.createElement("canvas");
+          const ctx = offscreenCanvas.getContext("2d");
+
+          if (!ctx) return;
+
+          // Swap width and height for 90-degree rotation
+          offscreenCanvas.width = canvas.height;
+          offscreenCanvas.height = canvas.width;
+
+          // Apply rotation transformation
+          //  ctx.translate(offscreenCanvas.width / 2, offscreenCanvas.height / 2);
+          //  ctx.rotate(Math.PI / 2); // 90 degrees
+          //  ctx.drawImage(canvas, -canvas.width / 2, -canvas.height / 2);
+
+          // Dispose of the previous texture
+          if (textureRef.current) {
+            textureRef.current.dispose();
+            textureRef.current = null;
+          }
+
+          // Create a new texture from the rotated offscreen canvas
+          const texture = new Texture(canvas);
+          texture.needsUpdate = true;
           if (animatedObjects[0].material.uniforms[uniformValue]) {
             animatedObjects[0].material.uniforms[uniformValue].value = texture;
           }
@@ -61,13 +83,14 @@ export const VideoStreamNode = ({
     };
   }, [src, setFrameAsUniform]);
 
-  return (
-    <canvas
-      id="video-stream"
-      ref={canvasRef}
-      width={640}
-      height={360}
-      style={{ width: "100%", border: "1px solid #ccc" }}
-    />
-  );
+  // Cleanup when component unmounts
+  useEffect(() => {
+    return () => {
+      if (textureRef.current) {
+        textureRef.current.dispose();
+        textureRef.current = null;
+      }
+    };
+  }, []);
+  return <canvas id="video-stream" ref={canvasRef} width={360} height={640} />;
 };

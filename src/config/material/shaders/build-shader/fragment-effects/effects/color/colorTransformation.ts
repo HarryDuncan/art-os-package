@@ -1,15 +1,13 @@
 import { ColorFragmentEffectProps } from "../../../types";
 import { createColorVectorString } from "../../../helpers/createColorVectorString";
+import { FRAG_COLOR_NAME } from "../../fragmentEffects.consts";
 
-export const colorTransformation = (
-  colorName: string,
-  effectProps: ColorFragmentEffectProps
-) => {
+export const colorTransformation = (effectProps: ColorFragmentEffectProps) => {
   const colorAsVector = createColorVectorString(
     effectProps.color,
     !!effectProps.opacity
   );
   return `
-        vec4 ${colorName} = ${colorAsVector};
+       ${FRAG_COLOR_NAME} = ${colorAsVector};
         `;
 };

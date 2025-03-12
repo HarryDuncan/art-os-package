@@ -1,6 +1,4 @@
 import { FragmentEffectData, MaterialEffectProps } from "../../../../types";
-import { FRAGMENT_COLOR_NAMES } from "../../../fragmentEffects.consts";
-import { generateUniqueFragName } from "../../../../helpers/generateUniqueFragName";
 import { physicalMaterialTransform } from "./physicalMaterialTransform";
 import {
   PHYSICAL_MATERIAL_REQUIRED_FUNCTIONS,
@@ -10,20 +8,9 @@ import {
 } from "./physicalMaterial.consts";
 
 export const physicalMaterial = (
-  previousFragName: string,
   effectProps: Partial<MaterialEffectProps> = {}
 ): FragmentEffectData => {
-  const fragName = generateUniqueFragName(
-    FRAGMENT_COLOR_NAMES.PHYSICAL_MATERIAL,
-    effectProps.pointParent
-  );
-
-  //   const formattedProps = formatFragmentParameters(
-  //     effectProps,
-  //     DEFAULT_PHYSICAL_MATERIAL_EFFECT_PROPS
-  //   ) as MaterialEffectProps;
-
-  const { transform } = physicalMaterialTransform(fragName, previousFragName);
+  const { transform } = physicalMaterialTransform();
   const uniformConfig = PHYSICAL_MATERIAL_UNIFORM_CONFIG;
   const varyingConfig = PHYSICAL_MATERIAL_VARYING_CONFIG;
   const requiredFunctions = PHYSICAL_MATERIAL_REQUIRED_FUNCTIONS;
@@ -34,7 +21,7 @@ export const physicalMaterial = (
     transformation: transform,
     varyingConfig,
     attributeConfig: [],
-    fragName,
+
     structConfigs,
   };
 };
