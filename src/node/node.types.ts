@@ -1,4 +1,4 @@
-import { EventConfig } from "../interaction/interactions.types";
+import { EventConfig } from "../interaction/interaction.types";
 import {
   InteractiveSceneFunctions,
   SceneInteraction,

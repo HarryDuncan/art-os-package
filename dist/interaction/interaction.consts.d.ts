@@ -33,6 +33,11 @@ export declare const EVENT_BIND_TYPES: {
 export declare const EVENT_TYPES: {
     KEYDOWN: string;
     KEYPRESS: string;
+    MOUSE_MOVE: string;
+    MOUSE_DOWN: string;
+    MOUSE_UP: string;
+    MOUSE_ENTER: string;
+    MOUSE_LEAVE: string;
 };
 export declare const KEY_CODES: {
     backspace: number;

@@ -1,5 +1,5 @@
 import { InteractiveSceneFunctions, SceneInteraction } from "./InteractiveScene";
-import { EventConfig } from "../../interaction/interactions.types";
+import { EventConfig } from "../../interaction/interaction.types";
 import { AnimationConfig } from "../../animation/animation.types";
 import { Object3D } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";

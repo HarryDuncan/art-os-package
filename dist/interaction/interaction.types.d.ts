@@ -1,5 +1,5 @@
 import { Scene } from "three";
-import { EVENT_BINDING_TYPE, EVENT_BIND_TYPES, KEYS } from "./interactions.consts";
+import { EVENT_BINDING_TYPE, EVENT_BIND_TYPES, KEYS } from "./interaction.consts";
 export type InteractionEventBinding = keyof typeof EVENT_BINDING_TYPE;
 export type InteractionConfig = {
     eventKey: string;
@@ -20,7 +20,7 @@ export type InteractionEvent = Event & {
 export interface EventConfig {
     eventKey: string;
     eventFunction: (scene: Scene, event: Event) => void;
-    sceneIdentifer?: string;
+    sceneIdentifier?: string;
 }
 export type BindType = typeof EVENT_BIND_TYPES;
 export type BindTypeKey = keyof BindType;

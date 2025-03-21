@@ -2,7 +2,7 @@ import {
   EventConfig,
   InteractionConfig,
   InteractionEvent,
-} from "../../interaction/interactions.types";
+} from "../../interaction/interaction.types";
 import { Clock, Scene } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { AnimationManager } from "../../animation/animation-manager/AnimationManager";

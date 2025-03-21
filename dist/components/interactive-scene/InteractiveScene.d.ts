@@ -1,4 +1,4 @@
-import { EventConfig, InteractionConfig } from "../../interaction/interactions.types";
+import { EventConfig, InteractionConfig } from "../../interaction/interaction.types";
 import { Clock, Scene } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { AnimationManager } from "../../animation/animation-manager/AnimationManager";
