@@ -2,7 +2,7 @@
   "name": "art-os-package",
   "version": "1.0.1",
   "description": "Reusable visuals",
-  "main": "src/index.tsx",
+  "main": "dist/index.js",
   "scripts": {
     "lint": "npx eslint src",
     "test": "vitest",
