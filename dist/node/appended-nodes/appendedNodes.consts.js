@@ -1,0 +1,3 @@
+export const APPENDED_NODE_TYPES = {
+    VIDEO_STREAM: "VIDEO_STREAM",
+};
