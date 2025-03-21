@@ -10,10 +10,6 @@ import { InteractiveScene } from "./components/interactive-scene/InteractiveScen
 import { startSceneElementAnimations } from "./animation/animation-manager/startSceneElementAnimations";
 import { useSetWindowState } from "./compat/window-state/useSetWindowState";
 import { useSceneFunctions } from "./hooks/useSceneFunctions";
-import * as AnimationTypes from "./animation/animation.types";
-import * as AssetTypes from "./assets/asset.types";
-import * as ConfigTypes from "./config/config.types";
-import * as NodeTypes from "./node/node.types";
 
 export { useAssets };
 export { WindowStateProvider };
@@ -27,7 +23,7 @@ export { useKeyListener };
 export { InteractiveScene };
 export { startSceneElementAnimations };
 export { useSetWindowState };
-export { AnimationTypes };
-export { AssetTypes };
-export { ConfigTypes };
-export { NodeTypes };
+export * from "./animation/animation.types";
+export * from "./assets/asset.types";
+export * from "./config/config.types";
+export * from "./node/node.types";
