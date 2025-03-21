@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
     "lib": ["dom", "dom.iterable", "esnext"],
-
     "target": "ES2015",
     "module": "ESNext",
     "moduleResolution": "node",
@@ -10,9 +9,7 @@
     "skipLibCheck": true,
     "jsx": "react-jsx",
     "resolveJsonModule": true,
-    "outExtension": {
-      ".js": ".mjs"
-    }
+    "declaration": true
   },
   "include": ["src", "**/*.tsx"],
   "exclude": ["src/test-utils/*", "**/*.spec.ts", "**/__tests__", "/dist"]
