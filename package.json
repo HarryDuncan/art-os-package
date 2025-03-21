@@ -3,10 +3,12 @@
   "version": "1.0.1",
   "description": "Reusable visuals",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "lint": "npx eslint src",
     "test": "vitest",
-    "build": "tsc "
+    "build": "tsc --declaration --emitDeclarationOnly && tsc --emitDeclarationOnly false",
+    "prepare": "npm run build"
   },
   "files": [
     "dist"
