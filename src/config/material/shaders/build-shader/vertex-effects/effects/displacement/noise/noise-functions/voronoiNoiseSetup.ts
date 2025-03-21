@@ -1,5 +1,6 @@
 import { orthogonal } from "../../../../../shader-properties/functions/maths/maths";
 import { voronoiNoise } from "../../../../../shader-properties/functions/noise/voronoiNoise";
+
 import { VERTEX_POINT_NAME } from "../../../../vertexEffects.consts";
 import { VORONOI_UNIFORMS } from "../noise.consts";
 

@@ -8,10 +8,7 @@ import { reduceFunctions } from "../../../helpers/reduceFunctions";
 import { mergeAttributeConfigs } from "../../../shader-properties/attributes/helpers/mergeAttributeConfigs";
 import { mergeUniformConfigs } from "../../../shader-properties/uniforms/helpers/mergeUniformConfigs";
 import { mergeVaryingConfigs } from "../../../shader-properties/varyings/helpers/mergeVaryingConfigs";
-import {
-  FRAGMENT_COLOR_NAMES,
-  FRAGMENT_EFFECT,
-} from "../../fragmentEffects.consts";
+import { FRAG_COLOR_NAME, FRAGMENT_EFFECT } from "../../fragmentEffects.consts";
 import { color } from "../color/color";
 import { defaultFragmentEffect } from "../defaultFragmentEffect/defaultFragmentEffect";
 
@@ -19,19 +16,17 @@ export const getInteractiveEffects = (
   transformName: string,
   effectProps: InteractiveFragmentEffect
 ) => {
-  const fragName = FRAGMENT_COLOR_NAMES.INTERACTIVE;
-
   const {
     uniformConfig: effectUniforms,
     varyingConfig: effectVaryings,
     transformation: effectTransformation,
-    fragName: effectPointName,
+
     requiredFunctions: effectFunctions,
     attributeConfig: effectAttributes,
-  } = getEffectData(fragName, effectProps);
+  } = getEffectData(effectProps);
 
   const transformation = `
-        vec4 ${effectPointName} = ${transformName};
+        vec4 ${FRAG_COLOR_NAME} = ${transformName};
       
         if(vAffected == 1.0){
             ${effectTransformation};
@@ -48,18 +43,16 @@ export const getInteractiveEffects = (
     transformation,
     varyingConfig: mergedVaryingConfigs,
     attributeConfig: mergedAttributeConfigs,
-    fragName: effectPointName,
   };
 };
 
 const getEffectData = (
-  pointName: string,
   interactiveEffectProps: InteractiveEffectProps
 ): FragmentEffectData => {
   const { effectType, effectProps } = interactiveEffectProps;
   switch (effectType) {
     case FRAGMENT_EFFECT.COLOR:
-      return color(pointName, effectProps as Partial<ColorFragmentEffectProps>);
+      return color(effectProps as Partial<ColorFragmentEffectProps>);
     default:
       console.warn(`No interactive effect configured for ${effectProps}`);
       return defaultFragmentEffect();

@@ -33,13 +33,10 @@ export const triggeredEffectTransform = (
   };
 };
 
-const formatTransform = (
-  fragmentColorInstantiation: string | undefined,
-  transform: string
-) => {
+const formatTransform = (transform: string) => {
   return `// TRIGGERED FRAG
            
-              ${fragmentColorInstantiation ?? ""}
+           
               float isTriggered = 0.0;
               if(uIsTriggered >= 1.0){
                   ${transform}
@@ -67,6 +64,6 @@ const getEffectData = (
     case FRAGMENT_EFFECT.EMPTY:
     default:
       console.warn(`No interactive effect configured for ${effectProps}`);
-      return defaultFragmentEffect(effectProps);
+      return defaultFragmentEffect();
   }
 };

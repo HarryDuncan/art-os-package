@@ -11,10 +11,7 @@ import {
   TriggeredVertexEffect,
   VertexEffectConfig,
 } from "../../types";
-import {
-  VERTEX_EFFECT_NORMAL_NAMES,
-  VERTEX_EFFECTS,
-} from "../vertexEffects.consts";
+import { VERTEX_EFFECTS } from "../vertexEffects.consts";
 import { VertexEffectData } from "../vertexEffects.types";
 import { cloudEffect } from "./displacement/cloud/cloudTransform";
 import { distortionEffect } from "./displacement/distort/distortionEffect";

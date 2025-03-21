@@ -1,5 +1,4 @@
 import { RotationEffectProps } from "../../../types";
-import { VERTEX_EFFECT_POINT_NAMES } from "../../vertexEffects.consts";
 import { formatVertexParameters } from "../../../helpers/formatVertexParameters";
 import {
   DEFAULT_ROTATION_EFFECT_CONFIG,
@@ -7,7 +6,6 @@ import {
   ROTATION_VARYINGS,
 } from "./rotation.consts";
 import { VertexEffectData } from "../../vertexEffects.types";
-import { generateUniquePointName } from "../../../helpers/generateUniquePointName";
 import { rotationTransform } from "./rotationTransform";
 
 export const rotationEffect = (

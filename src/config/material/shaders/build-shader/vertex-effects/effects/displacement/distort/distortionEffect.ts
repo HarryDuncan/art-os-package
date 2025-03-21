@@ -1,4 +1,3 @@
-import { VERTEX_EFFECT_POINT_NAMES } from "../../../vertexEffects.consts";
 import { VertexEffectData } from "../../../vertexEffects.types";
 import { distortionTransform } from "./distortionTransform";
 import {
@@ -9,7 +8,6 @@ import {
 } from "./distortion.defaults";
 import { DistortionEffectProps } from "../../../../types/vertexShader.types";
 import { formatVertexParameters } from "../../../../helpers/formatVertexParameters";
-import { generateUniquePointName } from "../../../../helpers/generateUniquePointName";
 import { mergeUniformConfigs } from "../../../../shader-properties/uniforms/helpers/mergeUniformConfigs";
 import { reduceFunctions } from "../../../../helpers/reduceFunctions";
 
@@ -19,7 +17,7 @@ export const distortionEffect = (
   const distortionEffectParameters = formatVertexParameters(
     effectProps,
     DEFAULT_DISTORTION_EFFECT_PARAMETERS
-  ) as DistortionEffectProps;
+  ) as unknown as DistortionEffectProps;
 
   const {
     transformation,

@@ -24,7 +24,7 @@ export const imageAsMask = (effectProps: Partial<ImageToPointsEffectProps>) => {
   const imageAsMaskEffectProps = formatVertexParameters(
     effectProps,
     DEFAULT_IMAGE_AS_MASK_EFFECT_PROPS as ImageToPointsEffectProps
-  ) as ImageAsMaskEffectProps;
+  ) as unknown as ImageAsMaskEffectProps;
 
   const {
     transformation,

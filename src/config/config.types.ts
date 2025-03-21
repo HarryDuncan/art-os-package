@@ -161,7 +161,7 @@ export type ThreeJsParams = {
 
 export type SceneData = {
   threeJsParams: ThreeJsParams;
-  animations?: AnimationConfig[];
+  animationConfig?: AnimationConfig[];
   meshes: Object3D[] | GLTF[];
   sceneComponents: Object3D[];
   lights: SceneLight[];

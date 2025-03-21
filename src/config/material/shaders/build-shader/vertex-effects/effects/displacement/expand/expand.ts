@@ -25,8 +25,7 @@ export const expand = (
 
   const uniformConfig = EXPAND_UNIFORMS as UniformConfig;
   const varyingConfig = EXPAND_VARYINGS;
-  const { transformation, vertexPointInstantiation } =
-    expandTransformation(expandEffectProps);
+  const { transformation } = expandTransformation(expandEffectProps);
   const requiredFunctions = EXPAND_FUNCTIONS;
   const attributeConfig = [] as AttributeConfig[];
 

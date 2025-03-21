@@ -32,7 +32,6 @@ export const pointMaterialTransform = (
 
   const {
     effectTransform,
-    effectFragName,
     effectAttributes,
     effectVaryings,
     effectRequiredFunctions,
@@ -57,7 +56,7 @@ export const pointMaterialTransform = (
 
   return {
     transform,
-    effectFragName,
+
     effectAttributes,
     effectRequiredFunctions,
     effectVaryings,

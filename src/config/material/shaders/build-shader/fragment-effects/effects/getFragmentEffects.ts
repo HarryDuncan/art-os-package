@@ -8,6 +8,7 @@ import {
   OpacityFragmentEffectProps,
   PhongFragmentEffectProps,
   PhysicalMaterialProps,
+  PointMaterialFragmentEffectProps,
   TriggeredFragmentEffect,
   VanishFragmentEffectProps,
 } from "../../types";
@@ -37,7 +38,9 @@ export const getFragmentEffects = (
     case FRAGMENT_EFFECT.MATCAP:
       return matcapMaterial(effectProps as Partial<MaterialEffectProps>);
     case FRAGMENT_EFFECT.POINT_MATERIAL:
-      return pointMaterial(effectProps as Partial<MaterialEffectProps>);
+      return pointMaterial(
+        effectProps as Partial<PointMaterialFragmentEffectProps>
+      );
     case FRAGMENT_EFFECT.PHONG:
       return phongMaterial(effectProps as Partial<PhongFragmentEffectProps>);
     case FRAGMENT_EFFECT.PHYSICAL_MATERIAL:

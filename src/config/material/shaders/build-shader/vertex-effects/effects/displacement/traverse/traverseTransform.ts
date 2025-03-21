@@ -1,9 +1,6 @@
 import { noise3D } from "../../../../../../../../config/material/shaders/build-shader/shader-properties/functions/noise/noise3d";
 import { UniformConfig, VaryingConfig } from "../../../../types";
-import {
-  VERTEX_EFFECT_POINT_NAMES,
-  VERTEX_POINT_NAME,
-} from "../../../vertexEffects.consts";
+import { VERTEX_POINT_NAME } from "../../../vertexEffects.consts";
 import { VertexEffectData } from "../../../vertexEffects.types";
 
 export const distortFunctions = () => [

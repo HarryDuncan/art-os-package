@@ -6,7 +6,6 @@ export const fragmentEffectToEffectData = (
 ) => {
   const {
     attributeConfig,
-    fragName,
     requiredFunctions,
     transformation,
     uniformConfig,
@@ -14,7 +13,6 @@ export const fragmentEffectToEffectData = (
   } = effect;
   return {
     effectAttributes: attributeConfig ?? [],
-    effectFragName: fragName,
     effectTransform: transformation,
     effectRequiredFunctions: requiredFunctions ?? [],
     effectUniforms: uniformConfig ?? EMPTY_UNIFORM_CONFIG,

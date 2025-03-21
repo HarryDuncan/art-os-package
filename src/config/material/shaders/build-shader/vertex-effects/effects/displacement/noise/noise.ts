@@ -18,18 +18,15 @@ export const noise = (
   ) as NoiseEffectProps;
 
   const varyingConfig = NOISE_VARYINGS as VaryingConfig[];
-  const {
-    transformation,
-
-    requiredFunctions,
-    uniformConfig,
-  } = noiseTransform(noiseEffectProps);
+  const { transformation, requiredFunctions, uniformConfig } =
+    noiseTransform(noiseEffectProps);
 
   const attributeConfig = [] as AttributeConfig[];
 
   return {
     attributeConfig,
     requiredFunctions,
+    // @ts-ignore
     uniformConfig,
     transformation,
     varyingConfig,

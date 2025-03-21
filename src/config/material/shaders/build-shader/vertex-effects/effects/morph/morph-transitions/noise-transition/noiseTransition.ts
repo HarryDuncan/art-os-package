@@ -9,7 +9,6 @@ import { reduceFunctions } from "../../../../../helpers/reduceFunctions";
 import { mergeAttributeConfigs } from "../../../../../shader-properties/attributes/helpers/mergeAttributeConfigs";
 import { mergeUniformConfigs } from "../../../../../shader-properties/uniforms/helpers/mergeUniformConfigs";
 import { mergeVaryingConfigs } from "../../../../../shader-properties/varyings/helpers/mergeVaryingConfigs";
-
 import {
   DEFAULT_NOISE_TRANSITION_EFFECT_PROPS,
   NOISE_TRANSITION_ATTRIBUTE_CONFIG,
@@ -23,7 +22,7 @@ export const noiseTransition = (effectProps: Partial<NoiseTransitionProps>) => {
   const noiseTransitionEffectProps = formatVertexParameters(
     effectProps,
     DEFAULT_NOISE_TRANSITION_EFFECT_PROPS
-  ) as NoiseTransitionProps;
+  ) as unknown as NoiseTransitionProps;
 
   const {
     transformation,

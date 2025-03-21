@@ -1,6 +1,5 @@
 import { twisterDistortion } from "../../../../shader-properties/functions/distortion/distortion";
 import { UniformConfig, VaryingConfig } from "../../../../types";
-import { VERTEX_EFFECT_POINT_NAMES } from "../../../vertexEffects.consts";
 import { VertexEffectData } from "../../../vertexEffects.types";
 import { alienTransform } from "./alienTransform";
 
@@ -19,10 +18,9 @@ export const distortVaryings = () =>
   ] as VaryingConfig[];
 
 export const alienDistort = (previousPointName: string): VertexEffectData => {
-  const pointName = VERTEX_EFFECT_POINT_NAMES.DISTORT_POINT;
   const uniformConfig = distortUniforms() as UniformConfig;
   const varyingConfig = distortVaryings();
-  const transformation = alienTransform(previousPointName, pointName);
+  const transformation = alienTransform();
   const requiredFunctions = distortFunctions();
   return {
     attributeConfig: [],
@@ -30,6 +28,5 @@ export const alienDistort = (previousPointName: string): VertexEffectData => {
     uniformConfig,
     transformation,
     varyingConfig,
-    pointName,
   };
 };

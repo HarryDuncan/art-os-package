@@ -2,7 +2,6 @@ import { VaryingConfig } from "../../../../../types";
 import { MORPH_TRANSITION_EFFECTS } from "../../../../vertexEffects.consts";
 
 export const DEFAULT_NOISE_TRANSITION_EFFECT_PROPS = {
-  declareInTransform: true,
   effectType: MORPH_TRANSITION_EFFECTS.NOISE_TRANSITION,
   effectStrength: 1.0,
   noiseUniformName: "uNoiseStrength",

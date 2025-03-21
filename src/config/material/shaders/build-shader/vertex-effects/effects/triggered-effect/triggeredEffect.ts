@@ -1,11 +1,9 @@
-import { POINT_PARENTS } from "../../../constants/buildShader.consts";
 import {
   AttributeConfig,
   ShaderFunction,
   TriggeredVertexEffect,
   TriggeredVertexEffectProps,
 } from "../../../types";
-import { VERTEX_EFFECT_POINT_NAMES } from "../../vertexEffects.consts";
 import { mergeUniformConfigs } from "../../../shader-properties/uniforms/helpers/mergeUniformConfigs";
 import { mergeVaryingConfigs } from "../../../shader-properties/varyings/helpers/mergeVaryingConfigs";
 import { reduceFunctions } from "../../../helpers/reduceFunctions";
@@ -15,8 +13,6 @@ import {
   TRIGGERED_UNIFORM_CONFIG,
   TRIGGERED_VARYING_CONFIG,
 } from "./triggeredEffect.consts";
-
-import { generateUniquePointName } from "../../../helpers/generateUniquePointName";
 import { triggeredEffectTransform } from "./triggeredEffectTransform";
 import { formatVertexParameters } from "../../../helpers/formatVertexParameters";
 
