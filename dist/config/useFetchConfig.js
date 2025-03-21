@@ -1,3 +1,4 @@
+"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -7,12 +8,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import { useEffect, useState } from "react";
-import { useAssetLocation } from "../compat/asset-location/useAssetLocation";
-export const useFetchConfig = (filePath) => {
-    const [data, setData] = useState(null);
-    const configuredData = useAssetLocation(data);
-    useEffect(() => {
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.useFetchConfig = void 0;
+const react_1 = require("react");
+const useAssetLocation_1 = require("../compat/asset-location/useAssetLocation");
+const useFetchConfig = (filePath) => {
+    const [data, setData] = (0, react_1.useState)(null);
+    const configuredData = (0, useAssetLocation_1.useAssetLocation)(data);
+    (0, react_1.useEffect)(() => {
         const fetchData = () => __awaiter(void 0, void 0, void 0, function* () {
             if (!data && filePath.length) {
                 try {
@@ -34,3 +37,4 @@ export const useFetchConfig = (filePath) => {
     }, [filePath, data]);
     return configuredData;
 };
+exports.useFetchConfig = useFetchConfig;

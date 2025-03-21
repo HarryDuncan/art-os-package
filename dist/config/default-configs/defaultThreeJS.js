@@ -1,9 +1,12 @@
-import { sRGBEncoding } from "three";
-import { RENDERER_TYPES } from "../../hooks/use-three-js/renderer/rendererConstants";
-import { CAMERA_TYPES, } from "../../config/three-js/use-camera/camera.types";
-export const DEFAULT_THREE_JS = {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.DEFAULT_THREE_JS = void 0;
+const three_1 = require("three");
+const rendererConstants_1 = require("../../hooks/use-three-js/renderer/rendererConstants");
+const camera_types_1 = require("../../config/three-js/use-camera/camera.types");
+exports.DEFAULT_THREE_JS = {
     camera: {
-        cameraType: CAMERA_TYPES.PERSPECTIVE_CAMERA,
+        cameraType: camera_types_1.CAMERA_TYPES.PERSPECTIVE_CAMERA,
         position: {
             x: 0,
             y: 0,
@@ -20,8 +23,8 @@ export const DEFAULT_THREE_JS = {
         },
     },
     renderer: {
-        rendererType: RENDERER_TYPES.WEBGL,
-        outputEncoding: sRGBEncoding,
+        rendererType: rendererConstants_1.RENDERER_TYPES.WEBGL,
+        outputEncoding: three_1.sRGBEncoding,
         clearColor: 0x000000,
         alpha: 0,
     },

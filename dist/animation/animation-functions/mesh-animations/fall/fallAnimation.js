@@ -1,3 +1,6 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.fallAnimation = void 0;
 const DEFAULT_FALL_PARAMS = {
     bottom: -15,
     top: 15,
@@ -6,7 +9,7 @@ const DEFAULT_FALL_PARAMS = {
     xMovement: 1,
     zMovement: 1,
 };
-export const fallAnimation = (mesh, time, fallParams) => {
+const fallAnimation = (mesh, time, fallParams) => {
     const { direction, bottom, top, speed, xMovement, zMovement } = getDefaultFallParameters(fallParams);
     mesh.position.x +=
         Math.sin(1.26 * time * 0.003 * (1.03 + 0.5 * Math.cos(0.21))) *
@@ -24,6 +27,7 @@ export const fallAnimation = (mesh, time, fallParams) => {
         mesh.position.y = bottom;
     }
 };
+exports.fallAnimation = fallAnimation;
 const getDefaultFallParameters = (parsedFallParams) => {
     return Object.assign(Object.assign({}, DEFAULT_FALL_PARAMS), parsedFallParams);
 };

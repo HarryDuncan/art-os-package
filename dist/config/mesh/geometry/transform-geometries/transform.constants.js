@@ -1,19 +1,22 @@
-import { ShaderPropertyValueTypes } from "../../../../config/material/shaders/build-shader/constants/buildShader.consts";
-export const DEFAULT_MORPH_ATTRIBUTE_CONFIG = [
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.DEFAULT_MORPH_ATTRIBUTE_CONFIG = void 0;
+const buildShader_consts_1 = require("../../../../config/material/shaders/build-shader/constants/buildShader.consts");
+exports.DEFAULT_MORPH_ATTRIBUTE_CONFIG = [
     {
         id: "pointIndex",
-        valueType: ShaderPropertyValueTypes.FLOAT,
+        valueType: buildShader_consts_1.ShaderPropertyValueTypes.FLOAT,
     },
     {
         id: "randomAngle",
-        valueType: ShaderPropertyValueTypes.FLOAT,
+        valueType: buildShader_consts_1.ShaderPropertyValueTypes.FLOAT,
     },
     {
         id: "randomBool",
-        valueType: ShaderPropertyValueTypes.FLOAT,
+        valueType: buildShader_consts_1.ShaderPropertyValueTypes.FLOAT,
     },
     {
         id: "randomBool2",
-        valueType: ShaderPropertyValueTypes.FLOAT,
+        valueType: buildShader_consts_1.ShaderPropertyValueTypes.FLOAT,
     },
 ];

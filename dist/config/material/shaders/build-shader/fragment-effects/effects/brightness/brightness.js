@@ -1,13 +1,16 @@
-import { BRIGHTNESS_UNIFORMS, BRIGHTNESS_VARYINGS, BRIGHTNESS_FUNCTIONS, BRIGHTNESS_ATTRIBUTES, DEFAULT_BRIGHTNESS_EFFECT_PARAMS, } from "./brightness.consts";
-import { formatFragmentParameters } from "../../../helpers/formatFragmentParameters";
-import { brightnessTransform } from "./brightnessTransform";
-export const brightness = (effectProps) => {
-    const formattedEffectParams = formatFragmentParameters(effectProps, DEFAULT_BRIGHTNESS_EFFECT_PARAMS);
-    const uniformConfig = BRIGHTNESS_UNIFORMS;
-    const varyingConfig = BRIGHTNESS_VARYINGS;
-    const requiredFunctions = BRIGHTNESS_FUNCTIONS;
-    const attributeConfig = BRIGHTNESS_ATTRIBUTES;
-    const { transformation } = brightnessTransform(formattedEffectParams);
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.brightness = void 0;
+const brightness_consts_1 = require("./brightness.consts");
+const formatFragmentParameters_1 = require("../../../helpers/formatFragmentParameters");
+const brightnessTransform_1 = require("./brightnessTransform");
+const brightness = (effectProps) => {
+    const formattedEffectParams = (0, formatFragmentParameters_1.formatFragmentParameters)(effectProps, brightness_consts_1.DEFAULT_BRIGHTNESS_EFFECT_PARAMS);
+    const uniformConfig = brightness_consts_1.BRIGHTNESS_UNIFORMS;
+    const varyingConfig = brightness_consts_1.BRIGHTNESS_VARYINGS;
+    const requiredFunctions = brightness_consts_1.BRIGHTNESS_FUNCTIONS;
+    const attributeConfig = brightness_consts_1.BRIGHTNESS_ATTRIBUTES;
+    const { transformation } = (0, brightnessTransform_1.brightnessTransform)(formattedEffectParams);
     return {
         requiredFunctions,
         uniformConfig,
@@ -16,3 +19,4 @@ export const brightness = (effectProps) => {
         attributeConfig,
     };
 };
+exports.brightness = brightness;

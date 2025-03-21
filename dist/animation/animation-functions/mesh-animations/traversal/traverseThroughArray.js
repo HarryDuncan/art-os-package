@@ -1,5 +1,8 @@
-import { Vector3 } from "three";
-export const traverseThroughtArray = (points, percentage) => {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.traverseThroughtArray = void 0;
+const three_1 = require("three");
+const traverseThroughtArray = (points, percentage) => {
     // Calculate index and interpolation factor
     const index = (percentage / 100) * (points.length - 1);
     const fraction = index - Math.floor(index);
@@ -10,5 +13,6 @@ export const traverseThroughtArray = (points, percentage) => {
     const y = p0.y + fraction * (p1.y - p0.y);
     const z = p0.z + fraction * (p1.z - p0.z);
     // Return interpolated point
-    return new Vector3(x, y, z);
+    return new three_1.Vector3(x, y, z);
 };
+exports.traverseThroughtArray = traverseThroughtArray;

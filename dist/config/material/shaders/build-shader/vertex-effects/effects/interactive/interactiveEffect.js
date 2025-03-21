@@ -1,13 +1,16 @@
-import { ShaderPropertyValueTypes } from "../../../constants/buildShader.consts";
-import { VERTEX_EFFECTS, VERTEX_POINT_NAME } from "../../vertexEffects.consts";
-import { explode } from "../displacement/explode/explode";
-import { mergeUniformConfigs } from "../../../shader-properties/uniforms/helpers/mergeUniformConfigs";
-import { mergeVaryingConfigs } from "../../../shader-properties/varyings/helpers/mergeVaryingConfigs";
-import { reduceFunctions } from "../../../helpers/reduceFunctions";
-import { mergeAttributeConfigs } from "../../../shader-properties/attributes/helpers/mergeAttributeConfigs";
-import { DEFAULT_VERTEX_EFFECT } from "../../../constants";
-import { randomFloat } from "../../../shader-properties/functions/random/random";
-export const interactiveEffect = (effectProps) => {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.interactiveEffect = void 0;
+const buildShader_consts_1 = require("../../../constants/buildShader.consts");
+const vertexEffects_consts_1 = require("../../vertexEffects.consts");
+const explode_1 = require("../displacement/explode/explode");
+const mergeUniformConfigs_1 = require("../../../shader-properties/uniforms/helpers/mergeUniformConfigs");
+const mergeVaryingConfigs_1 = require("../../../shader-properties/varyings/helpers/mergeVaryingConfigs");
+const reduceFunctions_1 = require("../../../helpers/reduceFunctions");
+const mergeAttributeConfigs_1 = require("../../../shader-properties/attributes/helpers/mergeAttributeConfigs");
+const constants_1 = require("../../../constants");
+const random_1 = require("../../../shader-properties/functions/random/random");
+const interactiveEffect = (effectProps) => {
     const uniformConfig = {
         defaultUniforms: ["uPosition", "uStrength"],
         customUniforms: [],
@@ -27,31 +30,31 @@ export const interactiveEffect = (effectProps) => {
   vec2 ndcCoords = (uPosition.xy - 0.5) * 2.0;
   // Assuming zero depth for simplicity
   vec3 ndcPosition = vec3(ndcCoords, 0.0);
-  vec3 ${VERTEX_POINT_NAME} = ${VERTEX_POINT_NAME}.xyz;
+  vec3 ${vertexEffects_consts_1.VERTEX_POINT_NAME} = ${vertexEffects_consts_1.VERTEX_POINT_NAME}.xyz;
   float isAffected = 0.0;
   
   if( ndcPosition.x > -2000.0){
     ${effectTransformation}
   } `;
     const requiredFunctions = [
-        { id: "randomFloat", functionDefinition: randomFloat },
+        { id: "randomFloat", functionDefinition: random_1.randomFloat },
     ];
     const attributeConfig = [
-        { id: "randomAngle", valueType: ShaderPropertyValueTypes.FLOAT },
+        { id: "randomAngle", valueType: buildShader_consts_1.ShaderPropertyValueTypes.FLOAT },
     ];
-    const mergedUniformConfigs = mergeUniformConfigs([
+    const mergedUniformConfigs = (0, mergeUniformConfigs_1.mergeUniformConfigs)([
         effectUniforms,
         uniformConfig,
     ]);
-    const mergedVaryingConfigs = mergeVaryingConfigs([
+    const mergedVaryingConfigs = (0, mergeVaryingConfigs_1.mergeVaryingConfigs)([
         effectVaryings,
         varyingConfig,
     ]);
-    const mergedRequiredFunction = reduceFunctions([
+    const mergedRequiredFunction = (0, reduceFunctions_1.reduceFunctions)([
         effectFunctions,
         requiredFunctions,
     ]);
-    const mergedAttributeConfigs = mergeAttributeConfigs([
+    const mergedAttributeConfigs = (0, mergeAttributeConfigs_1.mergeAttributeConfigs)([
         attributeConfig,
         effectAttributes,
     ]);
@@ -63,12 +66,13 @@ export const interactiveEffect = (effectProps) => {
         varyingConfig: mergedVaryingConfigs,
     };
 };
+exports.interactiveEffect = interactiveEffect;
 const getEffectData = (interactiveEffectProps) => {
     const { effectType, effectProps } = interactiveEffectProps;
     switch (effectType) {
-        case VERTEX_EFFECTS.EXPLODE:
-            return explode(effectProps);
+        case vertexEffects_consts_1.VERTEX_EFFECTS.EXPLODE:
+            return (0, explode_1.explode)(effectProps);
         default:
-            return Object.assign({}, DEFAULT_VERTEX_EFFECT);
+            return Object.assign({}, constants_1.DEFAULT_VERTEX_EFFECT);
     }
 };

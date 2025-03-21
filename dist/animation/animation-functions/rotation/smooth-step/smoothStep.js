@@ -1,10 +1,13 @@
-export const DEFAULT_SMOOTH_STEP_HELPER = {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.smoothStepTo = exports.DEFAULT_SMOOTH_STEP_HELPER = void 0;
+exports.DEFAULT_SMOOTH_STEP_HELPER = {
     stepSize: 0.5,
     isRunningSteps: false,
     stepTo: 0,
     currentStep: null,
 };
-export const smoothStepTo = (smoothStep) => {
+const smoothStepTo = (smoothStep) => {
     const { stepSize, stepTo, currentStep } = smoothStep;
     if (!currentStep) {
         console.warn("current step not initialized");
@@ -15,3 +18,4 @@ export const smoothStepTo = (smoothStep) => {
     const newValue = currentStep + (stepTo > currentStep ? 1 : -1) * stepSize;
     return newValue;
 };
+exports.smoothStepTo = smoothStepTo;

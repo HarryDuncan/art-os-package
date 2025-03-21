@@ -1,4 +1,7 @@
-export const explodeTransformation = (transformPointName, pointName) => {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.explodeTransformation = void 0;
+const explodeTransformation = (transformPointName, pointName) => {
     return `
     // EXPLODE AT POSITION
     vec3 ${pointName} = ${transformPointName};
@@ -15,3 +18,4 @@ export const explodeTransformation = (transformPointName, pointName) => {
       }
     }`;
 };
+exports.explodeTransformation = explodeTransformation;

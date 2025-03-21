@@ -1,8 +1,11 @@
-import { runAnimation } from "../run-animation/runAnimation";
-import { setUpAnimationConfig } from "./setUpAnimationConfig";
-import { GENERIC_TARGET_IDENTIFIERS } from "../animation.constants";
-import { runCameraAnimation } from "../run-animation/runCameraAnimation";
-export class AnimationManager {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.AnimationManager = void 0;
+const runAnimation_1 = require("../run-animation/runAnimation");
+const setUpAnimationConfig_1 = require("./setUpAnimationConfig");
+const animation_constants_1 = require("../animation.constants");
+const runCameraAnimation_1 = require("../run-animation/runCameraAnimation");
+class AnimationManager {
     constructor(animationConfig) {
         this.sceneElementAnimations = [];
         this.cameraElementAnimations = [];
@@ -13,7 +16,7 @@ export class AnimationManager {
             if (this.sceneElementAnimations.findIndex((setAnimation) => setAnimation.animationId === animation.animationId) !== -1) {
                 console.warn(`an animation with this animation id ${animation.animationId} already exists`);
             }
-            else if (animation.targetIdentifier === GENERIC_TARGET_IDENTIFIERS.CAMERA) {
+            else if (animation.targetIdentifier === animation_constants_1.GENERIC_TARGET_IDENTIFIERS.CAMERA) {
                 this.cameraElementAnimations.push(Object.assign(Object.assign({}, animation), { isRunning: false }));
             }
             else {
@@ -27,9 +30,9 @@ export class AnimationManager {
             console.warn(`animation: ${animationId} has not been initialized`);
         }
         else if ((animation === null || animation === void 0 ? void 0 : animation.isRunning) === false) {
-            const initializedConfig = setUpAnimationConfig(animation);
+            const initializedConfig = (0, setUpAnimationConfig_1.setUpAnimationConfig)(animation);
             animation.isRunning = true;
-            runAnimation(scene, initializedConfig, animationId);
+            (0, runAnimation_1.runAnimation)(scene, initializedConfig, animationId);
         }
     }
     hasCameraAnimations() {
@@ -42,9 +45,9 @@ export class AnimationManager {
             console.warn(`no camera animations configured`);
         }
         if (animation.isRunning === false) {
-            const initializedAnimationConfig = setUpAnimationConfig(animation);
+            const initializedAnimationConfig = (0, setUpAnimationConfig_1.setUpAnimationConfig)(animation);
             animation.isRunning = true;
-            runCameraAnimation(camera, initializedAnimationConfig);
+            (0, runCameraAnimation_1.runCameraAnimation)(camera, initializedAnimationConfig);
         }
     }
     stopAnimation(animationId) {
@@ -54,3 +57,4 @@ export class AnimationManager {
         }
     }
 }
+exports.AnimationManager = AnimationManager;

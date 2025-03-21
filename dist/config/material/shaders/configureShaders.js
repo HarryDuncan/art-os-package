@@ -1,12 +1,16 @@
-import { importShader } from "./importShader";
-export const configureShaders = (shaderConfig, uniforms, assets) => {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.configureShaders = void 0;
+const importShader_1 = require("./importShader");
+const configureShaders = (shaderConfig, uniforms, assets) => {
     const { shaderId, fragmentShaderId, vertexShaderId, assetMapping } = shaderConfig;
-    const { fragmentShader, vertexShader, setUpDefaultUniforms } = importShader(shaderId, vertexShaderId, fragmentShaderId);
+    const { fragmentShader, vertexShader, setUpDefaultUniforms } = (0, importShader_1.importShader)(shaderId, vertexShaderId, fragmentShaderId);
     const configuredUniforms = configureUniforms(uniforms, setUpDefaultUniforms);
     mapAssets(configuredUniforms, assetMapping !== null && assetMapping !== void 0 ? assetMapping : [], assets !== null && assets !== void 0 ? assets : []);
     // TODO - return default shaders and log that the shader ids didn't work
     return { fragmentShader, vertexShader, configuredUniforms };
 };
+exports.configureShaders = configureShaders;
 const configureUniforms = (uniforms, setUpDefaultUniforms) => {
     if (setUpDefaultUniforms) {
         return setUpDefaultUniforms(uniforms);

@@ -1,9 +1,13 @@
-import { Vector3 } from "three";
-export const traversalFunction = (props, object) => {
-    const { x, y, z } = traverseAlongBezier(props.start, props.end, props.curveSize, props.t);
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.traverseAlongBezier = exports.traversalFunction = void 0;
+const three_1 = require("three");
+const traversalFunction = (props, object) => {
+    const { x, y, z } = (0, exports.traverseAlongBezier)(props.start, props.end, props.curveSize, props.t);
     object.position.set(x, y, z);
 };
-export const traverseAlongBezier = (start, end, curveSize, t) => {
+exports.traversalFunction = traversalFunction;
+const traverseAlongBezier = (start, end, curveSize, t) => {
     // Calculate control points for Bezier curve
     const startToEnd = end.clone().sub(start);
     const mid = start
@@ -12,7 +16,7 @@ export const traverseAlongBezier = (start, end, curveSize, t) => {
         .multiplyScalar(0.5);
     const perpendicular = startToEnd
         .clone()
-        .applyAxisAngle(new Vector3(0, 0, 1), Math.PI / 2)
+        .applyAxisAngle(new three_1.Vector3(0, 0, 1), Math.PI / 2)
         .normalize();
     const control1 = mid
         .clone()
@@ -34,3 +38,4 @@ export const traverseAlongBezier = (start, end, curveSize, t) => {
         .add(end.clone().multiplyScalar(tCubed));
     return point;
 };
+exports.traverseAlongBezier = traverseAlongBezier;

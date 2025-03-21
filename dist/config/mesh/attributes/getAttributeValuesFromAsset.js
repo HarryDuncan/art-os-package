@@ -1,12 +1,15 @@
-import { ASSET_TYPES } from "../../../assets/asset.types";
-import { BufferAttribute } from "three";
-export const getAttributeValuesFromAssets = (attributeConfig, assets) => attributeConfig.map((config) => {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.getAttributeValuesFromAssets = void 0;
+const asset_types_1 = require("../../../assets/asset.types");
+const three_1 = require("three");
+const getAttributeValuesFromAssets = (attributeConfig, assets) => attributeConfig.map((config) => {
     if (config.assetId) {
         const selectedAsset = assets.find((asset) => asset.id === config.assetId);
         switch (selectedAsset === null || selectedAsset === void 0 ? void 0 : selectedAsset.assetType) {
-            case ASSET_TYPES.VIDEO:
+            case asset_types_1.ASSET_TYPES.VIDEO:
                 return getVideoAttributeValues(selectedAsset, config);
-            case ASSET_TYPES.TEXTURE:
+            case asset_types_1.ASSET_TYPES.TEXTURE:
                 return getTextureAttributeValues(selectedAsset, config);
             default:
         }
@@ -15,6 +18,7 @@ export const getAttributeValuesFromAssets = (attributeConfig, assets) => attribu
     }
     return config;
 });
+exports.getAttributeValuesFromAssets = getAttributeValuesFromAssets;
 const getVideoAttributeValues = (selectedAsset, config) => {
     return config;
 };
@@ -58,13 +62,13 @@ const getTextureAttributeValues = (selectedAsset, config) => {
         }
     }
     if (config.id === "position") {
-        return Object.assign(Object.assign({}, config), { value: new BufferAttribute(offsets, 3) });
+        return Object.assign(Object.assign({}, config), { value: new three_1.BufferAttribute(offsets, 3) });
     }
     if (config.id === "pointOffset") {
-        return Object.assign(Object.assign({}, config), { value: new BufferAttribute(offsets, 3) });
+        return Object.assign(Object.assign({}, config), { value: new three_1.BufferAttribute(offsets, 3) });
     }
     if (config.id === "pointIndex") {
-        return Object.assign(Object.assign({}, config), { value: new BufferAttribute(indices, 1) });
+        return Object.assign(Object.assign({}, config), { value: new three_1.BufferAttribute(indices, 1) });
     }
     return Object.assign(Object.assign({}, config), { attributeCount: numPoints });
 };

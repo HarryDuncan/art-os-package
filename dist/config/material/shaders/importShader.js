@@ -1,5 +1,8 @@
+"use strict";
 /* eslint import/namespace: ['error', { allowComputed: true }] */
-export const importShader = (shaderId, vertexShaderId, fragmentShaderId) => {
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.importShader = void 0;
+const importShader = (shaderId, vertexShaderId, fragmentShaderId) => {
     try {
         const { fragmentShader: defaultFragmentShader, vertexShader, defaultUniforms: setUpDefaultUniforms,
         // @ts-ignore - not ideal but will replace with build shader
@@ -15,6 +18,7 @@ export const importShader = (shaderId, vertexShaderId, fragmentShaderId) => {
         return { fragmentShader: "", vertexShader: "", setUpDefaultUniforms: null };
     }
 };
+exports.importShader = importShader;
 const getFragmentShader = (defaultFragmentShader, fragmentShaderId) => {
     if (fragmentShaderId) {
         // @ts-ignore - not ideal but will replace with build shader

@@ -1,56 +1,59 @@
-import { Vector2, Vector3 } from "three";
-import { ShaderPropertyValueTypes } from "./buildShader.consts";
-import { EMPTY_UNIFORM_CONFIG } from "../shader-properties/uniforms/uniforms.consts";
-export const DEFAULT_UNIFORMS = {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.DEFAULT_VERTEX_EFFECT = exports.DEFAULT_VARYINGS = exports.DEFAULT_UNIFORMS = void 0;
+const three_1 = require("three");
+const buildShader_consts_1 = require("./buildShader.consts");
+const uniforms_consts_1 = require("../shader-properties/uniforms/uniforms.consts");
+exports.DEFAULT_UNIFORMS = {
     uPosition: {
-        valueType: ShaderPropertyValueTypes.VEC3,
-        defaultValue: new Vector3(0, 0, 0),
+        valueType: buildShader_consts_1.ShaderPropertyValueTypes.VEC3,
+        defaultValue: new three_1.Vector3(0, 0, 0),
     },
     uResolution: {
-        valueType: ShaderPropertyValueTypes.VEC2,
-        defaultValue: new Vector2(0, 0),
+        valueType: buildShader_consts_1.ShaderPropertyValueTypes.VEC2,
+        defaultValue: new three_1.Vector2(0, 0),
     },
     uMaterial: {
-        valueType: ShaderPropertyValueTypes.SAMPLER2D,
+        valueType: buildShader_consts_1.ShaderPropertyValueTypes.SAMPLER2D,
         defaultValue: null,
     },
     uOpacity: {
-        valueType: ShaderPropertyValueTypes.FLOAT,
+        valueType: buildShader_consts_1.ShaderPropertyValueTypes.FLOAT,
         defaultValue: 1.0,
     },
     uProgress: {
-        valueType: ShaderPropertyValueTypes.FLOAT,
+        valueType: buildShader_consts_1.ShaderPropertyValueTypes.FLOAT,
         defaultValue: 0.0,
     },
     uBrightness: {
-        valueType: ShaderPropertyValueTypes.FLOAT,
+        valueType: buildShader_consts_1.ShaderPropertyValueTypes.FLOAT,
         defaultValue: 1.0,
     },
     uStrength: {
-        valueType: ShaderPropertyValueTypes.FLOAT,
+        valueType: buildShader_consts_1.ShaderPropertyValueTypes.FLOAT,
         defaultValue: 8.0,
     },
     uLoopCount: {
-        valueType: ShaderPropertyValueTypes.INT,
+        valueType: buildShader_consts_1.ShaderPropertyValueTypes.INT,
         defaultValue: 0,
     },
     uCenter: {
-        valueType: ShaderPropertyValueTypes.VEC3,
-        defaultValue: new Vector3(0, 0, 0),
+        valueType: buildShader_consts_1.ShaderPropertyValueTypes.VEC3,
+        defaultValue: new three_1.Vector3(0, 0, 0),
     },
     uIsTriggered: {
-        valueType: ShaderPropertyValueTypes.FLOAT,
+        valueType: buildShader_consts_1.ShaderPropertyValueTypes.FLOAT,
         defaultValue: 0.0,
     },
     uTextureSize: {
-        valueType: ShaderPropertyValueTypes.VEC2,
-        defaultValue: new Vector3(0, 0),
+        valueType: buildShader_consts_1.ShaderPropertyValueTypes.VEC2,
+        defaultValue: new three_1.Vector3(0, 0),
     },
 };
-export const DEFAULT_VARYINGS = {};
-export const DEFAULT_VERTEX_EFFECT = {
+exports.DEFAULT_VARYINGS = {};
+exports.DEFAULT_VERTEX_EFFECT = {
     requiredFunctions: [],
-    uniformConfig: EMPTY_UNIFORM_CONFIG,
+    uniformConfig: uniforms_consts_1.EMPTY_UNIFORM_CONFIG,
     transformation: "",
     varyingConfig: [],
     attributeConfig: [],

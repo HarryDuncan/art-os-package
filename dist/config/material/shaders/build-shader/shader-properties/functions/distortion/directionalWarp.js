@@ -1,4 +1,7 @@
-export const directionalWarpFrag = `
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.directionalWarpVertex = exports.directionalWarpFrag = void 0;
+exports.directionalWarpFrag = `
     vec4 directionalWarp (vec2 uv, float progress) {
     vec2 v = normalize(direction);
     v /= abs(v.x) + abs(v.y);
@@ -9,7 +12,7 @@ export const directionalWarpFrag = `
     return mix(c1, c2, m);
     }
 `;
-export const directionalWarpVertex = `
+exports.directionalWarpVertex = `
     const vec2 center = vec2(0.5, 0.5);
     vec3 transition(vec2 uv, float progress) {
     vec2 v = normalize(direction);

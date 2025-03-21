@@ -1,6 +1,9 @@
+"use strict";
 // links assets to uniforms - using name as the uniform name
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.formatAssetWithUniforms = void 0;
 // Must follow the uniform naming convention
-export const formatAssetWithUniforms = (uniforms, assets) => {
+const formatAssetWithUniforms = (uniforms, assets) => {
     assets.forEach((asset) => {
         if (asset.name.indexOf("u") === 0) {
             uniforms[asset.name] = { value: asset.data };
@@ -10,3 +13,4 @@ export const formatAssetWithUniforms = (uniforms, assets) => {
         }
     });
 };
+exports.formatAssetWithUniforms = formatAssetWithUniforms;

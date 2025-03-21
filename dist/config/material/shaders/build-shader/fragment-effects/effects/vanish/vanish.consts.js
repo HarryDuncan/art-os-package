@@ -1,47 +1,50 @@
-import { ShaderPropertyValueTypes } from "../../../constants/buildShader.consts";
-import { simplePerlinNoise } from "../../../shader-properties/functions/noise/perlinNoise";
-import { VARYING_TYPES } from "../../../shader-properties/varyings/varyings.consts";
-export const VANISH_FUNCTIONS = [
-    { id: "simplePerlinNoise", functionDefinition: simplePerlinNoise },
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.DEFAULT_VANISH_EFFECT_PARAMS = exports.VANISH_ATTRIBUTES = exports.VANISH_VARYINGS = exports.VANISH_UNIFORMS = exports.VANISH_FUNCTIONS = void 0;
+const buildShader_consts_1 = require("../../../constants/buildShader.consts");
+const perlinNoise_1 = require("../../../shader-properties/functions/noise/perlinNoise");
+const varyings_consts_1 = require("../../../shader-properties/varyings/varyings.consts");
+exports.VANISH_FUNCTIONS = [
+    { id: "simplePerlinNoise", functionDefinition: perlinNoise_1.simplePerlinNoise },
 ];
-export const VANISH_UNIFORMS = {
+exports.VANISH_UNIFORMS = {
     defaultUniforms: ["uProgress"],
     customUniforms: [
         {
             id: "uNumberOfRings",
-            valueType: ShaderPropertyValueTypes.FLOAT,
+            valueType: buildShader_consts_1.ShaderPropertyValueTypes.FLOAT,
             value: 100,
         },
         {
             id: "uSpread",
-            valueType: ShaderPropertyValueTypes.FLOAT,
+            valueType: buildShader_consts_1.ShaderPropertyValueTypes.FLOAT,
             value: 0.772,
         },
         {
             id: "uNoise",
-            valueType: ShaderPropertyValueTypes.FLOAT,
+            valueType: buildShader_consts_1.ShaderPropertyValueTypes.FLOAT,
             value: 0.18,
         },
         {
             id: "uDisplacement",
-            valueType: ShaderPropertyValueTypes.FLOAT,
+            valueType: buildShader_consts_1.ShaderPropertyValueTypes.FLOAT,
             value: 22.0,
         },
     ],
 };
-export const VANISH_VARYINGS = [
+exports.VANISH_VARYINGS = [
     {
         id: "vPosition",
-        varyingType: VARYING_TYPES.DEFAULT,
-        valueType: ShaderPropertyValueTypes.VEC3,
+        varyingType: varyings_consts_1.VARYING_TYPES.DEFAULT,
+        valueType: buildShader_consts_1.ShaderPropertyValueTypes.VEC3,
     },
     {
         id: "vNormal",
-        varyingType: VARYING_TYPES.DEFAULT,
-        valueType: ShaderPropertyValueTypes.VEC3,
+        varyingType: varyings_consts_1.VARYING_TYPES.DEFAULT,
+        valueType: buildShader_consts_1.ShaderPropertyValueTypes.VEC3,
     },
 ];
-export const VANISH_ATTRIBUTES = [];
-export const DEFAULT_VANISH_EFFECT_PARAMS = {
+exports.VANISH_ATTRIBUTES = [];
+exports.DEFAULT_VANISH_EFFECT_PARAMS = {
     vanishHeight: 3.5,
 };

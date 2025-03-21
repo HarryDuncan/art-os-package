@@ -1,4 +1,7 @@
-export const SCENE_ELEMENTS = {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.SCENE_ELEMENTS = void 0;
+exports.SCENE_ELEMENTS = {
     MARCHING_CUBES: "MARCHING_CUBES",
     TEXT: "TEXT",
     MIRROR: "MIRROR",

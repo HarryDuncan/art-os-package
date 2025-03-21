@@ -1,15 +1,18 @@
-import { jsx as _jsx } from "react/jsx-runtime";
-import { useCallback, useEffect, useRef } from "react";
-import { useSceneContext } from "../../../context/context";
-import { getSceneElementByName } from "../../../utils/scene/getSceneElementByName";
-import { Texture } from "three";
-export const VideoStreamNode = ({ src, meshTargetIdentifier, uniformValue, }) => {
-    const { state: { initializedScene }, } = useSceneContext();
-    const canvasRef = useRef(null);
-    const textureRef = useRef(null);
-    const setFrameAsUniform = useCallback((canvas) => {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.VideoStreamNode = void 0;
+const jsx_runtime_1 = require("react/jsx-runtime");
+const react_1 = require("react");
+const context_1 = require("../../../context/context");
+const getSceneElementByName_1 = require("../../../utils/scene/getSceneElementByName");
+const three_1 = require("three");
+const VideoStreamNode = ({ src, meshTargetIdentifier, uniformValue, }) => {
+    const { state: { initializedScene }, } = (0, context_1.useSceneContext)();
+    const canvasRef = (0, react_1.useRef)(null);
+    const textureRef = (0, react_1.useRef)(null);
+    const setFrameAsUniform = (0, react_1.useCallback)((canvas) => {
         if (initializedScene) {
-            const animatedObjects = getSceneElementByName(initializedScene, meshTargetIdentifier);
+            const animatedObjects = (0, getSceneElementByName_1.getSceneElementByName)(initializedScene, meshTargetIdentifier);
             if (animatedObjects && animatedObjects.length) {
                 const offscreenCanvas = document.createElement("canvas");
                 const ctx = offscreenCanvas.getContext("2d");
@@ -28,7 +31,7 @@ export const VideoStreamNode = ({ src, meshTargetIdentifier, uniformValue, }) =>
                     textureRef.current = null;
                 }
                 // Create a new texture from the rotated offscreen canvas
-                const texture = new Texture(canvas);
+                const texture = new three_1.Texture(canvas);
                 texture.needsUpdate = true;
                 if (animatedObjects[0].material.uniforms[uniformValue]) {
                     animatedObjects[0].material.uniforms[uniformValue].value = texture;
@@ -36,7 +39,7 @@ export const VideoStreamNode = ({ src, meshTargetIdentifier, uniformValue, }) =>
             }
         }
     }, [initializedScene, meshTargetIdentifier]);
-    useEffect(() => {
+    (0, react_1.useEffect)(() => {
         const canvas = canvasRef.current;
         if (!canvas)
             return;
@@ -59,7 +62,7 @@ export const VideoStreamNode = ({ src, meshTargetIdentifier, uniformValue, }) =>
         };
     }, [src, setFrameAsUniform]);
     // Cleanup when component unmounts
-    useEffect(() => {
+    (0, react_1.useEffect)(() => {
         return () => {
             if (textureRef.current) {
                 textureRef.current.dispose();
@@ -67,5 +70,6 @@ export const VideoStreamNode = ({ src, meshTargetIdentifier, uniformValue, }) =>
             }
         };
     }, []);
-    return _jsx("canvas", { id: "video-stream", ref: canvasRef, width: 360, height: 640 });
+    return (0, jsx_runtime_1.jsx)("canvas", { id: "video-stream", ref: canvasRef, width: 360, height: 640 });
 };
+exports.VideoStreamNode = VideoStreamNode;

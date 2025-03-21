@@ -1,6 +1,9 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.composeFunctions = void 0;
 /* eslint-disable */
 /* ts-nocheck */
-export const composeFunctions = (functions) => {
+const composeFunctions = (functions) => {
     return (...args) => {
         try {
             return functions.reduce((result, currentFunc) => {
@@ -14,3 +17,4 @@ export const composeFunctions = (functions) => {
         }
     };
 };
+exports.composeFunctions = composeFunctions;

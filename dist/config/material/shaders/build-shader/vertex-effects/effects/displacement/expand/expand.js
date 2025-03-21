@@ -1,12 +1,15 @@
-import { formatVertexParameters } from "../../../../helpers/formatVertexParameters";
-import { EXPAND_UNIFORMS, EXPAND_VARYINGS, EXPAND_FUNCTIONS, DEFAULT_EXPAND_PARAMETERS, } from "./expand.consts";
-import { expandTransformation } from "./expandTransformation";
-export const expand = (effectProps) => {
-    const expandEffectProps = formatVertexParameters(effectProps !== null && effectProps !== void 0 ? effectProps : {}, DEFAULT_EXPAND_PARAMETERS);
-    const uniformConfig = EXPAND_UNIFORMS;
-    const varyingConfig = EXPAND_VARYINGS;
-    const { transformation } = expandTransformation(expandEffectProps);
-    const requiredFunctions = EXPAND_FUNCTIONS;
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.expand = void 0;
+const formatVertexParameters_1 = require("../../../../helpers/formatVertexParameters");
+const expand_consts_1 = require("./expand.consts");
+const expandTransformation_1 = require("./expandTransformation");
+const expand = (effectProps) => {
+    const expandEffectProps = (0, formatVertexParameters_1.formatVertexParameters)(effectProps !== null && effectProps !== void 0 ? effectProps : {}, expand_consts_1.DEFAULT_EXPAND_PARAMETERS);
+    const uniformConfig = expand_consts_1.EXPAND_UNIFORMS;
+    const varyingConfig = expand_consts_1.EXPAND_VARYINGS;
+    const { transformation } = (0, expandTransformation_1.expandTransformation)(expandEffectProps);
+    const requiredFunctions = expand_consts_1.EXPAND_FUNCTIONS;
     const attributeConfig = [];
     return {
         attributeConfig,
@@ -16,3 +19,4 @@ export const expand = (effectProps) => {
         varyingConfig,
     };
 };
+exports.expand = expand;

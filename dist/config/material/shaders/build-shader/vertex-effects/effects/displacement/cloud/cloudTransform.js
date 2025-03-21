@@ -1,13 +1,18 @@
-import { noise3D } from "../../../../../../../../config/material/shaders/build-shader/shader-properties/functions/noise/noise3d";
-import { VERTEX_POINT_NAME } from "../../../vertexEffects.consts";
-export const distortFunctions = () => [
-    { id: "noise", functionDefinition: noise3D },
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.cloudTransform = exports.noiseCloudTransform = exports.cloudEffect = exports.distortVaryings = exports.distortUniforms = exports.distortFunctions = void 0;
+const noise3d_1 = require("../../../../../../../../config/material/shaders/build-shader/shader-properties/functions/noise/noise3d");
+const vertexEffects_consts_1 = require("../../../vertexEffects.consts");
+const distortFunctions = () => [
+    { id: "noise", functionDefinition: noise3d_1.noise3D },
 ];
-export const distortUniforms = () => ({
+exports.distortFunctions = distortFunctions;
+const distortUniforms = () => ({
     defaultUniforms: ["uStrength"],
     customUniforms: [{ id: "uAngle", valueType: "FLOAT", value: 1.5 }],
 });
-export const distortVaryings = () => [
+exports.distortUniforms = distortUniforms;
+const distortVaryings = () => [
     { id: "vPosition", valueType: "VEC3", varyingType: "DEFAULT" },
     {
         id: "vNormal",
@@ -16,11 +21,12 @@ export const distortVaryings = () => [
         value: "twistedNormal.xyz",
     },
 ];
-export const cloudEffect = () => {
-    const uniformConfig = distortUniforms();
+exports.distortVaryings = distortVaryings;
+const cloudEffect = () => {
+    const uniformConfig = (0, exports.distortUniforms)();
     const varyingConfig = [];
-    const transformation = noiseCloudTransform();
-    const requiredFunctions = distortFunctions();
+    const transformation = (0, exports.noiseCloudTransform)();
+    const requiredFunctions = (0, exports.distortFunctions)();
     return {
         attributeConfig: [],
         requiredFunctions,
@@ -29,16 +35,18 @@ export const cloudEffect = () => {
         varyingConfig,
     };
 };
-export const noiseCloudTransform = () => {
+exports.cloudEffect = cloudEffect;
+const noiseCloudTransform = () => {
     return `// Generate random offset for each vertex (compute once)
-  float randomOffsetX = noise3D(${VERTEX_POINT_NAME}.xyz + vec3(0.0, 0.0, 0.0) ) * 1.0 * 0.0;
-  float randomOffsetY = noise3D(${VERTEX_POINT_NAME}.xyz + vec3(1.0, 1.0, 1.0)) * 1.0 * uStrength;
-  float randomOffsetZ = noise3D(${VERTEX_POINT_NAME}.xyz + vec3(2.0, 2.0, 2.0)) * 1.0 * uStrength;
+  float randomOffsetX = noise3D(${vertexEffects_consts_1.VERTEX_POINT_NAME}.xyz + vec3(0.0, 0.0, 0.0) ) * 1.0 * 0.0;
+  float randomOffsetY = noise3D(${vertexEffects_consts_1.VERTEX_POINT_NAME}.xyz + vec3(1.0, 1.0, 1.0)) * 1.0 * uStrength;
+  float randomOffsetZ = noise3D(${vertexEffects_consts_1.VERTEX_POINT_NAME}.xyz + vec3(2.0, 2.0, 2.0)) * 1.0 * uStrength;
   // Apply random offset to the vertex position
-  vec4 ${VERTEX_POINT_NAME} = vec4(${VERTEX_POINT_NAME}.xyz + vec3(randomOffsetX, randomOffsetY, randomOffsetZ), 1.0);
+  vec4 ${vertexEffects_consts_1.VERTEX_POINT_NAME} = vec4(${vertexEffects_consts_1.VERTEX_POINT_NAME}.xyz + vec3(randomOffsetX, randomOffsetY, randomOffsetZ), 1.0);
 `;
 };
-export const cloudTransform = (VERTEX_POINT_NAME, pointName) => {
+exports.noiseCloudTransform = noiseCloudTransform;
+const cloudTransform = (VERTEX_POINT_NAME, pointName) => {
     return `// Generate random offset for each vertex (compute once)
        float randomOffsetX = (fract(sin(dot(${VERTEX_POINT_NAME}.xyz, vec3(12.9898, 78.233, 45.543))) * 43758.5453) - 0.5) * 1.0 * uStrength;
        float randomOffsetY = (fract(sin(dot(${VERTEX_POINT_NAME}.xyz, vec3(12.9898, 78.233, 45.543) + 1.0)) * 43758.5453) - 0.5) * 1.0 * 0;
@@ -48,3 +56,4 @@ export const cloudTransform = (VERTEX_POINT_NAME, pointName) => {
        vec4 ${pointName} = vec4(${VERTEX_POINT_NAME}.xyz + vec3(randomOffsetX, randomOffsetY, randomOffsetZ), 1.0);
    `;
 };
+exports.cloudTransform = cloudTransform;

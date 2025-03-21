@@ -1,4 +1,7 @@
-export const createBoundingBox = ({ center, width, height, depth, }) => {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.createBoundingBox = void 0;
+const createBoundingBox = ({ center, width, height, depth, }) => {
     var _a, _b, _c;
     const halfWidth = width / 2;
     const halfHeight = height / 2;
@@ -21,3 +24,4 @@ export const createBoundingBox = ({ center, width, height, depth, }) => {
         },
     };
 };
+exports.createBoundingBox = createBoundingBox;

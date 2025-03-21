@@ -1,23 +1,26 @@
-import { reduceFunctions } from "../../../helpers/reduceFunctions";
-import { mergeAttributeConfigs } from "../../../shader-properties/attributes/helpers/mergeAttributeConfigs";
-import { mergeUniformConfigs } from "../../../shader-properties/uniforms/helpers/mergeUniformConfigs";
-import { mergeVaryingConfigs } from "../../../shader-properties/varyings/helpers/mergeVaryingConfigs";
-import { FRAG_COLOR_NAME, FRAGMENT_EFFECT } from "../../fragmentEffects.consts";
-import { color } from "../color/color";
-import { defaultFragmentEffect } from "../defaultFragmentEffect/defaultFragmentEffect";
-export const getInteractiveEffects = (transformName, effectProps) => {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.getInteractiveEffects = void 0;
+const reduceFunctions_1 = require("../../../helpers/reduceFunctions");
+const mergeAttributeConfigs_1 = require("../../../shader-properties/attributes/helpers/mergeAttributeConfigs");
+const mergeUniformConfigs_1 = require("../../../shader-properties/uniforms/helpers/mergeUniformConfigs");
+const mergeVaryingConfigs_1 = require("../../../shader-properties/varyings/helpers/mergeVaryingConfigs");
+const fragmentEffects_consts_1 = require("../../fragmentEffects.consts");
+const color_1 = require("../color/color");
+const defaultFragmentEffect_1 = require("../defaultFragmentEffect/defaultFragmentEffect");
+const getInteractiveEffects = (transformName, effectProps) => {
     const { uniformConfig: effectUniforms, varyingConfig: effectVaryings, transformation: effectTransformation, requiredFunctions: effectFunctions, attributeConfig: effectAttributes, } = getEffectData(effectProps);
     const transformation = `
-        vec4 ${FRAG_COLOR_NAME} = ${transformName};
+        vec4 ${fragmentEffects_consts_1.FRAG_COLOR_NAME} = ${transformName};
       
         if(vAffected == 1.0){
             ${effectTransformation};
         }
     `;
-    const mergedUniformConfigs = mergeUniformConfigs([effectUniforms]);
-    const mergedVaryingConfigs = mergeVaryingConfigs([effectVaryings]);
-    const mergedRequiredFunction = reduceFunctions([effectFunctions]);
-    const mergedAttributeConfigs = mergeAttributeConfigs([effectAttributes]);
+    const mergedUniformConfigs = (0, mergeUniformConfigs_1.mergeUniformConfigs)([effectUniforms]);
+    const mergedVaryingConfigs = (0, mergeVaryingConfigs_1.mergeVaryingConfigs)([effectVaryings]);
+    const mergedRequiredFunction = (0, reduceFunctions_1.reduceFunctions)([effectFunctions]);
+    const mergedAttributeConfigs = (0, mergeAttributeConfigs_1.mergeAttributeConfigs)([effectAttributes]);
     return {
         requiredFunctions: mergedRequiredFunction,
         uniformConfig: mergedUniformConfigs,
@@ -26,13 +29,14 @@ export const getInteractiveEffects = (transformName, effectProps) => {
         attributeConfig: mergedAttributeConfigs,
     };
 };
+exports.getInteractiveEffects = getInteractiveEffects;
 const getEffectData = (interactiveEffectProps) => {
     const { effectType, effectProps } = interactiveEffectProps;
     switch (effectType) {
-        case FRAGMENT_EFFECT.COLOR:
-            return color(effectProps);
+        case fragmentEffects_consts_1.FRAGMENT_EFFECT.COLOR:
+            return (0, color_1.color)(effectProps);
         default:
             console.warn(`No interactive effect configured for ${effectProps}`);
-            return defaultFragmentEffect();
+            return (0, defaultFragmentEffect_1.defaultFragmentEffect)();
     }
 };

@@ -1,13 +1,19 @@
-import { useCallback, useEffect, useRef } from "react";
-import PostProcessor from "../../components/post-processor/PostProcessor";
-import { sceneUpdateEvent } from "../../engine/engineEvents";
-import { useSceneContext } from "../../context/context";
-export const useThreadWithPostProcessor = (currentFrameRef, camera, renderer, passes) => {
-    const { state: { initializedScene }, } = useSceneContext();
-    const postProcessor = useRef(null);
-    const update = useCallback(() => {
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.useThreadWithPostProcessor = void 0;
+const react_1 = require("react");
+const PostProcessor_1 = __importDefault(require("../../components/post-processor/PostProcessor"));
+const engineEvents_1 = require("../../engine/engineEvents");
+const context_1 = require("../../context/context");
+const useThreadWithPostProcessor = (currentFrameRef, camera, renderer, passes) => {
+    const { state: { initializedScene }, } = (0, context_1.useSceneContext)();
+    const postProcessor = (0, react_1.useRef)(null);
+    const update = (0, react_1.useCallback)(() => {
         var _a;
-        sceneUpdateEvent();
+        (0, engineEvents_1.sceneUpdateEvent)();
         if (initializedScene) {
             if (initializedScene === null || initializedScene === void 0 ? void 0 : initializedScene.orbitControls) {
                 initializedScene.orbitControls.update();
@@ -23,12 +29,12 @@ export const useThreadWithPostProcessor = (currentFrameRef, camera, renderer, pa
             cancelAnimationFrame(currentFrameRef.current);
         };
     }, [currentFrameRef, postProcessor, camera, initializedScene]);
-    const pause = useCallback(() => {
+    const pause = (0, react_1.useCallback)(() => {
         cancelAnimationFrame(currentFrameRef.current);
     }, [currentFrameRef]);
-    useEffect(() => {
+    (0, react_1.useEffect)(() => {
         if (initializedScene && camera && renderer && !postProcessor.current) {
-            postProcessor.current = new PostProcessor({
+            postProcessor.current = new PostProcessor_1.default({
                 renderer,
                 scene: initializedScene,
                 camera,
@@ -36,15 +42,16 @@ export const useThreadWithPostProcessor = (currentFrameRef, camera, renderer, pa
             });
         }
     }, [initializedScene, camera, renderer, postProcessor, passes]);
-    const initializeSceneWithData = useCallback(() => {
+    const initializeSceneWithData = (0, react_1.useCallback)(() => {
         if (postProcessor.current) {
             update();
         }
     }, [update, postProcessor]);
-    useEffect(() => {
+    (0, react_1.useEffect)(() => {
         initializeSceneWithData();
         return () => {
             pause();
         };
     }, [initializeSceneWithData, pause]);
 };
+exports.useThreadWithPostProcessor = useThreadWithPostProcessor;

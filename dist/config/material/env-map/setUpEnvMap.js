@@ -1,10 +1,14 @@
-import { FILE_TYPES } from "../../../consts";
-import { ENV_MAP_TYPES } from "../materials.consts";
-import { setUpReflectionEnvMap } from "./setUpReflectionEnvMap";
-export const setUpEnvMap = (imageUrl, mapType = ENV_MAP_TYPES.REFLECTION) => {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.setUpEnvMap = void 0;
+const consts_1 = require("../../../consts");
+const materials_consts_1 = require("../materials.consts");
+const setUpReflectionEnvMap_1 = require("./setUpReflectionEnvMap");
+const setUpEnvMap = (imageUrl, mapType = materials_consts_1.ENV_MAP_TYPES.REFLECTION) => {
     switch (mapType) {
-        case ENV_MAP_TYPES.REFLECTION:
+        case materials_consts_1.ENV_MAP_TYPES.REFLECTION:
         default:
-            return setUpReflectionEnvMap(imageUrl, FILE_TYPES.IMAGES.JPG);
+            return (0, setUpReflectionEnvMap_1.setUpReflectionEnvMap)(imageUrl, consts_1.FILE_TYPES.IMAGES.JPG);
     }
 };
+exports.setUpEnvMap = setUpEnvMap;

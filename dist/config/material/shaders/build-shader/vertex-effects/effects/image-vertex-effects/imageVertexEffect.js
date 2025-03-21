@@ -1,30 +1,33 @@
-import { mergeUniformConfigs } from "../../../shader-properties/uniforms/helpers/mergeUniformConfigs";
-import { mergeVaryingConfigs } from "../../../shader-properties/varyings/helpers/mergeVaryingConfigs";
-import { reduceFunctions } from "../../../helpers/reduceFunctions";
-import { mergeAttributeConfigs } from "../../../shader-properties/attributes/helpers/mergeAttributeConfigs";
-import { imageVertexEffectTransform } from "./imageVertexEffectTransform";
-import { formatVertexParameters } from "../../../helpers/formatVertexParameters";
-import { DEFAULT_IMAGE_VERTEX_EFFECT_PROPS, IMAGE_VERTEX_ATTRIBUTE_CONFIG, IMAGE_VERTEX_REQUIRED_FUNCTIONS, IMAGE_VERTEX_UNIFORM_CONFIG, IMAGE_VERTEX_VARYING_CONFIG, } from "./imageVertexEffects.consts";
-export const imageVertexEffect = (effectProps) => {
-    const imageVertexEffectProps = formatVertexParameters(effectProps, DEFAULT_IMAGE_VERTEX_EFFECT_PROPS);
-    const { transformation, effectUniforms, effectVaryings, effectFunctions, effectAttributes, } = imageVertexEffectTransform(imageVertexEffectProps);
-    const uniformConfig = IMAGE_VERTEX_UNIFORM_CONFIG;
-    const varyingConfig = IMAGE_VERTEX_VARYING_CONFIG;
-    const requiredFunctions = IMAGE_VERTEX_REQUIRED_FUNCTIONS;
-    const attributeConfig = IMAGE_VERTEX_ATTRIBUTE_CONFIG;
-    const mergedUniformConfigs = mergeUniformConfigs([
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.imageVertexEffect = void 0;
+const mergeUniformConfigs_1 = require("../../../shader-properties/uniforms/helpers/mergeUniformConfigs");
+const mergeVaryingConfigs_1 = require("../../../shader-properties/varyings/helpers/mergeVaryingConfigs");
+const reduceFunctions_1 = require("../../../helpers/reduceFunctions");
+const mergeAttributeConfigs_1 = require("../../../shader-properties/attributes/helpers/mergeAttributeConfigs");
+const imageVertexEffectTransform_1 = require("./imageVertexEffectTransform");
+const formatVertexParameters_1 = require("../../../helpers/formatVertexParameters");
+const imageVertexEffects_consts_1 = require("./imageVertexEffects.consts");
+const imageVertexEffect = (effectProps) => {
+    const imageVertexEffectProps = (0, formatVertexParameters_1.formatVertexParameters)(effectProps, imageVertexEffects_consts_1.DEFAULT_IMAGE_VERTEX_EFFECT_PROPS);
+    const { transformation, effectUniforms, effectVaryings, effectFunctions, effectAttributes, } = (0, imageVertexEffectTransform_1.imageVertexEffectTransform)(imageVertexEffectProps);
+    const uniformConfig = imageVertexEffects_consts_1.IMAGE_VERTEX_UNIFORM_CONFIG;
+    const varyingConfig = imageVertexEffects_consts_1.IMAGE_VERTEX_VARYING_CONFIG;
+    const requiredFunctions = imageVertexEffects_consts_1.IMAGE_VERTEX_REQUIRED_FUNCTIONS;
+    const attributeConfig = imageVertexEffects_consts_1.IMAGE_VERTEX_ATTRIBUTE_CONFIG;
+    const mergedUniformConfigs = (0, mergeUniformConfigs_1.mergeUniformConfigs)([
         effectUniforms,
         uniformConfig,
     ]);
-    const mergedVaryingConfigs = mergeVaryingConfigs([
+    const mergedVaryingConfigs = (0, mergeVaryingConfigs_1.mergeVaryingConfigs)([
         effectVaryings,
         varyingConfig,
     ]);
-    const mergedRequiredFunction = reduceFunctions([
+    const mergedRequiredFunction = (0, reduceFunctions_1.reduceFunctions)([
         effectFunctions,
         requiredFunctions,
     ]);
-    const mergedAttributeConfigs = mergeAttributeConfigs([
+    const mergedAttributeConfigs = (0, mergeAttributeConfigs_1.mergeAttributeConfigs)([
         attributeConfig,
         effectAttributes,
     ]);
@@ -36,3 +39,4 @@ export const imageVertexEffect = (effectProps) => {
         varyingConfig: mergedVaryingConfigs,
     };
 };
+exports.imageVertexEffect = imageVertexEffect;

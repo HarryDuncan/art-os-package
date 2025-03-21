@@ -1,12 +1,15 @@
-import { mod289Vec4, mod289Float, permuteVec4, permuteFloat, taylorInvSqrtFloat, taylorInvSqrtVec4, } from "../maths/maths";
-export const noise4D = `
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.noise4D = void 0;
+const maths_1 = require("../maths/maths");
+exports.noise4D = `
   
-  ${mod289Vec4}
-  ${mod289Float}
-  ${permuteVec4}
-  ${permuteFloat}
-  ${taylorInvSqrtFloat}
-  ${taylorInvSqrtVec4}
+  ${maths_1.mod289Vec4}
+  ${maths_1.mod289Float}
+  ${maths_1.permuteVec4}
+  ${maths_1.permuteFloat}
+  ${maths_1.taylorInvSqrtFloat}
+  ${maths_1.taylorInvSqrtVec4}
   // **- // end imported block
   
   

@@ -2,13 +2,19 @@
   "name": "art-os-package",
   "version": "1.0.1",
   "description": "Reusable visuals",
-  "type": "module",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
   "scripts": {
     "lint": "npx eslint src",
     "test": "vitest",
-    "build": "tsc",
+    "build": "tsc && tsc --module CommonJS --outDir dist --declaration false",
     "prepare": "npm run build"
   },
   "files": [

@@ -1,4 +1,7 @@
-export const noise = `float noise(vec2 p){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.transitionalNoise = exports.fade = exports.noise = void 0;
+exports.noise = `float noise(vec2 p){
     vec2 ip = floor(p);
     vec2 u = fract(p);
     u = u*u*(3.0-2.0*u);
@@ -8,8 +11,8 @@ export const noise = `float noise(vec2 p){
         mix(rand(ip+vec2(0.0,1.0)),rand(ip+vec2(1.0,1.0)),u.x),u.y);
     return res*res;
 }`;
-export const fade = `vec3 fade(vec3 t) {return t*t*t*(t*(t*6.0-15.0)+10.0);}`;
-export const transitionalNoise = `float transitionalNoise(vec3 P){
+exports.fade = `vec3 fade(vec3 t) {return t*t*t*(t*(t*6.0-15.0)+10.0);}`;
+exports.transitionalNoise = `float transitionalNoise(vec3 P){
     vec3 Pi0 = floor(P); 
     vec3 Pi1 = Pi0 + vec3(1.0); 
     Pi0 = mod(Pi0, 289.0);

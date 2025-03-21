@@ -1,4 +1,7 @@
-export const removeDuplicatesByKey = (inputArray, keyProperty) => {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.removeDuplicatesByKey = void 0;
+const removeDuplicatesByKey = (inputArray, keyProperty) => {
     const uniqueObjects = new Map();
     inputArray.forEach((obj) => {
         if (obj[keyProperty]) {
@@ -10,3 +13,4 @@ export const removeDuplicatesByKey = (inputArray, keyProperty) => {
     });
     return Array.from(uniqueObjects.values());
 };
+exports.removeDuplicatesByKey = removeDuplicatesByKey;

@@ -1,5 +1,8 @@
-import { FRAG_COLOR_NAME } from "../../../fragmentEffects.consts";
-export const phongTransform = () => {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.phongTransform = void 0;
+const fragmentEffects_consts_1 = require("../../../fragmentEffects.consts");
+const phongTransform = () => {
     const transformation = `
   vec3 N = normalize(vNormalInterpolation);
   vec3 L = normalize(uLightPosition - vPosition);
@@ -14,10 +17,11 @@ export const phongTransform = () => {
     float specAngle = max(dot(R, V), 0.0);
     specular = pow(specAngle, uShininess);
   }
-  ${FRAG_COLOR_NAME} = vec4(uAmbientReflection * uAmbientColor +
+  ${fragmentEffects_consts_1.FRAG_COLOR_NAME} = vec4(uAmbientReflection * uAmbientColor +
                       uDiffuseReflection * lambertian * uDiffuseColor +
                       uSpecularReflection * specular * uSpecularColor, 1.0);
 
     `;
     return { transformation };
 };
+exports.phongTransform = phongTransform;

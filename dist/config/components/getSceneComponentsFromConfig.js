@@ -1,14 +1,17 @@
-import { Cube } from "./Cube";
-import { MarchingCubesElement } from "./marching-cubes/MarchingCubesElement";
-import { Mirror } from "./Mirror";
-import { PlaneElement } from "./PlaneElement";
-import { ShaderBackground } from "./shader-background/ShaderBackground";
-import { SCENE_ELEMENTS, } from "./threeJsComponents.types";
-export const getSceneComponents = (componentConfigs = []) => componentConfigs.flatMap(({ id, componentType, componentProps }) => {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.getSceneComponents = void 0;
+const Cube_1 = require("./Cube");
+const MarchingCubesElement_1 = require("./marching-cubes/MarchingCubesElement");
+const Mirror_1 = require("./Mirror");
+const PlaneElement_1 = require("./PlaneElement");
+const ShaderBackground_1 = require("./shader-background/ShaderBackground");
+const threeJsComponents_types_1 = require("./threeJsComponents.types");
+const getSceneComponents = (componentConfigs = []) => componentConfigs.flatMap(({ id, componentType, componentProps }) => {
     switch (componentType) {
-        case SCENE_ELEMENTS.MARCHING_CUBES: {
+        case threeJsComponents_types_1.SCENE_ELEMENTS.MARCHING_CUBES: {
             const { resolution, material, position, isolation, scale } = componentProps;
-            return MarchingCubesElement({
+            return (0, MarchingCubesElement_1.MarchingCubesElement)({
                 id,
                 resolution,
                 material,
@@ -32,24 +35,25 @@ export const getSceneComponents = (componentConfigs = []) => componentConfigs.fl
         //     position,
         //   });
         // }
-        case SCENE_ELEMENTS.MIRROR: {
+        case threeJsComponents_types_1.SCENE_ELEMENTS.MIRROR: {
             const { geometry, position } = componentProps;
-            return Mirror({ id, geometry, position });
+            return (0, Mirror_1.Mirror)({ id, geometry, position });
         }
-        case SCENE_ELEMENTS.PLANE: {
+        case threeJsComponents_types_1.SCENE_ELEMENTS.PLANE: {
             const { material, position, size } = componentProps;
-            return PlaneElement({ id, position, size, material });
+            return (0, PlaneElement_1.PlaneElement)({ id, position, size, material });
         }
-        case SCENE_ELEMENTS.CUBE: {
+        case threeJsComponents_types_1.SCENE_ELEMENTS.CUBE: {
             const { material, position, size } = componentProps;
-            return Cube({ id, position, size, material });
+            return (0, Cube_1.Cube)({ id, position, size, material });
         }
-        case SCENE_ELEMENTS.SHADER_BACKGROUND: {
+        case threeJsComponents_types_1.SCENE_ELEMENTS.SHADER_BACKGROUND: {
             const { material, position, size } = componentProps;
-            return ShaderBackground({ material, position, size });
+            return (0, ShaderBackground_1.ShaderBackground)({ material, position, size });
         }
         default:
             console.warn("component not set up for this component type");
             return [];
     }
 });
+exports.getSceneComponents = getSceneComponents;

@@ -1,8 +1,11 @@
-export const UNIFORM_DECLARATION = "// UNIFORM DECLARATION";
-export const EMPTY_UNIFORM_CONFIG = {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.UNIFORM_TAGS = exports.EMPTY_UNIFORM_CONFIG = exports.UNIFORM_DECLARATION = void 0;
+exports.UNIFORM_DECLARATION = "// UNIFORM DECLARATION";
+exports.EMPTY_UNIFORM_CONFIG = {
     defaultUniforms: [],
     customUniforms: [],
 };
-export const UNIFORM_TAGS = {
+exports.UNIFORM_TAGS = {
     COLOR: "COLOR",
 };

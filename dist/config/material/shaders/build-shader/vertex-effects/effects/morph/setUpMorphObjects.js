@@ -1,6 +1,9 @@
-import { preTransforms } from "./pre-transform/preTransforms";
-export const setUpMorphObjects = (morphCount, preTransformConfigs) => {
-    const preTransformData = preTransforms(preTransformConfigs);
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.setUpMorphObjects = void 0;
+const preTransforms_1 = require("./pre-transform/preTransforms");
+const setUpMorphObjects = (morphCount, preTransformConfigs) => {
+    const preTransformData = (0, preTransforms_1.preTransforms)(preTransformConfigs);
     const morphObjects = new Array(morphCount).fill("").map((_value, index) => {
         const transformData = preTransformData.find((value) => value.index === index);
         if (transformData) {
@@ -22,3 +25,4 @@ export const setUpMorphObjects = (morphCount, preTransformConfigs) => {
         requiredFunctions: requiredTransformFunctions,
     };
 };
+exports.setUpMorphObjects = setUpMorphObjects;

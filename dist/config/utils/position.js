@@ -1,4 +1,7 @@
-export const getPosition = (positionConfig) => {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.getPosition = void 0;
+const getPosition = (positionConfig) => {
     var _a, _b, _c;
     return {
         x: (_a = positionConfig.x) !== null && _a !== void 0 ? _a : 0,
@@ -6,3 +9,4 @@ export const getPosition = (positionConfig) => {
         z: (_c = positionConfig.z) !== null && _c !== void 0 ? _c : 0,
     };
 };
+exports.getPosition = getPosition;

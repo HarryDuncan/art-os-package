@@ -1,10 +1,13 @@
-import { POINT_PARENTS } from "../../../constants/buildShader.consts";
-import { TRIGGERED_FRAGMENT_EFFECT } from "../../../fragment-effects/fragmentEffects.consts";
-export const TRIGGERED_UNIFORM_CONFIG = {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.DEFAULT_TRIGGERED_EFFECT = exports.TRIGGERED_VARYING_CONFIG = exports.TRIGGERED_UNIFORM_CONFIG = void 0;
+const buildShader_consts_1 = require("../../../constants/buildShader.consts");
+const fragmentEffects_consts_1 = require("../../../fragment-effects/fragmentEffects.consts");
+exports.TRIGGERED_UNIFORM_CONFIG = {
     defaultUniforms: ["uIsTriggered"],
     customUniforms: [],
 };
-export const TRIGGERED_VARYING_CONFIG = [
+exports.TRIGGERED_VARYING_CONFIG = [
     {
         id: "vTriggered",
         valueType: "FLOAT",
@@ -12,8 +15,8 @@ export const TRIGGERED_VARYING_CONFIG = [
         value: "isTriggered",
     },
 ];
-export const DEFAULT_TRIGGERED_EFFECT = {
+exports.DEFAULT_TRIGGERED_EFFECT = {
     declareInTransform: false,
-    pointParent: POINT_PARENTS.TRIGGERED,
-    effectType: TRIGGERED_FRAGMENT_EFFECT.EMPTY,
+    pointParent: buildShader_consts_1.POINT_PARENTS.TRIGGERED,
+    effectType: fragmentEffects_consts_1.TRIGGERED_FRAGMENT_EFFECT.EMPTY,
 };

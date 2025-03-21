@@ -1,11 +1,14 @@
-import { IMAGE_AS_MASK_ATTRIBUTES, IMAGE_AS_MASK_FUNCTIONS, IMAGE_AS_MASK_UNIFORMS, IMAGE_AS_MASK_VARYINGS, } from "./imageAsMask.consts";
-import { imageAsMaskTransform } from "./imageAsMaskTransform";
-export const imageAsMask = (_effectProps = {}) => {
-    const { transform } = imageAsMaskTransform();
-    const mergedUniformConfigs = IMAGE_AS_MASK_UNIFORMS;
-    const mergedVaryings = IMAGE_AS_MASK_VARYINGS;
-    const mergedAttributes = IMAGE_AS_MASK_ATTRIBUTES;
-    const requiredFunctions = IMAGE_AS_MASK_FUNCTIONS;
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.imageAsMask = void 0;
+const imageAsMask_consts_1 = require("./imageAsMask.consts");
+const imageAsMaskTransform_1 = require("./imageAsMaskTransform");
+const imageAsMask = (_effectProps = {}) => {
+    const { transform } = (0, imageAsMaskTransform_1.imageAsMaskTransform)();
+    const mergedUniformConfigs = imageAsMask_consts_1.IMAGE_AS_MASK_UNIFORMS;
+    const mergedVaryings = imageAsMask_consts_1.IMAGE_AS_MASK_VARYINGS;
+    const mergedAttributes = imageAsMask_consts_1.IMAGE_AS_MASK_ATTRIBUTES;
+    const requiredFunctions = imageAsMask_consts_1.IMAGE_AS_MASK_FUNCTIONS;
     return {
         requiredFunctions,
         uniformConfig: mergedUniformConfigs,
@@ -14,3 +17,4 @@ export const imageAsMask = (_effectProps = {}) => {
         attributeConfig: mergedAttributes,
     };
 };
+exports.imageAsMask = imageAsMask;

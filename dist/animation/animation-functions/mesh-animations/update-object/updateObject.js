@@ -1,10 +1,14 @@
-import { updateObjectPosition } from "./updateObjectPosition";
-import { AXIS, } from "../../../../utils/three-dimension-space/position/position.types";
-import { OBJECT_UPDATE_PROPERTY } from "../../../../animation/animation.constants";
-export const updateObject = (object, updatedValue, objectParameter, axis = AXIS.X) => {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.updateObject = void 0;
+const updateObjectPosition_1 = require("./updateObjectPosition");
+const position_types_1 = require("../../../../utils/three-dimension-space/position/position.types");
+const animation_constants_1 = require("../../../../animation/animation.constants");
+const updateObject = (object, updatedValue, objectParameter, axis = position_types_1.AXIS.X) => {
     switch (objectParameter) {
-        case OBJECT_UPDATE_PROPERTY.POSITION:
+        case animation_constants_1.OBJECT_UPDATE_PROPERTY.POSITION:
         default:
-            updateObjectPosition(object, updatedValue, axis);
+            (0, updateObjectPosition_1.updateObjectPosition)(object, updatedValue, axis);
     }
 };
+exports.updateObject = updateObject;

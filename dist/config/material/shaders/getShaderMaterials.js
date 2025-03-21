@@ -1,13 +1,16 @@
-import { ShaderMaterial } from "three";
-import { configureBlendingOptions } from "../blending-options/configureBlendingOptions";
-import { configureShaders } from "./configureShaders";
-import { MATERIAL_TYPES, SHADER_MATERIALS } from "../materials.consts";
-export const getShaderMaterials = (config, assets) => {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.getShaderMaterials = void 0;
+const three_1 = require("three");
+const configureBlendingOptions_1 = require("../blending-options/configureBlendingOptions");
+const configureShaders_1 = require("./configureShaders");
+const materials_consts_1 = require("../materials.consts");
+const getShaderMaterials = (config, assets) => {
     const { globalMaterialConfigs } = config;
     if (!globalMaterialConfigs)
         return [];
     return globalMaterialConfigs.flatMap((materialConfig) => {
-        if (SHADER_MATERIALS.includes(materialConfig.materialType)) {
+        if (materials_consts_1.SHADER_MATERIALS.includes(materialConfig.materialType)) {
             const shaderMaterial = setUpShaderMaterial(materialConfig, assets);
             if (shaderMaterial) {
                 shaderMaterial.name = materialConfig.id;
@@ -17,13 +20,14 @@ export const getShaderMaterials = (config, assets) => {
         return [];
     });
 };
+exports.getShaderMaterials = getShaderMaterials;
 const setUpShaderMaterial = (materialConfig, assets) => {
     const { shaderConfig, uniforms } = materialConfig.materialProps;
-    const { vertexShader, fragmentShader, configuredUniforms } = configureShaders(shaderConfig, uniforms, assets);
-    const blendingOptions = configureBlendingOptions(materialConfig.blendingConfig);
+    const { vertexShader, fragmentShader, configuredUniforms } = (0, configureShaders_1.configureShaders)(shaderConfig, uniforms, assets);
+    const blendingOptions = (0, configureBlendingOptions_1.configureBlendingOptions)(materialConfig.blendingConfig);
     switch (materialConfig.materialType) {
-        case MATERIAL_TYPES.SHADER: {
-            return new ShaderMaterial(Object.assign({ uniforms: configuredUniforms, vertexShader,
+        case materials_consts_1.MATERIAL_TYPES.SHADER: {
+            return new three_1.ShaderMaterial(Object.assign({ uniforms: configuredUniforms, vertexShader,
                 fragmentShader }, blendingOptions));
         }
         default:

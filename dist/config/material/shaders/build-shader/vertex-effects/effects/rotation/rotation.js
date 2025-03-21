@@ -1,14 +1,18 @@
-import { formatVertexParameters } from "../../../helpers/formatVertexParameters";
-import { DEFAULT_ROTATION_EFFECT_CONFIG, ROTATION_ATTRIBUTES, ROTATION_VARYINGS, } from "./rotation.consts";
-import { rotationTransform } from "./rotationTransform";
-export const rotationEffect = (effectProps = {}) => {
-    const formattedProps = formatVertexParameters(effectProps, DEFAULT_ROTATION_EFFECT_CONFIG);
-    const { uniformConfig, requiredFunctions, transformation } = rotationTransform(formattedProps);
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.rotationEffect = void 0;
+const formatVertexParameters_1 = require("../../../helpers/formatVertexParameters");
+const rotation_consts_1 = require("./rotation.consts");
+const rotationTransform_1 = require("./rotationTransform");
+const rotationEffect = (effectProps = {}) => {
+    const formattedProps = (0, formatVertexParameters_1.formatVertexParameters)(effectProps, rotation_consts_1.DEFAULT_ROTATION_EFFECT_CONFIG);
+    const { uniformConfig, requiredFunctions, transformation } = (0, rotationTransform_1.rotationTransform)(formattedProps);
     return {
         requiredFunctions,
         uniformConfig,
         transformation,
-        varyingConfig: ROTATION_VARYINGS,
-        attributeConfig: ROTATION_ATTRIBUTES,
+        varyingConfig: rotation_consts_1.ROTATION_VARYINGS,
+        attributeConfig: rotation_consts_1.ROTATION_ATTRIBUTES,
     };
 };
+exports.rotationEffect = rotationEffect;

@@ -1,9 +1,12 @@
-import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader";
-import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
-export const loadGLTF = (path) => new Promise((resolve) => {
-    const gltfLoader = new GLTFLoader();
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.loadGLTF = void 0;
+const DRACOLoader_1 = require("three/examples/jsm/loaders/DRACOLoader");
+const GLTFLoader_1 = require("three/examples/jsm/loaders/GLTFLoader");
+const loadGLTF = (path) => new Promise((resolve) => {
+    const gltfLoader = new GLTFLoader_1.GLTFLoader();
     // Optional: Provide a DRACOLoader instance to decode compressed mesh data
-    const dracoLoader = new DRACOLoader();
+    const dracoLoader = new DRACOLoader_1.DRACOLoader();
     dracoLoader.setDecoderPath("https://www.gstatic.com/draco/v1/decoders/");
     gltfLoader.setDRACOLoader(dracoLoader);
     gltfLoader.load(path, (gltf) => {
@@ -17,3 +20,4 @@ export const loadGLTF = (path) => new Promise((resolve) => {
         console.error(error);
     });
 });
+exports.loadGLTF = loadGLTF;

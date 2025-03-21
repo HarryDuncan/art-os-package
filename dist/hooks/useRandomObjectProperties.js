@@ -1,17 +1,21 @@
-import { useMemo } from "react";
-import { getRandomCoordinates } from "../utils/randomize/getRandomCoordinates";
-import { xyzToArray } from "../utils/xyzToArray";
-export const useRandomObjectProperties = (numberOfObjects, bounds) => {
-    return useMemo(() => {
-        const coords = getRandomCoordinates(numberOfObjects, bounds);
-        const rotation = getRandomCoordinates(numberOfObjects, bounds);
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.useRandomObjectProperties = void 0;
+const react_1 = require("react");
+const getRandomCoordinates_1 = require("../utils/randomize/getRandomCoordinates");
+const xyzToArray_1 = require("../utils/xyzToArray");
+const useRandomObjectProperties = (numberOfObjects, bounds) => {
+    return (0, react_1.useMemo)(() => {
+        const coords = (0, getRandomCoordinates_1.getRandomCoordinates)(numberOfObjects, bounds);
+        const rotation = (0, getRandomCoordinates_1.getRandomCoordinates)(numberOfObjects, bounds);
         const randomObjects = [];
         for (let i = 0; i < numberOfObjects; i += 1) {
             randomObjects.push({
-                position: xyzToArray(coords[i]),
-                rotation: xyzToArray(rotation[i]),
+                position: (0, xyzToArray_1.xyzToArray)(coords[i]),
+                rotation: (0, xyzToArray_1.xyzToArray)(rotation[i]),
             });
         }
         return randomObjects;
     }, [numberOfObjects, bounds]);
 };
+exports.useRandomObjectProperties = useRandomObjectProperties;

@@ -1,20 +1,23 @@
-import { distortionTransform } from "./distortionTransform";
-import { DEFAULT_DISTORT_FUNCTIONS, DEFAULT_DISTORT_UNIFORMS, DEFAULT_DISTORT_VARYINGS, DEFAULT_DISTORTION_EFFECT_PARAMETERS, } from "./distortion.defaults";
-import { formatVertexParameters } from "../../../../helpers/formatVertexParameters";
-import { mergeUniformConfigs } from "../../../../shader-properties/uniforms/helpers/mergeUniformConfigs";
-import { reduceFunctions } from "../../../../helpers/reduceFunctions";
-export const distortionEffect = (effectProps) => {
-    const distortionEffectParameters = formatVertexParameters(effectProps, DEFAULT_DISTORTION_EFFECT_PARAMETERS);
-    const { transformation, uniformConfig: effectUniformConfig, requiredFunctions: effectFunctions, } = distortionTransform(distortionEffectParameters);
-    const requiredFunctions = reduceFunctions([
-        DEFAULT_DISTORT_FUNCTIONS,
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.distortionEffect = void 0;
+const distortionTransform_1 = require("./distortionTransform");
+const distortion_defaults_1 = require("./distortion.defaults");
+const formatVertexParameters_1 = require("../../../../helpers/formatVertexParameters");
+const mergeUniformConfigs_1 = require("../../../../shader-properties/uniforms/helpers/mergeUniformConfigs");
+const reduceFunctions_1 = require("../../../../helpers/reduceFunctions");
+const distortionEffect = (effectProps) => {
+    const distortionEffectParameters = (0, formatVertexParameters_1.formatVertexParameters)(effectProps, distortion_defaults_1.DEFAULT_DISTORTION_EFFECT_PARAMETERS);
+    const { transformation, uniformConfig: effectUniformConfig, requiredFunctions: effectFunctions, } = (0, distortionTransform_1.distortionTransform)(distortionEffectParameters);
+    const requiredFunctions = (0, reduceFunctions_1.reduceFunctions)([
+        distortion_defaults_1.DEFAULT_DISTORT_FUNCTIONS,
         effectFunctions,
     ]);
-    const uniformConfig = mergeUniformConfigs([
-        DEFAULT_DISTORT_UNIFORMS,
+    const uniformConfig = (0, mergeUniformConfigs_1.mergeUniformConfigs)([
+        distortion_defaults_1.DEFAULT_DISTORT_UNIFORMS,
         effectUniformConfig,
     ]);
-    const varyingConfig = DEFAULT_DISTORT_VARYINGS;
+    const varyingConfig = distortion_defaults_1.DEFAULT_DISTORT_VARYINGS;
     return {
         attributeConfig: [],
         requiredFunctions,
@@ -23,3 +26,4 @@ export const distortionEffect = (effectProps) => {
         varyingConfig,
     };
 };
+exports.distortionEffect = distortionEffect;

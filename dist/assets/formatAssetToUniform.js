@@ -1,4 +1,7 @@
-export const formatAssetToUniform = (assets, uniforms) => {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.formatAssetToUniform = void 0;
+const formatAssetToUniform = (assets, uniforms) => {
     assets.forEach((asset) => {
         if (uniforms[asset.id] && asset.data) {
             uniforms[asset.id] = { value: asset.data };
@@ -9,3 +12,4 @@ export const formatAssetToUniform = (assets, uniforms) => {
     });
     return uniforms;
 };
+exports.formatAssetToUniform = formatAssetToUniform;

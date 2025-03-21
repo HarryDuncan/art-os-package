@@ -1,6 +1,9 @@
-import { hash33 } from "../maths/maths";
-export const simplePerlinNoise = `
-${hash33}
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.simplePerlinNoise = void 0;
+const maths_1 = require("../maths/maths");
+exports.simplePerlinNoise = `
+${maths_1.hash33}
 float simplePerlinNoise(vec3 p) {
     vec3 pi = floor(p);
     vec3 pf = p - pi;

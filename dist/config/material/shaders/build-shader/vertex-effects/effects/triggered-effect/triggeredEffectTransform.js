@@ -1,11 +1,14 @@
-import { DEFAULT_VERTEX_EFFECT } from "../../../constants";
-import { TRIGGERED_FRAGMENT_EFFECT } from "../../../fragment-effects/fragmentEffects.consts";
-import { VERTEX_EFFECTS } from "../../vertexEffects.consts";
-import { expand } from "../displacement/expand/expand";
-import { explode } from "../displacement/explode/explode";
-import { rotationEffect } from "../rotation/rotation";
-import { DEFAULT_TRIGGERED_EFFECT } from "./triggeredEffect.consts";
-export const triggeredEffectTransform = (triggeredEffectProps) => {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.triggeredEffectTransform = void 0;
+const constants_1 = require("../../../constants");
+const fragmentEffects_consts_1 = require("../../../fragment-effects/fragmentEffects.consts");
+const vertexEffects_consts_1 = require("../../vertexEffects.consts");
+const expand_1 = require("../displacement/expand/expand");
+const explode_1 = require("../displacement/explode/explode");
+const rotation_1 = require("../rotation/rotation");
+const triggeredEffect_consts_1 = require("./triggeredEffect.consts");
+const triggeredEffectTransform = (triggeredEffectProps) => {
     const { uniformConfig: effectUniforms, varyingConfig: effectVaryings, transformation: effectTransform, requiredFunctions: effectFunctions, attributeConfig: effectAttributes, } = getEffectData(triggeredEffectProps);
     const transformation = `
               float isTriggered = 0.0;
@@ -22,18 +25,19 @@ export const triggeredEffectTransform = (triggeredEffectProps) => {
         effectAttributes,
     };
 };
+exports.triggeredEffectTransform = triggeredEffectTransform;
 const getEffectData = (triggeredEffectProps) => {
     const { effectType, effectProps } = triggeredEffectProps;
-    const formattedEffectProps = Object.assign(Object.assign({}, DEFAULT_TRIGGERED_EFFECT), effectProps);
+    const formattedEffectProps = Object.assign(Object.assign({}, triggeredEffect_consts_1.DEFAULT_TRIGGERED_EFFECT), effectProps);
     switch (effectType) {
-        case VERTEX_EFFECTS.EXPLODE:
-            return explode(formattedEffectProps);
-        case VERTEX_EFFECTS.EXPAND:
-            return expand(formattedEffectProps);
-        case VERTEX_EFFECTS.ROTATE:
-            return rotationEffect(formattedEffectProps);
-        case TRIGGERED_FRAGMENT_EFFECT.EMPTY:
+        case vertexEffects_consts_1.VERTEX_EFFECTS.EXPLODE:
+            return (0, explode_1.explode)(formattedEffectProps);
+        case vertexEffects_consts_1.VERTEX_EFFECTS.EXPAND:
+            return (0, expand_1.expand)(formattedEffectProps);
+        case vertexEffects_consts_1.VERTEX_EFFECTS.ROTATE:
+            return (0, rotation_1.rotationEffect)(formattedEffectProps);
+        case fragmentEffects_consts_1.TRIGGERED_FRAGMENT_EFFECT.EMPTY:
         default:
-            return Object.assign({}, DEFAULT_VERTEX_EFFECT);
+            return Object.assign({}, constants_1.DEFAULT_VERTEX_EFFECT);
     }
 };

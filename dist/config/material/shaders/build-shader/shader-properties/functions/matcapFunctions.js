@@ -1,9 +1,12 @@
-export const matcapFunction = ` vec2 matcapFunction(vec3 eye, vec3 normal) {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.textureLevel = exports.matcapFunction = void 0;
+exports.matcapFunction = ` vec2 matcapFunction(vec3 eye, vec3 normal) {
     vec3 reflected = reflect(eye, normal);
     float m = 2.8284271247461903 * sqrt( reflected.z+1.0 );
     return reflected.xy / m + 0.5;
 }`;
-export const textureLevel = `float textureLevel(in sampler2D sampler, in vec2 v_st){
+exports.textureLevel = `float textureLevel(in sampler2D sampler, in vec2 v_st){
     vec2 size = vec2(textureSize(sampler, 0));
 
     float levelCount = max(log2(size.x), log2(size.y));

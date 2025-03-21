@@ -1,12 +1,15 @@
-import { setUpAnimationLoop } from "./animation-loop/setUpAnimationLoop";
-import { snapAnimationLoopOnPause } from "./animation-loop/snapAnimationLoopOnPause";
-export const runShaderAnimations = (scene, animationProperties, animatedObjects) => {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.runShaderAnimations = void 0;
+const setUpAnimationLoop_1 = require("./animation-loop/setUpAnimationLoop");
+const snapAnimationLoopOnPause_1 = require("./animation-loop/snapAnimationLoopOnPause");
+const runShaderAnimations = (scene, animationProperties, animatedObjects) => {
     let startTime = null;
     let shaderTime = 0;
     let pauseTime = 0; // Track the pause duration
     const { animationDurationMilis, repeatAnimation, snapOnPause, animationPauseMilis, animationLoopConfig, } = animationProperties;
     const duration = animationDurationMilis / 1000;
-    const animationLoop = setUpAnimationLoop(animationLoopConfig, duration);
+    const animationLoop = (0, setUpAnimationLoop_1.setUpAnimationLoop)(animationLoopConfig, duration);
     function step(timestamp) {
         // Initialize start time
         if (startTime === null) {
@@ -30,7 +33,7 @@ export const runShaderAnimations = (scene, animationProperties, animatedObjects)
             shaderTime = Math.round(shaderTime);
             if (snapOnPause) {
                 animatedObjects.forEach((animatedObject) => {
-                    snapAnimationLoopOnPause(animationLoopConfig, animatedObject);
+                    (0, snapAnimationLoopOnPause_1.snapAnimationLoopOnPause)(animationLoopConfig, animatedObject);
                 });
             }
             if (repeatAnimation) {
@@ -44,3 +47,4 @@ export const runShaderAnimations = (scene, animationProperties, animatedObjects)
     }
     requestAnimationFrame(step);
 };
+exports.runShaderAnimations = runShaderAnimations;

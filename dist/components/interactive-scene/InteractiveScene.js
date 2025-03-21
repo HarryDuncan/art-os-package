@@ -1,29 +1,32 @@
-import { Clock, Scene } from "three";
-import { AnimationManager } from "../../animation/animation-manager/AnimationManager";
-import { ENGINE_EVENTS } from "../../engine/engine.consts";
-export class InteractiveScene extends Scene {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.InteractiveScene = void 0;
+const three_1 = require("three");
+const AnimationManager_1 = require("../../animation/animation-manager/AnimationManager");
+const engine_consts_1 = require("../../engine/engine.consts");
+class InteractiveScene extends three_1.Scene {
     constructor(sceneFunctions, eventConfig, animationConfig, interactionEvents) {
         super();
         this.guid = "";
         this.sceneFunctions = sceneFunctions;
-        this.clock = new Clock();
+        this.clock = new three_1.Clock();
         this.bindExecutionFunctions();
         this.addEvents(eventConfig);
         this.addInteractionEvents(interactionEvents);
         this.orbitControls = null;
-        this.animationManager = new AnimationManager(animationConfig);
+        this.animationManager = new AnimationManager_1.AnimationManager(animationConfig);
         this.eventsSet = false;
     }
     bindExecutionFunctions() {
         const { onTimeUpdate, onTriggeredUpdate } = this.sceneFunctions;
         if (onTimeUpdate) {
-            document.addEventListener(ENGINE_EVENTS.UPDATE_SCENE, () => onTimeUpdate(this));
+            document.addEventListener(engine_consts_1.ENGINE_EVENTS.UPDATE_SCENE, () => onTimeUpdate(this));
         }
         if (onTriggeredUpdate) {
-            document.addEventListener(ENGINE_EVENTS.TIGGERED_UPDATE, () => onTriggeredUpdate(this));
+            document.addEventListener(engine_consts_1.ENGINE_EVENTS.TIGGERED_UPDATE, () => onTriggeredUpdate(this));
         }
         // @ts-ignore
-        document.addEventListener(ENGINE_EVENTS.MESH_ADDED, ({ detail }) => {
+        document.addEventListener(engine_consts_1.ENGINE_EVENTS.MESH_ADDED, ({ detail }) => {
             // @ts-ignore
             this.add(detail);
         });
@@ -67,3 +70,4 @@ export class InteractiveScene extends Scene {
         }
     }
 }
+exports.InteractiveScene = InteractiveScene;

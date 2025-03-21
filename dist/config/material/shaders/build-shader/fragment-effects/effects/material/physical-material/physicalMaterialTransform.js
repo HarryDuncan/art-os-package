@@ -1,5 +1,8 @@
-import { FRAG_COLOR_NAME, } from "../../../fragmentEffects.consts";
-export const physicalMaterialTransform = () => {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.physicalMaterialTransform = void 0;
+const fragmentEffects_consts_1 = require("../../../fragmentEffects.consts");
+const physicalMaterialTransform = () => {
     const transform = `
     
   	vec4 diffuseColor = vec4( uDiffuse, uOpacity );
@@ -54,9 +57,10 @@ export const physicalMaterialTransform = () => {
 	vec3 totalSpecular = reflectedLight.directSpecular + reflectedLight.indirectSpecular;
 	vec3 outgoingLight = totalDiffuse + totalSpecular + totalEmissiveRadiance;
     diffuseColor.a = 0.2;
-    ${FRAG_COLOR_NAME} = vec4( outgoingLight, diffuseColor.a );
-    ${FRAG_COLOR_NAME}.rgb = linearToneMapping( ${FRAG_COLOR_NAME}.rgb ,uToneMappingExposure);
-   ${FRAG_COLOR_NAME} = linearTosRGB( ${FRAG_COLOR_NAME} );
+    ${fragmentEffects_consts_1.FRAG_COLOR_NAME} = vec4( outgoingLight, diffuseColor.a );
+    ${fragmentEffects_consts_1.FRAG_COLOR_NAME}.rgb = linearToneMapping( ${fragmentEffects_consts_1.FRAG_COLOR_NAME}.rgb ,uToneMappingExposure);
+   ${fragmentEffects_consts_1.FRAG_COLOR_NAME} = linearTosRGB( ${fragmentEffects_consts_1.FRAG_COLOR_NAME} );
     `;
     return { transform };
 };
+exports.physicalMaterialTransform = physicalMaterialTransform;

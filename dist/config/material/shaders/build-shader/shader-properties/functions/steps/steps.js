@@ -1,4 +1,7 @@
-export const zeroToZeroParabola = {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.zeroToZeroParabola = void 0;
+exports.zeroToZeroParabola = {
     id: "zeroToZeroParabola",
     functionDefinition: `
     float zeroToZeroParabola(float u_value) {

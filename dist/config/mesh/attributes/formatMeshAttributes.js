@@ -1,10 +1,13 @@
-import { MESH_TRANSFORM } from "../mesh.consts";
-export const formatMeshAttributes = (meshTransforms, shaderAttributeConfigs) => {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.formatMeshAttributes = void 0;
+const mesh_consts_1 = require("../mesh.consts");
+const formatMeshAttributes = (meshTransforms, shaderAttributeConfigs) => {
     const transformMaterialIds = meshTransforms.flatMap(({ materialId }) => materialId !== null && materialId !== void 0 ? materialId : []);
     const addedTransforms = shaderAttributeConfigs.flatMap(({ materialId, attributeConfigs }) => {
         if (!transformMaterialIds.includes(materialId)) {
             return {
-                type: MESH_TRANSFORM.CUSTOM_ATTRIBUTES,
+                type: mesh_consts_1.MESH_TRANSFORM.CUSTOM_ATTRIBUTES,
                 transformedMeshIds: [],
                 materialId,
                 attributeConfig: attributeConfigs,
@@ -30,3 +33,4 @@ export const formatMeshAttributes = (meshTransforms, shaderAttributeConfigs) => 
     });
     return [...formattedTransforms, ...addedTransforms];
 };
+exports.formatMeshAttributes = formatMeshAttributes;

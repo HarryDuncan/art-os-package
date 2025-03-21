@@ -1,8 +1,11 @@
-import { useState, useCallback } from "react";
-export const useCounter = (n, lowerBound, upperBound, direction = "up") => {
-    const [count, setCount] = useState(lowerBound);
-    const [currentDirection, setCurrentDirection] = useState(direction);
-    const stepFunction = useCallback(() => {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.useCounter = void 0;
+const react_1 = require("react");
+const useCounter = (n, lowerBound, upperBound, direction = "up") => {
+    const [count, setCount] = (0, react_1.useState)(lowerBound);
+    const [currentDirection, setCurrentDirection] = (0, react_1.useState)(direction);
+    const stepFunction = (0, react_1.useCallback)(() => {
         setCount((prevCount) => {
             if (currentDirection === "up") {
                 // If the previous count is greater than or equal to the upper bound, change current direction to down
@@ -22,3 +25,4 @@ export const useCounter = (n, lowerBound, upperBound, direction = "up") => {
     }, [n, currentDirection, lowerBound, upperBound]);
     return { count, stepFunction };
 };
+exports.useCounter = useCounter;

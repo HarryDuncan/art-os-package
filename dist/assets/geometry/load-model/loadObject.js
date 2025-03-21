@@ -1,3 +1,4 @@
+"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -7,10 +8,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import { OBJLoader } from "three/examples/jsm/loaders/OBJLoader";
-export const loadObject = (path) => __awaiter(void 0, void 0, void 0, function* () {
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.loadObject = void 0;
+const OBJLoader_1 = require("three/examples/jsm/loaders/OBJLoader");
+const loadObject = (path) => __awaiter(void 0, void 0, void 0, function* () {
     return new Promise((resolve) => {
-        const objectLoader = new OBJLoader();
+        const objectLoader = new OBJLoader_1.OBJLoader();
         objectLoader.load(path, (object) => {
             const result = object;
             resolve(result);
@@ -23,3 +26,4 @@ export const loadObject = (path) => __awaiter(void 0, void 0, void 0, function* 
         });
     });
 });
+exports.loadObject = loadObject;

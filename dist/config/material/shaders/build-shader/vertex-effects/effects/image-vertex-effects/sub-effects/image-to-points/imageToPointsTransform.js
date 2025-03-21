@@ -1,34 +1,37 @@
-import { ShaderPropertyValueTypes } from "../../../../../constants";
-import { rand, random, } from "../../../../../shader-properties/functions/maths/maths";
-import { noise } from "../../../../../shader-properties/functions/noise/noise";
-import { EMPTY_UNIFORM_CONFIG } from "../../../../../shader-properties/uniforms/uniforms.consts";
-import { VARYING_TYPES } from "../../../../../shader-properties/varyings/varyings.consts";
-import { VERTEX_POINT_NAME } from "../../../../vertexEffects.consts";
-export const imageToPointsTransform = (_imageVertexEffectProps) => {
-    const effectUniforms = EMPTY_UNIFORM_CONFIG;
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.imageToPointsTransform = void 0;
+const constants_1 = require("../../../../../constants");
+const maths_1 = require("../../../../../shader-properties/functions/maths/maths");
+const noise_1 = require("../../../../../shader-properties/functions/noise/noise");
+const uniforms_consts_1 = require("../../../../../shader-properties/uniforms/uniforms.consts");
+const varyings_consts_1 = require("../../../../../shader-properties/varyings/varyings.consts");
+const vertexEffects_consts_1 = require("../../../../vertexEffects.consts");
+const imageToPointsTransform = (_imageVertexEffectProps) => {
+    const effectUniforms = uniforms_consts_1.EMPTY_UNIFORM_CONFIG;
     const effectVaryings = [
         {
             id: "vUv",
-            varyingType: VARYING_TYPES.ATTRIBUTE,
+            varyingType: varyings_consts_1.VARYING_TYPES.ATTRIBUTE,
             attributeKey: "uv",
-            valueType: ShaderPropertyValueTypes.VEC2,
+            valueType: constants_1.ShaderPropertyValueTypes.VEC2,
         },
         {
             id: "vPUv",
-            varyingType: VARYING_TYPES.CUSTOM,
-            valueType: ShaderPropertyValueTypes.VEC2,
+            varyingType: varyings_consts_1.VARYING_TYPES.CUSTOM,
+            valueType: constants_1.ShaderPropertyValueTypes.VEC2,
         },
         {
             id: "vPixelColor",
-            varyingType: VARYING_TYPES.CUSTOM,
-            valueType: ShaderPropertyValueTypes.VEC4,
+            varyingType: varyings_consts_1.VARYING_TYPES.CUSTOM,
+            valueType: constants_1.ShaderPropertyValueTypes.VEC4,
             value: `colA`,
         },
     ];
     const effectFunctions = [
-        { id: "rand", functionDefinition: rand },
-        { id: "noise", functionDefinition: noise },
-        { id: "random", functionDefinition: random },
+        { id: "rand", functionDefinition: maths_1.rand },
+        { id: "noise", functionDefinition: noise_1.noise },
+        { id: "random", functionDefinition: maths_1.random },
     ];
     const effectAttributes = [];
     const transformation = `
@@ -56,7 +59,7 @@ export const imageToPointsTransform = (_imageVertexEffectProps) => {
       {
           siz = 12.4 ;
       };
-      ${VERTEX_POINT_NAME} =  vec4(displaced, 1.0);
+      ${vertexEffects_consts_1.VERTEX_POINT_NAME} =  vec4(displaced, 1.0);
       psize *= min(grey, siz);
       psize *= uSize;
        gl_PointSize = psize;
@@ -72,3 +75,4 @@ export const imageToPointsTransform = (_imageVertexEffectProps) => {
         effectAttributes,
     };
 };
+exports.imageToPointsTransform = imageToPointsTransform;

@@ -1,4 +1,7 @@
-export const hexToRgb = (hexCode) => {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.hexToRgb = void 0;
+const hexToRgb = (hexCode) => {
     // Remove the '#' if present
     const hex = String(hexCode).replace(/^#/, "");
     // Validate hex code
@@ -14,3 +17,4 @@ export const hexToRgb = (hexCode) => {
     // Return the normalized RGB vector
     return [r, g, b];
 };
+exports.hexToRgb = hexToRgb;

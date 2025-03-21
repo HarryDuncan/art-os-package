@@ -1,5 +1,8 @@
-import { useMemo } from "react";
-export const useScreenSizeProperties = (config, currentScreenType) => useMemo(() => {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.useScreenSizeProperties = void 0;
+const react_1 = require("react");
+const useScreenSizeProperties = (config, currentScreenType) => (0, react_1.useMemo)(() => {
     if (!config || currentScreenType === "DESKTOP") {
         return config;
     }
@@ -17,6 +20,7 @@ export const useScreenSizeProperties = (config, currentScreenType) => useMemo(()
         threeJsConfig });
     return updatedConfig;
 }, [config, currentScreenType]);
+exports.useScreenSizeProperties = useScreenSizeProperties;
 const mergeThreeJsConfig = (currentConfig, adjustedConfig) => {
     if (!adjustedConfig)
         return currentConfig;

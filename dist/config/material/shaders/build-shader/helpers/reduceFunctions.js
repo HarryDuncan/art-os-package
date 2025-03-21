@@ -1,4 +1,7 @@
-export const reduceFunctions = (requiredFunctions) => {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.reduceFunctions = void 0;
+const reduceFunctions = (requiredFunctions) => {
     const allFunctions = requiredFunctions.flatMap((functionArray) => functionArray !== null && functionArray !== void 0 ? functionArray : []);
     const uniqueFunctions = {};
     allFunctions.forEach(({ id, functionDefinition }) => {
@@ -11,3 +14,4 @@ export const reduceFunctions = (requiredFunctions) => {
         functionDefinition: uniqueFunctions[key],
     }));
 };
+exports.reduceFunctions = reduceFunctions;

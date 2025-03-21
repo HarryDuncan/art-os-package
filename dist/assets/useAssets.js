@@ -1,3 +1,4 @@
+"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -7,18 +8,20 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import { useCallback, useEffect, useState } from "react";
-import { ASSET_TYPES } from "./asset.types";
-import { getFileTypeFromFilename } from "../utils/file/file";
-import { loadFont } from "./fonts/loadFont";
-import { loadImage } from "./image/load-image/LoadImage";
-import { LoadSvg } from "./svg/loadSvg";
-import { loadTexture } from "./texture/load-texture/loadTexture";
-import { loadModel } from "./geometry/load-model/LoadModel";
-import { loadAdvancedScene } from "./advanced-scene/loadAdvancedScene";
-export const useAssets = (assets) => {
-    const [areAssetsInitialized, setAreAssetsInitialized] = useState(false);
-    const [initializedAssets, setInitializedAssets] = useState([]);
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.useAssets = void 0;
+const react_1 = require("react");
+const asset_types_1 = require("./asset.types");
+const file_1 = require("../utils/file/file");
+const loadFont_1 = require("./fonts/loadFont");
+const LoadImage_1 = require("./image/load-image/LoadImage");
+const loadSvg_1 = require("./svg/loadSvg");
+const loadTexture_1 = require("./texture/load-texture/loadTexture");
+const LoadModel_1 = require("./geometry/load-model/LoadModel");
+const loadAdvancedScene_1 = require("./advanced-scene/loadAdvancedScene");
+const useAssets = (assets) => {
+    const [areAssetsInitialized, setAreAssetsInitialized] = (0, react_1.useState)(false);
+    const [initializedAssets, setInitializedAssets] = (0, react_1.useState)([]);
     function loadAssetData(asset) {
         return __awaiter(this, void 0, void 0, function* () {
             const loadedAsset = yield loadAsset(asset);
@@ -28,13 +31,13 @@ export const useAssets = (assets) => {
             return Object.assign(Object.assign({}, asset), { data: loadedAsset });
         });
     }
-    const initializeAssets = useCallback(() => __awaiter(void 0, void 0, void 0, function* () {
+    const initializeAssets = (0, react_1.useCallback)(() => __awaiter(void 0, void 0, void 0, function* () {
         if (!assets)
             return;
         const loadedAssets = yield Promise.all(assets.flatMap((asset) => __awaiter(void 0, void 0, void 0, function* () { return loadAssetData(asset); })));
         return loadedAssets;
     }), [assets]);
-    useEffect(() => {
+    (0, react_1.useEffect)(() => {
         function getAssets() {
             return __awaiter(this, void 0, void 0, function* () {
                 const loadedAssets = yield initializeAssets();
@@ -48,35 +51,36 @@ export const useAssets = (assets) => {
     }, [assets, initializeAssets]);
     return { initializedAssets, areAssetsInitialized };
 };
+exports.useAssets = useAssets;
 const loadAsset = (asset) => __awaiter(void 0, void 0, void 0, function* () {
     const { assetType, path } = asset;
-    const fileType = getFileTypeFromFilename(path);
+    const fileType = (0, file_1.getFileTypeFromFilename)(path);
     switch (assetType) {
-        case ASSET_TYPES.MODEL3D: {
-            const geometry = yield loadModel(path, fileType);
+        case asset_types_1.ASSET_TYPES.MODEL3D: {
+            const geometry = yield (0, LoadModel_1.loadModel)(path, fileType);
             return geometry;
         }
-        case ASSET_TYPES.ADVANCED_3D: {
-            const advancedScene = yield loadAdvancedScene(path, fileType);
+        case asset_types_1.ASSET_TYPES.ADVANCED_3D: {
+            const advancedScene = yield (0, loadAdvancedScene_1.loadAdvancedScene)(path, fileType);
             return advancedScene;
         }
-        case ASSET_TYPES.TEXTURE: {
-            const texture = yield loadTexture(path);
+        case asset_types_1.ASSET_TYPES.TEXTURE: {
+            const texture = yield (0, loadTexture_1.loadTexture)(path);
             return texture;
         }
-        case ASSET_TYPES.IMAGE: {
-            const image = yield loadImage(path);
+        case asset_types_1.ASSET_TYPES.IMAGE: {
+            const image = yield (0, LoadImage_1.loadImage)(path);
             return image;
         }
-        case ASSET_TYPES.VIDEO: {
+        case asset_types_1.ASSET_TYPES.VIDEO: {
             return path;
         }
-        case ASSET_TYPES.FONT: {
-            const loadedFont = yield loadFont(path);
+        case asset_types_1.ASSET_TYPES.FONT: {
+            const loadedFont = yield (0, loadFont_1.loadFont)(path);
             return loadedFont;
         }
-        case ASSET_TYPES.SVG: {
-            const svg = yield LoadSvg(path);
+        case asset_types_1.ASSET_TYPES.SVG: {
+            const svg = yield (0, loadSvg_1.LoadSvg)(path);
             return svg;
         }
         default: {

@@ -1,9 +1,12 @@
-import { VERTEX_POINT_NAME } from "../../../vertexEffects.consts";
-export const explodeTransform = (explodeParameters) => {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.explodeTransform = void 0;
+const vertexEffects_consts_1 = require("../../../vertexEffects.consts");
+const explodeTransform = (explodeParameters) => {
     const { effectDistanceMinLength, effectStrength } = explodeParameters;
     return `
       // EXPLODE POINTS
-      vec3 displacedPosition = vec3( ${VERTEX_POINT_NAME}.xy, 0);
+      vec3 displacedPosition = vec3( ${vertexEffects_consts_1.VERTEX_POINT_NAME}.xy, 0);
       vec3 effect = vec3(ndcPosition.xy, 0);
       vec3 effectDistanceVector =  effect - displacedPosition;
       float effectDistanceLength = length(effectDistanceVector);
@@ -14,9 +17,10 @@ export const explodeTransform = (explodeParameters) => {
           effectDirection = -1.0; 
         }
         float rand = random(uTime);
-        ${VERTEX_POINT_NAME}.x += cos(randomAngle * rand) * effectStrength * effectDirection;
-        ${VERTEX_POINT_NAME}.y += sin(randomAngle * rand) * effectStrength * effectDirection;
+        ${vertexEffects_consts_1.VERTEX_POINT_NAME}.x += cos(randomAngle * rand) * effectStrength * effectDirection;
+        ${vertexEffects_consts_1.VERTEX_POINT_NAME}.y += sin(randomAngle * rand) * effectStrength * effectDirection;
         isAffected = 1.0;
     }
     `;
 };
+exports.explodeTransform = explodeTransform;

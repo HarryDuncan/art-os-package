@@ -1,15 +1,19 @@
-import { getMeshesByIdentifier } from "../../../utils/scene/object-finding/getMeshesByIdentifier";
-export const animateMarchingCube = (scene) => {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.updateCubes = exports.animateMarchingCube = void 0;
+const getMeshesByIdentifier_1 = require("../../../utils/scene/object-finding/getMeshesByIdentifier");
+const animateMarchingCube = (scene) => {
     const time = scene.clock.getElapsedTime() * 0.08;
-    const marchingCube = getMeshesByIdentifier(scene, "marching-cubes");
+    const marchingCube = (0, getMeshesByIdentifier_1.getMeshesByIdentifier)(scene, "marching-cubes");
     if (!marchingCube.length) {
         return;
     }
     const cube = marchingCube[0];
     // @ts-ignore
-    updateCubes(cube, time, 15);
+    (0, exports.updateCubes)(cube, time, 15);
 };
-export const updateCubes = (object, time, numblobs) => {
+exports.animateMarchingCube = animateMarchingCube;
+const updateCubes = (object, time, numblobs) => {
     object.reset();
     // fill the field with some metaballs
     const subtract = 12;
@@ -24,3 +28,4 @@ export const updateCubes = (object, time, numblobs) => {
     // @ts-ignore
     object.update();
 };
+exports.updateCubes = updateCubes;

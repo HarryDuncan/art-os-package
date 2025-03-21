@@ -1,12 +1,15 @@
-import { jsx as _jsx, Fragment as _Fragment } from "react/jsx-runtime";
-import { APPENDED_NODE_TYPES } from "./appendedNodes.consts";
-import { VideoStreamNode } from "./video-stream/VideoStreamNode";
-export const AppendedNodes = ({ appendedNodes }) => {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.AppendedNodes = void 0;
+const jsx_runtime_1 = require("react/jsx-runtime");
+const appendedNodes_consts_1 = require("./appendedNodes.consts");
+const VideoStreamNode_1 = require("./video-stream/VideoStreamNode");
+const AppendedNodes = ({ appendedNodes }) => {
     if (appendedNodes) {
-        return (_jsx(_Fragment, { children: appendedNodes.map((node) => {
+        return ((0, jsx_runtime_1.jsx)(jsx_runtime_1.Fragment, { children: appendedNodes.map((node) => {
                 switch (node.nodeType) {
-                    case APPENDED_NODE_TYPES.VIDEO_STREAM:
-                        return _jsx(VideoStreamNode, Object.assign({}, node.props));
+                    case appendedNodes_consts_1.APPENDED_NODE_TYPES.VIDEO_STREAM:
+                        return (0, jsx_runtime_1.jsx)(VideoStreamNode_1.VideoStreamNode, Object.assign({}, node.props));
                     default:
                         return null;
                 }
@@ -14,3 +17,4 @@ export const AppendedNodes = ({ appendedNodes }) => {
     }
     return null;
 };
+exports.AppendedNodes = AppendedNodes;

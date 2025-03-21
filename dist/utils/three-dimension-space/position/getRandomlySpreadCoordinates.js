@@ -1,5 +1,8 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.generateRandomlySpreadCoordinates = void 0;
 const MAX_FIND_TIME = 10000;
-export const generateRandomlySpreadCoordinates = (numCoordinates, allowedBoundingBoxes, exclusionBoundingBoxes, minDistance) => {
+const generateRandomlySpreadCoordinates = (numCoordinates, allowedBoundingBoxes, exclusionBoundingBoxes, minDistance) => {
     // Create an empty list to store the generated points
     const points = [];
     const startTime = new Date().getTime();
@@ -57,6 +60,7 @@ export const generateRandomlySpreadCoordinates = (numCoordinates, allowedBoundin
     }
     return points;
 };
+exports.generateRandomlySpreadCoordinates = generateRandomlySpreadCoordinates;
 function distance(a, b) {
     const dx = a.x - b.x;
     const dy = a.y - b.y;

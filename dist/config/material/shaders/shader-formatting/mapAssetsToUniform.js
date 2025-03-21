@@ -1,5 +1,8 @@
-import { getCentroid } from "../../../../utils/three-dimension-space/getCentroid";
-import { Vector2, VideoTexture, LinearFilter, RGBFormat, Texture } from "three";
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.mapAssetsToUniforms = void 0;
+const getCentroid_1 = require("../../../../utils/three-dimension-space/getCentroid");
+const three_1 = require("three");
 const ASSET_MAPPING_RELATIONSHIPS = {
     TEXTURE: "TEXTURE",
     DIMENSION: "DIMENSION",
@@ -7,7 +10,7 @@ const ASSET_MAPPING_RELATIONSHIPS = {
     VIDEO: "VIDEO",
     VIDEO_STREAM: "VIDEO_STREAM",
 };
-export const mapAssetsToUniforms = (assetMapping, assets, uniforms = {}) => {
+const mapAssetsToUniforms = (assetMapping, assets, uniforms = {}) => {
     if (assetMapping) {
         assetMapping.forEach((mapping) => {
             const mappedAsset = getMappedAsset(mapping, assets);
@@ -18,6 +21,7 @@ export const mapAssetsToUniforms = (assetMapping, assets, uniforms = {}) => {
     }
     return uniforms;
 };
+exports.mapAssetsToUniforms = mapAssetsToUniforms;
 const getMappedAsset = (assetMapping, assets) => {
     const mappedAsset = assets.find((asset) => asset.id === assetMapping.assetId);
     if (mappedAsset && mappedAsset.data) {
@@ -30,7 +34,7 @@ const getMappedAsset = (assetMapping, assets) => {
                     selectedAssetGeometry.boundingBox.max,
                     selectedAssetGeometry.boundingBox.min,
                 ];
-                const centroid = getCentroid(box);
+                const centroid = (0, getCentroid_1.getCentroid)(box);
                 return centroid;
             }
             case ASSET_MAPPING_RELATIONSHIPS.TEXTURE: {
@@ -39,19 +43,19 @@ const getMappedAsset = (assetMapping, assets) => {
             }
             case ASSET_MAPPING_RELATIONSHIPS.VIDEO: {
                 const video = document.getElementById("video");
-                const videoTexture = new VideoTexture(video);
-                videoTexture.minFilter = LinearFilter;
-                videoTexture.magFilter = LinearFilter;
-                videoTexture.format = RGBFormat;
+                const videoTexture = new three_1.VideoTexture(video);
+                videoTexture.minFilter = three_1.LinearFilter;
+                videoTexture.magFilter = three_1.LinearFilter;
+                videoTexture.format = three_1.RGBFormat;
                 return videoTexture;
             }
             case ASSET_MAPPING_RELATIONSHIPS.VIDEO_STREAM: {
-                return new Texture();
+                return new three_1.Texture();
             }
             case ASSET_MAPPING_RELATIONSHIPS.DIMENSION: {
                 // @ts-ignore
                 const { width, height } = mappedAsset.data.image;
-                return new Vector2(width, height);
+                return new three_1.Vector2(width, height);
             }
             default:
                 console.warn(`No configuration for ${assetMapping.relationship}`);

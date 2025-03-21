@@ -1,10 +1,13 @@
-export const USER_EVENTS = {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.KEY_CODES = exports.EVENT_TYPES = exports.EVENT_BIND_TYPES = exports.POSENET_EVENTS = exports.USER_EVENTS = void 0;
+exports.USER_EVENTS = {
     WHEEL: "wheel",
     CLICK: "click",
     TOUCH_MOVE: "touchmove",
     MOUSE_MOVE: "mousemove",
 };
-export const POSENET_EVENTS = {
+exports.POSENET_EVENTS = {
     NOSE: "posenet:nose",
     LEFT_EYE: "posenet:leftEye",
     RIGHT_EYE: "posenet:rightEye",
@@ -22,15 +25,15 @@ export const POSENET_EVENTS = {
     LEFT_ANKLE: "posenet:leftAnkle",
     RIGHT_ANKLE: "posenet:rightAnkle",
 };
-export const EVENT_BIND_TYPES = {
+exports.EVENT_BIND_TYPES = {
     DOCUMENT: "document",
     WINDOW: "window",
 };
-export const EVENT_TYPES = {
+exports.EVENT_TYPES = {
     KEYDOWN: "keydown",
     KEYPRESS: "keypress",
 };
-export const KEY_CODES = {
+exports.KEY_CODES = {
     backspace: 8,
     tab: 9,
     enter: 13,

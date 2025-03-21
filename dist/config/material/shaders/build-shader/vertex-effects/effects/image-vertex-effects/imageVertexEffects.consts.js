@@ -1,13 +1,16 @@
-import { IMAGE_VERTEX_EFFECT } from "../../vertexEffects.consts";
-export const DEFAULT_IMAGE_VERTEX_EFFECT_PROPS = {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.IMAGE_VERTEX_ATTRIBUTE_CONFIG = exports.IMAGE_VERTEX_REQUIRED_FUNCTIONS = exports.IMAGE_VERTEX_VARYING_CONFIG = exports.IMAGE_VERTEX_UNIFORM_CONFIG = exports.DEFAULT_IMAGE_VERTEX_EFFECT_PROPS = void 0;
+const vertexEffects_consts_1 = require("../../vertexEffects.consts");
+exports.DEFAULT_IMAGE_VERTEX_EFFECT_PROPS = {
     declareInTransform: true,
-    effectType: IMAGE_VERTEX_EFFECT.IMAGE_TO_POINTS,
+    effectType: vertexEffects_consts_1.IMAGE_VERTEX_EFFECT.IMAGE_TO_POINTS,
     effectProps: {},
 };
-export const IMAGE_VERTEX_UNIFORM_CONFIG = {
+exports.IMAGE_VERTEX_UNIFORM_CONFIG = {
     defaultUniforms: [],
     customUniforms: [],
 };
-export const IMAGE_VERTEX_VARYING_CONFIG = [];
-export const IMAGE_VERTEX_REQUIRED_FUNCTIONS = [];
-export const IMAGE_VERTEX_ATTRIBUTE_CONFIG = [];
+exports.IMAGE_VERTEX_VARYING_CONFIG = [];
+exports.IMAGE_VERTEX_REQUIRED_FUNCTIONS = [];
+exports.IMAGE_VERTEX_ATTRIBUTE_CONFIG = [];

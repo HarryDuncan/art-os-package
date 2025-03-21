@@ -1,23 +1,27 @@
-import { Mesh, Points } from "three";
-import { MESH_TYPES, } from "../../../assets/geometry/geometry.types";
-export const setUpMeshes = (meshConfigs = []) => meshConfigs.flatMap(({ geometry, name, material, meshType, position, rotation, groupId }, index) => {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.setUpMeshes = void 0;
+const three_1 = require("three");
+const geometry_types_1 = require("../../../assets/geometry/geometry.types");
+const setUpMeshes = (meshConfigs = []) => meshConfigs.flatMap(({ geometry, name, material, meshType, position, rotation, groupId }, index) => {
     const mesh = getMesh(geometry, material, meshType);
     if (!mesh)
         return [];
     formatMesh(mesh, name !== null && name !== void 0 ? name : `mesh-${index}`, position, rotation, groupId);
     return mesh;
 });
-const getMesh = (geometry, material, meshType = MESH_TYPES.MESH) => {
+exports.setUpMeshes = setUpMeshes;
+const getMesh = (geometry, material, meshType = geometry_types_1.MESH_TYPES.MESH) => {
     switch (meshType) {
-        case MESH_TYPES.NONE: {
+        case geometry_types_1.MESH_TYPES.NONE: {
             return null;
         }
-        case MESH_TYPES.POINTS: {
-            return new Points(geometry, material);
+        case geometry_types_1.MESH_TYPES.POINTS: {
+            return new three_1.Points(geometry, material);
         }
-        case MESH_TYPES.MESH:
+        case geometry_types_1.MESH_TYPES.MESH:
         default:
-            return new Mesh(geometry, material);
+            return new three_1.Mesh(geometry, material);
     }
 };
 const formatMesh = (mesh, name, position, rotation, groupId) => {

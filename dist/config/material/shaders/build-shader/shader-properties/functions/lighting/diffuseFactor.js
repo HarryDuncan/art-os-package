@@ -1,4 +1,7 @@
-export const diffuseFactor = `
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.diffuseFactor = void 0;
+exports.diffuseFactor = `
 /*
 *  Calculates the diffuse factor produced by the light illumination
 */

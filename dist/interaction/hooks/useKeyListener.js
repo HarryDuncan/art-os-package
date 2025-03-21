@@ -1,6 +1,9 @@
-import { useEffect } from "react";
-export const useKeyListener = (key, onKeyPress) => {
-    useEffect(() => {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.useKeyListener = void 0;
+const react_1 = require("react");
+const useKeyListener = (key, onKeyPress) => {
+    (0, react_1.useEffect)(() => {
         const handleKeyPress = (event) => {
             if (event.key === key) {
                 onKeyPress();
@@ -12,3 +15,4 @@ export const useKeyListener = (key, onKeyPress) => {
         };
     }, [key, onKeyPress]);
 };
+exports.useKeyListener = useKeyListener;

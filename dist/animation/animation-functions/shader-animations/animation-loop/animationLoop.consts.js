@@ -1,4 +1,7 @@
-export const ANIMATION_LOOP_TYPES = {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.ANIMATION_LOOP_KEYPOINTS = exports.DEFAULT_LOOP_PROPS = exports.DEFAULT_LOOP_LIMIT = exports.DEFAULT_STEEPNESS = exports.DEFAULT_DURATION_SECONDS = exports.ANIMATION_LOOP_TYPES = void 0;
+exports.ANIMATION_LOOP_TYPES = {
     ONE_TO_ONE: "ONE_TO_ONE",
     ZERO_TO_ONE: "ZERO_TO_ONE",
     ZERO_TO_ZERO: "ZERO_TO_ZERO",
@@ -11,18 +14,18 @@ export const ANIMATION_LOOP_TYPES = {
     TRANSITION_LOOP: "TRANSITION_LOOP",
     INCREMENT_LOOP: "INCREMENT",
 };
-export const DEFAULT_DURATION_SECONDS = 10;
-export const DEFAULT_STEEPNESS = 1;
-export const DEFAULT_LOOP_LIMIT = 1;
-export const DEFAULT_LOOP_PROPS = {
-    duration: DEFAULT_DURATION_SECONDS,
-    steepness: DEFAULT_STEEPNESS,
-    loopLimit: DEFAULT_LOOP_LIMIT,
+exports.DEFAULT_DURATION_SECONDS = 10;
+exports.DEFAULT_STEEPNESS = 1;
+exports.DEFAULT_LOOP_LIMIT = 1;
+exports.DEFAULT_LOOP_PROPS = {
+    duration: exports.DEFAULT_DURATION_SECONDS,
+    steepness: exports.DEFAULT_STEEPNESS,
+    loopLimit: exports.DEFAULT_LOOP_LIMIT,
     maxPeak: 1,
     minTrough: -1,
     speed: 1,
 };
-export const ANIMATION_LOOP_KEYPOINTS = {
+exports.ANIMATION_LOOP_KEYPOINTS = {
     oneToOne: {
         start: 1,
         end: 1,

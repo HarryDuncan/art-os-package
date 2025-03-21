@@ -1,15 +1,18 @@
-import { Vector3 } from "three";
-import { ShaderPropertyValueTypes } from "../../../constants";
-export const DEFAULT_COLOR_EFFECT_PROPS = {};
-export const DEFAULT_COLOR_FUNCTIONS = [];
-export const DEFAULT_COLOR_UNIFORMS = {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.DEFAULT_COLOR_VARYINGS = exports.DEFAULT_COLOR_UNIFORMS = exports.DEFAULT_COLOR_FUNCTIONS = exports.DEFAULT_COLOR_EFFECT_PROPS = void 0;
+const three_1 = require("three");
+const constants_1 = require("../../../constants");
+exports.DEFAULT_COLOR_EFFECT_PROPS = {};
+exports.DEFAULT_COLOR_FUNCTIONS = [];
+exports.DEFAULT_COLOR_UNIFORMS = {
     defaultUniforms: [],
     customUniforms: [
         {
             id: "uColor",
-            valueType: ShaderPropertyValueTypes.VEC3,
-            value: new Vector3(0, 0, 0),
+            valueType: constants_1.ShaderPropertyValueTypes.VEC3,
+            value: new three_1.Vector3(0, 0, 0),
         },
     ],
 };
-export const DEFAULT_COLOR_VARYINGS = [];
+exports.DEFAULT_COLOR_VARYINGS = [];

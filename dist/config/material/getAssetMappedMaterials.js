@@ -1,7 +1,10 @@
-import { ASSET_MAPPED_MATERIALS, MATERIAL_TYPES } from "./materials.consts";
-import { getMaterial } from "./getMaterial";
-export const getAssetMappedMaterials = (materialConfig, assets) => materialConfig.flatMap((configItem) => {
-    if (!ASSET_MAPPED_MATERIALS.includes(configItem.materialType)) {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.getAssetMappedMaterials = void 0;
+const materials_consts_1 = require("./materials.consts");
+const getMaterial_1 = require("./getMaterial");
+const getAssetMappedMaterials = (materialConfig, assets) => materialConfig.flatMap((configItem) => {
+    if (!materials_consts_1.ASSET_MAPPED_MATERIALS.includes(configItem.materialType)) {
         return [];
     }
     const mappedAsset = assets.find((asset) => asset.id === configItem.materialProps.assetId);
@@ -15,16 +18,17 @@ export const getAssetMappedMaterials = (materialConfig, assets) => materialConfi
     }
     return [];
 });
+exports.getAssetMappedMaterials = getAssetMappedMaterials;
 const formatMaterial = (configItem, mappedAsset) => {
     switch (configItem.materialType) {
-        case MATERIAL_TYPES.ENV_MAP: {
+        case materials_consts_1.MATERIAL_TYPES.ENV_MAP: {
             getEnvMapMaterial(configItem.materialProps, mappedAsset);
             break;
         }
-        case MATERIAL_TYPES.VIDEO: {
+        case materials_consts_1.MATERIAL_TYPES.VIDEO: {
             return getVideoMaterial(configItem.materialProps, mappedAsset);
         }
-        case MATERIAL_TYPES.MATCAP: {
+        case materials_consts_1.MATERIAL_TYPES.MATCAP: {
             return getMatcapMaterial(configItem.materialProps, mappedAsset);
         }
         default:
@@ -33,13 +37,13 @@ const formatMaterial = (configItem, mappedAsset) => {
 };
 const getMatcapMaterial = (materialProps, asset) => {
     materialProps.matcap = asset.data;
-    return getMaterial(MATERIAL_TYPES.MATCAP, materialProps);
+    return (0, getMaterial_1.getMaterial)(materials_consts_1.MATERIAL_TYPES.MATCAP, materialProps);
 };
 const getEnvMapMaterial = (materialProps, asset) => {
     materialProps.imageUrl = asset.path;
-    return getMaterial(MATERIAL_TYPES.ENV_MAP, materialProps);
+    return (0, getMaterial_1.getMaterial)(materials_consts_1.MATERIAL_TYPES.ENV_MAP, materialProps);
 };
 const getVideoMaterial = (materialProps, asset) => {
     materialProps.videoId = asset.id;
-    return getMaterial(MATERIAL_TYPES.VIDEO, materialProps);
+    return (0, getMaterial_1.getMaterial)(materials_consts_1.MATERIAL_TYPES.VIDEO, materialProps);
 };

@@ -1,8 +1,11 @@
-import { removeDuplicatesByKey } from "../../../../../../../utils/removeDuplicatesByKey";
-import { EMPTY_UNIFORM_CONFIG } from "../uniforms.consts";
-export const mergeUniformConfigs = (uniformConfigArray) => {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.mergeUniformConfigs = void 0;
+const removeDuplicatesByKey_1 = require("../../../../../../../utils/removeDuplicatesByKey");
+const uniforms_consts_1 = require("../uniforms.consts");
+const mergeUniformConfigs = (uniformConfigArray) => {
     const filteredUniformConfigs = uniformConfigArray.flatMap((config) => config !== null && config !== void 0 ? config : []);
-    const mergedUniformConfig = Object.assign({}, EMPTY_UNIFORM_CONFIG);
+    const mergedUniformConfig = Object.assign({}, uniforms_consts_1.EMPTY_UNIFORM_CONFIG);
     filteredUniformConfigs.forEach(({ defaultUniforms, customUniforms }) => {
         const { defaultUniforms: currentDefaults, customUniforms: currentCustom } = mergedUniformConfig;
         const updatedDefaults = [...currentDefaults, ...defaultUniforms].filter((value, index, self) => self.indexOf(value) === index);
@@ -11,8 +14,9 @@ export const mergeUniformConfigs = (uniformConfigArray) => {
     });
     return mergedUniformConfig;
 };
+exports.mergeUniformConfigs = mergeUniformConfigs;
 const mergeCustomUniforms = (currentCustomUniforms = [], addedCustomUniforms = []) => {
     const customUniforms = currentCustomUniforms || [];
     const uniformsToBeMerged = addedCustomUniforms || [];
-    return removeDuplicatesByKey([...customUniforms, ...uniformsToBeMerged], "id");
+    return (0, removeDuplicatesByKey_1.removeDuplicatesByKey)([...customUniforms, ...uniformsToBeMerged], "id");
 };

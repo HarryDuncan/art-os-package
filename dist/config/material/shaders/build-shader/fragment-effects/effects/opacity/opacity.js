@@ -1,13 +1,16 @@
-import { OPACITY_UNIFORMS, OPACITY_VARYINGS, OPACITY_FUNCTIONS, OPACITY_ATTRIBUTES, DEFAULT_OPACITY_EFFECT_PARAMS, } from "./opacity.consts";
-import { formatFragmentParameters } from "../../../helpers/formatFragmentParameters";
-import { opacityTransform } from "./opacityTransform";
-export const opacity = (effectProps) => {
-    const formattedEffectParams = formatFragmentParameters(effectProps, DEFAULT_OPACITY_EFFECT_PARAMS);
-    const uniformConfig = OPACITY_UNIFORMS;
-    const varyingConfig = OPACITY_VARYINGS;
-    const requiredFunctions = OPACITY_FUNCTIONS;
-    const attributeConfig = OPACITY_ATTRIBUTES;
-    const { transformation } = opacityTransform(formattedEffectParams);
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.opacity = void 0;
+const opacity_consts_1 = require("./opacity.consts");
+const formatFragmentParameters_1 = require("../../../helpers/formatFragmentParameters");
+const opacityTransform_1 = require("./opacityTransform");
+const opacity = (effectProps) => {
+    const formattedEffectParams = (0, formatFragmentParameters_1.formatFragmentParameters)(effectProps, opacity_consts_1.DEFAULT_OPACITY_EFFECT_PARAMS);
+    const uniformConfig = opacity_consts_1.OPACITY_UNIFORMS;
+    const varyingConfig = opacity_consts_1.OPACITY_VARYINGS;
+    const requiredFunctions = opacity_consts_1.OPACITY_FUNCTIONS;
+    const attributeConfig = opacity_consts_1.OPACITY_ATTRIBUTES;
+    const { transformation } = (0, opacityTransform_1.opacityTransform)(formattedEffectParams);
     return {
         requiredFunctions,
         uniformConfig,
@@ -16,3 +19,4 @@ export const opacity = (effectProps) => {
         attributeConfig,
     };
 };
+exports.opacity = opacity;

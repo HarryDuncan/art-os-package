@@ -1,4 +1,7 @@
-export const voronoiNoise = `
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.voronoiNoise = void 0;
+exports.voronoiNoise = `
 vec3 permute(vec3 x) {
   return mod((34.0 * x + 1.0) * x, 289.0);
 }

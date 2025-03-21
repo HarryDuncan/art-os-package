@@ -1,5 +1,8 @@
-import { FRAG_COLOR_NAME } from "../../../../fragmentEffects.consts";
-export const textureAsPoints = (_effectProps) => {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.textureAsPoints = void 0;
+const fragmentEffects_consts_1 = require("../../../../fragmentEffects.consts");
+const textureAsPoints = (_effectProps) => {
     const transformation = `
         vec4 color = vec4(0.0);
 	vec2 uv = vUv;
@@ -21,7 +24,8 @@ export const textureAsPoints = (_effectProps) => {
 	// final color
 	color = colB;
 	color.a = t;
-    ${FRAG_COLOR_NAME} = color;
+    ${fragmentEffects_consts_1.FRAG_COLOR_NAME} = color;
     `;
     return { transformation };
 };
+exports.textureAsPoints = textureAsPoints;

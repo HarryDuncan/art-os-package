@@ -1,6 +1,9 @@
-import { performAnimation } from "../performAnimation";
-import { stepAndWrap } from "../../../utils/maths/maths";
-export const chainAnimation = (animationProperties, animatedObjects) => {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.chainAnimation = void 0;
+const performAnimation_1 = require("../performAnimation");
+const maths_1 = require("../../../utils/maths/maths");
+const chainAnimation = (animationProperties, animatedObjects) => {
     const { animationDurationMilis, animationType, animationPauseMilis, repeatAnimation, } = animationProperties;
     let startTime;
     let currentItemIndex = 0;
@@ -9,13 +12,13 @@ export const chainAnimation = (animationProperties, animatedObjects) => {
         if (!startTime)
             startTime = timestamp;
         const progress = timestamp - startTime;
-        performAnimation(animationType, object, progress, animationProperties);
+        (0, performAnimation_1.performAnimation)(animationType, object, progress, animationProperties);
         if (progress < animationDurationMilis || animationDurationMilis === -1) {
             requestAnimationFrame(step);
         }
         else {
             startTime = 0;
-            currentItemIndex = stepAndWrap(0, animatedObjects.length - 1, currentItemIndex);
+            currentItemIndex = (0, maths_1.stepAndWrap)(0, animatedObjects.length - 1, currentItemIndex);
             if (repeatAnimation) {
                 setTimeout(() => {
                     step(timestamp + animationPauseMilis);
@@ -25,3 +28,4 @@ export const chainAnimation = (animationProperties, animatedObjects) => {
     }
     requestAnimationFrame(step);
 };
+exports.chainAnimation = chainAnimation;

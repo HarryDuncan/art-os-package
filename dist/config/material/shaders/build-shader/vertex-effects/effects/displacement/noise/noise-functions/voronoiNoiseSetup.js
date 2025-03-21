@@ -1,13 +1,16 @@
-import { orthogonal } from "../../../../../shader-properties/functions/maths/maths";
-import { voronoiNoise } from "../../../../../shader-properties/functions/noise/voronoiNoise";
-import { VERTEX_POINT_NAME } from "../../../../vertexEffects.consts";
-import { VORONOI_UNIFORMS } from "../noise.consts";
-export const voronoiNoiseSetup = () => {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.voronoiNoiseSetup = void 0;
+const maths_1 = require("../../../../../shader-properties/functions/maths/maths");
+const voronoiNoise_1 = require("../../../../../shader-properties/functions/noise/voronoiNoise");
+const vertexEffects_consts_1 = require("../../../../vertexEffects.consts");
+const noise_consts_1 = require("../noise.consts");
+const voronoiNoiseSetup = () => {
     const requiredFunctions = [
-        { id: "orthogonal", functionDefinition: orthogonal },
+        { id: "orthogonal", functionDefinition: maths_1.orthogonal },
         {
             id: "voronoiNoise",
-            functionDefinition: voronoiNoise,
+            functionDefinition: voronoiNoise_1.voronoiNoise,
         },
     ];
     const transform = `
@@ -15,8 +18,9 @@ export const voronoiNoiseSetup = () => {
           vec3 transformedNormal = normal.xyz;
           transformedNormal = normalMatrix * transformedNormal;
           vNormal = normalize( transformedNormal );
-          ${VERTEX_POINT_NAME} = vec4( voronoiNoise(${VERTEX_POINT_NAME}.xyz, transformedNormal) 1.0);
+          ${vertexEffects_consts_1.VERTEX_POINT_NAME} = vec4( voronoiNoise(${vertexEffects_consts_1.VERTEX_POINT_NAME}.xyz, transformedNormal) 1.0);
   `;
-    const uniformConfig = VORONOI_UNIFORMS;
+    const uniformConfig = noise_consts_1.VORONOI_UNIFORMS;
     return { transform, requiredFunctions, uniformConfig };
 };
+exports.voronoiNoiseSetup = voronoiNoiseSetup;

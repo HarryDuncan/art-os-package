@@ -1,13 +1,16 @@
-import { formatFragmentParameters } from "../../../helpers/formatFragmentParameters";
-import { DEFAULT_VANISH_EFFECT_PARAMS, VANISH_ATTRIBUTES, VANISH_FUNCTIONS, VANISH_UNIFORMS, VANISH_VARYINGS, } from "./vanish.consts";
-import { vanishTransform } from "./vanishTransform";
-export const vanishEffect = (effectProps) => {
-    const formattedEffectParams = formatFragmentParameters(effectProps, DEFAULT_VANISH_EFFECT_PARAMS);
-    const uniformConfig = VANISH_UNIFORMS;
-    const varyingConfig = VANISH_VARYINGS;
-    const requiredFunctions = VANISH_FUNCTIONS;
-    const attributeConfig = VANISH_ATTRIBUTES;
-    const { transformation } = vanishTransform(formattedEffectParams);
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.vanishEffect = void 0;
+const formatFragmentParameters_1 = require("../../../helpers/formatFragmentParameters");
+const vanish_consts_1 = require("./vanish.consts");
+const vanishTransform_1 = require("./vanishTransform");
+const vanishEffect = (effectProps) => {
+    const formattedEffectParams = (0, formatFragmentParameters_1.formatFragmentParameters)(effectProps, vanish_consts_1.DEFAULT_VANISH_EFFECT_PARAMS);
+    const uniformConfig = vanish_consts_1.VANISH_UNIFORMS;
+    const varyingConfig = vanish_consts_1.VANISH_VARYINGS;
+    const requiredFunctions = vanish_consts_1.VANISH_FUNCTIONS;
+    const attributeConfig = vanish_consts_1.VANISH_ATTRIBUTES;
+    const { transformation } = (0, vanishTransform_1.vanishTransform)(formattedEffectParams);
     return {
         requiredFunctions,
         uniformConfig,
@@ -16,3 +19,4 @@ export const vanishEffect = (effectProps) => {
         attributeConfig,
     };
 };
+exports.vanishEffect = vanishEffect;

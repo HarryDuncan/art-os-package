@@ -1,6 +1,9 @@
-import { MathUtils, Vector2 } from "three";
-export const getRatio = (height, width) => {
-    const m = multiplyMatrixAndPoint(rotateMatrix(MathUtils.degToRad(0)), [
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.getTextureRatio = exports.getRatio = void 0;
+const three_1 = require("three");
+const getRatio = (height, width) => {
+    const m = multiplyMatrixAndPoint(rotateMatrix(three_1.MathUtils.degToRad(0)), [
         width,
         height,
     ]);
@@ -9,12 +12,14 @@ export const getRatio = (height, width) => {
         h: m[1] / height,
     };
     const coverRatio = 1 / Math.max(originalRatio.w, originalRatio.h);
-    return new Vector2(originalRatio.w * coverRatio, originalRatio.h * coverRatio);
+    return new three_1.Vector2(originalRatio.w * coverRatio, originalRatio.h * coverRatio);
 };
-export const getTextureRatio = (texture) => {
+exports.getRatio = getRatio;
+const getTextureRatio = (texture) => {
     const { height, width } = texture.image;
-    return getRatio(height, width);
+    return (0, exports.getRatio)(height, width);
 };
+exports.getTextureRatio = getTextureRatio;
 const multiplyMatrixAndPoint = (matrix, point) => {
     const c0r0 = matrix[0];
     const c1r0 = matrix[1];

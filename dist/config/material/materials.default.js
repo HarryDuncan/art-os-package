@@ -1,5 +1,8 @@
-import { MeshPhongMaterial } from "three";
-export const DEFAULT_MATERIAL_CONFIG = {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.DEFAULT_MATERIAL = exports.DEFAULT_MATERIAL_CONFIG = void 0;
+const three_1 = require("three");
+exports.DEFAULT_MATERIAL_CONFIG = {
     id: "default-material",
     materialParams: {
         color: "#111111",
@@ -8,7 +11,7 @@ export const DEFAULT_MATERIAL_CONFIG = {
     },
     materialType: "PHONG",
 };
-export const DEFAULT_MATERIAL = new MeshPhongMaterial({
+exports.DEFAULT_MATERIAL = new three_1.MeshPhongMaterial({
     specular: 0x111111,
     shininess: 250,
 });

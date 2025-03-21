@@ -1,9 +1,12 @@
-import { AnimationClip, AnimationMixer } from "three";
-export const runRiggedAnimation = (_riggedAnimationConfig, selectedMesh) => {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.runRiggedAnimation = void 0;
+const three_1 = require("three");
+const runRiggedAnimation = (_riggedAnimationConfig, selectedMesh) => {
     selectedMesh.forEach((mesh) => {
         const { animations } = mesh;
-        const mixer = new AnimationMixer(mesh);
-        const clip = AnimationClip.findByName(animations, "fly-trap");
+        const mixer = new three_1.AnimationMixer(mesh);
+        const clip = three_1.AnimationClip.findByName(animations, "fly-trap");
         if (clip) {
             const action = mixer.clipAction(clip);
             action.play();
@@ -20,3 +23,4 @@ export const runRiggedAnimation = (_riggedAnimationConfig, selectedMesh) => {
         requestAnimationFrame(step);
     });
 };
+exports.runRiggedAnimation = runRiggedAnimation;

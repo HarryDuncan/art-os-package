@@ -1,5 +1,8 @@
-import { Vector3 } from "three";
-export const calculateCurve = (start, end, curveSize) => {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.calculateCurve = void 0;
+const three_1 = require("three");
+const calculateCurve = (start, end, curveSize) => {
     // Calculate control points
     const controlPoint1 = {
         x: start.x + curveSize * (end.x - start.x),
@@ -26,7 +29,8 @@ export const calculateCurve = (start, end, curveSize) => {
             3 * Math.pow((1 - t), 2) * t * controlPoint1.z +
             3 * (1 - t) * Math.pow(t, 2) * controlPoint2.z +
             Math.pow(t, 3) * end.z;
-        points.push(new Vector3(x, y, z));
+        points.push(new three_1.Vector3(x, y, z));
     }
     return points;
 };
+exports.calculateCurve = calculateCurve;

@@ -1,4 +1,7 @@
-export const setSceneProperties = (sceneProperties, scene) => {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.setSceneProperties = void 0;
+const setSceneProperties = (sceneProperties, scene) => {
     var _a, _b;
     if (!sceneProperties)
         return;
@@ -9,3 +12,4 @@ export const setSceneProperties = (sceneProperties, scene) => {
     const sceneId = (_b = sceneProperties.sceneId) !== null && _b !== void 0 ? _b : "";
     scene.guid = sceneId;
 };
+exports.setSceneProperties = setSceneProperties;

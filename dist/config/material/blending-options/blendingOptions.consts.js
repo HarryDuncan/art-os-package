@@ -1,4 +1,7 @@
-export const BLENDING_TYPES = {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.DEFAULT_BLENDING_OPTIONS = exports.BLENDING_SRC = exports.BLENDING_DIST = exports.BLENDING_TYPES = void 0;
+exports.BLENDING_TYPES = {
     NO_BLENDING: "NO_BLENDING",
     NORMAL_BLENDING: "NORMAL_BLENDING",
     ADDITIVE_BLENDING: "ADDITIVE_BLENDING",
@@ -6,7 +9,7 @@ export const BLENDING_TYPES = {
     MULTIPLY_BLENDING: "MULTIPLY_BLENDING",
     CUSTOM_BLENDING: "CUSTOM_BLENDING",
 };
-export const BLENDING_DIST = {
+exports.BLENDING_DIST = {
     ZERO: "ZERO",
     ONE: "ONE",
     SRC_COLOR: "SRC_COLOR",
@@ -18,7 +21,7 @@ export const BLENDING_DIST = {
     DST_COLOR: "DST_COLOR",
     ONE_MINUS_DST_COLOR: "ONE_MINUS_DST_COLOR",
 };
-export const BLENDING_SRC = {
+exports.BLENDING_SRC = {
     ZERO: "ZERO",
     ONE: "ONE",
     SRC_COLOR: "SRC_COLOR",
@@ -31,10 +34,10 @@ export const BLENDING_SRC = {
     ONE_MINUS_DST_COLOR: "ONE_MINUS_DST_COLOR",
     SRC_ALPHA_SATURATE: "SRC_ALPHA_SATURATE",
 };
-export const DEFAULT_BLENDING_OPTIONS = {
-    blendingType: BLENDING_TYPES.CUSTOM_BLENDING,
-    blendSrcKey: BLENDING_SRC.SRC_ALPHA,
-    blendDstKey: BLENDING_DIST.ONE,
+exports.DEFAULT_BLENDING_OPTIONS = {
+    blendingType: exports.BLENDING_TYPES.CUSTOM_BLENDING,
+    blendSrcKey: exports.BLENDING_SRC.SRC_ALPHA,
+    blendDstKey: exports.BLENDING_DIST.ONE,
     transparent: false,
     depthTest: true,
 };

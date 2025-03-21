@@ -1,4 +1,7 @@
-export const getRandomCoordinatesInBoundingBoxes = (boundingBoxes, excludingBoxes, numberOfCoordinates) => {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.getRandomCoordinatesInBoundingBoxes = void 0;
+const getRandomCoordinatesInBoundingBoxes = (boundingBoxes, excludingBoxes, numberOfCoordinates) => {
     const coordinates = [];
     while (coordinates.length < numberOfCoordinates) {
         const boundingBox = boundingBoxes[Math.floor(Math.random() * boundingBoxes.length)];
@@ -27,3 +30,4 @@ export const getRandomCoordinatesInBoundingBoxes = (boundingBoxes, excludingBoxe
     }
     return coordinates;
 };
+exports.getRandomCoordinatesInBoundingBoxes = getRandomCoordinatesInBoundingBoxes;

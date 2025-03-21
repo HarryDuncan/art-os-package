@@ -1,4 +1,7 @@
-export const rotateZ = `
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.rotateY = exports.rotateX = exports.rotateZ = void 0;
+exports.rotateZ = `
     mat4 rotateZ(float angle){
         float c = cos(angle);
         float s = sin(angle);
@@ -11,7 +14,7 @@ export const rotateZ = `
         );
     }
 `;
-export const rotateX = `
+exports.rotateX = `
 mat4 rotateX(float angle){
     
     float c = cos(angle);
@@ -25,7 +28,7 @@ mat4 rotateX(float angle){
     );
 }
 `;
-export const rotateY = `  
+exports.rotateY = `  
 mat4 rotateY(float angle) {
     float cosA = cos(angle);
     float sinA = sin(angle);

@@ -1,4 +1,7 @@
-import { CubeTextureLoader } from "three";
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.setUpReflectionEnvMap = void 0;
+const three_1 = require("three");
 const getCubeUrls = (path, fileFormat) => [
     `${path}/left_face.${fileFormat}`,
     `${path}/right_face.${fileFormat}`,
@@ -7,12 +10,13 @@ const getCubeUrls = (path, fileFormat) => [
     `${path}/front_face.${fileFormat}`,
     `${path}/back_face.${fileFormat}`,
 ];
-export const setUpReflectionEnvMap = (path, fileFormat) => {
-    const textureLoader = new CubeTextureLoader();
+const setUpReflectionEnvMap = (path, fileFormat) => {
+    const textureLoader = new three_1.CubeTextureLoader();
     const urls = getCubeUrls(path, fileFormat);
     const reflectionCube = textureLoader.load(urls);
     return reflectionCube;
 };
+exports.setUpReflectionEnvMap = setUpReflectionEnvMap;
 // export const setUpRefractionEnvMap = (
 //   path: string,
 //   fileFormat: string,

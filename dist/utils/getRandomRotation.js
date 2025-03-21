@@ -1,6 +1,9 @@
-import { vector3DegreesToEuler } from "./three-dimension-space/degreesToEuler";
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.getRandomRotationAsDegrees = exports.getRandomRotation = void 0;
+const degreesToEuler_1 = require("./three-dimension-space/degreesToEuler");
 const DEFAULT_AXIS_OPTIONS = { x: false, y: false, z: false };
-export const getRandomRotation = (n, nonRandomizedAxes) => {
+const getRandomRotation = (n, nonRandomizedAxes) => {
     const axisOptions = Object.assign(Object.assign({}, DEFAULT_AXIS_OPTIONS), nonRandomizedAxes);
     const axes = ["x", "y", "z"].filter((axis) => !axisOptions[axis]);
     const results = new Array(n).fill(null).map(() => {
@@ -8,12 +11,13 @@ export const getRandomRotation = (n, nonRandomizedAxes) => {
         axes.forEach((axis) => {
             rotation[axis] = Math.random() * 360;
         });
-        const eulerRotation = vector3DegreesToEuler(rotation);
+        const eulerRotation = (0, degreesToEuler_1.vector3DegreesToEuler)(rotation);
         return eulerRotation;
     });
     return results;
 };
-export const getRandomRotationAsDegrees = (nonRandomizedAxes) => {
+exports.getRandomRotation = getRandomRotation;
+const getRandomRotationAsDegrees = (nonRandomizedAxes) => {
     const axisOptions = Object.assign(Object.assign({}, DEFAULT_AXIS_OPTIONS), nonRandomizedAxes);
     const axes = ["x", "y", "z"].filter((axis) => !axisOptions[axis]);
     const rotation = { x: 0, y: 0, z: 0 };
@@ -22,3 +26,4 @@ export const getRandomRotationAsDegrees = (nonRandomizedAxes) => {
     });
     return rotation;
 };
+exports.getRandomRotationAsDegrees = getRandomRotationAsDegrees;

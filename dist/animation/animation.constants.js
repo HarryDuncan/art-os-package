@@ -1,20 +1,23 @@
-export const TRIG_FUNCTION_TYPES = {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.GENERIC_TARGET_IDENTIFIERS = exports.ANIMATION_TYPES = exports.ANIMATION_FUNCTION_TYPES = exports.OBJECT_UPDATE_PROPERTY = exports.TRIG_FUNCTION_TYPES = void 0;
+exports.TRIG_FUNCTION_TYPES = {
     COS: "COS",
     SIN: "SIN",
     TAN: "TAN",
 };
-export const OBJECT_UPDATE_PROPERTY = {
+exports.OBJECT_UPDATE_PROPERTY = {
     POSITION: "position",
     ROTATION: "rotation",
 };
-export const ANIMATION_FUNCTION_TYPES = {
+exports.ANIMATION_FUNCTION_TYPES = {
     CHAIN: "CHAIN",
     ALL: "ALL",
     TARGET: "TARGET",
     UTIME: "UTIME",
     RIGGED: "RIGGED",
 };
-export const ANIMATION_TYPES = {
+exports.ANIMATION_TYPES = {
     ROTATE: "ROTATE",
     SPIN: "SPIN",
     TRAVERSE: "TRAVERSE",
@@ -23,7 +26,7 @@ export const ANIMATION_TYPES = {
     TIME: "TIME",
     MOVE: "MOVE",
 };
-export const GENERIC_TARGET_IDENTIFIERS = {
+exports.GENERIC_TARGET_IDENTIFIERS = {
     LIGHTS: "LIGHTS",
     MODEL3D: "MODEL3D",
     CAMERA: "CAMERA",

@@ -1,5 +1,8 @@
 import { useAssets } from "./assets/useAssets";
-import { WindowStateProvider } from "./compat/window-state/windowStateProvider";
+import {
+  WindowStateProvider,
+  useWindowState,
+} from "./compat/window-state/windowStateProvider";
 import { useFetchConfig } from "./config/useFetchConfig";
 import { useSceneData } from "./config/useSceneData";
 import { useKeyListener } from "./interaction/hooks/useKeyListener";
@@ -12,7 +15,7 @@ import { useSetWindowState } from "./compat/window-state/useSetWindowState";
 import { useSceneFunctions } from "./hooks/useSceneFunctions";
 
 export { useAssets };
-export { WindowStateProvider };
+export { WindowStateProvider, useWindowState };
 export { useFetchConfig };
 export { useSceneData };
 export { useSceneFunctions };

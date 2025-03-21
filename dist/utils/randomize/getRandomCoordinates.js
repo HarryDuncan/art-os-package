@@ -1,4 +1,7 @@
-export const getRandomCoordinates = (numberOfCoodinates, boundingBox) => {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.getRandomCoordinates = void 0;
+const getRandomCoordinates = (numberOfCoodinates, boundingBox) => {
     const { lowerBoundX, upperBoundX, lowerBoundY, upperBoundY, lowerBoundZ, upperBoundZ, } = boundingBox;
     // Check that the bounds are valid
     if (lowerBoundX >= upperBoundX ||
@@ -16,3 +19,4 @@ export const getRandomCoordinates = (numberOfCoodinates, boundingBox) => {
     }
     return coordinates;
 };
+exports.getRandomCoordinates = getRandomCoordinates;

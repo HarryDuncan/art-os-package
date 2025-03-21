@@ -1,19 +1,22 @@
-import { LIGHT_TYPES } from "./lights.types";
-export const DEFAULT_LIGHT_INTENSITY = 1.0;
-export const DEFAULT_LIGHTS = [
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.DEFAULT_LIGHTS = exports.DEFAULT_LIGHT_INTENSITY = void 0;
+const lights_types_1 = require("./lights.types");
+exports.DEFAULT_LIGHT_INTENSITY = 1.0;
+exports.DEFAULT_LIGHTS = [
     {
         name: "ambient-light",
-        lightType: LIGHT_TYPES.AMBIENT,
+        lightType: lights_types_1.LIGHT_TYPES.AMBIENT,
         props: { intensity: 1.0 },
     },
     {
         name: "point-light",
-        lightType: LIGHT_TYPES.POINT_LIGHT,
+        lightType: lights_types_1.LIGHT_TYPES.POINT_LIGHT,
         props: { color: "#ffffff" },
     },
     {
         name: "directional-light",
-        lightType: LIGHT_TYPES.DIRECTIONAL_LIGHT,
+        lightType: lights_types_1.LIGHT_TYPES.DIRECTIONAL_LIGHT,
         props: { color: "#ffffff" },
     },
 ];

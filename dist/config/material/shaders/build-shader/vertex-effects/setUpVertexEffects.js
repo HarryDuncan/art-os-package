@@ -1,13 +1,16 @@
-import { reduceFunctions } from "../helpers/reduceFunctions";
-import { mergeAttributeConfigs } from "../shader-properties/attributes/helpers/mergeAttributeConfigs";
-import { mergeUniformConfigs } from "../shader-properties/uniforms/helpers/mergeUniformConfigs";
-import { mergeVaryingConfigs } from "../shader-properties/varyings/helpers/mergeVaryingConfigs";
-import { getVertexEffect } from "./effects/getVertexEffect";
-import { VERTEX_POINT_NAME } from "./vertexEffects.consts";
-import { mergeStructConfigs } from "../shader-properties/structs/mergeStructConfigs";
-export const setUpVertexEffects = (vertexEffects) => {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.setUpVertexEffects = void 0;
+const reduceFunctions_1 = require("../helpers/reduceFunctions");
+const mergeAttributeConfigs_1 = require("../shader-properties/attributes/helpers/mergeAttributeConfigs");
+const mergeUniformConfigs_1 = require("../shader-properties/uniforms/helpers/mergeUniformConfigs");
+const mergeVaryingConfigs_1 = require("../shader-properties/varyings/helpers/mergeVaryingConfigs");
+const getVertexEffect_1 = require("./effects/getVertexEffect");
+const vertexEffects_consts_1 = require("./vertexEffects.consts");
+const mergeStructConfigs_1 = require("../shader-properties/structs/mergeStructConfigs");
+const setUpVertexEffects = (vertexEffects) => {
     const { uniformConfigs, varyingConfigs, transformations, requiredFunctions, attributeConfigs, structConfigs, } = getVertexTransformations(vertexEffects);
-    const viewMatrix = `gl_Position = projectionMatrix * modelViewMatrix * vec4(${VERTEX_POINT_NAME}.xyz, 1.0);`;
+    const viewMatrix = `gl_Position = projectionMatrix * modelViewMatrix * vec4(${vertexEffects_consts_1.VERTEX_POINT_NAME}.xyz, 1.0);`;
     return {
         uniformConfigs,
         varyingConfigs,
@@ -18,6 +21,7 @@ export const setUpVertexEffects = (vertexEffects) => {
         structConfigs,
     };
 };
+exports.setUpVertexEffects = setUpVertexEffects;
 const getVertexTransformations = (vertexEffects) => {
     const unmergedUniformConfigs = [];
     const unmergedVaryingConfigs = [];
@@ -26,7 +30,7 @@ const getVertexTransformations = (vertexEffects) => {
     const unmergedStructConfigs = [];
     const unmergedAttributeConfigs = [];
     vertexEffects.forEach((effect) => {
-        const { uniformConfig, varyingConfig, transformation, requiredFunctions, attributeConfig = [], structConfigs = [], } = getVertexEffect(effect);
+        const { uniformConfig, varyingConfig, transformation, requiredFunctions, attributeConfig = [], structConfigs = [], } = (0, getVertexEffect_1.getVertexEffect)(effect);
         unmergedUniformConfigs.push(uniformConfig);
         unmergedVaryingConfigs.push(varyingConfig);
         unmergedAttributeConfigs.push(attributeConfig);
@@ -34,11 +38,11 @@ const getVertexTransformations = (vertexEffects) => {
         allRequiredFunctions.push(requiredFunctions);
         unmergedStructConfigs.push(structConfigs);
     });
-    const mergedUniformConfigs = mergeUniformConfigs(unmergedUniformConfigs);
-    const mergedVaryingConfigs = mergeVaryingConfigs(unmergedVaryingConfigs);
-    const mergedRequiredFunction = reduceFunctions(allRequiredFunctions);
-    const mergedAttributeConfigs = mergeAttributeConfigs(unmergedAttributeConfigs);
-    const mergedStructConfigs = mergeStructConfigs(unmergedStructConfigs);
+    const mergedUniformConfigs = (0, mergeUniformConfigs_1.mergeUniformConfigs)(unmergedUniformConfigs);
+    const mergedVaryingConfigs = (0, mergeVaryingConfigs_1.mergeVaryingConfigs)(unmergedVaryingConfigs);
+    const mergedRequiredFunction = (0, reduceFunctions_1.reduceFunctions)(allRequiredFunctions);
+    const mergedAttributeConfigs = (0, mergeAttributeConfigs_1.mergeAttributeConfigs)(unmergedAttributeConfigs);
+    const mergedStructConfigs = (0, mergeStructConfigs_1.mergeStructConfigs)(unmergedStructConfigs);
     const transformations = unmergedTransformations.join("");
     return {
         uniformConfigs: mergedUniformConfigs,

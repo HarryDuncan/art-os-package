@@ -1,4 +1,7 @@
-export const setupVideo = (path, identifier) => {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.setupVideo = void 0;
+const setupVideo = (path, identifier) => {
     const video = document.createElement("video");
     const root = document.getElementById("append-container");
     const videoId = document.getElementById(identifier);
@@ -32,3 +35,4 @@ export const setupVideo = (path, identifier) => {
     }, 3000);
     return video;
 };
+exports.setupVideo = setupVideo;

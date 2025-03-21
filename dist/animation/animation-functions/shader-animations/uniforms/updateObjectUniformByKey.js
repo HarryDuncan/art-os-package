@@ -1,4 +1,7 @@
-export const updateObjectUniformByKey = (mesh, uniformKey, uniformValue, uniformArrayIndex) => {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.updateObjectUniformByKey = void 0;
+const updateObjectUniformByKey = (mesh, uniformKey, uniformValue, uniformArrayIndex) => {
     const material = mesh.material;
     if (material && material.uniforms && material.uniforms[uniformKey]) {
         if (uniformArrayIndex !== undefined) {
@@ -9,3 +12,4 @@ export const updateObjectUniformByKey = (mesh, uniformKey, uniformValue, uniform
         }
     }
 };
+exports.updateObjectUniformByKey = updateObjectUniformByKey;

@@ -1,28 +1,31 @@
-import { mergeUniformConfigs } from "../../../shader-properties/uniforms/helpers/mergeUniformConfigs";
-import { mergeVaryingConfigs } from "../../../shader-properties/varyings/helpers/mergeVaryingConfigs";
-import { reduceFunctions } from "../../../helpers/reduceFunctions";
-import { mergeAttributeConfigs } from "../../../shader-properties/attributes/helpers/mergeAttributeConfigs";
-import { DEFAULT_TRIGGERED_EFFECT, TRIGGERED_ATTRIBUTE_CONFIGS, TRIGGERED_FUNCTIONS, TRIGGERED_UNIFORM_CONFIG, TRIGGERED_VARYING_CONFIG, } from "./triggeredEffect.consts";
-import { triggeredEffectTransform } from "./triggeredEffectTransform";
-import { formatFragmentParameters } from "../../../helpers/formatFragmentParameters";
-export const triggeredEffect = (effectProps) => {
-    const effectParams = formatFragmentParameters(effectProps, DEFAULT_TRIGGERED_EFFECT);
-    const { effectUniforms, effectVaryings, effectFunctions, transformation, effectAttributes, } = triggeredEffectTransform(effectParams);
-    const mergedUniformConfigs = mergeUniformConfigs([
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.triggeredEffect = void 0;
+const mergeUniformConfigs_1 = require("../../../shader-properties/uniforms/helpers/mergeUniformConfigs");
+const mergeVaryingConfigs_1 = require("../../../shader-properties/varyings/helpers/mergeVaryingConfigs");
+const reduceFunctions_1 = require("../../../helpers/reduceFunctions");
+const mergeAttributeConfigs_1 = require("../../../shader-properties/attributes/helpers/mergeAttributeConfigs");
+const triggeredEffect_consts_1 = require("./triggeredEffect.consts");
+const triggeredEffectTransform_1 = require("./triggeredEffectTransform");
+const formatFragmentParameters_1 = require("../../../helpers/formatFragmentParameters");
+const triggeredEffect = (effectProps) => {
+    const effectParams = (0, formatFragmentParameters_1.formatFragmentParameters)(effectProps, triggeredEffect_consts_1.DEFAULT_TRIGGERED_EFFECT);
+    const { effectUniforms, effectVaryings, effectFunctions, transformation, effectAttributes, } = (0, triggeredEffectTransform_1.triggeredEffectTransform)(effectParams);
+    const mergedUniformConfigs = (0, mergeUniformConfigs_1.mergeUniformConfigs)([
         effectUniforms,
-        TRIGGERED_UNIFORM_CONFIG,
+        triggeredEffect_consts_1.TRIGGERED_UNIFORM_CONFIG,
     ]);
-    const mergedVaryingConfigs = mergeVaryingConfigs([
+    const mergedVaryingConfigs = (0, mergeVaryingConfigs_1.mergeVaryingConfigs)([
         effectVaryings,
-        TRIGGERED_VARYING_CONFIG,
+        triggeredEffect_consts_1.TRIGGERED_VARYING_CONFIG,
     ]);
-    const mergedRequiredFunction = reduceFunctions([
+    const mergedRequiredFunction = (0, reduceFunctions_1.reduceFunctions)([
         effectFunctions,
-        TRIGGERED_FUNCTIONS,
+        triggeredEffect_consts_1.TRIGGERED_FUNCTIONS,
     ]);
-    const mergedAttributeConfigs = mergeAttributeConfigs([
+    const mergedAttributeConfigs = (0, mergeAttributeConfigs_1.mergeAttributeConfigs)([
         effectAttributes,
-        TRIGGERED_ATTRIBUTE_CONFIGS,
+        triggeredEffect_consts_1.TRIGGERED_ATTRIBUTE_CONFIGS,
     ]);
     return {
         requiredFunctions: mergedRequiredFunction,
@@ -32,3 +35,4 @@ export const triggeredEffect = (effectProps) => {
         transformation,
     };
 };
+exports.triggeredEffect = triggeredEffect;

@@ -1,7 +1,10 @@
-import { FRAGMENT_EFFECT } from "../../fragmentEffects.consts";
-import { color } from "../color/color";
-import { defaultFragmentEffect } from "../defaultFragmentEffect/defaultFragmentEffect";
-export const getInteractiveEffectTransform = (interactiveEffectProps) => {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.getInteractiveEffectTransform = void 0;
+const fragmentEffects_consts_1 = require("../../fragmentEffects.consts");
+const color_1 = require("../color/color");
+const defaultFragmentEffect_1 = require("../defaultFragmentEffect/defaultFragmentEffect");
+const getInteractiveEffectTransform = (interactiveEffectProps) => {
     const { uniformConfig, varyingConfig, transformation: effectTransformation, requiredFunctions, attributeConfig, } = getEffectData(interactiveEffectProps);
     const transformation = `
     
@@ -18,13 +21,14 @@ export const getInteractiveEffectTransform = (interactiveEffectProps) => {
         attributeConfig,
     };
 };
+exports.getInteractiveEffectTransform = getInteractiveEffectTransform;
 const getEffectData = (interactiveEffectProps) => {
     const { effectType, effectProps } = interactiveEffectProps;
     switch (effectType) {
-        case FRAGMENT_EFFECT.COLOR:
-            return color(effectProps);
+        case fragmentEffects_consts_1.FRAGMENT_EFFECT.COLOR:
+            return (0, color_1.color)(effectProps);
         default:
             console.warn(`No interactive effect configured for ${effectProps}`);
-            return defaultFragmentEffect();
+            return (0, defaultFragmentEffect_1.defaultFragmentEffect)();
     }
 };

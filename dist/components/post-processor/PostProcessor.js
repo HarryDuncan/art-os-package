@@ -1,10 +1,12 @@
-import { WebGLRenderTarget } from "three";
-import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass";
-import { EffectComposer, } from "three/examples/jsm/postprocessing/EffectComposer";
-import { defaultRenderTargetParameters } from "./postProcessor.consts";
-export default class PostProcessor extends EffectComposer {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const three_1 = require("three");
+const RenderPass_1 = require("three/examples/jsm/postprocessing/RenderPass");
+const EffectComposer_1 = require("three/examples/jsm/postprocessing/EffectComposer");
+const postProcessor_consts_1 = require("./postProcessor.consts");
+class PostProcessor extends EffectComposer_1.EffectComposer {
     constructor({ renderer, scene, camera, passes = [], }) {
-        const renderTarget = new WebGLRenderTarget(window.innerHeight, window.outerHeight, defaultRenderTargetParameters);
+        const renderTarget = new three_1.WebGLRenderTarget(window.innerHeight, window.outerHeight, postProcessor_consts_1.defaultRenderTargetParameters);
         super(renderer, renderTarget);
         this.scene = scene;
         this.camera = camera;
@@ -20,7 +22,7 @@ export default class PostProcessor extends EffectComposer {
         this.renderer.setSize(window.innerWidth, window.innerHeight);
     }
     addPasses(passes) {
-        const renderPass = new RenderPass(this.scene, this.camera);
+        const renderPass = new RenderPass_1.RenderPass(this.scene, this.camera);
         // @ts-ignore
         this.addPass(renderPass);
     }
@@ -30,3 +32,4 @@ export default class PostProcessor extends EffectComposer {
         this.addPasses(passes);
     }
 }
+exports.default = PostProcessor;

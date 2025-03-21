@@ -1,18 +1,22 @@
-import { jsx as _jsx } from "react/jsx-runtime";
-import { LayerImg, LayerOverlay, LayersContainer } from "./Layers.styles";
-import { LAYER_TYPES } from "./types";
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Layers = void 0;
+const jsx_runtime_1 = require("react/jsx-runtime");
+const Layers_styles_1 = require("./Layers.styles");
+const types_1 = require("./types");
 const LAYERS = "../assets/layers/";
-export const Layers = ({ layers }) => {
+const Layers = ({ layers }) => {
     if (!layers.length) {
         return null;
     }
-    return (_jsx(LayersContainer, { children: layers.map((layer) => {
+    return ((0, jsx_runtime_1.jsx)(Layers_styles_1.LayersContainer, { children: layers.map((layer) => {
             switch (layer.layerType) {
-                case LAYER_TYPES.IMAGE:
-                    return (_jsx(LayerImg, { src: `${LAYERS}${layer.layerProps.src}` }, layer.layerName));
-                case LAYER_TYPES.OVERLAY:
+                case types_1.LAYER_TYPES.IMAGE:
+                    return ((0, jsx_runtime_1.jsx)(Layers_styles_1.LayerImg, { src: `${LAYERS}${layer.layerProps.src}` }, layer.layerName));
+                case types_1.LAYER_TYPES.OVERLAY:
                 default:
-                    return _jsx(LayerOverlay, {}, layer.layerName);
+                    return (0, jsx_runtime_1.jsx)(Layers_styles_1.LayerOverlay, {}, layer.layerName);
             }
         }) }));
 };
+exports.Layers = Layers;

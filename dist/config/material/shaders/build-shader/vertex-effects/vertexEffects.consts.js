@@ -1,6 +1,9 @@
-export const VERTEX_POINT_NAME = "currentVertexPoint";
-export const VERTEX_NORMAL_NAME = "currentVertexNormal";
-export const VERTEX_EFFECTS = {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.INTERACTION_VERTEX_EFFECT = exports.TRIGGERED_VERTEX_EFFECT = exports.DISTORTION_TYPES = exports.DISPLACEMENT_TYPES = exports.MORPH_TRANSITION_EFFECTS = exports.IMAGE_VERTEX_EFFECT = exports.DEFAULT_VERTEX_EFFECT_PARAMS = exports.VERTEX_EFFECTS = exports.VERTEX_NORMAL_NAME = exports.VERTEX_POINT_NAME = void 0;
+exports.VERTEX_POINT_NAME = "currentVertexPoint";
+exports.VERTEX_NORMAL_NAME = "currentVertexNormal";
+exports.VERTEX_EFFECTS = {
     EXPLODE: "EXPLODE",
     FILTER: "FILTER_VERTEX",
     POINTS: "POINTS",
@@ -17,30 +20,30 @@ export const VERTEX_EFFECTS = {
     VERTEX_IMAGE_EFFECT: "VERTEX_IMAGE_EFFECT",
     IMAGE_TO_POINT: "IMAGE_TO_POINT",
 };
-export const DEFAULT_VERTEX_EFFECT_PARAMS = {
+exports.DEFAULT_VERTEX_EFFECT_PARAMS = {
     declareInTransform: true,
 };
-export const IMAGE_VERTEX_EFFECT = {
+exports.IMAGE_VERTEX_EFFECT = {
     IMAGE_TO_POINTS: "IMAGE_TO_POINT",
     IMAGE_AS_MASK: "IMAGE_AS_MASK",
 };
-export const MORPH_TRANSITION_EFFECTS = {
+exports.MORPH_TRANSITION_EFFECTS = {
     NOISE_TRANSITION: "NOISE_TRANSITION",
 };
-export const DISPLACEMENT_TYPES = {
+exports.DISPLACEMENT_TYPES = {
     EXPLODE: "EXPLODE",
     IMPLODE: "IMPLODE",
 };
-export const DISTORTION_TYPES = {
+exports.DISTORTION_TYPES = {
     STRETCH: "STRETCH",
     TWIST: "TWIST",
     FLEXY_TWISTER: "FLEXY_TWISTER",
 };
-export const TRIGGERED_VERTEX_EFFECT = {
+exports.TRIGGERED_VERTEX_EFFECT = {
     DISPLACE: "DISPLACE",
     WARP: "WARP",
 };
-export const INTERACTION_VERTEX_EFFECT = {
+exports.INTERACTION_VERTEX_EFFECT = {
     DISPLACE: "DISPLACE",
     WARP: "WARP",
 };

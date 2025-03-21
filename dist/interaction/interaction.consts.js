@@ -1,14 +1,17 @@
-export const EVENT_BINDING_TYPE = {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.KEYS = exports.KEY_CODES = exports.EVENT_TYPES = exports.EVENT_BIND_TYPES = exports.POSENET_EVENTS = exports.USER_EVENTS = exports.EVENT_BINDING_TYPE = void 0;
+exports.EVENT_BINDING_TYPE = {
     SCENE: "SCENE",
     MATERIAL: "MATERIAL",
 };
-export const USER_EVENTS = {
+exports.USER_EVENTS = {
     WHEEL: "wheel",
     CLICK: "click",
     TOUCH_MOVE: "touchmove",
     MOUSE_MOVE: "mousemove",
 };
-export const POSENET_EVENTS = {
+exports.POSENET_EVENTS = {
     NOSE: "posenet:nose",
     LEFT_EYE: "posenet:leftEye",
     RIGHT_EYE: "posenet:rightEye",
@@ -26,11 +29,11 @@ export const POSENET_EVENTS = {
     LEFT_ANKLE: "posenet:leftAnkle",
     RIGHT_ANKLE: "posenet:rightAnkle",
 };
-export const EVENT_BIND_TYPES = {
+exports.EVENT_BIND_TYPES = {
     DOCUMENT: "document",
     WINDOW: "window",
 };
-export const EVENT_TYPES = {
+exports.EVENT_TYPES = {
     KEYDOWN: "keydown",
     KEYPRESS: "keypress",
     MOUSE_MOVE: "mousemove",
@@ -39,7 +42,7 @@ export const EVENT_TYPES = {
     MOUSE_ENTER: "mouseenter",
     MOUSE_LEAVE: "mouseleave",
 };
-export const KEY_CODES = {
+exports.KEY_CODES = {
     backspace: 8,
     tab: 9,
     enter: 13,
@@ -140,7 +143,7 @@ export const KEY_CODES = {
     closebracket: 221,
     singlequote: 222,
 };
-export const KEYS = {
+exports.KEYS = {
     BACKSPACE: "Backspace",
     TAB: "Tab",
     ENTER: "Enter",

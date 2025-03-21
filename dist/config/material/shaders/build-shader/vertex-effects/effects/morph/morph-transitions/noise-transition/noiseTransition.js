@@ -1,30 +1,33 @@
-import { formatVertexParameters } from "../../../../../helpers/formatVertexParameters";
-import { reduceFunctions } from "../../../../../helpers/reduceFunctions";
-import { mergeAttributeConfigs } from "../../../../../shader-properties/attributes/helpers/mergeAttributeConfigs";
-import { mergeUniformConfigs } from "../../../../../shader-properties/uniforms/helpers/mergeUniformConfigs";
-import { mergeVaryingConfigs } from "../../../../../shader-properties/varyings/helpers/mergeVaryingConfigs";
-import { DEFAULT_NOISE_TRANSITION_EFFECT_PROPS, NOISE_TRANSITION_ATTRIBUTE_CONFIG, NOISE_TRANSITION_REQUIRED_FUNCTIONS, NOISE_TRANSITION_UNIFORM_CONFIG, NOISE_TRANSITION_VARYING_CONFIG, } from "./noiseTranstion.consts";
-import { noiseTransitionTransform } from "./noiseTransitionTransform";
-export const noiseTransition = (effectProps) => {
-    const noiseTransitionEffectProps = formatVertexParameters(effectProps, DEFAULT_NOISE_TRANSITION_EFFECT_PROPS);
-    const { transformation, effectUniforms, effectVaryings, effectFunctions, effectAttributes, } = noiseTransitionTransform(noiseTransitionEffectProps);
-    const uniformConfig = NOISE_TRANSITION_UNIFORM_CONFIG;
-    const varyingConfig = NOISE_TRANSITION_VARYING_CONFIG;
-    const requiredFunctions = NOISE_TRANSITION_REQUIRED_FUNCTIONS;
-    const attributeConfig = NOISE_TRANSITION_ATTRIBUTE_CONFIG;
-    const mergedUniformConfigs = mergeUniformConfigs([
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.noiseTransition = void 0;
+const formatVertexParameters_1 = require("../../../../../helpers/formatVertexParameters");
+const reduceFunctions_1 = require("../../../../../helpers/reduceFunctions");
+const mergeAttributeConfigs_1 = require("../../../../../shader-properties/attributes/helpers/mergeAttributeConfigs");
+const mergeUniformConfigs_1 = require("../../../../../shader-properties/uniforms/helpers/mergeUniformConfigs");
+const mergeVaryingConfigs_1 = require("../../../../../shader-properties/varyings/helpers/mergeVaryingConfigs");
+const noiseTranstion_consts_1 = require("./noiseTranstion.consts");
+const noiseTransitionTransform_1 = require("./noiseTransitionTransform");
+const noiseTransition = (effectProps) => {
+    const noiseTransitionEffectProps = (0, formatVertexParameters_1.formatVertexParameters)(effectProps, noiseTranstion_consts_1.DEFAULT_NOISE_TRANSITION_EFFECT_PROPS);
+    const { transformation, effectUniforms, effectVaryings, effectFunctions, effectAttributes, } = (0, noiseTransitionTransform_1.noiseTransitionTransform)(noiseTransitionEffectProps);
+    const uniformConfig = noiseTranstion_consts_1.NOISE_TRANSITION_UNIFORM_CONFIG;
+    const varyingConfig = noiseTranstion_consts_1.NOISE_TRANSITION_VARYING_CONFIG;
+    const requiredFunctions = noiseTranstion_consts_1.NOISE_TRANSITION_REQUIRED_FUNCTIONS;
+    const attributeConfig = noiseTranstion_consts_1.NOISE_TRANSITION_ATTRIBUTE_CONFIG;
+    const mergedUniformConfigs = (0, mergeUniformConfigs_1.mergeUniformConfigs)([
         effectUniforms,
         uniformConfig,
     ]);
-    const mergedVaryingConfigs = mergeVaryingConfigs([
+    const mergedVaryingConfigs = (0, mergeVaryingConfigs_1.mergeVaryingConfigs)([
         effectVaryings,
         varyingConfig,
     ]);
-    const mergedRequiredFunction = reduceFunctions([
+    const mergedRequiredFunction = (0, reduceFunctions_1.reduceFunctions)([
         effectFunctions,
         requiredFunctions,
     ]);
-    const mergedAttributeConfigs = mergeAttributeConfigs([
+    const mergedAttributeConfigs = (0, mergeAttributeConfigs_1.mergeAttributeConfigs)([
         attributeConfig,
         effectAttributes,
     ]);
@@ -36,3 +39,4 @@ export const noiseTransition = (effectProps) => {
         varyingConfig: mergedVaryingConfigs,
     };
 };
+exports.noiseTransition = noiseTransition;

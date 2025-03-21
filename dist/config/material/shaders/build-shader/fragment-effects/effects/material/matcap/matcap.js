@@ -1,12 +1,15 @@
-import { DEFAULT_MATCAP_EFFECT_PROPS, DEFAULT_MATCAP_UNIFORMS, MATCAP_REQUIRED_FUNCTIONS, MATCAP_VARYINGS, } from "./matcap.consts";
-import { formatFragmentParameters } from "../../../../helpers/formatFragmentParameters";
-import { matcapTransform } from "./matcapTransform";
-export const matcapMaterial = (effectProps = {}) => {
-    const formattedProps = formatFragmentParameters(effectProps, DEFAULT_MATCAP_EFFECT_PROPS);
-    const { transform } = matcapTransform(formattedProps);
-    const uniformConfig = DEFAULT_MATCAP_UNIFORMS;
-    const varyingConfig = MATCAP_VARYINGS;
-    const requiredFunctions = MATCAP_REQUIRED_FUNCTIONS;
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.matcapMaterial = void 0;
+const matcap_consts_1 = require("./matcap.consts");
+const formatFragmentParameters_1 = require("../../../../helpers/formatFragmentParameters");
+const matcapTransform_1 = require("./matcapTransform");
+const matcapMaterial = (effectProps = {}) => {
+    const formattedProps = (0, formatFragmentParameters_1.formatFragmentParameters)(effectProps, matcap_consts_1.DEFAULT_MATCAP_EFFECT_PROPS);
+    const { transform } = (0, matcapTransform_1.matcapTransform)(formattedProps);
+    const uniformConfig = matcap_consts_1.DEFAULT_MATCAP_UNIFORMS;
+    const varyingConfig = matcap_consts_1.MATCAP_VARYINGS;
+    const requiredFunctions = matcap_consts_1.MATCAP_REQUIRED_FUNCTIONS;
     return {
         requiredFunctions,
         uniformConfig,
@@ -15,3 +18,4 @@ export const matcapMaterial = (effectProps = {}) => {
         attributeConfig: [],
     };
 };
+exports.matcapMaterial = matcapMaterial;

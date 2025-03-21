@@ -1,4 +1,7 @@
-export const DEFAULT_CONFIG = {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.SceneConfigType = exports.DEFAULT_SCENE_PROPERTIES = exports.DEFAULT_CONFIG = void 0;
+exports.DEFAULT_CONFIG = {
     threeJsConfig: {},
     assets: [],
     meshComponentConfigs: [],
@@ -9,14 +12,14 @@ export const DEFAULT_CONFIG = {
     interactionConfig: [],
     scenePropertiesConfig: {},
 };
-export const DEFAULT_SCENE_PROPERTIES = {
+exports.DEFAULT_SCENE_PROPERTIES = {
     viewWidth: "100vw",
     viewHeight: "100vh",
     backgroundColor: "white",
     backgroundUrl: "",
     position: "fixed",
 };
-export var SceneConfigType;
+var SceneConfigType;
 (function (SceneConfigType) {
     SceneConfigType["Master"] = "Master";
-})(SceneConfigType || (SceneConfigType = {}));
+})(SceneConfigType = exports.SceneConfigType || (exports.SceneConfigType = {}));

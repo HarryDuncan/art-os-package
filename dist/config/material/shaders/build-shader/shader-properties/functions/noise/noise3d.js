@@ -1,10 +1,13 @@
-import { hash33, mod289Vec3, mod289Vec4, permuteVec4, taylorInvSqrtVec4, } from "../maths/maths";
-export const noise3D = `
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.virusNoise = exports.noise3dFunction = exports.noise3D = void 0;
+const maths_1 = require("../maths/maths");
+exports.noise3D = `
   
-  ${mod289Vec3}
-  ${mod289Vec4}
-  ${permuteVec4}
-  ${taylorInvSqrtVec4}
+  ${maths_1.mod289Vec3}
+  ${maths_1.mod289Vec4}
+  ${maths_1.permuteVec4}
+  ${maths_1.taylorInvSqrtVec4}
   // **- // end imported block
   
   float noise3D(vec3 v)
@@ -81,14 +84,14 @@ export const noise3D = `
     return 42.0 * dot( m*m, vec4( dot(p0,x0), dot(p1,x1),
                                   dot(p2,x2), dot(p3,x3) ) );
     }`;
-export const noise3dFunction = {
+exports.noise3dFunction = {
     id: "noise3D",
-    functionDefinition: noise3D,
+    functionDefinition: exports.noise3D,
 };
-export const virusNoise = {
+exports.virusNoise = {
     id: "virusNoise",
     functionDefinition: `
-    ${hash33}
+    ${maths_1.hash33}
     float virusNoise(vec3 p) {
     vec3 pi = floor(p);
     vec3 pf = p - pi;

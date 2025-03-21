@@ -1,4 +1,7 @@
-export const MATERIAL_TYPES = {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.ENV_MAP_TYPES = exports.ASSET_MAPPED_MATERIALS = exports.SHADER_MATERIALS = exports.MATERIAL_TYPES = void 0;
+exports.MATERIAL_TYPES = {
     INTERACTIVE_SHADER: "INTERACTIVE_SHADER",
     SHADER: "SHADER",
     MATCAP: "MATCAP",
@@ -9,16 +12,16 @@ export const MATERIAL_TYPES = {
     MATERIAL: "MATERIAL",
     BUILT_SHADER: "BUILT_SHADER",
 };
-export const SHADER_MATERIALS = [
-    MATERIAL_TYPES.SHADER,
-    MATERIAL_TYPES.INTERACTIVE_SHADER,
+exports.SHADER_MATERIALS = [
+    exports.MATERIAL_TYPES.SHADER,
+    exports.MATERIAL_TYPES.INTERACTIVE_SHADER,
 ];
-export const ASSET_MAPPED_MATERIALS = [
-    MATERIAL_TYPES.ENV_MAP,
-    MATERIAL_TYPES.MATCAP,
-    MATERIAL_TYPES.VIDEO,
+exports.ASSET_MAPPED_MATERIALS = [
+    exports.MATERIAL_TYPES.ENV_MAP,
+    exports.MATERIAL_TYPES.MATCAP,
+    exports.MATERIAL_TYPES.VIDEO,
 ];
-export const ENV_MAP_TYPES = {
+exports.ENV_MAP_TYPES = {
     REFLECTION: "REFLECTION",
     REFRACTION: "REFRACTION",
 };

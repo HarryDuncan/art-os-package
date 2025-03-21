@@ -1,41 +1,44 @@
-import { ShaderPropertyValueTypes } from "../../../../constants";
-import { matcapFunction, textureLevel, } from "../../../../shader-properties/functions/matcapFunctions";
-import { calculateNormal } from "../../../../shader-properties/functions/maths/maths";
-import { VARYING_TYPES } from "../../../../shader-properties/varyings/varyings.consts";
-export const DEFAULT_MATCAP_UNIFORMS = {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.MATCAP_VARYINGS = exports.MATCAP_REQUIRED_FUNCTIONS = exports.DEFAULT_MATCAP_EFFECT_PROPS = exports.DEFAULT_MATCAP_UNIFORMS = void 0;
+const constants_1 = require("../../../../constants");
+const matcapFunctions_1 = require("../../../../shader-properties/functions/matcapFunctions");
+const maths_1 = require("../../../../shader-properties/functions/maths/maths");
+const varyings_consts_1 = require("../../../../shader-properties/varyings/varyings.consts");
+exports.DEFAULT_MATCAP_UNIFORMS = {
     defaultUniforms: ["uMaterial", "uResolution"],
     customUniforms: [
         {
             id: "uLightDir",
-            valueType: ShaderPropertyValueTypes.VEC2,
+            valueType: constants_1.ShaderPropertyValueTypes.VEC2,
         },
     ],
 };
-export const DEFAULT_MATCAP_EFFECT_PROPS = {};
-export const MATCAP_REQUIRED_FUNCTIONS = [
-    { id: "calculateNormal", functionDefinition: calculateNormal },
-    { id: "matcap", functionDefinition: matcapFunction },
-    { id: "textureLevel", functionDefinition: textureLevel },
+exports.DEFAULT_MATCAP_EFFECT_PROPS = {};
+exports.MATCAP_REQUIRED_FUNCTIONS = [
+    { id: "calculateNormal", functionDefinition: maths_1.calculateNormal },
+    { id: "matcap", functionDefinition: matcapFunctions_1.matcapFunction },
+    { id: "textureLevel", functionDefinition: matcapFunctions_1.textureLevel },
 ];
-export const MATCAP_VARYINGS = [
+exports.MATCAP_VARYINGS = [
     {
         id: "vEye",
-        varyingType: VARYING_TYPES.DEFAULT,
-        valueType: ShaderPropertyValueTypes.VEC3,
+        varyingType: varyings_consts_1.VARYING_TYPES.DEFAULT,
+        valueType: constants_1.ShaderPropertyValueTypes.VEC3,
     },
     {
         id: "vPosition",
-        varyingType: VARYING_TYPES.DEFAULT,
-        valueType: ShaderPropertyValueTypes.VEC3,
+        varyingType: varyings_consts_1.VARYING_TYPES.DEFAULT,
+        valueType: constants_1.ShaderPropertyValueTypes.VEC3,
     },
     {
         id: "vNormal",
-        varyingType: VARYING_TYPES.DEFAULT,
-        valueType: ShaderPropertyValueTypes.VEC3,
+        varyingType: varyings_consts_1.VARYING_TYPES.DEFAULT,
+        valueType: constants_1.ShaderPropertyValueTypes.VEC3,
     },
     {
         id: "vUv",
-        varyingType: VARYING_TYPES.DEFAULT,
-        valueType: ShaderPropertyValueTypes.VEC2,
+        varyingType: varyings_consts_1.VARYING_TYPES.DEFAULT,
+        valueType: constants_1.ShaderPropertyValueTypes.VEC2,
     },
 ];

@@ -1,11 +1,14 @@
-import { physicalMaterialTransform } from "./physicalMaterialTransform";
-import { PHYSICAL_MATERIAL_REQUIRED_FUNCTIONS, PHYSICAL_MATERIAL_STRUCT_CONFIG, PHYSICAL_MATERIAL_UNIFORM_CONFIG, PHYSICAL_MATERIAL_VARYING_CONFIG, } from "./physicalMaterial.consts";
-export const physicalMaterial = (effectProps = {}) => {
-    const { transform } = physicalMaterialTransform();
-    const uniformConfig = PHYSICAL_MATERIAL_UNIFORM_CONFIG;
-    const varyingConfig = PHYSICAL_MATERIAL_VARYING_CONFIG;
-    const requiredFunctions = PHYSICAL_MATERIAL_REQUIRED_FUNCTIONS;
-    const structConfigs = PHYSICAL_MATERIAL_STRUCT_CONFIG;
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.physicalMaterial = void 0;
+const physicalMaterialTransform_1 = require("./physicalMaterialTransform");
+const physicalMaterial_consts_1 = require("./physicalMaterial.consts");
+const physicalMaterial = (effectProps = {}) => {
+    const { transform } = (0, physicalMaterialTransform_1.physicalMaterialTransform)();
+    const uniformConfig = physicalMaterial_consts_1.PHYSICAL_MATERIAL_UNIFORM_CONFIG;
+    const varyingConfig = physicalMaterial_consts_1.PHYSICAL_MATERIAL_VARYING_CONFIG;
+    const requiredFunctions = physicalMaterial_consts_1.PHYSICAL_MATERIAL_REQUIRED_FUNCTIONS;
+    const structConfigs = physicalMaterial_consts_1.PHYSICAL_MATERIAL_STRUCT_CONFIG;
     return {
         requiredFunctions,
         uniformConfig,
@@ -15,3 +18,4 @@ export const physicalMaterial = (effectProps = {}) => {
         structConfigs,
     };
 };
+exports.physicalMaterial = physicalMaterial;
