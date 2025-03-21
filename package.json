@@ -1,7 +1,7 @@
 {
   "name": "art-os-package",
-  "version": "1.0.0",
-  "description": "A reusable TypeScript npm package",
+  "version": "1.0.1",
+  "description": "Reusable visuals",
   "main": "src/index.tsx",
   "scripts": {
     "lint": "npx eslint src",
