@@ -1,11 +1,21 @@
-//import { FontData, FontLoader } from "three/examples/jsm/loaders/FontLoader";
+import { Font } from "three/examples/jsm/loaders/FontLoader";
 
-export const loadFont = (fontUrl: string) => {
-  return null;
+export const loadFont = async (fontUrl: string): Promise<Font> => {
+  const { FontLoader } = await import(
+    "three/examples/jsm/loaders/FontLoader.js"
+  );
+
+  return new Promise((resolve, reject) => {
+    const loader = new FontLoader();
+    loader.load(
+      fontUrl,
+      (font) => {
+        resolve(font);
+      },
+      undefined,
+      (error) => {
+        reject(error);
+      }
+    );
+  });
 };
-// new Promise((resolve: (value: FontData) => void) => {
-//   const loader = new FontLoader();
-//   loader.load(fontUrl, (response) => {
-//     resolve(response.data);
-//   });
-//});

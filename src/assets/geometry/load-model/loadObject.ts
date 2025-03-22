@@ -1,20 +1,19 @@
 import { Group } from "three";
-import { OBJLoader } from "three/examples/jsm/loaders/OBJLoader";
 
-export const loadObject = async (path: string) =>
-  new Promise((resolve: (value: Group) => void) => {
-    const objectLoader = new OBJLoader();
-    objectLoader.load(
-      path,
-      (object: Group) => {
-        const result = object;
-        resolve(result);
+export const loadObject = async (url: string): Promise<Group> => {
+  const { OBJLoader } = await import("three/examples/jsm/loaders/OBJLoader.js");
+
+  return new Promise((resolve, reject) => {
+    const loader = new OBJLoader();
+    loader.load(
+      url,
+      (object) => {
+        resolve(object);
       },
-      // On Progress
-      () => null,
-      // On Error
-      () => {
-        console.error("error loading object");
+      undefined,
+      (error) => {
+        reject(error);
       }
     );
   });
+};

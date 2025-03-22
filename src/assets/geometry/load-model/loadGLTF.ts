@@ -1,18 +1,29 @@
-import { AnimationClip, Group } from "three";
+import { Group } from "three";
+import { GLTF } from "../../../config/config.types";
 
-export const loadGLTF = async (path: string) =>
-  new Promise(async (resolve: (value: Group) => void) => {
-    const { DRACOLoader } = await import(
-      "three/examples/jsm/loaders/DRACOLoader.js"
+export const loadGLTF = async (url: string): Promise<GLTF> => {
+  const { DRACOLoader } = await import(
+    "three/examples/jsm/loaders/DRACOLoader.js"
+  );
+  const { GLTFLoader } = await import(
+    "three/examples/jsm/loaders/GLTFLoader.js"
+  );
+
+  const dracoLoader = new DRACOLoader();
+  dracoLoader.setDecoderPath("/draco/");
+  const gltfLoader = new GLTFLoader();
+  gltfLoader.setDRACOLoader(dracoLoader);
+
+  return new Promise((resolve, reject) => {
+    gltfLoader.load(
+      url,
+      (gltf) => {
+        resolve(gltf);
+      },
+      undefined,
+      (error) => {
+        reject(error);
+      }
     );
-    const { GLTFLoader } = await import(
-      "three/examples/jsm/loaders/GLTFLoader.js"
-    );
-    const dracoLoader = new DRACOLoader();
-    dracoLoader.setDecoderPath("/draco/");
-    const loader = new GLTFLoader();
-    loader.setDRACOLoader(dracoLoader);
-    loader.load(path, (gltf) => {
-      resolve(gltf.scene);
-    });
   });
+};
