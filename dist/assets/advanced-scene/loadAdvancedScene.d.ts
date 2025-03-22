@@ -1,4 +1,1 @@
-export declare const loadAdvancedScene: (path: string, fileType: string) => Promise<{
-    scene: Group;
-    animations: AnimationClip[];
-}>;
+export declare const loadAdvancedScene: (path: string, fileType: string) => Promise<import("../asset.types").GLTF>;

@@ -1,1 +1,2 @@
-export declare const LoadSvg: (path: string) => Promise<string>;
+import { Group } from "three";
+export declare const loadSvg: (url: string) => Promise<Group>;

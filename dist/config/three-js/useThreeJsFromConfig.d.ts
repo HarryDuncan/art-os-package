@@ -2,6 +2,7 @@ import { ThreeJSConfig } from "../config.types";
 export declare const useThreeJsFromConfig: () => (config: ThreeJSConfig) => {
     camera: any;
     controls: {
+        target?: import("../../utils/three-dimension-space/position/position.types").Position3d;
         autoRotate?: boolean;
         autoRotateSpeed?: number;
         dampingFactor?: number;

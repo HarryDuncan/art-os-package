@@ -1,22 +1,13 @@
-import { Camera, Scene, WebGLRenderer } from "three";
-import { EffectComposer, Pass } from "three/examples/jsm/postprocessing/EffectComposer";
+import { Scene, WebGLRenderer } from "three";
 import { PostProcessorCamera } from "./postProcessor.types";
-export default class PostProcessor extends EffectComposer {
-    scene: Scene;
-    camera: PostProcessorCamera;
-    renderer: WebGLRenderer;
-    constructor({ renderer, scene, camera, passes, }: {
-        renderer: WebGLRenderer;
-        camera: Camera;
-        scene: Scene;
-        passes?: Pass[];
-    });
-    bindEvents(): void;
-    onResize(): void;
-    addPasses(passes: Pass[]): void;
-    updateProcessorParams({ camera, scene, passes, }: {
-        camera: Camera;
-        scene: Scene;
-        passes?: Pass[];
-    }): void;
+export default class PostProcessor {
+    private composer;
+    private renderPass;
+    private camera;
+    private scene;
+    private renderer;
+    constructor(camera: PostProcessorCamera, scene: Scene, renderer: WebGLRenderer);
+    init(): Promise<void>;
+    render(): void;
+    resize(width: number, height: number): void;
 }

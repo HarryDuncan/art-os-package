@@ -1,5 +1,2 @@
-import { AnimationClip } from "three";
-export declare const loadGLTF: (path: string) => Promise<{
-    scene: Group;
-    animations: AnimationClip[];
-}>;
+import { GLTF } from "src/assets/asset.types";
+export declare const loadGLTF: (url: string) => Promise<GLTF>;

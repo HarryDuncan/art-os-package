@@ -48,6 +48,7 @@ export type MeshComponentConfig = MeshConfig & {
     geometryId?: string;
 };
 export type ControlConfig = {
+    target: Position3d;
     autoRotate: boolean;
     autoRotateSpeed: number;
     dampingFactor: number;

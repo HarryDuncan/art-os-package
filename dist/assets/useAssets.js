@@ -80,7 +80,7 @@ const loadAsset = (asset) => __awaiter(void 0, void 0, void 0, function* () {
             return loadedFont;
         }
         case asset_types_1.ASSET_TYPES.SVG: {
-            const svg = yield (0, loadSvg_1.LoadSvg)(path);
+            const svg = yield (0, loadSvg_1.loadSvg)(path);
             return svg;
         }
         default: {

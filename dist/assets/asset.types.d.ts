@@ -52,3 +52,7 @@ export type Asset = {
     assetTag?: AssetTag[];
     metaData?: AssetMetaData;
 };
+export type GLTF = {
+    scene: Group;
+    animations: any[];
+};

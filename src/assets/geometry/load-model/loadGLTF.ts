@@ -1,5 +1,5 @@
+import { GLTF } from "src/assets/asset.types";
 import { Group } from "three";
-import { GLTF } from "../../../config/config.types";
 
 export const loadGLTF = async (url: string): Promise<GLTF> => {
   const { DRACOLoader } = await import(

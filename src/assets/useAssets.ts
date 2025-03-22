@@ -2,9 +2,8 @@ import { useCallback, useEffect, useState } from "react";
 import { ASSET_TYPES, Asset } from "./asset.types";
 import { getFileTypeFromFilename } from "../utils/file/file";
 import { loadFont } from "./fonts/loadFont";
-
 import { loadImage } from "./image/load-image/LoadImage";
-import { LoadSvg } from "./svg/loadSvg";
+import { loadSvg } from "./svg/loadSvg";
 import { loadTexture } from "./texture/load-texture/loadTexture";
 import { loadModel } from "./geometry/load-model/LoadModel";
 import { loadAdvancedScene } from "./advanced-scene/loadAdvancedScene";
@@ -71,7 +70,7 @@ const loadAsset = async (asset: Asset) => {
       return loadedFont;
     }
     case ASSET_TYPES.SVG: {
-      const svg = await LoadSvg(path);
+      const svg = await loadSvg(path);
       return svg;
     }
     default: {

@@ -8,7 +8,7 @@ const react_1 = require("react");
 const PostProcessor_1 = __importDefault(require("../../components/post-processor/PostProcessor"));
 const engineEvents_1 = require("../../engine/engineEvents");
 const context_1 = require("../../context/context");
-const useThreadWithPostProcessor = (currentFrameRef, camera, renderer, passes) => {
+const useThreadWithPostProcessor = (currentFrameRef, camera, renderer, _passes) => {
     const { state: { initializedScene }, } = (0, context_1.useSceneContext)();
     const postProcessor = (0, react_1.useRef)(null);
     const update = (0, react_1.useCallback)(() => {
@@ -34,14 +34,9 @@ const useThreadWithPostProcessor = (currentFrameRef, camera, renderer, passes) =
     }, [currentFrameRef]);
     (0, react_1.useEffect)(() => {
         if (initializedScene && camera && renderer && !postProcessor.current) {
-            postProcessor.current = new PostProcessor_1.default({
-                renderer,
-                scene: initializedScene,
-                camera,
-                passes,
-            });
+            postProcessor.current = new PostProcessor_1.default(camera, initializedScene, renderer);
         }
-    }, [initializedScene, camera, renderer, postProcessor, passes]);
+    }, [initializedScene, camera, renderer, postProcessor]);
     const initializeSceneWithData = (0, react_1.useCallback)(() => {
         if (postProcessor.current) {
             update();

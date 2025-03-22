@@ -1,1 +1,2 @@
-export declare const loadObject: (path: string) => Promise<Group>;
+import { Group } from "three";
+export declare const loadObject: (url: string) => Promise<Group>;

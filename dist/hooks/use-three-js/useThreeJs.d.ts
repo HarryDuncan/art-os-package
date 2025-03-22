@@ -7,5 +7,5 @@ export declare const useThreeJs: (threeJsParams: ThreeJsParams) => {
     currentFrameRef: import("react").RefObject<number>;
     threeJsInitialized: boolean;
     cssRenderer: any;
-    orbitControls: any;
+    orbitControls: Promise<any>;
 };
