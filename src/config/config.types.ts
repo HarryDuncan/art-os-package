@@ -12,7 +12,7 @@ import {
   PerspectiveCamera,
   Texture,
 } from "three";
-import { RendererParams } from "../hooks/use-three-js/renderer/types";
+import { RendererParams } from "../hooks/use-three-js/renderer/renderer.types";
 import { Position3d } from "../utils/three-dimension-space/position/position.types";
 import { AttributeConfig } from "./material/shaders/build-shader/types";
 import { SceneConfigType } from "./config.constants";

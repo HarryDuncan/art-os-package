@@ -1,3 +1,5 @@
 import { RefObject } from "react";
-import { Pass } from "three/examples/jsm/postprocessing/Pass";
-export declare const useThreadWithPostProcessor: (currentFrameRef: RefObject<number>, camera: Camera, renderer: WebGLRenderer, _passes: Pass[]) => void;
+export declare const useThreadWithPostProcessor: (currentFrameRef: RefObject<number>, camera: Camera, renderer: WebGLRenderer, passes: any[]) => {
+    update: () => Promise<() => void>;
+    pause: () => void;
+};

@@ -47,13 +47,13 @@ export const getMeshesFromConfig = (
     allMeshes
   );
   const meshes = setUpMeshes(geometriesWithMaterials);
-  const advancedMeshes = setUpAdvancedMeshes(
-    assets,
-    advancedMeshConfigs,
-    materials,
-    meshTransforms,
-    attributeConfigs
-  ) as unknown as GLTF[];
+  // const advancedMeshes = setUpAdvancedMeshes(
+  //   assets,
+  //   advancedMeshConfigs,
+  //   materials,
+  //   meshTransforms,
+  //   attributeConfigs
+  // ) as unknown as GLTF[];
 
-  return [...meshes, ...advancedMeshes] as Object3D[];
+  return [...meshes] as Object3D[];
 };

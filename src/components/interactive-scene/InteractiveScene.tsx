@@ -4,10 +4,12 @@ import {
   InteractionEvent,
 } from "../../interaction/interaction.types";
 import { Clock, Scene } from "three";
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { AnimationManager } from "../../animation/animation-manager/AnimationManager";
 import { AnimationConfig } from "../../animation/animation.types";
 import { ENGINE_EVENTS } from "../../engine/engine.consts";
+import { Camera } from "three";
+import { SceneProperties } from "../../config/config.types";
+import { SceneLight } from "../../config/lights/lights.types";
 
 export type InteractiveSceneFunctions = {
   onTimeUpdate?: (scene: InteractiveScene) => void;
@@ -26,17 +28,23 @@ export class InteractiveScene extends Scene {
 
   animationManager: AnimationManager;
 
-  orbitControls: OrbitControls | null;
+  orbitControls: any;
 
   guid: string;
 
   eventsSet: boolean;
 
+  sceneProperties: SceneProperties;
+  interactionEvents: EventConfig[];
+  lights: SceneLight[];
+
   constructor(
     sceneFunctions: InteractiveSceneFunctions,
     eventConfig: EventConfig[],
     animationConfig: AnimationConfig[],
-    interactionEvents: SceneInteraction[]
+    interactionEvents: SceneInteraction[],
+    sceneProperties: SceneProperties,
+    lights: SceneLight[]
   ) {
     super();
     this.guid = "";
@@ -48,6 +56,13 @@ export class InteractiveScene extends Scene {
     this.orbitControls = null;
     this.animationManager = new AnimationManager(animationConfig);
     this.eventsSet = false;
+    this.sceneProperties = sceneProperties;
+    this.interactionEvents = interactionEvents.map(({ eventKey, onEvent }) => ({
+      eventKey,
+      onEvent,
+      eventFunction: onEvent,
+    }));
+    this.lights = lights;
   }
 
   bindExecutionFunctions() {
@@ -106,9 +121,10 @@ export class InteractiveScene extends Scene {
     this.animationManager.initializeAnimations(animations);
   }
 
-  addOrbitControls(orbitControls: OrbitControls | null) {
-    if (orbitControls) {
-      this.orbitControls = orbitControls;
-    }
+  async initOrbitControls(camera: Camera, renderer: any) {
+    const { OrbitControls } = await import(
+      "three/examples/jsm/controls/OrbitControls.js"
+    );
+    this.orbitControls = new OrbitControls(camera, renderer.domElement);
   }
 }

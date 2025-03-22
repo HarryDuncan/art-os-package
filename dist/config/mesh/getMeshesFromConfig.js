@@ -7,7 +7,6 @@ const setUpMeshes_1 = require("./mesh-setup/setUpMeshes");
 const setUpRandomizedMeshConfigs_1 = require("./randomized/setUpRandomizedMeshConfigs");
 const transformGeometries_1 = require("./geometry/transform-geometries/transformGeometries");
 const multipleMeshes_1 = require("./multiple-meshes/multipleMeshes");
-const setUpAdvancedMeshes_1 = require("./advanced-mesh/setUpAdvancedMeshes");
 const formatMeshAttributes_1 = require("./attributes/formatMeshAttributes");
 const getMeshesFromConfig = (assets, materials, config, attributeConfigs) => {
     var _a;
@@ -25,7 +24,13 @@ const getMeshesFromConfig = (assets, materials, config, attributeConfigs) => {
     const transformedGeometry = (0, transformGeometries_1.transformGeometry)(meshAttributes, formattedGeometry);
     const geometriesWithMaterials = (0, addMaterials_1.addMaterials)(transformedGeometry, materials, allMeshes);
     const meshes = (0, setUpMeshes_1.setUpMeshes)(geometriesWithMaterials);
-    const advancedMeshes = (0, setUpAdvancedMeshes_1.setUpAdvancedMeshes)(assets, advancedMeshConfigs, materials, meshTransforms, attributeConfigs);
-    return [...meshes, ...advancedMeshes];
+    // const advancedMeshes = setUpAdvancedMeshes(
+    //   assets,
+    //   advancedMeshConfigs,
+    //   materials,
+    //   meshTransforms,
+    //   attributeConfigs
+    // ) as unknown as GLTF[];
+    return [...meshes];
 };
 exports.getMeshesFromConfig = getMeshesFromConfig;

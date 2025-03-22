@@ -1,18 +1,15 @@
 import { useMemo } from "react";
-import { CSS3DRenderer } from "three/examples/jsm/renderers/CSS3DRenderer";
-import { DEFAULT_RENDERER_PARAMS, RENDERER_TYPES } from "../rendererConstants";
-import { RendererParams } from "../types";
-import { useRendererSize } from "../hooks/useRendererSize";
+import { RendererParams } from "../../renderer/renderer.types";
 
-export const useCssRenderer = (
-  rendererParams: RendererParams = DEFAULT_RENDERER_PARAMS as RendererParams
-) => {
-  const { width, height } = useRendererSize(rendererParams);
-  return useMemo(() => {
-    if (rendererParams.rendererType === RENDERER_TYPES.CSS) {
-      const renderer = new CSS3DRenderer();
-      renderer.setSize(width, height);
-      return renderer;
+export const useCssRenderer = (rendererParams?: RendererParams) => {
+  return useMemo(async () => {
+    const { CSS3DRenderer } = await import(
+      "three/examples/jsm/renderers/CSS3DRenderer.js"
+    );
+    const renderer = new CSS3DRenderer();
+    if (rendererParams?.size) {
+      renderer.setSize(rendererParams.size.width, rendererParams.size.height);
     }
-  }, [rendererParams, width, height]);
+    return renderer;
+  }, [rendererParams]);
 };

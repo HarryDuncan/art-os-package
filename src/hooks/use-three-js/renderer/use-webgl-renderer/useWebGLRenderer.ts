@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { SRGBColorSpace, WebGLRenderer } from "three";
 import { useRendererSize } from "../hooks/useRendererSize";
 import { DEFAULT_RENDERER_PARAMS } from "../rendererConstants";
-import { RendererParams } from "../types";
+import { RendererParams } from "../renderer.types";
 import { useWindowState } from "../../../../compat/window-state/windowStateProvider";
 
 export const useWebGLRenderer = (

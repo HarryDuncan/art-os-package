@@ -1,4 +1,4 @@
-import { MarchingCubes as ThreeJsMarchingCubes } from "three/examples/jsm/objects/MarchingCubes.js";
+import { Object3D } from "three";
 import {
   DEFAULT_ISOLATION,
   DEFAULT_MARCHING_CUBES_SCALE,
@@ -7,6 +7,17 @@ import {
 import { MarchingCubesProps } from "../threeJsComponents.types";
 import { DEFAULT_MATERIAL } from "../../../config/material/materials.default";
 
+export const createMarchingCubes = async (
+  resolution: number,
+  isolation: number
+): Promise<Object3D> => {
+  const { MarchingCubes } = await import(
+    "three/examples/jsm/objects/MarchingCubes.js"
+  );
+  const marchingCubes = new MarchingCubes(resolution, isolation);
+  return marchingCubes;
+};
+
 export const MarchingCubesElement = ({
   id,
   resolution = DEFAULT_RESOLUTION,
@@ -14,19 +25,15 @@ export const MarchingCubesElement = ({
   isolation = DEFAULT_ISOLATION,
   scale = DEFAULT_MARCHING_CUBES_SCALE,
 }: MarchingCubesProps & { id: string }) => {
-  const marchingCubeEffect = new ThreeJsMarchingCubes(
-    resolution,
-    material,
-    true,
-    true,
-    100000
+  return createMarchingCubes(resolution, isolation).then(
+    (marchingCubeEffect) => {
+      marchingCubeEffect.position.set(0, 0, 0);
+      marchingCubeEffect.scale.set(scale, scale, scale);
+      marchingCubeEffect.isolation = isolation;
+      marchingCubeEffect.enableUvs = false;
+      marchingCubeEffect.enableColors = false;
+      marchingCubeEffect.name = `marching-cubes-${id}`;
+      return marchingCubeEffect;
+    }
   );
-
-  marchingCubeEffect.position.set(0, 0, 0);
-  marchingCubeEffect.scale.set(scale, scale, scale);
-  marchingCubeEffect.isolation = isolation;
-  marchingCubeEffect.enableUvs = false;
-  marchingCubeEffect.enableColors = false;
-  marchingCubeEffect.name = `marching-cubes-${id}`;
-  return marchingCubeEffect;
 };

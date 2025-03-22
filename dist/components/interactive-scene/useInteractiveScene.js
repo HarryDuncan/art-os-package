@@ -23,7 +23,7 @@ const useInteractiveScene = (sceneFunction, eventConfig, animationConfig, meshes
         lights.forEach((light) => scene.add(light));
         // @ts-ignore
         sceneComponents.forEach((component) => scene.add(component));
-        scene.addOrbitControls(orbitControls);
+        scene.orbitControls = orbitControls;
         (0, setSceneProperties_1.setSceneProperties)(sceneProperties, scene);
         dispatch({
             type: "INITIALIZE_SCENE",
@@ -33,7 +33,7 @@ const useInteractiveScene = (sceneFunction, eventConfig, animationConfig, meshes
     (0, react_1.useEffect)(() => {
         function setUpScene() {
             return __awaiter(this, void 0, void 0, function* () {
-                const scene = new InteractiveScene_1.InteractiveScene(sceneFunction, eventConfig, animationConfig, interactionEvents);
+                const scene = new InteractiveScene_1.InteractiveScene(sceneFunction, eventConfig, animationConfig, interactionEvents, sceneProperties, lights);
                 yield setUpSceneObjects(scene);
             });
         }

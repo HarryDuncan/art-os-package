@@ -1,2 +1,2 @@
-import { RendererParams } from "../types";
-export declare const useCssRenderer: (rendererParams?: RendererParams) => any;
+import { RendererParams } from "../../renderer/renderer.types";
+export declare const useCssRenderer: (rendererParams?: RendererParams) => Promise<any>;

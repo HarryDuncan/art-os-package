@@ -1,46 +1,34 @@
 import { AdvancedScene, Asset } from "../../../assets/asset.types";
 import { AdvancedMeshConfig } from "./advancedMesh.types";
 import { MeshComponentConfig, MeshTransformConfig } from "../../config.types";
-import { Group, Material } from "three";
+import { Group, Material, Object3D } from "three";
 import { ShaderAttributeConfig } from "../../material/shaders/build-shader/types";
 import {
   formatPositionFromConfig,
   formatRotationFromConfig,
 } from "../../../utils/three-dimension-space/formatFromConfig";
-import { clone } from "three/examples/jsm/utils/SkeletonUtils";
+import { getMeshesFromConfig } from "../getMeshesFromConfig";
 
-export const setUpAdvancedMeshes = (
-  assets: Asset[],
-  meshConfigs: AdvancedMeshConfig[] = [],
-  materials: Material[] = [],
-  meshTransforms: MeshTransformConfig[] = [],
-  attributeConfigs: ShaderAttributeConfig[] = []
-) =>
-  meshConfigs.flatMap((meshConfig) => {
-    const selectedAsset = assets.find(
-      (asset) => asset.id === meshConfig.assetId
-    );
-    if (selectedAsset) {
-      const { data } = selectedAsset;
-      const { scene, animations } = data as AdvancedScene;
-
-      // format any geometry data to mesh config while still being part of group
-
-      const formattedScene = formatScene(scene, meshConfig);
-      formattedScene.animations = animations;
-      loopThroughAllChildren(
-        formattedScene,
-        materials,
-        meshTransforms,
-        attributeConfigs,
-        [meshConfig]
-      );
-      formattedScene.name = meshConfig.id;
-
-      return formattedScene;
-    }
-    return [];
+export const setUpAdvancedMeshes = async (
+  config: AdvancedMeshConfig,
+  meshes: Object3D[]
+) => {
+  // @ts-ignore
+  const { clone } = await import("three/examples/jsm/utils/SkeletonUtils.js");
+  const result = new Group();
+  // @ts-ignore
+  const meshConfigs = config.meshConfigs;
+  // @ts-ignore
+  const meshResults = await getMeshesFromConfig(meshConfigs);
+  // @ts-ignore
+  meshResults.forEach((mesh) => {
+    // @ts-ignore
+    const clonedMesh = clone(mesh);
+    // @ts-ignore
+    result.add(clonedMesh);
   });
+  return result;
+};
 
 const loopThroughAllChildren = (
   data: Group,
@@ -78,6 +66,7 @@ const loopThroughAllChildren = (
 };
 
 const formatScene = (scene: Group, meshConfig: AdvancedMeshConfig) => {
+  // @ts-ignore
   const clonedScene = clone(scene);
   const position = formatPositionFromConfig(meshConfig);
   const rotation = formatRotationFromConfig(meshConfig);

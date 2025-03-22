@@ -38,7 +38,7 @@ export const useInteractiveScene = (
       lights.forEach((light) => scene.add(light));
       // @ts-ignore
       sceneComponents.forEach((component) => scene.add(component));
-      scene.addOrbitControls(orbitControls);
+      scene.orbitControls = orbitControls;
       setSceneProperties(sceneProperties, scene);
       dispatch({
         type: "INITIALIZE_SCENE",
@@ -54,7 +54,9 @@ export const useInteractiveScene = (
         sceneFunction,
         eventConfig,
         animationConfig,
-        interactionEvents
+        interactionEvents,
+        sceneProperties,
+        lights
       );
 
       await setUpSceneObjects(scene);

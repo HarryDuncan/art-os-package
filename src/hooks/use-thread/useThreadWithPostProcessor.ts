@@ -1,6 +1,5 @@
 import { RefObject, useCallback, useEffect, useRef } from "react";
 import { Camera, WebGLRenderer } from "three";
-import { Pass } from "three/examples/jsm/postprocessing/Pass";
 import PostProcessor from "../../components/post-processor/PostProcessor";
 import { sceneUpdateEvent } from "../../engine/engineEvents";
 import { useSceneContext } from "../../context/context";
@@ -9,14 +8,15 @@ export const useThreadWithPostProcessor = (
   currentFrameRef: RefObject<number>,
   camera: Camera,
   renderer: WebGLRenderer,
-  _passes: Pass[]
+  passes: any[]
 ) => {
   const {
     state: { initializedScene },
   } = useSceneContext();
   const postProcessor: RefObject<null | PostProcessor> = useRef(null);
 
-  const update = useCallback(() => {
+  const update = useCallback(async () => {
+    const { Pass } = await import("three/examples/jsm/postprocessing/Pass.js");
     sceneUpdateEvent();
     if (initializedScene) {
       if (initializedScene?.orbitControls) {
@@ -51,10 +51,10 @@ export const useThreadWithPostProcessor = (
   }, [initializedScene, camera, renderer, postProcessor]);
 
   const initializeSceneWithData = useCallback(() => {
-    if (postProcessor.current) {
+    if (initializedScene) {
       update();
     }
-  }, [update, postProcessor]);
+  }, [initializedScene, update]);
 
   useEffect(() => {
     initializeSceneWithData();
@@ -62,4 +62,6 @@ export const useThreadWithPostProcessor = (
       pause();
     };
   }, [initializeSceneWithData, pause]);
+
+  return { update, pause };
 };

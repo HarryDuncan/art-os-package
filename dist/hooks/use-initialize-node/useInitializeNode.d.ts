@@ -1,6 +1,5 @@
 import { JSX, RefObject } from "react";
-import { WebGLRenderer } from "three";
-import { CSS3DRenderer } from "three/examples/jsm/renderers/CSS3DRenderer";
+import { WebGLRenderer, CSS3DRenderer } from "three";
 type ContainerNode = RefObject<Element> | RefObject<null> | RefObject<JSX.Element>;
-export declare const useInitializeNode: (containerRef: ContainerNode, renderer: WebGLRenderer | CSS3DRenderer) => void;
+export declare const useInitializeNode: (containerRef: ContainerNode, renderer: WebGLRenderer | CSS3DRenderer) => () => Promise<void>;
 export {};

@@ -6,6 +6,6 @@ export declare const useThreeJs: (threeJsParams: ThreeJsParams) => {
     camera: any;
     currentFrameRef: import("react").RefObject<number>;
     threeJsInitialized: boolean;
-    cssRenderer: any;
+    cssRenderer: Promise<any>;
     orbitControls: Promise<any>;
 };

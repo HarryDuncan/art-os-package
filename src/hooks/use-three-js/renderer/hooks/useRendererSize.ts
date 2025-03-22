@@ -1,5 +1,5 @@
 import { useWindowState } from "../../../../compat/window-state/windowStateProvider";
-import { RendererParams } from "../types";
+import { RendererParams } from "../renderer.types";
 
 export const useRendererSize = (rendererParams: RendererParams) => {
   const {

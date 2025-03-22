@@ -1,16 +1,15 @@
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { Camera, WebGLRenderer } from "three";
-import { CSS3DRenderer } from "three/examples/jsm/renderers/CSS3DRenderer";
 import { InteractiveScene } from "../../components/interactive-scene/InteractiveScene";
 import { sceneUpdateEvent } from "../../engine/engineEvents";
 
 export const useThread = (
-  renderer: WebGLRenderer | CSS3DRenderer | undefined,
+  renderer: WebGLRenderer | any | undefined,
   currentFrameRef: React.RefObject<number>,
   scene: InteractiveScene,
   camera: Camera
 ) => {
-  const update = useCallback(() => {
+  const update = useCallback(async () => {
     if (!renderer) {
       console.warn("renderer not defined");
       return;
@@ -20,7 +19,14 @@ export const useThread = (
       scene.orbitControls.update();
     }
 
-    renderer.render(scene, camera);
+    const { CSS3DRenderer } = await import(
+      "three/examples/jsm/renderers/CSS3DRenderer.js"
+    );
+    if (renderer instanceof CSS3DRenderer) {
+      renderer.render(scene, camera);
+    } else {
+      renderer.render(scene, camera);
+    }
     currentFrameRef.current = requestAnimationFrame(update);
   }, [currentFrameRef, renderer, scene, camera]);
 
@@ -28,11 +34,14 @@ export const useThread = (
     cancelAnimationFrame(currentFrameRef.current);
   }, [currentFrameRef]);
 
-  useEffect(
-    () => () => {
-      pause();
-    },
-    [pause]
-  );
+  useEffect(() => {
+    currentFrameRef.current = requestAnimationFrame(update);
+    return () => {
+      if (currentFrameRef.current) {
+        cancelAnimationFrame(currentFrameRef.current);
+      }
+    };
+  }, [currentFrameRef, update]);
+
   return { update, pause };
 };

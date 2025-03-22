@@ -1,5 +1,5 @@
 import { InteractiveScene } from "../../../components/interactive-scene/InteractiveScene";
-import { MarchingCubes } from "three/examples/jsm/objects/MarchingCubes";
+import { Object3D } from "three";
 import { getMeshesByIdentifier } from "../../../utils/scene/object-finding/getMeshesByIdentifier";
 
 export const animateMarchingCube = (scene: InteractiveScene) => {
@@ -15,7 +15,7 @@ export const animateMarchingCube = (scene: InteractiveScene) => {
 };
 
 export const updateCubes = (
-  object: MarchingCubes,
+  object: Object3D,
   time: number,
   numblobs: number
 ) => {
@@ -38,4 +38,15 @@ export const updateCubes = (
   }
   // @ts-ignore
   object.update();
+};
+
+export const createMarchingCubeAnimation = async (
+  resolution: number,
+  isolation: number
+): Promise<Object3D> => {
+  const { MarchingCubes } = await import(
+    "three/examples/jsm/objects/MarchingCubes.js"
+  );
+  const marchingCubes = new MarchingCubes(resolution, isolation);
+  return marchingCubes;
 };
