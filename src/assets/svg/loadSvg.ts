@@ -1,4 +1,4 @@
-import { SVGLoader } from "three/examples/jsm/loaders/SVGLoader";
+import { SVGLoader } from "three/examples/jsm/loaders/SVGLoader.js";
 
 export const LoadSvg = async (path: string) =>
   new Promise((resolve: (value: string) => void) => {

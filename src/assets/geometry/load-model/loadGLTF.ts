@@ -1,6 +1,6 @@
 import { AnimationClip, Group } from "three";
-import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader";
-import { GLTF, GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
+import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader.js";
+import { GLTF, GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 
 export const loadGLTF = (path: string) =>
   new Promise(

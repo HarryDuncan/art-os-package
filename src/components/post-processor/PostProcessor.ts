@@ -1,9 +1,9 @@
 import { Camera, Scene, WebGLRenderer, WebGLRenderTarget } from "three";
-import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass";
+import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass.js";
 import {
   EffectComposer,
   Pass,
-} from "three/examples/jsm/postprocessing/EffectComposer";
+} from "three/examples/jsm/postprocessing/EffectComposer.js";
 import { PostProcessorCamera } from "./postProcessor.types";
 import { defaultRenderTargetParameters } from "./postProcessor.consts";
 
