@@ -1,32 +1,43 @@
 import { useMemo } from "react";
 import { Camera, MOUSE, WebGLRenderer } from "three";
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
-import { CSS3DRenderer } from "three/examples/jsm/renderers/CSS3DRenderer.js";
 import { ControlConfig } from "../../../config/config.types";
 
 export const useOrbitControls = (
   camera: Camera,
-  renderer: WebGLRenderer | CSS3DRenderer,
-  config?: Partial<ControlConfig>
+  renderer: WebGLRenderer,
+  config?: ControlConfig
 ) => {
-  return useMemo(() => {
-    if (!camera || !renderer || !renderer.domElement || !config) return null;
+  return useMemo(async () => {
+    const { OrbitControls } = await import(
+      "three/examples/jsm/controls/OrbitControls.js"
+    );
+    const { CSS3DRenderer } = await import(
+      "three/examples/jsm/renderers/CSS3DRenderer.js"
+    );
+
     const controls = new OrbitControls(camera, renderer.domElement);
-    controls.listenToKeyEvents(window); // optional
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.05;
+    controls.screenSpacePanning = false;
+    controls.minDistance = 1;
+    controls.maxDistance = 500;
+    controls.maxPolarAngle = Math.PI;
     controls.mouseButtons = {
       LEFT: MOUSE.ROTATE,
       MIDDLE: MOUSE.DOLLY,
       RIGHT: MOUSE.PAN,
     };
 
-    controls.screenSpacePanning = false;
-    controls.enablePan = false;
-    Object.keys(config).forEach((key) => {
-      const controlKey = key as keyof OrbitControls;
-      const configValue = config[key as keyof ControlConfig];
-      // @ts-ignore
-      controls[controlKey] = configValue;
-    });
+    if (config) {
+      controls.enabled = config.enabled;
+      controls.enableZoom = config.enableZoom;
+      controls.enablePan = config.enablePan;
+      controls.enableRotate = config.enableRotate;
+      controls.autoRotate = config.autoRotate;
+      controls.autoRotateSpeed = config.autoRotateSpeed;
+      controls.target.set(config.target.x, config.target.y, config.target.z);
+    }
+
     return controls;
-  }, [renderer, camera, config]);
+  }, [camera, renderer, config]);
 };

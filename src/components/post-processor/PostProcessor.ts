@@ -1,70 +1,47 @@
 import { Camera, Scene, WebGLRenderer, WebGLRenderTarget } from "three";
-import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass.js";
-import {
-  EffectComposer,
-  Pass,
-} from "three/examples/jsm/postprocessing/EffectComposer.js";
 import { PostProcessorCamera } from "./postProcessor.types";
 import { defaultRenderTargetParameters } from "./postProcessor.consts";
 
-export default class PostProcessor extends EffectComposer {
-  scene: Scene;
+export default class PostProcessor {
+  private composer: any;
+  private renderPass: any;
+  private camera: PostProcessorCamera;
+  private scene: Scene;
+  private renderer: WebGLRenderer;
 
-  camera: PostProcessorCamera;
+  constructor(
+    camera: PostProcessorCamera,
+    scene: Scene,
+    renderer: WebGLRenderer
+  ) {
+    this.camera = camera;
+    this.scene = scene;
+    this.renderer = renderer;
+  }
 
-  renderer: WebGLRenderer;
-
-  constructor({
-    renderer,
-    scene,
-    camera,
-    passes = [],
-  }: {
-    renderer: WebGLRenderer;
-    camera: Camera;
-    scene: Scene;
-    passes?: Pass[];
-  }) {
-    const renderTarget = new WebGLRenderTarget(
-      window.innerHeight,
-      window.outerHeight,
-      defaultRenderTargetParameters
+  async init() {
+    const { EffectComposer } = await import(
+      "three/examples/jsm/postprocessing/EffectComposer.js"
+    );
+    const { RenderPass } = await import(
+      "three/examples/jsm/postprocessing/RenderPass.js"
     );
 
-    super(renderer, renderTarget);
-    this.scene = scene;
-    this.camera = camera as PostProcessorCamera;
-    this.renderer = renderer;
-    this.addPasses(passes);
-    this.bindEvents();
+    const renderTarget = new WebGLRenderTarget(
+      window.innerWidth,
+      window.innerHeight,
+      defaultRenderTargetParameters
+    );
+    this.renderPass = new RenderPass(this.scene, this.camera);
+    this.composer = new EffectComposer(this.renderer, renderTarget);
+    this.composer.addPass(this.renderPass);
   }
 
-  bindEvents() {
-    window.addEventListener("resize", () => this.onResize());
+  render() {
+    this.composer.render();
   }
 
-  onResize() {
-    this.camera.aspect = window.innerWidth / window.innerHeight;
-    this.renderer.setSize(window.innerWidth, window.innerHeight);
-  }
-
-  addPasses(passes: Pass[]) {
-    const renderPass = new RenderPass(this.scene, this.camera);
-    // @ts-ignore
-    this.addPass(renderPass);
-  }
-
-  updateProcessorParams({
-    camera,
-    scene,
-    passes = [],
-  }: {
-    camera: Camera;
-    scene: Scene;
-    passes?: Pass[];
-  }) {
-    this.camera = camera as PostProcessorCamera;
-    this.scene = scene;
-    this.addPasses(passes);
+  resize(width: number, height: number) {
+    this.composer.setSize(width, height);
   }
 }
