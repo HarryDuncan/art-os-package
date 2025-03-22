@@ -5,7 +5,7 @@ import { ControlConfig } from "../../../config/config.types";
 export const useOrbitControls = (
   camera: Camera,
   renderer: WebGLRenderer,
-  config?: ControlConfig
+  config?: Partial<ControlConfig>
 ) => {
   return useMemo(async () => {
     const { OrbitControls } = await import(

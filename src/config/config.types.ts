@@ -59,6 +59,7 @@ export type MeshComponentConfig = MeshConfig & {
 };
 
 export type ControlConfig = {
+  target: Position3d;
   autoRotate: boolean;
   autoRotateSpeed: number;
   dampingFactor: number;
@@ -87,7 +88,6 @@ export type ControlConfig = {
     MIDDLE: number;
     RIGHT: number;
   };
-
   rotateSpeed: number;
   screenSpacePanning: boolean;
   touches: {

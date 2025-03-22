@@ -9,7 +9,7 @@ export const useThreadWithPostProcessor = (
   currentFrameRef: RefObject<number>,
   camera: Camera,
   renderer: WebGLRenderer,
-  passes: Pass[]
+  _passes: Pass[]
 ) => {
   const {
     state: { initializedScene },
@@ -42,14 +42,13 @@ export const useThreadWithPostProcessor = (
 
   useEffect(() => {
     if (initializedScene && camera && renderer && !postProcessor.current) {
-      postProcessor.current = new PostProcessor({
-        renderer,
-        scene: initializedScene,
+      postProcessor.current = new PostProcessor(
         camera,
-        passes,
-      });
+        initializedScene,
+        renderer
+      );
     }
-  }, [initializedScene, camera, renderer, postProcessor, passes]);
+  }, [initializedScene, camera, renderer, postProcessor]);
 
   const initializeSceneWithData = useCallback(() => {
     if (postProcessor.current) {
