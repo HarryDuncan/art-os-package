@@ -9,7 +9,11 @@
     "skipLibCheck": true,
     "jsx": "react-jsx",
     "resolveJsonModule": true,
-    "declaration": true
+    "declaration": true,
+    "baseUrl": ".",
+    "paths": {
+      "three/examples/*": ["node_modules/three/examples/*"]
+    }
   },
   "include": ["src"],
   "exclude": ["src/test-utils/*", "**/*.spec.ts", "**/__tests__", "/dist"]
