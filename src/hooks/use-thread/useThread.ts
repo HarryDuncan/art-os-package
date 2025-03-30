@@ -1,47 +1,50 @@
 import { useCallback, useEffect } from "react";
 import { Camera, WebGLRenderer } from "three";
-import { InteractiveScene } from "../../components/interactive-scene/InteractiveScene";
 import { sceneUpdateEvent } from "../../engine/engineEvents";
+import { useSceneContext } from "../../context/context";
+import { PROCESS_STATUS } from "../../consts/consts";
 
 export const useThread = (
-  renderer: WebGLRenderer | any | undefined,
   currentFrameRef: React.MutableRefObject<number>,
-  scene: InteractiveScene,
-  camera: Camera
+  camera: Camera,
+  renderer: WebGLRenderer | any | undefined
 ) => {
+  const {
+    dispatch,
+    state: { initializedScene, status },
+  } = useSceneContext();
+
   const update = useCallback(async () => {
     if (!renderer) {
       console.warn("renderer not defined");
       return;
     }
     sceneUpdateEvent();
-    if (scene.orbitControls) {
-      scene.orbitControls.update();
+    if (initializedScene.orbitControls) {
+      initializedScene.orbitControls.update();
     }
-
-    const { CSS3DRenderer } = await import(
-      "three/examples/jsm/renderers/CSS3DRenderer.js"
-    );
-    if (renderer instanceof CSS3DRenderer) {
-      renderer.render(scene, camera);
-    } else {
-      renderer.render(scene, camera);
-    }
+    console.log("test");
+    console.log(renderer);
+    renderer.render(initializedScene, camera);
     currentFrameRef.current = requestAnimationFrame(update);
-  }, [currentFrameRef, renderer, scene, camera]);
+  }, [currentFrameRef, renderer, initializedScene, camera]);
 
   const pause = useCallback(() => {
     cancelAnimationFrame(currentFrameRef.current);
   }, [currentFrameRef]);
 
   useEffect(() => {
+    dispatch({
+      type: "UPDATE_STATUS",
+      payload: { status: PROCESS_STATUS.RUNNING },
+    });
     currentFrameRef.current = requestAnimationFrame(update);
     return () => {
       if (currentFrameRef.current) {
         cancelAnimationFrame(currentFrameRef.current);
       }
     };
-  }, [currentFrameRef, update]);
+  }, [currentFrameRef, update, dispatch]);
 
   return { update, pause };
 };

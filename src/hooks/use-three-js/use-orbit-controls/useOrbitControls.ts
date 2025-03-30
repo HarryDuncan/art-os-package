@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Camera, MOUSE, WebGLRenderer } from "three";
 import { ControlConfig } from "../../../config/config.types";
 
@@ -7,12 +7,10 @@ export const useOrbitControls = (
   renderer: WebGLRenderer,
   config?: Partial<ControlConfig>
 ) => {
-  return useMemo(async () => {
+  const [orbitControls, setOrbitControls] = useState<any | null>(null);
+  const loadOrbitControls = useCallback(async () => {
     const { OrbitControls } = await import(
       "three/examples/jsm/controls/OrbitControls.js"
-    );
-    const { CSS3DRenderer } = await import(
-      "three/examples/jsm/renderers/CSS3DRenderer.js"
     );
 
     const controls = new OrbitControls(camera, renderer.domElement);
@@ -35,9 +33,17 @@ export const useOrbitControls = (
       controls.enableRotate = config.enableRotate;
       controls.autoRotate = config.autoRotate;
       controls.autoRotateSpeed = config.autoRotateSpeed;
-      controls.target.set(config.target.x, config.target.y, config.target.z);
+      controls.target.set(config.target?.x, config.target?.y, config.target?.z);
     }
 
-    return controls;
+    setOrbitControls(controls);
   }, [camera, renderer, config]);
+
+  useEffect(() => {
+    if (!orbitControls) {
+      loadOrbitControls();
+    }
+  }, [orbitControls, loadOrbitControls]);
+
+  return orbitControls;
 };

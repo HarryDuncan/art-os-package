@@ -13,6 +13,7 @@ import { setSceneProperties } from "../../utils/scene/setSceneProperties";
 import { GLTF } from "three/examples/jsm/loaders/GLTFLoader";
 import { SceneLight } from "../../config/lights/lights.types";
 import { useSceneContext } from "../../context/context";
+import { PROCESS_STATUS } from "../../consts/consts";
 
 export const useInteractiveScene = (
   sceneFunction: InteractiveSceneFunctions,
@@ -27,7 +28,7 @@ export const useInteractiveScene = (
 ) => {
   const {
     dispatch,
-    state: { initializedScene },
+    state: { initializedScene, status },
   } = useSceneContext();
 
   const setUpSceneObjects = useCallback(
@@ -61,10 +62,14 @@ export const useInteractiveScene = (
 
       await setUpSceneObjects(scene);
     }
-    if (initializedScene === null) {
+    if (
+      initializedScene === null &&
+      status === PROCESS_STATUS.FORMATTING_THREE
+    ) {
       setUpScene();
     }
   }, [
+    status,
     sceneFunction,
     eventConfig,
     animationConfig,

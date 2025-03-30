@@ -1,5 +1,5 @@
-import { JSX, RefObject, useCallback } from "react";
-import { WebGLRenderer, CSS3DRenderer } from "three";
+import { JSX, RefObject, useEffect } from "react";
+import { WebGLRenderer } from "three";
 
 type ContainerNode =
   | RefObject<Element>
@@ -8,17 +8,11 @@ type ContainerNode =
 
 export const useInitializeNode = (
   containerRef: ContainerNode,
-  renderer: WebGLRenderer | CSS3DRenderer
-) => {
-  return useCallback(async () => {
+  renderer: WebGLRenderer
+) =>
+  useEffect(() => {
     if (containerRef?.current) {
       const container = containerRef.current as HTMLElement;
-      const { CSS3DRenderer } = await import(
-        "three/examples/jsm/renderers/CSS3DRenderer.js"
-      );
-      if (renderer instanceof CSS3DRenderer) {
-        container.appendChild(renderer.domElement);
-      }
+      container.appendChild(renderer.domElement);
     }
   }, [containerRef, renderer]);
-};

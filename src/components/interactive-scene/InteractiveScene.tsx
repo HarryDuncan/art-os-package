@@ -7,7 +7,6 @@ import { Clock, Scene } from "three";
 import { AnimationManager } from "../../animation/animation-manager/AnimationManager";
 import { AnimationConfig } from "../../animation/animation.types";
 import { ENGINE_EVENTS } from "../../engine/engine.consts";
-import { Camera } from "three";
 import { SceneProperties } from "../../config/config.types";
 import { SceneLight } from "../../config/lights/lights.types";
 
@@ -73,7 +72,7 @@ export class InteractiveScene extends Scene {
       );
     }
     if (onTriggeredUpdate) {
-      document.addEventListener(ENGINE_EVENTS.TIGGERED_UPDATE, () =>
+      document.addEventListener(ENGINE_EVENTS.TRIGGERED, () =>
         onTriggeredUpdate(this)
       );
     }
@@ -119,12 +118,5 @@ export class InteractiveScene extends Scene {
 
   addAnimations(animations: AnimationConfig[]) {
     this.animationManager.initializeAnimations(animations);
-  }
-
-  async initOrbitControls(camera: Camera, renderer: any) {
-    const { OrbitControls } = await import(
-      "three/examples/jsm/controls/OrbitControls.js"
-    );
-    this.orbitControls = new OrbitControls(camera, renderer.domElement);
   }
 }

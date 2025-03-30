@@ -1,8 +1,10 @@
 import { createContext, useReducer, useContext, ReactNode } from "react";
-
 import { SceneActions, SceneState } from "./scene.context.types";
+import { PROCESS_STATUS } from "../consts/consts";
 
 export const INITIAL_SCENE_STATE: SceneState = {
+  isLoading: false,
+  status: PROCESS_STATUS.FORMATTING_THREE,
   initializedScene: null,
 };
 
@@ -16,9 +18,20 @@ export const SceneContext = createContext<SceneContextType | undefined>(
 
 const reducer = (state: SceneState, action: SceneActions) => {
   switch (action.type) {
+    case "UPDATE_STATUS":
+      return {
+        ...state,
+        status: action.payload.status,
+      };
+    case "IS_LOADING":
+      return {
+        ...state,
+        isLoading: action.payload.isLoading,
+      };
     case "INITIALIZE_SCENE":
       return {
         ...state,
+        status: PROCESS_STATUS.INITIALIZING_POST_PROCESSOR,
         initializedScene: action.payload.initializedScene,
       };
     default:

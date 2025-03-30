@@ -2,22 +2,61 @@ import { RootContainer } from "../root/root-container";
 import { useInteractiveScene } from "../../components/interactive-scene/useInteractiveScene";
 import { useThreadWithPostProcessor } from "../../hooks/use-thread";
 import { useThreeJs } from "../../hooks/use-three-js/useThreeJs";
-import { NodeProps } from "../node.types";
+import { NodeProps, SceneNodeProps } from "../node.types";
 import { useSetWindowState } from "../../compat/window-state/useSetWindowState";
 import { useSceneFunctions } from "../../hooks/useSceneFunctions";
-import { SceneProvider } from "../../context/context";
+import { SceneProvider, useSceneContext } from "../../context/context";
 import { AppendedNodes } from "../appended-nodes/AppendedNodes";
+import { useSceneData } from "../../config/useSceneData";
+import { useAssets } from "../../assets/useAssets";
+import { Loader } from "../../components/loaders/Loader";
 
-const SceneNode = (props: NodeProps) => (
+export const SceneNode = ({
+  sceneConfig,
+  appendedNodes,
+  loaderComponent,
+}: SceneNodeProps) => (
   <SceneProvider>
-    <SceneNodeContent {...props} />
-    {props.appendedNodes && (
-      <AppendedNodes appendedNodes={props.appendedNodes} />
-    )}
+    <SceneNodeContent
+      sceneConfig={sceneConfig}
+      loaderComponent={loaderComponent}
+    />
+    {appendedNodes && <AppendedNodes appendedNodes={appendedNodes} />}
   </SceneProvider>
 );
 
 const SceneNodeContent = ({
+  sceneConfig,
+  loaderComponent,
+  sceneFunctions = {},
+  events = [],
+  interactionEvents = [],
+}) => {
+  const { areAssetsInitialized, initializedAssets } = useAssets(
+    sceneConfig.assets
+  );
+  const sceneData = useSceneData(
+    sceneConfig,
+    initializedAssets,
+    areAssetsInitialized
+  );
+
+  return (
+    <>
+      <Loader loaderComponent={loaderComponent} />
+      {sceneData && (
+        <DisplayContent
+          sceneFunctions={sceneFunctions}
+          interactionEvents={interactionEvents}
+          events={events}
+          sceneData={sceneData}
+        />
+      )}
+    </>
+  );
+};
+
+const DisplayContent = ({
   sceneFunctions,
   interactionEvents = [],
   events,
@@ -31,6 +70,7 @@ const SceneNodeContent = ({
   },
 }: NodeProps) => {
   useSetWindowState();
+
   const { container, renderer, camera, currentFrameRef, orbitControls } =
     useThreeJs(threeJsParams);
 
@@ -48,8 +88,7 @@ const SceneNodeContent = ({
     interactionEvents
   );
 
-  useThreadWithPostProcessor(currentFrameRef, camera, renderer, []);
-
+  useThreadWithPostProcessor(currentFrameRef, camera, renderer);
   return (
     <RootContainer containerRef={container} sceneProperties={sceneProperties} />
   );

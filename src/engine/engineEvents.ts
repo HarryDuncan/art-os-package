@@ -7,7 +7,7 @@ export const sceneUpdateEvent = () => {
 };
 
 export const sceneTriggeredUpdateEvent = () => {
-  const e = new CustomEvent(ENGINE_EVENTS.TIGGERED_UPDATE);
+  const e = new CustomEvent(ENGINE_EVENTS.TRIGGERED);
   document.dispatchEvent(e);
 };
 

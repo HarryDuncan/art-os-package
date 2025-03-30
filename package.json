@@ -1,6 +1,6 @@
 {
   "name": "art-os-package",
-  "version": "1.0.2",
+  "version": "1.1.2",
   "description": "Reusable visuals",
   "repository": {
     "type": "git",
@@ -19,7 +19,8 @@
     "lint": "npx eslint src",
     "test": "vitest",
     "build": "rimraf dist && tsc && tsc --module CommonJS --outDir dist --declaration false && copy dist\\index.js dist\\index.cjs",
-    "prepare": "npm run build"
+    "prepare": "npm run build",
+    "serve": "rimraf dist && tsc-watch --onSuccess \"copy dist\\index.js dist\\index.cjs\""
   },
   "files": [
     "dist"
@@ -49,6 +50,7 @@
     "@vitejs/plugin-react": "4.3.4",
     "jsdom": "^25.0.1",
     "rimraf": "^5.0.5",
+    "tsc-watch": "^6.2.1",
     "vite": "6.0.3",
     "vite-tsconfig-paths": "^5.1.4",
     "vitest": "2.1.8"
