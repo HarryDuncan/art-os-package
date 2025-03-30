@@ -1,5 +1,4 @@
 import { GLTF } from "src/assets/asset.types";
-import { Group } from "three";
 
 export const loadGLTF = async (url: string): Promise<GLTF> => {
   const { DRACOLoader } = await import(
@@ -10,7 +9,9 @@ export const loadGLTF = async (url: string): Promise<GLTF> => {
   );
 
   const dracoLoader = new DRACOLoader();
-  dracoLoader.setDecoderPath("/draco/");
+  dracoLoader.setDecoderPath(
+    "https://www.gstatic.com/draco/versioned/decoders/1.5.7/"
+  );
   const gltfLoader = new GLTFLoader();
   gltfLoader.setDRACOLoader(dracoLoader);
 
