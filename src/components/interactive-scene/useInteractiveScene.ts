@@ -39,15 +39,24 @@ export const useInteractiveScene = (
       lights.forEach((light) => scene.add(light));
       // @ts-ignore
       sceneComponents.forEach((component) => scene.add(component));
-      scene.orbitControls = orbitControls;
       setSceneProperties(sceneProperties, scene);
       dispatch({
         type: "INITIALIZE_SCENE",
         payload: { initializedScene: scene },
       });
     },
-    [meshes, lights, sceneComponents, orbitControls, sceneProperties]
+    [meshes, lights, sceneComponents, sceneProperties]
   );
+
+  useEffect(() => {
+    if (initializedScene && orbitControls) {
+      initializedScene.orbitControls = orbitControls;
+      dispatch({
+        type: "INITIALIZE_SCENE",
+        payload: { initializedScene },
+      });
+    }
+  }, [initializedScene, orbitControls, dispatch]);
 
   useEffect(() => {
     async function setUpScene() {

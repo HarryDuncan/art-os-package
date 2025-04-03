@@ -20,6 +20,7 @@ export const useThreadWithPostProcessor = (
     if (postProcessor.current?.isInitialized()) {
       sceneUpdateEvent();
       if (initializedScene) {
+        console.log(initializedScene.orbitControls);
         if (initializedScene?.orbitControls) {
           initializedScene.orbitControls.update();
         }

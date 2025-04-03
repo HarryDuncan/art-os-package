@@ -1,7 +1,6 @@
 import { useEffect, useRef } from "react";
 import { useInitializeNode } from "../use-initialize-node/useInitializeNode";
 import { useWebGLRenderer } from "./renderer";
-import { useCssRenderer } from "./renderer/use-css-renderer";
 import { useOrbitControls } from "./use-orbit-controls/useOrbitControls";
 import { ThreeJsParams } from "../../config/config.types";
 import { useProcessStatus } from "../useProcessStatus";
@@ -21,6 +20,7 @@ export const useThreeJs = (threeJsParams: ThreeJsParams) => {
     threeJsParams?.controls
   );
 
+  console.log(orbitControls);
   useEffect(() => {
     if (
       status === PROCESS_STATUS.FORMATTING_THREE &&
@@ -39,7 +39,6 @@ export const useThreeJs = (threeJsParams: ThreeJsParams) => {
     renderer,
     camera,
     currentFrameRef,
-
     orbitControls,
   };
 };
