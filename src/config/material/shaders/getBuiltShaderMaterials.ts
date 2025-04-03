@@ -6,7 +6,7 @@ import { formatBuiltShaderConfig } from "./shader-formatting/formatBuiltShaderCo
 import { formatBuiltShaderUniforms } from "./shader-formatting/formatBuiltShaderUniforms";
 import { configureBlendingOptions } from "../blending-options/configureBlendingOptions";
 import { getAttributeValuesFromAssets } from "../../mesh/attributes/getAttributeValuesFromAsset";
-import { MATERIAL_TYPES } from "../materials.consts";
+import { MATERIAL_TYPES } from "../../../consts/materials.consts";
 
 export const getBuiltShaderMaterials = (
   config: SceneConfig,

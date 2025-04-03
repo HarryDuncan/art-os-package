@@ -1,12 +1,12 @@
 import { BufferAttribute } from "three";
 import { getGeometryAttributes } from "../../attributes/attribute.functions";
-import { MESH_TRANSFORM } from "../../mesh.consts";
 import { MeshTransformConfig } from "../../../config.types";
 import { FormattedGeometry } from "../../../../assets/geometry/geometry.types";
 import { setAttributes } from "../../attributes/set-attributes/setAttributes";
-import { DEFAULT_MORPH_ATTRIBUTE_CONFIG } from "./transform.constants";
 import { mergeArraysWithoutDuplicates } from "../../../../utils/mergeArraysWithoutDuplicates";
 import { AttributeConfig } from "../../../../config/material/shaders/build-shader/types";
+import { MESH_TRANSFORM } from "../../../../consts/mesh.consts";
+import { DEFAULT_MORPH_ATTRIBUTE_CONFIG } from "../../../../consts/meshTransforms.consts";
 
 export const transformGeometry = (
   meshTransforms: MeshTransformConfig[] | undefined,

@@ -1,4 +1,4 @@
-import { Position3d } from "../../../../../utils/three-dimension-space/position/position.types";
+import { Position3d } from "../../../../../types/position.types";
 import {
   POINT_PARENTS,
   ShaderPropertyValueTypes,

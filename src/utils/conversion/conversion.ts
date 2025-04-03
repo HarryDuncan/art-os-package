@@ -1,5 +1,5 @@
 import { Vector2, Vector3, Vector4 } from "three";
-import { PositionConfig } from "../three-dimension-space/position/position.types";
+import { PositionConfig } from "../../types/position.types";
 
 export const position3dToVector = (position: PositionConfig) => {
   const { x, y, z } = position;

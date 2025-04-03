@@ -1,4 +1,4 @@
-import { Bounds3D } from "../three-dimension-space/position/position.types";
+import { Bounds3D } from "../../types/position.types";
 
 export const getRandomCoordinates = (
   numberOfCoodinates: number,

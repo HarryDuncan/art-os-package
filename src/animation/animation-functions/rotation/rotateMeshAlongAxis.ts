@@ -1,8 +1,5 @@
 import { MeshObject } from "../../../config/mesh/mesh.types";
-import {
-  AXIS,
-  Axis,
-} from "../../../utils/three-dimension-space/position/position.types";
+import { AXIS, Axis } from "../../../types/position.types";
 
 export const rotateMeshAlongAxis = (
   mesh: MeshObject,

@@ -1,19 +1,22 @@
 import { BufferAttribute, BufferGeometry } from "three";
-import { CUSTOM_BUFFER_GEOMETRY_TYPES } from "../../mesh.consts";
 import {
-  BufferGeometryConfig,
+  CustomGeometryConfig,
   CustomBufferGeometryType,
+  FullQuadConfig,
 } from "../../mesh.types";
+import { CUSTOM_BUFFER_GEOMETRY_TYPES } from "../../../../consts/mesh.consts";
 
 export const setUpCustomBufferGeometry = (
   bufferGeometryType: CustomBufferGeometryType,
-  _bufferGeometryConfig: BufferGeometryConfig
+  bufferGeometryConfig: CustomGeometryConfig
 ) => {
   switch (bufferGeometryType) {
     case CUSTOM_BUFFER_GEOMETRY_TYPES.QUAD:
       return setUpQuad();
     case CUSTOM_BUFFER_GEOMETRY_TYPES.EMPTY:
       return emptyBuffer();
+    case CUSTOM_BUFFER_GEOMETRY_TYPES.FULL_QUAD:
+      return setUpFullQuad(bufferGeometryConfig as FullQuadConfig);
     default:
       console.warn(
         `No custom buffer geometry has been set for ${bufferGeometryType}`
@@ -50,6 +53,57 @@ const setUpQuad = () => {
   return bufferGeometry;
 };
 
+const setUpFullQuad = ({
+  height,
+  width,
+}: {
+  height: number;
+  width: number;
+}) => {
+  const bufferGeometry = new BufferGeometry();
+
+  const vertices = [];
+  const uvs = [];
+  const indices = [];
+
+  for (let i = 0; i <= height; i++) {
+    const y = (i / height) * height - height / 2;
+    for (let j = 0; j <= width; j++) {
+      const x = (j / width) * width - width / 2;
+
+      // Add vertex position
+      vertices.push(x, -y, 0);
+
+      // Add UV coordinates
+      uvs.push(j / width, i / height);
+    }
+  }
+
+  for (let i = 0; i < height; i++) {
+    for (let j = 0; j < width; j++) {
+      const a = i * (width + 1) + j;
+      const b = i * (width + 1) + j + 1;
+      const c = (i + 1) * (width + 1) + j;
+      const d = (i + 1) * (width + 1) + j + 1;
+
+      // Create two triangles (a, b, c) and (b, d, c)
+      indices.push(a, c, b);
+      indices.push(b, c, d);
+    }
+  }
+
+  bufferGeometry.setAttribute(
+    "position",
+    new BufferAttribute(new Float32Array(vertices), 3)
+  );
+  bufferGeometry.setAttribute(
+    "uv",
+    new BufferAttribute(new Float32Array(uvs), 2)
+  );
+  bufferGeometry.setIndex(indices);
+
+  return bufferGeometry;
+};
 const emptyBuffer = () => {
   const bufferGeometry = new BufferGeometry();
 

@@ -1,5 +1,5 @@
 import { Mesh } from "three";
-import { Position3d } from "../../../../utils/three-dimension-space/position/position.types";
+import { Position3d } from "../../../../types/position.types";
 import { calculatePositionDistance } from "../../../../utils/three-dimension-space/calculatePositionDistance";
 
 export const moveObject = (

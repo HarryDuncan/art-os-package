@@ -1,4 +1,4 @@
-import { PositionConfig } from "../../../utils/three-dimension-space/position/position.types";
+import { PositionConfig } from "../../../types/position.types";
 
 export const CAMERA_TYPES = {
   PERSPECTIVE_CAMERA: "perspectiveCamera",

@@ -1,4 +1,4 @@
-import { PositionConfig } from "../three-dimension-space/position/position.types";
+import { PositionConfig } from "../../types/position.types";
 import { positionConfigToPosition } from "./conversion";
 
 export const shaderSafeFloat = (value: number) => {

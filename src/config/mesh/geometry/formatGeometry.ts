@@ -3,19 +3,17 @@ import { Asset } from "../../../assets/asset.types";
 import {
   FormattedGeometry,
   GeometryConfig,
-  MESH_TYPES,
 } from "../../../assets/geometry/geometry.types";
 import { DEFAULT_MODEL3D_CONFIG } from "../../../assets/assets.constants";
 import { MeshComponentConfig } from "../../config.types";
 import { getAssetGeometries } from "../../../config/mesh/geometry/getAssetGeometries";
-
 import {
   formatPositionFromConfig,
   formatRotationFromConfig,
 } from "../../../utils/three-dimension-space/formatFromConfig";
-import { CUSTOM_GEOMETRY_TYPES } from "../mesh.consts";
 import { setUpCustomBufferGeometry } from "./custom-buffer-geometry/setupCustomBufferGeometry";
 import { CustomBufferGeometryType } from "../mesh.types";
+import { CUSTOM_GEOMETRY_TYPES, MESH_TYPES } from "../../../consts/mesh.consts";
 
 export const formatGeometry = (
   loadedAssets: Asset[],

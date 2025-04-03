@@ -9,10 +9,7 @@ import {
   AnimationLoopConfigItem,
   TransitionLoopConfig,
 } from "./animation-functions/shader-animations/animation-loop/animationloop.types";
-import {
-  Axis,
-  Position3d,
-} from "../utils/three-dimension-space/position/position.types";
+import { Axis, Position3d } from "../types/position.types";
 
 // to avoid dependency cycle
 export type AnimatedScene = Scene & {

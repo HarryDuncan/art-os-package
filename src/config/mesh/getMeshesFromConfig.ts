@@ -8,7 +8,7 @@ import { SceneConfig } from "../config.types";
 import { transformGeometry } from "./geometry/transform-geometries/transformGeometries";
 import { ShaderAttributeConfig } from "../material/shaders/build-shader/types";
 import { multipleMeshes } from "./multiple-meshes/multipleMeshes";
-import { setUpAdvancedMeshes } from "./advanced-mesh/setUpAdvancedMeshes";
+// import { setUpAdvancedMeshes } from "./advanced-mesh/setUpAdvancedMeshes";
 import { GLTF } from "three/examples/jsm/loaders/GLTFLoader";
 import { formatMeshAttributes } from "./attributes/formatMeshAttributes";
 
@@ -18,7 +18,7 @@ export const getMeshesFromConfig = (
   config: SceneConfig,
   attributeConfigs: ShaderAttributeConfig[]
 ): Object3D[] | GLTF[] => {
-  const { meshComponentConfigs, advancedMeshConfigs, meshTransforms } = config;
+  const { meshComponentConfigs, meshTransforms } = config; //advancedMeshConfigs,
   const meshConfigs =
     meshComponentConfigs?.filter(
       (meshConfig) => !meshConfig.randomizationConfig

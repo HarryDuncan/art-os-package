@@ -5,7 +5,7 @@ import {
   DEFAULT_RESOLUTION,
 } from "./marchingCubes.constants";
 import { MarchingCubesProps } from "../threeJsComponents.types";
-import { DEFAULT_MATERIAL } from "../../../config/material/materials.default";
+import { DEFAULT_MATERIAL } from "../../../consts";
 
 export const createMarchingCubes = async (
   resolution: number,

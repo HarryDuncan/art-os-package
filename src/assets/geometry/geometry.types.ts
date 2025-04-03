@@ -1,11 +1,7 @@
 import { BufferGeometry, Material } from "three";
-import { Position3d } from "../../utils/three-dimension-space/position/position.types";
+import { Position3d } from "../../types/position.types";
+import { MESH_TYPES } from "../../consts/mesh.consts";
 
-export const MESH_TYPES = {
-  MESH: "MESH",
-  POINTS: "POINTS",
-  NONE: "NONE",
-};
 export type MeshType = keyof typeof MESH_TYPES;
 
 export type MeshAttributeConfig = {

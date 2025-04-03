@@ -1,4 +1,9 @@
-import { AXIS, Axis, BoundingBox, Position3d } from "./position.types";
+import {
+  AXIS,
+  Axis,
+  BoundingBox,
+  Position3d,
+} from "./../../../types/position.types";
 
 export const getEquidistantCoordinates = (
   numCoordinates: number,

@@ -1,4 +1,4 @@
-import { BoundingBox, Position3d } from "./position/position.types";
+import { BoundingBox, Position3d } from "./../../types/position.types";
 
 export const createBoundingBox = ({
   center,

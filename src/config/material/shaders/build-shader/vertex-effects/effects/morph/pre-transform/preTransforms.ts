@@ -1,4 +1,4 @@
-import { PositionConfig } from "../../../../../../../../utils/three-dimension-space/position/position.types";
+import { PositionConfig } from "../../../../../../../../types/position.types";
 import { shaderSafeVector } from "../../../../../../../../utils/conversion/shaderConversions";
 import {
   capitalizeFirstLetter,

@@ -1,4 +1,4 @@
-import { Position3d } from "./position/position.types";
+import { Position3d } from "./../../types/position.types";
 
 export const calculatePositionDistance = (
   position1: Position3d,

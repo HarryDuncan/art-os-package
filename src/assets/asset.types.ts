@@ -1,7 +1,7 @@
-import { MATERIAL_TYPES } from "../config/material/materials.consts";
+import { MATERIAL_TYPES } from "../consts";
 import { AnimationClip, BufferGeometry, Group, Object3D, Texture } from "three";
 import { GLTF } from "three/examples/jsm/loaders/GLTFLoader";
-import { BoundingBox } from "../utils/three-dimension-space/position/position.types";
+import { BoundingBox } from "../types/position.types";
 
 export const ASSET_TYPES = {
   ADVANCED_3D: "ADVANCED_3D",

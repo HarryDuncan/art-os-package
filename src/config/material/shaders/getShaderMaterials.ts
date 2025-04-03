@@ -7,7 +7,10 @@ import {
 import { ShaderMaterial } from "three";
 import { configureBlendingOptions } from "../blending-options/configureBlendingOptions";
 import { configureShaders } from "./configureShaders";
-import { MATERIAL_TYPES, SHADER_MATERIALS } from "../materials.consts";
+import {
+  MATERIAL_TYPES,
+  SHADER_MATERIALS,
+} from "../../../consts/materials.consts";
 
 export const getShaderMaterials = (config: SceneConfig, assets: Asset[]) => {
   const { globalMaterialConfigs } = config;

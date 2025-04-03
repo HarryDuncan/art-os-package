@@ -1,6 +1,6 @@
 import { Mesh, PlaneGeometry } from "three";
 import { PlaneProps } from "./threeJsComponents.types";
-import { DEFAULT_MATERIAL } from "../../config/material/materials.default";
+import { DEFAULT_MATERIAL } from "../../consts";
 
 export const PlaneElement = ({
   id,

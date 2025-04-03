@@ -20,7 +20,6 @@ export const useThreeJs = (threeJsParams: ThreeJsParams) => {
     threeJsParams?.controls
   );
 
-  console.log(orbitControls);
   useEffect(() => {
     if (
       status === PROCESS_STATUS.FORMATTING_THREE &&

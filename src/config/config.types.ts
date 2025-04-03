@@ -4,7 +4,7 @@ import { InteractionConfig } from "../interaction/interaction.types";
 import { Asset } from "../assets/asset.types";
 import { GeometryConfig } from "../assets/geometry/geometry.types";
 import { CameraConfig } from "../config/three-js/use-camera/camera.types";
-import { MESH_TRANSFORM } from "./mesh/mesh.consts";
+import { MESH_TRANSFORM } from "./../consts";
 import { ScreenType } from "../compat/window-state/types";
 import {
   Object3D,
@@ -13,7 +13,7 @@ import {
   Texture,
 } from "three";
 import { RendererParams } from "../hooks/use-three-js/renderer/renderer.types";
-import { Position3d } from "../utils/three-dimension-space/position/position.types";
+import { Position3d } from "../types/position.types";
 import { AttributeConfig } from "./material/shaders/build-shader/types";
 import { SceneConfigType } from "./config.constants";
 import { AdvancedMeshConfig } from "./mesh/advanced-mesh/advancedMesh.types";
@@ -23,6 +23,7 @@ import {
   SceneElementType,
 } from "./components/threeJsComponents.types";
 import { LightConfigs, SceneLight } from "./lights/lights.types";
+import { CustomGeometryConfig } from "./mesh/mesh.types";
 
 export type MultipleConfig = {
   instanceCount: number;
@@ -53,6 +54,7 @@ export type MeshConfig = {
   geometryConfig?: GeometryConfig;
   groupId?: string;
   meshType: string;
+  customGeometryConfig: CustomGeometryConfig;
 };
 export type MeshComponentConfig = MeshConfig & {
   geometryId?: string;

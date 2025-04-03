@@ -1,6 +1,6 @@
 import { Vector3 } from "three";
 import { vector3DegreesToEuler } from "./three-dimension-space/degreesToEuler";
-import { Position3d } from "./three-dimension-space/position/position.types";
+import { Position3d } from "./../types/position.types";
 
 type AxisOptions = { x?: boolean; y?: boolean; z?: boolean };
 const DEFAULT_AXIS_OPTIONS = { x: false, y: false, z: false };

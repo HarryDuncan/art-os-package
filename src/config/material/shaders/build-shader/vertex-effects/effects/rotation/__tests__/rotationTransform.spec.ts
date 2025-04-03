@@ -4,7 +4,7 @@ import { RotationEffectProps } from "../../../../types";
 import { DEFAULT_ROTATION_EFFECT_CONFIG } from "../rotation.consts";
 import { rotationTransform } from "../rotationTransform";
 import { rotateZ } from "../../../../shader-properties/functions/rotation/rotation";
-import { AXIS } from "utils/three-dimension-space/position/position.types";
+import { AXIS } from "utils/types/position.types";
 import { ShaderPropertyValueTypes } from "../../../../constants/buildShader.consts";
 
 const MOCK_VERTEX_NAME = "mockVertexName";

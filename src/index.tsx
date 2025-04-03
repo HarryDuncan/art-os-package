@@ -13,7 +13,7 @@ import { InteractiveScene } from "./components/interactive-scene/InteractiveScen
 import { startSceneElementAnimations } from "./animation/animation-manager/startSceneElementAnimations";
 import { useSetWindowState } from "./compat/window-state/useSetWindowState";
 import { useSceneFunctions } from "./hooks/useSceneFunctions";
-
+export { Position3d } from "./types/position.types";
 export { useAssets };
 export { WindowStateProvider, useWindowState };
 export { useFetchConfig };
