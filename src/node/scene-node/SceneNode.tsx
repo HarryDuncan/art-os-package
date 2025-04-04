@@ -10,7 +10,7 @@ import { AppendedNodes } from "../appended-nodes/AppendedNodes";
 import { useSceneData } from "../../config/useSceneData";
 import { useAssets } from "../../assets/useAssets";
 import { Loader } from "../../components/loaders/Loader";
-import { WindowStateProvider } from "src/compat/window-state/windowStateProvider";
+import { WindowStateProvider } from "../../compat/window-state/windowStateProvider";
 
 export const SceneNode = ({
   sceneConfig,
