@@ -1,6 +1,6 @@
 {
   "name": "art-os-package",
-  "version": "1.1.5",
+  "version": "1.1.6",
   "description": "Reusable visuals",
   "repository": {
     "type": "git",
@@ -36,7 +36,7 @@
   "dependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "styled-components": "^5.3.11",
+    "styled-components": "^6.1.17",
     "three": "^0.174.0"
   },
   "devDependencies": {
