@@ -5,24 +5,27 @@ import { useThreeJs } from "../../hooks/use-three-js/useThreeJs";
 import { NodeProps, SceneNodeProps } from "../node.types";
 import { useSetWindowState } from "../../compat/window-state/useSetWindowState";
 import { useSceneFunctions } from "../../hooks/useSceneFunctions";
-import { SceneProvider, useSceneContext } from "../../context/context";
+import { SceneProvider } from "../../context/context";
 import { AppendedNodes } from "../appended-nodes/AppendedNodes";
 import { useSceneData } from "../../config/useSceneData";
 import { useAssets } from "../../assets/useAssets";
 import { Loader } from "../../components/loaders/Loader";
+import { WindowStateProvider } from "src/compat/window-state/windowStateProvider";
 
 export const SceneNode = ({
   sceneConfig,
   appendedNodes,
   loaderComponent,
 }: SceneNodeProps) => (
-  <SceneProvider>
-    <SceneNodeContent
-      sceneConfig={sceneConfig}
-      loaderComponent={loaderComponent}
-    />
-    {appendedNodes && <AppendedNodes appendedNodes={appendedNodes} />}
-  </SceneProvider>
+  <WindowStateProvider>
+    <SceneProvider>
+      <SceneNodeContent
+        sceneConfig={sceneConfig}
+        loaderComponent={loaderComponent}
+      />
+      {appendedNodes && <AppendedNodes appendedNodes={appendedNodes} />}
+    </SceneProvider>
+  </WindowStateProvider>
 );
 
 const SceneNodeContent = ({
