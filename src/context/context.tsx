@@ -1,4 +1,11 @@
-import { createContext, useReducer, useContext, ReactNode } from "react";
+import {
+  createContext,
+  useReducer,
+  useContext,
+  ReactNode,
+  Dispatch,
+  FC,
+} from "react";
 import { SceneActions, SceneState } from "./scene.context.types";
 import { PROCESS_STATUS } from "../consts/consts";
 
@@ -10,7 +17,7 @@ export const INITIAL_SCENE_STATE: SceneState = {
 
 type SceneContextType = {
   state: SceneState;
-  dispatch: React.Dispatch<SceneActions>;
+  dispatch: Dispatch<SceneActions>;
 };
 export const SceneContext = createContext<SceneContextType | undefined>(
   undefined
@@ -39,7 +46,7 @@ const reducer = (state: SceneState, action: SceneActions) => {
   }
 };
 
-const SceneProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+const SceneProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, INITIAL_SCENE_STATE);
   return (
     <SceneContext.Provider value={{ state, dispatch }}>

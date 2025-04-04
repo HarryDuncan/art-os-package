@@ -1,12 +1,9 @@
-import { POINT_PARENTS } from "../../../constants/buildShader.consts";
 import { InteractiveFragmentEffect } from "../../../types";
 import { formatFragmentParameters } from "../../../helpers/formatFragmentParameters";
-import { generateUniquePointName } from "../../../helpers/generateUniquePointName";
 import { reduceFunctions } from "../../../helpers/reduceFunctions";
 import { mergeAttributeConfigs } from "../../../shader-properties/attributes/helpers/mergeAttributeConfigs";
 import { mergeUniformConfigs } from "../../../shader-properties/uniforms/helpers/mergeUniformConfigs";
 import { mergeVaryingConfigs } from "../../../shader-properties/varyings/helpers/mergeVaryingConfigs";
-import { FRAGMENT_COLOR_NAMES } from "../../fragmentEffects.consts";
 
 import { DEFAULT_INTERACTIVE_EFFECT } from "./interactiveEffect.consts";
 import { getInteractiveEffectTransform } from "./interactiveEffectTransform";

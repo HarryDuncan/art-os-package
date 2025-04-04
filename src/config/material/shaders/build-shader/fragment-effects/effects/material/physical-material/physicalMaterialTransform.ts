@@ -1,7 +1,4 @@
-import {
-  FRAG_COLOR_NAME,
-  FRAGMENT_COLOR_NAMES,
-} from "../../../fragmentEffects.consts";
+import { FRAG_COLOR_NAME } from "../../../fragmentEffects.consts";
 
 export const physicalMaterialTransform = () => {
   const transform = `

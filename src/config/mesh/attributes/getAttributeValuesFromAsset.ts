@@ -14,10 +14,7 @@ export const getAttributeValuesFromAssets = (
           return getVideoAttributeValues(selectedAsset, config);
         case ASSET_TYPES.TEXTURE:
           return getTextureAttributeValues(selectedAsset, config);
-
         default:
-      }
-      if (selectedAsset) {
       }
     }
     return config;

@@ -1,4 +1,3 @@
-import { FRAGMENT_COLOR_NAMES } from "../../fragmentEffects.consts";
 import { colorTransformation } from "./colorTransformation";
 import { ColorFragmentEffectProps, FragmentEffectData } from "../../../types";
 import {

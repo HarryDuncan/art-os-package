@@ -1,10 +1,5 @@
 import { DEFAULT_VERTEX_EFFECT } from "../../../constants";
-import { POINT_PARENTS } from "../../../constants/buildShader.consts";
-import {
-  ImageSubEffectProps,
-  ImageVertexEffect,
-  PointParent,
-} from "../../../types";
+import { ImageSubEffectProps, ImageVertexEffect } from "../../../types";
 import { IMAGE_VERTEX_EFFECT } from "../../vertexEffects.consts";
 import { VertexEffectData } from "../../vertexEffects.types";
 import { imageAsMask } from "./sub-effects/image-as-mask/imageAsMask";

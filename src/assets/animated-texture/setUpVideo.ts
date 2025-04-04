@@ -24,7 +24,7 @@ export const setupVideo = (path: string, identifier: string) => {
   setTimeout(() => {
     video
       .play()
-      .then((_) => {
+      .then(() => {
         // Automatic playback started!
         // Show playing UI.
       })

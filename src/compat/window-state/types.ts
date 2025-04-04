@@ -1,11 +1,11 @@
+import { Dispatch } from "react";
 import { SCREEN_TYPE } from "./windowState.consts";
 
 export type ScreenType = keyof typeof SCREEN_TYPE;
 
 export interface WindowStateContextProps {
   state: WindowState;
-
-  dispatch: React.Dispatch<WindowStateAction>;
+  dispatch: Dispatch<WindowStateAction>;
 }
 
 export interface WindowSize {

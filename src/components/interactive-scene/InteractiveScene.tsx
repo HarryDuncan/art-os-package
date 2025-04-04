@@ -9,6 +9,7 @@ import { AnimationConfig } from "../../animation/animation.types";
 import { ENGINE_EVENTS } from "../../engine/engine.consts";
 import { SceneProperties } from "../../config/config.types";
 import { SceneLight } from "../../config/lights/lights.types";
+import { OrbitControl } from "../../types";
 
 export type InteractiveSceneFunctions = {
   onTimeUpdate?: (scene: InteractiveScene) => void;
@@ -27,7 +28,7 @@ export class InteractiveScene extends Scene {
 
   animationManager: AnimationManager;
 
-  orbitControls: any;
+  orbitControls: OrbitControl | null;
 
   guid: string;
 

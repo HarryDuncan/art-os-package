@@ -32,13 +32,14 @@ const getEffectData = (noiseParameters: NoiseEffectProps) => {
     case NOISE_EFFECT_TYPES.PERLIN:
       return perlinNoiseEffect();
     case NOISE_EFFECT_TYPES.NORMAL:
-    default:
+    default: {
       const transform = cloudTransform(effectStrength);
       return {
         transform,
         requiredFunctions: NOISE_FUNCTIONS,
         uniformConfig: NOISE_UNIFORMS as UniformConfig,
       };
+    }
   }
 };
 

@@ -1,4 +1,3 @@
-import { POINT_PARENTS } from "../../../../../constants/buildShader.consts";
 import {
   AttributeConfig,
   ImageToPointsEffectProps,
@@ -6,7 +5,6 @@ import {
   VaryingConfig,
 } from "../../../../../types";
 import { formatVertexParameters } from "../../../../../helpers/formatVertexParameters";
-import { generateUniquePointName } from "../../../../../helpers/generateUniquePointName";
 import { reduceFunctions } from "../../../../../helpers/reduceFunctions";
 import { mergeAttributeConfigs } from "../../../../../shader-properties/attributes/helpers/mergeAttributeConfigs";
 import { mergeUniformConfigs } from "../../../../../shader-properties/uniforms/helpers/mergeUniformConfigs";

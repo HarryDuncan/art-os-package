@@ -4,8 +4,6 @@ import {
   UniformConfig,
 } from "../../../../types";
 import { formatVertexParameters } from "../../../../helpers/formatVertexParameters";
-import { generateUniquePointName } from "../../../../helpers/generateUniquePointName";
-
 import { VertexEffectData } from "../../../vertexEffects.types";
 import {
   EXPAND_UNIFORMS,

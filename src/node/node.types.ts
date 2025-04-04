@@ -3,17 +3,25 @@ import {
   InteractiveSceneFunctions,
   SceneInteraction,
 } from "../components/interactive-scene/InteractiveScene";
-import { SceneData } from "../config/config.types";
+import { SceneConfig, SceneData } from "../config/config.types";
 import { AppendedNodesConfig } from "./appended-nodes/appendedNodes.types";
+import { ReactNode } from "react";
 
 export interface SceneNodeProps {
-  sceneConfig: SceneData;
+  sceneConfig: SceneConfig;
   appendedNodes?: AppendedNodesConfig[];
   events: EventConfig[];
   interactionEvents: SceneInteraction[];
-  loaderComponent?: React.ReactNode;
+  loaderComponent?: ReactNode;
 }
 
+export interface SceneNodeContentProps {
+  sceneConfig: SceneConfig;
+  sceneFunctions?: InteractiveSceneFunctions;
+  events: EventConfig[];
+  interactionEvents: SceneInteraction[];
+  loaderComponent?: ReactNode;
+}
 export interface NodeProps {
   sceneFunctions?: InteractiveSceneFunctions;
   events: EventConfig[];

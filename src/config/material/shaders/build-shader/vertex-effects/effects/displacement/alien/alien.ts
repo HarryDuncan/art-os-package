@@ -17,7 +17,7 @@ export const distortVaryings = () =>
     { id: "vPosition", valueType: "VEC3", varyingType: "DEFAULT" },
   ] as VaryingConfig[];
 
-export const alienDistort = (previousPointName: string): VertexEffectData => {
+export const alienDistort = (): VertexEffectData => {
   const uniformConfig = distortUniforms() as UniformConfig;
   const varyingConfig = distortVaryings();
   const transformation = alienTransform();

@@ -2,7 +2,11 @@ import { RootContainer } from "../root/root-container";
 import { useInteractiveScene } from "../../components/interactive-scene/useInteractiveScene";
 import { useThreadWithPostProcessor } from "../../hooks/use-thread";
 import { useThreeJs } from "../../hooks/use-three-js/useThreeJs";
-import { NodeProps, SceneNodeProps } from "../node.types";
+import {
+  NodeProps,
+  SceneNodeContentProps,
+  SceneNodeProps,
+} from "../node.types";
 import { useSetWindowState } from "../../compat/window-state/useSetWindowState";
 import { useSceneFunctions } from "../../hooks/useSceneFunctions";
 import { SceneProvider } from "../../context/context";
@@ -22,6 +26,8 @@ export const SceneNode = ({
       <SceneNodeContent
         sceneConfig={sceneConfig}
         loaderComponent={loaderComponent}
+        events={[]}
+        interactionEvents={[]}
       />
       {appendedNodes && <AppendedNodes appendedNodes={appendedNodes} />}
     </SceneProvider>
@@ -34,7 +40,7 @@ const SceneNodeContent = ({
   sceneFunctions = {},
   events = [],
   interactionEvents = [],
-}) => {
+}: SceneNodeContentProps) => {
   const { areAssetsInitialized, initializedAssets } = useAssets(
     sceneConfig.assets,
     sceneConfig.assetPath

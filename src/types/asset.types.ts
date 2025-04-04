@@ -45,8 +45,3 @@ export type Asset = {
   metaData?: AssetMetaData;
   fileName?: string;
 };
-
-export type GLTF = {
-  scene: Group;
-  animations: any[];
-};

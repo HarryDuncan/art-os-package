@@ -1,13 +1,13 @@
-import { useCallback, useEffect } from "react";
+import { MutableRefObject, useCallback, useEffect } from "react";
 import { Camera, WebGLRenderer } from "three";
 import { sceneUpdateEvent } from "../../engine/engineEvents";
 import { useSceneContext } from "../../context/context";
 import { PROCESS_STATUS } from "../../consts/consts";
 
 export const useThread = (
-  currentFrameRef: React.MutableRefObject<number>,
+  currentFrameRef: MutableRefObject<number>,
   camera: Camera,
-  renderer: WebGLRenderer | any | undefined
+  renderer: WebGLRenderer | undefined
 ) => {
   const {
     dispatch,

@@ -28,7 +28,6 @@ export const useThreadWithPostProcessor = (
         }
       }
 
-      // @ts-ignore
       postProcessor.current?.render(performance.now());
       currentFrameRef.current = requestAnimationFrame(update);
     }

@@ -1,8 +1,5 @@
 import { shaderSafeFloat } from "../../../../../../../../../utils/conversion/shaderConversions";
-import {
-  noise3dFunction,
-  virusNoise,
-} from "../../../../../shader-properties/functions/noise/noise3d";
+import { virusNoise } from "../../../../../shader-properties/functions/noise/noise3d";
 import { zeroToZeroParabola } from "../../../../../shader-properties/functions/steps/steps";
 
 import { AttributeConfig, NoiseTransitionProps } from "../../../../../types";

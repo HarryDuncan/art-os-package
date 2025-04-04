@@ -4,7 +4,6 @@ import { VideoBackground } from "../video-background/VideoBackground";
 import { Layer } from "../../../components/layers/types";
 import { Layers } from "../../../components/layers/Layers";
 import { SceneProperties } from "../../../config/config.types";
-import { Loader } from "../../../components/loaders/Loader";
 
 interface IRootContainerProps {
   containerRef: React.RefObject<HTMLDivElement | null>;

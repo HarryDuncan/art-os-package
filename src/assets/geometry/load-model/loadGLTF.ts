@@ -1,4 +1,4 @@
-import { GLTF } from "src/types";
+import { GLTF } from "three/examples/jsm/loaders/GLTFLoader.js";
 
 export const loadGLTF = async (url: string): Promise<GLTF> => {
   const { DRACOLoader } = await import(

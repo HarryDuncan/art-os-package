@@ -1,7 +1,12 @@
 import { useSceneContext } from "../../context/context";
 import { PROCESS_STATUS } from "../../consts/consts";
+import { ReactNode } from "react";
 
-export const Loader = ({ loaderComponent }) => {
+interface LoaderProps {
+  loaderComponent?: ReactNode;
+}
+
+export const Loader = ({ loaderComponent }: LoaderProps) => {
   const {
     state: { status },
   } = useSceneContext();

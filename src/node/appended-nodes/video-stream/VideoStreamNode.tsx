@@ -53,7 +53,7 @@ export const VideoStreamNode = ({
         }
       }
     },
-    [initializedScene, meshTargetIdentifier]
+    [initializedScene, uniformValue, meshTargetIdentifier]
   );
 
   useEffect(() => {

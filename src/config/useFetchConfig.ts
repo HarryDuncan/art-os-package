@@ -7,22 +7,22 @@ export const useFetchConfig = (filePath: string | null) => {
   const configuredData = useAssetLocation(data);
   useEffect(() => {
     const fetchData = async () => {
-      if (!data && filePath.length) {
-        try {
+      try {
+        if (!data && filePath?.length) {
           const response = await fetch(filePath);
           if (!response.ok) {
             throw new Error("Failed to fetch JSON file");
           }
           const jsonData = await response.json();
           setData(jsonData);
-        } catch (error) {
-          console.error(error);
         }
+      } catch (error) {
+        console.error(error);
       }
     };
     if (filePath) {
       fetchData();
     }
-  }, [filePath, data]);
+  }, [filePath, data, setData]);
   return configuredData;
 };
