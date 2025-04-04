@@ -24,6 +24,7 @@ import { setUpVertexEffects } from "./vertex-effects/setUpVertexEffects";
 import { buildStruct } from "./shader-properties/structs/buildStructs";
 import { mergeStructConfigs } from "./shader-properties/structs/mergeStructConfigs";
 
+const DEBUG = false;
 export const buildShader = (shaderConfig: BuiltShaderConfig) => {
   const {
     vertexEffectConfigs,
@@ -87,8 +88,6 @@ export const buildShader = (shaderConfig: BuiltShaderConfig) => {
     vertexEffects.viewMatrix
   );
 
-  console.log(vertexShader);
-
   const fragmentShader = formatFragmentShader(
     structDeclaration,
     uniformDeclaration,
@@ -97,7 +96,11 @@ export const buildShader = (shaderConfig: BuiltShaderConfig) => {
     fragmentEffects.transformations,
     fragmentEffects.fragColor
   );
-  console.log(fragmentShader);
+  if (DEBUG) {
+    console.log("Vertex Shader: ", vertexShader);
+    console.log("Fragment Shader: ", fragmentShader);
+  }
+
   return {
     vertexShader,
     fragmentShader,

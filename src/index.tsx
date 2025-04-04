@@ -27,6 +27,6 @@ export { InteractiveScene };
 export { startSceneElementAnimations };
 export { useSetWindowState };
 export * from "./animation/animation.types";
-export * from "./assets/asset.types";
+export * from "./types";
 export * from "./config/config.types";
 export * from "./node/node.types";

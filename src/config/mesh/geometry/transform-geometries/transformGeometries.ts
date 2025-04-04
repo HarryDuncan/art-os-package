@@ -18,6 +18,7 @@ export const transformGeometry = (
       formattedGeometries,
       transformedMeshIds
     );
+
     if (transformedMeshes.length) {
       switch (type) {
         case MESH_TRANSFORM.MORPH: {

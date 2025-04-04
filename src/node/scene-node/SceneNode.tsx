@@ -33,7 +33,8 @@ const SceneNodeContent = ({
   interactionEvents = [],
 }) => {
   const { areAssetsInitialized, initializedAssets } = useAssets(
-    sceneConfig.assets
+    sceneConfig.assets,
+    sceneConfig.assetPath
   );
   const sceneData = useSceneData(
     sceneConfig,

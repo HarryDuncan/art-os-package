@@ -1,4 +1,4 @@
-import { AdvancedScene, Asset } from "../../../assets/asset.types";
+import { AdvancedScene, Asset } from "../../../types";
 import { AdvancedMeshConfig } from "./advancedMesh.types";
 import { MeshComponentConfig, MeshTransformConfig } from "../../config.types";
 import { Group, Material, Object3D } from "three";

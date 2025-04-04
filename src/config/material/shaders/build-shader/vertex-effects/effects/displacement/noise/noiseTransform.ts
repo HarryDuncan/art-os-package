@@ -67,6 +67,6 @@ export const cloudTransform = (effectStrength) => {
        float randomOffsetZ = (fract(sin(dot(${VERTEX_POINT_NAME}.xyz, vec3(12.9898, 78.233, 45.543) + 2.0)) * 43758.5453) - 0.5) * 1.0 * 0.0 ;
    
        // Apply random offset to the vertex position
-       ${VERTEX_POINT_NAME} = vec4(${VERTEX_POINT_NAME}.xyz + vec3(randomOffsetX, randomOffsetY, randomOffsetZ), 1.0).xyz;
+       ${VERTEX_POINT_NAME} = vec4(${VERTEX_POINT_NAME}.xyz + vec3(randomOffsetX, randomOffsetY, randomOffsetZ), 1.0);
    `;
 };

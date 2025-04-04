@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { ASSET_TYPES, Asset } from "./asset.types";
+import { ASSET_TYPES, Asset } from "./../types";
 import { getFileTypeFromFilename } from "../utils/file/file";
 import { loadFont } from "./fonts/loadFont";
 import { loadImage } from "./image/load-image/LoadImage";
@@ -8,7 +8,10 @@ import { loadTexture } from "./texture/load-texture/loadTexture";
 import { loadModel } from "./geometry/load-model/LoadModel";
 import { loadAdvancedScene } from "./advanced-scene/loadAdvancedScene";
 
-export const useAssets = (assets: Asset[] | undefined | null) => {
+export const useAssets = (
+  assets: Asset[] | undefined | null,
+  assetPath?: string
+) => {
   const [areAssetsInitialized, setAreAssetsInitialized] = useState(false);
   const [initializedAssets, setInitializedAssets] = useState<Asset[]>([]);
 
@@ -22,10 +25,20 @@ export const useAssets = (assets: Asset[] | undefined | null) => {
   const initializeAssets = useCallback(async () => {
     if (!assets) return;
     const loadedAssets = await Promise.all(
-      assets.flatMap(async (asset) => loadAssetData(asset))
+      assets.flatMap(async (asset) => {
+        if (!assetPath && !asset.path) {
+          console.warn(
+            `asset ${asset.id} not properly loaded no assetPath or path found`
+          );
+        }
+        const formattedAsset = assetPath
+          ? { ...asset, path: `${assetPath}/${asset.fileName}` }
+          : asset;
+        return loadAssetData(formattedAsset);
+      })
     );
     return loadedAssets as Asset[];
-  }, [assets]);
+  }, [assets, assetPath]);
 
   useEffect(() => {
     async function getAssets() {

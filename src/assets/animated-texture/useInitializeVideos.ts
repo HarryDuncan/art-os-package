@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { ASSET_TYPES, Asset } from "../asset.types";
+import { ASSET_TYPES, Asset } from "../../types";
 import { setupVideo } from "./setUpVideo";
 
 export const useInitializeVideos = (

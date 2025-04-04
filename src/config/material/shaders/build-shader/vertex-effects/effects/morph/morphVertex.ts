@@ -58,7 +58,11 @@ export const morphVertex = (
     ${buildMorphTransforms(morphObjects)}
     ${VERTEX_POINT_NAME} = vec4(currentPosition + (effect_direction * (uProgress)),1.0);
     ${VERTEX_NORMAL_NAME} = vec4(currentNormal + (normal_effect_direction * (uProgress)), 1.0);
-    ${morphTransitionInfo && morphTransitionInfo?.transformation}
+    ${
+      morphTransitionInfo && morphTransitionInfo?.transformation
+        ? morphTransitionInfo.transformation
+        : ""
+    }
    
     `;
 

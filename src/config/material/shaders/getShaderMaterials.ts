@@ -1,4 +1,4 @@
-import { Asset } from "../../../assets/asset.types";
+import { Asset } from "../../../types";
 import { SceneConfig } from "../../config.types";
 import {
   MaterialConfig,

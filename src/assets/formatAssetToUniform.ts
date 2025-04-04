@@ -1,4 +1,4 @@
-import { Asset } from "./asset.types";
+import { Asset } from "./../types";
 
 export const formatAssetToUniform = (
   assets: Asset[],

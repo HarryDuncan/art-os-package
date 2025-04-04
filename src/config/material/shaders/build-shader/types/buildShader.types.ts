@@ -20,7 +20,7 @@ import {
   VertexEffectProps,
 } from "./vertexShader.types";
 import { DEFAULT_UNIFORMS } from "../constants";
-import { AssetType } from "../../../../../assets/asset.types";
+import { AssetType } from "../../../../../types";
 
 // GENERAL TYPES
 export type ShaderPropertyConfig = {

@@ -1,7 +1,7 @@
 import { Material, Texture } from "three";
 import { EnvMapType, MaterialType } from "../config/material/materials.types";
 import { hasCommonValues } from "../utils/hasCommonElement";
-import { Asset, ASSET_TAG } from "./asset.types";
+import { Asset, ASSET_TAG } from "./../types";
 import { getMaterial } from "../config/material/getMaterial";
 import { ENV_MAP_TYPES } from "../consts";
 

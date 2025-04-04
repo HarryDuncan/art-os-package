@@ -37,12 +37,13 @@ export interface AssetMetaData {
 export type AssetTag = keyof typeof ASSET_TAG;
 export type Asset = {
   id: string;
-  path: string;
+  path?: string;
   assetType: AssetType;
   name?: string;
   data?: AssetData;
   assetTag?: AssetTag[];
   metaData?: AssetMetaData;
+  fileName?: string;
 };
 
 export type GLTF = {

@@ -1,7 +1,7 @@
 import { AnimationConfig } from "../animation/animation.types";
 import { MaterialConfig } from "../config/material/materials.types";
 import { InteractionConfig } from "../interaction/interaction.types";
-import { Asset } from "../assets/asset.types";
+import { Asset } from "../types";
 import { GeometryConfig } from "../assets/geometry/geometry.types";
 import { CameraConfig } from "../config/three-js/use-camera/camera.types";
 import { MESH_TRANSFORM } from "./../consts";
@@ -125,6 +125,7 @@ export type ScreenSizeAdjustmentConfig = {
 
 export type SceneConfig = {
   title?: string;
+  assetPath?: string;
   description?: string;
   id?: string;
   sceneConfigType?: SceneConfigType;

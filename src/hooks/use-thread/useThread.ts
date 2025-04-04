@@ -11,7 +11,7 @@ export const useThread = (
 ) => {
   const {
     dispatch,
-    state: { initializedScene, status },
+    state: { initializedScene },
   } = useSceneContext();
 
   const update = useCallback(async () => {
@@ -23,8 +23,6 @@ export const useThread = (
     if (initializedScene.orbitControls) {
       initializedScene.orbitControls.update();
     }
-    console.log("test");
-    console.log(renderer);
     renderer.render(initializedScene, camera);
     currentFrameRef.current = requestAnimationFrame(update);
   }, [currentFrameRef, renderer, initializedScene, camera]);

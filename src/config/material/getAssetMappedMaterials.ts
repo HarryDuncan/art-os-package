@@ -6,7 +6,7 @@ import {
   MaterialType,
   VideoMaterialProps,
 } from "../../config/material/materials.types";
-import { Asset } from "../../assets/asset.types";
+import { Asset } from "../../types";
 import {
   ASSET_MAPPED_MATERIALS,
   MATERIAL_TYPES,

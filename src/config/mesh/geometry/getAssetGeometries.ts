@@ -4,7 +4,7 @@ import {
   Asset,
   LoadedGroup,
   LoadedObjChild,
-} from "../../../assets/asset.types";
+} from "../../../types";
 import { getFileTypeFromFilename } from "../../../utils/file/file";
 
 export const getAssetGeometries = (assets: Asset[]) =>

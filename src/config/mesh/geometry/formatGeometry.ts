@@ -1,5 +1,5 @@
 import { BufferGeometry, Vector3 } from "three";
-import { Asset } from "../../../assets/asset.types";
+import { Asset } from "../../../types";
 import {
   FormattedGeometry,
   GeometryConfig,

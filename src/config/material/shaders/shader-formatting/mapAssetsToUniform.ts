@@ -1,4 +1,4 @@
-import { Asset } from "../../../../assets/asset.types";
+import { Asset } from "../../../../types";
 import { UniformObject } from "../build-shader/types";
 import { AssetToUniformMappingConfig } from "../../../../config/material/materials.types";
 import { getCentroid } from "../../../../utils/three-dimension-space/getCentroid";
