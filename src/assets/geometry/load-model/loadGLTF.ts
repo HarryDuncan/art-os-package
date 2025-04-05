@@ -1,9 +1,7 @@
 import { GLTF } from "three/examples/jsm/loaders/GLTFLoader.js";
+import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader.js";
 
 export const loadGLTF = async (url: string): Promise<GLTF> => {
-  const { DRACOLoader } = await import(
-    "three/examples/jsm/loaders/DRACOLoader.js"
-  );
   const { GLTFLoader } = await import(
     "three/examples/jsm/loaders/GLTFLoader.js"
   );
