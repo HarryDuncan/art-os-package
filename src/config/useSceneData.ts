@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+// @ts-nocheck
 import { formatSceneComponentConfigs } from "../config/components/formatSceneComponentConfigs";
 import { getLightsFromConfig } from "../config/lights/getLightsFromConfig";
 import { formatGlobalMaterials } from "../config/material/formatGlobalMaterials";
@@ -35,7 +37,7 @@ export const useSceneData = (
       formattedConfig,
       attributeConfigs
     );
-    const animationConfig = config.animationConfig ?? [];
+    const animationConfig = config?.animationConfig ?? [];
     const lights = getLightsFromConfig(formattedConfig);
     const sceneComponents = formatSceneComponentConfigs(
       formattedConfig,

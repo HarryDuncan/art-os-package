@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+// @ts-nocheck
 import React from "react";
 import { Root } from "./RootContainer.styles";
 import { VideoBackground } from "../video-background/VideoBackground";

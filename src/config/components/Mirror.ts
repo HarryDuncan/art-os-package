@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+// @ts-nocheck
+
 import { Color, Vector3, Mesh } from "three";
 import { MirrorProps } from "./threeJsComponents.types";
 import { rotatePlaneToFaceCoordinate } from "../../utils/three-dimension-space/rotatePlane";

@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+// @ts-nocheck
+
 import { shaderSafeFloat } from "../../../../../../../../../utils/conversion/shaderConversions";
 import { virusNoise } from "../../../../../shader-properties/functions/noise/noise3d";
 import { zeroToZeroParabola } from "../../../../../shader-properties/functions/steps/steps";

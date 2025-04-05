@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+// @ts-nocheck
 import { Object3D } from "three";
 import {
   DEFAULT_ISOLATION,

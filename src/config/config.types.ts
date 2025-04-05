@@ -17,7 +17,7 @@ import { Position3d } from "../types/position.types";
 import { AttributeConfig } from "./material/shaders/build-shader/types";
 import { SceneConfigType } from "./config.constants";
 import { AdvancedMeshConfig } from "./mesh/advanced-mesh/advancedMesh.types";
-import { GLTF } from "three/examples/jsm/loaders/GLTFLoader";
+import { GLTF } from "three/examples/jsm/loaders/GLTFLoader.js";
 import {
   ComponentProps,
   SceneElementType,

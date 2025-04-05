@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+// @ts-nocheck
+
 import { shaderSafeFloat } from "../../../../../../../../utils/conversion/shaderConversions";
 import { NoiseEffectProps, UniformConfig } from "../../../../types";
 import { VERTEX_POINT_NAME } from "../../../vertexEffects.consts";

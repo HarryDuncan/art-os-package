@@ -89,7 +89,7 @@ const DisplayContent = ({
   useInteractiveScene(
     formattedSceneFunctions,
     events,
-    animationConfig,
+    animationConfig ?? [],
     meshes,
     lights,
     sceneComponents,

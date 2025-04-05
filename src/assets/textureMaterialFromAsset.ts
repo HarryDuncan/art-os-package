@@ -1,5 +1,9 @@
 import { Material, Texture } from "three";
-import { EnvMapType, MaterialType } from "../config/material/materials.types";
+import {
+  EnvMapMaterialProps,
+  EnvMapType,
+  MaterialType,
+} from "../config/material/materials.types";
 import { hasCommonValues } from "../utils/hasCommonElement";
 import { Asset, ASSET_TAG } from "./../types";
 import { getMaterial } from "../config/material/getMaterial";
@@ -26,7 +30,10 @@ export const textureMaterialFromAsset = (assets: Asset[]) =>
             imageUrl: asset.path,
             envMapType: ENV_MAP_TYPES.REFLECTION as EnvMapType,
           };
-          const material = getMaterial(materialTag, materialProps) as Material;
+          const material = getMaterial(
+            materialTag,
+            materialProps as EnvMapMaterialProps
+          ) as Material;
           material.name = asset.id;
           return material;
         }

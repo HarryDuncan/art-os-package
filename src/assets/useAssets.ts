@@ -55,8 +55,8 @@ export const useAssets = (
 };
 
 const loadAsset = async (asset: Asset) => {
-  const { assetType, path } = asset;
-
+  const { assetType, path: assetPath } = asset;
+  const path = assetPath ?? "";
   const fileType = getFileTypeFromFilename(path);
   switch (assetType) {
     case ASSET_TYPES.MODEL3D: {

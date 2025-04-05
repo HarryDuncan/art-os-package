@@ -1,11 +1,11 @@
-import { useContext, useCallback } from "react";
-import { SceneContext } from "../context/context";
+import { useCallback } from "react";
+import { useSceneContext } from "../context/context";
 
 export const useProcessStatus = () => {
   const {
     dispatch,
     state: { status },
-  } = useContext(SceneContext);
+  } = useSceneContext();
 
   const setStatus = useCallback(
     (status: string) => {

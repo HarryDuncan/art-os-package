@@ -7,7 +7,7 @@ import jsxA11yPlugin from "eslint-plugin-jsx-a11y";
 import globals from "globals";
 export default [
   {
-    ignores: ["**/*.spec.*", "**/test-utils/**"],
+    ignores: ["**/*.spec.*", "**/test-utils/**", "types/index.d.ts"],
   },
   {
     // 👇 base config: applies to all files

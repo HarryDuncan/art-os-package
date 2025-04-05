@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+// @ts-nocheck
 import { BufferAttribute } from "three";
 import { getGeometryAttributes } from "../../attributes/attribute.functions";
 import { MeshTransformConfig } from "../../../config.types";

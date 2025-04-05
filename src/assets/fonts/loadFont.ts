@@ -1,4 +1,4 @@
-import { Font } from "three/examples/jsm/loaders/FontLoader";
+import { Font } from "three/examples/jsm/loaders/FontLoader.js";
 
 export const loadFont = async (fontUrl: string): Promise<Font> => {
   const { FontLoader } = await import(

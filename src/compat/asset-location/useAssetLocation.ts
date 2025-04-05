@@ -10,7 +10,7 @@ export const useAssetLocation = (
       configData?.map((config) => {
         const updatedAssets = config.assets?.map((asset) => {
           const path = staticContentRootUrl.length
-            ? `/${removeElipse(asset.path)}`
+            ? `/${removeElipse(asset.path ?? "")}`
             : asset.path;
 
           return {

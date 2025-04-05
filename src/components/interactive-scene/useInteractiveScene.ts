@@ -7,10 +7,10 @@ import {
 import { EventConfig } from "../../interaction/interaction.types";
 import { AnimationConfig } from "../../animation/animation.types";
 import { Object3D } from "three";
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { SceneProperties } from "../../config/config.types";
 import { setSceneProperties } from "../../utils/scene/setSceneProperties";
-import { GLTF } from "three/examples/jsm/loaders/GLTFLoader";
+import { GLTF } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { SceneLight } from "../../config/lights/lights.types";
 import { useSceneContext } from "../../context/context";
 import { PROCESS_STATUS } from "../../consts/consts";
@@ -33,11 +33,8 @@ export const useInteractiveScene = (
 
   const setUpSceneObjects = useCallback(
     async (scene: InteractiveScene) => {
-      // @ts-ignore
       meshes.forEach((mesh) => scene.add(mesh as Object3D));
-      // @ts-ignore
       lights.forEach((light) => scene.add(light));
-      // @ts-ignore
       sceneComponents.forEach((component) => scene.add(component));
       setSceneProperties(sceneProperties, scene);
       dispatch({

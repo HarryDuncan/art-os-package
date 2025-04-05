@@ -26,13 +26,13 @@ export const useOrbitControls = (
       RIGHT: MOUSE.PAN,
     };
 
-    if (config) {
-      controls.enabled = config.enabled;
-      controls.enableZoom = config.enableZoom;
-      controls.enablePan = config.enablePan;
-      controls.enableRotate = config.enableRotate;
-      controls.autoRotate = config.autoRotate;
-      controls.autoRotateSpeed = config.autoRotateSpeed;
+    if (config && controls) {
+      controls.enabled = config.enabled ?? false;
+      controls.enableZoom = config.enableZoom ?? false;
+      controls.enablePan = config.enablePan ?? false;
+      controls.enableRotate = config.enableRotate ?? false;
+      controls.autoRotate = config.autoRotate ?? false;
+      controls.autoRotateSpeed = config.autoRotateSpeed ?? 0;
       //     controls.target.set(config.target?.x, config.target?.y, config.target?.z);
     }
 

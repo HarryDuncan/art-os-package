@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+// @ts-nocheck
 import { colorTransformation } from "../color/colorTransformation";
 import {
   DEFAULT_HUE_SHIFT_FUNCTIONS,

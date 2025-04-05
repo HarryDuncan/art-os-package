@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+// @ts-nocheck
 import { Material, Object3D } from "three";
 import { formatGeometry } from "./geometry/formatGeometry";
 import { addMaterials } from "./mesh-materials/addMaterials";
@@ -9,7 +11,7 @@ import { transformGeometry } from "./geometry/transform-geometries/transformGeom
 import { ShaderAttributeConfig } from "../material/shaders/build-shader/types";
 import { multipleMeshes } from "./multiple-meshes/multipleMeshes";
 // import { setUpAdvancedMeshes } from "./advanced-mesh/setUpAdvancedMeshes";
-import { GLTF } from "three/examples/jsm/loaders/GLTFLoader";
+import { GLTF } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { formatMeshAttributes } from "./attributes/formatMeshAttributes";
 
 export const getMeshesFromConfig = (

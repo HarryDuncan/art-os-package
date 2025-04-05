@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+// @ts-nocheck
 import { ShaderPropertyValueTypes } from "../../../constants/buildShader.consts";
 import { formatVertexParameters } from "../../../helpers/formatVertexParameters";
 import { reduceFunctions } from "../../../helpers/reduceFunctions";

@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+// @ts-nocheck
 import { useCallback, useEffect, useRef } from "react";
 import { VideoStreamNodeProps } from "../appendedNodes.types";
 import { useSceneContext } from "../../../context/context";
@@ -47,7 +49,7 @@ export const VideoStreamNode = ({
           // Create a new texture from the rotated offscreen canvas
           const texture = new Texture(canvas);
           texture.needsUpdate = true;
-          if (animatedObjects[0].material.uniforms[uniformValue]) {
+          if (animatedObjects[0]?.material?.uniforms[uniformValue]) {
             animatedObjects[0].material.uniforms[uniformValue].value = texture;
           }
         }

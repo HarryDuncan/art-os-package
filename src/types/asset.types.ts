@@ -1,6 +1,6 @@
 import { MATERIAL_TYPES } from "../consts";
 import { AnimationClip, BufferGeometry, Group, Object3D, Texture } from "three";
-import { GLTF } from "three/examples/jsm/loaders/GLTFLoader";
+import { GLTF } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { BoundingBox } from "../types/position.types";
 
 export const ASSET_TYPES = {

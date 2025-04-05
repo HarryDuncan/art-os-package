@@ -8,7 +8,7 @@ import { AppendedNodes } from "./node/appended-nodes/AppendedNodes";
 import { InteractiveScene } from "./components/interactive-scene/InteractiveScene";
 import { startSceneElementAnimations } from "./animation/animation-manager/startSceneElementAnimations";
 import { useSceneFunctions } from "./hooks/useSceneFunctions";
-export { Position3d } from "./types/position.types";
+
 export { useAssets };
 export { useFetchConfig };
 export { useSceneData };

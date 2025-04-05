@@ -1,6 +1,6 @@
 {
   "name": "art-os-package",
-  "version": "1.1.8",
+  "version": "1.1.12",
   "description": "Reusable visuals",
   "repository": {
     "type": "git",
@@ -8,7 +8,7 @@
   },
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "types": "./dist/types/index.d.ts",
   "exports": {
     ".": {
       "import": "./dist/index.js",
@@ -18,9 +18,9 @@
   "scripts": {
     "lint": "npx eslint src",
     "test": "vitest",
-    "build": "rimraf dist && tsc --module ESNext --target ESNext --outDir dist --declaration false && node -e \"require('ncp').ncp('dist/index.js', 'dist/index.cjs', (err) => { if (err) { console.error(err); process.exit(1); } })\"",
+    "build": "rimraf dist && tsc --module ESNext --target ESNext --outDir dist --declaration --declarationDir ./dist/types && node -e \"require('ncp').ncp('dist/index.js', 'dist/index.cjs', (err) => { if (err) { console.error(err); process.exit(1); } })\"",
     "prepare": "npm run build",
-    "serve": "rimraf dist && tsc-watch --onSuccess \"copy dist\\index.js dist\\index.cjs\""
+    "serve": "rimraf dist && tsc-watch --onSuccess \"copy dist\\index.js dist\\index.cjs\" --module ESNext --target ESNext --jsx react-jsx --declaration --declarationDir ./dist/types"
   },
   "files": [
     "dist"
@@ -34,9 +34,7 @@
   "author": "Harry Duncan",
   "license": "MIT",
   "dependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "styled-components": "^6.1.17",
+    "styled-components": "^5.3.11",
     "three": "^0.174.0"
   },
   "devDependencies": {
@@ -47,6 +45,7 @@
     "@types/react": "^18.2.0",
     "@types/react-dom": "^18.2.0",
     "@types/styled-components": "^5.1.25",
+    "@types/three": "^0.175.0",
     "@typescript-eslint/eslint-plugin": "^8.29.0",
     "@typescript-eslint/parser": "^8.29.0",
     "@vitejs/plugin-react": "4.3.4",

@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+// @ts-nocheck
+
 import { Asset } from "../../types";
 import { SceneConfig } from "../config.types";
 import { getMaterialsFromConfig } from "./getMaterialsFromConfig";

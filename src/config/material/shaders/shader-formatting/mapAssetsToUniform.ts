@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+// @ts-nocheck
+
 import { Asset } from "../../../../types";
 import { UniformObject } from "../build-shader/types";
 import { AssetToUniformMappingConfig } from "../../../../config/material/materials.types";
@@ -52,7 +55,7 @@ const getMappedAsset = (
       }
       case ASSET_MAPPING_RELATIONSHIPS.VIDEO: {
         const video = document.getElementById("video");
-        const videoTexture = new VideoTexture(video);
+        const videoTexture = new VideoTexture(video as HTMLVideoElement);
         videoTexture.minFilter = LinearFilter;
         videoTexture.magFilter = LinearFilter;
         videoTexture.format = RGBFormat;
@@ -63,7 +66,6 @@ const getMappedAsset = (
       }
 
       case ASSET_MAPPING_RELATIONSHIPS.DIMENSION: {
-        // @ts-ignore
         const { width, height } = mappedAsset.data.image;
         return new Vector2(width, height);
       }

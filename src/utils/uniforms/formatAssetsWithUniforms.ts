@@ -8,7 +8,7 @@ export const formatAssetWithUniforms = (
   assets: Asset[]
 ) => {
   assets.forEach((asset) => {
-    if (asset.name.indexOf("u") === 0) {
+    if (asset?.name?.indexOf("u") === 0) {
       uniforms[asset.name] = { value: asset.data };
     } else {
       console.warn(

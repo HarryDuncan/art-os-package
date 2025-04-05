@@ -1,5 +1,5 @@
 import { MutableRefObject, useCallback, useEffect } from "react";
-import { Camera, WebGLRenderer } from "three";
+import { Camera, Object3D, WebGLRenderer } from "three";
 import { sceneUpdateEvent } from "../../engine/engineEvents";
 import { useSceneContext } from "../../context/context";
 import { PROCESS_STATUS } from "../../consts/consts";
@@ -20,10 +20,10 @@ export const useThread = (
       return;
     }
     sceneUpdateEvent();
-    if (initializedScene.orbitControls) {
+    if (initializedScene?.orbitControls) {
       initializedScene.orbitControls.update();
     }
-    renderer.render(initializedScene, camera);
+    renderer.render(initializedScene as Object3D, camera);
     currentFrameRef.current = requestAnimationFrame(update);
   }, [currentFrameRef, renderer, initializedScene, camera]);
 

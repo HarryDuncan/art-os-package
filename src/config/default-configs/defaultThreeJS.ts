@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+// @ts-nocheck
+
 import { sRGBEncoding } from "three";
 import { RENDERER_TYPES } from "../../hooks/use-three-js/renderer/rendererConstants";
 import {

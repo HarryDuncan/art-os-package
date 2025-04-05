@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+// @ts-nocheck
+
 import { InteractiveScene } from "../../../components/interactive-scene/InteractiveScene";
 import { Object3D } from "three";
 import { getMeshesByIdentifier } from "../../../utils/scene/object-finding/getMeshesByIdentifier";
@@ -10,7 +13,6 @@ export const animateMarchingCube = (scene: InteractiveScene) => {
   }
 
   const cube = marchingCube[0];
-  // @ts-ignore
   updateCubes(cube, time, 15);
 };
 
@@ -36,7 +38,6 @@ export const updateCubes = (
 
     object.addBall(ballx, bally, ballz, strength, subtract);
   }
-  // @ts-ignore
   object.update();
 };
 

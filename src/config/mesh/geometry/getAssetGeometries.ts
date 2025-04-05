@@ -19,7 +19,8 @@ export const getAssetGeometries = (assets: Asset[]) =>
   });
 
 export const getAssetGeometry = (asset: Asset) => {
-  const { assetType, path, data, name } = asset;
+  const { assetType, path: assetPath, data, name } = asset;
+  const path = assetPath ?? "";
   if (assetType !== ASSET_TYPES.MODEL3D || !data) {
     return null;
   }
@@ -28,7 +29,7 @@ export const getAssetGeometry = (asset: Asset) => {
     case FILE_TYPES.MODELS.OBJ:
     case FILE_TYPES.MODELS.GLB:
     case FILE_TYPES.MODELS.GLTF:
-      return getObjectGeometries(data as LoadedGroup, name);
+      return getObjectGeometries(data as LoadedGroup, name ?? "");
     default:
       console.warn(`no formatting for ${modelFileType}`);
       return null;

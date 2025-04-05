@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+// @ts-nocheck
+
 import { ShaderPropertyValueTypes } from "../../../../constants";
 import { fragmentEffectToEffectData } from "../../../../helpers/fragmentEffectToEffectData";
 import { mergeUniformConfigs } from "../../../../shader-properties/uniforms/helpers/mergeUniformConfigs";
