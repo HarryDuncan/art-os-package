@@ -18,7 +18,7 @@
   "scripts": {
     "lint": "npx eslint src",
     "test": "vitest",
-    "build": "rimraf dist && tsc && tsc --module CommonJS --outDir dist --declaration false && node -e \"require('ncp').ncp('dist/index.js', 'dist/index.cjs', (err) => { if (err) { console.error(err); process.exit(1); } })\"",
+    "build": "rimraf dist && tsc --module ESNext --target ESNext --outDir dist --declaration false && node -e \"require('ncp').ncp('dist/index.js', 'dist/index.cjs', (err) => { if (err) { console.error(err); process.exit(1); } })\"",
     "prepare": "npm run build",
     "serve": "rimraf dist && tsc-watch --onSuccess \"copy dist\\index.js dist\\index.cjs\""
   },
