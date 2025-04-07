@@ -4,12 +4,12 @@ import {
   ANIMATION_TYPES,
   OBJECT_UPDATE_PROPERTY,
   TRIG_FUNCTION_TYPES,
-} from "./animation.constants";
+} from "../consts/animation/animation.constants";
 import {
   AnimationLoopConfigItem,
   TransitionLoopConfig,
-} from "./animation-functions/shader-animations/animation-loop/animationloop.types";
-import { Axis, Position3d } from "../types/position.types";
+} from "../animation/animation-functions/shader-animations/animation-loop/animationloop.types";
+import { Axis, Position3d } from "./position.types";
 
 // to avoid dependency cycle
 export type AnimatedScene = Scene & {

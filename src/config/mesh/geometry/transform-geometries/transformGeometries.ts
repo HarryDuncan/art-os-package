@@ -2,7 +2,7 @@
 // @ts-nocheck
 import { BufferAttribute } from "three";
 import { getGeometryAttributes } from "../../attributes/attribute.functions";
-import { MeshTransformConfig } from "../../../config.types";
+import { MeshTransformConfig } from "../../../../types/config.types";
 import { FormattedGeometry } from "../../../../assets/geometry/geometry.types";
 import { setAttributes } from "../../attributes/set-attributes/setAttributes";
 import { mergeArraysWithoutDuplicates } from "../../../../utils/mergeArraysWithoutDuplicates";

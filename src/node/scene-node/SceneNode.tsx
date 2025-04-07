@@ -6,7 +6,7 @@ import {
   NodeProps,
   SceneNodeContentProps,
   SceneNodeProps,
-} from "../node.types";
+} from "../../types/node.types";
 import { useSetWindowState } from "../../compat/window-state/useSetWindowState";
 import { useSceneFunctions } from "../../hooks/useSceneFunctions";
 import { SceneProvider } from "../../context/context";

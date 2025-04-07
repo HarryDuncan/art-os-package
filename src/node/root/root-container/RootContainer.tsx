@@ -5,7 +5,7 @@ import { Root } from "./RootContainer.styles";
 import { VideoBackground } from "../video-background/VideoBackground";
 import { Layer } from "../../../components/layers/types";
 import { Layers } from "../../../components/layers/Layers";
-import { SceneProperties } from "../../../config/config.types";
+import { SceneProperties } from "../../../types/config.types";
 
 interface IRootContainerProps {
   containerRef: React.RefObject<HTMLDivElement | null>;

@@ -1,5 +1,5 @@
-import { DEFAULT_SCENE_PROPERTIES } from "../config.constants";
-import { ScenePropertiesConfig } from "../config.types";
+import { DEFAULT_SCENE_PROPERTIES } from "../../consts/config.constants";
+import { ScenePropertiesConfig } from "../../types/config.types";
 
 export const getScenePropertiesFromConfig = (
   config?: ScenePropertiesConfig

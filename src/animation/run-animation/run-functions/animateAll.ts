@@ -1,8 +1,8 @@
 import { performAnimation } from "../performAnimation";
 
-import { MeshObject } from "../../../config/mesh/mesh.types";
+import { MeshObject } from "../../../types/mesh.types";
 import { Object3D } from "three";
-import { AnimationProperties } from "../../animation.types";
+import { AnimationProperties } from "../../../types/animation.types";
 
 export const animateAll = (
   animationProperties: AnimationProperties,

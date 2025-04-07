@@ -1,8 +1,8 @@
 import { Camera } from "three";
-import { AnimatedScene, AnimationConfig } from "../animation.types";
+import { AnimatedScene, AnimationConfig } from "../../types/animation.types";
 import { runAnimation } from "../run-animation/runAnimation";
 import { setUpAnimationConfig } from "./setUpAnimationConfig";
-import { GENERIC_TARGET_IDENTIFIERS } from "../animation.constants";
+import { GENERIC_TARGET_IDENTIFIERS } from "../../consts/animation/animation.constants";
 import { runCameraAnimation } from "../run-animation/runCameraAnimation";
 
 export class AnimationManager {

@@ -2,7 +2,7 @@
 // @ts-nocheck
 
 import { Asset } from "../../types";
-import { SceneConfig } from "../config.types";
+import { SceneConfig } from "../../types/config.types";
 import { getMaterialsFromConfig } from "./getMaterialsFromConfig";
 // import { getShaderMaterials } from "./shaders/getShaderMaterials";
 import { Material } from "three";
@@ -15,7 +15,7 @@ export const formatGlobalMaterials = (
   config: SceneConfig
 ): { materials: Material[]; attributeConfigs: ShaderAttributeConfig[] } => {
   const assetMappedMaterials = getAssetMappedMaterials(
-    config?.globalMaterialConfigs ?? [],
+    config?.sceneMaterialConfigs ?? [],
     assets
   );
   const shaderMaterials = []; // getShaderMaterials(config, assets);

@@ -1,6 +1,6 @@
 import { Material, Texture } from "three";
-import { BuiltShaderConfig } from "./shaders/build-shader/types";
-import { ENV_MAP_TYPES, MATERIAL_TYPES } from "./../../consts/materials.consts";
+import { BuiltShaderConfig } from "../config/material/shaders/build-shader/types";
+import { ENV_MAP_TYPES, MATERIAL_TYPES } from "../consts/materials.consts";
 
 export type MaterialType = keyof typeof MATERIAL_TYPES;
 export type EnvMapType = keyof typeof ENV_MAP_TYPES;

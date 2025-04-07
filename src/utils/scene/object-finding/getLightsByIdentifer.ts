@@ -1,5 +1,5 @@
 import { Object3D, Scene } from "three";
-import { GENERIC_TARGET_IDENTIFIERS } from "../../../animation/animation.constants";
+import { GENERIC_TARGET_IDENTIFIERS } from "../../../consts/animation/animation.constants";
 
 type CustomLightObject = Object3D & {
   isLight?: boolean;

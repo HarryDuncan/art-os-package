@@ -3,7 +3,7 @@
 
 import { Asset } from "../../../../types";
 import { UniformObject } from "../build-shader/types";
-import { AssetToUniformMappingConfig } from "../../../../config/material/materials.types";
+import { AssetToUniformMappingConfig } from "../../../../types/materials.types";
 import { getCentroid } from "../../../../utils/three-dimension-space/getCentroid";
 import { Vector2, VideoTexture, LinearFilter, RGBFormat, Texture } from "three";
 

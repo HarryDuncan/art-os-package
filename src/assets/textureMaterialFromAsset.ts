@@ -3,7 +3,7 @@ import {
   EnvMapMaterialProps,
   EnvMapType,
   MaterialType,
-} from "../config/material/materials.types";
+} from "../types/materials.types";
 import { hasCommonValues } from "../utils/hasCommonElement";
 import { Asset, ASSET_TAG } from "./../types";
 import { getMaterial } from "../config/material/getMaterial";

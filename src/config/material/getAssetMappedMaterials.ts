@@ -8,7 +8,7 @@ import {
   MaterialConfig,
   MaterialType,
   VideoMaterialProps,
-} from "../../config/material/materials.types";
+} from "../../types/materials.types";
 import { Asset } from "../../types";
 import {
   ASSET_MAPPED_MATERIALS,

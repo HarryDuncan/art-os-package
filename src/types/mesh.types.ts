@@ -1,6 +1,6 @@
 import { BufferGeometry, Material, Mesh, Points } from "three";
-import { ShaderMaterial } from "../material/materials.types";
-import { CUSTOM_BUFFER_GEOMETRY_TYPES } from "../../consts/mesh.consts";
+import { ShaderMaterial } from "./materials.types";
+import { CUSTOM_BUFFER_GEOMETRY_TYPES } from "../consts/mesh.consts";
 
 export type CustomBufferGeometryType =
   keyof typeof CUSTOM_BUFFER_GEOMETRY_TYPES;

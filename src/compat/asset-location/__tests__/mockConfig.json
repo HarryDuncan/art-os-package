@@ -21,7 +21,7 @@
 
     "meshComponentConfigs": [],
     "meshTransforms": [],
-    "globalMaterialConfigs": [],
+    "sceneMaterialConfigs": [],
     "animationConfig": [],
     "lightConfig": [],
     "scenePropertiesConfig": {},

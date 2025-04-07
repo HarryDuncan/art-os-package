@@ -8,9 +8,9 @@ import {
 } from "../../interaction/interaction.types";
 import { Clock, Scene } from "three";
 import { AnimationManager } from "../../animation/animation-manager/AnimationManager";
-import { AnimationConfig } from "../../animation/animation.types";
+import { AnimationConfig } from "../../types/animation.types";
 import { ENGINE_EVENTS } from "../../engine/engine.consts";
-import { SceneProperties } from "../../config/config.types";
+import { SceneProperties } from "../../types/config.types";
 import { SceneLight } from "../../config/lights/lights.types";
 import { OrbitControl } from "../../types";
 

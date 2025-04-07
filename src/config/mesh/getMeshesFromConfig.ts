@@ -6,7 +6,7 @@ import { addMaterials } from "./mesh-materials/addMaterials";
 import { setUpMeshes } from "./mesh-setup/setUpMeshes";
 import { setUpRandomizedMeshConfigs } from "./randomized/setUpRandomizedMeshConfigs";
 import { Asset } from "../../types";
-import { SceneConfig } from "../config.types";
+import { SceneConfig } from "../../types/config.types";
 import { transformGeometry } from "./geometry/transform-geometries/transformGeometries";
 import { ShaderAttributeConfig } from "../material/shaders/build-shader/types";
 import { multipleMeshes } from "./multiple-meshes/multipleMeshes";

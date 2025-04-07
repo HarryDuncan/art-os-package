@@ -1,5 +1,8 @@
 import { AdvancedMeshConfig } from "./advancedMesh.types";
-import { MeshComponentConfig, MeshTransformConfig } from "../../config.types";
+import {
+  MeshComponentConfig,
+  MeshTransformConfig,
+} from "../../../types/config.types";
 import { Group, Material, Object3D } from "three";
 import { ShaderAttributeConfig } from "../../material/shaders/build-shader/types";
 import {

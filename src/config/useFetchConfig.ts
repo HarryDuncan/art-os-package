@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { SceneConfig } from "./config.types";
+import { SceneConfig } from "../types/config.types";
 import { useAssetLocation } from "../compat/asset-location/useAssetLocation";
 
 export const useFetchConfig = (filePath: string | null) => {

@@ -1,18 +1,19 @@
 import { BufferGeometry, Material, Mesh, Points } from "three";
 import { MeshConfig } from "../../../assets/geometry/geometry.types";
-import { CustomMesh } from "../mesh.types";
+import { CustomMesh } from "../../../types/mesh.types";
 import { Position3d } from "../../../types/position.types";
 import { MESH_TYPES } from "../../../consts/mesh.consts";
 
 export const setUpMeshes = (meshConfigs: MeshConfig[] = []) =>
   meshConfigs.flatMap(
     (
-      { geometry, name, material, meshType, position, rotation, groupId },
+      { geometry, assetId, material, meshType, position, rotation, groupId },
       index
     ) => {
       const mesh = getMesh(geometry, material, meshType);
+      const meshName = `${assetId}-mesh-${index}`;
       if (!mesh) return [];
-      formatMesh(mesh, name ?? `mesh-${index}`, position, rotation, groupId);
+      formatMesh(mesh, meshName, position, rotation, groupId);
       return mesh;
     }
   );

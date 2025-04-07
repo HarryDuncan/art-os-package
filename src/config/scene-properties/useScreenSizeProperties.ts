@@ -3,7 +3,7 @@ import {
   MeshComponentConfig,
   SceneConfig,
   ThreeJSConfig,
-} from "../config.types";
+} from "../../types/config.types";
 import { useMemo } from "react";
 import { GeometryConfig } from "../../assets/geometry/geometry.types";
 

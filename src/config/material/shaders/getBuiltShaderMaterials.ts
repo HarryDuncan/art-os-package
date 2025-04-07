@@ -1,5 +1,5 @@
 import { Asset } from "../../../types";
-import { SceneConfig } from "../../config.types";
+import { SceneConfig } from "../../../types/config.types";
 import { DoubleSide, ShaderMaterial } from "three";
 import { buildShader } from "./build-shader/buildShader";
 import { formatBuiltShaderConfig } from "./shader-formatting/formatBuiltShaderConfig";
@@ -12,13 +12,13 @@ export const getBuiltShaderMaterials = (
   config: SceneConfig,
   assets: Asset[]
 ) => {
-  const { globalMaterialConfigs } = config;
-  if (!globalMaterialConfigs)
+  const { sceneMaterialConfigs } = config;
+  if (!sceneMaterialConfigs)
     return {
       attributeConfigs: [],
       builtShaders: [],
     };
-  const builtShadersAndAttributes = globalMaterialConfigs.flatMap(
+  const builtShadersAndAttributes = sceneMaterialConfigs.flatMap(
     (materialConfig) => {
       if (materialConfig.materialType === MATERIAL_TYPES.BUILT_SHADER) {
         const { builtShaderConfig, assetMapping } = materialConfig;

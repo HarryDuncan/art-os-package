@@ -1,10 +1,10 @@
-import { AnimationConfig } from "../animation/animation.types";
-import { MaterialConfig } from "../config/material/materials.types";
+import { AnimationConfig } from "./animation.types";
+import { MaterialConfig } from "./materials.types";
 import { InteractionConfig } from "../interaction/interaction.types";
-import { Asset } from "../types";
+import { Asset } from ".";
 import { GeometryConfig } from "../assets/geometry/geometry.types";
 import { CameraConfig } from "../config/three-js/use-camera/camera.types";
-import { MESH_TRANSFORM } from "./../consts";
+import { MESH_TRANSFORM } from "../consts";
 import { ScreenType } from "../compat/window-state/types";
 import {
   Object3D,
@@ -13,17 +13,17 @@ import {
   Texture,
 } from "three";
 import { RendererParams } from "../hooks/use-three-js/renderer/renderer.types";
-import { Position3d } from "../types/position.types";
-import { AttributeConfig } from "./material/shaders/build-shader/types";
-import { SceneConfigType } from "./config.constants";
-import { AdvancedMeshConfig } from "./mesh/advanced-mesh/advancedMesh.types";
+import { Position3d } from "./position.types";
+import { AttributeConfig } from "../config/material/shaders/build-shader/types";
+import { SceneConfigType } from "../consts/config.constants";
+import { AdvancedMeshConfig } from "../config/mesh/advanced-mesh/advancedMesh.types";
 import { GLTF } from "three/examples/jsm/loaders/GLTFLoader.js";
 import {
   ComponentProps,
   SceneElementType,
-} from "./components/threeJsComponents.types";
-import { LightConfigs, SceneLight } from "./lights/lights.types";
-import { CustomGeometryConfig } from "./mesh/mesh.types";
+} from "../config/components/threeJsComponents.types";
+import { LightConfigs, SceneLight } from "../config/lights/lights.types";
+import { CustomGeometryConfig } from "./mesh.types";
 
 export type MultipleConfig = {
   instanceCount: number;
@@ -44,8 +44,10 @@ export type SceneComponentConfig = {
   componentProps: ComponentProps;
   materialId?: string;
 };
+
 export type MeshConfig = {
   id: string;
+  meshType: string;
   materialId?: string;
   rotation?: Partial<Position3d>;
   position?: Partial<Position3d>;
@@ -53,11 +55,11 @@ export type MeshConfig = {
   randomizationConfig?: RandomizationConfig;
   geometryConfig?: GeometryConfig;
   groupId?: string;
-  meshType: string;
-  customGeometryConfig: CustomGeometryConfig;
+  customGeometryConfig?: CustomGeometryConfig;
 };
+
 export type MeshComponentConfig = MeshConfig & {
-  geometryId?: string;
+  assetId: string;
 };
 
 export type ControlConfig = {
@@ -133,7 +135,7 @@ export type SceneConfig = {
   meshComponentConfigs: MeshComponentConfig[];
   advancedMeshConfigs?: AdvancedMeshConfig[];
   meshTransforms?: MeshTransformConfig[];
-  globalMaterialConfigs: MaterialConfig[];
+  sceneMaterialConfigs: MaterialConfig[];
   animationConfig: AnimationConfig[];
   lightConfig: LightConfigs[];
   sceneComponentConfigs?: SceneComponentConfig[];

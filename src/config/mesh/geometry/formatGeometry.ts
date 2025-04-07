@@ -5,14 +5,14 @@ import {
   GeometryConfig,
 } from "../../../assets/geometry/geometry.types";
 import { DEFAULT_MODEL3D_CONFIG } from "../../../assets/assets.constants";
-import { MeshComponentConfig } from "../../config.types";
+import { MeshComponentConfig } from "../../../types/config.types";
 import { getAssetGeometries } from "../../../config/mesh/geometry/getAssetGeometries";
 import {
   formatPositionFromConfig,
   formatRotationFromConfig,
 } from "../../../utils/three-dimension-space/formatFromConfig";
 import { setUpCustomBufferGeometry } from "./custom-buffer-geometry/setupCustomBufferGeometry";
-import { CustomBufferGeometryType } from "../mesh.types";
+import { CustomBufferGeometryType } from "../../../types/mesh.types";
 import { CUSTOM_GEOMETRY_TYPES, MESH_TYPES } from "../../../consts/mesh.consts";
 
 export const formatGeometry = (
@@ -22,10 +22,7 @@ export const formatGeometry = (
   const geometries = getAssetGeometries(loadedAssets);
 
   return meshComponentConfigs.flatMap((meshConfig) => {
-    const geometry = getGeometryForMeshConfig(
-      geometries,
-      meshConfig.geometryId ?? ""
-    );
+    const geometry = getGeometryForMeshConfig(geometries, meshConfig.assetId);
     if (!geometry?.geometry) {
       return [];
     }
@@ -39,7 +36,7 @@ export const formatGeometry = (
 
     return {
       geometry: configuredGeometry,
-      name: meshConfig.id,
+      assetId: meshConfig.assetId,
       meshType: meshConfig.meshType ?? MESH_TYPES.MESH,
       position,
       rotation,
@@ -77,15 +74,14 @@ const getGeometryForMeshConfig = (
 
     return { geometry: customGeometry };
   }
+
   const meshGeometry = geometries.find(
-    (geometry) =>
-      // @ts-ignore
-      geometry.name === geometryId || geometry.assetId === geometryId
+    (geometry) => geometry.assetId === geometryId
   );
+
   if (!meshGeometry) {
     console.warn(
-      `no geometry found for ${geometryId} this mesh will not be rendered
-        geometry names ${geometries.map(({ name }) => name)}`
+      `no geometry found for ${geometryId} this mesh will not be rendered`
     );
   }
 

@@ -1,4 +1,4 @@
-import { ControlConfig, ThreeJSConfig } from "../config.types";
+import { ControlConfig, ThreeJSConfig } from "../../types/config.types";
 import { useCallback } from "react";
 import { useSetUpCamera } from "./use-camera/useCamera";
 

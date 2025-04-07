@@ -1,4 +1,4 @@
-import { SceneConfig } from "../config.types";
+import { SceneConfig } from "../../types/config.types";
 import { materialConfigToMaterial } from "./materialConfigToMaterial";
 import { Material } from "three";
 import {
@@ -7,9 +7,9 @@ import {
 } from "./../../consts/materials.consts";
 
 export const getMaterialsFromConfig = (config: SceneConfig): Material[] => {
-  const { globalMaterialConfigs } = config;
-  if (globalMaterialConfigs) {
-    return globalMaterialConfigs.flatMap((materialConfig) => {
+  const { sceneMaterialConfigs } = config;
+  if (sceneMaterialConfigs) {
+    return sceneMaterialConfigs.flatMap((materialConfig) => {
       return !SHADER_MATERIALS.includes(materialConfig.materialType) &&
         !ASSET_MAPPED_MATERIALS.includes(materialConfig.materialType)
         ? materialConfigToMaterial(materialConfig)

@@ -19,7 +19,6 @@ export { AppendedNodes };
 export { useKeyListener };
 export { InteractiveScene };
 export { startSceneElementAnimations };
-export * from "./animation/animation.types";
+
 export * from "./types";
-export * from "./config/config.types";
-export * from "./node/node.types";
+export * from "./consts";

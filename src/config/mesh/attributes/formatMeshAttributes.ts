@@ -1,4 +1,4 @@
-import { MeshTransformConfig } from "../../config.types";
+import { MeshTransformConfig } from "../../../types/config.types";
 import { ShaderAttributeConfig } from "../../material/shaders/build-shader/types";
 import { MESH_TRANSFORM } from "../../../consts/mesh.consts";
 

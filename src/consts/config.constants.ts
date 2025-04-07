@@ -2,7 +2,7 @@ export const DEFAULT_CONFIG = {
   threeJsConfig: {},
   assets: [],
   meshComponentConfigs: [],
-  globalMaterialConfigs: [],
+  sceneMaterialConfigs: [],
   animationConfig: [],
   lightConfig: [],
   sceneComponentConfigs: [],

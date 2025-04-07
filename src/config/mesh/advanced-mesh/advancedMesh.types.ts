@@ -1,4 +1,4 @@
-import { MeshConfig } from "../../config.types";
+import { MeshConfig } from "../../../types/config.types";
 
 export type AdvancedMeshConfig = MeshConfig & {
   id: string;

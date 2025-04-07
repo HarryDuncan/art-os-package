@@ -3,7 +3,7 @@ import {
   FormattedGeometry,
   MeshConfig,
 } from "../../../assets/geometry/geometry.types";
-import { MeshComponentConfig } from "../../config.types";
+import { MeshComponentConfig } from "../../../types/config.types";
 import { DEFAULT_MATERIAL } from "../../../consts/materials.consts";
 
 export const addMaterials = (
@@ -13,10 +13,9 @@ export const addMaterials = (
 ): MeshConfig[] => {
   return formattedGeometries.map((formattedGeometry) => {
     const meshConfig = meshComponentConfigs.find(
-      (config) => formattedGeometry.name?.indexOf(config.id) !== -1
+      (config) => formattedGeometry.assetId?.indexOf(config.assetId) !== -1
     );
-
-    const material = setUpMaterial(formattedGeometry, materials, meshConfig);
+    const material = setUpMaterial(materials, meshConfig);
     return {
       ...formattedGeometry,
       material,
@@ -25,11 +24,10 @@ export const addMaterials = (
 };
 
 const setUpMaterial = (
-  formattedGeometry: FormattedGeometry,
   globalMaterials: Material[],
   config?: MeshComponentConfig
 ): Material => {
-  const { materialId } = config ?? {};
+  const { materialId, id } = config ?? {};
   if (materialId) {
     const selectedMaterial = globalMaterials.find(
       (material) => String(material.name) === String(materialId)
@@ -37,11 +35,9 @@ const setUpMaterial = (
     if (selectedMaterial) {
       return selectedMaterial;
     }
-    console.warn(
-      `could not select material by id ${materialId} for ${formattedGeometry.name}`
-    );
+    console.warn(`Could not assign ${materialId} material to mesh:${id}`);
     return DEFAULT_MATERIAL;
   }
-  console.warn(`material not linked for ${formattedGeometry.name}`);
+  console.warn(`Could not assign ${materialId} material to mesh:${id}`);
   return DEFAULT_MATERIAL;
 };

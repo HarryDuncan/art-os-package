@@ -1,5 +1,5 @@
 import { Material } from "three";
-import { SceneConfig } from "../config.types";
+import { SceneConfig } from "../../types/config.types";
 import { addMaterialsToComponents } from "./addMaterialsToComponents";
 import { getSceneComponents } from "./getSceneComponentsFromConfig";
 

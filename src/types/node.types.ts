@@ -3,8 +3,8 @@ import {
   InteractiveSceneFunctions,
   SceneInteraction,
 } from "../components/interactive-scene/InteractiveScene";
-import { SceneConfig, SceneData } from "../config/config.types";
-import { AppendedNodesConfig } from "./appended-nodes/appendedNodes.types";
+import { SceneConfig, SceneData } from "./config.types";
+import { AppendedNodesConfig } from "../node/appended-nodes/appendedNodes.types";
 import { ReactNode } from "react";
 
 export interface SceneNodeProps {

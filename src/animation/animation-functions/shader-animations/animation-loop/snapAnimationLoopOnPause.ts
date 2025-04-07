@@ -1,4 +1,4 @@
-import { ShaderMeshObject } from "../../../../config/mesh/mesh.types";
+import { ShaderMeshObject } from "../../../../types/mesh.types";
 import { updateObjectUniformByKey } from "../uniforms/updateObjectUniformByKey";
 import {
   ANIMATION_LOOP_KEYPOINTS,

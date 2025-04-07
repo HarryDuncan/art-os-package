@@ -5,10 +5,10 @@ import {
   SceneInteraction,
 } from "./InteractiveScene";
 import { EventConfig } from "../../interaction/interaction.types";
-import { AnimationConfig } from "../../animation/animation.types";
+import { AnimationConfig } from "../../types/animation.types";
 import { Object3D } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
-import { SceneProperties } from "../../config/config.types";
+import { SceneProperties } from "../../types/config.types";
 import { setSceneProperties } from "../../utils/scene/setSceneProperties";
 import { GLTF } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { SceneLight } from "../../config/lights/lights.types";
