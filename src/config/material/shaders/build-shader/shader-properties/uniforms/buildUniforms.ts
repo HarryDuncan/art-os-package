@@ -1,15 +1,19 @@
-import { ShaderPropertyTypes } from "../../constants/buildShader.consts";
 import {
-  DefaultUniform,
-  UniformConfig,
-  UniformObject,
-  UniformValueConfig,
-} from "../../types";
+  DEFAULT_UNIFORMS,
+  SHADER_PROPERTY_TYPES,
+  SHADER_PROPERTY_VALUE_TYPES,
+} from "../../../../../../consts/materials/shader.consts";
 import { createDeclarationString } from "../../helpers/createDeclarationString";
 import { setUpCustomPropertyValues } from "../../helpers/getShaderPropertyValues";
 import { getResolution } from "./helpers/getResolution";
 import { UNIFORM_DECLARATION } from "./uniforms.consts";
-import { DEFAULT_UNIFORMS } from "../../constants";
+
+import {
+  UniformConfig,
+  DefaultUniform,
+  UniformObject,
+  UniformValueConfig,
+} from "../../../../../../types/materials/shaders/buildShader.types";
 
 export const buildUniforms = (uniformConfig: UniformConfig) => {
   const { defaultUniforms, defaultStrings } = setUpDefaultUniforms(
@@ -31,17 +35,18 @@ const setUpDefaultUniforms = (uniformConfig: DefaultUniform[]) => {
   const defaultUniforms: UniformObject = { uTime: { value: 0.0 } };
   const defaultStrings = [`uniform float uTime;`];
   uniformConfig.forEach((uniformKey) => {
-    const defaultUniform = DEFAULT_UNIFORMS[uniformKey];
+    const defaultUniform =
+      DEFAULT_UNIFORMS[uniformKey as keyof typeof DEFAULT_UNIFORMS];
     if (!defaultUniform) {
-      console.warn(`uniform configuration not set for ${uniformKey}`);
+      console.warn(`uniform configuration not set for ${String(uniformKey)}`);
     } else {
       const uniformString = createDeclarationString(
-        ShaderPropertyTypes.UNIFORM,
-        defaultUniform.valueType,
-        uniformKey
+        SHADER_PROPERTY_TYPES.UNIFORM as keyof typeof SHADER_PROPERTY_TYPES,
+        defaultUniform.valueType as keyof typeof SHADER_PROPERTY_VALUE_TYPES,
+        String(uniformKey)
       );
-      const uniformValue = getDefaultUniformValue(uniformKey);
-      defaultUniforms[uniformKey] = { value: uniformValue };
+      const uniformValue = getDefaultUniformValue(String(uniformKey));
+      defaultUniforms[String(uniformKey)] = { value: uniformValue };
       defaultStrings.push(uniformString);
     }
   });
@@ -51,7 +56,7 @@ const setUpDefaultUniforms = (uniformConfig: DefaultUniform[]) => {
 const setUpCustom = (config: UniformValueConfig[] = []) => {
   const { customProperties, customStrings } = setUpCustomPropertyValues(
     config,
-    ShaderPropertyTypes.UNIFORM as ShaderPropertyTypes
+    SHADER_PROPERTY_TYPES.UNIFORM as keyof typeof SHADER_PROPERTY_TYPES
   );
   return { customUniforms: customProperties, customStrings };
 };

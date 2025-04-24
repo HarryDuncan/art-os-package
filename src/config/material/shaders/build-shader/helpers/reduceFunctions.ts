@@ -1,4 +1,4 @@
-import { ShaderFunction } from "../types";
+import { ShaderFunction } from "../../../../../types/materials/shaders/buildShader.types";
 
 interface UniqueFunction {
   [key: string]: string;

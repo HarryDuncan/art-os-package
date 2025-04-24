@@ -1,5 +1,6 @@
-import { ShaderPropertyValueTypes } from "../../../constants/buildShader.consts";
-import { UniformConfig } from "../../../types";
+import { UniformConfig } from "../../../../../../../types/materials/shaders/buildShader.types";
+import { SHADER_PROPERTY_VALUE_TYPES } from "../../../../../../../consts/materials/shader.consts";
+
 import { simplePerlinNoise } from "../../../shader-properties/functions/noise/perlinNoise";
 import { VARYING_TYPES } from "../../../shader-properties/varyings/varyings.consts";
 
@@ -12,22 +13,22 @@ export const VANISH_UNIFORMS = {
   customUniforms: [
     {
       id: "uNumberOfRings",
-      valueType: ShaderPropertyValueTypes.FLOAT,
+      valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
       value: 100,
     },
     {
       id: "uSpread",
-      valueType: ShaderPropertyValueTypes.FLOAT,
+      valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
       value: 0.772,
     },
     {
       id: "uNoise",
-      valueType: ShaderPropertyValueTypes.FLOAT,
+      valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
       value: 0.18,
     },
     {
       id: "uDisplacement",
-      valueType: ShaderPropertyValueTypes.FLOAT,
+      valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
       value: 22.0,
     },
   ],
@@ -37,12 +38,12 @@ export const VANISH_VARYINGS = [
   {
     id: "vPosition",
     varyingType: VARYING_TYPES.DEFAULT,
-    valueType: ShaderPropertyValueTypes.VEC3,
+    valueType: SHADER_PROPERTY_VALUE_TYPES.VEC3,
   },
   {
     id: "vNormal",
     varyingType: VARYING_TYPES.DEFAULT,
-    valueType: ShaderPropertyValueTypes.VEC3,
+    valueType: SHADER_PROPERTY_VALUE_TYPES.VEC3,
   },
 ];
 

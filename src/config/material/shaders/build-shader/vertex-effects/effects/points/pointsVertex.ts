@@ -1,4 +1,3 @@
-import { AttributeConfig, PointsEffectProps } from "../../../types";
 import {
   DEFAULT_POINT_EFFECT_CONFIG,
   POINTS_ATTRIBUTES,
@@ -9,6 +8,8 @@ import {
 import { formatVertexParameters } from "../../../helpers/formatVertexParameters";
 import { VertexEffectData } from "../../vertexEffects.types";
 import { pointsTransform } from "./pointsTransform";
+import { AttributeConfig } from "../../../../../../../types/materials/shaders/buildShader.types";
+import { PointsEffectProps } from "../../../../../../../types/materials/shaders/vertexShader.types";
 
 export const pointsVertex = (
   effectProps: Partial<PointsEffectProps> = {}

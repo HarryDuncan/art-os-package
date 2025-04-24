@@ -1,8 +1,8 @@
 import {
-  ExpandEffectProps,
   ShaderFunction,
   VaryingConfig,
-} from "../../../../types";
+} from "../../../../../../../../types/materials/shaders/buildShader.types";
+import { ExpandEffectProps } from "../../../../../../../../types/materials/shaders/vertexShader.types";
 
 export const EXPAND_UNIFORMS = {
   defaultUniforms: ["uCenter"],

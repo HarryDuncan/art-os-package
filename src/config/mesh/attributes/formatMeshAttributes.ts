@@ -1,6 +1,6 @@
 import { MeshTransformConfig } from "../../../types/config.types";
-import { ShaderAttributeConfig } from "../../material/shaders/build-shader/types";
 import { MESH_TRANSFORM } from "../../../consts/mesh.consts";
+import { ShaderAttributeConfig } from "../../../types/materials/shaders/buildShader.types";
 
 export const formatMeshAttributes = (
   meshTransforms: MeshTransformConfig[],
@@ -22,6 +22,7 @@ export const formatMeshAttributes = (
       return [];
     }
   );
+
   const formattedTransforms = meshTransforms.map((transform) => {
     if (transform.materialId) {
       const shaderAttributes = shaderAttributeConfigs.find(

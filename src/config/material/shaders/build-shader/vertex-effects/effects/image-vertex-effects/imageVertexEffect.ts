@@ -1,8 +1,3 @@
-import {
-  AttributeConfig,
-  ImageVertexEffect,
-  ShaderFunction,
-} from "../../../types";
 import { mergeUniformConfigs } from "../../../shader-properties/uniforms/helpers/mergeUniformConfigs";
 import { mergeVaryingConfigs } from "../../../shader-properties/varyings/helpers/mergeVaryingConfigs";
 import { reduceFunctions } from "../../../helpers/reduceFunctions";
@@ -16,6 +11,11 @@ import {
   IMAGE_VERTEX_UNIFORM_CONFIG,
   IMAGE_VERTEX_VARYING_CONFIG,
 } from "./imageVertexEffects.consts";
+import { ImageVertexEffect } from "../../../../../../../types/materials/shaders/vertexShader.types";
+import {
+  ShaderFunction,
+  AttributeConfig,
+} from "../../../../../../../types/materials/shaders/buildShader.types";
 
 export const imageVertexEffect = (effectProps: Partial<ImageVertexEffect>) => {
   const imageVertexEffectProps = formatVertexParameters(

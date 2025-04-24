@@ -1,17 +1,17 @@
 import {
-  BrightnessFragmentEffectProps,
-  ColorFragmentEffectProps,
   FragmentEffectConfig,
   FragmentEffectData,
-  InteractiveFragmentEffect,
-  MaterialEffectProps,
   OpacityFragmentEffectProps,
+  ColorFragmentEffectProps,
+  MaterialEffectProps,
+  PointMaterialFragmentEffectProps,
   PhongFragmentEffectProps,
   PhysicalMaterialProps,
-  PointMaterialFragmentEffectProps,
-  TriggeredFragmentEffect,
+  InteractiveFragmentEffect,
   VanishFragmentEffectProps,
-} from "../../types";
+  TriggeredFragmentEffect,
+  BrightnessFragmentEffectProps,
+} from "../../../../../../types/materials/shaders/fragmentShader.types";
 import { FRAGMENT_EFFECT } from "../fragmentEffects.consts";
 import { brightness } from "./brightness/brightness";
 import { color } from "./color/color";

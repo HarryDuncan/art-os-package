@@ -1,5 +1,5 @@
+import { PointTexture } from "../../../../../../../../../types/materials/shaders/fragmentShader.types";
 import { createColorVectorString } from "../../../../../helpers/createColorVectorString";
-import { PointTexture } from "../../../../../types";
 import { FRAG_COLOR_NAME } from "../../../../fragmentEffects.consts";
 
 export const getPointTexture = (

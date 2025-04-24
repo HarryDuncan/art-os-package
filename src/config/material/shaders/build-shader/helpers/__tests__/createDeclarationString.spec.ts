@@ -1,6 +1,6 @@
 import {
-  ShaderPropertyTypes,
-  ShaderPropertyValueTypes,
+  SHADER_PROPERTY_TYPES,
+  SHADER_PROPERTY_VALUE_TYPES,
 } from "../../constants/buildShader.consts";
 import { expect, test, describe } from "vitest";
 import { createDeclarationString } from "../createDeclarationString";
@@ -8,8 +8,8 @@ import { createDeclarationString } from "../createDeclarationString";
 describe("createDeclarationString", () => {
   test("returns correct declaration for uniform", () => {
     const result = createDeclarationString(
-      ShaderPropertyTypes.UNIFORM,
-      ShaderPropertyValueTypes.FLOAT,
+      SHADER_PROPERTY_TYPES.UNIFORM,
+      SHADER_PROPERTY_VALUE_TYPES.FLOAT,
       "uTest"
     );
     const expected = "uniform float uTest;";
@@ -18,8 +18,8 @@ describe("createDeclarationString", () => {
 
   test("returns correct declaration for uniform that is an array of 9", () => {
     const result = createDeclarationString(
-      ShaderPropertyTypes.UNIFORM,
-      ShaderPropertyValueTypes.FLOAT,
+      SHADER_PROPERTY_TYPES.UNIFORM,
+      SHADER_PROPERTY_VALUE_TYPES.FLOAT,
       "uTest",
       10
     );
@@ -29,8 +29,8 @@ describe("createDeclarationString", () => {
 
   test("returns correct declaration for varying", () => {
     const result = createDeclarationString(
-      ShaderPropertyTypes.VARYING,
-      ShaderPropertyValueTypes.FLOAT,
+      SHADER_PROPERTY_TYPES.VARYING,
+      SHADER_PROPERTY_VALUE_TYPES.FLOAT,
       "uTest"
     );
     const expected = "varying float uTest;";
@@ -39,8 +39,8 @@ describe("createDeclarationString", () => {
 
   test("returns correct declaration for attribute", () => {
     const result = createDeclarationString(
-      ShaderPropertyTypes.ATTRIBUTE,
-      ShaderPropertyValueTypes.FLOAT,
+      SHADER_PROPERTY_TYPES.ATTRIBUTE,
+      SHADER_PROPERTY_VALUE_TYPES.FLOAT,
       "uTest"
     );
     const expected = "attribute float uTest;";

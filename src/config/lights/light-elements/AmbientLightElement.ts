@@ -1,7 +1,9 @@
 import { AmbientLight as ThreeAmbientLight } from "three";
-import { AmbientLightConfig } from "../lights.types";
-import { DEFAULT_LIGHT_COLOR } from "../lights.consts";
-import { DEFAULT_LIGHT_INTENSITY } from "../lights.default";
+import {
+  DEFAULT_LIGHT_COLOR,
+  DEFAULT_LIGHT_INTENSITY,
+} from "../../../consts/lights/lights";
+import { AmbientLightConfig } from "../../../types";
 
 export interface AmbientLightParameters extends AmbientLightConfig {
   name: string;

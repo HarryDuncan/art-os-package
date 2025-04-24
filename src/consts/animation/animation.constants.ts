@@ -8,10 +8,9 @@ export const OBJECT_UPDATE_PROPERTY = {
   POSITION: "position",
   ROTATION: "rotation",
 };
-export const ANIMATION_FUNCTION_TYPES = {
+export const ANIMATION_RUN_STYLES = {
   CHAIN: "CHAIN",
   ALL: "ALL",
-  TARGET: "TARGET",
   UTIME: "UTIME",
   RIGGED: "RIGGED",
 };
@@ -24,6 +23,7 @@ export const ANIMATION_TYPES = {
   FALL: "FALL",
   TIME: "TIME",
   MOVE: "MOVE",
+  NONE: "NONE",
 };
 
 export const GENERIC_TARGET_IDENTIFIERS = {

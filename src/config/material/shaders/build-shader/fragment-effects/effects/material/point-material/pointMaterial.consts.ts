@@ -1,8 +1,8 @@
-import { ShaderPropertyValueTypes } from "../../../../constants";
+import { VaryingConfig } from "../../../../../../../../types/materials/shaders/buildShader.types";
+import { SHADER_PROPERTY_VALUE_TYPES } from "../../../../../../../../consts/materials/shader.consts";
 import { VARYING_TYPES } from "../../../../shader-properties/varyings/varyings.consts";
-import { VaryingConfig } from "../../../../types";
 
-export const DEFAULT_POINT_MATERIAL_PROPS = {
+export const DEFAULT_FRAG_POINT_PROPS = {
   pointDisplayPercentage: 0.5,
   pointTextures: [
     { id: "uTexture1", pointColor: "#ff1205" },
@@ -16,21 +16,21 @@ export const POINT_MATERIAL_VARYINGS = [
     id: "vPointDisplay",
     varyingType: VARYING_TYPES.ATTRIBUTE,
     attributeKey: "pointDisplay",
-    valueType: ShaderPropertyValueTypes.FLOAT,
+    valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
   },
   {
     id: "vPointType",
     varyingType: VARYING_TYPES.ATTRIBUTE,
     attributeKey: "pointType",
-    valueType: ShaderPropertyValueTypes.FLOAT,
+    valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
   },
 ] as VaryingConfig[];
 
 export const POINT_MATERIAL_FUNCTIONS = [];
 
 export const POINT_MATERIAL_ATTRIBUTES = [
-  { id: "pointType", valueType: ShaderPropertyValueTypes.FLOAT },
-  { id: "pointDisplay", valueType: ShaderPropertyValueTypes.FLOAT },
+  { id: "pointType", valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT },
+  { id: "pointDisplay", valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT },
 ];
 
 export const POINT_MATERIAL_UNIFORMS = {
@@ -38,7 +38,8 @@ export const POINT_MATERIAL_UNIFORMS = {
   customUniforms: [],
 };
 
-const POINT_COLOR_EFFECTS = {
+export const POINT_COLOR_EFFECTS = {
+  COLOR: "COLOR",
   PIXEL_COLOR: "PIXEL_COLOR",
   OVERLAY_COLOR: "OVERLAY_COLOR",
   MATCAP: "MATCAP",

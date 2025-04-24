@@ -1,6 +1,6 @@
+import { DistortionEffectProps } from "../../../../../../../../types/materials/shaders/vertexShader.types";
 import { vertexEffectToEffectData } from "../../../../helpers/vertexEffectToEffectData";
-import { DistortionEffectProps } from "../../../../types";
-import { DISTORTION_TYPES } from "../../../vertexEffects.consts";
+import { DISTORTION_TYPES } from "../../../../../../../../consts/materials/vertexEffects.consts";
 import { flexyTwister } from "./flexy-twister/flexyTwister";
 import { stretch } from "./stretch/stretch";
 import { twistTransformation } from "./twist/twistTransformation";

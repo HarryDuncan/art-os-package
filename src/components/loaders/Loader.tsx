@@ -29,7 +29,7 @@ export const Loader = ({
     }
   }, [loaderMinTime]);
 
-  if (status === PROCESS_STATUS.RUNNING && !shouldRender) return null;
+  if (status === PROCESS_STATUS.RUNNING) return null;
   if (loaderComponent) {
     return <>{loaderComponent}</>;
   }

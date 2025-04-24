@@ -1,5 +1,5 @@
+import { FragmentEffectData } from "../../../../../types/materials/shaders/fragmentShader.types";
 import { EMPTY_UNIFORM_CONFIG } from "../shader-properties/uniforms/uniforms.consts";
-import { FragmentEffectData } from "../types";
 
 export const fragmentEffectToEffectData = (
   effect: Partial<FragmentEffectData>
@@ -13,7 +13,7 @@ export const fragmentEffectToEffectData = (
   } = effect;
   return {
     effectAttributes: attributeConfig ?? [],
-    effectTransform: transformation,
+    effectTransform: transformation ?? "",
     effectRequiredFunctions: requiredFunctions ?? [],
     effectUniforms: uniformConfig ?? EMPTY_UNIFORM_CONFIG,
     effectVaryings: varyingConfig ?? [],

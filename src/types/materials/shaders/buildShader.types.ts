@@ -1,31 +1,31 @@
-import { Position3d } from "../../../../../types/position.types";
+import { Position3d } from "../../position.types";
 import {
-  POINT_PARENTS,
-  ShaderPropertyValueTypes,
-} from "../constants/buildShader.consts";
-import { VARYING_TYPES } from "../shader-properties/varyings/varyings.consts";
+  DEFAULT_UNIFORMS,
+  SHADER_PROPERTY_VALUE_TYPES,
+} from "../../../consts/materials/shader.consts";
+import { VARYING_TYPES } from "../../../config/material/shaders/build-shader/shader-properties/varyings/varyings.consts";
 import {
   INTERACTION_VERTEX_EFFECT,
   TransformTypes,
-} from "../vertex-effects/vertexEffects.consts";
+  VERTEX_EFFECTS,
+} from "../../../consts/materials/vertexEffects.consts";
 import {
   FragmentEffectConfig,
   InteractiveFragmentEffect,
   TriggeredFragmentEffect,
 } from "./fragmentShader.types";
+import { POINT_PARENTS } from "../../../config/material/shaders/build-shader/constants";
+import { AssetToUniformMappingConfig, AssetType } from "../..";
 import {
-  DisplacementType,
   InteractiveVertexEffectProps,
   TriggeredVertexEffect,
   VertexEffectProps,
 } from "./vertexShader.types";
-import { DEFAULT_UNIFORMS } from "../constants";
-import { AssetType } from "../../../../../types";
 
 // GENERAL TYPES
 export type ShaderPropertyConfig = {
   id: string;
-  valueType: ShaderPropertyValueTypes;
+  valueType: keyof typeof SHADER_PROPERTY_VALUE_TYPES;
   value?: unknown;
   arrayLength?: number;
   arrayValue?: unknown[];
@@ -37,8 +37,6 @@ export type ShaderFunction = {
   functionDefinition: string;
 };
 
-export type EffectParameters = {};
-
 export type PointParent = keyof typeof POINT_PARENTS;
 
 export type TriggeredEffectProps =
@@ -46,7 +44,7 @@ export type TriggeredEffectProps =
   | TriggeredVertexEffect;
 
 // <--------------------- Interactive ---------------------------------------->
-export type InteractiveEffectProps =
+export type InteractiveEffectParams =
   | InteractiveFragmentEffect
   | InteractiveVertexEffect;
 
@@ -54,13 +52,16 @@ export type InteractiveVertexEffectType =
   keyof typeof INTERACTION_VERTEX_EFFECT;
 
 export type InteractiveVertexEffect = {
-  effectType: InteractiveVertexEffect;
+  effectType: string;
   effectProps: InteractiveVertexEffectProps;
 };
 
 export type VertexEffectConfig = {
-  effectType: DisplacementType;
+  id: string;
+  name?: string;
+  effectType: keyof typeof VERTEX_EFFECTS;
   effectProps: VertexEffectProps;
+  isInteractive?: boolean;
 };
 
 // PRE-TRANSFORMS
@@ -113,10 +114,19 @@ export type DefaultUniform = keyof typeof DEFAULT_UNIFORMS;
 export type UniformObject = {
   [key: string]: { value: unknown } | { value: unknown }[];
 };
-export type UniformValueConfig = ShaderPropertyConfig;
+
+export type UniformValueConfig = ShaderPropertyConfig & {
+  effectIds?: string[];
+};
+
+export type InteractionMappedUniform = UniformValueConfig & {
+  keyPointKey: string;
+};
 export type UniformConfig = {
   defaultUniforms: DefaultUniform[];
   customUniforms?: UniformValueConfig[];
+  mappedAssets?: AssetToUniformMappingConfig[];
+  interactionMappedUniforms?: InteractionMappedUniform[];
 };
 
 export type StructConfig = { id: string; properties: ShaderPropertyConfig[] };
@@ -127,4 +137,13 @@ export type BuiltShaderConfig = {
   varyingConfig?: VaryingConfig[];
   attributeConfig?: AttributeConfig[];
   structConfigs?: StructConfig[];
+};
+
+export type VertexTransformationConfig = {
+  effectName: string;
+  instantiationName: string;
+  instantiationType: keyof typeof SHADER_PROPERTY_VALUE_TYPES;
+  instantiationValue: string;
+  allowedValueTypes: keyof (typeof SHADER_PROPERTY_VALUE_TYPES)[];
+  effectCode: string[];
 };

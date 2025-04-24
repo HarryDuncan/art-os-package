@@ -1,4 +1,4 @@
-import { VERTEX_POINT_NAME } from "../../../vertexEffects.consts";
+import { VERTEX_POINT_NAME } from "../../../../../../../../consts/materials/vertexEffects.consts";
 
 export const alienTransform = () => `
 	float shift = 2.0

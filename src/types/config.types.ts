@@ -1,5 +1,5 @@
 import { AnimationConfig } from "./animation.types";
-import { MaterialConfig } from "./materials.types";
+import { MaterialConfig } from "./materials";
 import { InteractionConfig } from "../interaction/interaction.types";
 import { Asset } from ".";
 import { GeometryConfig } from "../assets/geometry/geometry.types";
@@ -14,7 +14,6 @@ import {
 } from "three";
 import { RendererParams } from "../hooks/use-three-js/renderer/renderer.types";
 import { Position3d } from "./position.types";
-import { AttributeConfig } from "../config/material/shaders/build-shader/types";
 import { SceneConfigType } from "../consts/config.constants";
 import { AdvancedMeshConfig } from "../config/mesh/advanced-mesh/advancedMesh.types";
 import { GLTF } from "three/examples/jsm/loaders/GLTFLoader.js";
@@ -22,8 +21,9 @@ import {
   ComponentProps,
   SceneElementType,
 } from "../config/components/threeJsComponents.types";
-import { LightConfigs, SceneLight } from "../config/lights/lights.types";
+import { LightConfigs, SceneLight } from "./lights";
 import { CustomGeometryConfig } from "./mesh.types";
+import { AttributeConfig } from "./materials/shaders/buildShader.types";
 
 export type MultipleConfig = {
   instanceCount: number;
@@ -47,6 +47,7 @@ export type SceneComponentConfig = {
 
 export type MeshConfig = {
   id: string;
+  name?: string;
   meshType: string;
   materialId?: string;
   rotation?: Partial<Position3d>;
@@ -59,7 +60,8 @@ export type MeshConfig = {
 };
 
 export type MeshComponentConfig = MeshConfig & {
-  assetId: string;
+  geometryType?: string;
+  assetId?: string;
 };
 
 export type ControlConfig = {
@@ -129,8 +131,7 @@ export type SceneConfig = {
   title?: string;
   assetPath?: string;
   description?: string;
-  id?: string;
-  sceneConfigType?: SceneConfigType;
+  threeJsConfig: ThreeJSConfig;
   assets?: Asset[];
   meshComponentConfigs: MeshComponentConfig[];
   advancedMeshConfigs?: AdvancedMeshConfig[];
@@ -140,7 +141,6 @@ export type SceneConfig = {
   lightConfig: LightConfigs[];
   sceneComponentConfigs?: SceneComponentConfig[];
   interactionConfig?: InteractionConfig[];
-  threeJsConfig: ThreeJSConfig;
   scenePropertiesConfig: ScenePropertiesConfig;
   screenSizeAdjustments?: ScreenSizeAdjustmentConfig[];
 };
@@ -172,3 +172,5 @@ export type SceneData = {
   lights: SceneLight[];
   sceneProperties: SceneProperties;
 };
+
+export type { GeometryConfig };

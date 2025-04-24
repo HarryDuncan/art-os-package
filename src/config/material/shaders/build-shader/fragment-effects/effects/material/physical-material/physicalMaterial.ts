@@ -1,4 +1,3 @@
-import { FragmentEffectData, MaterialEffectProps } from "../../../../types";
 import { physicalMaterialTransform } from "./physicalMaterialTransform";
 import {
   PHYSICAL_MATERIAL_REQUIRED_FUNCTIONS,
@@ -6,6 +5,10 @@ import {
   PHYSICAL_MATERIAL_UNIFORM_CONFIG,
   PHYSICAL_MATERIAL_VARYING_CONFIG,
 } from "./physicalMaterial.consts";
+import {
+  MaterialEffectProps,
+  FragmentEffectData,
+} from "../../../../../../../../types/materials/shaders/fragmentShader.types";
 
 export const physicalMaterial = (
   effectProps: Partial<MaterialEffectProps> = {}

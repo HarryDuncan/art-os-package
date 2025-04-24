@@ -1,6 +1,9 @@
-import { UniformConfig, VaryingConfig } from "../../../types";
+import {
+  UniformConfig,
+  VaryingConfig,
+} from "../../../../../../../types/materials/shaders/buildShader.types";
 
-export const DEFAULT_HUE_SHIFT_EFFECT_PROPS = {};
+export const DEFAULT_FRAG_HUE_SHIFT_PROPS = {};
 export const DEFAULT_HUE_SHIFT_FUNCTIONS = [];
 export const DEFAULT_HUE_SHIFT_UNIFORMS = {
   defaultUniforms: [],

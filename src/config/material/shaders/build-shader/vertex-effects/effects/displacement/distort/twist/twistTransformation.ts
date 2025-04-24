@@ -1,4 +1,4 @@
-import { VERTEX_POINT_NAME } from "../../../../vertexEffects.consts";
+import { VERTEX_POINT_NAME } from "../../../../../../../../../consts/materials/vertexEffects.consts";
 import { TWIST_UNIFORM_CONFIG, TWIST_VARYINGS } from "./twist.consts";
 
 export const twistTransformation = (_effectProps: unknown) => {

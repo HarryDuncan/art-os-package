@@ -4,13 +4,13 @@ import {
   capitalizeFirstLetter,
   lowerCaseFirstLetter,
 } from "../../../../../../../../utils/strings/stringUtils";
-import { TransformTypes } from "../../../vertexEffects.consts";
+import { TransformTypes } from "../../../../../../../../consts/materials/vertexEffects.consts";
+import { vertexTranslate } from "../../../../../../../../config/material/shaders/build-shader/shader-properties/functions/translation/translate";
 import {
   PreTransformConfig,
   PreTransformData,
   TranslateTransformProps,
-} from "../../../../types";
-import { vertexTranslate } from "../../../../../../../../config/material/shaders/build-shader/shader-properties/functions/translation/translate";
+} from "../../../../../../../../types/materials/shaders/buildShader.types";
 
 export const preTransforms = (
   preTransformedItems: PreTransformConfig[]

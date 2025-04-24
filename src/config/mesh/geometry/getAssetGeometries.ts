@@ -1,3 +1,4 @@
+import { AssetGeometry } from "../../../assets/geometry/geometry.types";
 import { FILE_TYPES } from "../../../consts";
 import {
   ASSET_TYPES,
@@ -7,7 +8,7 @@ import {
 } from "../../../types";
 import { getFileTypeFromFilename } from "../../../utils/file/file";
 
-export const getAssetGeometries = (assets: Asset[]) =>
+export const getAssetGeometries = (assets: Asset[]): AssetGeometry[] =>
   assets.flatMap((asset) => {
     const geometry = getAssetGeometry(asset);
     return geometry && geometry.length

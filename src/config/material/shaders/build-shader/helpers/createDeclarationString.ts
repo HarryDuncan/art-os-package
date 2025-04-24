@@ -1,12 +1,12 @@
+import { StructConfig } from "../../../../../types/materials/shaders/buildShader.types";
 import {
-  ShaderPropertyTypes,
-  ShaderPropertyValueTypes,
-} from "../constants/buildShader.consts";
-import { StructConfig } from "../types";
+  SHADER_PROPERTY_TYPES,
+  SHADER_PROPERTY_VALUE_TYPES,
+} from "../../../../../consts/materials/shader.consts";
 
 export const createDeclarationString = (
-  propertyType: ShaderPropertyTypes,
-  valueType: ShaderPropertyValueTypes,
+  propertyType: keyof typeof SHADER_PROPERTY_TYPES,
+  valueType: keyof typeof SHADER_PROPERTY_VALUE_TYPES,
   id: string,
   arrayLength?: number,
   structProperties?: StructConfig
@@ -17,17 +17,17 @@ export const createDeclarationString = (
   )} ${id}${arrayLength ? `[${arrayLength}]` : ""};`;
 
 const getValueTypeString = (
-  valueType: ShaderPropertyValueTypes,
+  valueType: keyof typeof SHADER_PROPERTY_VALUE_TYPES,
   structProperties?: StructConfig
 ) => {
   switch (valueType) {
-    case ShaderPropertyValueTypes.STRUCT:
+    case SHADER_PROPERTY_VALUE_TYPES.STRUCT:
       if (structProperties) {
         return structProperties.id;
       }
       console.warn("Struct properties not defined");
       return "";
-    case ShaderPropertyValueTypes.SAMPLER2D:
+    case SHADER_PROPERTY_VALUE_TYPES.SAMPLER2D:
       return "sampler2D";
     default:
       return valueType.toLowerCase();

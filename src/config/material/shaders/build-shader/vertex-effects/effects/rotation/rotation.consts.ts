@@ -1,12 +1,12 @@
 import { AXIS } from "../../../../../../../types/position.types";
-import { ShaderPropertyValueTypes } from "../../../constants/buildShader.consts";
+import { SHADER_PROPERTY_VALUE_TYPES } from "../../../../../../../consts/materials/shader.consts";
 
 export const ROTATION_UNIFORMS = {
   defaultUniforms: [],
   customUniforms: [
     {
       id: "uRotationSpeed",
-      valueType: ShaderPropertyValueTypes.FLOAT,
+      valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
     },
   ],
 };

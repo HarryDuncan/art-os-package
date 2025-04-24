@@ -143,10 +143,10 @@ const getTransformedMeshes = (
   transformedMeshIds: string[]
 ) =>
   formattedGeometries
-    .filter((geometry) => transformedMeshIds.includes(geometry.name ?? ""))
+    .filter((geometry) => transformedMeshIds.includes(geometry.meshId ?? ""))
     .sort((a, b) => {
-      const indexA = transformedMeshIds.indexOf(a.name ?? "");
-      const indexB = transformedMeshIds.indexOf(b.name ?? "");
+      const indexA = transformedMeshIds.indexOf(a.meshId ?? "");
+      const indexB = transformedMeshIds.indexOf(b.meshId ?? "");
       return indexA - indexB;
     });
 

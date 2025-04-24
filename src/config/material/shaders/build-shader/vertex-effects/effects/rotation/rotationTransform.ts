@@ -1,5 +1,4 @@
 import { AXIS, Axis } from "../../../../../../../types/position.types";
-import { RotationEffectProps } from "../../../types";
 import {
   rotateX,
   rotateY,
@@ -11,7 +10,9 @@ import { vertexEffectToEffectData } from "../../../helpers/vertexEffectToEffectD
 import {
   VERTEX_NORMAL_NAME,
   VERTEX_POINT_NAME,
-} from "../../vertexEffects.consts";
+} from "../../../../../../../consts/materials/vertexEffects.consts";
+import { RotationEffectProps } from "../../../../../../../types/materials/shaders/vertexShader.types";
+import { UniformConfig } from "../../../../../../../types";
 
 const getFunctionName = (axis: Axis) => {
   switch (axis) {
@@ -40,7 +41,7 @@ export const rotationTransform = (rotationEffect: RotationEffectProps) => {
   const { uniformConfig, requiredFunctions, transformation } =
     getRotationEffect(rotationEffect);
   return {
-    uniformConfig,
+    uniformConfig: uniformConfig as UniformConfig,
     requiredFunctions,
     transformation,
   };

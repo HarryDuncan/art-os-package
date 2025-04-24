@@ -4,7 +4,7 @@ import { Material } from "three";
 import {
   ASSET_MAPPED_MATERIALS,
   SHADER_MATERIALS,
-} from "./../../consts/materials.consts";
+} from "../../consts/materials/materials.consts";
 
 export const getMaterialsFromConfig = (config: SceneConfig): Material[] => {
   const { sceneMaterialConfigs } = config;

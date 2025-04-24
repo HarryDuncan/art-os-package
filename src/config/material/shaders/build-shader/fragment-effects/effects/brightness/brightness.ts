@@ -1,23 +1,23 @@
 import {
-  FragmentEffectData,
-  BrightnessFragmentEffectProps,
-} from "../../../types";
-import {
   BRIGHTNESS_UNIFORMS,
   BRIGHTNESS_VARYINGS,
   BRIGHTNESS_FUNCTIONS,
   BRIGHTNESS_ATTRIBUTES,
-  DEFAULT_BRIGHTNESS_EFFECT_PARAMS,
+  DEFAULT_FRAG_BRIGHTNESS_PROPS,
 } from "./brightness.consts";
 import { formatFragmentParameters } from "../../../helpers/formatFragmentParameters";
 import { brightnessTransform } from "./brightnessTransform";
+import {
+  BrightnessFragmentEffectProps,
+  FragmentEffectData,
+} from "../../../../../../../types/materials/shaders/fragmentShader.types";
 
 export const brightness = (
   effectProps: Partial<BrightnessFragmentEffectProps>
 ): FragmentEffectData => {
   const formattedEffectParams = formatFragmentParameters(
     effectProps,
-    DEFAULT_BRIGHTNESS_EFFECT_PARAMS as BrightnessFragmentEffectProps
+    DEFAULT_FRAG_BRIGHTNESS_PROPS as BrightnessFragmentEffectProps
   ) as BrightnessFragmentEffectProps;
 
   const uniformConfig = BRIGHTNESS_UNIFORMS;

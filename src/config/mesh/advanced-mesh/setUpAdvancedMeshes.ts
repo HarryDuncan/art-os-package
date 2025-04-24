@@ -4,12 +4,12 @@ import {
   MeshTransformConfig,
 } from "../../../types/config.types";
 import { Group, Material, Object3D } from "three";
-import { ShaderAttributeConfig } from "../../material/shaders/build-shader/types";
 import {
   formatPositionFromConfig,
   formatRotationFromConfig,
 } from "../../../utils/three-dimension-space/formatFromConfig";
 import { getMeshesFromConfig } from "../getMeshesFromConfig";
+import { ShaderAttributeConfig } from "../../../types/materials/shaders/buildShader.types";
 
 export const setUpAdvancedMeshes = async (
   config: AdvancedMeshConfig,

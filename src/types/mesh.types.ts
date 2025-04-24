@@ -1,5 +1,5 @@
 import { BufferGeometry, Material, Mesh, Points } from "three";
-import { ShaderMaterial } from "./materials.types";
+import { ShaderMaterial } from "./materials";
 import { CUSTOM_BUFFER_GEOMETRY_TYPES } from "../consts/mesh.consts";
 
 export type CustomBufferGeometryType =

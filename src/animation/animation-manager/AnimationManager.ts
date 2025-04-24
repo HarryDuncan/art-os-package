@@ -20,14 +20,14 @@ export class AnimationManager {
     animations.forEach((animation) => {
       if (
         this.sceneElementAnimations.findIndex(
-          (setAnimation) => setAnimation.animationId === animation.animationId
+          (setAnimation) => setAnimation.id === animation.id
         ) !== -1
       ) {
         console.warn(
-          `an animation with this animation id ${animation.animationId} already exists`
+          `an animation with this animation id ${animation.id} already exists`
         );
       } else if (
-        animation.targetIdentifier === GENERIC_TARGET_IDENTIFIERS.CAMERA
+        animation.targetIdentifiers.includes(GENERIC_TARGET_IDENTIFIERS.CAMERA)
       ) {
         this.cameraElementAnimations.push({ ...animation, isRunning: false });
       } else {
@@ -36,16 +36,19 @@ export class AnimationManager {
     });
   }
 
-  startAnimation(scene: AnimatedScene, animationId: string) {
+  startAnimation(scene: AnimatedScene, id: string) {
     const animation = this.sceneElementAnimations.find(
-      (configuredAnimation) => configuredAnimation.animationId === animationId
+      (configuredAnimation) => configuredAnimation.id === id
     );
     if (!animation) {
-      console.warn(`animation: ${animationId} has not been initialized`);
+      console.warn(`animation: ${id} has not been initialized`);
     } else if (animation?.isRunning === false) {
-      const initializedConfig = setUpAnimationConfig(animation);
+      const initializedConfig = setUpAnimationConfig(
+        animation.animationType,
+        animation
+      );
       animation.isRunning = true;
-      runAnimation(scene, initializedConfig, animationId);
+      runAnimation(scene, initializedConfig, id);
     }
   }
 
@@ -61,15 +64,18 @@ export class AnimationManager {
     }
 
     if (animation.isRunning === false) {
-      const initializedAnimationConfig = setUpAnimationConfig(animation);
+      const initializedAnimationConfig = setUpAnimationConfig(
+        animation.animationType,
+        animation
+      );
       animation.isRunning = true;
       runCameraAnimation(camera, initializedAnimationConfig);
     }
   }
 
-  stopAnimation(animationId: string) {
+  stopAnimation(id: string) {
     const animation = this.sceneElementAnimations.find(
-      (configuredAnimation) => configuredAnimation.animationId === animationId
+      (configuredAnimation) => configuredAnimation.id === id
     );
     if (animation) {
       animation.isRunning = false;

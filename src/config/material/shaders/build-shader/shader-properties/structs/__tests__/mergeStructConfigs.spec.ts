@@ -3,7 +3,7 @@ import { Vector2, Vector3 } from "three";
 import { expect, test, describe } from "vitest";
 import { buildStruct } from "../buildStructs";
 import { StructConfig } from "../../../types";
-import { ShaderPropertyValueTypes } from "../../../constants";
+import { SHADER_PROPERTY_VALUE_TYPES } from "../../../constants";
 import { mergeStructConfigs } from "../mergeStructConfigs";
 import exp from "constants";
 
@@ -22,11 +22,11 @@ describe("mergeStructConfigs", () => {
         properties: [
           {
             id: "floatProp",
-            valueType: ShaderPropertyValueTypes.FLOAT,
+            valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
           },
           {
             id: "vec2Prop",
-            valueType: ShaderPropertyValueTypes.VEC2,
+            valueType: SHADER_PROPERTY_VALUE_TYPES.VEC2,
           },
         ],
       },
@@ -37,7 +37,7 @@ describe("mergeStructConfigs", () => {
         properties: [
           {
             id: "floatProp",
-            valueType: ShaderPropertyValueTypes.FLOAT,
+            valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
           },
         ],
       },
@@ -48,7 +48,7 @@ describe("mergeStructConfigs", () => {
         properties: [
           {
             id: "floatProp",
-            valueType: ShaderPropertyValueTypes.FLOAT,
+            valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
           },
         ],
       },
@@ -66,7 +66,7 @@ describe("mergeStructConfigs", () => {
         properties: [
           {
             id: "floatProp1",
-            valueType: ShaderPropertyValueTypes.FLOAT,
+            valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
           },
         ],
       },
@@ -77,7 +77,7 @@ describe("mergeStructConfigs", () => {
         properties: [
           {
             id: "floatProp",
-            valueType: ShaderPropertyValueTypes.FLOAT,
+            valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
           },
         ],
       },

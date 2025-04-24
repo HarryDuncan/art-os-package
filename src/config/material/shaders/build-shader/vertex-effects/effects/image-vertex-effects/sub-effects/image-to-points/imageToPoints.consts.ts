@@ -1,5 +1,5 @@
-import { VaryingConfig } from "../../../../../types";
-import { IMAGE_VERTEX_EFFECT } from "../../../../vertexEffects.consts";
+import { VaryingConfig } from "../../../../../../../../../types/materials/shaders/buildShader.types";
+import { IMAGE_VERTEX_EFFECT } from "../../../../../../../../../consts/materials/vertexEffects.consts";
 
 export const DEFAULT_IMAGE_TO_POINTS_EFFECT_PROPS = {
   declareInTransform: true,

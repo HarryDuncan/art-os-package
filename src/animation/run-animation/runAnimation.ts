@@ -3,7 +3,7 @@ import {
   AnimationConfig,
   ShaderAnimationConfig,
 } from "../../types/animation.types";
-import { ANIMATION_FUNCTION_TYPES } from "../../consts/animation/animation.constants";
+import { ANIMATION_RUN_STYLES } from "../../consts/animation/animation.constants";
 import { animateAll } from "./run-functions/animateAll";
 import { chainAnimation } from "./run-functions/chainAnimation";
 import { ShaderMeshObject } from "../../types/mesh.types";
@@ -16,37 +16,40 @@ import { RiggedAnimationConfig } from "../animation-functions/rigged-animation/r
 export const runAnimation = (
   scene: AnimatedScene,
   animationConfig: AnimationConfig,
-  animationId: string
+  id: string
 ) => {
-  const { targetIdentifier, animationFunctionType, animationProperties } =
+  const { targetIdentifiers, runStyle, animationProperties, animationType } =
     animationConfig;
 
-  const animatedObjects = getSceneElementByName(scene, targetIdentifier);
+  const animatedObjects = getSceneElementByName(scene, targetIdentifiers);
   if (!animatedObjects.length) {
     console.warn(
-      `${animationId} can't run. No meshes selected with ${targetIdentifier}`
+      `${id} can't run. No meshes selected with ${targetIdentifiers.map(
+        (id) => `id: ${id}  `
+      )}`
     );
     return;
   }
-  switch (animationFunctionType) {
-    case ANIMATION_FUNCTION_TYPES.CHAIN:
-      chainAnimation(animationProperties, animatedObjects);
+
+  switch (runStyle) {
+    case ANIMATION_RUN_STYLES.CHAIN:
+      chainAnimation(animationType, animationProperties, animatedObjects);
       break;
-    case ANIMATION_FUNCTION_TYPES.UTIME:
+    case ANIMATION_RUN_STYLES.UTIME:
       runShaderAnimations(
         scene,
         animationProperties as ShaderAnimationConfig,
         animatedObjects as ShaderMeshObject[]
       );
       break;
-    case ANIMATION_FUNCTION_TYPES.RIGGED:
+    case ANIMATION_RUN_STYLES.RIGGED:
       runRiggedAnimation(
         animationProperties as RiggedAnimationConfig,
         animatedObjects as Mesh[]
       );
       break;
-    case ANIMATION_FUNCTION_TYPES.ALL:
+    case ANIMATION_RUN_STYLES.ALL:
     default:
-      animateAll(animationProperties, animatedObjects);
+      animateAll(animationType, animationProperties, animatedObjects);
   }
 };

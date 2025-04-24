@@ -1,6 +1,7 @@
 import { BufferGeometry, Vector3 } from "three";
 import { Asset } from "../../../types";
 import {
+  AssetGeometry,
   FormattedGeometry,
   GeometryConfig,
 } from "../../../assets/geometry/geometry.types";
@@ -22,7 +23,11 @@ export const formatGeometry = (
   const geometries = getAssetGeometries(loadedAssets);
 
   return meshComponentConfigs.flatMap((meshConfig) => {
-    const geometry = getGeometryForMeshConfig(geometries, meshConfig.assetId);
+    const geometry = getGeometryForMeshConfig(
+      geometries,
+      meshConfig.geometryType,
+      meshConfig.assetId
+    );
     if (!geometry?.geometry) {
       return [];
     }
@@ -35,6 +40,8 @@ export const formatGeometry = (
     );
 
     return {
+      meshId: meshConfig.id,
+      materialId: meshConfig.materialId,
       geometry: configuredGeometry,
       assetId: meshConfig.assetId,
       meshType: meshConfig.meshType ?? MESH_TYPES.MESH,
@@ -63,25 +70,27 @@ export const configureGeometry = (
 };
 
 const getGeometryForMeshConfig = (
-  geometries: FormattedGeometry[],
-  geometryId: string
+  geometries: AssetGeometry[],
+  geometryType?: string,
+  assetId?: string
 ) => {
-  if (CUSTOM_GEOMETRY_TYPES.includes(geometryId)) {
-    const customGeometry = setUpCustomBufferGeometry(
-      geometryId as CustomBufferGeometryType,
-      {}
-    );
-
-    return { geometry: customGeometry };
+  if (geometryType) {
+    if (CUSTOM_GEOMETRY_TYPES.includes(geometryType)) {
+      const customGeometry = setUpCustomBufferGeometry(
+        geometryType as CustomBufferGeometryType,
+        {}
+      );
+      return { geometry: customGeometry };
+    }
   }
 
   const meshGeometry = geometries.find(
-    (geometry) => geometry.assetId === geometryId
+    (geometry) => geometry.assetId === assetId
   );
 
   if (!meshGeometry) {
     console.warn(
-      `no geometry found for ${geometryId} this mesh will not be rendered`
+      `no geometry found for ${assetId} this mesh will not be rendered`
     );
   }
 

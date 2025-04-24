@@ -10,7 +10,7 @@ import { getAssetMappedMaterials } from "./getAssetMappedMaterials";
 import { getBuiltShaderMaterials } from "./shaders/getBuiltShaderMaterials";
 import { ShaderAttributeConfig } from "./shaders/build-shader/types";
 
-export const formatGlobalMaterials = (
+export const formatSceneMaterials = (
   assets: Asset[],
   config: SceneConfig
 ): { materials: Material[]; attributeConfigs: ShaderAttributeConfig[] } => {
@@ -23,13 +23,13 @@ export const formatGlobalMaterials = (
     config,
     assets
   );
-  const globalMaterials = getMaterialsFromConfig(config);
+  const sceneMaterials = getMaterialsFromConfig(config);
   return {
     materials: [
       ...assetMappedMaterials,
       ...shaderMaterials,
       ...(builtShaders ?? []),
-      ...globalMaterials,
+      ...sceneMaterials,
     ],
     attributeConfigs,
   };

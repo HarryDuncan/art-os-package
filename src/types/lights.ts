@@ -1,10 +1,5 @@
 import { AmbientLight, DirectionalLight, PointLight, Vector3 } from "three";
-
-export const LIGHT_TYPES = {
-  AMBIENT: "AMBIENT",
-  POINT_LIGHT: "POINT_LIGHT",
-  DIRECTIONAL_LIGHT: "DIRECTIONAL_LIGHT",
-};
+import { LIGHT_TYPES } from "../consts";
 
 export type LightType = keyof typeof LIGHT_TYPES;
 

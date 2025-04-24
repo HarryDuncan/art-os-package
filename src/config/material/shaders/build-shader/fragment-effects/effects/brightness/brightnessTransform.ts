@@ -1,4 +1,4 @@
-import { BrightnessFragmentEffectProps } from "../../../types";
+import { BrightnessFragmentEffectProps } from "../../../../../../../types/materials/shaders/fragmentShader.types";
 import { FRAG_COLOR_NAME } from "../../fragmentEffects.consts";
 
 export const brightnessTransform = (

@@ -1,4 +1,3 @@
-import { FragmentEffectData, TriggeredFragmentEffect } from "../../../types";
 import { mergeUniformConfigs } from "../../../shader-properties/uniforms/helpers/mergeUniformConfigs";
 import { mergeVaryingConfigs } from "../../../shader-properties/varyings/helpers/mergeVaryingConfigs";
 import { reduceFunctions } from "../../../helpers/reduceFunctions";
@@ -12,6 +11,10 @@ import {
 } from "./triggeredEffect.consts";
 import { triggeredEffectTransform } from "./triggeredEffectTransform";
 import { formatFragmentParameters } from "../../../helpers/formatFragmentParameters";
+import {
+  TriggeredFragmentEffect,
+  FragmentEffectData,
+} from "../../../../../../../types/materials/shaders/fragmentShader.types";
 
 export const triggeredEffect = (
   effectProps: Partial<TriggeredFragmentEffect>

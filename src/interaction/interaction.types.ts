@@ -8,8 +8,13 @@ import {
 export type InteractionEventBinding = keyof typeof EVENT_BINDING_TYPE;
 
 export type InteractionConfig = {
-  eventKey: string;
+  id: string;
+  name?: string;
+  interactionType: string;
   bindingType?: InteractionEventBinding;
+  eventKey: string;
+  materialIds?: string[];
+  functionType?: string;
 };
 
 export type ExternalInteractionConfig = InteractionConfig & {

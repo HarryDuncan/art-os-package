@@ -1,6 +1,6 @@
 import { expect, test, describe, vi } from "vitest";
 import { brightnessTransform } from "../brightnessTransform";
-import { DEFAULT_BRIGHTNESS_EFFECT_PARAMS } from "../brightness.consts";
+import { DEFAULT_FRAG_BRIGHTNESS_PROPS } from "../brightness.consts";
 import { formatFragmentParameters } from "../../../../helpers/formatFragmentParameters";
 import { BrightnessFragmentEffectProps } from "../../../../types";
 
@@ -10,8 +10,8 @@ const MOCK_POINT = "mockPoint";
 describe("brightnessTransformation", () => {
   test("returns default brightness transformation when default is passed - brightness set via uniform and instatation", () => {
     const formattedEffectParams = formatFragmentParameters(
-      DEFAULT_BRIGHTNESS_EFFECT_PARAMS,
-      DEFAULT_BRIGHTNESS_EFFECT_PARAMS
+      DEFAULT_FRAG_BRIGHTNESS_PROPS,
+      DEFAULT_FRAG_BRIGHTNESS_PROPS
     );
     const { fragmentColorInstantiation, transformation } = brightnessTransform(
       MOCK_FRAG_COLOR_NAME,
@@ -24,8 +24,8 @@ describe("brightnessTransformation", () => {
   });
   test("returns brightness at 0.5 transformation when nothing passed in effectProps", () => {
     const formattedEffectParams = formatFragmentParameters(
-      DEFAULT_BRIGHTNESS_EFFECT_PARAMS,
-      DEFAULT_BRIGHTNESS_EFFECT_PARAMS
+      DEFAULT_FRAG_BRIGHTNESS_PROPS,
+      DEFAULT_FRAG_BRIGHTNESS_PROPS
     );
     const effectParams = {
       ...formattedEffectParams,
@@ -40,8 +40,8 @@ describe("brightnessTransformation", () => {
   });
   test("returns seperate fragmentColorInstantiation that is not declared in the transform ", () => {
     const formattedEffectParams = formatFragmentParameters(
-      DEFAULT_BRIGHTNESS_EFFECT_PARAMS,
-      DEFAULT_BRIGHTNESS_EFFECT_PARAMS
+      DEFAULT_FRAG_BRIGHTNESS_PROPS,
+      DEFAULT_FRAG_BRIGHTNESS_PROPS
     );
     const effectParams = {
       ...formattedEffectParams,

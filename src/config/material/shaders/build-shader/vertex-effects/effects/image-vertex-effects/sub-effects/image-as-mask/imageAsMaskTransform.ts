@@ -1,4 +1,6 @@
-import { ShaderPropertyValueTypes } from "../../../../../constants";
+import { AttributeConfig } from "../../../../../../../../../types/materials/shaders/buildShader.types";
+import { ImageAsMaskEffectProps } from "../../../../../../../../../types/materials/shaders/vertexShader.types";
+import { SHADER_PROPERTY_VALUE_TYPES } from "../../../../../../../../../consts/materials/shader.consts";
 import { createColorVectorString } from "../../../../../helpers/createColorVectorString";
 import {
   rand,
@@ -7,8 +9,7 @@ import {
 import { noise } from "../../../../../shader-properties/functions/noise/noise";
 import { EMPTY_UNIFORM_CONFIG } from "../../../../../shader-properties/uniforms/uniforms.consts";
 import { VARYING_TYPES } from "../../../../../shader-properties/varyings/varyings.consts";
-import { AttributeConfig, ImageAsMaskEffectProps } from "../../../../../types";
-import { VERTEX_POINT_NAME } from "../../../../vertexEffects.consts";
+import { VERTEX_POINT_NAME } from "../../../../../../../../../consts/materials/vertexEffects.consts";
 
 export const imageAsMaskTransform = (
   imageVertexEffectProps: ImageAsMaskEffectProps
@@ -21,23 +22,23 @@ export const imageAsMaskTransform = (
       id: "vUv",
       varyingType: VARYING_TYPES.ATTRIBUTE,
       attributeKey: "uv",
-      valueType: ShaderPropertyValueTypes.VEC2,
+      valueType: SHADER_PROPERTY_VALUE_TYPES.VEC2,
     },
     {
       id: "vPUv",
       varyingType: VARYING_TYPES.CUSTOM,
-      valueType: ShaderPropertyValueTypes.VEC2,
+      valueType: SHADER_PROPERTY_VALUE_TYPES.VEC2,
     },
     {
       id: "vPixelColor",
       varyingType: VARYING_TYPES.CUSTOM,
-      valueType: ShaderPropertyValueTypes.VEC4,
+      valueType: SHADER_PROPERTY_VALUE_TYPES.VEC4,
       value: `colA`,
     },
     {
       id: "vHidePixel",
       varyingType: VARYING_TYPES.CUSTOM,
-      valueType: ShaderPropertyValueTypes.FLOAT,
+      valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
       value: "pixelMask",
     },
   ];
@@ -45,7 +46,7 @@ export const imageAsMaskTransform = (
     effectVaryings.push({
       id: "vOverlayPixelColor",
       varyingType: VARYING_TYPES.CUSTOM,
-      valueType: ShaderPropertyValueTypes.VEC4,
+      valueType: SHADER_PROPERTY_VALUE_TYPES.VEC4,
       value: `overlayColor`,
     });
   }

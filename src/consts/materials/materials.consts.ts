@@ -1,8 +1,7 @@
 import { MeshPhongMaterial } from "three";
+import { EMPTY_UNIFORM_CONFIG } from "../../config/material/shaders/build-shader/shader-properties/uniforms/uniforms.consts";
 
 export const MATERIAL_TYPES = {
-  INTERACTIVE_SHADER: "INTERACTIVE_SHADER",
-  SHADER: "SHADER",
   MATCAP: "MATCAP",
   VIDEO: "VIDEO",
   ENV_MAP: "ENV_MAP",
@@ -10,6 +9,8 @@ export const MATERIAL_TYPES = {
   PHONG: "PHONG",
   MATERIAL: "MATERIAL",
   BUILT_SHADER: "BUILT_SHADER",
+  INTERACTIVE_SHADER: "INTERACTIVE_SHADER",
+  SHADER: "SHADER",
 };
 
 export const SHADER_MATERIALS = [
@@ -30,17 +31,24 @@ export const ENV_MAP_TYPES = {
 
 // DEFAULTS
 
-export const DEFAULT_MATERIAL_CONFIG = {
-  id: "default-material",
-  materialParams: {
-    color: "#111111",
-    specular: "#bfbfbf",
-    shininess: 50,
-  },
-  materialType: "PHONG",
-};
-
 export const DEFAULT_MATERIAL = new MeshPhongMaterial({
   specular: 0x111111,
   shininess: 250,
 });
+
+export const DEFAULT_BUILT_SHADER_CONFIG = {
+  vertexEffectConfigs: [],
+  fragmentEffectConfigs: [],
+  uniformConfig: EMPTY_UNIFORM_CONFIG,
+  varyingConfig: [],
+  attributeConfig: [],
+  structConfigs: [],
+};
+
+export const DEFAULT_PHONG_PROPS = {
+  color: "#111111",
+  emissive: "#bfbfbf",
+  specular: "#bfbfbf",
+  shininess: 50,
+  opacity: 1,
+};

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 // @ts-nocheck
 
-import { ShaderPropertyValueTypes } from "../../../../constants";
+import { SHADER_PROPERTY_VALUE_TYPES } from "../../../../../../../../consts/materials/shader.consts";
 import { fragmentEffectToEffectData } from "../../../../helpers/fragmentEffectToEffectData";
 import { mergeUniformConfigs } from "../../../../shader-properties/uniforms/helpers/mergeUniformConfigs";
 import {
@@ -21,13 +21,14 @@ import { EXTERNAL_POINT_COLOR_EFFECTS } from "./pointMaterial.consts";
 const setUpTextureUniforms = (pointTextures: PointTexture[]) =>
   pointTextures.map(({ id }) => ({
     id,
-    valueType: ShaderPropertyValueTypes.SAMPLER2D,
+    valueType: SHADER_PROPERTY_VALUE_TYPES.SAMPLER2D,
   }));
 
 export const pointMaterialTransform = (
   pointEffectProps: PointMaterialFragmentEffectProps
 ) => {
   const { pointTextures, effectType } = pointEffectProps;
+  console.log(pointEffectProps);
   const defaultEffectUniforms = {
     defaultUniforms: [],
     customUniforms: setUpTextureUniforms(pointTextures),
@@ -70,18 +71,13 @@ export const pointMaterialTransform = (
   };
 };
 
-const POINT_COLOR_EFFECT_FUNCTIONS = {
-  PIXEL_COLOR: getTexturePixelColor,
-  OVERLAY_COLOR: getOverlayPixelColor,
-  MATCAP: matcapMaterial,
-  TEXTURE: textureAsPoints,
-  PHONG: phongMaterial,
-};
 const getEffectData = (pointEffectProps: PointMaterialFragmentEffectProps) => {
   const { effectProps, effectType } = pointEffectProps;
   const effectFunction = POINT_COLOR_EFFECT_FUNCTIONS[effectType];
   if (effectFunction) {
-    return fragmentEffectToEffectData(effectFunction(effectProps));
+    return fragmentEffectToEffectData(
+      effectFunction(effectProps ?? pointEffectProps)
+    );
   }
   return defaultPointMaterial(pointEffectProps);
 };
@@ -94,4 +90,13 @@ const defaultPointMaterial = (
   return fragmentEffectToEffectData({
     transformation,
   });
+};
+
+const POINT_COLOR_EFFECT_FUNCTIONS = {
+  COLOR: defaultPointMaterial,
+  PIXEL_COLOR: getTexturePixelColor,
+  OVERLAY_COLOR: getOverlayPixelColor,
+  MATCAP: matcapMaterial,
+  TEXTURE: textureAsPoints,
+  PHONG: phongMaterial,
 };

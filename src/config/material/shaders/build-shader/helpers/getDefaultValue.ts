@@ -1,13 +1,16 @@
 import { Matrix3, Matrix4, Vector2, Vector3, Vector4 } from "three";
-import { ShaderPropertyValueTypes } from "../constants/buildShader.consts";
-import { ShaderPropertyConfig, StructConfig } from "../types";
+import { SHADER_PROPERTY_VALUE_TYPES } from "../../../../../consts/materials/shader.consts";
+import {
+  ShaderPropertyConfig,
+  StructConfig,
+} from "../../../../../types/materials/shaders/buildShader.types";
 
 export const getDefaultValue = (
-  valueType: ShaderPropertyValueTypes,
+  valueType: keyof typeof SHADER_PROPERTY_VALUE_TYPES,
   structConfigs?: StructConfig
 ) => {
   switch (valueType) {
-    case ShaderPropertyValueTypes.STRUCT:
+    case SHADER_PROPERTY_VALUE_TYPES.STRUCT:
       if (structConfigs) {
         return structConfigs.properties.reduce((acc, curr) => {
           const key = curr.id as keyof ShaderPropertyConfig;
@@ -18,27 +21,27 @@ export const getDefaultValue = (
       }
       return null;
 
-    case ShaderPropertyValueTypes.FLOAT:
+    case SHADER_PROPERTY_VALUE_TYPES.FLOAT:
       return 0.0;
-    case ShaderPropertyValueTypes.INT:
+    case SHADER_PROPERTY_VALUE_TYPES.INT:
       return 0;
-    case ShaderPropertyValueTypes.BOOL:
+    case SHADER_PROPERTY_VALUE_TYPES.BOOL:
       return false;
-    case ShaderPropertyValueTypes.VEC2:
+    case SHADER_PROPERTY_VALUE_TYPES.VEC2:
       return new Vector2(0, 0);
-    case ShaderPropertyValueTypes.VEC3:
+    case SHADER_PROPERTY_VALUE_TYPES.VEC3:
       return new Vector3(0, 0, 0);
-    case ShaderPropertyValueTypes.VEC4:
+    case SHADER_PROPERTY_VALUE_TYPES.VEC4:
       return new Vector4(0, 0, 0, 0);
-    case ShaderPropertyValueTypes.MAT2:
+    case SHADER_PROPERTY_VALUE_TYPES.MAT2:
       return null;
-    case ShaderPropertyValueTypes.MAT3:
+    case SHADER_PROPERTY_VALUE_TYPES.MAT3:
       return new Matrix3();
-    case ShaderPropertyValueTypes.MAT4:
+    case SHADER_PROPERTY_VALUE_TYPES.MAT4:
       return new Matrix4();
-    case ShaderPropertyValueTypes.SAMPLER2D:
+    case SHADER_PROPERTY_VALUE_TYPES.SAMPLER2D:
       return null;
-    case ShaderPropertyValueTypes.SAMPLER_CUBE:
+    case SHADER_PROPERTY_VALUE_TYPES.SAMPLER_CUBE:
       return null;
     default:
       return null; // Handle unsupported types or VOID type here
@@ -46,30 +49,30 @@ export const getDefaultValue = (
 };
 
 export const getDefaultValueAsString = (
-  valueType: ShaderPropertyValueTypes
+  valueType: keyof typeof SHADER_PROPERTY_VALUE_TYPES
 ): string => {
   switch (valueType) {
-    case ShaderPropertyValueTypes.FLOAT:
+    case SHADER_PROPERTY_VALUE_TYPES.FLOAT:
       return `0.0`;
-    case ShaderPropertyValueTypes.INT:
+    case SHADER_PROPERTY_VALUE_TYPES.INT:
       return `0`;
-    case ShaderPropertyValueTypes.BOOL:
+    case SHADER_PROPERTY_VALUE_TYPES.BOOL:
       return `false`;
-    case ShaderPropertyValueTypes.VEC2:
+    case SHADER_PROPERTY_VALUE_TYPES.VEC2:
       return `vec2(0.0, 0.0)`;
-    case ShaderPropertyValueTypes.VEC3:
+    case SHADER_PROPERTY_VALUE_TYPES.VEC3:
       return `vec3(0.0, 0.0, 0.0)`;
-    case ShaderPropertyValueTypes.VEC4:
+    case SHADER_PROPERTY_VALUE_TYPES.VEC4:
       return `vec4(0.0, 0.0, 0.0, 0.0)`;
-    case ShaderPropertyValueTypes.MAT2:
+    case SHADER_PROPERTY_VALUE_TYPES.MAT2:
       return `mat2(1.0, 0.0, 0.0, 1.0)`;
-    case ShaderPropertyValueTypes.MAT3:
+    case SHADER_PROPERTY_VALUE_TYPES.MAT3:
       return `mat3(1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0)`;
-    case ShaderPropertyValueTypes.MAT4:
+    case SHADER_PROPERTY_VALUE_TYPES.MAT4:
       return `mat4(1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0)`;
-    case ShaderPropertyValueTypes.SAMPLER2D:
+    case SHADER_PROPERTY_VALUE_TYPES.SAMPLER2D:
       return `sampler2D`;
-    case ShaderPropertyValueTypes.SAMPLER_CUBE:
+    case SHADER_PROPERTY_VALUE_TYPES.SAMPLER_CUBE:
       return `samplerCube`;
     default:
       return ``; // Handle unsupported types or VOID type here

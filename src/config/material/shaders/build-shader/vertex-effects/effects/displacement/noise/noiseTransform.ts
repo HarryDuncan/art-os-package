@@ -3,7 +3,7 @@
 
 import { shaderSafeFloat } from "../../../../../../../../utils/conversion/shaderConversions";
 import { NoiseEffectProps, UniformConfig } from "../../../../types";
-import { VERTEX_POINT_NAME } from "../../../vertexEffects.consts";
+import { VERTEX_POINT_NAME } from "../../../../../../../../consts/materials/vertexEffects.consts";
 import { perlinNoiseEffect } from "./noise-functions/perlinNoiseEffect";
 import { voronoiNoiseSetup } from "./noise-functions/voronoiNoiseSetup";
 import {

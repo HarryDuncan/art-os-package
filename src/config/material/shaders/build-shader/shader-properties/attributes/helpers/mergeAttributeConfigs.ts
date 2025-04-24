@@ -1,5 +1,5 @@
+import { AttributeConfig } from "../../../../../../../types/materials/shaders/buildShader.types";
 import { removeDuplicatesByKey } from "../../../../../../../utils/removeDuplicatesByKey";
-import { AttributeConfig } from "../../../types";
 
 export const mergeAttributeConfigs = (
   attributeConfig: AttributeConfig[][]

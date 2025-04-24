@@ -1,9 +1,9 @@
-import { twisterDistortion } from "../../../../shader-properties/functions/distortion/distortion";
 import {
-  AttributeConfig,
   UniformConfig,
   VaryingConfig,
-} from "../../../../types";
+  AttributeConfig,
+} from "../../../../../../../../types/materials/shaders/buildShader.types";
+import { twisterDistortion } from "../../../../shader-properties/functions/distortion/distortion";
 
 export const DEFAULT_DISTORT_UNIFORMS = {
   defaultUniforms: [],

@@ -6,7 +6,7 @@ import { formatBuiltShaderConfig } from "./shader-formatting/formatBuiltShaderCo
 import { formatBuiltShaderUniforms } from "./shader-formatting/formatBuiltShaderUniforms";
 import { configureBlendingOptions } from "../blending-options/configureBlendingOptions";
 import { getAttributeValuesFromAssets } from "../../mesh/attributes/getAttributeValuesFromAsset";
-import { MATERIAL_TYPES } from "../../../consts/materials.consts";
+import { MATERIAL_TYPES } from "../../../consts/materials/materials.consts";
 
 export const getBuiltShaderMaterials = (
   config: SceneConfig,
@@ -21,7 +21,7 @@ export const getBuiltShaderMaterials = (
   const builtShadersAndAttributes = sceneMaterialConfigs.flatMap(
     (materialConfig) => {
       if (materialConfig.materialType === MATERIAL_TYPES.BUILT_SHADER) {
-        const { builtShaderConfig, assetMapping } = materialConfig;
+        const { builtShaderConfig } = materialConfig;
         if (!builtShaderConfig) return [];
         const shaderConfig = formatBuiltShaderConfig(builtShaderConfig);
         const { uniforms, vertexShader, fragmentShader, attributeConfigs } =
@@ -31,9 +31,16 @@ export const getBuiltShaderMaterials = (
           assets
         );
 
+        console.log(vertexShader);
+        console.log(fragmentShader);
+        // using both for backwards compatibility
+        const assetMapping = [
+          ...(builtShaderConfig.uniformConfig?.mappedAssets ?? []),
+          ...(materialConfig.assetMapping ?? []),
+        ];
         const formattedUniforms = formatBuiltShaderUniforms(
           uniforms,
-          assetMapping ?? [],
+          assetMapping,
           assets
         );
         const blendingOptions = configureBlendingOptions(

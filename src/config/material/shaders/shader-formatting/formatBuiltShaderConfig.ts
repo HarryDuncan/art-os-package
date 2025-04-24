@@ -1,6 +1,6 @@
+import { BuiltShaderConfig } from "../../../../types/materials/shaders/buildShader.types";
 import { formatParsedUniformConfigs } from "../build-shader/shader-properties/uniforms/formatParsedUniformConfigs";
 import { EMPTY_UNIFORM_CONFIG } from "../build-shader/shader-properties/uniforms/uniforms.consts";
-import { BuiltShaderConfig } from "../build-shader/types";
 
 export const formatBuiltShaderConfig = (
   parsedConfig: Partial<BuiltShaderConfig>

@@ -1,0 +1,119 @@
+import { DEFAULT_ROTATION_EFFECT_CONFIG } from "../../config/material/shaders/build-shader/vertex-effects/effects/rotation/rotation.consts";
+
+export const VERTEX_POINT_NAME = "currentVertexPoint";
+export const VERTEX_NORMAL_NAME = "currentVertexNormal";
+export const VERTEX_EFFECTS = {
+  NONE: "NONE",
+  EXPLODE: "EXPLODE",
+  FILTER: "FILTER_VERTEX",
+  POINTS: "POINTS",
+  ROTATE: "ROTATE",
+  MORPH: "MORPH",
+  DISTORT: "DISTORT",
+  ALIEN: "ALIEN",
+  CLOUD: "CLOUD",
+  TRAVERSE: "TRAVERSE",
+  EXPAND: "EXPAND",
+  NOISE: "NOISE",
+  VERTEX_IMAGE_EFFECT: "VERTEX_IMAGE_EFFECT",
+  IMAGE_TO_POINT: "IMAGE_TO_POINT",
+};
+
+export const enum TransformTypes {
+  TRANSLATE = "TRANSLATE",
+}
+
+export const DEFAULT_VERTEX_EFFECT_PARAMS = {
+  declareInTransform: true,
+};
+
+export const IMAGE_VERTEX_EFFECT = {
+  IMAGE_TO_POINTS: "IMAGE_TO_POINT",
+  IMAGE_AS_MASK: "IMAGE_AS_MASK",
+};
+
+export const MORPH_TRANSITION_EFFECTS = {
+  NOISE_TRANSITION: "NOISE_TRANSITION",
+};
+
+export const DISPLACEMENT_TYPES = {
+  EXPLODE: "EXPLODE",
+  IMPLODE: "IMPLODE",
+};
+
+export const DISTORTION_TYPES = {
+  STRETCH: "STRETCH",
+  TWIST: "TWIST",
+  FLEXY_TWISTER: "FLEXY_TWISTER",
+};
+
+export const TRIGGERED_VERTEX_EFFECT = {
+  DISPLACE: "DISPLACE",
+  WARP: "WARP",
+};
+
+export const INTERACTION_VERTEX_EFFECT = {
+  DISPLACE: "DISPLACE",
+  WARP: "WARP",
+};
+
+export const VERTEX_EFFECT_PROPS_MAP = {
+  [VERTEX_EFFECTS.NONE]: {
+    effectType: VERTEX_EFFECTS.NONE,
+    effectProps: {},
+  },
+  [VERTEX_EFFECTS.EXPLODE]: {
+    effectType: VERTEX_EFFECTS.EXPLODE,
+    effectProps: {},
+  },
+  [VERTEX_EFFECTS.FILTER]: {
+    effectType: VERTEX_EFFECTS.FILTER,
+    effectProps: {},
+  },
+  [VERTEX_EFFECTS.POINTS]: {
+    effectType: VERTEX_EFFECTS.POINTS,
+    effectProps: {},
+  },
+  [VERTEX_EFFECTS.ROTATE]: {
+    effectType: VERTEX_EFFECTS.ROTATE,
+    effectProps: DEFAULT_ROTATION_EFFECT_CONFIG,
+  },
+  [VERTEX_EFFECTS.MORPH]: {
+    effectType: VERTEX_EFFECTS.MORPH,
+    effectProps: {},
+  },
+  [VERTEX_EFFECTS.DISTORT]: {
+    effectType: VERTEX_EFFECTS.DISTORT,
+    effectProps: {},
+  },
+  [VERTEX_EFFECTS.ALIEN]: {
+    effectType: VERTEX_EFFECTS.ALIEN,
+    effectProps: {},
+  },
+  [VERTEX_EFFECTS.CLOUD]: {
+    effectType: VERTEX_EFFECTS.CLOUD,
+    effectProps: {},
+  },
+
+  [VERTEX_EFFECTS.TRAVERSE]: {
+    effectType: VERTEX_EFFECTS.TRAVERSE,
+    effectProps: {},
+  },
+  [VERTEX_EFFECTS.EXPAND]: {
+    effectType: VERTEX_EFFECTS.EXPAND,
+    effectProps: {},
+  },
+  [VERTEX_EFFECTS.NOISE]: {
+    effectType: VERTEX_EFFECTS.NOISE,
+    effectProps: {},
+  },
+
+  [VERTEX_EFFECTS.VERTEX_IMAGE_EFFECT]: {
+    effectType: VERTEX_EFFECTS.VERTEX_IMAGE_EFFECT,
+    effectProps: {},
+  },
+  [VERTEX_EFFECTS.IMAGE_TO_POINT]: {
+    effectType: VERTEX_EFFECTS.IMAGE_TO_POINT,
+    effectProps: {},
+  },
+};

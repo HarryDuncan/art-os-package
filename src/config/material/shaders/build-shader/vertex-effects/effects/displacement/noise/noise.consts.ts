@@ -1,5 +1,5 @@
+import { UniformConfig } from "../../../../../../../../types/materials/shaders/buildShader.types";
 import { noise3D } from "../../../../shader-properties/functions/noise/noise3d";
-import { UniformConfig } from "../../../../types";
 
 export const NOISE_EFFECT_TYPES = {
   PERLIN: "PERLIN",

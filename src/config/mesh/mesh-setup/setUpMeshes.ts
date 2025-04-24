@@ -6,14 +6,11 @@ import { MESH_TYPES } from "../../../consts/mesh.consts";
 
 export const setUpMeshes = (meshConfigs: MeshConfig[] = []) =>
   meshConfigs.flatMap(
-    (
-      { geometry, assetId, material, meshType, position, rotation, groupId },
-      index
-    ) => {
+    ({ id, geometry, material, meshType, position, rotation, groupId }) => {
       const mesh = getMesh(geometry, material, meshType);
-      const meshName = `${assetId}-mesh-${index}`;
+
       if (!mesh) return [];
-      formatMesh(mesh, meshName, position, rotation, groupId);
+      formatMesh(mesh, id, position, rotation, groupId);
       return mesh;
     }
   );

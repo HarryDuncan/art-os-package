@@ -1,4 +1,4 @@
-import { DEFAULT_SCENE_PROPERTIES } from "../../consts/config.constants";
+import { DEFAULT_SCENE_PROPERTIES } from "../../consts";
 import { ScenePropertiesConfig } from "../../types/config.types";
 
 export const getScenePropertiesFromConfig = (

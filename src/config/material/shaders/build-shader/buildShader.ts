@@ -5,13 +5,6 @@ import {
   VERTEX_NORMAL_INSTANTIATION,
   VERTEX_POINT_INSTANTIATION,
 } from "./constants/buildShader.consts";
-import {
-  AttributeConfig,
-  BuiltShaderConfig,
-  ShaderFunction,
-  UniformConfig,
-  VaryingConfig,
-} from "./types";
 import { setUpFragmentEffects } from "./fragment-effects/setUpFragmentEffects";
 import { buildAttributes } from "./shader-properties/attributes/buildAttributes";
 import { mergeAttributeConfigs } from "./shader-properties/attributes/helpers/mergeAttributeConfigs";
@@ -23,6 +16,13 @@ import { mergeVaryingConfigs } from "./shader-properties/varyings/helpers/mergeV
 import { setUpVertexEffects } from "./vertex-effects/setUpVertexEffects";
 import { buildStruct } from "./shader-properties/structs/buildStructs";
 import { mergeStructConfigs } from "./shader-properties/structs/mergeStructConfigs";
+import {
+  AttributeConfig,
+  BuiltShaderConfig,
+  ShaderFunction,
+  UniformConfig,
+  VaryingConfig,
+} from "../../../../types/materials/shaders/buildShader.types";
 
 const DEBUG = false;
 export const buildShader = (shaderConfig: BuiltShaderConfig) => {
@@ -35,8 +35,14 @@ export const buildShader = (shaderConfig: BuiltShaderConfig) => {
     structConfigs,
   } = shaderConfig;
 
+  const configuredUniformConfig = {
+    ...(uniformConfig ?? { ...EMPTY_UNIFORM_CONFIG }),
+  };
   const fragmentEffects = setUpFragmentEffects(fragmentEffectConfigs);
-  const vertexEffects = setUpVertexEffects(vertexEffectConfigs);
+  const vertexEffects = setUpVertexEffects(
+    vertexEffectConfigs,
+    configuredUniformConfig
+  );
 
   // pass the parsed uniform config first so the values override any values defined in the other effects - vertex/fragment
   const shaderUniforms: UniformConfig[] = [
@@ -44,6 +50,7 @@ export const buildShader = (shaderConfig: BuiltShaderConfig) => {
     vertexEffects.uniformConfigs,
     fragmentEffects.uniformConfigs,
   ];
+  console.log(shaderUniforms);
   const mergedShaderUniforms = mergeUniformConfigs(shaderUniforms);
 
   const shaderAttributes = [

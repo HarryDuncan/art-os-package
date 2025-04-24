@@ -27,7 +27,7 @@ export const SceneNode = ({
         sceneConfig={sceneConfig}
         loaderComponent={loaderComponent}
         events={[]}
-        interactionEvents={[]}
+        interactionConfig={[]}
       />
       {appendedNodes && <AppendedNodes appendedNodes={appendedNodes} />}
     </SceneProvider>
@@ -39,7 +39,7 @@ const SceneNodeContent = ({
   loaderComponent,
   sceneFunctions = {},
   events = [],
-  interactionEvents = [],
+  interactionConfig = [],
 }: SceneNodeContentProps) => {
   const { areAssetsInitialized, initializedAssets } = useAssets(
     sceneConfig.assets,
@@ -57,7 +57,7 @@ const SceneNodeContent = ({
       {sceneData && (
         <DisplayContent
           sceneFunctions={sceneFunctions}
-          interactionEvents={interactionEvents}
+          interactionConfig={sceneConfig?.interactionConfig ?? []}
           events={events}
           sceneData={sceneData}
         />
@@ -68,7 +68,7 @@ const SceneNodeContent = ({
 
 const DisplayContent = ({
   sceneFunctions,
-  interactionEvents = [],
+  interactionConfig = [],
   events,
   sceneData: {
     threeJsParams,
@@ -85,7 +85,7 @@ const DisplayContent = ({
     useThreeJs(threeJsParams);
 
   const formattedSceneFunctions = useSceneFunctions(sceneFunctions);
-
+  console.log(formattedSceneFunctions);
   useInteractiveScene(
     formattedSceneFunctions,
     events,
@@ -95,7 +95,7 @@ const DisplayContent = ({
     sceneComponents,
     orbitControls,
     sceneProperties,
-    interactionEvents
+    interactionConfig
   );
 
   useThreadWithPostProcessor(currentFrameRef, camera, renderer);

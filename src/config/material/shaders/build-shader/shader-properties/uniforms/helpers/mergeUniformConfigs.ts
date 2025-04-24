@@ -1,5 +1,8 @@
+import {
+  UniformConfig,
+  ShaderPropertyConfig,
+} from "../../../../../../../types/materials/shaders/buildShader.types";
 import { removeDuplicatesByKey } from "../../../../../../../utils/removeDuplicatesByKey";
-import { ShaderPropertyConfig, UniformConfig } from "../../../types";
 import { EMPTY_UNIFORM_CONFIG } from "../uniforms.consts";
 
 export const mergeUniformConfigs = (
@@ -8,19 +11,27 @@ export const mergeUniformConfigs = (
   const filteredUniformConfigs = uniformConfigArray.flatMap(
     (config) => config ?? []
   );
+
   const mergedUniformConfig = { ...EMPTY_UNIFORM_CONFIG } as UniformConfig;
-  filteredUniformConfigs.forEach(({ defaultUniforms, customUniforms }) => {
-    const { defaultUniforms: currentDefaults, customUniforms: currentCustom } =
-      mergedUniformConfig;
-    const updatedDefaults = [...currentDefaults, ...defaultUniforms].filter(
-      (value, index, self) => self.indexOf(value) === index
-    );
-    mergedUniformConfig.defaultUniforms = updatedDefaults;
-    mergedUniformConfig.customUniforms = mergeCustomUniforms(
-      currentCustom,
-      customUniforms
-    );
-  });
+  filteredUniformConfigs.forEach(
+    ({ defaultUniforms, customUniforms, interactionMappedUniforms }) => {
+      const {
+        defaultUniforms: currentDefaults,
+        customUniforms: currentCustom,
+      } = mergedUniformConfig;
+
+      const updatedDefaults = [...currentDefaults, ...defaultUniforms].filter(
+        (value, index, self) => self.indexOf(value) === index
+      );
+      mergedUniformConfig.defaultUniforms = updatedDefaults;
+
+      mergedUniformConfig.customUniforms = mergeCustomUniforms(currentCustom, [
+        ...(customUniforms || []),
+        ...(interactionMappedUniforms || []),
+      ]);
+    }
+  );
+
   return mergedUniformConfig;
 };
 

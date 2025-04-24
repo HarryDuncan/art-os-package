@@ -22,3 +22,4 @@ export { startSceneElementAnimations };
 
 export * from "./types";
 export * from "./consts";
+export * from "./consts/animation/animation.constants";

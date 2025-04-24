@@ -3,8 +3,8 @@ import { AnimatedScene } from "../../types/animation.types";
 
 export const startSceneElementAnimations = (scene: InteractiveScene) => {
   const sceneElementAnimationIds =
-    scene.animationManager.sceneElementAnimations.flatMap(
-      ({ isRunning, animationId }) => (!isRunning ? animationId : [])
+    scene.animationManager.sceneElementAnimations.flatMap(({ isRunning, id }) =>
+      !isRunning ? id : []
     );
 
   sceneElementAnimationIds.forEach((id) => {

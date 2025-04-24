@@ -1,5 +1,7 @@
-import { ShaderPropertyTypes } from "../../constants/buildShader.consts";
-import { AttributeConfig, VaryingConfig } from "../../types";
+import {
+  SHADER_PROPERTY_TYPES,
+  SHADER_PROPERTY_VALUE_TYPES,
+} from "../../../../../../consts/materials/shader.consts";
 import { createDeclarationString } from "../../helpers/createDeclarationString";
 import { getDefaultValueAsString } from "../../helpers/getDefaultValue";
 import {
@@ -11,7 +13,11 @@ import {
 import {
   VERTEX_NORMAL_NAME,
   VERTEX_POINT_NAME,
-} from "../../vertex-effects/vertexEffects.consts";
+} from "../../../../../../consts/materials/vertexEffects.consts";
+import {
+  VaryingConfig,
+  AttributeConfig,
+} from "../../../../../../types/materials/shaders/buildShader.types";
 
 export const buildVaryings = (
   varyingSchema: VaryingConfig[],
@@ -25,8 +31,8 @@ export const buildVaryings = (
 const varyingDeclarations = (config: VaryingConfig[]) => {
   const declarationStrings = config.map(({ id, valueType }) =>
     createDeclarationString(
-      ShaderPropertyTypes.VARYING as ShaderPropertyTypes,
-      valueType,
+      SHADER_PROPERTY_TYPES.VARYING as keyof typeof SHADER_PROPERTY_TYPES,
+      valueType as keyof typeof SHADER_PROPERTY_VALUE_TYPES,
       id
     )
   );
@@ -102,7 +108,12 @@ const getCustomVaryingStrings = (config: VaryingConfig[]) => {
   const strings = [V_CUSTOM_INSTANTIATION];
   customVaryings.forEach((item: VaryingConfig) => {
     strings.push(
-      `${item.id} = ${item.value ?? getDefaultValueAsString(item.valueType)};`
+      `${item.id} = ${
+        item.value ??
+        getDefaultValueAsString(
+          item.valueType as keyof typeof SHADER_PROPERTY_VALUE_TYPES
+        )
+      };`
     );
   });
   return strings;

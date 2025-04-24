@@ -1,9 +1,3 @@
-import {
-  AttributeConfig,
-  ShaderFunction,
-  TriggeredVertexEffect,
-  TriggeredVertexEffectProps,
-} from "../../../types";
 import { mergeUniformConfigs } from "../../../shader-properties/uniforms/helpers/mergeUniformConfigs";
 import { mergeVaryingConfigs } from "../../../shader-properties/varyings/helpers/mergeVaryingConfigs";
 import { reduceFunctions } from "../../../helpers/reduceFunctions";
@@ -15,6 +9,14 @@ import {
 } from "./triggeredEffect.consts";
 import { triggeredEffectTransform } from "./triggeredEffectTransform";
 import { formatVertexParameters } from "../../../helpers/formatVertexParameters";
+import {
+  ShaderFunction,
+  AttributeConfig,
+} from "../../../../../../../types/materials/shaders/buildShader.types";
+import {
+  TriggeredVertexEffect,
+  TriggeredVertexEffectProps,
+} from "../../../../../../../types/materials/shaders/vertexShader.types";
 
 export const triggeredEffect = (effectProps: TriggeredVertexEffect) => {
   const triggeredEffectProps = formatVertexParameters(

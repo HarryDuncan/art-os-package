@@ -1,4 +1,4 @@
-import { PointMaterialFragmentEffectProps } from "../../../../../types";
+import { PointMaterialFragmentEffectProps } from "../../../../../../../../../types/materials/shaders/fragmentShader.types";
 import { FRAG_COLOR_NAME } from "../../../../fragmentEffects.consts";
 
 export const getOverlayPixelColor = (

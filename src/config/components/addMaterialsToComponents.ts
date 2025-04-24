@@ -20,7 +20,7 @@ export const addMaterialsToComponents = (
 
 const getComponentMaterial = (
   componentConfig: SceneComponentConfig,
-  globalMaterials: Material[]
+  sceneMaterials: Material[]
 ): Material => {
   const { materialId } = componentConfig;
   if (!materialId) {
@@ -29,7 +29,7 @@ const getComponentMaterial = (
     );
     return DEFAULT_MATERIAL;
   }
-  const selectedMaterial = globalMaterials.find(
+  const selectedMaterial = sceneMaterials.find(
     (material) => String(material.name) === String(materialId)
   );
   if (selectedMaterial) {

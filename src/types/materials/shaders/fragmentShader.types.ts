@@ -2,9 +2,8 @@ import {
   FRAGMENT_EFFECT,
   INTERACTION_FRAGMENT_EFFECT,
   TRIGGERED_FRAGMENT_EFFECT,
-} from "../fragment-effects/fragmentEffects.consts";
+} from "../../../config/material/shaders/build-shader/fragment-effects/fragmentEffects.consts";
 import {
-  EffectParameters,
   ShaderFunction,
   UniformConfig,
   VaryingConfig,
@@ -17,10 +16,10 @@ export type PointTexture = {
   id: string;
   pointColor: string;
 };
-export type PointColorFragmentEffectProps = EffectParameters & {
+export type PointColorFragmentEffectProps = {
   pointColor: string;
 };
-export type PointMaterialFragmentEffectProps = EffectParameters & {
+export type PointMaterialFragmentEffectProps = {
   pointDisplayPercentage: number;
   defaultColor?: string;
   pointTextures: PointTexture[];
@@ -28,28 +27,28 @@ export type PointMaterialFragmentEffectProps = EffectParameters & {
   effectType?: string;
 };
 
-export type MaterialEffectProps = EffectParameters & {
+export type MaterialEffectProps = {
   opacity?: number;
 };
 
-export type PhysicalMaterialProps = EffectParameters;
-export type PhongFragmentEffectProps = EffectParameters;
-export type ColorFragmentEffectProps = EffectParameters & {
+export type PhysicalMaterialProps = Record<string, unknown>;
+export type PhongFragmentEffectProps = Record<string, unknown>;
+export type ColorFragmentEffectProps = {
   shadingType: string;
   color: string;
   opacity?: number;
 };
 
-export type VanishFragmentEffectProps = EffectParameters & {
+export type VanishFragmentEffectProps = {
   numberOfRings?: number;
   vanishHeight: number;
 };
-export type OpacityFragmentEffectProps = EffectParameters & {
+export type OpacityFragmentEffectProps = {
   opacity: number;
   asUniform: boolean;
 };
 
-export type BrightnessFragmentEffectProps = EffectParameters;
+export type BrightnessFragmentEffectProps = Record<string, unknown>;
 
 export type FragmentEffectProps =
   | PointMaterialFragmentEffectProps

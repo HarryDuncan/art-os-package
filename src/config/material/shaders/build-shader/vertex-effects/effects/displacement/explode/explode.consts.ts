@@ -1,17 +1,19 @@
-import { ShaderFunction, VaryingConfig } from "../../../../types";
+import {
+  ShaderFunction,
+  UniformConfig,
+  VaryingConfig,
+} from "../../../../../../../../types/materials/shaders/buildShader.types";
 
 export const EXPLODE_UNIFORMS = {
-  defaultUniforms: ["uPosition"],
-  customUniforms: [{ id: "uPower", valueType: "FLOAT", value: 1.5 }],
-};
+  defaultUniforms: [],
+  customUniforms: [
+    { id: "uMinDistance", valueType: "FLOAT", value: 1.5 },
+    { id: "uStrength", valueType: "FLOAT", value: 1.5 },
+  ],
+} as unknown as UniformConfig;
 
 export const EXPLODE_FUNCTIONS = [] as ShaderFunction[];
 
 export const EXPLODE_VARYINGS = [
   { id: "vPointId", valueType: "FLOAT", varyingType: "ATTRIBUTE" },
 ] as VaryingConfig[];
-
-export const DEFAULT_EXPLODE_PARAMETERS = {
-  effectDistanceMinLength: 0.9,
-  effectStrength: 0.5,
-};

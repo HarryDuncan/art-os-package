@@ -1,9 +1,8 @@
 import {
   ColorFragmentEffectProps,
   FragmentEffectData,
-  InteractiveEffectProps,
   InteractiveFragmentEffect,
-} from "../../../types";
+} from "../../../../../../../types/materials/shaders/fragmentShader.types";
 import { reduceFunctions } from "../../../helpers/reduceFunctions";
 import { mergeAttributeConfigs } from "../../../shader-properties/attributes/helpers/mergeAttributeConfigs";
 import { mergeUniformConfigs } from "../../../shader-properties/uniforms/helpers/mergeUniformConfigs";
@@ -47,7 +46,7 @@ export const getInteractiveEffects = (
 };
 
 const getEffectData = (
-  interactiveEffectProps: InteractiveEffectProps
+  interactiveEffectProps: InteractiveFragmentEffect
 ): FragmentEffectData => {
   const { effectType, effectProps } = interactiveEffectProps;
   switch (effectType) {

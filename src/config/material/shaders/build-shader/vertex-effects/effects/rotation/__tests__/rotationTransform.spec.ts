@@ -5,7 +5,7 @@ import { DEFAULT_ROTATION_EFFECT_CONFIG } from "../rotation.consts";
 import { rotationTransform } from "../rotationTransform";
 import { rotateZ } from "../../../../shader-properties/functions/rotation/rotation";
 import { AXIS } from "utils/types/position.types";
-import { ShaderPropertyValueTypes } from "../../../../constants/buildShader.consts";
+import { SHADER_PROPERTY_VALUE_TYPES } from "../../../../constants/buildShader.consts";
 
 const MOCK_VERTEX_NAME = "mockVertexName";
 const MOCK_POINT = "mockPoint";
@@ -71,7 +71,7 @@ describe("rotationTransform", () => {
       customUniforms: [
         {
           id: "uRotationSpeed",
-          valueType: ShaderPropertyValueTypes.FLOAT,
+          valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
           value: 1000,
         },
       ],

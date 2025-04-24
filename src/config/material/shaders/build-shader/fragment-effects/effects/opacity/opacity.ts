@@ -1,4 +1,3 @@
-import { FragmentEffectData, OpacityFragmentEffectProps } from "../../../types";
 import {
   OPACITY_UNIFORMS,
   OPACITY_VARYINGS,
@@ -8,6 +7,10 @@ import {
 } from "./opacity.consts";
 import { formatFragmentParameters } from "../../../helpers/formatFragmentParameters";
 import { opacityTransform } from "./opacityTransform";
+import {
+  FragmentEffectData,
+  OpacityFragmentEffectProps,
+} from "../../../../../../../types/materials/shaders/fragmentShader.types";
 
 export const opacity = (
   effectProps: Partial<OpacityFragmentEffectProps>

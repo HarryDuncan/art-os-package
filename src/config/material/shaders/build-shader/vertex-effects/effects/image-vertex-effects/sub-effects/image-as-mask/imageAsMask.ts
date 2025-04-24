@@ -1,10 +1,12 @@
 import {
-  AttributeConfig,
-  ImageAsMaskEffectProps,
-  ImageToPointsEffectProps,
   ShaderFunction,
+  AttributeConfig,
   VaryingConfig,
-} from "../../../../../types";
+} from "../../../../../../../../../types/materials/shaders/buildShader.types";
+import {
+  ImageToPointsEffectProps,
+  ImageAsMaskEffectProps,
+} from "../../../../../../../../../types/materials/shaders/vertexShader.types";
 import { formatVertexParameters } from "../../../../../helpers/formatVertexParameters";
 import { reduceFunctions } from "../../../../../helpers/reduceFunctions";
 import { mergeAttributeConfigs } from "../../../../../shader-properties/attributes/helpers/mergeAttributeConfigs";

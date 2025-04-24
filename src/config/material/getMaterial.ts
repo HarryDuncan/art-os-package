@@ -7,7 +7,7 @@ import {
   MeshStandardMaterial,
   VideoTexture,
 } from "three";
-import { MATERIAL_TYPES } from "./../../consts/materials.consts";
+import { MATERIAL_TYPES } from "../../consts/materials/materials.consts";
 import {
   EnvMapMaterialProps,
   MatcapMaterialProps,
@@ -16,7 +16,7 @@ import {
   PhongMaterialProps,
   StandardMaterialProps,
   VideoMaterialProps,
-} from "../../types/materials.types";
+} from "../../types";
 import { setUpEnvMap } from "./env-map/setUpEnvMap";
 
 export const getMaterial = (

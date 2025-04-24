@@ -2,16 +2,18 @@ import { calculateCurve } from "../animation-functions/mesh-animations/traversal
 import { ANIMATION_TYPES } from "../../consts/animation/animation.constants";
 import {
   AnimationConfig,
+  AnimationType,
   TraversalAnimationConfig,
 } from "../../types/animation.types";
 import { DEFAULT_ANIMATION_DURATION_MILIS } from "../../consts/animation/animation.defaults";
 import { position3dToVector } from "../../utils/conversion/conversion";
 
 export const setUpAnimationConfig = (
+  animationType: AnimationType,
   animationConfig: AnimationConfig
 ): AnimationConfig => {
   const { animationProperties } = animationConfig;
-  switch (animationProperties.animationType) {
+  switch (animationType) {
     case ANIMATION_TYPES.TRAVERSE: {
       const { startPosition, endPosition, curveSize, animationDurationMilis } =
         animationProperties as TraversalAnimationConfig;

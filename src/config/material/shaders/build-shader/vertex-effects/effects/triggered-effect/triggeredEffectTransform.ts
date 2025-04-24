@@ -1,15 +1,14 @@
-import { DEFAULT_VERTEX_EFFECT } from "../../../constants";
-import { TRIGGERED_FRAGMENT_EFFECT } from "../../../fragment-effects/fragmentEffects.consts";
+import { TriggeredEffectProps } from "../../../../../../../types/materials/shaders/buildShader.types";
 import {
-  TriggeredEffectProps,
-  ExplodeEffectProps,
   ExpandEffectProps,
   RotationEffectProps,
-} from "../../../types";
-import { VERTEX_EFFECTS } from "../../vertexEffects.consts";
+} from "../../../../../../../types/materials/shaders/vertexShader.types";
+import { DEFAULT_VERTEX_EFFECT } from "../../../constants";
+import { TRIGGERED_FRAGMENT_EFFECT } from "../../../fragment-effects/fragmentEffects.consts";
+import { VERTEX_EFFECTS } from "../../../../../../../consts/materials/vertexEffects.consts";
 import { VertexEffectData } from "../../vertexEffects.types";
 import { expand } from "../displacement/expand/expand";
-import { explode } from "../displacement/explode/explode";
+
 import { rotationEffect } from "../rotation/rotation";
 import { DEFAULT_TRIGGERED_EFFECT } from "./triggeredEffect.consts";
 
@@ -49,7 +48,7 @@ const getEffectData = (
   };
   switch (effectType) {
     case VERTEX_EFFECTS.EXPLODE:
-      return explode(formattedEffectProps as Partial<ExplodeEffectProps>);
+    // return explode(formattedEffectProps as Partial<ExplodeEffectProps>);
     case VERTEX_EFFECTS.EXPAND:
       return expand(formattedEffectProps as Partial<ExpandEffectProps>);
     case VERTEX_EFFECTS.ROTATE:

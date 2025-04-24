@@ -1,15 +1,15 @@
-import { ShaderPropertyValueTypes } from "../../../constants";
+import { VaryingConfig } from "../../../../../../../types/materials/shaders/buildShader.types";
+import { SHADER_PROPERTY_VALUE_TYPES } from "../../../../../../../consts/materials/shader.consts";
 import { VARYING_TYPES } from "../../../shader-properties/varyings/varyings.consts";
-import { VaryingConfig } from "../../../types";
 
-export const DEFAULT_IMAGE_AS_MASK_PROPS = {};
+export const DEFAULT_FRAG_IMAGE_AS_MASK_PROPS = {};
 
 export const IMAGE_AS_MASK_VARYINGS = [
   {
     id: "vHidePixel",
     varyingType: VARYING_TYPES.CUSTOM,
 
-    valueType: ShaderPropertyValueTypes.FLOAT,
+    valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
   },
 ] as VaryingConfig[];
 

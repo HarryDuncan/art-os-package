@@ -1,7 +1,13 @@
-import { LIGHT_TYPES, LightType } from "./lights.types";
+import { LightType } from "../../types";
+
+export const LIGHT_TYPES = {
+  AMBIENT: "AMBIENT",
+  POINT_LIGHT: "POINT_LIGHT",
+  DIRECTIONAL_LIGHT: "DIRECTIONAL_LIGHT",
+};
 
 export const DEFAULT_LIGHT_INTENSITY = 1.0;
-
+export const DEFAULT_LIGHT_COLOR = "#ffffff";
 export const DEFAULT_LIGHTS = [
   {
     name: "ambient-light",

@@ -2,18 +2,20 @@ import { useCallback, useEffect } from "react";
 import {
   InteractiveScene,
   InteractiveSceneFunctions,
-  SceneInteraction,
 } from "./InteractiveScene";
-import { EventConfig } from "../../interaction/interaction.types";
+import {
+  EventConfig,
+  InteractionConfig,
+} from "../../interaction/interaction.types";
 import { AnimationConfig } from "../../types/animation.types";
 import { Object3D } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { SceneProperties } from "../../types/config.types";
 import { setSceneProperties } from "../../utils/scene/setSceneProperties";
 import { GLTF } from "three/examples/jsm/loaders/GLTFLoader.js";
-import { SceneLight } from "../../config/lights/lights.types";
 import { useSceneContext } from "../../context/context";
 import { PROCESS_STATUS } from "../../consts/consts";
+import { SceneLight } from "../../types";
 
 export const useInteractiveScene = (
   sceneFunction: InteractiveSceneFunctions,
@@ -24,13 +26,13 @@ export const useInteractiveScene = (
   sceneComponents: Object3D[],
   orbitControls: OrbitControls | null,
   sceneProperties: SceneProperties,
-  interactionEvents: SceneInteraction[]
+  interactionConfig: InteractionConfig[]
 ) => {
   const {
     dispatch,
     state: { initializedScene, status },
   } = useSceneContext();
-
+  console.log(interactionConfig);
   const setUpSceneObjects = useCallback(
     async (scene: InteractiveScene) => {
       meshes.forEach((mesh) => scene.add(mesh as Object3D));
@@ -61,7 +63,7 @@ export const useInteractiveScene = (
         sceneFunction,
         eventConfig,
         animationConfig,
-        interactionEvents,
+        interactionConfig,
         sceneProperties,
         lights
       );
@@ -80,7 +82,7 @@ export const useInteractiveScene = (
     eventConfig,
     animationConfig,
     setUpSceneObjects,
-    interactionEvents,
+    interactionConfig,
     initializedScene,
   ]);
 };

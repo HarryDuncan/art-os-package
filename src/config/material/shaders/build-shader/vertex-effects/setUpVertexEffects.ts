@@ -1,3 +1,10 @@
+import { reduceFunctions } from "../helpers/reduceFunctions";
+import { mergeAttributeConfigs } from "../shader-properties/attributes/helpers/mergeAttributeConfigs";
+import { mergeUniformConfigs } from "../shader-properties/uniforms/helpers/mergeUniformConfigs";
+import { mergeVaryingConfigs } from "../shader-properties/varyings/helpers/mergeVaryingConfigs";
+import { getVertexEffect } from "./effects/getVertexEffect";
+import { VERTEX_POINT_NAME } from "../../../../../consts/materials/vertexEffects.consts";
+import { mergeStructConfigs } from "../shader-properties/structs/mergeStructConfigs";
 import {
   AttributeConfig,
   ShaderFunction,
@@ -5,16 +12,12 @@ import {
   UniformConfig,
   VaryingConfig,
   VertexEffectConfig,
-} from "../types";
-import { reduceFunctions } from "../helpers/reduceFunctions";
-import { mergeAttributeConfigs } from "../shader-properties/attributes/helpers/mergeAttributeConfigs";
-import { mergeUniformConfigs } from "../shader-properties/uniforms/helpers/mergeUniformConfigs";
-import { mergeVaryingConfigs } from "../shader-properties/varyings/helpers/mergeVaryingConfigs";
-import { getVertexEffect } from "./effects/getVertexEffect";
-import { VERTEX_POINT_NAME } from "./vertexEffects.consts";
-import { mergeStructConfigs } from "../shader-properties/structs/mergeStructConfigs";
+} from "../../../../../types/materials/shaders/buildShader.types";
 
-export const setUpVertexEffects = (vertexEffects: VertexEffectConfig[]) => {
+export const setUpVertexEffects = (
+  vertexEffects: VertexEffectConfig[],
+  uniformConfig: UniformConfig
+) => {
   const {
     uniformConfigs,
     varyingConfigs,
@@ -22,7 +25,7 @@ export const setUpVertexEffects = (vertexEffects: VertexEffectConfig[]) => {
     requiredFunctions,
     attributeConfigs,
     structConfigs,
-  } = getVertexTransformations(vertexEffects);
+  } = getVertexTransformations(vertexEffects, uniformConfig);
 
   const viewMatrix = `gl_Position = projectionMatrix * modelViewMatrix * vec4(${VERTEX_POINT_NAME}.xyz, 1.0);`;
 
@@ -37,7 +40,10 @@ export const setUpVertexEffects = (vertexEffects: VertexEffectConfig[]) => {
   };
 };
 
-const getVertexTransformations = (vertexEffects: VertexEffectConfig[]) => {
+const getVertexTransformations = (
+  vertexEffects: VertexEffectConfig[],
+  configuredUniformConfig: UniformConfig
+) => {
   const unmergedUniformConfigs: UniformConfig[] = [];
   const unmergedVaryingConfigs: VaryingConfig[][] = [];
   const unmergedTransformations: string[] = [];
@@ -52,7 +58,7 @@ const getVertexTransformations = (vertexEffects: VertexEffectConfig[]) => {
       requiredFunctions,
       attributeConfig = [],
       structConfigs = [],
-    } = getVertexEffect(effect);
+    } = getVertexEffect(effect, configuredUniformConfig);
 
     unmergedUniformConfigs.push(uniformConfig);
     unmergedVaryingConfigs.push(varyingConfig);

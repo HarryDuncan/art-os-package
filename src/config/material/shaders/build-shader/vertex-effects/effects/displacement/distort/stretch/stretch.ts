@@ -1,8 +1,8 @@
 import { Vector3 } from "three";
-import { ShaderPropertyValueTypes } from "../../../../../constants";
-import { UniformConfig } from "../../../../../types";
+import { SHADER_PROPERTY_VALUE_TYPES } from "../../../../../../../../../consts/materials/shader.consts";
 import { scaleVector3 } from "../../../../../shader-properties/functions/maths/vectorCalculations";
-import { VERTEX_POINT_NAME } from "../../../../vertexEffects.consts";
+import { VERTEX_POINT_NAME } from "../../../../../../../../../consts/materials/vertexEffects.consts";
+import { UniformConfig } from "../../../../../../../../../types/materials/shaders/buildShader.types";
 
 export const stretch = (_effectProps: unknown) => {
   const uniformConfig = {
@@ -10,12 +10,12 @@ export const stretch = (_effectProps: unknown) => {
     customUniforms: [
       {
         id: "uStretchStrength",
-        valueType: ShaderPropertyValueTypes.FLOAT,
+        valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
         arrayValue: 0.0,
       },
       {
         id: "uCenter",
-        valueType: ShaderPropertyValueTypes.VEC3,
+        valueType: SHADER_PROPERTY_VALUE_TYPES.VEC3,
         value: new Vector3(0, 0, 0),
       },
     ],

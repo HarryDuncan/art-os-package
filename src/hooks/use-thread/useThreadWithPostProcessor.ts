@@ -29,7 +29,7 @@ export const useThreadWithPostProcessor = (
           initializedScene.animationManager.startCameraAnimation(camera);
         }
       }
-
+      // console.log(initializedScene);
       postProcessor.current?.render();
       currentFrameRef.current = requestAnimationFrame(update);
     }

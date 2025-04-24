@@ -6,10 +6,10 @@ import {
   DEFAULT_DISTORT_VARYINGS,
   DEFAULT_DISTORTION_EFFECT_PARAMETERS,
 } from "./distortion.defaults";
-import { DistortionEffectProps } from "../../../../types/vertexShader.types";
 import { formatVertexParameters } from "../../../../helpers/formatVertexParameters";
 import { mergeUniformConfigs } from "../../../../shader-properties/uniforms/helpers/mergeUniformConfigs";
 import { reduceFunctions } from "../../../../helpers/reduceFunctions";
+import { DistortionEffectProps } from "../../../../../../../../types/materials/shaders/vertexShader.types";
 
 export const distortionEffect = (
   effectProps: Partial<DistortionEffectProps>

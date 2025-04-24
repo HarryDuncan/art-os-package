@@ -1,10 +1,10 @@
 import {
-  AttributeConfig,
   ShaderFunction,
-  StructConfig,
   UniformConfig,
   VaryingConfig,
-} from "../types";
+  AttributeConfig,
+  StructConfig,
+} from "../../../../../types/materials/shaders/buildShader.types";
 
 export interface VertexEffectData {
   requiredFunctions: ShaderFunction[];

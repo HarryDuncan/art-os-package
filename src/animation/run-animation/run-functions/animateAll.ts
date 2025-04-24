@@ -2,18 +2,18 @@ import { performAnimation } from "../performAnimation";
 
 import { MeshObject } from "../../../types/mesh.types";
 import { Object3D } from "three";
-import { AnimationProperties } from "../../../types/animation.types";
+import {
+  AnimationProperties,
+  AnimationType,
+} from "../../../types/animation.types";
 
 export const animateAll = (
+  animationType: AnimationType,
   animationProperties: AnimationProperties,
   animatedObjects: MeshObject[] | Object3D[]
 ) => {
-  const {
-    animationDurationMilis,
-    animationType,
-    repeatAnimation,
-    animationPauseMilis,
-  } = animationProperties;
+  const { animationDurationMilis, repeatAnimation, animationPauseMilis } =
+    animationProperties;
   let startTime: number;
   let count = 0;
   function step(timestamp: number) {

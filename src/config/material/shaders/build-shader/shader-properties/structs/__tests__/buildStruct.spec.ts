@@ -3,7 +3,7 @@ import { Vector2, Vector3 } from "three";
 import { expect, test, describe } from "vitest";
 import { buildStruct } from "../buildStructs";
 import { StructConfig } from "../../../types";
-import { ShaderPropertyValueTypes } from "../../../constants";
+import { SHADER_PROPERTY_VALUE_TYPES } from "../../../constants";
 
 describe("buildStruct", () => {
   test("returns declaration with no structs", () => {
@@ -19,11 +19,11 @@ describe("buildStruct", () => {
       properties: [
         {
           id: "floatProp",
-          valueType: ShaderPropertyValueTypes.FLOAT,
+          valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
         },
         {
           id: "vec2Prop",
-          valueType: ShaderPropertyValueTypes.VEC2,
+          valueType: SHADER_PROPERTY_VALUE_TYPES.VEC2,
         },
       ],
     } as StructConfig;

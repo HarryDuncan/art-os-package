@@ -1,5 +1,8 @@
-import { ShaderPropertyTypes } from "../constants/buildShader.consts";
-import { ShaderPropertyConfig } from "../types";
+import { ShaderPropertyConfig } from "../../../../../types/materials/shaders/buildShader.types";
+import {
+  SHADER_PROPERTY_TYPES,
+  SHADER_PROPERTY_VALUE_TYPES,
+} from "../../../../../consts/materials/shader.consts";
 import { createDeclarationString } from "./createDeclarationString";
 import { getDefaultValue } from "./getDefaultValue";
 
@@ -8,7 +11,7 @@ interface CustomProperties {
 }
 export const setUpCustomPropertyValues = (
   config: ShaderPropertyConfig[],
-  propertyType: ShaderPropertyTypes
+  propertyType: keyof typeof SHADER_PROPERTY_TYPES
 ) => {
   const customProperties: CustomProperties = {};
   const customStrings: string[] = [];
@@ -18,23 +21,33 @@ export const setUpCustomPropertyValues = (
         const propertyValues =
           arrayValue ??
           new Array(arrayLength).fill(
-            value ?? getDefaultValue(valueType, structProperties)
+            value ??
+              getDefaultValue(
+                valueType as keyof typeof SHADER_PROPERTY_VALUE_TYPES,
+                structProperties
+              )
           );
         customProperties[id] = { value: propertyValues };
       } else {
         const propertyValue =
-          value ?? getDefaultValue(valueType, structProperties);
+          value ??
+          getDefaultValue(
+            valueType as keyof typeof SHADER_PROPERTY_VALUE_TYPES,
+            structProperties
+          );
         if (propertyValue !== undefined && propertyValue !== null) {
           customProperties[id] = { value: propertyValue };
         } else {
-          console.warn(`Property value for ${id} ${valueType} is undefined`);
+          console.warn(
+            `Property value for ${id} ${String(valueType)} is undefined`
+          );
         }
       }
 
       customStrings.push(
         createDeclarationString(
           propertyType,
-          valueType,
+          valueType as keyof typeof SHADER_PROPERTY_VALUE_TYPES,
           id,
           arrayLength,
           structProperties

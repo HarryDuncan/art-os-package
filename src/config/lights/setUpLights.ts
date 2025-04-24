@@ -1,13 +1,13 @@
 import { AmbientLightElement } from "./light-elements/AmbientLightElement";
 import { DirectionalLightElement } from "./light-elements/DirectionalLightElement";
 import { PointLightElement } from "./light-elements/PointLightElement";
-import { LIGHT_TYPES, LightConfigs, SceneLight } from "./lights.types";
-
+import { LightConfigs, SceneLight } from "../../types";
+import { DEFAULT_LIGHT_COLOR, LIGHT_TYPES } from "../../consts/lights/lights";
 export const setUpLights = (lightConfigs: LightConfigs[] = []): SceneLight[] =>
   lightConfigs.flatMap(({ name, lightType, props }) => {
     switch (lightType) {
       case LIGHT_TYPES.AMBIENT: {
-        const { color } = props ?? {};
+        const { color } = props ?? { color: DEFAULT_LIGHT_COLOR };
         return AmbientLightElement({ name, color });
       }
 

@@ -1,6 +1,9 @@
+import {
+  ImageSubEffectProps,
+  ImageVertexEffect,
+} from "../../../../../../../types/materials/shaders/vertexShader.types";
 import { DEFAULT_VERTEX_EFFECT } from "../../../constants";
-import { ImageSubEffectProps, ImageVertexEffect } from "../../../types";
-import { IMAGE_VERTEX_EFFECT } from "../../vertexEffects.consts";
+import { IMAGE_VERTEX_EFFECT } from "../../../../../../../consts/materials/vertexEffects.consts";
 import { VertexEffectData } from "../../vertexEffects.types";
 import { imageAsMask } from "./sub-effects/image-as-mask/imageAsMask";
 import { imageToPoints } from "./sub-effects/image-to-points/imageToPoints";

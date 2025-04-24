@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 // @ts-nocheck
-import { ShaderPropertyValueTypes } from "../../../constants/buildShader.consts";
+import { SHADER_PROPERTY_VALUE_TYPES } from "../../../../../../../consts/materials/shader.consts";
 import { formatVertexParameters } from "../../../helpers/formatVertexParameters";
 import { reduceFunctions } from "../../../helpers/reduceFunctions";
 import { mergeAttributeConfigs } from "../../../shader-properties/attributes/helpers/mergeAttributeConfigs";
@@ -10,7 +10,7 @@ import { MorphEffectProps, ShaderFunction } from "../../../types";
 import {
   VERTEX_NORMAL_NAME,
   VERTEX_POINT_NAME,
-} from "../../vertexEffects.consts";
+} from "../../../../../../../consts/materials/vertexEffects.consts";
 import { buildMorphTransforms } from "./buildMorphTransforms";
 import { morphTransitions } from "./morph-transitions/morphTransitions";
 import {
@@ -24,11 +24,11 @@ const getAttributeConfig = (morphCount: number) =>
   new Array(morphCount).fill("").flatMap((_value, index) => [
     {
       id: `morphPosition${index}`,
-      valueType: ShaderPropertyValueTypes.VEC3,
+      valueType: SHADER_PROPERTY_VALUE_TYPES.VEC3,
     },
     {
       id: `morphNormal${index}`,
-      valueType: ShaderPropertyValueTypes.VEC3,
+      valueType: SHADER_PROPERTY_VALUE_TYPES.VEC3,
     },
   ]);
 export const morphVertex = (

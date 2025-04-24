@@ -1,4 +1,3 @@
-import { RotationEffectProps } from "../../../types";
 import { formatVertexParameters } from "../../../helpers/formatVertexParameters";
 import {
   DEFAULT_ROTATION_EFFECT_CONFIG,
@@ -7,6 +6,7 @@ import {
 } from "./rotation.consts";
 import { VertexEffectData } from "../../vertexEffects.types";
 import { rotationTransform } from "./rotationTransform";
+import { RotationEffectProps } from "../../../../../../../types/materials/shaders/vertexShader.types";
 
 export const rotationEffect = (
   effectProps: Partial<RotationEffectProps> = {}

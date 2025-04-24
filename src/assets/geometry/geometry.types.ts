@@ -9,13 +9,16 @@ export type MeshAttributeConfig = {
 };
 
 export interface FormattedGeometry {
+  meshId: string;
   geometry: BufferGeometry;
   assetId: string;
   position?: Position3d;
   rotation?: Position3d;
   groupId?: string;
+  materialId?: string;
 }
 export type MeshConfig = FormattedGeometry & {
+  id: string;
   material: Material;
   meshType?: string;
   meshAttributeConfig?: MeshAttributeConfig;
@@ -24,6 +27,7 @@ export type MeshConfig = FormattedGeometry & {
 export type AssetGeometry = {
   geometry: BufferGeometry;
   name: string;
+  assetId: string;
 };
 
 export type GeometryConfig = {

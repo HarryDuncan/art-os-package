@@ -1,4 +1,4 @@
-import { UniformConfig } from "../../../types";
+import { UniformConfig } from "../../../../../../../types/materials/shaders/buildShader.types";
 
 export const BRIGHTNESS_FUNCTIONS = [];
 
@@ -11,4 +11,4 @@ export const BRIGHTNESS_VARYINGS = [];
 
 export const BRIGHTNESS_ATTRIBUTES = [];
 
-export const DEFAULT_BRIGHTNESS_EFFECT_PARAMS = {};
+export const DEFAULT_FRAG_BRIGHTNESS_PROPS = {};

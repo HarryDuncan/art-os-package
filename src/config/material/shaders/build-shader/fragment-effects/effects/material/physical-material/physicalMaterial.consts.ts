@@ -1,5 +1,5 @@
 import { Vector2, Vector3 } from "three";
-import { ShaderPropertyValueTypes } from "../../../../constants";
+import { SHADER_PROPERTY_VALUE_TYPES } from "../../../../../../../../consts/materials/shader.consts";
 import {
   brdfGgx,
   brdfLambert,
@@ -30,12 +30,6 @@ import {
 } from "../../../../shader-properties/functions/maths/maths";
 import { VARYING_TYPES } from "../../../../shader-properties/varyings/varyings.consts";
 import {
-  ShaderFunction,
-  StructConfig,
-  UniformConfig,
-  VaryingConfig,
-} from "../../../../types";
-import {
   displaceByNoise,
   fitPosition,
   frostedTips,
@@ -48,100 +42,122 @@ import {
   fade,
   transitionalNoise,
 } from "../../../../shader-properties/functions/noise/noise";
+import {
+  UniformConfig,
+  ShaderFunction,
+  VaryingConfig,
+  StructConfig,
+} from "../../../../../../../../types/materials/shaders/buildShader.types";
 
 export const PHYSICAL_MATERIAL_UNIFORM_CONFIG = {
   defaultUniforms: ["uResolution"],
   customUniforms: [
     {
       id: "uToneMappingExposure",
-      valueType: ShaderPropertyValueTypes.FLOAT,
+      valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
       value: 0.3,
     },
     {
       id: "uSpecularIntensity",
-      valueType: ShaderPropertyValueTypes.FLOAT,
+      valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
       value: 1.0,
     },
-    { id: "uRoughness", valueType: ShaderPropertyValueTypes.FLOAT, value: 1.0 },
-    { id: "uMetalness", valueType: ShaderPropertyValueTypes.FLOAT, value: 0.0 },
-    { id: "uOpacity", valueType: ShaderPropertyValueTypes.FLOAT, value: 1.0 },
-    { id: "uIor", valueType: ShaderPropertyValueTypes.FLOAT },
+    {
+      id: "uRoughness",
+      valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
+      value: 1.0,
+    },
+    {
+      id: "uMetalness",
+      valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
+      value: 0.0,
+    },
+    {
+      id: "uOpacity",
+      valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
+      value: 1.0,
+    },
+    { id: "uIor", valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT },
     {
       id: "uDiffuse",
-      valueType: ShaderPropertyValueTypes.VEC3,
+      valueType: SHADER_PROPERTY_VALUE_TYPES.VEC3,
       value: new Vector3(0.2, 0.5, 0.5),
     },
     {
       id: "uEmissive",
-      valueType: ShaderPropertyValueTypes.VEC3,
+      valueType: SHADER_PROPERTY_VALUE_TYPES.VEC3,
       value: new Vector3(0.0, 0.0, 1.0),
     },
     {
       id: "uSpecularColor",
-      valueType: ShaderPropertyValueTypes.VEC3,
+      valueType: SHADER_PROPERTY_VALUE_TYPES.VEC3,
       value: new Vector3(0.0, 0.0, 1.0),
     },
     {
       id: "uDirection",
-      valueType: ShaderPropertyValueTypes.VEC2,
+      valueType: SHADER_PROPERTY_VALUE_TYPES.VEC2,
       value: new Vector2(0.5, 0.5),
     },
     {
       id: "uSmoothness",
-      valueType: ShaderPropertyValueTypes.FLOAT,
+      valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
       value: 0.5,
     },
     {
       id: "uSinColor",
-      valueType: ShaderPropertyValueTypes.VEC3,
+      valueType: SHADER_PROPERTY_VALUE_TYPES.VEC3,
       value: new Vector3(1.0, 0.0, 1.0),
     },
     {
       id: "uSinBrightness",
-      valueType: ShaderPropertyValueTypes.FLOAT,
+      valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
       value: 1.0,
     },
-    { id: "uAmbientLightColor", valueType: ShaderPropertyValueTypes.VEC3 },
+    { id: "uAmbientLightColor", valueType: SHADER_PROPERTY_VALUE_TYPES.VEC3 },
     {
       id: "uPointLight",
-      valueType: ShaderPropertyValueTypes.STRUCT,
+      valueType: SHADER_PROPERTY_VALUE_TYPES.STRUCT,
       arrayLength: 2,
       structProperties: {
         id: "PointLight",
         properties: [
           {
             id: "position",
-            valueType: ShaderPropertyValueTypes.VEC3,
+            valueType: SHADER_PROPERTY_VALUE_TYPES.VEC3,
             value: new Vector3(3.0, 3.0, 3.0),
           },
           {
             id: "color",
-            valueType: ShaderPropertyValueTypes.VEC3,
+            valueType: SHADER_PROPERTY_VALUE_TYPES.VEC3,
             value: new Vector3(1.0, 5.0, 5.0),
           },
           {
             id: "distance",
-            valueType: ShaderPropertyValueTypes.FLOAT,
+            valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
             value: 1.0,
           },
-          { id: "decay", valueType: ShaderPropertyValueTypes.FLOAT },
+          { id: "decay", valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT },
         ],
       },
     },
     {
       id: "uLightProbe",
-      valueType: ShaderPropertyValueTypes.VEC3,
+      valueType: SHADER_PROPERTY_VALUE_TYPES.VEC3,
       arrayLength: 9,
       value: new Vector3(1, 0.5, 0.5),
     },
     {
       id: "uInColor",
-      valueType: ShaderPropertyValueTypes.VEC3,
+      valueType: SHADER_PROPERTY_VALUE_TYPES.VEC3,
       value: new Vector3(1, 0.5, 0.5),
     },
 
     // Move these uniforms to distortion/transition effect
-    { id: "uDensity", valueType: ShaderPropertyValueTypes.FLOAT, value: 0.5 },
+    {
+      id: "uDensity",
+      valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
+      value: 0.5,
+    },
   ],
 } as UniformConfig;
 
@@ -199,29 +215,29 @@ export const PHYSICAL_MATERIAL_REQUIRED_FUNCTIONS = [
 export const PHYSICAL_MATERIAL_VARYING_CONFIG = [
   {
     id: "vUv",
-    valueType: ShaderPropertyValueTypes.VEC2,
+    valueType: SHADER_PROPERTY_VALUE_TYPES.VEC2,
     varyingType: VARYING_TYPES.DEFAULT,
   },
   {
     id: "vPosition",
     varyingType: VARYING_TYPES.DEFAULT,
-    valueType: ShaderPropertyValueTypes.VEC3,
+    valueType: SHADER_PROPERTY_VALUE_TYPES.VEC3,
   },
   {
     id: "vModelViewMatrix",
     varyingType: VARYING_TYPES.DEFAULT,
     attributeKey: "modelViewMatrix",
-    valueType: ShaderPropertyValueTypes.MAT4,
+    valueType: SHADER_PROPERTY_VALUE_TYPES.MAT4,
   },
   {
     id: "vEye",
     varyingType: VARYING_TYPES.DEFAULT,
-    valueType: ShaderPropertyValueTypes.VEC3,
+    valueType: SHADER_PROPERTY_VALUE_TYPES.VEC3,
   },
   {
     id: "vDisplacement",
     varyingType: VARYING_TYPES.CUSTOM,
-    valueType: ShaderPropertyValueTypes.FLOAT,
+    valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
     value: 0.5,
   },
 ] as VaryingConfig[];
@@ -230,45 +246,45 @@ export const PHYSICAL_MATERIAL_STRUCT_CONFIG = [
   {
     id: "ReflectedLight",
     properties: [
-      { id: "directDiffuse", valueType: ShaderPropertyValueTypes.VEC3 },
-      { id: "directSpecular", valueType: ShaderPropertyValueTypes.VEC3 },
-      { id: "indirectDiffuse", valueType: ShaderPropertyValueTypes.VEC3 },
-      { id: "indirectSpecular", valueType: ShaderPropertyValueTypes.VEC3 },
+      { id: "directDiffuse", valueType: SHADER_PROPERTY_VALUE_TYPES.VEC3 },
+      { id: "directSpecular", valueType: SHADER_PROPERTY_VALUE_TYPES.VEC3 },
+      { id: "indirectDiffuse", valueType: SHADER_PROPERTY_VALUE_TYPES.VEC3 },
+      { id: "indirectSpecular", valueType: SHADER_PROPERTY_VALUE_TYPES.VEC3 },
     ],
   },
   {
     id: "PhysicalMaterial",
     properties: [
-      { id: "diffuseColor", valueType: ShaderPropertyValueTypes.VEC3 },
-      { id: "roughness", valueType: ShaderPropertyValueTypes.FLOAT },
-      { id: "specularColor", valueType: ShaderPropertyValueTypes.VEC3 },
-      { id: "specularF90", valueType: ShaderPropertyValueTypes.FLOAT },
-      { id: "ior", valueType: ShaderPropertyValueTypes.FLOAT },
+      { id: "diffuseColor", valueType: SHADER_PROPERTY_VALUE_TYPES.VEC3 },
+      { id: "roughness", valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT },
+      { id: "specularColor", valueType: SHADER_PROPERTY_VALUE_TYPES.VEC3 },
+      { id: "specularF90", valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT },
+      { id: "ior", valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT },
     ],
   },
   {
     id: "GeometricContext",
     properties: [
-      { id: "position", valueType: ShaderPropertyValueTypes.VEC3 },
-      { id: "normal", valueType: ShaderPropertyValueTypes.VEC3 },
-      { id: "viewDir", valueType: ShaderPropertyValueTypes.VEC3 },
+      { id: "position", valueType: SHADER_PROPERTY_VALUE_TYPES.VEC3 },
+      { id: "normal", valueType: SHADER_PROPERTY_VALUE_TYPES.VEC3 },
+      { id: "viewDir", valueType: SHADER_PROPERTY_VALUE_TYPES.VEC3 },
     ],
   },
   {
     id: "IncidentLight",
     properties: [
-      { id: "color", valueType: ShaderPropertyValueTypes.VEC3 },
-      { id: "direction", valueType: ShaderPropertyValueTypes.VEC3 },
-      { id: "visible", valueType: ShaderPropertyValueTypes.BOOL },
+      { id: "color", valueType: SHADER_PROPERTY_VALUE_TYPES.VEC3 },
+      { id: "direction", valueType: SHADER_PROPERTY_VALUE_TYPES.VEC3 },
+      { id: "visible", valueType: SHADER_PROPERTY_VALUE_TYPES.BOOL },
     ],
   },
   {
     id: "PointLight",
     properties: [
-      { id: "position", valueType: ShaderPropertyValueTypes.VEC3 },
-      { id: "color", valueType: ShaderPropertyValueTypes.VEC3 },
-      { id: "distance", valueType: ShaderPropertyValueTypes.FLOAT },
-      { id: "decay", valueType: ShaderPropertyValueTypes.FLOAT },
+      { id: "position", valueType: SHADER_PROPERTY_VALUE_TYPES.VEC3 },
+      { id: "color", valueType: SHADER_PROPERTY_VALUE_TYPES.VEC3 },
+      { id: "distance", valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT },
+      { id: "decay", valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT },
     ],
   },
 ] as StructConfig[];

@@ -1,14 +1,14 @@
 import {
-  ColorFragmentEffectProps,
   FragmentEffectData,
-  InteractiveEffectProps,
-} from "../../../types";
+  ColorFragmentEffectProps,
+  InteractiveFragmentEffect,
+} from "../../../../../../../types/materials/shaders/fragmentShader.types";
 import { FRAGMENT_EFFECT } from "../../fragmentEffects.consts";
 import { color } from "../color/color";
 import { defaultFragmentEffect } from "../defaultFragmentEffect/defaultFragmentEffect";
 
 export const getInteractiveEffectTransform = (
-  interactiveEffectProps: InteractiveEffectProps
+  interactiveEffectProps: InteractiveFragmentEffect
 ) => {
   const {
     uniformConfig,
@@ -34,7 +34,7 @@ export const getInteractiveEffectTransform = (
   };
 };
 const getEffectData = (
-  interactiveEffectProps: InteractiveEffectProps
+  interactiveEffectProps: InteractiveFragmentEffect
 ): FragmentEffectData => {
   const { effectType, effectProps } = interactiveEffectProps;
   switch (effectType) {

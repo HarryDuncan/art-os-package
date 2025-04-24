@@ -1,4 +1,3 @@
-import { FragmentEffectData, MaterialEffectProps } from "../../../../types";
 import {
   DEFAULT_MATCAP_EFFECT_PROPS,
   DEFAULT_MATCAP_UNIFORMS,
@@ -7,6 +6,10 @@ import {
 } from "./matcap.consts";
 import { formatFragmentParameters } from "../../../../helpers/formatFragmentParameters";
 import { matcapTransform } from "./matcapTransform";
+import {
+  MaterialEffectProps,
+  FragmentEffectData,
+} from "../../../../../../../../types/materials/shaders/fragmentShader.types";
 
 export const matcapMaterial = (
   effectProps: Partial<MaterialEffectProps> = {}

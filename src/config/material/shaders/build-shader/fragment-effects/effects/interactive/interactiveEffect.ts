@@ -1,10 +1,9 @@
-import { InteractiveFragmentEffect } from "../../../types";
+import { InteractiveFragmentEffect } from "../../../../../../../types/materials/shaders/fragmentShader.types";
 import { formatFragmentParameters } from "../../../helpers/formatFragmentParameters";
 import { reduceFunctions } from "../../../helpers/reduceFunctions";
 import { mergeAttributeConfigs } from "../../../shader-properties/attributes/helpers/mergeAttributeConfigs";
 import { mergeUniformConfigs } from "../../../shader-properties/uniforms/helpers/mergeUniformConfigs";
 import { mergeVaryingConfigs } from "../../../shader-properties/varyings/helpers/mergeVaryingConfigs";
-
 import { DEFAULT_INTERACTIVE_EFFECT } from "./interactiveEffect.consts";
 import { getInteractiveEffectTransform } from "./interactiveEffectTransform";
 

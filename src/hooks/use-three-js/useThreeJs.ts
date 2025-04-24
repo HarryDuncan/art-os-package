@@ -2,7 +2,7 @@
 // @ts-nocheck
 import { useEffect, useRef } from "react";
 import { useInitializeNode } from "../use-initialize-node/useInitializeNode";
-import { useWebGLRenderer } from "./renderer";
+import { useWebGLRenderer } from "./renderer/use-webgl-renderer/useWebGLRenderer";
 import { useOrbitControls } from "./use-orbit-controls/useOrbitControls";
 import { ThreeJsParams } from "../../types/config.types";
 import { useProcessStatus } from "../useProcessStatus";

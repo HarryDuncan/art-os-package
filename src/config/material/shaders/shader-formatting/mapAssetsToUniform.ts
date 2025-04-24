@@ -1,19 +1,12 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 // @ts-nocheck
-
+import { ASSET_MAPPING_RELATIONSHIPS } from "../../../../consts/materials/shader.consts";
 import { Asset } from "../../../../types";
 import { UniformObject } from "../build-shader/types";
-import { AssetToUniformMappingConfig } from "../../../../types/materials.types";
+import { AssetToUniformMappingConfig } from "../../../../types";
 import { getCentroid } from "../../../../utils/three-dimension-space/getCentroid";
 import { Vector2, VideoTexture, LinearFilter, RGBFormat, Texture } from "three";
 
-const ASSET_MAPPING_RELATIONSHIPS = {
-  TEXTURE: "TEXTURE",
-  DIMENSION: "DIMENSION",
-  CENTER3D: "CENTER3D",
-  VIDEO: "VIDEO",
-  VIDEO_STREAM: "VIDEO_STREAM",
-};
 export const mapAssetsToUniforms = (
   assetMapping: AssetToUniformMappingConfig[],
   assets: Asset[],

@@ -1,5 +1,5 @@
+import { StructConfig } from "../../../../../../types/materials/shaders/buildShader.types";
 import { removeDuplicatesByKey } from "../../../../../../utils/removeDuplicatesByKey";
-import { StructConfig } from "../../types";
 
 export const mergeStructConfigs = (
   unmergedStructConfigs: StructConfig[][]

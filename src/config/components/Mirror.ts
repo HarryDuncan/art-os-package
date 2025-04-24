@@ -1,6 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-// @ts-nocheck
-
 import { Color, Vector3, Mesh } from "three";
 import { MirrorProps } from "./threeJsComponents.types";
 import { rotatePlaneToFaceCoordinate } from "../../utils/three-dimension-space/rotatePlane";
@@ -30,6 +27,8 @@ export const createMirror = async (
   height: number
 ): Promise<Mesh> => {
   const { Reflector } = await import("three/examples/jsm/objects/Reflector.js");
-  const mirror = new Reflector(width, height);
+  const { PlaneGeometry } = await import("three");
+  const geometry = new PlaneGeometry(width, height);
+  const mirror = new Reflector(geometry);
   return mirror;
 };

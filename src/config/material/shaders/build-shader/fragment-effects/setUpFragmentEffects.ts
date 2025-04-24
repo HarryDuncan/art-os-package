@@ -2,11 +2,15 @@ import { defaultFragmentEffect } from "./effects/defaultFragmentEffect/defaultFr
 import { getFragmentEffects } from "./effects/getFragmentEffects";
 import { mergeUniformConfigs } from "../shader-properties/uniforms/helpers/mergeUniformConfigs";
 import { mergeVaryingConfigs } from "../shader-properties/varyings/helpers/mergeVaryingConfigs";
-import { FragmentEffectConfig, ShaderFunction, StructConfig } from "../types";
 import { reduceFunctions } from "../helpers/reduceFunctions";
 import { mergeAttributeConfigs } from "../shader-properties/attributes/helpers/mergeAttributeConfigs";
 import { mergeStructConfigs } from "../shader-properties/structs/mergeStructConfigs";
 import { FRAG_COLOR_NAME } from "./fragmentEffects.consts";
+import { FragmentEffectConfig } from "../../../../../types/materials/shaders/fragmentShader.types";
+import {
+  ShaderFunction,
+  StructConfig,
+} from "../../../../../types/materials/shaders/buildShader.types";
 
 export const setUpFragmentEffects = (
   fragmentEffects: FragmentEffectConfig[]

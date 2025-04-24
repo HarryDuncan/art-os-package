@@ -1,6 +1,6 @@
 import { Clock, Scene, Vector3 } from "three";
 import {
-  ANIMATION_FUNCTION_TYPES,
+  ANIMATION_RUN_STYLES,
   ANIMATION_TYPES,
   OBJECT_UPDATE_PROPERTY,
   TRIG_FUNCTION_TYPES,
@@ -17,15 +17,16 @@ export type AnimatedScene = Scene & {
 };
 
 export type AnimationConfig = {
-  animationId: string;
-  animationFunctionType: AnimationFunctionType;
-  targetIdentifier: string;
+  id: string;
+  name?: string;
+  runStyle: runStyle;
+  targetIdentifiers: string[];
+  animationType: AnimationType;
   animationProperties: AnimationProperties;
   isRunning?: boolean;
 };
 
 export interface AnimationPropertiesConfig {
-  animationType: AnimationType;
   animationDurationMilis: number;
   repeatAnimation: boolean;
   animationPauseMilis: number;
@@ -68,7 +69,7 @@ export interface FallAnimationConfig extends AnimationPropertiesConfig {
 
 export type TrigFunctionType = keyof typeof TRIG_FUNCTION_TYPES;
 export type ObjectUpdateProperty = keyof typeof OBJECT_UPDATE_PROPERTY;
-export type AnimationFunctionType = keyof typeof ANIMATION_FUNCTION_TYPES;
+export type runStyle = keyof typeof ANIMATION_RUN_STYLES;
 
 export interface TrigonometricAnimationConfig
   extends AnimationPropertiesConfig {

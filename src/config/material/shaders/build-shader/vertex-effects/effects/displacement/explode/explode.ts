@@ -1,13 +1,10 @@
-import { ShaderPropertyValueTypes } from "../../../../constants/buildShader.consts";
 import {
   AttributeConfig,
-  ExplodeEffectProps,
-  UniformConfig,
-} from "../../../../types";
-import { formatVertexParameters } from "../../../../helpers/formatVertexParameters";
+  UniformValueConfig,
+} from "../../../../../../../../types/materials/shaders/buildShader.types";
+import { SHADER_PROPERTY_VALUE_TYPES } from "../../../../../../../../consts/materials/shader.consts";
 import { VertexEffectData } from "../../../vertexEffects.types";
 import {
-  DEFAULT_EXPLODE_PARAMETERS,
   EXPLODE_FUNCTIONS,
   EXPLODE_UNIFORMS,
   EXPLODE_VARYINGS,
@@ -15,26 +12,21 @@ import {
 import { explodeTransform } from "./explodeTransform";
 
 export const explode = (
-  effectProps: Partial<ExplodeEffectProps> | undefined
+  effectProps: {},
+  effectUniforms: UniformValueConfig[]
 ): VertexEffectData => {
-  const explodeEffectProps = formatVertexParameters(
-    effectProps ?? {},
-    DEFAULT_EXPLODE_PARAMETERS as ExplodeEffectProps
-  ) as ExplodeEffectProps;
-
-  const uniformConfig = EXPLODE_UNIFORMS as UniformConfig;
-  const varyingConfig = EXPLODE_VARYINGS;
-  const transformation = explodeTransform(explodeEffectProps);
+  const transformation = explodeTransform(effectUniforms);
   const requiredFunctions = EXPLODE_FUNCTIONS;
+  const varyingConfig = EXPLODE_VARYINGS;
   const attributeConfig = [
-    { id: "randomAngle", valueType: ShaderPropertyValueTypes.FLOAT },
-    { id: "signDirection", valueType: ShaderPropertyValueTypes.FLOAT },
+    { id: "randomAngle", valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT },
+    { id: "signDirection", valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT },
   ] as AttributeConfig[];
 
   return {
     attributeConfig,
     requiredFunctions,
-    uniformConfig,
+    uniformConfig: EXPLODE_UNIFORMS,
     transformation,
     varyingConfig,
   };

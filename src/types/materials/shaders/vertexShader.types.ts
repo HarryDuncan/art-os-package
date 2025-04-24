@@ -1,17 +1,17 @@
-import { Axis } from "../../../../../types/position.types";
-import { NOISE_EFFECT_TYPES } from "../vertex-effects/effects/displacement/noise/noise.consts";
-import { EffectParameters, PreTransformConfig } from "./buildShader.types";
+import { NOISE_EFFECT_TYPES } from "../../../config/material/shaders/build-shader/vertex-effects/effects/displacement/noise/noise.consts";
 import {
   DISPLACEMENT_TYPES,
   DISTORTION_TYPES,
   IMAGE_VERTEX_EFFECT,
   TRIGGERED_VERTEX_EFFECT,
-} from "../vertex-effects/vertexEffects.consts";
+} from "../../../consts/materials/vertexEffects.consts";
+import { Axis } from "../../position.types";
+import { PreTransformConfig } from "./buildShader.types";
 
 // <--------------------- VERTEX ---------------------------->
 export type VertexEffectType = unknown;
 
-export type ExplodeEffectProps = EffectParameters & {
+export type ExplodeEffectProps = {
   effectDistanceMinLength: number;
   effectStrength: number;
 };
@@ -30,11 +30,11 @@ export type DisplacementEffectProps = {
 export type DistortionType = keyof typeof DISTORTION_TYPES;
 export type TwistDistortionProps = unknown;
 export type DistortionParams = TwistDistortionProps;
-export type DistortionEffectProps = EffectParameters & {
+export type DistortionEffectProps = {
   distortionType: DistortionType;
   effectProps: DistortionParams;
 };
-export type ExpandEffectProps = EffectParameters & {
+export type ExpandEffectProps = {
   effectDistanceMinLength: number;
   effectStrength: number;
   maxEffectStrength: number;
@@ -42,18 +42,18 @@ export type ExpandEffectProps = EffectParameters & {
 };
 
 export type NoiseEffectTypes = keyof typeof NOISE_EFFECT_TYPES;
-export type NoiseEffectProps = EffectParameters & {
+export type NoiseEffectProps = {
   noiseType: NoiseEffectTypes;
   effectStrength: number;
 };
-export type RotationEffectProps = EffectParameters & {
+export type RotationEffectProps = {
   effectType?: string;
   speed: number;
   degrees?: number;
   axis: Axis;
 };
 
-export type NoiseTransitionProps = EffectParameters & {
+export type NoiseTransitionProps = {
   noiseType: string;
   effectStrength: number;
   noiseUniformName: string;
@@ -80,8 +80,8 @@ export type PointsEffectProps = {
 
 // <-------------------- Image Vertex Effects ---------------------------------->
 
-export type ImageToPointsEffectProps = EffectParameters;
-export type ImageAsMaskEffectProps = EffectParameters & {
+export type ImageToPointsEffectProps = Record<string, unknown>;
+export type ImageAsMaskEffectProps = {
   removedColors: string[];
   overlayTexture?: string;
 };
@@ -92,10 +92,10 @@ type ImageSubEffect = {
   effectType: ImageVertexEffectType;
   effectProps: ImageSubEffectProps;
 };
-export type ImageVertexEffectProps = EffectParameters & ImageSubEffect;
+export type ImageVertexEffectProps = ImageSubEffect;
 
 export type ImageVertexEffectType = keyof typeof IMAGE_VERTEX_EFFECT;
-export type ImageVertexEffect = EffectParameters & {
+export type ImageVertexEffect = {
   declareInTransform: boolean;
   effectType: ImageVertexEffectType;
   effectProps: ImageVertexEffectProps;
@@ -112,7 +112,7 @@ export type TriggeredVertexEffect = {
   effectProps: TriggeredVertexEffectProps;
 };
 
-export type TransitionEffectProps = EffectParameters & {
+export type TransitionEffectProps = {
   effectType: string;
   effectProps: VertexEffectProps;
 };

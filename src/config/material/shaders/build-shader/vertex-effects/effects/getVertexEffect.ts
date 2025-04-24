@@ -1,17 +1,18 @@
 import {
+  VertexEffectConfig,
+  UniformConfig,
+} from "../../../../../../types/materials/shaders/buildShader.types";
+import {
+  ExplodeEffectProps,
+  PointsEffectProps,
+  MorphEffectProps,
   DistortionEffectProps,
   ExpandEffectProps,
-  ExplodeEffectProps,
-  ImageVertexEffect,
-  InteractiveEffectProps,
-  MorphEffectProps,
   NoiseEffectProps,
-  PointsEffectProps,
   RotationEffectProps,
-  TriggeredVertexEffect,
-  VertexEffectConfig,
-} from "../../types";
-import { VERTEX_EFFECTS } from "../vertexEffects.consts";
+  ImageVertexEffect,
+} from "../../../../../../types/materials/shaders/vertexShader.types";
+import { VERTEX_EFFECTS } from "../../../../../../consts/materials/vertexEffects.consts";
 import { VertexEffectData } from "../vertexEffects.types";
 import { cloudEffect } from "./displacement/cloud/cloudTransform";
 import { distortionEffect } from "./displacement/distort/distortionEffect";
@@ -21,19 +22,23 @@ import { noise } from "./displacement/noise/noise";
 import { traverseTransform } from "./displacement/traverse/traverseTransform";
 import { vertexFilter } from "./filter-vertex/filterVertex";
 import { imageVertexEffect } from "./image-vertex-effects/imageVertexEffect";
-import { interactiveEffect } from "./interactive/interactiveEffect";
 import { morphVertex } from "./morph/morphVertex";
 import { pointsVertex } from "./points/pointsVertex";
 import { rotationEffect } from "./rotation/rotation";
-import { triggeredEffect } from "./triggered-effect/triggeredEffect";
+import { formatUniformsForEffect } from "../../helpers/formatUniformsForEffect";
 
 export const getVertexEffect = (
-  effect: VertexEffectConfig
+  effect: VertexEffectConfig,
+  uniformConfig: UniformConfig
 ): VertexEffectData => {
   const { effectType, effectProps } = effect;
+  const effectUniforms = formatUniformsForEffect(uniformConfig, effectType);
   switch (effectType) {
     case VERTEX_EFFECTS.EXPLODE: {
-      return explode(effectProps as Partial<ExplodeEffectProps>);
+      return explode(
+        effectProps as Partial<ExplodeEffectProps>,
+        effectUniforms
+      );
     }
     case VERTEX_EFFECTS.FILTER: {
       return vertexFilter();
@@ -55,9 +60,6 @@ export const getVertexEffect = (
     case VERTEX_EFFECTS.DISTORT: {
       return distortionEffect(effectProps as DistortionEffectProps);
     }
-    case VERTEX_EFFECTS.INTERACTIVE: {
-      return interactiveEffect(effectProps as InteractiveEffectProps);
-    }
     case VERTEX_EFFECTS.EXPAND: {
       return expand(effectProps as ExpandEffectProps);
     }
@@ -66,9 +68,6 @@ export const getVertexEffect = (
     }
     case VERTEX_EFFECTS.ROTATE: {
       return rotationEffect(effectProps as RotationEffectProps);
-    }
-    case VERTEX_EFFECTS.TRIGGERED_EFFECT: {
-      return triggeredEffect(effectProps as TriggeredVertexEffect);
     }
     case VERTEX_EFFECTS.VERTEX_IMAGE_EFFECT: {
       return imageVertexEffect(effectProps as ImageVertexEffect);

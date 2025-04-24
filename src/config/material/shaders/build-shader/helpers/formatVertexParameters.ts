@@ -1,5 +1,5 @@
-import { VertexEffectProps } from "../types";
-import { DEFAULT_VERTEX_EFFECT_PARAMS } from "../vertex-effects/vertexEffects.consts";
+import { VertexEffectProps } from "../../../../../types/materials/shaders/vertexShader.types";
+import { DEFAULT_VERTEX_EFFECT_PARAMS } from "../../../../../consts/materials/vertexEffects.consts";
 
 export const formatVertexParameters = (
   parsedEffectProps: Partial<VertexEffectProps>,

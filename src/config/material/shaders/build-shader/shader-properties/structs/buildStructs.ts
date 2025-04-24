@@ -1,4 +1,7 @@
-import { ShaderPropertyConfig, StructConfig } from "../../types";
+import {
+  StructConfig,
+  ShaderPropertyConfig,
+} from "../../../../../../types/materials/shaders/buildShader.types";
 import { STRUCT_DECLARATION } from "./structs.consts";
 
 export const buildStruct = (config: StructConfig[]): string => {
@@ -12,5 +15,5 @@ export const buildStruct = (config: StructConfig[]): string => {
 
 const formatPropertyObject = (properties: ShaderPropertyConfig[]) =>
   properties
-    .map(({ id, valueType }) => `${valueType.toLowerCase()} ${id};`)
+    .map(({ id, valueType }) => `${String(valueType).toLowerCase()} ${id};`)
     .join(" \n ");

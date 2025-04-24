@@ -1,7 +1,10 @@
-import { ShaderPropertyValueTypes } from "../../../../../constants";
+import {
+  UniformConfig,
+  ShaderFunction,
+} from "../../../../../../../../../types/materials/shaders/buildShader.types";
+import { SHADER_PROPERTY_VALUE_TYPES } from "../../../../../../../../../consts/materials/shader.consts";
 import { twisterDistortion } from "../../../../../shader-properties/functions/distortion/distortion";
-import { ShaderFunction, UniformConfig } from "../../../../../types";
-import { VERTEX_POINT_NAME } from "../../../../vertexEffects.consts";
+import { VERTEX_POINT_NAME } from "../../../../../../../../../consts/materials/vertexEffects.consts";
 
 export const flexyTwister = (_effectProps: unknown) => {
   const uniformConfig = {
@@ -9,7 +12,7 @@ export const flexyTwister = (_effectProps: unknown) => {
     customUniforms: [
       {
         id: "uTwistRange",
-        valueType: ShaderPropertyValueTypes.FLOAT,
+        valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
         value: 1.5,
       },
     ],

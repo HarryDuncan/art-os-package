@@ -4,7 +4,6 @@
 import {
   EventConfig,
   InteractionConfig,
-  InteractionEvent,
 } from "../../interaction/interaction.types";
 import { Clock, Scene } from "three";
 import { AnimationManager } from "../../animation/animation-manager/AnimationManager";
@@ -13,15 +12,12 @@ import { ENGINE_EVENTS } from "../../engine/engine.consts";
 import { SceneProperties } from "../../types/config.types";
 import { SceneLight } from "../../config/lights/lights.types";
 import { OrbitControl } from "../../types";
+import { FUNCTION_MAP } from "../../interaction/functions/functionMap";
+import { KEY_POINT_EXTRACTORS } from "../../interaction/key-point-extraction/keyPointExtraction";
 
 export type InteractiveSceneFunctions = {
   onTimeUpdate?: (scene: InteractiveScene) => void;
   onTriggeredUpdate?: (scene: InteractiveScene) => void;
-};
-
-export type SceneInteraction = InteractionConfig & SceneInteractionEvent;
-type SceneInteractionEvent = {
-  onEvent: (interactive: InteractiveScene, details: unknown) => void;
 };
 
 export class InteractiveScene extends Scene {
@@ -38,14 +34,14 @@ export class InteractiveScene extends Scene {
   eventsSet: boolean;
 
   sceneProperties: SceneProperties;
-  interactionEvents: EventConfig[];
+  interactionConfig: InteractionConfig[];
   lights: SceneLight[];
 
   constructor(
     sceneFunctions: InteractiveSceneFunctions,
     eventConfig: EventConfig[],
     animationConfig: AnimationConfig[],
-    interactionEvents: SceneInteraction[],
+    interactionConfig: InteractionConfig[],
     sceneProperties: SceneProperties,
     lights: SceneLight[]
   ) {
@@ -54,17 +50,12 @@ export class InteractiveScene extends Scene {
     this.sceneFunctions = sceneFunctions;
     this.clock = new Clock();
     this.bindExecutionFunctions();
-    this.addEvents(eventConfig);
-    this.addInteractionEvents(interactionEvents);
+    this.addInteractionEvents(interactionConfig);
     this.orbitControls = null;
     this.animationManager = new AnimationManager(animationConfig);
     this.eventsSet = false;
     this.sceneProperties = sceneProperties;
-    this.interactionEvents = interactionEvents.map(({ eventKey, onEvent }) => ({
-      eventKey,
-      onEvent,
-      eventFunction: onEvent,
-    }));
+    this.interactionConfig = interactionConfig;
     this.lights = lights;
   }
 
@@ -87,37 +78,42 @@ export class InteractiveScene extends Scene {
     });
   }
 
-  addInteractionEvents(interactionEvents: SceneInteraction[]) {
-    interactionEvents.forEach(({ eventKey, onEvent }) => {
-      document.addEventListener(eventKey, (e) => {
-        const { detail } = e as InteractionEvent;
-        onEvent(this as InteractiveScene, detail);
-      });
+  private eventListeners: { [key: string]: (e: Event) => void } = {};
+
+  addInteractionEvents(interactionConfigs: InteractionConfig[]) {
+    interactionConfigs.forEach((interactionConfig) => {
+      const eventFunction = FUNCTION_MAP[interactionConfig.functionType];
+      const keyPointExtractor =
+        KEY_POINT_EXTRACTORS[interactionConfig.eventKey];
+      if (!eventFunction) {
+        console.warn(
+          `Event function ${
+            interactionConfig.functionType
+          } not found for interaction config ${
+            interactionConfig.name ?? interactionConfig.id
+          }`
+        );
+      } else {
+        const eventHandler = (e: Event) => {
+          const data = keyPointExtractor(e);
+          eventFunction(this as InteractiveScene, data, interactionConfig);
+        };
+        this.eventListeners[interactionConfig.eventKey] = eventHandler;
+        document.addEventListener(interactionConfig.eventKey, eventHandler);
+      }
     });
   }
 
-  addEvents(eventConfig: EventConfig[]) {
-    if (!this.eventsSet) {
-      eventConfig.forEach(({ eventKey, eventFunction }) => {
-        switch (eventKey) {
-          case "scroll":
-            this.addOnScrollListener(eventFunction);
-            break;
-          default:
-            window.addEventListener(eventKey, (e) => {
-              eventFunction(this, e);
-            });
-        }
-      });
-    }
+  removeInteractionEvents() {
+    Object.entries(this.eventListeners).forEach(([eventKey, handler]) => {
+      document.removeEventListener(eventKey, handler);
+    });
+    this.eventListeners = {};
   }
 
-  addOnScrollListener(eventFunction: (scene: Scene, event: Event) => void) {
-    window.addEventListener("scroll", (e) => {
-      const { scrollY } = window;
-      const event = { ...e, scrollY };
-      eventFunction(this, event);
-    });
+  dispose() {
+    this.removeInteractionEvents();
+    super.dispose();
   }
 
   addAnimations(animations: AnimationConfig[]) {

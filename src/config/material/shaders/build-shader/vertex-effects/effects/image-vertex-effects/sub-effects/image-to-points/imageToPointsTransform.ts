@@ -1,4 +1,6 @@
-import { ShaderPropertyValueTypes } from "../../../../../constants";
+import { AttributeConfig } from "../../../../../../../../../types/materials/shaders/buildShader.types";
+import { ImageToPointsEffectProps } from "../../../../../../../../../types/materials/shaders/vertexShader.types";
+import { SHADER_PROPERTY_VALUE_TYPES } from "../../../../../../../../../consts/materials/shader.consts";
 import {
   rand,
   random,
@@ -6,11 +8,7 @@ import {
 import { noise } from "../../../../../shader-properties/functions/noise/noise";
 import { EMPTY_UNIFORM_CONFIG } from "../../../../../shader-properties/uniforms/uniforms.consts";
 import { VARYING_TYPES } from "../../../../../shader-properties/varyings/varyings.consts";
-import {
-  AttributeConfig,
-  ImageToPointsEffectProps,
-} from "../../../../../types";
-import { VERTEX_POINT_NAME } from "../../../../vertexEffects.consts";
+import { VERTEX_POINT_NAME } from "../../../../../../../../../consts/materials/vertexEffects.consts";
 
 export const imageToPointsTransform = (
   _imageVertexEffectProps: ImageToPointsEffectProps
@@ -21,17 +19,17 @@ export const imageToPointsTransform = (
       id: "vUv",
       varyingType: VARYING_TYPES.ATTRIBUTE,
       attributeKey: "uv",
-      valueType: ShaderPropertyValueTypes.VEC2,
+      valueType: SHADER_PROPERTY_VALUE_TYPES.VEC2,
     },
     {
       id: "vPUv",
       varyingType: VARYING_TYPES.CUSTOM,
-      valueType: ShaderPropertyValueTypes.VEC2,
+      valueType: SHADER_PROPERTY_VALUE_TYPES.VEC2,
     },
     {
       id: "vPixelColor",
       varyingType: VARYING_TYPES.CUSTOM,
-      valueType: ShaderPropertyValueTypes.VEC4,
+      valueType: SHADER_PROPERTY_VALUE_TYPES.VEC4,
       value: `colA`,
     },
   ];

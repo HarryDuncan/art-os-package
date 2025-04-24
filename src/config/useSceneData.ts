@@ -2,7 +2,7 @@
 // @ts-nocheck
 import { formatSceneComponentConfigs } from "../config/components/formatSceneComponentConfigs";
 import { getLightsFromConfig } from "../config/lights/getLightsFromConfig";
-import { formatGlobalMaterials } from "../config/material/formatGlobalMaterials";
+import { formatSceneMaterials } from "../config/material/formatSceneMaterials";
 import { getMeshesFromConfig } from "../config/mesh/getMeshesFromConfig";
 import { SceneConfig, SceneData } from "../types/config.types";
 import { Asset } from "../types";
@@ -27,7 +27,7 @@ export const useSceneData = (
   return useMemo(() => {
     if (!areAssetsInitialized || !formattedConfig) return null;
     const threeJsParams = setUpThreeJs(formattedConfig.threeJsConfig);
-    const { materials, attributeConfigs } = formatGlobalMaterials(
+    const { materials, attributeConfigs } = formatSceneMaterials(
       assets,
       formattedConfig
     );
@@ -37,12 +37,16 @@ export const useSceneData = (
       formattedConfig,
       attributeConfigs
     );
+
     const animationConfig = config?.animationConfig ?? [];
+
     const lights = getLightsFromConfig(formattedConfig);
+
     const sceneComponents = formatSceneComponentConfigs(
       formattedConfig,
       materials
     );
+
     const sceneProperties = getScenePropertiesFromConfig(
       formattedConfig.scenePropertiesConfig
     );

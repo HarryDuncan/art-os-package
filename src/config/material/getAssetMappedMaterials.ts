@@ -8,12 +8,12 @@ import {
   MaterialConfig,
   MaterialType,
   VideoMaterialProps,
-} from "../../types/materials.types";
+} from "../../types";
 import { Asset } from "../../types";
 import {
   ASSET_MAPPED_MATERIALS,
   MATERIAL_TYPES,
-} from "./../../consts/materials.consts";
+} from "../../consts/materials/materials.consts";
 import { getMaterial } from "./getMaterial";
 
 export const getAssetMappedMaterials = (

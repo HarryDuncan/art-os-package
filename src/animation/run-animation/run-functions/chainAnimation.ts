@@ -1,16 +1,20 @@
 import { MeshObject } from "../../../types/mesh.types";
 import { Object3D } from "three";
-import { AnimationProperties } from "../../../types/animation.types";
+import {
+  AnimationProperties,
+  AnimationType,
+} from "../../../types/animation.types";
 import { performAnimation } from "../performAnimation";
 import { stepAndWrap } from "../../../utils/maths/maths";
 
 export const chainAnimation = (
+  animationType: AnimationType,
   animationProperties: AnimationProperties,
   animatedObjects: MeshObject[] | Object3D[]
 ) => {
   const {
     animationDurationMilis,
-    animationType,
+
     animationPauseMilis,
     repeatAnimation,
   } = animationProperties;

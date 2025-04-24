@@ -1,8 +1,8 @@
 import {
-  AttributeConfig,
-  NoiseEffectProps,
   VaryingConfig,
-} from "../../../../types";
+  AttributeConfig,
+} from "../../../../../../../../types/materials/shaders/buildShader.types";
+import { NoiseEffectProps } from "../../../../../../../../types/materials/shaders/vertexShader.types";
 import { formatVertexParameters } from "../../../../helpers/formatVertexParameters";
 
 import { VertexEffectData } from "../../../vertexEffects.types";
