@@ -13,6 +13,7 @@ import {
   DefaultUniform,
   UniformObject,
   UniformValueConfig,
+  InteractionMappedUniform,
 } from "../../../../../../types/materials/shaders/buildShader.types";
 
 export const buildUniforms = (uniformConfig: UniformConfig) => {
@@ -20,7 +21,7 @@ export const buildUniforms = (uniformConfig: UniformConfig) => {
     uniformConfig.defaultUniforms
   );
   const { customUniforms, customStrings } = setUpCustom(
-    uniformConfig?.customUniforms
+    uniformConfig?.customUniforms ?? []
   );
   const uniforms = { ...defaultUniforms, ...customUniforms };
   const uniformDeclaration = [
@@ -53,7 +54,9 @@ const setUpDefaultUniforms = (uniformConfig: DefaultUniform[]) => {
   return { defaultUniforms, defaultStrings };
 };
 
-const setUpCustom = (config: UniformValueConfig[] = []) => {
+const setUpCustom = (
+  config: UniformValueConfig[] | InteractionMappedUniform[]
+) => {
   const { customProperties, customStrings } = setUpCustomPropertyValues(
     config,
     SHADER_PROPERTY_TYPES.UNIFORM as keyof typeof SHADER_PROPERTY_TYPES

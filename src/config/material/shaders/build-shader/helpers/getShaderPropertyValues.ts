@@ -7,7 +7,9 @@ import { createDeclarationString } from "./createDeclarationString";
 import { getDefaultValue } from "./getDefaultValue";
 
 interface CustomProperties {
-  [key: string]: { value: unknown } | { value: unknown }[];
+  [key: string]:
+    | { value: unknown; keyPointId?: string }
+    | { value: unknown; keyPointId?: string }[];
 }
 export const setUpCustomPropertyValues = (
   config: ShaderPropertyConfig[],
@@ -16,7 +18,15 @@ export const setUpCustomPropertyValues = (
   const customProperties: CustomProperties = {};
   const customStrings: string[] = [];
   config.forEach(
-    ({ value, id, valueType, arrayLength, structProperties, arrayValue }) => {
+    ({
+      value,
+      id,
+      valueType,
+      arrayLength,
+      structProperties,
+      arrayValue,
+      keyPointId,
+    }) => {
       if (arrayLength !== undefined) {
         const propertyValues =
           arrayValue ??
@@ -37,6 +47,9 @@ export const setUpCustomPropertyValues = (
           );
         if (propertyValue !== undefined && propertyValue !== null) {
           customProperties[id] = { value: propertyValue };
+          if (keyPointId) {
+            customProperties[id].keyPointId = keyPointId;
+          }
         } else {
           console.warn(
             `Property value for ${id} ${String(valueType)} is undefined`

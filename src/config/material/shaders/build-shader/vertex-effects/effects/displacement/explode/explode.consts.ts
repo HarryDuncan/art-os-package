@@ -7,8 +7,8 @@ import {
 export const EXPLODE_UNIFORMS = {
   defaultUniforms: [],
   customUniforms: [
-    { id: "uMinDistance", valueType: "FLOAT", value: 1.5 },
-    { id: "uStrength", valueType: "FLOAT", value: 1.5 },
+    { id: "uMinDistance", valueType: "FLOAT", value: 1.5, idLocked: true },
+    { id: "uStrength", valueType: "FLOAT", value: 1.5, idLocked: true },
   ],
 } as unknown as UniformConfig;
 

@@ -30,6 +30,7 @@ export type ShaderPropertyConfig = {
   arrayLength?: number;
   arrayValue?: unknown[];
   structProperties?: StructConfig;
+  keyPointId?: string;
 };
 
 export type ShaderFunction = {
@@ -120,7 +121,7 @@ export type UniformValueConfig = ShaderPropertyConfig & {
 };
 
 export type InteractionMappedUniform = UniformValueConfig & {
-  keyPointKey: string;
+  keyPointId: string;
 };
 export type UniformConfig = {
   defaultUniforms: DefaultUniform[];
@@ -146,4 +147,5 @@ export type VertexTransformationConfig = {
   instantiationValue: string;
   allowedValueTypes: keyof (typeof SHADER_PROPERTY_VALUE_TYPES)[];
   effectCode: string[];
+  prefix?: string;
 };

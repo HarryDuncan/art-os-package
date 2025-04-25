@@ -9,13 +9,14 @@ const explodeTransformConfig = {
   effectName: "explode",
   instantiationName: "displacedPosition",
   instantiationType: SHADER_PROPERTY_VALUE_TYPES.VEC3,
-  instantiationValue: "vec3( ${VERTEX_POINT_NAME}.xy, 0)",
+  instantiationValue: `vec3(${VERTEX_POINT_NAME}.xy, 0)`,
   allowedValueTypes: [
     SHADER_PROPERTY_VALUE_TYPES.VEC2,
     SHADER_PROPERTY_VALUE_TYPES.VEC3,
   ],
+  prefix: "float isAffected = 0.0;",
   effectCode: [
-    `vec3 {{effectDistanceVector}} =  vec3{{EFFECT}} - {{displacedPosition}};`,
+    `vec3 {{effectDistanceVector}} =  {{EFFECT}} - {{displacedPosition}};`,
     `float {{effectDistanceLength}} = length({{effectDistanceVector}});`,
     `if({{effectDistanceLength}} <= uMinDistance * uStrength){`,
     `float {{effectDirection}} = sign({{effectDistanceVector}}.x);`,
@@ -40,7 +41,7 @@ const generateTransformation = (
   config: VertexTransformationConfig,
   uniforms: UniformValueConfig[]
 ) => {
-  let transformation = "";
+  let transformation = config.prefix ?? "";
   const allowedUniforms = uniforms.filter((uniform) =>
     (config.allowedValueTypes as unknown as string[]).includes(
       uniform.valueType
@@ -49,7 +50,9 @@ const generateTransformation = (
 
   allowedUniforms.forEach((uniform, index) => {
     // Add instantiation
-    transformation += `${config.instantiationType} ${config.instantiationName}_${index} = ${config.instantiationValue};\n`;
+    transformation += `${valueTypeToValue(config.instantiationType)} ${
+      config.instantiationName
+    }_${index} = ${config.instantiationValue};\n`;
 
     // Process effect code
     config.effectCode.forEach((line: string) => {
@@ -58,11 +61,11 @@ const generateTransformation = (
       // Replace placeholders
       processedLine = processedLine.replace(/{{(\w+)}}/g, (match, key) => {
         if (key === "EFFECT") {
-          return `vec3(${safeParseValue(
+          return `${safeParseValue(
             uniform.id,
             uniform.valueType,
             config.instantiationType
-          )})`;
+          )}`;
         }
         return `${key}_${index}`;
       });
@@ -78,16 +81,37 @@ function safeParseValue(
   valueType: string,
   instantiationType: string
 ): string {
+  if (instantiationType === SHADER_PROPERTY_VALUE_TYPES.VEC3) {
+    switch (valueType) {
+      case SHADER_PROPERTY_VALUE_TYPES.FLOAT:
+        return `vec3(${id},${id},${id})`;
+      case SHADER_PROPERTY_VALUE_TYPES.VEC2:
+        return `vec3(${id}, 0.0)`;
+      case SHADER_PROPERTY_VALUE_TYPES.VEC3:
+        return `vec3(${id})`;
+      case SHADER_PROPERTY_VALUE_TYPES.VEC4:
+        return `vec3(${id}.xyz)`;
+      default:
+        throw new Error(`Unsupported value type: ${valueType}`);
+    }
+  }
+  console.warn(
+    `No safe parse value for ${valueType} and ${instantiationType} has been configured`
+  );
+  return "";
+}
+
+const valueTypeToValue = (valueType: string) => {
   switch (valueType) {
-    case "float":
-      return `${instantiationType}(${id})`;
-    case "vec2":
-      return `vec3(${id}, 0.0)`;
-    case "vec3":
-      return `vec3(${id})`;
-    case "vec4":
-      return `vec3(${id}.xyz)`;
+    case SHADER_PROPERTY_VALUE_TYPES.FLOAT:
+      return `float`;
+    case SHADER_PROPERTY_VALUE_TYPES.VEC2:
+      return `vec2`;
+    case SHADER_PROPERTY_VALUE_TYPES.VEC3:
+      return `vec3`;
+    case SHADER_PROPERTY_VALUE_TYPES.VEC4:
+      return `vec4`;
     default:
       throw new Error(`Unsupported value type: ${valueType}`);
   }
-}
+};
