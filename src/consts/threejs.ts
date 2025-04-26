@@ -1,5 +1,5 @@
 import { MeshBasicMaterial, Vector3 } from "three";
-import { OrbitControlConfig } from "../types";
+import { OrbitControlConfig, RaycasterConfig } from "../types";
 
 export const DEFAULT_POSITION = { x: 0, y: 0, z: 0 };
 export const DEFAULT_VECTOR_POSITION = new Vector3(0, 0, 0);
@@ -43,4 +43,8 @@ export const DEFAULT_ORBIT_CONTROL_CONFIG: OrbitControlConfig = {
     ONE: 0,
     TWO: 0,
   },
+};
+
+export const DEFAULT_RAYCASTER_CONFIG: RaycasterConfig = {
+  enabled: true,
 };

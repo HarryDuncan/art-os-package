@@ -5,7 +5,10 @@ export const mouseMoveKeyPoints = (event: MouseEvent) => {
   return {
     x: event.clientX,
     y: event.clientY,
-    position: new Vector2(event.clientX / 100, event.clientY / 100),
+    position: new Vector2(
+      (event.clientX / window.innerWidth) * 2 - 1,
+      (event.clientY / window.innerHeight) * 2 + 1
+    ),
   };
 };
 

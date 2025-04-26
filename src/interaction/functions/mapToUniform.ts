@@ -1,4 +1,7 @@
-import { Mesh, Scene } from "three";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
+
+import { Scene } from "three";
 import { InteractionConfig } from "../interaction.types";
 
 export const mapToUniform = (
@@ -10,6 +13,7 @@ export const mapToUniform = (
 
   if (!materialIds) return;
 
+  console.log(eventData);
   const meshes = scene.children.flatMap((child) => {
     if (child) {
       return child?.material?.name === materialIds[0] ? child : [];
@@ -34,7 +38,5 @@ export const mapToUniform = (
         }
       });
     });
-
-    console.log(mesh);
   });
 };

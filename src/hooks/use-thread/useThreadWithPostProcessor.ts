@@ -46,6 +46,7 @@ export const useThreadWithPostProcessor = (
         initializedScene,
         renderer
       );
+      initializedScene?.setStatus("active");
       const isInitialized = await postProcessor.current.init();
       if (isInitialized) {
         dispatch({

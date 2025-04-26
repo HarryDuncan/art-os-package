@@ -23,8 +23,9 @@ const explodeTransformConfig = {
     `if({{effectDirection}} == 0.0){`,
     `{{effectDirection}} = -1.0;`,
     `}`,
-    `${VERTEX_POINT_NAME}.x +=  uStrength * {{effectDirection}};`,
-    `${VERTEX_POINT_NAME}.y +=  uStrength * {{effectDirection}};`,
+
+    `${VERTEX_POINT_NAME}.x +=  cos(randomAngle * uTime) * uStrength * {{effectDirection}};`,
+    `${VERTEX_POINT_NAME}.y +=  sin(randomAngle * uTime) * uStrength * {{effectDirection}};`,
     `isAffected = 1.0;`,
     `}`,
   ],

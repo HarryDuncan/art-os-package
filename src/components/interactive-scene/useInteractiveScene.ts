@@ -8,7 +8,7 @@ import {
   InteractionConfig,
 } from "../../interaction/interaction.types";
 import { AnimationConfig } from "../../types/animation.types";
-import { Object3D } from "three";
+import { Camera, Object3D } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { SceneProperties } from "../../types/config.types";
 import { setSceneProperties } from "../../utils/scene/setSceneProperties";
@@ -18,6 +18,7 @@ import { PROCESS_STATUS } from "../../consts/consts";
 import { SceneLight } from "../../types";
 
 export const useInteractiveScene = (
+  camera: Camera,
   sceneFunction: InteractiveSceneFunctions,
   eventConfig: EventConfig[],
   animationConfig: AnimationConfig[],
@@ -49,6 +50,7 @@ export const useInteractiveScene = (
   useEffect(() => {
     if (initializedScene && orbitControls) {
       initializedScene.orbitControls = orbitControls;
+
       dispatch({
         type: "INITIALIZE_SCENE",
         payload: { initializedScene },
@@ -64,7 +66,8 @@ export const useInteractiveScene = (
         animationConfig,
         interactionConfig,
         sceneProperties,
-        lights
+        lights,
+        camera
       );
 
       await setUpSceneObjects(scene);
@@ -83,5 +86,6 @@ export const useInteractiveScene = (
     setUpSceneObjects,
     interactionConfig,
     initializedScene,
+    camera,
   ]);
 };

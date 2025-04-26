@@ -85,8 +85,9 @@ const DisplayContent = ({
     useThreeJs(threeJsParams);
 
   const formattedSceneFunctions = useSceneFunctions(sceneFunctions);
-  console.log(formattedSceneFunctions);
+
   useInteractiveScene(
+    camera,
     formattedSceneFunctions,
     events,
     animationConfig ?? [],

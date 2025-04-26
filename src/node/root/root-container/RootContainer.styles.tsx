@@ -13,7 +13,7 @@ export const Root = styled.div<{
   width: ${({ $width }) => $width};
   overflow: hidden;
   margin: 0 auto;
-  cursor: ${({ $cursor }) => $cursor ?? "none"};
+  cursor: ${({ $cursor }) => $cursor ?? "pointer"};
   position: ${({ $position }) => $position ?? "relative"};
   background-color: ${({ $backgroundColor }) =>
     $backgroundColor ?? "transparent"};

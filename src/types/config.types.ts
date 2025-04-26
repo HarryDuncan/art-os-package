@@ -101,9 +101,13 @@ export type ControlConfig = {
     TWO: number;
   };
 };
+export type RaycasterConfig = {
+  enabled: boolean;
+};
 export type ThreeJSConfig = {
   camera?: CameraConfig;
   controls?: ControlConfig;
+  raycaster?: RaycasterConfig;
 };
 
 export type ScenePropertiesConfig = {
