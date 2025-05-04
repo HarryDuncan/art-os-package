@@ -1,15 +1,13 @@
-import { AttributeConfig } from "../../../../../../../../../types/materials/shaders/buildShader.types";
-import { ImageAsMaskEffectProps } from "../../../../../../../../../types/materials/shaders/vertexShader.types";
-import { SHADER_PROPERTY_VALUE_TYPES } from "../../../../../../../../../consts/materials/shader.consts";
-import { createColorVectorString } from "../../../../../helpers/createColorVectorString";
-import {
-  rand,
-  random,
-} from "../../../../../shader-properties/functions/maths/maths";
-import { noise } from "../../../../../shader-properties/functions/noise/noise";
-import { EMPTY_UNIFORM_CONFIG } from "../../../../../shader-properties/uniforms/uniforms.consts";
-import { VARYING_TYPES } from "../../../../../shader-properties/varyings/varyings.consts";
-import { VERTEX_POINT_NAME } from "../../../../../../../../../consts/materials/vertexEffects.consts";
+import { AttributeConfig } from "../../../../../../../../types/materials/shaders/buildShader.types";
+import { ImageAsMaskEffectProps } from "../../../../../../../../types/materials/shaders/vertexShader.types";
+import { SHADER_PROPERTY_VALUE_TYPES } from "../../../../../../../../consts/materials/shader.consts";
+import { createColorVectorString } from "../../../../helpers/createColorVectorString";
+import { rand } from "../../../../shader-properties/functions/maths/maths";
+import { noise } from "../../../../shader-properties/functions/noise/noise";
+import { EMPTY_UNIFORM_CONFIG } from "../../../../shader-properties/uniforms/uniforms.consts";
+import { VARYING_TYPES } from "../../../../shader-properties/varyings/varyings.consts";
+import { VERTEX_POINT_NAME } from "../../../../../../../../consts/materials/vertexEffects.consts";
+import { randomFloatFunction } from "../../../../shader-properties/functions/random";
 
 export const imageAsMaskTransform = (
   imageVertexEffectProps: ImageAsMaskEffectProps
@@ -53,7 +51,7 @@ export const imageAsMaskTransform = (
   const effectFunctions = [
     { id: "rand", functionDefinition: rand },
     { id: "noise", functionDefinition: noise },
-    { id: "random", functionDefinition: random },
+    randomFloatFunction,
   ];
   const effectAttributes = [] as AttributeConfig[];
 

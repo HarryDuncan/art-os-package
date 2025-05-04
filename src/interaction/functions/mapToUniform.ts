@@ -13,7 +13,6 @@ export const mapToUniform = (
 
   if (!materialIds) return;
 
-  console.log(eventData);
   const meshes = scene.children.flatMap((child) => {
     if (child) {
       return child?.material?.name === materialIds[0] ? child : [];

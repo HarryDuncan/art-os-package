@@ -32,6 +32,7 @@ const getTextureAttributeValues = (
   config: AttributeConfig
 ) => {
   const texture = selectedAsset.data;
+  console.log(selectedAsset);
   // @ts-ignore
   const { width, height } = texture.source.data;
   const numPoints = width * height;
@@ -71,6 +72,7 @@ const getTextureAttributeValues = (
       j += 1;
     }
   }
+  console.log(offsets);
   if (config.id === "position") {
     return {
       ...config,
@@ -87,6 +89,12 @@ const getTextureAttributeValues = (
     return {
       ...config,
       value: new BufferAttribute(indices, 1),
+    };
+  }
+  if (config.id === "pointDisplay") {
+    return {
+      ...config,
+      value: new BufferAttribute(angles, 1),
     };
   }
   return {

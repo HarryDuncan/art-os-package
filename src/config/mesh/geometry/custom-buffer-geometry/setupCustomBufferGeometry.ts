@@ -53,38 +53,42 @@ const setUpQuad = () => {
   return bufferGeometry;
 };
 
-const setUpFullQuad = ({
-  height,
-  width,
-}: {
-  height: number;
-  width: number;
-}) => {
+const DEFAULT_FULL_QUAD_CONFIG = {
+  height: 1000,
+  width: 1000,
+};
+
+const setUpFullQuad = (
+  bufferGeometryConfig: FullQuadConfig = DEFAULT_FULL_QUAD_CONFIG
+) => {
+  const { height, width } = bufferGeometryConfig;
   const bufferGeometry = new BufferGeometry();
 
   const vertices = [];
   const uvs = [];
   const indices = [];
 
-  for (let i = 0; i <= height; i++) {
-    const y = (i / height) * height - height / 2;
-    for (let j = 0; j <= width; j++) {
-      const x = (j / width) * width - width / 2;
+  const meshHeight = height;
+  const meshWidth = width;
+  for (let i = 0; i <= meshHeight; i++) {
+    const y = ((i / meshHeight) * meshHeight - meshHeight / 2) * 0.2;
+    for (let j = 0; j <= meshWidth; j++) {
+      const x = ((j / meshWidth) * meshWidth - meshWidth / 2) * 0.2;
 
       // Add vertex position
       vertices.push(x, -y, 0);
 
       // Add UV coordinates
-      uvs.push(j / width, i / height);
+      uvs.push(j / meshWidth, i / meshHeight);
     }
   }
 
-  for (let i = 0; i < height; i++) {
-    for (let j = 0; j < width; j++) {
-      const a = i * (width + 1) + j;
-      const b = i * (width + 1) + j + 1;
-      const c = (i + 1) * (width + 1) + j;
-      const d = (i + 1) * (width + 1) + j + 1;
+  for (let i = 0; i < meshHeight; i++) {
+    for (let j = 0; j < meshWidth; j++) {
+      const a = i * (meshWidth + 1) + j;
+      const b = i * (meshWidth + 1) + j + 1;
+      const c = (i + 1) * (meshWidth + 1) + j;
+      const d = (i + 1) * (meshWidth + 1) + j + 1;
 
       // Create two triangles (a, b, c) and (b, d, c)
       indices.push(a, c, b);

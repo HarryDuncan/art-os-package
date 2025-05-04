@@ -2,17 +2,17 @@ import {
   ShaderFunction,
   AttributeConfig,
   VaryingConfig,
-} from "../../../../../../../../../types/materials/shaders/buildShader.types";
+  UniformValueConfig,
+} from "../../../../../../../../types/materials/shaders/buildShader.types";
 import {
   ImageToPointsEffectProps,
   ImageAsMaskEffectProps,
-} from "../../../../../../../../../types/materials/shaders/vertexShader.types";
-import { formatVertexParameters } from "../../../../../helpers/formatVertexParameters";
-import { reduceFunctions } from "../../../../../helpers/reduceFunctions";
-import { mergeAttributeConfigs } from "../../../../../shader-properties/attributes/helpers/mergeAttributeConfigs";
-import { mergeUniformConfigs } from "../../../../../shader-properties/uniforms/helpers/mergeUniformConfigs";
-import { mergeVaryingConfigs } from "../../../../../shader-properties/varyings/helpers/mergeVaryingConfigs";
-
+} from "../../../../../../../../types/materials/shaders/vertexShader.types";
+import { formatVertexParameters } from "../../../../helpers/formatVertexParameters";
+import { reduceFunctions } from "../../../../helpers/reduceFunctions";
+import { mergeAttributeConfigs } from "../../../../shader-properties/attributes/helpers/mergeAttributeConfigs";
+import { mergeUniformConfigs } from "../../../../shader-properties/uniforms/helpers/mergeUniformConfigs";
+import { mergeVaryingConfigs } from "../../../../shader-properties/varyings/helpers/mergeVaryingConfigs";
 import {
   DEFAULT_IMAGE_AS_MASK_EFFECT_PROPS,
   IMAGE_AS_MASK_ATTRIBUTE_CONFIG,
@@ -22,7 +22,10 @@ import {
 } from "./imageAsMask.consts";
 import { imageAsMaskTransform } from "./imageAsMaskTransform";
 
-export const imageAsMask = (effectProps: Partial<ImageToPointsEffectProps>) => {
+export const imageAsMask = (
+  effectProps: Partial<ImageToPointsEffectProps>,
+  parsedEffectUniforms: UniformValueConfig[]
+) => {
   const imageAsMaskEffectProps = formatVertexParameters(
     effectProps,
     DEFAULT_IMAGE_AS_MASK_EFFECT_PROPS as ImageToPointsEffectProps

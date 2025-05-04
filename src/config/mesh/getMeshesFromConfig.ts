@@ -33,11 +33,13 @@ export const getMeshesFromConfig = (
     ...multipleMeshConfigs,
   ];
   const formattedGeometry = formatGeometry(assets, allMeshes);
-
+  console.log(attributeConfigs);
   const meshAttributes = formatMeshAttributes(
     meshTransforms ?? [],
     attributeConfigs
   );
+
+  console.log(meshAttributes);
 
   const transformedGeometry = transformGeometry(
     meshAttributes,

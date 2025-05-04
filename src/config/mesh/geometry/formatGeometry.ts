@@ -13,7 +13,10 @@ import {
   formatRotationFromConfig,
 } from "../../../utils/three-dimension-space/formatFromConfig";
 import { setUpCustomBufferGeometry } from "./custom-buffer-geometry/setupCustomBufferGeometry";
-import { CustomBufferGeometryType } from "../../../types/mesh.types";
+import {
+  CustomBufferGeometryType,
+  CustomGeometryConfig,
+} from "../../../types/mesh.types";
 import { CUSTOM_GEOMETRY_TYPES, MESH_TYPES } from "../../../consts/mesh.consts";
 
 export const formatGeometry = (
@@ -26,7 +29,8 @@ export const formatGeometry = (
     const geometry = getGeometryForMeshConfig(
       geometries,
       meshConfig.geometryType,
-      meshConfig.assetId
+      meshConfig.assetId,
+      meshConfig.customGeometryConfig
     );
     if (!geometry?.geometry) {
       return [];
@@ -72,13 +76,14 @@ export const configureGeometry = (
 const getGeometryForMeshConfig = (
   geometries: AssetGeometry[],
   geometryType?: string,
-  assetId?: string
+  assetId?: string,
+  customGeometryConfig?: CustomGeometryConfig
 ) => {
   if (geometryType) {
     if (CUSTOM_GEOMETRY_TYPES.includes(geometryType)) {
       const customGeometry = setUpCustomBufferGeometry(
         geometryType as CustomBufferGeometryType,
-        {}
+        customGeometryConfig
       );
       return { geometry: customGeometry };
     }

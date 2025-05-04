@@ -79,6 +79,7 @@ export const transformGeometry = (
           return attributesSet;
         }
         case MESH_TRANSFORM.SET_UP_QUAD: {
+          console.log("SET_UP_QUAD");
           const attributesSet = transformedMeshes.map((formattedGeometry) => {
             const { geometry } = formattedGeometry;
 

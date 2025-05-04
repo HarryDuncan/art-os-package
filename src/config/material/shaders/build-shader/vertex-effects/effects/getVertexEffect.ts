@@ -11,6 +11,8 @@ import {
   NoiseEffectProps,
   RotationEffectProps,
   ImageVertexEffect,
+  ImageToPointsEffectProps,
+  ImageAsMaskEffectProps,
 } from "../../../../../../types/materials/shaders/vertexShader.types";
 import { VERTEX_EFFECTS } from "../../../../../../consts/materials/vertexEffects.consts";
 import { VertexEffectData } from "../vertexEffects.types";
@@ -21,11 +23,13 @@ import { explode } from "./displacement/explode/explode";
 import { noise } from "./displacement/noise/noise";
 import { traverseTransform } from "./displacement/traverse/traverseTransform";
 import { vertexFilter } from "./filter-vertex/filterVertex";
-import { imageVertexEffect } from "./image-vertex-effects/imageVertexEffect";
+
 import { morphVertex } from "./morph/morphVertex";
 import { pointsVertex } from "./points/pointsVertex";
 import { rotationEffect } from "./rotation/rotation";
 import { formatUniformsForEffect } from "../../helpers/formatUniformsForEffect";
+import { imageToPoints } from "./image-vertex-effects/image-to-points/imageToPoints";
+import { imageAsMask } from "./image-vertex-effects/image-as-mask/imageAsMask";
 
 export const getVertexEffect = (
   effect: VertexEffectConfig,
@@ -70,8 +74,14 @@ export const getVertexEffect = (
     case VERTEX_EFFECTS.ROTATE: {
       return rotationEffect(effectProps as RotationEffectProps);
     }
-    case VERTEX_EFFECTS.VERTEX_IMAGE_EFFECT: {
-      return imageVertexEffect(effectProps as ImageVertexEffect);
+    case VERTEX_EFFECTS.IMAGE_TO_POINTS: {
+      return imageToPoints(
+        effectProps as ImageToPointsEffectProps,
+        effectUniforms
+      );
+    }
+    case VERTEX_EFFECTS.IMAGE_AS_MASK: {
+      return imageAsMask(effectProps as ImageAsMaskEffectProps, effectUniforms);
     }
     default:
       console.warn(

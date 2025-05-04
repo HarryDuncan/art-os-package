@@ -1,5 +1,6 @@
 import { Position3d } from "../../position.types";
 import {
+  ATTRIBUTE_VALUE_TYPES,
   DEFAULT_UNIFORMS,
   SHADER_PROPERTY_VALUE_TYPES,
 } from "../../../consts/materials/shader.consts";
@@ -25,6 +26,7 @@ import {
 // GENERAL TYPES
 export type ShaderPropertyConfig = {
   id: string;
+  name?: string;
   valueType: keyof typeof SHADER_PROPERTY_VALUE_TYPES;
   value?: unknown;
   arrayLength?: number;
@@ -103,7 +105,7 @@ export type ShaderAttributeConfig = {
 };
 export type AttributeValueConfig = RandomBoolConfig;
 export type AttributeConfig = ShaderPropertyConfig & {
-  valueConfig?: AttributeValueConfig;
+  attributeValueType: keyof typeof ATTRIBUTE_VALUE_TYPES;
   assetId?: string;
   attributeCount?: number;
   assetType?: AssetType;
@@ -118,6 +120,7 @@ export type UniformObject = {
 
 export type UniformValueConfig = ShaderPropertyConfig & {
   effectIds?: string[];
+  isAssetMapped?: boolean;
 };
 
 export type InteractionMappedUniform = UniformValueConfig & {
@@ -142,10 +145,11 @@ export type BuiltShaderConfig = {
 
 export type VertexTransformationConfig = {
   effectName: string;
-  instantiationName: string;
-  instantiationType: keyof typeof SHADER_PROPERTY_VALUE_TYPES;
-  instantiationValue: string;
-  allowedValueTypes: keyof (typeof SHADER_PROPERTY_VALUE_TYPES)[];
+  instantiationName?: string;
+  instantiationType?: keyof typeof SHADER_PROPERTY_VALUE_TYPES;
+  instantiationValue?: string;
+  allowedValueTypes?: keyof (typeof SHADER_PROPERTY_VALUE_TYPES)[];
   effectCode: string[];
+  singleInstance?: boolean;
   prefix?: string;
 };

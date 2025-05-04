@@ -20,6 +20,7 @@ export const useThreadWithPostProcessor = (
 
   const update = useCallback(() => {
     if (postProcessor.current?.isInitialized()) {
+      console.log(initializedScene);
       sceneUpdateEvent();
       if (initializedScene) {
         if (initializedScene?.orbitControls) {
@@ -46,8 +47,14 @@ export const useThreadWithPostProcessor = (
         initializedScene,
         renderer
       );
+      initializedScene?.setRendererDimensions(
+        renderer.domElement.clientHeight,
+        renderer.domElement.clientWidth
+      );
       initializedScene?.setStatus("active");
+      console.log(initializedScene);
       const isInitialized = await postProcessor.current.init();
+
       if (isInitialized) {
         dispatch({
           type: "UPDATE_STATUS",

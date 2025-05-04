@@ -1,34 +1,37 @@
 import { BufferAttribute, BufferGeometry } from "three";
 import { getVerticesCount } from "../attribute.functions";
-import {
-  AttributeConfig,
-  AttributeValueConfig,
-} from "../../../../types/materials/shaders/buildShader.types";
-
-const RANDOM_ATTRIBUTE_IDS = ["randomAngle", "random", "pointType"];
-const INDEX_ATTRIBUTE_IDS = ["pointIndex", "index"];
-const RANDOMIZED_ATTRIBUTE_IDS = ["pointDisplay", "signDirection"];
+import { AttributeConfig } from "../../../../types/materials/shaders/buildShader.types";
+import { ATTRIBUTE_VALUE_TYPES } from "../../../../consts/materials/shader.consts";
 
 export const setAttributes = (
   bufferGeometry: BufferGeometry,
   attributeConfig: AttributeConfig[] = []
 ) => {
   const vertexCount = getVerticesCount(bufferGeometry);
-  attributeConfig.forEach(({ id, valueConfig, attributeCount }) => {
-    const valueCount = attributeCount ?? vertexCount;
-    if (checkIds(id, RANDOM_ATTRIBUTE_IDS)) {
-      setRandomValues(id, valueCount, bufferGeometry);
-    } else if (checkIds(id, INDEX_ATTRIBUTE_IDS)) {
-      setIndexValues(id, valueCount, bufferGeometry);
-    } else if (checkIds(id, RANDOMIZED_ATTRIBUTE_IDS)) {
-      setRandomizedPercentage(id, valueCount, bufferGeometry, valueConfig);
+  attributeConfig.forEach(
+    ({ id, value, attributeValueType, attributeCount }) => {
+      const valueCount = attributeCount ?? vertexCount;
+      switch (attributeValueType) {
+        case ATTRIBUTE_VALUE_TYPES.INDEXED:
+          setIndexValues(id, valueCount, bufferGeometry);
+          break;
+        case ATTRIBUTE_VALUE_TYPES.RANDOM_VALUE:
+          setRandomValues(id, valueCount, bufferGeometry);
+          break;
+        case ATTRIBUTE_VALUE_TYPES.RANDOMIZED:
+          setRandomizedPercentage(
+            id,
+            valueCount,
+            bufferGeometry,
+            value as number
+          );
+          break;
+      }
     }
-  });
+  );
+
   return bufferGeometry;
 };
-
-const checkIds = (id: string, allowedIds: string[]) =>
-  allowedIds.some((allowedId) => id.indexOf(allowedId) !== -1);
 
 const setIndexValues = (
   attributeId: string,
@@ -57,14 +60,11 @@ const setRandomizedPercentage = (
   attributeId: string,
   vertexCount: number,
   bufferGeometry: BufferGeometry,
-  valueConfig?: AttributeValueConfig
+  value: number = 0.5
 ) => {
-  const { randomizedPercentage } = valueConfig ?? {
-    randomizedPercentage: 0.5,
-  };
   const randomBool = new Float32Array(vertexCount);
   randomBool.forEach((_value, index) => {
-    randomBool[index] = Math.random() < randomizedPercentage ? 1.0 : 0.0;
+    randomBool[index] = Math.random() < value ? 1.0 : 0.0;
   });
   bufferGeometry.setAttribute(attributeId, new BufferAttribute(randomBool, 1));
 };

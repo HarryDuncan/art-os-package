@@ -54,6 +54,7 @@ export const getBuiltShaderMaterials = (
           side: DoubleSide,
         });
         shader.name = materialConfig.id;
+        console.log(attributesFromAssets);
         return { shader, attributeConfigs: attributesFromAssets };
       }
       return [];

@@ -5,7 +5,7 @@ import {
   EventConfig,
   InteractionConfig,
 } from "../../interaction/interaction.types";
-import { Clock, Scene, Raycaster, Vector2, Camera } from "three";
+import { Clock, Scene, Vector2, Camera } from "three";
 import { AnimationManager } from "../../animation/animation-manager/AnimationManager";
 import { AnimationConfig } from "../../types/animation.types";
 import { ENGINE_EVENTS } from "../../engine/engine.consts";
@@ -14,7 +14,7 @@ import { SceneLight } from "../../config/lights/lights.types";
 import { OrbitControl } from "../../types";
 import { FUNCTION_MAP } from "../../interaction/functions/functionMap";
 import { KEY_POINT_EXTRACTORS } from "../../interaction/key-point-extraction/keyPointExtraction";
-import { getSceneConversionData } from "./getSceneConversionData";
+
 export type InteractiveSceneFunctions = {
   onTimeUpdate?: (scene: InteractiveScene) => void;
   onTriggeredUpdate?: (scene: InteractiveScene) => void;
@@ -85,10 +85,6 @@ export class InteractiveScene extends Scene {
   private eventListeners: { [key: string]: (e: Event) => void } = {};
 
   addInteractionEvents(interactionConfigs: InteractionConfig[]) {
-    const sceneConversionData = getSceneConversionData(this);
-    const raycaster = new Raycaster();
-    const mouse = new Vector2();
-
     interactionConfigs.forEach((interactionConfig) => {
       const eventFunction = FUNCTION_MAP[interactionConfig.functionType];
       const keyPointExtractor =
@@ -103,26 +99,15 @@ export class InteractiveScene extends Scene {
           }`
         );
       } else {
+        const params = {
+          camera: this.camera,
+          rendererHeight: this.rendererHeight,
+          rendererWidth: this.rendererWidth,
+          zTarget: 0,
+        };
+        console.log(params);
         const eventHandler = (e: Event) => {
-          // Convert mouse coordinates to normalized device coordinates (-1 to +1)
-          mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
-          mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
-
-          // Update the raycaster with the camera and mouse position
-          raycaster.setFromCamera(mouse, this.camera);
-          console.log(raycaster);
-          console.log(mouse);
-          // Get intersections with objects in the scene
-          const intersects = raycaster.intersectObjects(this.children, true);
-          console.log(intersects);
-          const data = keyPointExtractor(e);
-          // Add intersection data to the event data
-          const eventData = {
-            ...data,
-            intersects,
-            mousePosition: mouse.clone(),
-          };
-
+          const eventData = keyPointExtractor(e, params);
           eventFunction(this as InteractiveScene, eventData, interactionConfig);
         };
 
