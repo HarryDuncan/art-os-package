@@ -39,7 +39,7 @@ export const generateVertexTransformation = (
           if (key === "EFFECT") {
             return `${safeParseValue(
               uniform.id,
-              uniform.valueType,
+              uniform.valueType as string,
               config.instantiationType || uniform.valueType
             )}`;
           }

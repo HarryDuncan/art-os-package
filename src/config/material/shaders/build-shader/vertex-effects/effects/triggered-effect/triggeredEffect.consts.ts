@@ -1,8 +1,8 @@
 import {
   UniformConfig,
   VaryingConfig,
-} from "../../../../../../../types/materials/shaders/buildShader.types";
-import { TriggeredVertexEffect } from "../../../../../../../types/materials/shaders/vertexShader.types";
+} from "../../../../../../../types/materials/index";
+import { TriggeredVertexEffect } from "../../vertexShader.types";
 import { POINT_PARENTS } from "../../../constants/buildShader.consts";
 import { TRIGGERED_FRAGMENT_EFFECT } from "../../../fragment-effects/fragmentEffects.consts";
 

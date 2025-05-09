@@ -1,5 +1,5 @@
-import { VaryingConfig } from "../../../../../../../types/materials/shaders/buildShader.types";
-import { SHADER_PROPERTY_VALUE_TYPES } from "../../../../../../../consts/materials/shader.consts";
+import { VaryingConfig } from "../../../buildShader.types";
+import { SHADER_PROPERTY_VALUE_TYPES } from "../../../constants/shader.consts";
 import { VARYING_TYPES } from "../../../shader-properties/varyings/varyings.consts";
 
 export const DEFAULT_FRAG_IMAGE_AS_MASK_PROPS = {};

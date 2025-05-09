@@ -1,4 +1,4 @@
-import { TransitionConfig } from "../../../../../../../../types/materials/shaders/vertexShader.types";
+import { TransitionConfig } from "../../../vertexShader.types";
 import { noiseTransition } from "./noise-transition/noiseTransition";
 
 export const morphTransitions = (transitionConfig: TransitionConfig) => {

@@ -1,5 +1,4 @@
-import { UniformConfig } from "../../../../../../types/materials/shaders/buildShader.types";
-import { FragmentEffectConfig } from "../../../../../../types/materials/shaders/buildShader.types";
+import { FragmentEffectConfig, UniformConfig } from "../../buildShader.types";
 import { formatUniformsForEffect } from "../../helpers/formatUniformsForEffect";
 import { FRAGMENT_EFFECT } from "../fragmentEffects.consts";
 import { brightness } from "./brightness/brightness";
@@ -26,7 +25,7 @@ import {
   PointMaterialFragmentEffectProps,
   TriggeredFragmentEffect,
   VanishFragmentEffectProps,
-} from "../../../../../../types/materials/shaders/fragmentShader.types";
+} from "../fragmentShader.types";
 
 export const getFragmentEffects = (
   effect: FragmentEffectConfig,

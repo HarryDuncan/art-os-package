@@ -1,7 +1,7 @@
 import {
   VaryingConfig,
   UniformConfig,
-} from "../../../../../../../../types/materials/shaders/buildShader.types";
+} from "../../../../../../../../types/materials/index";
 import { twisterDistortion } from "../../../../shader-properties/functions/distortion/distortion";
 import { VertexEffectData } from "../../../vertexEffects.types";
 import { alienTransform } from "./alienTransform";

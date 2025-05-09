@@ -2,14 +2,14 @@ import {
   FRAGMENT_EFFECT,
   INTERACTION_FRAGMENT_EFFECT,
   TRIGGERED_FRAGMENT_EFFECT,
-} from "../../../config/material/shaders/build-shader/fragment-effects/fragmentEffects.consts";
+} from "./fragmentEffects.consts";
 import {
   ShaderFunction,
   UniformConfig,
   VaryingConfig,
   AttributeConfig,
   StructConfig,
-} from "./buildShader.types";
+} from "../buildShader.types";
 
 export type FragmentEffectType = keyof typeof FRAGMENT_EFFECT;
 export type PointTexture = {

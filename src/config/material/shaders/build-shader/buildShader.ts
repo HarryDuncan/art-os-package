@@ -22,7 +22,7 @@ import {
   ShaderFunction,
   UniformConfig,
   VaryingConfig,
-} from "../../../../types/materials/shaders/buildShader.types";
+} from "./buildShader.types";
 
 const DEBUG = false;
 export const buildShader = (shaderConfig: BuiltShaderConfig) => {

@@ -1,8 +1,8 @@
 import {
   AttributeConfig,
   UniformValueConfig,
-} from "../../../../../../../../types/materials/shaders/buildShader.types";
-import { SHADER_PROPERTY_VALUE_TYPES } from "../../../../../../../../consts/materials/shader.consts";
+} from "../../../../../../../../types/materials/index";
+import { SHADER_PROPERTY_VALUE_TYPES } from "../../../../constants/shader.consts";
 import { VertexEffectData } from "../../../vertexEffects.types";
 import {
   EXPLODE_FUNCTIONS,

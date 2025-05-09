@@ -2,11 +2,11 @@ import {
   AttributeConfig,
   UniformConfig,
   UniformValueConfig,
-} from "../../../../../../../../types/materials/shaders/buildShader.types";
+} from "../../../../buildShader.types";
 import {
   FragmentEffectType,
   PointMaterialFragmentEffectProps,
-} from "../../../../../../../../types/materials/shaders/fragmentShader.types";
+} from "../../../fragmentShader.types";
 import { formatFragmentParameters } from "../../../../helpers/formatFragmentParameters";
 import { reduceFunctions } from "../../../../helpers/reduceFunctions";
 import { mergeAttributeConfigs } from "../../../../shader-properties/attributes/helpers/mergeAttributeConfigs";

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 // @ts-nocheck
-import { ASSET_MAPPING_RELATIONSHIPS } from "../../../../consts/materials/shader.consts";
+import { ASSET_MAPPING_RELATIONSHIPS } from "../build-shader/constants/shader.consts";
 import { Asset } from "../../../../types";
 import { UniformObject } from "../build-shader/types";
 import { AssetToUniformMappingConfig } from "../../../../types";

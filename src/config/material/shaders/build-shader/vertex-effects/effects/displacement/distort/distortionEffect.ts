@@ -9,7 +9,7 @@ import {
 import { formatVertexParameters } from "../../../../helpers/formatVertexParameters";
 import { mergeUniformConfigs } from "../../../../shader-properties/uniforms/helpers/mergeUniformConfigs";
 import { reduceFunctions } from "../../../../helpers/reduceFunctions";
-import { DistortionEffectProps } from "../../../../../../../../types/materials/shaders/vertexShader.types";
+import { DistortionEffectProps } from "../../../vertexShader.types";
 
 export const distortionEffect = (
   effectProps: Partial<DistortionEffectProps>

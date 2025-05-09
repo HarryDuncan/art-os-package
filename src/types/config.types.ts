@@ -14,7 +14,6 @@ import {
 } from "three";
 import { RendererParams } from "../hooks/use-three-js/renderer/renderer.types";
 import { Position3d } from "./position.types";
-import { SceneConfigType } from "../consts/config.constants";
 import { AdvancedMeshConfig } from "../config/mesh/advanced-mesh/advancedMesh.types";
 import { GLTF } from "three/examples/jsm/loaders/GLTFLoader.js";
 import {
@@ -23,7 +22,7 @@ import {
 } from "../config/components/threeJsComponents.types";
 import { LightConfigs, SceneLight } from "./lights";
 import { CustomGeometryConfig } from "./mesh.types";
-import { AttributeConfig } from "./materials/shaders/buildShader.types";
+import { AttributeConfig } from "../config/material/shaders/build-shader/buildShader.types";
 
 export type MultipleConfig = {
   instanceCount: number;

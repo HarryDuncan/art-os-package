@@ -2,7 +2,7 @@ import {
   ColorFragmentEffectProps,
   FragmentEffectData,
   InteractiveFragmentEffect,
-} from "../../../../../../../types/materials/shaders/fragmentShader.types";
+} from "../../fragmentShader.types";
 import { reduceFunctions } from "../../../helpers/reduceFunctions";
 import { mergeAttributeConfigs } from "../../../shader-properties/attributes/helpers/mergeAttributeConfigs";
 import { mergeUniformConfigs } from "../../../shader-properties/uniforms/helpers/mergeUniformConfigs";

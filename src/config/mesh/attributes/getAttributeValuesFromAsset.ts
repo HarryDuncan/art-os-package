@@ -1,6 +1,6 @@
 import { Asset, ASSET_TYPES } from "../../../types";
 import { BufferAttribute } from "three";
-import { AttributeConfig } from "../../../types/materials/shaders/buildShader.types";
+import { AttributeConfig } from "../../../types/materials/index";
 
 export const getAttributeValuesFromAssets = (
   attributeConfig: AttributeConfig[],

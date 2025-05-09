@@ -1,7 +1,7 @@
 import {
   UniformValueConfig,
   VertexTransformationConfig,
-} from "../../../../../../../../types/materials/shaders/buildShader.types";
+} from "../../../../../../../../types/materials/index";
 import { VERTEX_POINT_NAME } from "../../../../../../../../consts/materials/vertexEffects.consts";
 import { generateVertexTransformation } from "../../../../helpers/generateTransform";
 

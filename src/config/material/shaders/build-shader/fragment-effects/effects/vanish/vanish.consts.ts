@@ -1,5 +1,5 @@
-import { UniformConfig } from "../../../../../../../types/materials/shaders/buildShader.types";
-import { SHADER_PROPERTY_VALUE_TYPES } from "../../../../../../../consts/materials/shader.consts";
+import { UniformConfig } from "../../../buildShader.types";
+import { SHADER_PROPERTY_VALUE_TYPES } from "../../../constants/shader.consts";
 
 import { simplePerlinNoise } from "../../../shader-properties/functions/noise/perlinNoise";
 import { VARYING_TYPES } from "../../../shader-properties/varyings/varyings.consts";

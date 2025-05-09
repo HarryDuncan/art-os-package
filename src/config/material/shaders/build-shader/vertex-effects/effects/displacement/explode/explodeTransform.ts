@@ -1,9 +1,9 @@
 import { VERTEX_POINT_NAME } from "../../../../../../../../consts/materials/vertexEffects.consts";
-import { SHADER_PROPERTY_VALUE_TYPES } from "../../../../../../../../consts/materials/shader.consts";
+import { SHADER_PROPERTY_VALUE_TYPES } from "../../../../constants/shader.consts";
 import {
   UniformValueConfig,
   VertexTransformationConfig,
-} from "../../../../../../../../types/materials/shaders/buildShader.types";
+} from "../../../../../../../../types/materials/index";
 import { generateVertexTransformation } from "../../../../helpers/generateTransform";
 
 const explodeTransformConfig = {

@@ -1,8 +1,8 @@
 import { Vector3 } from "three";
-import { SHADER_PROPERTY_VALUE_TYPES } from "../../../../../../../../../consts/materials/shader.consts";
+import { SHADER_PROPERTY_VALUE_TYPES } from "../../../../../constants/shader.consts";
 import { scaleVector3 } from "../../../../../shader-properties/functions/maths/vectorCalculations";
 import { VERTEX_POINT_NAME } from "../../../../../../../../../consts/materials/vertexEffects.consts";
-import { UniformConfig } from "../../../../../../../../../types/materials/shaders/buildShader.types";
+import { UniformConfig } from "../../../../../../../../../types/materials/index";
 
 export const stretch = (_effectProps: unknown) => {
   const uniformConfig = {

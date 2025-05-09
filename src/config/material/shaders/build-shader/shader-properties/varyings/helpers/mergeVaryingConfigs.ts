@@ -1,4 +1,4 @@
-import { VaryingConfig } from "../../../../../../../types/materials/shaders/buildShader.types";
+import { VaryingConfig } from "../../../../../../../types/materials/index";
 import { removeDuplicatesByKey } from "../../../../../../../utils/removeDuplicatesByKey";
 
 export const mergeVaryingConfigs = (

@@ -1,8 +1,8 @@
-import { StructConfig } from "../../../../../types/materials/shaders/buildShader.types";
+import { StructConfig } from "../buildShader.types";
 import {
   SHADER_PROPERTY_TYPES,
   SHADER_PROPERTY_VALUE_TYPES,
-} from "../../../../../consts/materials/shader.consts";
+} from "../constants/shader.consts";
 
 export const createDeclarationString = (
   propertyType: keyof typeof SHADER_PROPERTY_TYPES,

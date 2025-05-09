@@ -11,7 +11,7 @@ import {
   VERTEX_NORMAL_NAME,
   VERTEX_POINT_NAME,
 } from "../../../../../../../consts/materials/vertexEffects.consts";
-import { RotationEffectProps } from "../../../../../../../types/materials/shaders/vertexShader.types";
+import { RotationEffectProps } from "../../vertexShader.types";
 import { UniformConfig } from "../../../../../../../types";
 
 const getFunctionName = (axis: Axis) => {

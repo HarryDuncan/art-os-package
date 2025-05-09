@@ -1,5 +1,5 @@
 import { AXIS } from "../../../../../../../types/position.types";
-import { SHADER_PROPERTY_VALUE_TYPES } from "../../../../../../../consts/materials/shader.consts";
+import { SHADER_PROPERTY_VALUE_TYPES } from "../../../constants/shader.consts";
 
 export const ROTATION_UNIFORMS = {
   defaultUniforms: [],

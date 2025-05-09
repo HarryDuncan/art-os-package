@@ -1,4 +1,4 @@
-import { UniformConfig } from "../../../../../../../types/materials/shaders/buildShader.types";
+import { UniformConfig } from "../../../../../../../types/materials/index";
 
 export const DEFAULT_MORPH_EFFECT_PROPS = {
   morphCount: 2,

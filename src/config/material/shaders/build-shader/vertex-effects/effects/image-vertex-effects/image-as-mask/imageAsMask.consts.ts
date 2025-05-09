@@ -1,4 +1,4 @@
-import { VaryingConfig } from "../../../../../../../../types/materials/shaders/buildShader.types";
+import { VaryingConfig } from "../../../../../../../../types/materials/index";
 import { VERTEX_EFFECTS } from "../../../../../../../../consts/materials/vertexEffects.consts";
 
 export const DEFAULT_IMAGE_AS_MASK_EFFECT_PROPS = {

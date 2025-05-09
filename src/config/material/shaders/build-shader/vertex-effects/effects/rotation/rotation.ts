@@ -6,7 +6,7 @@ import {
 } from "./rotation.consts";
 import { VertexEffectData } from "../../vertexEffects.types";
 import { rotationTransform } from "./rotationTransform";
-import { RotationEffectProps } from "../../../../../../../types/materials/shaders/vertexShader.types";
+import { RotationEffectProps } from "../../vertexShader.types";
 
 export const rotationEffect = (
   effectProps: Partial<RotationEffectProps> = {}

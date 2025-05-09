@@ -1,5 +1,5 @@
-import { UniformValueConfig } from "../../../../../../../../types/materials/shaders/buildShader.types";
-import { ImageToPointsEffectProps } from "../../../../../../../../types/materials/shaders/vertexShader.types";
+import { UniformValueConfig } from "../../../../../../../../types/materials/index";
+import { ImageToPointsEffectProps } from "../../../vertexShader.types";
 import {
   IMAGE_TO_POINTS_ATTRIBUTES,
   IMAGE_TO_POINTS_REQUIRED_FUNCTIONS,

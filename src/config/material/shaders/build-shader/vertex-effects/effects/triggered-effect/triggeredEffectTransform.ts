@@ -1,8 +1,8 @@
-import { TriggeredEffectProps } from "../../../../../../../types/materials/shaders/buildShader.types";
+import { TriggeredEffectProps } from "../../../../../../../types/materials/index";
 import {
   ExpandEffectProps,
   RotationEffectProps,
-} from "../../../../../../../types/materials/shaders/vertexShader.types";
+} from "../../vertexShader.types";
 import { DEFAULT_VERTEX_EFFECT } from "../../../constants";
 import { TRIGGERED_FRAGMENT_EFFECT } from "../../../fragment-effects/fragmentEffects.consts";
 import { VERTEX_EFFECTS } from "../../../../../../../consts/materials/vertexEffects.consts";

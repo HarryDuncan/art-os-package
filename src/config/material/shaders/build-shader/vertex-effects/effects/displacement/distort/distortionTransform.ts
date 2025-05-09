@@ -1,4 +1,4 @@
-import { DistortionEffectProps } from "../../../../../../../../types/materials/shaders/vertexShader.types";
+import { DistortionEffectProps } from "../../../vertexShader.types";
 import { vertexEffectToEffectData } from "../../../../helpers/vertexEffectToEffectData";
 import { DISTORTION_TYPES } from "../../../../../../../../consts/materials/vertexEffects.consts";
 import { flexyTwister } from "./flexy-twister/flexyTwister";

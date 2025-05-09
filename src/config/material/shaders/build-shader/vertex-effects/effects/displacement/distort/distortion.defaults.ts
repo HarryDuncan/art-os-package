@@ -2,7 +2,7 @@ import {
   UniformConfig,
   VaryingConfig,
   AttributeConfig,
-} from "../../../../../../../../types/materials/shaders/buildShader.types";
+} from "../../../../../../../../types/materials/index";
 import { twisterDistortion } from "../../../../shader-properties/functions/distortion/distortion";
 
 export const DEFAULT_DISTORT_UNIFORMS = {

@@ -1,12 +1,12 @@
 import { Vector3 } from "three";
-import { SHADER_PROPERTY_VALUE_TYPES } from "../../../../../../../../consts/materials/shader.consts";
+import { SHADER_PROPERTY_VALUE_TYPES } from "../../../../constants/shader.consts";
 import { VARYING_TYPES } from "../../../../shader-properties/varyings/varyings.consts";
 import { UNIFORM_TAGS } from "../../../../shader-properties/uniforms/uniforms.consts";
 import {
   DefaultUniform,
   UniformConfig,
   VaryingConfig,
-} from "../../../../../../../../types/materials/shaders/buildShader.types";
+} from "../../../../buildShader.types";
 
 export const DEFAULT_PHONG_UNIFORMS = {
   defaultUniforms: ["uMaterial", "uResolution"] as DefaultUniform[],

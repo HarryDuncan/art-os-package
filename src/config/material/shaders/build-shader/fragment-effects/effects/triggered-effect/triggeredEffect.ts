@@ -14,7 +14,7 @@ import { formatFragmentParameters } from "../../../helpers/formatFragmentParamet
 import {
   TriggeredFragmentEffect,
   FragmentEffectData,
-} from "../../../../../../../types/materials/shaders/fragmentShader.types";
+} from "../../fragmentShader.types";
 
 export const triggeredEffect = (
   effectProps: Partial<TriggeredFragmentEffect>

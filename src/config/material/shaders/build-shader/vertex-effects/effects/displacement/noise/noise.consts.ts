@@ -1,4 +1,4 @@
-import { UniformConfig } from "../../../../../../../../types/materials/shaders/buildShader.types";
+import { UniformConfig } from "../../../../../../../../types/materials/index";
 import { noise3D } from "../../../../shader-properties/functions/noise/noise3d";
 
 export const NOISE_EFFECT_TYPES = {

@@ -2,7 +2,7 @@ import {
   DEFAULT_UNIFORMS,
   SHADER_PROPERTY_TYPES,
   SHADER_PROPERTY_VALUE_TYPES,
-} from "../../../../../../consts/materials/shader.consts";
+} from "../../constants/shader.consts";
 import { createDeclarationString } from "../../helpers/createDeclarationString";
 import { setUpCustomPropertyValues } from "../../helpers/getShaderPropertyValues";
 import { getResolution } from "./helpers/getResolution";
@@ -14,7 +14,7 @@ import {
   UniformObject,
   UniformValueConfig,
   InteractionMappedUniform,
-} from "../../../../../../types/materials/shaders/buildShader.types";
+} from "../../../../../../types/materials/index";
 
 export const buildUniforms = (uniformConfig: UniformConfig) => {
   const { defaultUniforms, defaultStrings } = setUpDefaultUniforms(

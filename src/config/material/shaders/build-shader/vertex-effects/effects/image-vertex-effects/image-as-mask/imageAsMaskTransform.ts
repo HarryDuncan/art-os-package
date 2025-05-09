@@ -1,6 +1,6 @@
-import { AttributeConfig } from "../../../../../../../../types/materials/shaders/buildShader.types";
-import { ImageAsMaskEffectProps } from "../../../../../../../../types/materials/shaders/vertexShader.types";
-import { SHADER_PROPERTY_VALUE_TYPES } from "../../../../../../../../consts/materials/shader.consts";
+import { AttributeConfig } from "../../../../../../../../types/materials/index";
+import { ImageAsMaskEffectProps } from "../../../vertexShader.types";
+import { SHADER_PROPERTY_VALUE_TYPES } from "../../../../constants/shader.consts";
 import { createColorVectorString } from "../../../../helpers/createColorVectorString";
 import { rand } from "../../../../shader-properties/functions/maths/maths";
 import { noise } from "../../../../shader-properties/functions/noise/noise";

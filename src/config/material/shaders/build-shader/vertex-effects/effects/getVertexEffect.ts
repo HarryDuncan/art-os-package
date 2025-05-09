@@ -1,7 +1,7 @@
 import {
   VertexEffectConfig,
   UniformConfig,
-} from "../../../../../../types/materials/shaders/buildShader.types";
+} from "../../../../../../types/materials/index";
 import {
   ExplodeEffectProps,
   PointsEffectProps,
@@ -10,10 +10,9 @@ import {
   ExpandEffectProps,
   NoiseEffectProps,
   RotationEffectProps,
-  ImageVertexEffect,
   ImageToPointsEffectProps,
   ImageAsMaskEffectProps,
-} from "../../../../../../types/materials/shaders/vertexShader.types";
+} from "../vertexShader.types";
 import { VERTEX_EFFECTS } from "../../../../../../consts/materials/vertexEffects.consts";
 import { VertexEffectData } from "../vertexEffects.types";
 import { cloudEffect } from "./displacement/cloud/cloudTransform";

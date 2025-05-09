@@ -1,5 +1,0 @@
-[
-  [],
-  [{ "effectType": "EXPLODE" }],
-  [{ "effectType": "EXPLODE" }, { "effectType": "FILTER_VERTEX" }]
-]

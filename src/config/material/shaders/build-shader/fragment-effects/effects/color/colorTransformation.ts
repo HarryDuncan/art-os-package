@@ -1,4 +1,4 @@
-import { ColorFragmentEffectProps } from "../../../../../../../types/materials/shaders/fragmentShader.types";
+import { ColorFragmentEffectProps } from "../../fragmentShader.types";
 import { createColorVectorString } from "../../../helpers/createColorVectorString";
 import { FRAG_COLOR_NAME } from "../../../../../../../consts";
 

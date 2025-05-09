@@ -1,6 +1,6 @@
 import { MeshTransformConfig } from "../../../types/config.types";
 import { MESH_TRANSFORM } from "../../../consts/mesh.consts";
-import { ShaderAttributeConfig } from "../../../types/materials/shaders/buildShader.types";
+import { ShaderAttributeConfig } from "../../../types/materials/index";
 
 export const formatMeshAttributes = (
   meshTransforms: MeshTransformConfig[],

@@ -8,7 +8,7 @@ import {
 import {
   MaterialEffectProps,
   FragmentEffectData,
-} from "../../../../../../../../types/materials/shaders/fragmentShader.types";
+} from "../../../fragmentShader.types";
 
 export const physicalMaterial = (
   effectProps: Partial<MaterialEffectProps> = {}

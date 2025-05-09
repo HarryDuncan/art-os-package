@@ -1,4 +1,4 @@
-import { MaterialEffectProps } from "../../../../../../../../types/materials/shaders/fragmentShader.types";
+import { MaterialEffectProps } from "../../../fragmentShader.types";
 import { FRAG_COLOR_NAME } from "../../../../../../../../consts";
 
 export const matcapTransform = (_matcapEffectProps: MaterialEffectProps) => {

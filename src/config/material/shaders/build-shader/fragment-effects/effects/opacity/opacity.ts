@@ -10,7 +10,7 @@ import { opacityTransform } from "./opacityTransform";
 import {
   FragmentEffectData,
   OpacityFragmentEffectProps,
-} from "../../../../../../../types/materials/shaders/fragmentShader.types";
+} from "../../fragmentShader.types";
 
 export const opacity = (
   effectProps: Partial<OpacityFragmentEffectProps>

@@ -1,4 +1,4 @@
-import { FragmentEffectProps } from "../../../../../types/materials/shaders/fragmentShader.types";
+import { FragmentEffectProps } from "../fragment-effects/fragmentShader.types";
 import { DEFAULT_FRAGMENT_EFFECT_PARAMS } from "../fragment-effects/fragmentEffects.consts";
 
 export const formatFragmentParameters = (

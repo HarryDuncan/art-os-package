@@ -9,7 +9,7 @@ import { matcapTransform } from "./matcapTransform";
 import {
   MaterialEffectProps,
   FragmentEffectData,
-} from "../../../../../../../../types/materials/shaders/fragmentShader.types";
+} from "../../../fragmentShader.types";
 
 export const matcapMaterial = (
   effectProps: Partial<MaterialEffectProps> = {}

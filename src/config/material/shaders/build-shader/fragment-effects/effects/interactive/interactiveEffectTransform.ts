@@ -2,7 +2,7 @@ import {
   FragmentEffectData,
   ColorFragmentEffectProps,
   InteractiveFragmentEffect,
-} from "../../../../../../../types/materials/shaders/fragmentShader.types";
+} from "../../fragmentShader.types";
 import { FRAGMENT_EFFECT } from "../../fragmentEffects.consts";
 import { color } from "../color/color";
 import { defaultFragmentEffect } from "../defaultFragmentEffect/defaultFragmentEffect";

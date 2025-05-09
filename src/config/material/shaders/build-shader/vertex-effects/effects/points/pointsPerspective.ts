@@ -1,4 +1,4 @@
-import { PointPerspectiveConfig } from "../../../../../../../types/materials/shaders/vertexShader.types";
+import { PointPerspectiveConfig } from "../../vertexShader.types";
 import { shaderSafeFloat } from "../../../../../../../utils/conversion/shaderConversions";
 
 export const pointsPerspective = (

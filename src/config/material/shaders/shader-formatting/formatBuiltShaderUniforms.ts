@@ -2,7 +2,7 @@ import { IUniform, Vector2 } from "three";
 import { Asset } from "../../../../types";
 import { AssetToUniformMappingConfig } from "../../../../types";
 import { mapAssetsToUniforms } from "./mapAssetsToUniform";
-import { UniformObject } from "../../../../types/materials/shaders/buildShader.types";
+import { UniformObject } from "../../../../types/materials/index";
 
 export const formatBuiltShaderUniforms = (
   uniforms: UniformObject,

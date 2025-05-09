@@ -1,8 +1,8 @@
-import { AttributeConfig } from "../../../../../../types/materials/shaders/buildShader.types";
+import { AttributeConfig } from "../../../../../../types/materials/index";
 import {
   SHADER_PROPERTY_VALUE_TYPES,
   SHADER_PROPERTY_TYPES,
-} from "../../../../../../consts/materials/shader.consts";
+} from "../../constants/shader.consts";
 import { createDeclarationString } from "../../helpers/createDeclarationString";
 
 export const buildAttributes = (config: AttributeConfig[]) => {

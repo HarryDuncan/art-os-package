@@ -1,8 +1,8 @@
-import { VaryingConfig } from "../../../../../../../types/materials/shaders/buildShader.types";
+import { VaryingConfig } from "../../../buildShader.types";
 import {
   VanishFragmentEffectProps,
   FragmentEffectData,
-} from "../../../../../../../types/materials/shaders/fragmentShader.types";
+} from "../../fragmentShader.types";
 import { formatFragmentParameters } from "../../../helpers/formatFragmentParameters";
 import {
   DEFAULT_VANISH_EFFECT_PARAMS,

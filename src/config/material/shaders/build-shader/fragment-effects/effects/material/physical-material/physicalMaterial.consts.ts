@@ -1,5 +1,5 @@
 import { Vector2, Vector3 } from "three";
-import { SHADER_PROPERTY_VALUE_TYPES } from "../../../../../../../../consts/materials/shader.consts";
+import { SHADER_PROPERTY_VALUE_TYPES } from "../../../../constants/shader.consts";
 import {
   brdfGgx,
   brdfLambert,
@@ -47,7 +47,7 @@ import {
   ShaderFunction,
   VaryingConfig,
   StructConfig,
-} from "../../../../../../../../types/materials/shaders/buildShader.types";
+} from "../../../../buildShader.types";
 
 export const PHYSICAL_MATERIAL_UNIFORM_CONFIG = {
   defaultUniforms: ["uResolution"],

@@ -1,7 +1,7 @@
 import {
   UniformConfig,
   ShaderPropertyConfig,
-} from "../../../../../../../types/materials/shaders/buildShader.types";
+} from "../../../../../../../types/materials/index";
 import { removeDuplicatesByKey } from "../../../../../../../utils/removeDuplicatesByKey";
 import { EMPTY_UNIFORM_CONFIG } from "../uniforms.consts";
 

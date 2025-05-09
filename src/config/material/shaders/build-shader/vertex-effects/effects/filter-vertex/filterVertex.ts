@@ -1,4 +1,4 @@
-import { UniformConfig } from "../../../../../../../types/materials/shaders/buildShader.types";
+import { UniformConfig } from "../../../../../../../types/materials/index";
 import { VertexEffectData } from "../../vertexEffects.types";
 import { vertexFilterTransformation } from "./vertexFilterTransformation";
 

@@ -1,4 +1,4 @@
-import { FragmentEffectData } from "../../../../../../../types/materials/shaders/fragmentShader.types";
+import { FragmentEffectData } from "../../fragmentShader.types";
 import { EMPTY_UNIFORM_CONFIG } from "../../../shader-properties/uniforms/uniforms.consts";
 
 export const defaultFragmentEffect = (): FragmentEffectData => {

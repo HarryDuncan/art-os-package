@@ -2,7 +2,7 @@ import { noise3D } from "../../../../../../../../config/material/shaders/build-s
 import {
   VaryingConfig,
   UniformConfig,
-} from "../../../../../../../../types/materials/shaders/buildShader.types";
+} from "../../../../../../../../types/materials/index";
 import { VERTEX_POINT_NAME } from "../../../../../../../../consts/materials/vertexEffects.consts";
 import { VertexEffectData } from "../../../vertexEffects.types";
 

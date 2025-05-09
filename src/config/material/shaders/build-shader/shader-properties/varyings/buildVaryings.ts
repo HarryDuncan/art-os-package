@@ -1,7 +1,7 @@
 import {
   SHADER_PROPERTY_TYPES,
   SHADER_PROPERTY_VALUE_TYPES,
-} from "../../../../../../consts/materials/shader.consts";
+} from "../../constants/shader.consts";
 import { createDeclarationString } from "../../helpers/createDeclarationString";
 import { getDefaultValueAsString } from "../../helpers/getDefaultValue";
 import {
@@ -17,7 +17,7 @@ import {
 import {
   VaryingConfig,
   AttributeConfig,
-} from "../../../../../../types/materials/shaders/buildShader.types";
+} from "../../../../../../types/materials/index";
 
 export const buildVaryings = (
   varyingSchema: VaryingConfig[],

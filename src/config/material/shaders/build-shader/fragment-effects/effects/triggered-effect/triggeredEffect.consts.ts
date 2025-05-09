@@ -1,11 +1,8 @@
-import {
-  UniformConfig,
-  VaryingConfig,
-} from "../../../../../../../types/materials/shaders/buildShader.types";
+import { UniformConfig, VaryingConfig } from "../../../buildShader.types";
 import {
   TriggeredFragmentEffectProps,
   TriggeredFragmentEffect,
-} from "../../../../../../../types/materials/shaders/fragmentShader.types";
+} from "../../fragmentShader.types";
 import { POINT_PARENTS } from "../../../constants/buildShader.consts";
 import { TRIGGERED_FRAGMENT_EFFECT } from "../../fragmentEffects.consts";
 

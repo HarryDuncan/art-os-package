@@ -12,7 +12,7 @@ import {
   UniformConfig,
   VaryingConfig,
   VertexEffectConfig,
-} from "../../../../../types/materials/shaders/buildShader.types";
+} from "../../../../../types/materials/index";
 
 export const setUpVertexEffects = (
   vertexEffects: VertexEffectConfig[],

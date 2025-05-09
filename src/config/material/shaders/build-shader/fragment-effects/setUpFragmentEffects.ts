@@ -10,7 +10,7 @@ import {
   ShaderFunction,
   StructConfig,
   UniformConfig,
-} from "../../../../../types/materials/shaders/buildShader.types";
+} from "../buildShader.types";
 import { FRAG_COLOR_NAME } from "../../../../../consts";
 
 export const setUpFragmentEffects = (

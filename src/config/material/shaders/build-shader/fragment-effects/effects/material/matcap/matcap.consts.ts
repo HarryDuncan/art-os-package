@@ -2,8 +2,8 @@ import {
   DefaultUniform,
   UniformConfig,
   VaryingConfig,
-} from "../../../../../../../../types/materials/shaders/buildShader.types";
-import { SHADER_PROPERTY_VALUE_TYPES } from "../../../../../../../../consts/materials/shader.consts";
+} from "../../../../buildShader.types";
+import { SHADER_PROPERTY_VALUE_TYPES } from "../../../../constants/shader.consts";
 import {
   matcapFunction,
   textureLevel,

@@ -3,7 +3,7 @@ import {
   ENV_MAP_TYPES,
   MATERIAL_TYPES,
 } from "../../consts/materials/materials.consts";
-import { BuiltShaderConfig } from "./shaders/buildShader.types";
+import { BuiltShaderConfig } from "../../config/material/shaders/build-shader/buildShader.types";
 
 export type MaterialType = keyof typeof MATERIAL_TYPES;
 export type EnvMapType = keyof typeof ENV_MAP_TYPES;

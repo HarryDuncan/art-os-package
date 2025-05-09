@@ -10,7 +10,7 @@ import { brightnessTransform } from "./brightnessTransform";
 import {
   BrightnessFragmentEffectProps,
   FragmentEffectData,
-} from "../../../../../../../types/materials/shaders/fragmentShader.types";
+} from "../../fragmentShader.types";
 
 export const brightness = (
   effectProps: Partial<BrightnessFragmentEffectProps>

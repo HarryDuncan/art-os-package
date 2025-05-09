@@ -2,7 +2,7 @@ import {
   ShaderFunction,
   UniformConfig,
   VaryingConfig,
-} from "../../../../../../../../types/materials/shaders/buildShader.types";
+} from "../../../../../../../../types/materials/index";
 
 export const EXPLODE_UNIFORMS = {
   defaultUniforms: [],

@@ -1,9 +1,6 @@
 import { Vector3 } from "three";
-import { SHADER_PROPERTY_VALUE_TYPES } from "../../../../../../../consts/materials/shader.consts";
-import {
-  UniformConfig,
-  VaryingConfig,
-} from "../../../../../../../types/materials/shaders/buildShader.types";
+import { SHADER_PROPERTY_VALUE_TYPES } from "../../../constants/shader.consts";
+import { UniformConfig, VaryingConfig } from "../../../buildShader.types";
 
 export const DEFAULT_FRAG_COLOR_PROPS = {};
 export const DEFAULT_COLOR_FUNCTIONS = [];

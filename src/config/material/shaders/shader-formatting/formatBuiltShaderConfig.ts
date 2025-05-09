@@ -1,4 +1,4 @@
-import { BuiltShaderConfig } from "../../../../types/materials/shaders/buildShader.types";
+import { BuiltShaderConfig } from "../../../../types/materials/index";
 import { formatParsedUniformConfigs } from "../build-shader/shader-properties/uniforms/formatParsedUniformConfigs";
 import { EMPTY_UNIFORM_CONFIG } from "../build-shader/shader-properties/uniforms/uniforms.consts";
 

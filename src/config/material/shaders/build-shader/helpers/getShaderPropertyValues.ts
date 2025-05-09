@@ -1,8 +1,8 @@
-import { ShaderPropertyConfig } from "../../../../../types/materials/shaders/buildShader.types";
+import { ShaderPropertyConfig } from "../../../../../types/materials/index";
 import {
   SHADER_PROPERTY_TYPES,
   SHADER_PROPERTY_VALUE_TYPES,
-} from "../../../../../consts/materials/shader.consts";
+} from "../constants/shader.consts";
 import { createDeclarationString } from "./createDeclarationString";
 import { getDefaultValue } from "./getDefaultValue";
 

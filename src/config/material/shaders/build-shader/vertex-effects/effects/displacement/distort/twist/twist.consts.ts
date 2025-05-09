@@ -1,7 +1,7 @@
 import {
   UniformConfig,
   VaryingConfig,
-} from "../../../../../../../../../types/materials/shaders/buildShader.types";
+} from "../../../../../../../../../types/materials/index";
 
 export const TWIST_UNIFORM_CONFIG = {
   defaultUniforms: [],

@@ -1,4 +1,4 @@
-import { VaryingConfig } from "../../../../../../../../../types/materials/shaders/buildShader.types";
+import { VaryingConfig } from "../../../../../../../../../types/materials/index";
 import { MORPH_TRANSITION_EFFECTS } from "../../../../../../../../../consts/materials/vertexEffects.consts";
 
 export const DEFAULT_NOISE_TRANSITION_EFFECT_PROPS = {

@@ -1,12 +1,12 @@
-import { NOISE_EFFECT_TYPES } from "../../../config/material/shaders/build-shader/vertex-effects/effects/displacement/noise/noise.consts";
+import { NOISE_EFFECT_TYPES } from "./effects/displacement/noise/noise.consts";
 import {
   DISPLACEMENT_TYPES,
   DISTORTION_TYPES,
   VERTEX_EFFECTS,
   TRIGGERED_VERTEX_EFFECT,
-} from "../../../consts/materials/vertexEffects.consts";
-import { Axis } from "../../position.types";
-import { PreTransformConfig } from "./buildShader.types";
+} from "../../../../../consts/materials/vertexEffects.consts";
+import { Axis } from "../../../../../types/position.types";
+import { PreTransformConfig } from "../../../../../types/materials/index";
 
 // <--------------------- VERTEX ---------------------------->
 export type VertexEffectType = unknown;

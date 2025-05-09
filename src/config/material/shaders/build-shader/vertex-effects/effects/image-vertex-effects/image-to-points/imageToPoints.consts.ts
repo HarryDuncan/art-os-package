@@ -2,11 +2,11 @@ import {
   AttributeConfig,
   UniformConfig,
   VaryingConfig,
-} from "../../../../../../../../types/materials/shaders/buildShader.types";
+} from "../../../../../../../../types/materials/index";
 import {
   ATTRIBUTE_VALUE_TYPES,
   SHADER_PROPERTY_VALUE_TYPES,
-} from "../../../../../../../../consts/materials/shader.consts";
+} from "../../../../constants/shader.consts";
 import { VARYING_TYPES } from "../../../../shader-properties/varyings/varyings.consts";
 import {
   randFunction,

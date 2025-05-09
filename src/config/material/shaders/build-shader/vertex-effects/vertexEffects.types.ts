@@ -4,7 +4,7 @@ import {
   VaryingConfig,
   AttributeConfig,
   StructConfig,
-} from "../../../../../types/materials/shaders/buildShader.types";
+} from "../../../../../types/materials/index";
 
 export interface VertexEffectData {
   requiredFunctions: ShaderFunction[];

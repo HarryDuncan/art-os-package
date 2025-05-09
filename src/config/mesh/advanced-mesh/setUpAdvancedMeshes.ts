@@ -9,7 +9,7 @@ import {
   formatRotationFromConfig,
 } from "../../../utils/three-dimension-space/formatFromConfig";
 import { getMeshesFromConfig } from "../getMeshesFromConfig";
-import { ShaderAttributeConfig } from "../../../types/materials/shaders/buildShader.types";
+import { ShaderAttributeConfig } from "../../../types/materials/index";
 
 export const setUpAdvancedMeshes = async (
   config: AdvancedMeshConfig,

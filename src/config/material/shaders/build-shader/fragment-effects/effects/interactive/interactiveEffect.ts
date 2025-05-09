@@ -1,4 +1,4 @@
-import { InteractiveFragmentEffect } from "../../../../../../../types/materials/shaders/fragmentShader.types";
+import { InteractiveFragmentEffect } from "../../fragmentShader.types";
 import { formatFragmentParameters } from "../../../helpers/formatFragmentParameters";
 import { reduceFunctions } from "../../../helpers/reduceFunctions";
 import { mergeAttributeConfigs } from "../../../shader-properties/attributes/helpers/mergeAttributeConfigs";

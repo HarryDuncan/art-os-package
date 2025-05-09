@@ -1,28 +1,29 @@
-import { Position3d } from "../../position.types";
+import { Position3d } from "../../../../types/position.types";
 import {
   ATTRIBUTE_VALUE_TYPES,
   DEFAULT_UNIFORMS,
   SHADER_PROPERTY_VALUE_TYPES,
-} from "../../../consts/materials/shader.consts";
-import { VARYING_TYPES } from "../../../config/material/shaders/build-shader/shader-properties/varyings/varyings.consts";
+} from "./constants/shader.consts";
+import { VARYING_TYPES } from "./shader-properties/varyings/varyings.consts";
 import {
   INTERACTION_VERTEX_EFFECT,
   TransformTypes,
   VERTEX_EFFECTS,
-} from "../../../consts/materials/vertexEffects.consts";
+} from "../../../../consts/materials/vertexEffects.consts";
 import {
   FragmentEffectProps,
   InteractiveFragmentEffect,
   TriggeredFragmentEffect,
-} from "./fragmentShader.types";
-import { POINT_PARENTS } from "../../../config/material/shaders/build-shader/constants";
-import { AssetToUniformMappingConfig, AssetType } from "../..";
+} from "./fragment-effects/fragmentShader.types";
+import { POINT_PARENTS } from "./constants";
+import { AssetToUniformMappingConfig } from "../../../../types/materials/index";
 import {
   InteractiveVertexEffectProps,
   TriggeredVertexEffect,
   VertexEffectProps,
-} from "./vertexShader.types";
-import { FRAGMENT_EFFECT } from "../../../config/material/shaders/build-shader/fragment-effects/fragmentEffects.consts";
+} from "./vertex-effects/vertexShader.types";
+import { FRAGMENT_EFFECT } from "./fragment-effects/fragmentEffects.consts";
+import { AssetType } from "../../../../types";
 
 // GENERAL TYPES
 export type ShaderPropertyConfig = {

@@ -1,4 +1,4 @@
-import { PreTransformConfig } from "../../../../../../../types/materials/shaders/buildShader.types";
+import { PreTransformConfig } from "../../../../../../../types/materials/index";
 import { preTransforms } from "./pre-transform/preTransforms";
 
 export const setUpMorphObjects = (

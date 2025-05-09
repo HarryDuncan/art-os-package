@@ -1,4 +1,4 @@
-import { UniformConfig } from "../../../../../../../types/materials/shaders/buildShader.types";
+import { UniformConfig } from "../../../buildShader.types";
 
 export const OPACITY_FUNCTIONS = [];
 

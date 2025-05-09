@@ -1,6 +1,6 @@
 import { hexToRgb } from "../../../../../../utils/conversion/hexToRgb";
 import { arrayToVector } from "../../../../../../utils/conversion/conversion";
-import { UniformConfig } from "../../../../../../types/materials/shaders/buildShader.types";
+import { UniformConfig } from "../../../../../../types/materials/index";
 
 export const formatParsedUniformConfigs = (
   uniformConfig: UniformConfig

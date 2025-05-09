@@ -8,7 +8,7 @@ import { mergeUniformConfigs } from "../../../../shader-properties/uniforms/help
 import {
   FragmentEffectData,
   PhongFragmentEffectProps,
-} from "../../../../../../../../types/materials/shaders/fragmentShader.types";
+} from "../../../fragmentShader.types";
 
 export const phongMaterial = (
   effectProps: Partial<PhongFragmentEffectProps> = {}

@@ -12,11 +12,11 @@ import { formatVertexParameters } from "../../../helpers/formatVertexParameters"
 import {
   ShaderFunction,
   AttributeConfig,
-} from "../../../../../../../types/materials/shaders/buildShader.types";
+} from "../../../../../../../types/materials/index";
 import {
   TriggeredVertexEffect,
   TriggeredVertexEffectProps,
-} from "../../../../../../../types/materials/shaders/vertexShader.types";
+} from "../../vertexShader.types";
 
 export const triggeredEffect = (effectProps: TriggeredVertexEffect) => {
   const triggeredEffectProps = formatVertexParameters(
