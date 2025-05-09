@@ -1,7 +1,7 @@
 import {
   DEFAULT_FRAG_COLOR,
   FRAG_COLOR_NAME,
-} from "../../../../fragmentEffects.consts";
+} from "../../../../../../../../../consts";
 import { createColorVectorString } from "../../../../../helpers/createColorVectorString";
 
 export const getPointColor = (defaultColor: string | undefined) => {

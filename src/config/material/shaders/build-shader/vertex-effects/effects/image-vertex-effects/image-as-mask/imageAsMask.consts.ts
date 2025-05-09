@@ -1,9 +1,9 @@
 import { VaryingConfig } from "../../../../../../../../types/materials/shaders/buildShader.types";
-import { IMAGE_VERTEX_EFFECT } from "../../../../../../../../consts/materials/vertexEffects.consts";
+import { VERTEX_EFFECTS } from "../../../../../../../../consts/materials/vertexEffects.consts";
 
 export const DEFAULT_IMAGE_AS_MASK_EFFECT_PROPS = {
   declareInTransform: true,
-  effectType: IMAGE_VERTEX_EFFECT.IMAGE_AS_MASK,
+  effectType: VERTEX_EFFECTS.IMAGE_AS_MASK,
   removedColors: ["#ffffff"],
 };
 export const IMAGE_AS_MASK_UNIFORM_CONFIG = {

@@ -1,6 +1,6 @@
 import { VanishFragmentEffectProps } from "../../../../../../../types/materials/shaders/fragmentShader.types";
 import { shaderSafeFloat } from "../../../../../../../utils/conversion/shaderConversions";
-import { FRAG_COLOR_NAME } from "../../fragmentEffects.consts";
+import { FRAG_COLOR_NAME } from "../../../../../../../consts";
 
 export const vanishTransform = (
   vanishParameters: VanishFragmentEffectProps

@@ -11,7 +11,7 @@ import {
   VERTEX_EFFECTS,
 } from "../../../consts/materials/vertexEffects.consts";
 import {
-  FragmentEffectConfig,
+  FragmentEffectProps,
   InteractiveFragmentEffect,
   TriggeredFragmentEffect,
 } from "./fragmentShader.types";
@@ -22,6 +22,7 @@ import {
   TriggeredVertexEffect,
   VertexEffectProps,
 } from "./vertexShader.types";
+import { FRAGMENT_EFFECT } from "../../../consts/materials/fragmentEffects.consts";
 
 // GENERAL TYPES
 export type ShaderPropertyConfig = {
@@ -58,13 +59,19 @@ export type InteractiveVertexEffect = {
   effectType: string;
   effectProps: InteractiveVertexEffectProps;
 };
-
-export type VertexEffectConfig = {
+export interface EffectConfig {
   id: string;
   name?: string;
+  isInteractive?: boolean;
+}
+export type VertexEffectConfig = EffectConfig & {
   effectType: keyof typeof VERTEX_EFFECTS;
   effectProps: VertexEffectProps;
-  isInteractive?: boolean;
+};
+
+export type FragmentEffectConfig = EffectConfig & {
+  effectType: keyof typeof FRAGMENT_EFFECT;
+  effectProps: FragmentEffectProps;
 };
 
 // PRE-TRANSFORMS
@@ -105,10 +112,12 @@ export type ShaderAttributeConfig = {
 };
 export type AttributeValueConfig = RandomBoolConfig;
 export type AttributeConfig = ShaderPropertyConfig & {
+  idLocked?: boolean;
   attributeValueType: keyof typeof ATTRIBUTE_VALUE_TYPES;
   assetId?: string;
   attributeCount?: number;
   assetType?: AssetType;
+  effectIds?: string[];
 };
 
 // <-------------------------------------UNIFORMS ---------------------------------->
@@ -121,6 +130,10 @@ export type UniformObject = {
 export type UniformValueConfig = ShaderPropertyConfig & {
   effectIds?: string[];
   isAssetMapped?: boolean;
+  assetMappingConfig?: {
+    assetId: string;
+    relationship: string;
+  };
 };
 
 export type InteractionMappedUniform = UniformValueConfig & {

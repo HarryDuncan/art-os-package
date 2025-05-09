@@ -1,18 +1,7 @@
-import {
-  FragmentEffectConfig,
-  FragmentEffectData,
-  OpacityFragmentEffectProps,
-  ColorFragmentEffectProps,
-  MaterialEffectProps,
-  PointMaterialFragmentEffectProps,
-  PhongFragmentEffectProps,
-  PhysicalMaterialProps,
-  InteractiveFragmentEffect,
-  VanishFragmentEffectProps,
-  TriggeredFragmentEffect,
-  BrightnessFragmentEffectProps,
-} from "../../../../../../types/materials/shaders/fragmentShader.types";
-import { FRAGMENT_EFFECT } from "../fragmentEffects.consts";
+import { UniformConfig } from "../../../../../../types/materials/shaders/buildShader.types";
+import { FragmentEffectConfig } from "../../../../../../types/materials/shaders/buildShader.types";
+import { formatUniformsForEffect } from "../../helpers/formatUniformsForEffect";
+import { FRAGMENT_EFFECT } from "../../../../../../consts/materials/fragmentEffects.consts";
 import { brightness } from "./brightness/brightness";
 import { color } from "./color/color";
 import { defaultFragmentEffect } from "./defaultFragmentEffect/defaultFragmentEffect";
@@ -25,11 +14,26 @@ import { pointMaterial } from "./material/point-material/pointMaterial";
 import { opacity } from "./opacity/opacity";
 import { triggeredEffect } from "./triggered-effect/triggeredEffect";
 import { vanishEffect } from "./vanish/vanish";
+import {
+  BrightnessFragmentEffectProps,
+  ColorFragmentEffectProps,
+  FragmentEffectData,
+  InteractiveFragmentEffect,
+  MaterialEffectProps,
+  OpacityFragmentEffectProps,
+  PhongFragmentEffectProps,
+  PhysicalMaterialProps,
+  PointMaterialFragmentEffectProps,
+  TriggeredFragmentEffect,
+  VanishFragmentEffectProps,
+} from "../../../../../../types/materials/shaders/fragmentShader.types";
 
 export const getFragmentEffects = (
-  effect: FragmentEffectConfig
+  effect: FragmentEffectConfig,
+  uniformConfig: UniformConfig
 ): FragmentEffectData => {
-  const { effectType, effectProps } = effect;
+  const { effectType, effectProps, id } = effect;
+  const effectUniforms = formatUniformsForEffect(uniformConfig, id);
   switch (effectType) {
     case FRAGMENT_EFFECT.OPACITY:
       return opacity(effectProps as Partial<OpacityFragmentEffectProps>);
@@ -38,8 +42,14 @@ export const getFragmentEffects = (
     case FRAGMENT_EFFECT.MATCAP:
       return matcapMaterial(effectProps as Partial<MaterialEffectProps>);
     case FRAGMENT_EFFECT.POINT_MATERIAL:
+    case FRAGMENT_EFFECT.POINT_MATERIAL_PIXEL_COLOR:
+    case FRAGMENT_EFFECT.POINT_MATERIAL_OVERLAY_COLOR:
+    case FRAGMENT_EFFECT.POINT_MATERIAL_MATCAP:
+    case FRAGMENT_EFFECT.POINT_MATERIAL_TEXTURE:
+    case FRAGMENT_EFFECT.POINT_MATERIAL_PHONG:
       return pointMaterial(
-        effectProps as Partial<PointMaterialFragmentEffectProps>
+        effectProps as Partial<PointMaterialFragmentEffectProps>,
+        effectUniforms
       );
     case FRAGMENT_EFFECT.PHONG:
       return phongMaterial(effectProps as Partial<PhongFragmentEffectProps>);

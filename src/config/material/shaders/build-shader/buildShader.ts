@@ -38,7 +38,10 @@ export const buildShader = (shaderConfig: BuiltShaderConfig) => {
   const configuredUniformConfig = {
     ...(uniformConfig ?? { ...EMPTY_UNIFORM_CONFIG }),
   };
-  const fragmentEffects = setUpFragmentEffects(fragmentEffectConfigs);
+  const fragmentEffects = setUpFragmentEffects(
+    fragmentEffectConfigs,
+    configuredUniformConfig
+  );
   const vertexEffects = setUpVertexEffects(
     vertexEffectConfigs,
     configuredUniformConfig

@@ -1,3 +1,8 @@
+import { EXPLODE_UNIFORMS } from "../../config/material/shaders/build-shader/vertex-effects/effects/displacement/explode/explode.consts";
+import {
+  IMAGE_TO_POINTS_ATTRIBUTES,
+  IMAGE_TO_POINTS_UNIFORMS,
+} from "../../config/material/shaders/build-shader/vertex-effects/effects/image-vertex-effects/image-to-points/imageToPoints.consts";
 import { DEFAULT_ROTATION_EFFECT_CONFIG } from "../../config/material/shaders/build-shader/vertex-effects/effects/rotation/rotation.consts";
 
 export const VERTEX_POINT_NAME = "currentVertexPoint";
@@ -25,11 +30,6 @@ export const enum TransformTypes {
 
 export const DEFAULT_VERTEX_EFFECT_PARAMS = {
   declareInTransform: true,
-};
-
-export const IMAGE_VERTEX_EFFECT = {
-  IMAGE_TO_POINTS: "IMAGE_TO_POINTS",
-  IMAGE_AS_MASK: "IMAGE_AS_MASK",
 };
 
 export const MORPH_TRANSITION_EFFECTS = {
@@ -115,5 +115,20 @@ export const VERTEX_EFFECT_PROPS_MAP = {
   [VERTEX_EFFECTS.IMAGE_AS_MASK]: {
     effectType: VERTEX_EFFECTS.IMAGE_AS_MASK,
     effectProps: {},
+  },
+};
+
+export const VERTEX_EFFECT_CONFIG_MAP = {
+  [VERTEX_EFFECTS.IMAGE_TO_POINTS]: {
+    uniforms: IMAGE_TO_POINTS_UNIFORMS,
+    attributes: IMAGE_TO_POINTS_ATTRIBUTES,
+  },
+  [VERTEX_EFFECTS.EXPLODE]: {
+    uniforms: EXPLODE_UNIFORMS,
+    attributes: [],
+  },
+  [VERTEX_EFFECTS.FILTER]: {
+    uniforms: {},
+    attributes: [],
   },
 };

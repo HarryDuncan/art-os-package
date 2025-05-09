@@ -1,3 +1,4 @@
+import { uniform } from "three/tsl";
 import { DEFAULT_FRAG_BRIGHTNESS_PROPS } from "../../config/material/shaders/build-shader/fragment-effects/effects/brightness/brightness.consts";
 import { DEFAULT_FRAG_COLOR_PROPS } from "../../config/material/shaders/build-shader/fragment-effects/effects/color/color.consts";
 import { DEFAULT_FRAG_HUE_SHIFT_PROPS } from "../../config/material/shaders/build-shader/fragment-effects/effects/hue-shift/hueShift.consts";
@@ -6,6 +7,8 @@ import {
   DEFAULT_FRAG_POINT_PROPS,
   POINT_COLOR_EFFECTS,
 } from "../../config/material/shaders/build-shader/fragment-effects/effects/material/point-material/pointMaterial.consts";
+import { getTexturePixelColor } from "../../config/material/shaders/build-shader/fragment-effects/effects/material/point-material/point-material-functions/getTexturePixelColor";
+import { getOverlayPixelColor } from "../../config/material/shaders/build-shader/fragment-effects/effects/material/point-material/point-material-functions/getOverlayPixelColor";
 
 export const FRAG_COLOR_NAME = "currentFragColor";
 
@@ -17,6 +20,11 @@ export const FRAGMENT_EFFECT = {
   MATCAP: "MATCAP",
   MATERIAL: "MATERIAL",
   POINT_MATERIAL: "POINT_MATERIAL",
+  POINT_MATERIAL_PIXEL_COLOR: "POINT_MATERIAL_PIXEL_COLOR",
+  POINT_MATERIAL_OVERLAY_COLOR: "POINT_MATERIAL_OVERLAY_COLOR",
+  POINT_MATERIAL_MATCAP: "POINT_MATERIAL_MATCAP",
+  POINT_MATERIAL_TEXTURE: "POINT_MATERIAL_TEXTURE",
+  POINT_MATERIAL_PHONG: "POINT_MATERIAL_PHONG",
   OPACITY: "OPACITY",
   INTERACTIVE: "INTERACTIVE",
   TRIGGERED: "TRIGGERED",
@@ -127,3 +135,9 @@ export const FRAGMENT_EFFECT_DATA = {
     POINT_COLOR_EFFECTS: POINT_COLOR_EFFECTS,
   },
 };
+
+// export const FRAGMENT_EFFECT_CONFIG_MAP = {
+//   [FRAGMENT_EFFECT.POINT_MATERIAL] : {
+//     uniforms :
+//   }
+// }

@@ -5,7 +5,7 @@ import {
   ColorFragmentEffectProps,
   OpacityFragmentEffectProps,
 } from "../../../../../../../types/materials/shaders/fragmentShader.types";
-import { FRAGMENT_EFFECT } from "../../fragmentEffects.consts";
+import { FRAGMENT_EFFECT } from "../../../../../../../consts/materials/fragmentEffects.consts";
 import { color } from "../color/color";
 import { defaultFragmentEffect } from "../defaultFragmentEffect/defaultFragmentEffect";
 import { opacity } from "../opacity/opacity";

@@ -1,4 +1,4 @@
-import { FRAG_COLOR_NAME } from "../../../../fragmentEffects.consts";
+import { FRAG_COLOR_NAME } from "../../../../../../../../../consts";
 
 export const textureAsPoints = (_effectProps: unknown) => {
   const transformation = `

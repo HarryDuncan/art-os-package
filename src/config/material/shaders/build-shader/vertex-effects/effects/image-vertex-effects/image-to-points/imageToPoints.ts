@@ -1,7 +1,7 @@
 import { UniformValueConfig } from "../../../../../../../../types/materials/shaders/buildShader.types";
 import { ImageToPointsEffectProps } from "../../../../../../../../types/materials/shaders/vertexShader.types";
 import {
-  IMAGE_TO_POINTS_ATTRIBUTE_CONFIG,
+  IMAGE_TO_POINTS_ATTRIBUTES,
   IMAGE_TO_POINTS_REQUIRED_FUNCTIONS,
   IMAGE_TO_POINTS_UNIFORMS,
   IMAGE_TO_POINTS_VARYING_CONFIG,
@@ -17,7 +17,7 @@ export const imageToPoints = (
   return {
     requiredFunctions: IMAGE_TO_POINTS_REQUIRED_FUNCTIONS,
     uniformConfig: IMAGE_TO_POINTS_UNIFORMS,
-    attributeConfig: IMAGE_TO_POINTS_ATTRIBUTE_CONFIG,
+    attributeConfig: IMAGE_TO_POINTS_ATTRIBUTES,
     transformation,
     varyingConfig: IMAGE_TO_POINTS_VARYING_CONFIG,
   };

@@ -1,9 +1,12 @@
 import {
+  AttributeConfig,
   UniformConfig,
   VaryingConfig,
 } from "../../../../../../../../types/materials/shaders/buildShader.types";
-import { IMAGE_VERTEX_EFFECT } from "../../../../../../../../consts/materials/vertexEffects.consts";
-import { SHADER_PROPERTY_VALUE_TYPES } from "../../../../../../../../consts";
+import {
+  ATTRIBUTE_VALUE_TYPES,
+  SHADER_PROPERTY_VALUE_TYPES,
+} from "../../../../../../../../consts/materials/shader.consts";
 import { VARYING_TYPES } from "../../../../shader-properties/varyings/varyings.consts";
 import {
   randFunction,
@@ -11,19 +14,41 @@ import {
 } from "../../../../shader-properties/functions/random";
 import { noiseFunction } from "../../../../shader-properties/functions/noise";
 
-export const DEFAULT_IMAGE_TO_POINTS_EFFECT_PROPS = {
-  declareInTransform: true,
-  effectType: IMAGE_VERTEX_EFFECT.IMAGE_TO_POINTS,
-  effectProps: {},
-};
-
 export const IMAGE_TO_POINTS_UNIFORMS = {
   defaultUniforms: [],
   customUniforms: [
-    { id: "uTextureSize", valueType: "VEC2", value: [1, 1], idLocked: true },
-    { id: "uRandom", valueType: "FLOAT", value: 1, idLocked: true },
-    { id: "uDepth", valueType: "FLOAT", value: 1, idLocked: true },
-    { id: "uSize", valueType: "FLOAT", value: 1, idLocked: true },
+    {
+      id: "uTexture",
+      valueType: SHADER_PROPERTY_VALUE_TYPES.SAMPLER2D,
+      value: null,
+      idLocked: true,
+      isAssetMapped: true,
+    },
+    {
+      id: "uTextureSize",
+      valueType: SHADER_PROPERTY_VALUE_TYPES.VEC2,
+      value: null,
+      idLocked: true,
+      isAssetMapped: true,
+    },
+    {
+      id: "uRandom",
+      valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
+      value: 1,
+      idLocked: true,
+    },
+    {
+      id: "uDepth",
+      valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
+      value: 1,
+      idLocked: true,
+    },
+    {
+      id: "uSize",
+      valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
+      value: 1,
+      idLocked: true,
+    },
   ],
 } as unknown as UniformConfig;
 
@@ -51,4 +76,12 @@ export const IMAGE_TO_POINTS_REQUIRED_FUNCTIONS = [
   randFunction,
   noiseFunction,
 ];
-export const IMAGE_TO_POINTS_ATTRIBUTE_CONFIG = [];
+export const IMAGE_TO_POINTS_ATTRIBUTES = [
+  {
+    id: "position",
+    idLocked: true,
+    attributeValueType: ATTRIBUTE_VALUE_TYPES.INDEXED,
+    valueType: SHADER_PROPERTY_VALUE_TYPES.VEC3,
+    assetId: "",
+  },
+] as AttributeConfig[];

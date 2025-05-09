@@ -2,7 +2,7 @@ import {
   FRAGMENT_EFFECT,
   INTERACTION_FRAGMENT_EFFECT,
   TRIGGERED_FRAGMENT_EFFECT,
-} from "../../../config/material/shaders/build-shader/fragment-effects/fragmentEffects.consts";
+} from "../../../consts/materials/fragmentEffects.consts";
 import {
   ShaderFunction,
   UniformConfig,
@@ -59,11 +59,6 @@ export type FragmentEffectProps =
   | MaterialEffectProps
   | InteractiveFragmentEffect
   | BrightnessFragmentEffectProps;
-
-export type FragmentEffectConfig = {
-  effectType: FragmentEffectType;
-  effectProps?: FragmentEffectProps;
-};
 
 export interface FragmentEffectData {
   requiredFunctions: ShaderFunction[];

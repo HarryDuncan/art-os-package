@@ -28,7 +28,7 @@ export const pointMaterialTransform = (
   pointEffectProps: PointMaterialFragmentEffectProps
 ) => {
   const { pointTextures, effectType } = pointEffectProps;
-  console.log(pointEffectProps);
+
   const defaultEffectUniforms = {
     defaultUniforms: [],
     customUniforms: setUpTextureUniforms(pointTextures),

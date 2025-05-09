@@ -37,7 +37,6 @@ export const getVertexEffect = (
 ): VertexEffectData => {
   const { effectType, effectProps, id } = effect;
   const effectUniforms = formatUniformsForEffect(uniformConfig, id);
-  console.log(effectUniforms);
   switch (effectType) {
     case VERTEX_EFFECTS.EXPLODE: {
       return explode(

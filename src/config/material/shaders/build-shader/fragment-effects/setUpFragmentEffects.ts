@@ -5,15 +5,17 @@ import { mergeVaryingConfigs } from "../shader-properties/varyings/helpers/merge
 import { reduceFunctions } from "../helpers/reduceFunctions";
 import { mergeAttributeConfigs } from "../shader-properties/attributes/helpers/mergeAttributeConfigs";
 import { mergeStructConfigs } from "../shader-properties/structs/mergeStructConfigs";
-import { FRAG_COLOR_NAME } from "./fragmentEffects.consts";
-import { FragmentEffectConfig } from "../../../../../types/materials/shaders/fragmentShader.types";
 import {
+  FragmentEffectConfig,
   ShaderFunction,
   StructConfig,
+  UniformConfig,
 } from "../../../../../types/materials/shaders/buildShader.types";
+import { FRAG_COLOR_NAME } from "../../../../../consts";
 
 export const setUpFragmentEffects = (
-  fragmentEffects: FragmentEffectConfig[]
+  fragmentEffects: FragmentEffectConfig[],
+  uniformConfig: UniformConfig
 ) => {
   const {
     varyingConfigs,
@@ -22,7 +24,7 @@ export const setUpFragmentEffects = (
     attributeConfigs,
     requiredFunctions,
     structConfigs,
-  } = getFragmentColors(fragmentEffects);
+  } = getFragmentColors(fragmentEffects, uniformConfig);
 
   const fragColor = `gl_FragColor = ${FRAG_COLOR_NAME};`;
   return {
@@ -36,7 +38,10 @@ export const setUpFragmentEffects = (
   };
 };
 
-export const getFragmentColors = (fragmentEffects: FragmentEffectConfig[]) => {
+export const getFragmentColors = (
+  fragmentEffects: FragmentEffectConfig[],
+  configuredUniformConfig: UniformConfig
+) => {
   const {
     unmergedVaryingConfigs,
     unmergedUniformConfigs,
@@ -50,11 +55,10 @@ export const getFragmentColors = (fragmentEffects: FragmentEffectConfig[]) => {
       varyingConfig,
       uniformConfig,
       transformation,
-
       requiredFunctions,
       attributeConfig,
       structConfigs = [],
-    } = getFragmentEffects(effect);
+    } = getFragmentEffects(effect, configuredUniformConfig);
     unmergedVaryingConfigs.push(varyingConfig);
     unmergedUniformConfigs.push(uniformConfig);
     unmergedAttributeConfigs.push(attributeConfig);

@@ -4,7 +4,7 @@ import {
   RotationEffectProps,
 } from "../../../../../../../types/materials/shaders/vertexShader.types";
 import { DEFAULT_VERTEX_EFFECT } from "../../../constants";
-import { TRIGGERED_FRAGMENT_EFFECT } from "../../../fragment-effects/fragmentEffects.consts";
+import { TRIGGERED_FRAGMENT_EFFECT } from "../../../../../../../consts/materials/fragmentEffects.consts";
 import { VERTEX_EFFECTS } from "../../../../../../../consts/materials/vertexEffects.consts";
 import { VertexEffectData } from "../../vertexEffects.types";
 import { expand } from "../displacement/expand/expand";

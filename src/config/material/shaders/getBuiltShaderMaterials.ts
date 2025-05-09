@@ -32,8 +32,10 @@ export const getBuiltShaderMaterials = (
         );
 
         console.log(vertexShader);
+
         console.log(fragmentShader);
         // using both for backwards compatibility
+        //TODO - reparse nuew asset mapping
         const assetMapping = [
           ...(builtShaderConfig.uniformConfig?.mappedAssets ?? []),
           ...(materialConfig.assetMapping ?? []),

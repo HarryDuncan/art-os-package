@@ -2,7 +2,7 @@ import { NOISE_EFFECT_TYPES } from "../../../config/material/shaders/build-shade
 import {
   DISPLACEMENT_TYPES,
   DISTORTION_TYPES,
-  IMAGE_VERTEX_EFFECT,
+  VERTEX_EFFECTS,
   TRIGGERED_VERTEX_EFFECT,
 } from "../../../consts/materials/vertexEffects.consts";
 import { Axis } from "../../position.types";
@@ -94,7 +94,7 @@ type ImageSubEffect = {
 };
 export type ImageVertexEffectProps = ImageSubEffect;
 
-export type ImageVertexEffectType = keyof typeof IMAGE_VERTEX_EFFECT;
+export type ImageVertexEffectType = keyof typeof VERTEX_EFFECTS;
 export type ImageVertexEffect = {
   declareInTransform: boolean;
   effectType: ImageVertexEffectType;

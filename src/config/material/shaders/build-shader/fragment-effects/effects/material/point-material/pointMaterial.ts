@@ -1,6 +1,7 @@
 import {
   AttributeConfig,
   UniformConfig,
+  UniformValueConfig,
 } from "../../../../../../../../types/materials/shaders/buildShader.types";
 import { PointMaterialFragmentEffectProps } from "../../../../../../../../types/materials/shaders/fragmentShader.types";
 import { formatFragmentParameters } from "../../../../helpers/formatFragmentParameters";
@@ -18,7 +19,8 @@ import {
 import { pointMaterialTransform } from "./pointMaterialTransform";
 
 export const pointMaterial = (
-  effectProps: Partial<PointMaterialFragmentEffectProps> = {}
+  effectProps: Partial<PointMaterialFragmentEffectProps> = {},
+  configuredUniforms: UniformValueConfig[]
 ) => {
   const formattedProps = formatFragmentParameters(
     effectProps,

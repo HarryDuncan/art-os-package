@@ -1,4 +1,4 @@
-import { FRAG_COLOR_NAME } from "../fragment-effects/fragmentEffects.consts";
+import { FRAG_COLOR_NAME } from "../../../../../consts";
 import {
   VERTEX_NORMAL_NAME,
   VERTEX_POINT_NAME,
