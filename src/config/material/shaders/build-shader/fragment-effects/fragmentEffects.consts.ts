@@ -1,14 +1,15 @@
-import { uniform } from "three/tsl";
-import { DEFAULT_FRAG_BRIGHTNESS_PROPS } from "../../config/material/shaders/build-shader/fragment-effects/effects/brightness/brightness.consts";
-import { DEFAULT_FRAG_COLOR_PROPS } from "../../config/material/shaders/build-shader/fragment-effects/effects/color/color.consts";
-import { DEFAULT_FRAG_HUE_SHIFT_PROPS } from "../../config/material/shaders/build-shader/fragment-effects/effects/hue-shift/hueShift.consts";
-import { DEFAULT_FRAG_IMAGE_AS_MASK_PROPS } from "../../config/material/shaders/build-shader/fragment-effects/effects/image-as-mask/imageAsMask.consts";
+import { DEFAULT_FRAG_BRIGHTNESS_PROPS } from "./effects/brightness/brightness.consts";
+import { DEFAULT_FRAG_COLOR_PROPS } from "./effects/color/color.consts";
+import { DEFAULT_FRAG_HUE_SHIFT_PROPS } from "./effects/hue-shift/hueShift.consts";
+import { DEFAULT_FRAG_IMAGE_AS_MASK_PROPS } from "./effects/image-as-mask/imageAsMask.consts";
 import {
   DEFAULT_FRAG_POINT_PROPS,
-  POINT_COLOR_EFFECTS,
-} from "../../config/material/shaders/build-shader/fragment-effects/effects/material/point-material/pointMaterial.consts";
-import { getTexturePixelColor } from "../../config/material/shaders/build-shader/fragment-effects/effects/material/point-material/point-material-functions/getTexturePixelColor";
-import { getOverlayPixelColor } from "../../config/material/shaders/build-shader/fragment-effects/effects/material/point-material/point-material-functions/getOverlayPixelColor";
+  POINT_MATERIAL_PHONG_UNIFORMS,
+  POINT_MATERIAL_UNIFORMS,
+  TEXTURED_POINTS_ATTRIBUTES,
+  TEXTURED_POINTS_UNIFORMS,
+} from "./effects/material/point-material/pointMaterial.consts";
+import { POINTS_ATTRIBUTES } from "../vertex-effects/effects/points/points.consts";
 
 export const FRAG_COLOR_NAME = "currentFragColor";
 
@@ -130,14 +131,33 @@ export const FRAGMENT_EFFECT_PROPS_MAP = {
   },
 };
 
-export const FRAGMENT_EFFECT_DATA = {
+export const FRAGMENT_EFFECT_CONFIG_MAP = {
   [FRAGMENT_EFFECT.POINT_MATERIAL]: {
-    POINT_COLOR_EFFECTS: POINT_COLOR_EFFECTS,
+    uniforms: POINT_MATERIAL_UNIFORMS,
+    attributes: POINTS_ATTRIBUTES,
+  },
+  [FRAGMENT_EFFECT.POINT_MATERIAL_PIXEL_COLOR]: {
+    uniforms: POINT_MATERIAL_UNIFORMS,
+    attributes: POINTS_ATTRIBUTES,
+  },
+  [FRAGMENT_EFFECT.POINT_MATERIAL_OVERLAY_COLOR]: {
+    uniforms: POINT_MATERIAL_UNIFORMS,
+    attributes: POINTS_ATTRIBUTES,
+  },
+  [FRAGMENT_EFFECT.POINT_MATERIAL_MATCAP]: {
+    uniforms: POINT_MATERIAL_UNIFORMS,
+    attributes: POINTS_ATTRIBUTES,
+  },
+  [FRAGMENT_EFFECT.POINT_MATERIAL_TEXTURE]: {
+    uniforms: POINT_MATERIAL_UNIFORMS,
+    attributes: POINTS_ATTRIBUTES,
+  },
+  [FRAGMENT_EFFECT.POINT_MATERIAL_PHONG]: {
+    uniforms: POINT_MATERIAL_PHONG_UNIFORMS,
+    attributes: POINTS_ATTRIBUTES,
+  },
+  TEXTURED_POINTS: {
+    uniforms: TEXTURED_POINTS_UNIFORMS,
+    attributes: TEXTURED_POINTS_ATTRIBUTES,
   },
 };
-
-// export const FRAGMENT_EFFECT_CONFIG_MAP = {
-//   [FRAGMENT_EFFECT.POINT_MATERIAL] : {
-//     uniforms :
-//   }
-// }

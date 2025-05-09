@@ -7,10 +7,7 @@ import { reduceFunctions } from "../../../helpers/reduceFunctions";
 import { mergeAttributeConfigs } from "../../../shader-properties/attributes/helpers/mergeAttributeConfigs";
 import { mergeUniformConfigs } from "../../../shader-properties/uniforms/helpers/mergeUniformConfigs";
 import { mergeVaryingConfigs } from "../../../shader-properties/varyings/helpers/mergeVaryingConfigs";
-import {
-  FRAG_COLOR_NAME,
-  FRAGMENT_EFFECT,
-} from "../../../../../../../consts/materials/fragmentEffects.consts";
+import { FRAG_COLOR_NAME, FRAGMENT_EFFECT } from "../../fragmentEffects.consts";
 import { color } from "../color/color";
 import { defaultFragmentEffect } from "../defaultFragmentEffect/defaultFragmentEffect";
 

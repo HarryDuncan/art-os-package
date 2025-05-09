@@ -17,86 +17,83 @@ import { getPointTexture } from "./point-material-functions/getPointTextures";
 import { getTexturePixelColor } from "./point-material-functions/getTexturePixelColor";
 import { textureAsPoints } from "./point-material-functions/textureAsPoints";
 import { EXTERNAL_POINT_COLOR_EFFECTS } from "./pointMaterial.consts";
+import { UniformValueConfig } from "../../../../../../../../types/materials/shaders/buildShader.types";
 
-const setUpTextureUniforms = (pointTextures: PointTexture[]) =>
-  pointTextures.map(({ id }) => ({
-    id,
-    valueType: SHADER_PROPERTY_VALUE_TYPES.SAMPLER2D,
-  }));
+const pointMaterialTransformConfig = {
+  effectName: "pointMaterial",
+  instantiationName: "",
+  singleInstance: true,
+  allowedValueTypes: [],
+  prefix: "",
+  effectCode: [
+    `float opacity = 1.0;`,
+    `if(vPointDisplay == 0.0 ){`,
+    ` opacity = 0.0;`,
+    `}`,
+  ],
+} as unknown as VertexTransformationConfig;
 
 export const pointMaterialTransform = (
+  effectType: FragmentEffectType,
+  pointEffectProps: PointMaterialFragmentEffectProps,
+  configuredUniforms: UniformValueConfig[]
+) => {
+  const { isTextured } = pointEffectProps;
+
+  const pointColor = getPointColorTransform(
+    effectType,
+    configuredUniforms,
+    pointEffectProps
+  );
+  const textureTransform = isTextured
+    ? getPointTexture(configuredUniforms)
+    : "";
+  const updatedEffectCode = [
+    ...pointMaterialTransformConfig.effectCode,
+    pointColor,
+    textureTransform,
+  ];
+  pointMaterialTransformConfig.effectCode = updatedEffectCode;
+  const transformation = generateVertexTransformation(
+    pointMaterialTransformConfig,
+    configuredUniforms
+  );
+  return transformation;
+};
+
+const getPointColorTransform = (
+  effectType: FragmentEffectType,
+  configuredUniforms: UniformValueConfig[],
   pointEffectProps: PointMaterialFragmentEffectProps
 ) => {
-  const { pointTextures, effectType } = pointEffectProps;
-
-  const defaultEffectUniforms = {
-    defaultUniforms: [],
-    customUniforms: setUpTextureUniforms(pointTextures),
-  };
-
-  const {
-    effectTransform,
-    effectAttributes,
-    effectVaryings,
-    effectRequiredFunctions,
-    effectUniforms: returnedEffectUniforms,
-  } = getEffectData(pointEffectProps);
-
-  const pointColor = EXTERNAL_POINT_COLOR_EFFECTS.includes(effectType)
-    ? `${FRAG_COLOR_NAME}`
-    : null;
-  const transform = `
- float opacity = 1.0;
-  ${effectTransform}
-   if(vPointDisplay == 0.0 ){
-      opacity = 0.0;
-  }
- 
-
-  ${getPointTexture(pointTextures, pointColor)}
-
-  if(${FRAG_COLOR_NAME}.a < 0.5) discard;
-  `;
-
-  return {
-    transform,
-
-    effectAttributes,
-    effectRequiredFunctions,
-    effectVaryings,
-    effectUniforms: mergeUniformConfigs([
-      defaultEffectUniforms,
-      returnedEffectUniforms,
-    ]),
-  };
+  return "";
 };
+// const getEffectData = (pointEffectProps: PointMaterialFragmentEffectProps) => {
+//   const { effectProps, effectType } = pointEffectProps;
+//   const effectFunction = POINT_COLOR_EFFECT_FUNCTIONS[effectType];
+//   if (effectFunction) {
+//     return fragmentEffectToEffectData(
+//       effectFunction(effectProps ?? pointEffectProps)
+//     );
+//   }
+//   return defaultPointMaterial(pointEffectProps);
+// };
 
-const getEffectData = (pointEffectProps: PointMaterialFragmentEffectProps) => {
-  const { effectProps, effectType } = pointEffectProps;
-  const effectFunction = POINT_COLOR_EFFECT_FUNCTIONS[effectType];
-  if (effectFunction) {
-    return fragmentEffectToEffectData(
-      effectFunction(effectProps ?? pointEffectProps)
-    );
-  }
-  return defaultPointMaterial(pointEffectProps);
-};
+// const defaultPointMaterial = (
+//   pointEffectProps: PointMaterialFragmentEffectProps
+// ) => {
+//   const { defaultColor } = pointEffectProps;
+//   const transformation = `${getPointColor(defaultColor)}`;
+//   return fragmentEffectToEffectData({
+//     transformation,
+//   });
+// };
 
-const defaultPointMaterial = (
-  pointEffectProps: PointMaterialFragmentEffectProps
-) => {
-  const { defaultColor } = pointEffectProps;
-  const transformation = `${getPointColor(defaultColor)}`;
-  return fragmentEffectToEffectData({
-    transformation,
-  });
-};
-
-const POINT_COLOR_EFFECT_FUNCTIONS = {
-  COLOR: defaultPointMaterial,
-  PIXEL_COLOR: getTexturePixelColor,
-  OVERLAY_COLOR: getOverlayPixelColor,
-  MATCAP: matcapMaterial,
-  TEXTURE: textureAsPoints,
-  PHONG: phongMaterial,
-};
+// const POINT_COLOR_EFFECT_FUNCTIONS = {
+//   COLOR: defaultPointMaterial,
+//   PIXEL_COLOR: getTexturePixelColor,
+//   OVERLAY_COLOR: getOverlayPixelColor,
+//   MATCAP: matcapMaterial,
+//   TEXTURE: textureAsPoints,
+//   PHONG: phongMaterial,
+// };

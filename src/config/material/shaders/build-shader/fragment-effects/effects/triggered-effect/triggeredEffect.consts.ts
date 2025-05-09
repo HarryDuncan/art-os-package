@@ -7,7 +7,7 @@ import {
   TriggeredFragmentEffect,
 } from "../../../../../../../types/materials/shaders/fragmentShader.types";
 import { POINT_PARENTS } from "../../../constants/buildShader.consts";
-import { TRIGGERED_FRAGMENT_EFFECT } from "../../../../../../../consts/materials/fragmentEffects.consts";
+import { TRIGGERED_FRAGMENT_EFFECT } from "../../fragmentEffects.consts";
 
 export const TRIGGERED_UNIFORM_CONFIG = {
   defaultUniforms: ["uIsTriggered"],

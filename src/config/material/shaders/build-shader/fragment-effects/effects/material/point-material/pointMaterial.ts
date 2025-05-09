@@ -3,11 +3,13 @@ import {
   UniformConfig,
   UniformValueConfig,
 } from "../../../../../../../../types/materials/shaders/buildShader.types";
-import { PointMaterialFragmentEffectProps } from "../../../../../../../../types/materials/shaders/fragmentShader.types";
+import {
+  FragmentEffectType,
+  PointMaterialFragmentEffectProps,
+} from "../../../../../../../../types/materials/shaders/fragmentShader.types";
 import { formatFragmentParameters } from "../../../../helpers/formatFragmentParameters";
 import { reduceFunctions } from "../../../../helpers/reduceFunctions";
 import { mergeAttributeConfigs } from "../../../../shader-properties/attributes/helpers/mergeAttributeConfigs";
-import { mergeUniformConfigs } from "../../../../shader-properties/uniforms/helpers/mergeUniformConfigs";
 import { mergeVaryingConfigs } from "../../../../shader-properties/varyings/helpers/mergeVaryingConfigs";
 import {
   DEFAULT_FRAG_POINT_PROPS,
@@ -19,6 +21,7 @@ import {
 import { pointMaterialTransform } from "./pointMaterialTransform";
 
 export const pointMaterial = (
+  effectType: FragmentEffectType,
   effectProps: Partial<PointMaterialFragmentEffectProps> = {},
   configuredUniforms: UniformValueConfig[]
 ) => {
@@ -27,35 +30,21 @@ export const pointMaterial = (
     DEFAULT_FRAG_POINT_PROPS
   ) as PointMaterialFragmentEffectProps;
 
-  const {
-    effectUniforms,
-    transform,
-    effectAttributes,
-    effectVaryings,
-    effectRequiredFunctions,
-  } = pointMaterialTransform(formattedProps);
+  const transformation = pointMaterialTransform(
+    effectType,
+    formattedProps,
+    configuredUniforms
+  );
 
-  const mergedUniformConfigs = mergeUniformConfigs([
-    effectUniforms,
-    POINT_MATERIAL_UNIFORMS as UniformConfig,
-  ]);
-
-  const mergedVaryings = mergeVaryingConfigs([
-    POINT_MATERIAL_VARYINGS,
-    effectVaryings,
-  ]);
+  const mergedVaryings = mergeVaryingConfigs([POINT_MATERIAL_VARYINGS]);
   const mergedAttributes = mergeAttributeConfigs([
     POINT_MATERIAL_ATTRIBUTES as AttributeConfig[],
-    effectAttributes,
   ]);
-  const requiredFunctions = reduceFunctions([
-    POINT_MATERIAL_FUNCTIONS,
-    effectRequiredFunctions,
-  ]);
+  const requiredFunctions = reduceFunctions([POINT_MATERIAL_FUNCTIONS]);
   return {
     requiredFunctions,
-    uniformConfig: mergedUniformConfigs,
-    transformation: transform,
+    transformation,
+    uniformConfig: POINT_MATERIAL_UNIFORMS as UniformConfig,
     varyingConfig: mergedVaryings,
     attributeConfig: mergedAttributes,
   };

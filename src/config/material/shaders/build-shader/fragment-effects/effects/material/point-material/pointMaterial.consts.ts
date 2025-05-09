@@ -3,12 +3,8 @@ import { SHADER_PROPERTY_VALUE_TYPES } from "../../../../../../../../consts/mate
 import { VARYING_TYPES } from "../../../../shader-properties/varyings/varyings.consts";
 
 export const DEFAULT_FRAG_POINT_PROPS = {
-  pointDisplayPercentage: 0.5,
-  pointTextures: [
-    { id: "uTexture1", pointColor: "#ff1205" },
-    { id: "uTexture2", pointColor: "#ff1005" },
-  ],
-  pointColor: "#ff1205",
+  isTextured: false,
+  defaultPointColor: "#ff1205",
 };
 
 export const POINT_MATERIAL_VARYINGS = [
@@ -37,20 +33,66 @@ export const POINT_MATERIAL_UNIFORMS = {
   defaultUniforms: ["uOpacity"],
   customUniforms: [],
 };
-
-export const POINT_COLOR_EFFECTS = {
-  COLOR: "COLOR",
-  PIXEL_COLOR: "PIXEL_COLOR",
-  OVERLAY_COLOR: "OVERLAY_COLOR",
-  MATCAP: "MATCAP",
-  TEXTURE: "TEXTURE",
-  PHONG: "PHONG",
+export const POINT_MATERIAL_PHONG_UNIFORMS = {
+  defaultUniforms: [],
+  customUniforms: [
+    {
+      id: "uDiffuseColor",
+      valueType: SHADER_PROPERTY_VALUE_TYPES.VEC3,
+      value: "#bf0cf5",
+    },
+    {
+      id: "uLightColor",
+      valueType: SHADER_PROPERTY_VALUE_TYPES.VEC3,
+      value: "#ff00dd",
+    },
+    {
+      id: "uAmbientColor",
+      valueType: SHADER_PROPERTY_VALUE_TYPES.VEC3,
+      value: "#a200fa",
+    },
+    {
+      id: "uDiffuseReflection",
+      valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
+      value: 0.9,
+    },
+    {
+      id: "uSpecularColor",
+      valueType: SHADER_PROPERTY_VALUE_TYPES.VEC3,
+      value: "#ff00f1",
+    },
+  ],
 };
 
-export const EXTERNAL_POINT_COLOR_EFFECTS = [
-  POINT_COLOR_EFFECTS.MATCAP,
-  POINT_COLOR_EFFECTS.OVERLAY_COLOR,
-  POINT_COLOR_EFFECTS.PHONG,
-  POINT_COLOR_EFFECTS.PIXEL_COLOR,
-  POINT_COLOR_EFFECTS.TEXTURE,
+export const TEXTURED_POINTS_UNIFORMS = {
+  defaultUniforms: [],
+  customUniforms: [
+    {
+      id: "uPointTexture1",
+      valueType: SHADER_PROPERTY_VALUE_TYPES.SAMPLER2D,
+      value: null,
+      idLocked: true,
+      isAssetMapped: true,
+    },
+    {
+      id: "uPointTexture2",
+      valueType: SHADER_PROPERTY_VALUE_TYPES.SAMPLER2D,
+      value: null,
+      idLocked: true,
+      isAssetMapped: true,
+    },
+  ],
+};
+
+export const TEXTURED_POINTS_ATTRIBUTES = [
+  {
+    id: "pointType",
+    valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
+    idLocked: true,
+  },
+  {
+    id: "pointDisplay",
+    valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
+    idLocked: true,
+  },
 ];

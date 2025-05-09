@@ -1,7 +1,7 @@
 import { UniformConfig } from "../../../../../../types/materials/shaders/buildShader.types";
 import { FragmentEffectConfig } from "../../../../../../types/materials/shaders/buildShader.types";
 import { formatUniformsForEffect } from "../../helpers/formatUniformsForEffect";
-import { FRAGMENT_EFFECT } from "../../../../../../consts/materials/fragmentEffects.consts";
+import { FRAGMENT_EFFECT } from "../fragmentEffects.consts";
 import { brightness } from "./brightness/brightness";
 import { color } from "./color/color";
 import { defaultFragmentEffect } from "./defaultFragmentEffect/defaultFragmentEffect";
@@ -35,12 +35,6 @@ export const getFragmentEffects = (
   const { effectType, effectProps, id } = effect;
   const effectUniforms = formatUniformsForEffect(uniformConfig, id);
   switch (effectType) {
-    case FRAGMENT_EFFECT.OPACITY:
-      return opacity(effectProps as Partial<OpacityFragmentEffectProps>);
-    case FRAGMENT_EFFECT.COLOR:
-      return color(effectProps as Partial<ColorFragmentEffectProps>);
-    case FRAGMENT_EFFECT.MATCAP:
-      return matcapMaterial(effectProps as Partial<MaterialEffectProps>);
     case FRAGMENT_EFFECT.POINT_MATERIAL:
     case FRAGMENT_EFFECT.POINT_MATERIAL_PIXEL_COLOR:
     case FRAGMENT_EFFECT.POINT_MATERIAL_OVERLAY_COLOR:
@@ -48,9 +42,16 @@ export const getFragmentEffects = (
     case FRAGMENT_EFFECT.POINT_MATERIAL_TEXTURE:
     case FRAGMENT_EFFECT.POINT_MATERIAL_PHONG:
       return pointMaterial(
+        effectType,
         effectProps as Partial<PointMaterialFragmentEffectProps>,
         effectUniforms
       );
+    case FRAGMENT_EFFECT.OPACITY:
+      return opacity(effectProps as Partial<OpacityFragmentEffectProps>);
+    case FRAGMENT_EFFECT.COLOR:
+      return color(effectProps as Partial<ColorFragmentEffectProps>);
+    case FRAGMENT_EFFECT.MATCAP:
+      return matcapMaterial(effectProps as Partial<MaterialEffectProps>);
     case FRAGMENT_EFFECT.PHONG:
       return phongMaterial(effectProps as Partial<PhongFragmentEffectProps>);
     case FRAGMENT_EFFECT.PHYSICAL_MATERIAL:

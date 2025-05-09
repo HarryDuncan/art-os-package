@@ -9,7 +9,7 @@ export * from "./animation/animation.defaults";
 export * from "./defaults";
 export * from "./lights/lights";
 export * from "./materials/vertexEffects.consts";
-export * from "./materials/fragmentEffects.consts";
+export * from "../config/material/shaders/build-shader/fragment-effects/fragmentEffects.consts";
 export * from "./materials/shader.consts";
 export * from "./interaction.consts";
 export * from "../interaction/key-point-extraction/keyPointExtraction";

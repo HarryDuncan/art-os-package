@@ -4,7 +4,7 @@ import {
 } from "../../../../../../../types/materials/shaders/buildShader.types";
 import { TriggeredVertexEffect } from "../../../../../../../types/materials/shaders/vertexShader.types";
 import { POINT_PARENTS } from "../../../constants/buildShader.consts";
-import { TRIGGERED_FRAGMENT_EFFECT } from "../../../../../../../consts/materials/fragmentEffects.consts";
+import { TRIGGERED_FRAGMENT_EFFECT } from "../../../fragment-effects/fragmentEffects.consts";
 
 export const TRIGGERED_UNIFORM_CONFIG = {
   defaultUniforms: ["uIsTriggered"],

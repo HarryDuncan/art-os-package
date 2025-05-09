@@ -22,7 +22,7 @@ import {
   TriggeredVertexEffect,
   VertexEffectProps,
 } from "./vertexShader.types";
-import { FRAGMENT_EFFECT } from "../../../consts/materials/fragmentEffects.consts";
+import { FRAGMENT_EFFECT } from "../../../config/material/shaders/build-shader/fragment-effects/fragmentEffects.consts";
 
 // GENERAL TYPES
 export type ShaderPropertyConfig = {

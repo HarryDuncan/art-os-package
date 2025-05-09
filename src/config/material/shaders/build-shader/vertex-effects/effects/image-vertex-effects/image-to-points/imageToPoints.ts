@@ -13,7 +13,6 @@ export const imageToPoints = (
   effectUniforms: UniformValueConfig[]
 ) => {
   const { transformation } = imageToPointsTransform(effectUniforms);
-
   return {
     requiredFunctions: IMAGE_TO_POINTS_REQUIRED_FUNCTIONS,
     uniformConfig: IMAGE_TO_POINTS_UNIFORMS,

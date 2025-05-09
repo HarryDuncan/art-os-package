@@ -2,7 +2,7 @@ import {
   FRAGMENT_EFFECT,
   INTERACTION_FRAGMENT_EFFECT,
   TRIGGERED_FRAGMENT_EFFECT,
-} from "../../../consts/materials/fragmentEffects.consts";
+} from "../../../config/material/shaders/build-shader/fragment-effects/fragmentEffects.consts";
 import {
   ShaderFunction,
   UniformConfig,
@@ -20,11 +20,8 @@ export type PointColorFragmentEffectProps = {
   pointColor: string;
 };
 export type PointMaterialFragmentEffectProps = {
-  pointDisplayPercentage: number;
-  defaultColor?: string;
-  pointTextures: PointTexture[];
-  effectProps?: any;
-  effectType?: string;
+  isTextured: boolean;
+  effectProps?: Record<string, unknown>;
 };
 
 export type MaterialEffectProps = {
