@@ -56,10 +56,6 @@ const loopThroughAllChildren = (
     }
     if (isMesh) {
       // // add any material data to mesh
-      // const formattedTransforms = formatMeshAttributes(
-      //   meshTransforms ?? [],
-      //   attributeConfigs as unknown as ShaderAttributeConfig[]
-      // );
       // const shaderMaterial = materials[0];
       // child.material = shaderMaterial;
       // // return group

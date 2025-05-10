@@ -4,7 +4,7 @@ import {
   SHADER_PROPERTY_VALUE_TYPES,
 } from "../material/shaders/build-shader/constants/shader.consts";
 import { MeshTransformConfig } from "../../types";
-import { MESH_TRANSFORM } from "../../consts/mesh.consts";
+import { MESH_TRANSFORM_TYPE } from "../../consts/mesh.consts";
 
 export const DEFAULT_MORPH_ATTRIBUTE_CONFIG = [
   {
@@ -37,7 +37,7 @@ export const QUAD_MESH_TRANSFORM_ATTRIBUTES = [
 
 export const QUAD_MESH_TRANSFORM = {
   id: "quadMeshTransform",
-  type: MESH_TRANSFORM.SET_UP_QUAD,
+  type: MESH_TRANSFORM_TYPE.SET_UP_QUAD,
   transformedMeshIds: [],
   materialId: "",
   attributeConfigs: [...QUAD_MESH_TRANSFORM_ATTRIBUTES],
