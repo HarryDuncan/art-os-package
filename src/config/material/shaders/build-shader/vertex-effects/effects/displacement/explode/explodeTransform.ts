@@ -2,7 +2,7 @@ import { VERTEX_POINT_NAME } from "../../../../../../../../consts/materials/vert
 import { SHADER_PROPERTY_VALUE_TYPES } from "../../../../constants/shader.consts";
 import {
   UniformValueConfig,
-  VertexTransformationConfig,
+  TransformationConfig,
 } from "../../../../../../../../types/materials/index";
 import { generateVertexTransformation } from "../../../../helpers/generateTransform";
 
@@ -30,7 +30,7 @@ const explodeTransformConfig = {
     `isAffected = 1.0;`,
     `}`,
   ],
-} as unknown as VertexTransformationConfig;
+} as unknown as TransformationConfig;
 export const explodeTransform = (uniforms: UniformValueConfig[]) => {
   const transformation = generateVertexTransformation(
     explodeTransformConfig,

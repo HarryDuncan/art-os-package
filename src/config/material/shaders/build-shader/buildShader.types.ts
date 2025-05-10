@@ -113,7 +113,7 @@ export type ShaderAttributeConfig = {
 };
 export type AttributeValueConfig = RandomBoolConfig;
 export type AttributeConfig = ShaderPropertyConfig & {
-  idLocked?: boolean;
+  configLocked?: boolean;
   attributeValueType: keyof typeof ATTRIBUTE_VALUE_TYPES;
   assetId?: string;
   attributeCount?: number;
@@ -157,7 +157,7 @@ export type BuiltShaderConfig = {
   structConfigs?: StructConfig[];
 };
 
-export type VertexTransformationConfig = {
+export type TransformationConfig = {
   effectName: string;
   instantiationName?: string;
   instantiationType?: keyof typeof SHADER_PROPERTY_VALUE_TYPES;

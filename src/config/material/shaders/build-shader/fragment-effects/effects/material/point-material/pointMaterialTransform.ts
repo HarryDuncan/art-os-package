@@ -1,23 +1,13 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-// @ts-nocheck
-
-import { SHADER_PROPERTY_VALUE_TYPES } from "../../../../../../../../consts/materials/shader.consts";
-import { fragmentEffectToEffectData } from "../../../../helpers/fragmentEffectToEffectData";
-import { mergeUniformConfigs } from "../../../../shader-properties/uniforms/helpers/mergeUniformConfigs";
-import {
-  PointMaterialFragmentEffectProps,
-  PointTexture,
-} from "../../../../types";
-import { FRAG_COLOR_NAME } from "../../../fragmentEffects.consts";
-import { matcapMaterial } from "../matcap/matcap";
-import { phongMaterial } from "../phong-material/phong";
-import { getOverlayPixelColor } from "./point-material-functions/getOverlayPixelColor";
-import { getPointColor } from "./point-material-functions/getPointColor";
 import { getPointTexture } from "./point-material-functions/getPointTextures";
-import { getTexturePixelColor } from "./point-material-functions/getTexturePixelColor";
-import { textureAsPoints } from "./point-material-functions/textureAsPoints";
-import { EXTERNAL_POINT_COLOR_EFFECTS } from "./pointMaterial.consts";
-import { UniformValueConfig } from "../../../../../../../../types/materials/shaders/buildShader.types";
+import {
+  TransformationConfig,
+  UniformValueConfig,
+} from "../../../../buildShader.types";
+import {
+  FragmentEffectType,
+  PointMaterialFragmentEffectProps,
+} from "../../../fragmentShader.types";
+import { generateVertexTransformation } from "../../../../helpers/generateTransform";
 
 const pointMaterialTransformConfig = {
   effectName: "pointMaterial",
@@ -31,7 +21,7 @@ const pointMaterialTransformConfig = {
     ` opacity = 0.0;`,
     `}`,
   ],
-} as unknown as VertexTransformationConfig;
+} as unknown as TransformationConfig;
 
 export const pointMaterialTransform = (
   effectType: FragmentEffectType,
@@ -46,7 +36,7 @@ export const pointMaterialTransform = (
     pointEffectProps
   );
   const textureTransform = isTextured
-    ? getPointTexture(configuredUniforms)
+    ? "getPointTexture(configuredUniforms)"
     : "";
   const updatedEffectCode = [
     ...pointMaterialTransformConfig.effectCode,

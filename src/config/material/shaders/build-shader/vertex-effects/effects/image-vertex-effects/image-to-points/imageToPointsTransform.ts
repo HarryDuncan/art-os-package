@@ -1,6 +1,6 @@
 import {
   UniformValueConfig,
-  VertexTransformationConfig,
+  TransformationConfig,
 } from "../../../../../../../../types/materials/index";
 import { VERTEX_POINT_NAME } from "../../../../../../../../consts/materials/vertexEffects.consts";
 import { generateVertexTransformation } from "../../../../helpers/generateTransform";
@@ -38,7 +38,7 @@ const imageToPointsTransformConfig = {
     `pSize *= uSize;`,
     `gl_PointSize = pSize;`,
   ],
-} as unknown as VertexTransformationConfig;
+} as unknown as TransformationConfig;
 
 export const imageToPointsTransform = (
   effectUniforms: UniformValueConfig[]

@@ -1,11 +1,8 @@
 import { SHADER_PROPERTY_VALUE_TYPES } from "../../../../../consts";
-import {
-  UniformValueConfig,
-  VertexTransformationConfig,
-} from "../../../../../types";
+import { UniformValueConfig, TransformationConfig } from "../../../../../types";
 
 export const generateVertexTransformation = (
-  config: VertexTransformationConfig,
+  config: TransformationConfig,
   uniforms: UniformValueConfig[]
 ) => {
   let transformation = config.prefix ?? "";

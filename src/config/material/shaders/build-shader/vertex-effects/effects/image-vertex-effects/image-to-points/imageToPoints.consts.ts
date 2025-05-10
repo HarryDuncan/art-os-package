@@ -21,33 +21,33 @@ export const IMAGE_TO_POINTS_UNIFORMS = {
       id: "uTexture",
       valueType: SHADER_PROPERTY_VALUE_TYPES.SAMPLER2D,
       value: null,
-      idLocked: true,
+      configLocked: true,
       isAssetMapped: true,
     },
     {
       id: "uTextureSize",
       valueType: SHADER_PROPERTY_VALUE_TYPES.VEC2,
       value: null,
-      idLocked: true,
+      configLocked: true,
       isAssetMapped: true,
     },
     {
       id: "uRandom",
       valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
       value: 1,
-      idLocked: true,
+      configLocked: true,
     },
     {
       id: "uDepth",
       valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
       value: 1,
-      idLocked: true,
+      configLocked: true,
     },
     {
       id: "uSize",
       valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
       value: 1,
-      idLocked: true,
+      configLocked: true,
     },
   ],
 } as unknown as UniformConfig;
@@ -79,7 +79,7 @@ export const IMAGE_TO_POINTS_REQUIRED_FUNCTIONS = [
 export const IMAGE_TO_POINTS_ATTRIBUTES = [
   {
     id: "position",
-    idLocked: true,
+    configLocked: true,
     attributeValueType: ATTRIBUTE_VALUE_TYPES.INDEXED,
     valueType: SHADER_PROPERTY_VALUE_TYPES.VEC3,
     assetId: "",

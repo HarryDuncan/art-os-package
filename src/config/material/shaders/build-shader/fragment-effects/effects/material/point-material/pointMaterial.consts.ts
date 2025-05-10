@@ -1,5 +1,8 @@
 import { VaryingConfig } from "../../../../buildShader.types";
-import { SHADER_PROPERTY_VALUE_TYPES } from "../../../../constants/shader.consts";
+import {
+  ATTRIBUTE_VALUE_TYPES,
+  SHADER_PROPERTY_VALUE_TYPES,
+} from "../../../../constants/shader.consts";
 import { VARYING_TYPES } from "../../../../shader-properties/varyings/varyings.consts";
 
 export const DEFAULT_FRAG_POINT_PROPS = {
@@ -24,10 +27,7 @@ export const POINT_MATERIAL_VARYINGS = [
 
 export const POINT_MATERIAL_FUNCTIONS = [];
 
-export const POINT_MATERIAL_ATTRIBUTES = [
-  { id: "pointType", valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT },
-  { id: "pointDisplay", valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT },
-];
+export const POINT_MATERIAL_ATTRIBUTES = [];
 
 export const POINT_MATERIAL_UNIFORMS = {
   defaultUniforms: ["uOpacity"],
@@ -71,14 +71,14 @@ export const TEXTURED_POINTS_UNIFORMS = {
       id: "uPointTexture1",
       valueType: SHADER_PROPERTY_VALUE_TYPES.SAMPLER2D,
       value: null,
-      idLocked: true,
+      configLocked: true,
       isAssetMapped: true,
     },
     {
       id: "uPointTexture2",
       valueType: SHADER_PROPERTY_VALUE_TYPES.SAMPLER2D,
       value: null,
-      idLocked: true,
+      configLocked: true,
       isAssetMapped: true,
     },
   ],
@@ -88,11 +88,13 @@ export const TEXTURED_POINTS_ATTRIBUTES = [
   {
     id: "pointType",
     valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
-    idLocked: true,
+    configLocked: true,
+    attributeValueType: ATTRIBUTE_VALUE_TYPES.RANDOM_VALUE,
   },
   {
     id: "pointDisplay",
     valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
-    idLocked: true,
+    configLocked: true,
+    attributeValueType: ATTRIBUTE_VALUE_TYPES.RANDOMIZED_BINARY,
   },
 ];

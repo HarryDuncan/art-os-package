@@ -18,7 +18,7 @@ export const setAttributes = (
         case ATTRIBUTE_VALUE_TYPES.RANDOM_VALUE:
           setRandomValues(id, valueCount, bufferGeometry);
           break;
-        case ATTRIBUTE_VALUE_TYPES.RANDOMIZED:
+        case ATTRIBUTE_VALUE_TYPES.RANDOMIZED_BINARY:
           setRandomizedPercentage(
             id,
             valueCount,
