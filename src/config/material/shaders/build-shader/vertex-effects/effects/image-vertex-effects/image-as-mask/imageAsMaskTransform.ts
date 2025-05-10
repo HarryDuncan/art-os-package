@@ -6,7 +6,7 @@ import { rand } from "../../../../shader-properties/functions/maths/maths";
 import { noise } from "../../../../shader-properties/functions/noise/noise";
 import { EMPTY_UNIFORM_CONFIG } from "../../../../shader-properties/uniforms/uniforms.consts";
 import { VARYING_TYPES } from "../../../../shader-properties/varyings/varyings.consts";
-import { VERTEX_POINT_NAME } from "../../../../../../../../consts/materials/vertexEffects.consts";
+import { VERTEX_POINT_NAME } from "../../../vertexEffects.consts";
 import { randomFloatFunction } from "../../../../shader-properties/functions/random";
 
 export const imageAsMaskTransform = (

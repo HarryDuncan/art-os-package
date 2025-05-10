@@ -1,4 +1,4 @@
-import { VERTEX_POINT_NAME } from "../../../../../../../../consts/materials/vertexEffects.consts";
+import { VERTEX_POINT_NAME } from "../../../vertexEffects.consts";
 import { SHADER_PROPERTY_VALUE_TYPES } from "../../../../constants/shader.consts";
 import {
   UniformValueConfig,

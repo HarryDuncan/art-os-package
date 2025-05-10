@@ -13,7 +13,7 @@ import {
 import {
   VERTEX_NORMAL_NAME,
   VERTEX_POINT_NAME,
-} from "../../../../../../consts/materials/vertexEffects.consts";
+} from "../../vertex-effects/vertexEffects.consts";
 import {
   VaryingConfig,
   AttributeConfig,

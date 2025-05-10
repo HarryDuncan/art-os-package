@@ -1,5 +1,5 @@
 import { simplePerlinNoise } from "../../../../../shader-properties/functions/noise/perlinNoise";
-import { VERTEX_POINT_NAME } from "../../../../../../../../../consts/materials/vertexEffects.consts";
+import { VERTEX_POINT_NAME } from "../../../../vertexEffects.consts";
 import { NOISE_UNIFORMS } from "../noise.consts";
 
 export const perlinNoiseEffect = () => {

@@ -5,7 +5,7 @@ import {
 } from "../../vertexShader.types";
 import { DEFAULT_VERTEX_EFFECT } from "../../../constants";
 import { TRIGGERED_FRAGMENT_EFFECT } from "../../../fragment-effects/fragmentEffects.consts";
-import { VERTEX_EFFECTS } from "../../../../../../../consts/materials/vertexEffects.consts";
+import { VERTEX_EFFECTS } from "../../vertexEffects.consts";
 import { VertexEffectData } from "../../vertexEffects.types";
 import { expand } from "../displacement/expand/expand";
 

@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-// @ts-nocheck
 import { Material, Object3D } from "three";
 import { formatGeometry } from "./geometry/formatGeometry";
 import { addMaterials } from "./mesh-materials/addMaterials";
@@ -8,17 +6,14 @@ import { setUpRandomizedMeshConfigs } from "./randomized/setUpRandomizedMeshConf
 import { Asset } from "../../types";
 import { SceneConfig } from "../../types/config.types";
 import { transformGeometry } from "./geometry/transform-geometries/transformGeometries";
-import { ShaderAttributeConfig } from "../material/shaders/build-shader/types";
 import { multipleMeshes } from "./multiple-meshes/multipleMeshes";
 // import { setUpAdvancedMeshes } from "./advanced-mesh/setUpAdvancedMeshes";
 import { GLTF } from "three/examples/jsm/loaders/GLTFLoader.js";
-import { formatMeshAttributes } from "./attributes/formatMeshAttributes";
 
 export const getMeshesFromConfig = (
   assets: Asset[],
   materials: Material[],
-  config: SceneConfig,
-  attributeConfigs: ShaderAttributeConfig[]
+  config: SceneConfig
 ): Object3D[] | GLTF[] => {
   const { meshComponentConfigs, meshTransforms } = config; //advancedMeshConfigs,
   const meshConfigs =
@@ -33,17 +28,11 @@ export const getMeshesFromConfig = (
     ...multipleMeshConfigs,
   ];
   const formattedGeometry = formatGeometry(assets, allMeshes);
-  console.log(attributeConfigs);
-  const meshAttributes = formatMeshAttributes(
-    meshTransforms ?? [],
-    attributeConfigs
-  );
-
-  console.log(meshAttributes);
 
   const transformedGeometry = transformGeometry(
-    meshAttributes,
-    formattedGeometry
+    meshTransforms ?? [],
+    formattedGeometry,
+    assets
   );
   const geometriesWithMaterials = addMaterials(
     transformedGeometry,

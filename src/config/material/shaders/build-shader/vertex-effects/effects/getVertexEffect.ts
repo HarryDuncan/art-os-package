@@ -13,7 +13,7 @@ import {
   ImageToPointsEffectProps,
   ImageAsMaskEffectProps,
 } from "../vertexShader.types";
-import { VERTEX_EFFECTS } from "../../../../../../consts/materials/vertexEffects.consts";
+import { VERTEX_EFFECTS } from "../vertexEffects.consts";
 import { VertexEffectData } from "../vertexEffects.types";
 import { cloudEffect } from "./displacement/cloud/cloudTransform";
 import { distortionEffect } from "./displacement/distort/distortionEffect";

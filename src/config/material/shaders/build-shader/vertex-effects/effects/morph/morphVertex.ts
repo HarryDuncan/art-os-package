@@ -10,7 +10,7 @@ import { MorphEffectProps, ShaderFunction } from "../../../types";
 import {
   VERTEX_NORMAL_NAME,
   VERTEX_POINT_NAME,
-} from "../../../../../../../consts/materials/vertexEffects.consts";
+} from "../../vertexEffects.consts";
 import { buildMorphTransforms } from "./buildMorphTransforms";
 import { morphTransitions } from "./morph-transitions/morphTransitions";
 import {

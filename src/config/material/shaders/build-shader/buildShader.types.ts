@@ -9,7 +9,7 @@ import {
   INTERACTION_VERTEX_EFFECT,
   TransformTypes,
   VERTEX_EFFECTS,
-} from "../../../../consts/materials/vertexEffects.consts";
+} from "./vertex-effects/vertexEffects.consts";
 import {
   FragmentEffectProps,
   InteractiveFragmentEffect,
@@ -119,6 +119,8 @@ export type AttributeConfig = ShaderPropertyConfig & {
   attributeCount?: number;
   assetType?: AssetType;
   effectIds?: string[];
+  transformId?: string[];
+  relationship?: string;
 };
 
 // <-------------------------------------UNIFORMS ---------------------------------->

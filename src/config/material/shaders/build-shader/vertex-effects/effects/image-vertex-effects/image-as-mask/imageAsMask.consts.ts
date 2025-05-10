@@ -1,5 +1,5 @@
 import { VaryingConfig } from "../../../../../../../../types/materials/index";
-import { VERTEX_EFFECTS } from "../../../../../../../../consts/materials/vertexEffects.consts";
+import { VERTEX_EFFECTS } from "../../../vertexEffects.consts";
 
 export const DEFAULT_IMAGE_AS_MASK_EFFECT_PROPS = {
   declareInTransform: true,

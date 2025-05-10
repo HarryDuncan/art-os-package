@@ -2,7 +2,7 @@ import { FRAG_COLOR_NAME } from "../../../../../consts";
 import {
   VERTEX_NORMAL_NAME,
   VERTEX_POINT_NAME,
-} from "../../../../../consts/materials/vertexEffects.consts";
+} from "../vertex-effects/vertexEffects.consts";
 
 export const MAIN_START = `void main() { `;
 

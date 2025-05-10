@@ -118,10 +118,11 @@ export type ScenePropertiesConfig = {
 };
 export type MeshTransformType = keyof typeof MESH_TRANSFORM;
 export type MeshTransformConfig = {
+  id: string;
   type: MeshTransformType;
   transformedMeshIds: string[];
   materialId?: string;
-  attributeConfig?: AttributeConfig[];
+  attributeConfigs?: AttributeConfig[];
 };
 
 export type ScreenSizeAdjustmentConfig = {

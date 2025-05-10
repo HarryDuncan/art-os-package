@@ -6,7 +6,7 @@ import { virusNoise } from "../../../../../shader-properties/functions/noise/noi
 import { zeroToZeroParabola } from "../../../../../shader-properties/functions/steps/steps";
 
 import { AttributeConfig, NoiseTransitionProps } from "../../../../../types";
-import { VERTEX_POINT_NAME } from "../../../../../../../../../consts/materials/vertexEffects.consts";
+import { VERTEX_POINT_NAME } from "../../../../vertexEffects.consts";
 
 export const noiseTransitionTransform = (
   noiseTransitionProps: NoiseTransitionProps

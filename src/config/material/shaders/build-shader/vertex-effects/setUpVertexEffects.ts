@@ -3,7 +3,7 @@ import { mergeAttributeConfigs } from "../shader-properties/attributes/helpers/m
 import { mergeUniformConfigs } from "../shader-properties/uniforms/helpers/mergeUniformConfigs";
 import { mergeVaryingConfigs } from "../shader-properties/varyings/helpers/mergeVaryingConfigs";
 import { getVertexEffect } from "./effects/getVertexEffect";
-import { VERTEX_POINT_NAME } from "../../../../../consts/materials/vertexEffects.consts";
+import { VERTEX_POINT_NAME } from "./vertexEffects.consts";
 import { mergeStructConfigs } from "../shader-properties/structs/mergeStructConfigs";
 import {
   AttributeConfig,

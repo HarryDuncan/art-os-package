@@ -1,6 +1,6 @@
 import { PointsEffectProps } from "../../vertexShader.types";
 import { shaderSafeFloat } from "../../../../../../../utils/conversion/shaderConversions";
-import { VERTEX_POINT_NAME } from "../../../../../../../consts/materials/vertexEffects.consts";
+import { VERTEX_POINT_NAME } from "../../vertexEffects.consts";
 import { pointsPerspective } from "./pointsPerspective";
 
 export const pointsTransform = (effectProps: PointsEffectProps) => {

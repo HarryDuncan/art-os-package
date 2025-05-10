@@ -10,7 +10,7 @@ import { vertexEffectToEffectData } from "../../../helpers/vertexEffectToEffectD
 import {
   VERTEX_NORMAL_NAME,
   VERTEX_POINT_NAME,
-} from "../../../../../../../consts/materials/vertexEffects.consts";
+} from "../../vertexEffects.consts";
 import { RotationEffectProps } from "../../vertexShader.types";
 import { UniformConfig } from "../../../../../../../types";
 

@@ -4,7 +4,7 @@ import {
 } from "../../../../../../../../../types/materials/index";
 import { SHADER_PROPERTY_VALUE_TYPES } from "../../../../../constants/shader.consts";
 import { twisterDistortion } from "../../../../../shader-properties/functions/distortion/distortion";
-import { VERTEX_POINT_NAME } from "../../../../../../../../../consts/materials/vertexEffects.consts";
+import { VERTEX_POINT_NAME } from "../../../../vertexEffects.consts";
 
 export const flexyTwister = (_effectProps: unknown) => {
   const uniformConfig = {

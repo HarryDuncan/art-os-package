@@ -30,10 +30,10 @@ export const formatMeshAttributes = (
       );
       if (shaderAttributes) {
         const attributeConfig = [
-          ...(transform.attributeConfig ?? []),
+          ...(transform.attributeConfigs ?? []),
           ...shaderAttributes.attributeConfigs,
         ];
-        return { ...transform, attributeConfig };
+        return { ...transform, attributeConfigs: attributeConfig };
       }
       console.warn(`no shader attributes found for ${transform.materialId}`);
       return transform;

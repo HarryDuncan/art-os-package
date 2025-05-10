@@ -1,21 +1,24 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-// @ts-nocheck
-import { BufferAttribute } from "three";
+import { BufferAttribute, Vector2 } from "three";
 import { getGeometryAttributes } from "../../attributes/attribute.functions";
 import { MeshTransformConfig } from "../../../../types/config.types";
 import { FormattedGeometry } from "../../../../assets/geometry/geometry.types";
 import { setAttributes } from "../../attributes/set-attributes/setAttributes";
 import { mergeArraysWithoutDuplicates } from "../../../../utils/mergeArraysWithoutDuplicates";
-import { AttributeConfig } from "../../../../config/material/shaders/build-shader/types";
 import { MESH_TRANSFORM } from "../../../../consts/mesh.consts";
-import { DEFAULT_MORPH_ATTRIBUTE_CONFIG } from "../../../../consts/meshTransforms.consts";
+import { DEFAULT_MORPH_ATTRIBUTE_CONFIG } from "../../meshTransforms.consts";
+// import { getAttributeValuesFromAssets } from "../../mesh/attributes/getAttributeValuesFromAsset";
+import { Asset, AttributeConfig } from "../../../../types";
 
 export const transformGeometry = (
   meshTransforms: MeshTransformConfig[] | undefined,
-  formattedGeometries: FormattedGeometry[]
+  formattedGeometries: FormattedGeometry[],
+  assets: Asset[]
 ): FormattedGeometry[] => {
+  // format asset data into attribute config for mesh transforms
+  console.log(assets);
+  // console.log(getAttributeValuesFromAssets)
   if (!meshTransforms || !meshTransforms.length) return formattedGeometries;
-  meshTransforms.forEach(({ type, transformedMeshIds, attributeConfig }) => {
+  meshTransforms.forEach(({ type, transformedMeshIds, attributeConfigs }) => {
     const transformedMeshes = getTransformedMeshes(
       formattedGeometries,
       transformedMeshIds
@@ -42,8 +45,8 @@ export const transformGeometry = (
             }
           });
           const morphAttributeConfig = mergeAttributeConfigs(
-            DEFAULT_MORPH_ATTRIBUTE_CONFIG,
-            attributeConfig ?? []
+            DEFAULT_MORPH_ATTRIBUTE_CONFIG as AttributeConfig[],
+            attributeConfigs ?? []
           );
           const configuredRootGeometry = setAttributes(
             transformedMeshes[0].geometry,
@@ -60,7 +63,7 @@ export const transformGeometry = (
             const { geometry } = formattedGeometry;
             const setAttributeGeometry = setAttributes(
               geometry,
-              attributeConfig
+              attributeConfigs ?? []
             );
             return { ...formattedGeometry, geometry: setAttributeGeometry };
           });
@@ -68,10 +71,12 @@ export const transformGeometry = (
         }
         case MESH_TRANSFORM.PRE_DEFINED: {
           const attributesSet = transformedMeshes.flatMap(({ geometry }) => {
-            attributeConfig?.forEach((config) => {
+            attributeConfigs?.forEach((config) => {
               if (config.value) {
-                // @ts-ignore
-                geometry.setAttribute(config.id, config.value);
+                geometry.setAttribute(
+                  config.id,
+                  config.value as BufferAttribute
+                );
               }
             });
             return geometry;
@@ -83,41 +88,47 @@ export const transformGeometry = (
           const attributesSet = transformedMeshes.map((formattedGeometry) => {
             const { geometry } = formattedGeometry;
 
-            const width = attributeConfig.find(({ id }) => id === "width");
-            const height = attributeConfig.find(({ id }) => id === "height");
-            const pointDisplay = attributeConfig.find(
-              ({ id }) => id === "pointDisplay"
+            const quadDimensions = attributeConfigs?.find(
+              ({ id }) => id === "quadDimensions"
             );
-            if (width?.value && height.value) {
-              const vertexesNumber = Number(width.value) * Number(height.value);
-              const indices = new Uint16Array(vertexesNumber);
-              const offsets = new Float32Array(vertexesNumber);
-              const normals = new Float32Array(vertexesNumber * 3);
-              for (let i = 0, j = 0; i < vertexesNumber; i += 1) {
-                const x = i % Number(width.value);
-                const y = Math.floor(i / Number(height.value));
-                offsets[j * 3 + 0] = x;
-                offsets[j * 3 + 1] = y;
-                offsets[j * 3 + 2] = 0;
-                indices[j] = i;
-                j += 1;
+            if (quadDimensions) {
+              const { value } = quadDimensions as { value: Vector2 };
+              const width = value?.x;
+              const height = value?.y;
+              const pointDisplay = attributeConfigs?.find(
+                ({ id }) => id === "pointDisplay"
+              );
+              if (width && height) {
+                const vertexesNumber = Number(width) * Number(height);
+                const indices = new Uint16Array(vertexesNumber);
+                const offsets = new Float32Array(vertexesNumber);
+                const normals = new Float32Array(vertexesNumber * 3);
+                for (let i = 0, j = 0; i < vertexesNumber; i += 1) {
+                  const x = i % Number(width);
+                  const y = Math.floor(i / Number(height));
+                  offsets[j * 3 + 0] = x;
+                  offsets[j * 3 + 1] = y;
+                  offsets[j * 3 + 2] = 0;
+                  indices[j] = i;
+                  j += 1;
 
-                normals[j * 3 + 0] = 0; // nx
-                normals[j * 3 + 1] = 0; // ny
-                normals[j * 3 + 2] = 1; // nz
+                  normals[j * 3 + 0] = 0; // nx
+                  normals[j * 3 + 1] = 0; // ny
+                  normals[j * 3 + 2] = 1; // nz
+                }
+                const positions = new BufferAttribute(offsets, 3);
+                const indexes = new BufferAttribute(indices, 3);
+                const normalAttributes = new BufferAttribute(normals, 3);
+                geometry.setAttribute("position", positions);
+                geometry.setAttribute("pointIndex", indexes);
+                geometry.setAttribute("normal", normalAttributes);
+                const attributeSetGeometry = setAttributes(geometry, [
+                  pointDisplay as AttributeConfig,
+                ]);
+                return { ...formattedGeometry, geometry: attributeSetGeometry };
+              } else {
+                console.warn("No width and height configure");
               }
-              const positions = new BufferAttribute(offsets, 3);
-              const indexes = new BufferAttribute(indices, 3);
-              const normalAttributes = new BufferAttribute(normals, 3);
-              geometry.setAttribute("position", positions);
-              geometry.setAttribute("pointIndex", indexes);
-              geometry.setAttribute("normal", normalAttributes);
-              const attributeSetGeometry = setAttributes(geometry, [
-                pointDisplay,
-              ]);
-              return { ...formattedGeometry, geometry: attributeSetGeometry };
-            } else {
-              console.warn("No width and height configure");
             }
             return geometry;
           });

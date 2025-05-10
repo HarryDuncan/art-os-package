@@ -1,4 +1,4 @@
-import { VERTEX_POINT_NAME } from "../../../../../../../consts/materials/vertexEffects.consts";
+import { VERTEX_POINT_NAME } from "../../vertexEffects.consts";
 
 export const vertexFilterTransformation = () => {
   return `

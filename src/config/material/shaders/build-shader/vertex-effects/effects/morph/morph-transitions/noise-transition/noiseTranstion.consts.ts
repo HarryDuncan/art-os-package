@@ -1,5 +1,5 @@
 import { VaryingConfig } from "../../../../../../../../../types/materials/index";
-import { MORPH_TRANSITION_EFFECTS } from "../../../../../../../../../consts/materials/vertexEffects.consts";
+import { MORPH_TRANSITION_EFFECTS } from "../../../../vertexEffects.consts";
 
 export const DEFAULT_NOISE_TRANSITION_EFFECT_PROPS = {
   effectType: MORPH_TRANSITION_EFFECTS.NOISE_TRANSITION,

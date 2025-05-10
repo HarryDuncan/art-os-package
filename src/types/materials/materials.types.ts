@@ -76,7 +76,7 @@ export type MaterialUniform = Record<string, UniformValue>;
 export type UniformValue = Record<"value", unknown>;
 
 export type AssetToUniformMappingConfig = {
-  uniform: string;
+  uniformId: string;
   assetId: string;
   relationship: string;
 };

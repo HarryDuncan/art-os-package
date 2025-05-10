@@ -1,10 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-// @ts-nocheck
 import { ASSET_MAPPING_RELATIONSHIPS } from "../build-shader/constants/shader.consts";
-import { Asset } from "../../../../types";
-import { UniformObject } from "../build-shader/types";
+import { Asset, UniformObject } from "../../../../types";
 import { AssetToUniformMappingConfig } from "../../../../types";
-import { getCentroid } from "../../../../utils/three-dimension-space/getCentroid";
 import { Vector2, VideoTexture, LinearFilter, RGBFormat, Texture } from "three";
 
 export const mapAssetsToUniforms = (
@@ -16,7 +13,7 @@ export const mapAssetsToUniforms = (
     assetMapping.forEach((mapping) => {
       const mappedAsset = getMappedAsset(mapping, assets);
       if (mappedAsset) {
-        uniforms[mapping.uniform] = { value: mappedAsset };
+        uniforms[mapping.uniformId] = { value: mappedAsset };
       }
     });
   }
@@ -30,18 +27,6 @@ const getMappedAsset = (
   const mappedAsset = assets.find((asset) => asset.id === assetMapping.assetId);
   if (mappedAsset && mappedAsset.data) {
     switch (assetMapping.relationship) {
-      case ASSET_MAPPING_RELATIONSHIPS.CENTER3D: {
-        // @ts-ignore
-        const selectedAssetGeometry = mappedAsset.data.children[0].geometry;
-        selectedAssetGeometry.computeBoundingBox();
-        const box = [
-          selectedAssetGeometry.boundingBox.max,
-          selectedAssetGeometry.boundingBox.min,
-        ];
-        const centroid = getCentroid(box);
-        return centroid;
-      }
-
       case ASSET_MAPPING_RELATIONSHIPS.TEXTURE: {
         const texture = mappedAsset.data;
         return texture;
@@ -59,6 +44,7 @@ const getMappedAsset = (
       }
 
       case ASSET_MAPPING_RELATIONSHIPS.DIMENSION: {
+        // @ts-ignore
         const { width, height } = mappedAsset.data.image;
         return new Vector2(width, height);
       }

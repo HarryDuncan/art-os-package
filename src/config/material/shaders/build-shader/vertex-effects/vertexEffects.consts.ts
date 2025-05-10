@@ -1,9 +1,10 @@
-import { EXPLODE_UNIFORMS } from "../../config/material/shaders/build-shader/vertex-effects/effects/displacement/explode/explode.consts";
+import { QUAD_MESH_TRANSFORM } from "../../../../mesh/meshTransforms.consts";
+import { EXPLODE_UNIFORMS } from "./effects/displacement/explode/explode.consts";
 import {
   IMAGE_TO_POINTS_ATTRIBUTES,
   IMAGE_TO_POINTS_UNIFORMS,
-} from "../../config/material/shaders/build-shader/vertex-effects/effects/image-vertex-effects/image-to-points/imageToPoints.consts";
-import { DEFAULT_ROTATION_EFFECT_CONFIG } from "../../config/material/shaders/build-shader/vertex-effects/effects/rotation/rotation.consts";
+} from "./effects/image-vertex-effects/image-to-points/imageToPoints.consts";
+import { DEFAULT_ROTATION_EFFECT_CONFIG } from "./effects/rotation/rotation.consts";
 
 export const VERTEX_POINT_NAME = "currentVertexPoint";
 export const VERTEX_NORMAL_NAME = "currentVertexNormal";
@@ -122,6 +123,7 @@ export const VERTEX_EFFECT_CONFIG_MAP = {
   [VERTEX_EFFECTS.IMAGE_TO_POINTS]: {
     uniforms: IMAGE_TO_POINTS_UNIFORMS,
     attributes: IMAGE_TO_POINTS_ATTRIBUTES,
+    transforms: [QUAD_MESH_TRANSFORM],
   },
   [VERTEX_EFFECTS.EXPLODE]: {
     uniforms: EXPLODE_UNIFORMS,

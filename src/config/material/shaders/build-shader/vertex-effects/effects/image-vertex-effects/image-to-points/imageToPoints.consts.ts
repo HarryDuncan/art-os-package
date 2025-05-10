@@ -71,6 +71,7 @@ export const IMAGE_TO_POINTS_VARYING_CONFIG = [
     value: `colA`,
   },
 ] as VaryingConfig[];
+
 export const IMAGE_TO_POINTS_REQUIRED_FUNCTIONS = [
   randomFloatFunction,
   randFunction,

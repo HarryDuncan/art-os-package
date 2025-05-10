@@ -4,7 +4,7 @@ import {
   capitalizeFirstLetter,
   lowerCaseFirstLetter,
 } from "../../../../../../../../utils/strings/stringUtils";
-import { TransformTypes } from "../../../../../../../../consts/materials/vertexEffects.consts";
+import { TransformTypes } from "../../../vertexEffects.consts";
 import { vertexTranslate } from "../../../../../../../../config/material/shaders/build-shader/shader-properties/functions/translation/translate";
 import {
   PreTransformConfig,

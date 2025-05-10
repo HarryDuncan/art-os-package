@@ -4,7 +4,7 @@ import {
   DISTORTION_TYPES,
   VERTEX_EFFECTS,
   TRIGGERED_VERTEX_EFFECT,
-} from "../../../../../consts/materials/vertexEffects.consts";
+} from "./vertexEffects.consts";
 import { Axis } from "../../../../../types/position.types";
 import { PreTransformConfig } from "../../../../../types/materials/index";
 

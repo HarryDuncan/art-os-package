@@ -53,7 +53,7 @@ export const buildShader = (shaderConfig: BuiltShaderConfig) => {
     vertexEffects.uniformConfigs,
     fragmentEffects.uniformConfigs,
   ];
-  console.log(shaderUniforms);
+
   const mergedShaderUniforms = mergeUniformConfigs(shaderUniforms);
 
   const shaderAttributes = [
