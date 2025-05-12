@@ -118,12 +118,13 @@ export const transformGeometry = (
                     normals[j * 3 + 2] = 1; // nz
                   }
                   const positions = new BufferAttribute(offsets, 3);
+                  const pointOffset = new BufferAttribute(offsets, 3);
                   const indexes = new BufferAttribute(indices, 3);
                   const normalAttributes = new BufferAttribute(normals, 3);
                   geometry.setAttribute("position", positions);
                   geometry.setAttribute("pointIndex", indexes);
                   geometry.setAttribute("normal", normalAttributes);
-
+                  geometry.setAttribute("pointOffset", pointOffset);
                   return {
                     ...formattedGeometry,
                     geometry,

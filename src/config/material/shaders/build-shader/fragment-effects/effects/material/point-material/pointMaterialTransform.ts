@@ -8,6 +8,15 @@ import {
   PointMaterialFragmentEffectProps,
 } from "../../../fragmentShader.types";
 import { generateVertexTransformation } from "../../../../helpers/generateTransform";
+import {
+  FRAG_COLOR_NAME,
+  FRAGMENT_EFFECT,
+} from "../../../fragmentEffects.consts";
+import { getTexturePixelColor } from "./point-material-functions/getTexturePixelColor";
+import { getPointColor } from "./point-material-functions/getPointColor";
+import { getOverlayPixelColor } from "./point-material-functions/getOverlayPixelColor";
+// import { matcapMaterial } from "../matcap/matcap";
+// import { phongMaterial } from "../phong-material/phong";
 
 const pointMaterialTransformConfig = {
   effectName: "pointMaterial",
@@ -23,6 +32,13 @@ const pointMaterialTransformConfig = {
   ],
 } as unknown as TransformationConfig;
 
+const POINT_COLOR_EFFECT_FUNCTIONS = {
+  [FRAGMENT_EFFECT.POINT_MATERIAL]: getPointColor,
+  [FRAGMENT_EFFECT.POINT_MATERIAL_PIXEL_COLOR]: getTexturePixelColor,
+  [FRAGMENT_EFFECT.POINT_MATERIAL_OVERLAY_COLOR]: getOverlayPixelColor,
+  // [FRAGMENT_EFFECT.POINT_MATERIAL_MATCAP]: matcapMaterial,
+  // [FRAGMENT_EFFECT.POINT_MATERIAL_PHONG]: phongMaterial,
+};
 export const pointMaterialTransform = (
   effectType: FragmentEffectType,
   pointEffectProps: PointMaterialFragmentEffectProps,
@@ -36,12 +52,13 @@ export const pointMaterialTransform = (
     pointEffectProps
   );
   const textureTransform = isTextured
-    ? "getPointTexture(configuredUniforms)"
-    : "";
+    ? getPointTexture(configuredUniforms)
+    : [];
   const updatedEffectCode = [
     ...pointMaterialTransformConfig.effectCode,
     pointColor,
-    textureTransform,
+    ...textureTransform,
+    `if(${FRAG_COLOR_NAME}.a < 0.5) discard;`,
   ];
   pointMaterialTransformConfig.effectCode = updatedEffectCode;
   const transformation = generateVertexTransformation(
@@ -56,7 +73,10 @@ const getPointColorTransform = (
   configuredUniforms: UniformValueConfig[],
   pointEffectProps: PointMaterialFragmentEffectProps
 ) => {
-  return "";
+  return POINT_COLOR_EFFECT_FUNCTIONS[effectType](
+    configuredUniforms,
+    pointEffectProps
+  );
 };
 // const getEffectData = (pointEffectProps: PointMaterialFragmentEffectProps) => {
 //   const { effectProps, effectType } = pointEffectProps;

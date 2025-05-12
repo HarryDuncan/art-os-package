@@ -33,6 +33,13 @@ export const QUAD_MESH_TRANSFORM_ATTRIBUTES = [
     relationship: ASSET_MAPPING_RELATIONSHIPS.DIMENSION,
     configLocked: true,
   },
+  {
+    id: "pointOffset",
+    configLocked: true,
+    attributeValueType: ATTRIBUTE_VALUE_TYPES.INDEXED,
+    valueType: SHADER_PROPERTY_VALUE_TYPES.VEC3,
+    assetId: "",
+  },
 ];
 
 export const QUAD_MESH_TRANSFORM = {

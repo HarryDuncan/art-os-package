@@ -79,10 +79,10 @@ export const IMAGE_TO_POINTS_REQUIRED_FUNCTIONS = [
 ];
 export const IMAGE_TO_POINTS_ATTRIBUTES = [
   {
-    id: "position",
+    id: "pointIndex",
     configLocked: true,
     attributeValueType: ATTRIBUTE_VALUE_TYPES.INDEXED,
-    valueType: SHADER_PROPERTY_VALUE_TYPES.VEC3,
+    valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
     assetId: "",
   },
 ] as AttributeConfig[];

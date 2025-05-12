@@ -1,11 +1,9 @@
-import { PointMaterialFragmentEffectProps } from "../../../../fragmentShader.types";
 import { FRAG_COLOR_NAME } from "../../../../../../../../../consts";
+import { UniformValueConfig } from "../../../../../../../../../types";
 
 export const getOverlayPixelColor = (
-  _pointEffectProps: PointMaterialFragmentEffectProps
+  uniforms: UniformValueConfig[],
+  _pointEffectProps: any
 ) => {
-  const transformation = `${FRAG_COLOR_NAME} = vOverlayPixelColor ;`;
-  return {
-    transformation,
-  };
+  return `${FRAG_COLOR_NAME} = vOverlayPixelColor ;`;
 };
