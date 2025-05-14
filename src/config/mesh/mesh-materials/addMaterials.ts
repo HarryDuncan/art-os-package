@@ -39,8 +39,7 @@ const setUpMaterial = (
     const selectedMaterial = sceneMaterials.find(
       (material) => String(material.name) === String(materialId)
     );
-    console.log(sceneMaterials);
-    console.log(selectedMaterial);
+
     if (selectedMaterial) {
       return selectedMaterial;
     }

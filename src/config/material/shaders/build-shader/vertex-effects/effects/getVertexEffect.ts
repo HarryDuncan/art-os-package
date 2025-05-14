@@ -3,7 +3,6 @@ import {
   UniformConfig,
 } from "../../../../../../types/materials/index";
 import {
-  ExplodeEffectProps,
   PointsEffectProps,
   MorphEffectProps,
   DistortionEffectProps,
@@ -22,13 +21,13 @@ import { explode } from "./displacement/explode/explode";
 import { noise } from "./displacement/noise/noise";
 import { traverseTransform } from "./displacement/traverse/traverseTransform";
 import { vertexFilter } from "./filter-vertex/filterVertex";
-
 import { morphVertex } from "./morph/morphVertex";
 import { pointsVertex } from "./points/pointsVertex";
 import { rotationEffect } from "./rotation/rotation";
 import { formatUniformsForEffect } from "../../helpers/formatUniformsForEffect";
 import { imageToPoints } from "./image-vertex-effects/image-to-points/imageToPoints";
 import { imageAsMask } from "./image-vertex-effects/image-as-mask/imageAsMask";
+import { interactionBased } from "./interaction-based/interactionBased";
 
 export const getVertexEffect = (
   effect: VertexEffectConfig,
@@ -38,10 +37,7 @@ export const getVertexEffect = (
   const effectUniforms = formatUniformsForEffect(uniformConfig, id);
   switch (effectType) {
     case VERTEX_EFFECTS.EXPLODE: {
-      return explode(
-        effectProps as Partial<ExplodeEffectProps>,
-        effectUniforms
-      );
+      return explode(effectUniforms);
     }
     case VERTEX_EFFECTS.FILTER: {
       return vertexFilter();
@@ -80,6 +76,15 @@ export const getVertexEffect = (
     }
     case VERTEX_EFFECTS.IMAGE_AS_MASK: {
       return imageAsMask(effectProps as ImageAsMaskEffectProps, effectUniforms);
+    }
+    case VERTEX_EFFECTS.AFFECTED_POSITION: {
+      console.log("effect", effect);
+      return interactionBased(
+        effectType,
+        effectUniforms,
+        uniformConfig,
+        effect?.subEffects ?? []
+      );
     }
     default:
       console.warn(

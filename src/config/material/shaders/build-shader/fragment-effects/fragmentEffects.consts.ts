@@ -37,19 +37,6 @@ export const FRAGMENT_EFFECT = {
   HUE_SHIFT: "HUE_SHIFT",
 };
 
-export const FRAGMENT_COLOR_NAMES = {
-  DEFAULT: "fragColor",
-  MATERIAL: "fragMaterialColor",
-  POINT_MATERIAL: "fragPointMaterial",
-  COLOR: "fragColouredColor",
-  OPACITY: "fragOpacity",
-  INTERACTIVE: "fragInteractive",
-  TRIGGERED: "fragTriggered",
-  VANISH: "fragVanish",
-  BRIGHTNESS: "fragBrightness",
-  PHYSICAL_MATERIAL: "fragPhysicalMaterial",
-  MASK_MATERIAL: "maskMaterial",
-};
 export const DEFAULT_FRAG_COLOR = "#ff1205";
 
 export const DEFAULT_FRAGMENT_EFFECT_PARAMS = {

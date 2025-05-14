@@ -17,6 +17,7 @@ import {
 } from "../../../../../../types/materials/index";
 
 export const buildUniforms = (uniformConfig: UniformConfig) => {
+  console.log("uniformConfig", uniformConfig);
   const { defaultUniforms, defaultStrings } = setUpDefaultUniforms(
     uniformConfig.defaultUniforms
   );

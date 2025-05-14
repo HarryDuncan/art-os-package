@@ -1,5 +1,6 @@
-import { FRAG_COLOR_NAME } from "../../../../../consts";
+import { FRAG_COLOR_NAME } from "../fragment-effects/fragmentEffects.consts";
 import {
+  VERTEX_EFFECTS,
   VERTEX_NORMAL_NAME,
   VERTEX_POINT_NAME,
 } from "../vertex-effects/vertexEffects.consts";
@@ -18,3 +19,5 @@ export const POINT_PARENTS = {
   TRANSITION: "TRANSITION",
   MORPH_TRANSITION: "MORPH_TRANSITION",
 };
+
+export const INTERACTIVE_EFFECT_TYPES = [VERTEX_EFFECTS.AFFECTED_POSITION];

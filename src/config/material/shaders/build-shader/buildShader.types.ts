@@ -64,15 +64,18 @@ export interface EffectConfig {
   id: string;
   name?: string;
   isInteractive?: boolean;
+  interactiveEffectIds?: string[];
 }
 export type VertexEffectConfig = EffectConfig & {
   effectType: keyof typeof VERTEX_EFFECTS;
   effectProps: VertexEffectProps;
+  subEffects?: VertexEffectConfig[];
 };
 
 export type FragmentEffectConfig = EffectConfig & {
   effectType: keyof typeof FRAGMENT_EFFECT;
   effectProps: FragmentEffectProps;
+  subEffects?: FragmentEffectConfig[];
 };
 
 // PRE-TRANSFORMS
@@ -132,6 +135,7 @@ export type UniformObject = {
 
 export type UniformValueConfig = ShaderPropertyConfig & {
   effectIds?: string[];
+  configLocked?: boolean;
   isAssetMapped?: boolean;
   assetMappingConfig?: {
     assetId: string;

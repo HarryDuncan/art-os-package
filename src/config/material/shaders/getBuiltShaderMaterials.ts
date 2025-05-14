@@ -26,10 +26,6 @@ export const getBuiltShaderMaterials = (
         const { uniforms, vertexShader, fragmentShader } =
           buildShader(shaderConfig);
 
-        console.log(vertexShader);
-
-        console.log(fragmentShader);
-
         const assetMapping =
           shaderConfig.uniformConfig?.customUniforms?.flatMap((uniform) =>
             uniform.isAssetMapped && uniform.assetMappingConfig
@@ -45,6 +41,7 @@ export const getBuiltShaderMaterials = (
         const blendingOptions = configureBlendingOptions(
           materialConfig.blendingConfig
         );
+
         const shaderMaterial = new ShaderMaterial({
           uniforms: formattedUniforms,
           vertexShader,

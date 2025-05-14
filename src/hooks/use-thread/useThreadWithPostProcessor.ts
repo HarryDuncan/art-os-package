@@ -20,7 +20,6 @@ export const useThreadWithPostProcessor = (
 
   const update = useCallback(() => {
     if (postProcessor.current?.isInitialized()) {
-      console.log(initializedScene);
       sceneUpdateEvent();
       if (initializedScene) {
         if (initializedScene?.orbitControls) {
@@ -30,7 +29,7 @@ export const useThreadWithPostProcessor = (
           initializedScene.animationManager.startCameraAnimation(camera);
         }
       }
-      // console.log(initializedScene);
+
       postProcessor.current?.render();
       currentFrameRef.current = requestAnimationFrame(update);
     }
@@ -52,7 +51,7 @@ export const useThreadWithPostProcessor = (
         renderer.domElement.clientWidth
       );
       initializedScene?.setStatus("active");
-      console.log(initializedScene);
+
       const isInitialized = await postProcessor.current.init();
 
       if (isInitialized) {

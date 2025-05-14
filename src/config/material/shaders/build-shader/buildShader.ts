@@ -24,7 +24,7 @@ import {
   VaryingConfig,
 } from "./buildShader.types";
 
-const DEBUG = false;
+const DEBUG = true;
 export const buildShader = (shaderConfig: BuiltShaderConfig) => {
   const {
     vertexEffectConfigs,

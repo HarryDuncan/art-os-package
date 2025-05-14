@@ -5,7 +5,7 @@ import {
   EventConfig,
   InteractionConfig,
 } from "../../interaction/interaction.types";
-import { Clock, Scene, Vector2, Camera } from "three";
+import { Clock, Scene, Camera } from "three";
 import { AnimationManager } from "../../animation/animation-manager/AnimationManager";
 import { AnimationConfig } from "../../types/animation.types";
 import { ENGINE_EVENTS } from "../../engine/engine.consts";
@@ -105,9 +105,10 @@ export class InteractiveScene extends Scene {
           rendererWidth: this.rendererWidth,
           zTarget: 0,
         };
-        console.log(params);
+
         const eventHandler = (e: Event) => {
           const eventData = keyPointExtractor(e, params);
+
           eventFunction(this as InteractiveScene, eventData, interactionConfig);
         };
 

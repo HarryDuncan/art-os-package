@@ -1,11 +1,14 @@
 import { QUAD_MESH_TRANSFORM } from "../../../../mesh/meshTransforms.consts";
-import { EXPLODE_UNIFORMS } from "./effects/displacement/explode/explode.consts";
+import {
+  EXPLODE_ATTRIBUTES,
+  EXPLODE_UNIFORMS,
+} from "./effects/displacement/explode/explode.consts";
 import {
   IMAGE_TO_POINTS_ATTRIBUTES,
   IMAGE_TO_POINTS_UNIFORMS,
 } from "./effects/image-vertex-effects/image-to-points/imageToPoints.consts";
 import { DEFAULT_ROTATION_EFFECT_CONFIG } from "./effects/rotation/rotation.consts";
-
+import { AFFECTED_POSITION_UNIFORMS } from "./effects/interaction-based/interactionBased.consts";
 export const VERTEX_POINT_NAME = "currentVertexPoint";
 export const VERTEX_NORMAL_NAME = "currentVertexNormal";
 export const VERTEX_EFFECTS = {
@@ -23,6 +26,11 @@ export const VERTEX_EFFECTS = {
   NOISE: "NOISE",
   IMAGE_TO_POINTS: "IMAGE_TO_POINTS",
   IMAGE_AS_MASK: "IMAGE_AS_MASK",
+  AFFECTED_POSITION: "AFFECTED_POSITION",
+};
+
+export const INTERACTION_BASED_VERTEX_EFFECTS = {
+  AFFECTED_POSITION: "AFFECTED_POSITION",
 };
 
 export const enum TransformTypes {
@@ -117,6 +125,10 @@ export const VERTEX_EFFECT_PROPS_MAP = {
     effectType: VERTEX_EFFECTS.IMAGE_AS_MASK,
     effectProps: {},
   },
+  [VERTEX_EFFECTS.AFFECTED_POSITION]: {
+    effectType: VERTEX_EFFECTS.AFFECTED_POSITION,
+    effectProps: {},
+  },
 };
 
 export const VERTEX_EFFECT_CONFIG_MAP = {
@@ -127,10 +139,14 @@ export const VERTEX_EFFECT_CONFIG_MAP = {
   },
   [VERTEX_EFFECTS.EXPLODE]: {
     uniforms: EXPLODE_UNIFORMS,
-    attributes: [],
+    attributes: EXPLODE_ATTRIBUTES,
   },
   [VERTEX_EFFECTS.FILTER]: {
     uniforms: {},
+    attributes: [],
+  },
+  [VERTEX_EFFECTS.AFFECTED_POSITION]: {
+    uniforms: AFFECTED_POSITION_UNIFORMS,
     attributes: [],
   },
 };

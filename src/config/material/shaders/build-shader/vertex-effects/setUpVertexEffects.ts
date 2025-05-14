@@ -44,13 +44,44 @@ const getVertexTransformations = (
   vertexEffects: VertexEffectConfig[],
   configuredUniformConfig: UniformConfig
 ) => {
+  // Process vertex effects to organize interactive effects as subEffects
+  const formattedVertexEffects = vertexEffects.reduce((acc, effect) => {
+    // If this effect has interactiveEffectIds, it should be a sub-effect
+    // of the effects it references, so don't add it directly
+    if (effect.isInteractive && effect.interactiveEffectIds) {
+      return acc;
+    }
+
+    // Check if other effects reference this effect
+    const effectsReferencingThis = vertexEffects.filter(
+      (interactiveEffect) =>
+        interactiveEffect.isInteractive &&
+        interactiveEffect.interactiveEffectIds &&
+        interactiveEffect.interactiveEffectIds.includes(effect.id)
+    );
+
+    if (effectsReferencingThis.length > 0) {
+      // Add this effect with the interactive effects as its subEffects
+      acc.push({
+        ...effect,
+        subEffects: effectsReferencingThis,
+      });
+    } else {
+      // Add regular effects normally
+      acc.push(effect);
+    }
+
+    return acc;
+  }, [] as VertexEffectConfig[]);
+
   const unmergedUniformConfigs: UniformConfig[] = [];
   const unmergedVaryingConfigs: VaryingConfig[][] = [];
   const unmergedTransformations: string[] = [];
   const allRequiredFunctions: ShaderFunction[][] = [];
   const unmergedStructConfigs: StructConfig[][] = [];
   const unmergedAttributeConfigs: AttributeConfig[][] = [];
-  vertexEffects.forEach((effect) => {
+  console.log(formattedVertexEffects);
+  formattedVertexEffects.forEach((effect) => {
     const {
       uniformConfig,
       varyingConfig,

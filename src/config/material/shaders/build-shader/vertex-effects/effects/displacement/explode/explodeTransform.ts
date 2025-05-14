@@ -1,5 +1,4 @@
 import { VERTEX_POINT_NAME } from "../../../vertexEffects.consts";
-import { SHADER_PROPERTY_VALUE_TYPES } from "../../../../constants/shader.consts";
 import {
   UniformValueConfig,
   TransformationConfig,
@@ -8,27 +7,10 @@ import { generateVertexTransformation } from "../../../../helpers/generateTransf
 
 const explodeTransformConfig = {
   effectName: "explode",
-  instantiationName: "displacedPosition",
-  instantiationType: SHADER_PROPERTY_VALUE_TYPES.VEC3,
-  instantiationValue: `vec3(${VERTEX_POINT_NAME}.xy, 0)`,
-  allowedValueTypes: [
-    SHADER_PROPERTY_VALUE_TYPES.VEC2,
-    SHADER_PROPERTY_VALUE_TYPES.VEC3,
-  ],
-  prefix: "float isAffected = 0.0;",
+  singleInstance: true,
   effectCode: [
-    `vec3 {{effectDistanceVector}} =  {{EFFECT}} - {{displacedPosition}};`,
-    `float {{effectDistanceLength}} = length({{effectDistanceVector}});`,
-    `if({{effectDistanceLength}} <= uMinDistance * uStrength){`,
-    `float {{effectDirection}} = sign({{effectDistanceVector}}.x);`,
-    `if({{effectDirection}} == 0.0){`,
-    `{{effectDirection}} = -1.0;`,
-    `}`,
-
-    `${VERTEX_POINT_NAME}.x +=  cos(randomAngle * uTime) * uStrength * {{effectDirection}};`,
-    `${VERTEX_POINT_NAME}.y +=  sin(randomAngle * uTime) * uStrength * {{effectDirection}};`,
-    `isAffected = 1.0;`,
-    `}`,
+    `${VERTEX_POINT_NAME}.x +=  cos(randomAngle * uTime) * uStrength ;`,
+    `${VERTEX_POINT_NAME}.y +=  sin(randomAngle * uTime) * uStrength;`,
   ],
 } as unknown as TransformationConfig;
 export const explodeTransform = (uniforms: UniformValueConfig[]) => {
@@ -36,5 +18,6 @@ export const explodeTransform = (uniforms: UniformValueConfig[]) => {
     explodeTransformConfig,
     uniforms
   );
+  console.log("transformation", transformation);
   return transformation;
 };

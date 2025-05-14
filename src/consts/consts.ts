@@ -19,14 +19,12 @@ export const SCENE_CONFIG_KEYS = {
   SCENE_MATERIAL_CONFIGS: "sceneMaterialConfigs",
   ADVANCED_MESH_CONFIGS: "advancedMeshConfigs",
   MESH_TRANSFORMS: "meshTransforms",
-};
-
-export const NODE_KEYS = {
-  MESH_COMPONENT_CONFIGS: "meshComponentConfigs",
-  SCENE_MATERIAL_CONFIGS: "sceneMaterialConfigs",
-  ASSETS: "assets",
-  THREE_JS_CONFIG: "threeJsConfig",
   ANIMATION_CONFIG: "animationConfig",
+  LIGHT_CONFIG: "lightConfig",
+  SCENE_COMPONENT_CONFIGS: "sceneComponentConfigs",
+  INTERACTION_CONFIG: "interactionConfig",
+  SCENE_PROPERTIES_CONFIG: "scenePropertiesConfig",
+  SCREEN_SIZE_ADJUSTMENTS: "screenSizeAdjustments",
 };
 
 export const BUILT_SHADER_CONFIG_KEYS = {

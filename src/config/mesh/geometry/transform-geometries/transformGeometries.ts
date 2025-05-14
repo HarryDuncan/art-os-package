@@ -18,8 +18,6 @@ export const transformGeometry = (
 
   // format asset data into attribute config for mesh transforms
   const formattedMeshTransforms = formatTransforms(meshTransforms, assets);
-  // console.log(getAttributeValuesFromAssets)
-  console.log(formattedMeshTransforms);
   formattedMeshTransforms.forEach(
     ({ type, transformedMeshIds, attributeConfigs }) => {
       const transformedMeshes = getTransformedMeshes(
@@ -87,13 +85,13 @@ export const transformGeometry = (
             return attributesSet;
           }
           case MESH_TRANSFORM_TYPE.SET_UP_QUAD: {
-            console.log("SET_UP_QUAD");
             const attributesSet = transformedMeshes.map((formattedGeometry) => {
               const { geometry } = formattedGeometry;
 
               const quadDimensions = attributeConfigs?.find(
                 ({ id }) => id === "quadDimensions"
               );
+              console.log("quadDimensions", quadDimensions);
               if (quadDimensions) {
                 const { value } = quadDimensions as { value: Vector2 };
                 const width = value?.x;
@@ -108,7 +106,7 @@ export const transformGeometry = (
                     const x = i % Number(width);
                     const y = Math.floor(i / Number(height));
                     offsets[j * 3 + 0] = x;
-                    offsets[j * 3 + 1] = y;
+                    offsets[j * 3 + 1] = y + Number(height) / 4;
                     offsets[j * 3 + 2] = 0;
                     indices[j] = i;
                     j += 1;
@@ -125,6 +123,7 @@ export const transformGeometry = (
                   geometry.setAttribute("pointIndex", indexes);
                   geometry.setAttribute("normal", normalAttributes);
                   geometry.setAttribute("pointOffset", pointOffset);
+
                   return {
                     ...formattedGeometry,
                     geometry,
