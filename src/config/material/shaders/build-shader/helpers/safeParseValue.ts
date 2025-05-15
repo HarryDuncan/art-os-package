@@ -1,3 +1,5 @@
+import { PositionConfig } from "../../../../../types";
+import { positionConfigToPosition } from "../../../../../utils/conversion/conversion";
 import { SHADER_PROPERTY_VALUE_TYPES } from "../constants/shader.consts";
 
 export const safeParseValue = (
@@ -66,3 +68,30 @@ export const parseRawValueToShader = (
       throw new Error(`Unsupported value type: ${valueType}`);
   }
 };
+
+export const shaderSafeFloat = (value: number) => {
+  return value.toFixed(2);
+};
+
+export const shaderSafeVector = (position: PositionConfig) => {
+  const formattedPositon = positionConfigToPosition(position);
+  return `vec3(${shaderSafeFloat(formattedPositon.x)}, ${shaderSafeFloat(
+    formattedPositon.y
+  )}, ${shaderSafeFloat(formattedPositon.z)})`;
+};
+
+export const shaderSafeVector4 = (
+  position: PositionConfig,
+  fourthElement: number | string = 1
+) => {
+  const formattedPositon = positionConfigToPosition(position);
+  return `vec4(${shaderSafeFloat(formattedPositon.x)}, ${shaderSafeFloat(
+    formattedPositon.y
+  )}, ${shaderSafeFloat(formattedPositon.z)}, ${
+    isVariableName(fourthElement)
+      ? fourthElement
+      : shaderSafeFloat(Number(fourthElement))
+  })`;
+};
+
+const isVariableName = (value: number | string) => Number.isNaN(Number(value));

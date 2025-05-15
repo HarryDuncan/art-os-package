@@ -1,5 +1,5 @@
 import { PositionConfig } from "../../../../../../../../types/position.types";
-import { shaderSafeVector } from "../../../../../../../../utils/conversion/shaderConversions";
+
 import {
   capitalizeFirstLetter,
   lowerCaseFirstLetter,
@@ -11,6 +11,7 @@ import {
   PreTransformData,
   TranslateTransformProps,
 } from "../../../../../../../../types/materials/index";
+import { shaderSafeVector } from "../../../../helpers/safeParseValue";
 
 export const preTransforms = (
   preTransformedItems: PreTransformConfig[]

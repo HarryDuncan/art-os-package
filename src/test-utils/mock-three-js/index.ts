@@ -1,1 +1,0 @@
-export { mockRenderer } from './mockRenderer';

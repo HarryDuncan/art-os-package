@@ -1,6 +1,6 @@
 import { OpacityFragmentEffectProps } from "../../fragmentShader.types";
-import { shaderSafeFloat } from "../../../../../../../utils/conversion/shaderConversions";
 import { FRAG_COLOR_NAME } from "../../../../../../../consts";
+import { shaderSafeFloat } from "../../../helpers/safeParseValue";
 
 export const opacityTransform = (
   opacityParameters: OpacityFragmentEffectProps

@@ -5,7 +5,7 @@ import {
   rotateZ,
 } from "../../../shader-properties/functions/rotation/rotation";
 import { ROTATION_EFFECT_TYPES, ROTATION_UNIFORMS } from "./rotation.consts";
-import { shaderSafeFloat } from "../../../../../../../utils/conversion/shaderConversions";
+
 import { vertexEffectToEffectData } from "../../../helpers/vertexEffectToEffectData";
 import {
   VERTEX_NORMAL_NAME,
@@ -13,6 +13,7 @@ import {
 } from "../../vertexEffects.consts";
 import { RotationEffectProps } from "../../vertexShader.types";
 import { UniformConfig } from "../../../../../../../types";
+import { shaderSafeFloat } from "../../../helpers/safeParseValue";
 
 const getFunctionName = (axis: Axis) => {
   switch (axis) {

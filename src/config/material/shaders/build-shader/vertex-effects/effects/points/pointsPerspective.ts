@@ -1,5 +1,5 @@
 import { PointPerspectiveConfig } from "../../vertexShader.types";
-import { shaderSafeFloat } from "../../../../../../../utils/conversion/shaderConversions";
+import { shaderSafeFloat } from "../../../helpers/safeParseValue";
 
 export const pointsPerspective = (
   pointName: string,

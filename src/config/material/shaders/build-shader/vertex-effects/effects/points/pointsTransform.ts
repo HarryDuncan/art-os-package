@@ -1,5 +1,5 @@
 import { PointsEffectProps } from "../../vertexShader.types";
-import { shaderSafeFloat } from "../../../../../../../utils/conversion/shaderConversions";
+import { shaderSafeFloat } from "../../../helpers/safeParseValue";
 import { VERTEX_POINT_NAME } from "../../vertexEffects.consts";
 import { pointsPerspective } from "./pointsPerspective";
 

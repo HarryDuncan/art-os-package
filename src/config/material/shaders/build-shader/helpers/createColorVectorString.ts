@@ -1,5 +1,5 @@
 import { hexToRgb } from "../../../../../utils/conversion/hexToRgb";
-import { shaderSafeFloat } from "../../../../../utils/conversion/shaderConversions";
+import { shaderSafeFloat } from "./safeParseValue";
 
 export const createColorVectorString = (
   hexColor: string,
