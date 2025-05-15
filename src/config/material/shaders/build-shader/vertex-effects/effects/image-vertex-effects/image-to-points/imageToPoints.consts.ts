@@ -4,6 +4,7 @@ import {
   VaryingConfig,
 } from "../../../../../../../../types/materials/index";
 import {
+  ASSET_MAPPING_RELATIONSHIPS,
   ATTRIBUTE_VALUE_TYPES,
   SHADER_PROPERTY_VALUE_TYPES,
 } from "../../../../constants/shader.consts";
@@ -23,6 +24,7 @@ export const IMAGE_TO_POINTS_UNIFORMS = {
       value: null,
       configLocked: true,
       isAssetMapped: true,
+      relationship: ASSET_MAPPING_RELATIONSHIPS.TEXTURE,
     },
     {
       id: "uTextureSize",
@@ -30,6 +32,7 @@ export const IMAGE_TO_POINTS_UNIFORMS = {
       value: null,
       configLocked: true,
       isAssetMapped: true,
+      relationship: ASSET_MAPPING_RELATIONSHIPS.DIMENSION,
     },
     {
       id: "uRandom",
