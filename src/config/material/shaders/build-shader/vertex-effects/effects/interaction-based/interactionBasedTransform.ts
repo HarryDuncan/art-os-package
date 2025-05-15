@@ -30,22 +30,22 @@ export const interactionBasedTransform = (
   unfilteredUniforms: UniformConfig,
   unfilteredVaryings: VaryingConfig[]
 ) => {
-  console.log("subEffects", subEffects);
-  const subEffectData = subEffects.map((subEffect) => {
-    const {
-      transformation,
-      requiredFunctions,
-      uniformConfig,
-      attributeConfig,
-      varyingConfig,
-    } = getVertexEffect(subEffect, unfilteredUniforms, unfilteredVaryings);
-    return {
-      transformation,
-      requiredFunctions,
-      uniformConfig,
-      attributeConfig,
-      varyingConfig,
-    };
+  const subEffectData = subEffects.flatMap((subEffect) => {
+    const vertexEffectData = getVertexEffect(
+      subEffect,
+      unfilteredUniforms,
+      unfilteredVaryings
+    );
+    if (vertexEffectData !== null) {
+      return {
+        transformation: vertexEffectData.transformation,
+        requiredFunctions: vertexEffectData.requiredFunctions,
+        uniformConfig: vertexEffectData.uniformConfig,
+        attributeConfig: vertexEffectData.attributeConfig,
+        varyingConfig: vertexEffectData.varyingConfig,
+      };
+    }
+    return [];
   });
 
   const interactionAffectTransform = getInteractionEffectTransform(effectType);

@@ -4,7 +4,9 @@ import {
   VaryingConfig,
   AttributeConfig,
   StructConfig,
-} from "../../../../../types/materials/index";
+  UniformValueConfig,
+  VertexEffectConfig,
+} from "../buildShader.types";
 
 export interface VertexEffectData {
   requiredFunctions: ShaderFunction[];
@@ -15,7 +17,12 @@ export interface VertexEffectData {
   structConfigs?: StructConfig[];
 }
 
-export type MorphObject = {
-  pointName: string;
-  normalName: string;
+export type VertexEffectProps = {
+  effectUniforms: UniformValueConfig[];
+  effectVaryings: VaryingConfig[];
+  effectParameters: any;
+  effectType: string;
+  subEffects: VertexEffectConfig[];
+  unfilteredUniforms: UniformConfig;
+  unfilteredVaryings: VaryingConfig[];
 };

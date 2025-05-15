@@ -25,14 +25,15 @@ export const interactionBasedTransform = (
   unfilteredUniforms: UniformConfig,
   subEffects: FragmentEffectConfig[]
 ) => {
-  const subEffectData = subEffects.map((subEffect) => {
-    const { transformation, requiredFunctions, uniformConfig } =
-      getFragmentEffects(subEffect, unfilteredUniforms);
-    return {
-      transformation,
-      requiredFunctions,
-      uniformConfig,
-    };
+  const subEffectData = subEffects.flatMap((subEffect) => {
+    const fragmentEffectData = getFragmentEffects(
+      subEffect,
+      unfilteredUniforms
+    );
+    if (!fragmentEffectData) {
+      return [];
+    }
+    return fragmentEffectData;
   });
 
   const interactionAffectTransform = getInteractionEffectTransform(effectType);

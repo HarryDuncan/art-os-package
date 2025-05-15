@@ -1,5 +1,7 @@
-import { UniformValueConfig } from "../../../../../../../../types/materials/index";
-import { VertexEffectData } from "../../../vertexEffects.types";
+import {
+  VertexEffectData,
+  VertexEffectProps,
+} from "../../../vertexEffects.types";
 import {
   EXPLODE_FUNCTIONS,
   EXPLODE_UNIFORMS,
@@ -8,8 +10,9 @@ import {
 import { explodeTransform } from "./explodeTransform";
 
 export const explode = (
-  effectUniforms: UniformValueConfig[]
-): VertexEffectData => {
+  effectProps: VertexEffectProps
+): VertexEffectData | null => {
+  const { effectUniforms } = effectProps;
   const transformation = explodeTransform(effectUniforms);
   const requiredFunctions = EXPLODE_FUNCTIONS;
   const varyingConfig = EXPLODE_VARYINGS;

@@ -1,27 +1,11 @@
-import { Position3d } from "../../../../types/position.types";
 import {
   ATTRIBUTE_VALUE_TYPES,
   DEFAULT_UNIFORMS,
   SHADER_PROPERTY_VALUE_TYPES,
 } from "./constants/shader.consts";
 import { VARYING_TYPES } from "./shader-properties/varyings/varyings.consts";
-import {
-  INTERACTION_VERTEX_EFFECT,
-  TransformTypes,
-  VERTEX_EFFECTS,
-} from "./vertex-effects/vertexEffects.consts";
-import {
-  FragmentEffectProps,
-  InteractiveFragmentEffect,
-  TriggeredFragmentEffect,
-} from "./fragment-effects/fragmentShader.types";
-import { POINT_PARENTS } from "./constants";
+import { VERTEX_EFFECTS } from "./vertex-effects/vertexEffects.consts";
 import { AssetToUniformMappingConfig } from "../../../../types/materials/index";
-import {
-  InteractiveVertexEffectProps,
-  TriggeredVertexEffect,
-  VertexEffectProps,
-} from "./vertex-effects/vertexShader.types";
 import { FRAGMENT_EFFECT } from "./fragment-effects/fragmentEffects.consts";
 import { AssetType } from "../../../../types";
 
@@ -36,30 +20,12 @@ export type ShaderPropertyConfig = {
   structProperties?: StructConfig;
   keyPointId?: string;
 };
-
+export type EffectParameters = Record<string, unknown>;
 export type ShaderFunction = {
   id: string;
   functionDefinition: string;
 };
 
-export type PointParent = keyof typeof POINT_PARENTS;
-
-export type TriggeredEffectProps =
-  | TriggeredFragmentEffect
-  | TriggeredVertexEffect;
-
-// <--------------------- Interactive ---------------------------------------->
-export type InteractiveEffectParams =
-  | InteractiveFragmentEffect
-  | InteractiveVertexEffect;
-
-export type InteractiveVertexEffectType =
-  keyof typeof INTERACTION_VERTEX_EFFECT;
-
-export type InteractiveVertexEffect = {
-  effectType: string;
-  effectProps: InteractiveVertexEffectProps;
-};
 export interface EffectConfig {
   id: string;
   name?: string;
@@ -69,34 +35,14 @@ export interface EffectConfig {
 }
 export type VertexEffectConfig = EffectConfig & {
   effectType: keyof typeof VERTEX_EFFECTS;
-  effectProps: VertexEffectProps;
+  effectParameters: EffectParameters;
   subEffects?: VertexEffectConfig[];
 };
 
 export type FragmentEffectConfig = EffectConfig & {
   effectType: keyof typeof FRAGMENT_EFFECT;
-  effectProps: FragmentEffectProps;
+  effectParameters: EffectParameters;
   subEffects?: FragmentEffectConfig[];
-};
-
-// PRE-TRANSFORMS
-
-export type TranslateTransformProps = {
-  translate: Partial<Position3d>;
-};
-export type TransformProps = TranslateTransformProps;
-export type PreTransformConfig = {
-  index: number;
-  pointName: string;
-  transformType: TransformTypes;
-  transformProps: TransformProps;
-};
-export type PreTransformData = {
-  index: number;
-  transform: string;
-  positionName: string;
-  normalName: string;
-  requiredFunctions: ShaderFunction[];
 };
 
 // <---------------------------------------- VARYING ------------------------>

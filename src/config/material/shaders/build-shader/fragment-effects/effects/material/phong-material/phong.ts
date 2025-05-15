@@ -7,11 +7,11 @@ import { phongTransform } from "./phongTransform";
 import { mergeUniformConfigs } from "../../../../shader-properties/uniforms/helpers/mergeUniformConfigs";
 import {
   FragmentEffectData,
-  PhongFragmentEffectProps,
+  FragmentEffectProps,
 } from "../../../fragmentShader.types";
 
 export const phongMaterial = (
-  effectProps: Partial<PhongFragmentEffectProps> = {}
+  _effectProps: FragmentEffectProps
 ): FragmentEffectData => {
   const { transformation } = phongTransform();
   const uniformConfig = mergeUniformConfigs([DEFAULT_PHONG_UNIFORMS]);

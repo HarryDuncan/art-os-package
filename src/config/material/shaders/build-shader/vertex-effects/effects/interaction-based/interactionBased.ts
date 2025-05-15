@@ -1,23 +1,19 @@
-import {
-  UniformConfig,
-  UniformValueConfig,
-  VertexEffectConfig,
-  VaryingConfig,
-} from "../../../buildShader.types";
+import { VertexEffectProps } from "../../vertexEffects.types";
 import {
   INTERACTION_BASED_UNIFORMS,
   INTERACTION_BASED_ATTRIBUTES,
 } from "./interactionBased.consts";
 import { interactionBasedTransform } from "./interactionBasedTransform";
 
-export const interactionBased = (
-  effectType: string,
-  effectUniforms: UniformValueConfig[],
-  effectVaryings: VaryingConfig[],
-  subEffects: VertexEffectConfig[],
-  unfilteredUniforms: UniformConfig,
-  unfilteredVaryings: VaryingConfig[]
-) => {
+export const interactionBased = (effectProps: VertexEffectProps) => {
+  const {
+    effectUniforms,
+    effectVaryings,
+    subEffects,
+    effectType,
+    unfilteredUniforms,
+    unfilteredVaryings,
+  } = effectProps;
   const { transformation, requiredFunctions, varyingConfig } =
     interactionBasedTransform(
       effectType,

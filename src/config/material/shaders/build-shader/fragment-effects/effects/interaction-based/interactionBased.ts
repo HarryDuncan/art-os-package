@@ -1,16 +1,14 @@
 import { interactionBasedTransform } from "./interactionBasedTransform";
 import {
-  FragmentEffectConfig,
-  UniformConfig,
-  UniformValueConfig,
-} from "../../../buildShader.types";
+  FragmentEffectData,
+  FragmentEffectProps,
+} from "../../fragmentShader.types";
 
 export const interactionBased = (
-  effectType: string,
-  effectUniforms: UniformValueConfig[],
-  unfilteredUniforms: UniformConfig,
-  subEffects: FragmentEffectConfig[]
-) => {
+  effectProps: FragmentEffectProps
+): FragmentEffectData => {
+  const { effectType, effectUniforms, unfilteredUniforms, subEffects } =
+    effectProps;
   const { transformation } = interactionBasedTransform(
     effectType,
     effectUniforms,

@@ -1,4 +1,3 @@
-import { defaultFragmentEffect } from "./effects/defaultFragmentEffect/defaultFragmentEffect";
 import { getFragmentEffects } from "./effects/getFragmentEffects";
 import { mergeUniformConfigs } from "../shader-properties/uniforms/helpers/mergeUniformConfigs";
 import { mergeVaryingConfigs } from "../shader-properties/varyings/helpers/mergeVaryingConfigs";
@@ -11,7 +10,8 @@ import {
   StructConfig,
   UniformConfig,
 } from "../buildShader.types";
-import { FRAG_COLOR_NAME } from "../../../../../consts";
+import { EMPTY_UNIFORM_CONFIG, FRAG_COLOR_NAME } from "../../../../../consts";
+import { FragmentEffectData } from "./fragmentShader.types";
 
 export const setUpFragmentEffects = (
   fragmentEffects: FragmentEffectConfig[],
@@ -51,20 +51,18 @@ export const getFragmentColors = (
   } = setUpInitialParameters();
   const allRequiredFunctions: ShaderFunction[][] = [];
   fragmentEffects.forEach((effect) => {
-    const {
-      varyingConfig,
-      uniformConfig,
-      transformation,
-      requiredFunctions,
-      attributeConfig,
-      structConfigs = [],
-    } = getFragmentEffects(effect, configuredUniformConfig);
-    unmergedVaryingConfigs.push(varyingConfig);
-    unmergedUniformConfigs.push(uniformConfig);
-    unmergedAttributeConfigs.push(attributeConfig);
-    unmergedTransformations.push(transformation);
-    unmergedStructConfigs.push(structConfigs);
-    allRequiredFunctions.push(requiredFunctions);
+    const fragmentEffectData = getFragmentEffects(
+      effect,
+      configuredUniformConfig
+    );
+    if (fragmentEffectData) {
+      unmergedVaryingConfigs.push(fragmentEffectData.varyingConfig);
+      unmergedUniformConfigs.push(fragmentEffectData.uniformConfig);
+      unmergedAttributeConfigs.push(fragmentEffectData.attributeConfig);
+      unmergedTransformations.push(fragmentEffectData.transformation);
+      unmergedStructConfigs.push(fragmentEffectData.structConfigs ?? []);
+      allRequiredFunctions.push(fragmentEffectData.requiredFunctions);
+    }
   });
 
   const mergedUniformConfigs = mergeUniformConfigs(unmergedUniformConfigs);
@@ -98,5 +96,17 @@ const setUpInitialParameters = () => {
     unmergedTransformations,
     unmergedAttributeConfigs,
     unmergedStructConfigs: [] as StructConfig[][],
+  };
+};
+
+export const defaultFragmentEffect = (): FragmentEffectData => {
+  const uniformConfig = { ...EMPTY_UNIFORM_CONFIG };
+  const defaultFrag = ``;
+  return {
+    requiredFunctions: [],
+    uniformConfig,
+    transformation: defaultFrag,
+    varyingConfig: [],
+    attributeConfig: [],
   };
 };

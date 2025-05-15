@@ -4,22 +4,18 @@ import {
   DEFAULT_COLOR_UNIFORMS,
   DEFAULT_COLOR_VARYINGS,
 } from "./color.consts";
-
 import {
-  ColorFragmentEffectProps,
   FragmentEffectData,
+  FragmentEffectProps,
 } from "../../fragmentShader.types";
-import { UniformValueConfig } from "../../../buildShader.types";
 
-export const color = (
-  configuredUniforms: UniformValueConfig[],
-  effectProps: Partial<ColorFragmentEffectProps>
-): FragmentEffectData => {
+export const color = (effectProps: FragmentEffectProps): FragmentEffectData => {
+  const { effectUniforms } = effectProps;
   const uniformConfig = DEFAULT_COLOR_UNIFORMS;
   const varyingConfig = DEFAULT_COLOR_VARYINGS;
   const requiredFunctions = DEFAULT_COLOR_FUNCTIONS;
 
-  const transformation = colorTransformation(configuredUniforms);
+  const transformation = colorTransformation(effectUniforms);
 
   return {
     requiredFunctions,

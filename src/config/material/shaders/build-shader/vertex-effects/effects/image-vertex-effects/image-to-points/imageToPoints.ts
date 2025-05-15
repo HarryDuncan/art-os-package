@@ -1,5 +1,4 @@
-import { UniformValueConfig } from "../../../../../../../../types/materials/index";
-import { ImageToPointsEffectProps } from "../../../vertexShader.types";
+import { VertexEffectProps } from "../../../vertexEffects.types";
 import {
   IMAGE_TO_POINTS_ATTRIBUTES,
   IMAGE_TO_POINTS_REQUIRED_FUNCTIONS,
@@ -8,10 +7,8 @@ import {
 } from "./imageToPoints.consts";
 import { imageToPointsTransform } from "./imageToPointsTransform";
 
-export const imageToPoints = (
-  effectProps: Partial<ImageToPointsEffectProps>,
-  effectUniforms: UniformValueConfig[]
-) => {
+export const imageToPoints = (effectProps: VertexEffectProps) => {
+  const { effectUniforms } = effectProps;
   const { transformation } = imageToPointsTransform(effectUniforms);
   return {
     requiredFunctions: IMAGE_TO_POINTS_REQUIRED_FUNCTIONS,

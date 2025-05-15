@@ -53,25 +53,27 @@ const getVertexTransformations = (
   const unmergedStructConfigs: StructConfig[][] = [];
   const unmergedAttributeConfigs: AttributeConfig[][] = [];
   vertexEffects.forEach((effect) => {
-    const {
-      uniformConfig,
-      varyingConfig,
-      transformation,
-      requiredFunctions,
-      attributeConfig = [],
-      structConfigs = [],
-    } = getVertexEffect(
+    const vertexEffectData = getVertexEffect(
       effect,
       configuredUniformConfig,
       configuredVaryingConfig
     );
-
-    unmergedUniformConfigs.push(uniformConfig);
-    unmergedVaryingConfigs.push(varyingConfig);
-    unmergedAttributeConfigs.push(attributeConfig);
-    unmergedTransformations.push(transformation);
-    allRequiredFunctions.push(requiredFunctions);
-    unmergedStructConfigs.push(structConfigs);
+    if (vertexEffectData !== null) {
+      const {
+        uniformConfig,
+        varyingConfig,
+        transformation,
+        requiredFunctions,
+        attributeConfig = [],
+        structConfigs = [],
+      } = vertexEffectData ?? {};
+      unmergedUniformConfigs.push(uniformConfig);
+      unmergedVaryingConfigs.push(varyingConfig);
+      unmergedAttributeConfigs.push(attributeConfig);
+      unmergedTransformations.push(transformation);
+      allRequiredFunctions.push(requiredFunctions);
+      unmergedStructConfigs.push(structConfigs);
+    }
   });
 
   const mergedUniformConfigs = mergeUniformConfigs(unmergedUniformConfigs);

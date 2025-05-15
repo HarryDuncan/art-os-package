@@ -1,12 +1,9 @@
 import { getPointTexture } from "./point-material-functions/getPointTextures";
 import {
+  EffectParameters,
   TransformationConfig,
   UniformValueConfig,
 } from "../../../../buildShader.types";
-import {
-  FragmentEffectType,
-  PointMaterialFragmentEffectProps,
-} from "../../../fragmentShader.types";
 import { generateShaderTransformation } from "../../../../helpers/generateTransform";
 import {
   FRAG_COLOR_NAME,
@@ -15,8 +12,6 @@ import {
 import { getTexturePixelColor } from "./point-material-functions/getTexturePixelColor";
 import { getPointColor } from "./point-material-functions/getPointColor";
 import { getOverlayPixelColor } from "./point-material-functions/getOverlayPixelColor";
-// import { matcapMaterial } from "../matcap/matcap";
-// import { phongMaterial } from "../phong-material/phong";
 
 const pointMaterialTransformConfig = {
   effectName: "pointMaterial",
@@ -40,16 +35,16 @@ const POINT_COLOR_EFFECT_FUNCTIONS = {
   // [FRAGMENT_EFFECT.POINT_MATERIAL_PHONG]: phongMaterial,
 };
 export const pointMaterialTransform = (
-  effectType: FragmentEffectType,
-  pointEffectProps: PointMaterialFragmentEffectProps,
+  effectType: string,
+  effectParameters: EffectParameters,
   configuredUniforms: UniformValueConfig[]
 ) => {
-  const { isTextured } = pointEffectProps;
+  const { isTextured } = effectParameters;
 
   const pointColor = getPointColorTransform(
     effectType,
     configuredUniforms,
-    pointEffectProps
+    effectParameters
   );
   const textureTransform = isTextured
     ? getPointTexture(configuredUniforms)
@@ -69,13 +64,13 @@ export const pointMaterialTransform = (
 };
 
 const getPointColorTransform = (
-  effectType: FragmentEffectType,
+  effectType: string,
   configuredUniforms: UniformValueConfig[],
-  pointEffectProps: PointMaterialFragmentEffectProps
+  effectParameters: EffectParameters
 ) => {
   return POINT_COLOR_EFFECT_FUNCTIONS[effectType](
     configuredUniforms,
-    pointEffectProps
+    effectParameters
   );
 };
 // const getEffectData = (pointEffectProps: PointMaterialFragmentEffectProps) => {

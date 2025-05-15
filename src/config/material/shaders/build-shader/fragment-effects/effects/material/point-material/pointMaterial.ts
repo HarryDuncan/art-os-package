@@ -1,18 +1,9 @@
-import {
-  AttributeConfig,
-  UniformConfig,
-  UniformValueConfig,
-} from "../../../../buildShader.types";
-import {
-  FragmentEffectType,
-  PointMaterialFragmentEffectProps,
-} from "../../../fragmentShader.types";
-import { formatFragmentParameters } from "../../../../helpers/formatFragmentParameters";
+import { AttributeConfig, UniformConfig } from "../../../../buildShader.types";
 import { reduceFunctions } from "../../../../helpers/reduceFunctions";
 import { mergeAttributeConfigs } from "../../../../shader-properties/attributes/helpers/mergeAttributeConfigs";
 import { mergeVaryingConfigs } from "../../../../shader-properties/varyings/helpers/mergeVaryingConfigs";
+import { FragmentEffectProps } from "../../../fragmentShader.types";
 import {
-  DEFAULT_FRAG_POINT_PROPS,
   POINT_MATERIAL_ATTRIBUTES,
   POINT_MATERIAL_FUNCTIONS,
   POINT_MATERIAL_UNIFORMS,
@@ -20,20 +11,13 @@ import {
 } from "./pointMaterial.consts";
 import { pointMaterialTransform } from "./pointMaterialTransform";
 
-export const pointMaterial = (
-  effectType: FragmentEffectType,
-  effectProps: Partial<PointMaterialFragmentEffectProps> = {},
-  configuredUniforms: UniformValueConfig[]
-) => {
-  const formattedProps = formatFragmentParameters(
-    effectProps,
-    DEFAULT_FRAG_POINT_PROPS
-  ) as PointMaterialFragmentEffectProps;
+export const pointMaterial = (effectProps: FragmentEffectProps) => {
+  const { effectType, effectParameters, effectUniforms } = effectProps;
 
   const transformation = pointMaterialTransform(
     effectType,
-    formattedProps,
-    configuredUniforms
+    effectParameters,
+    effectUniforms
   );
 
   const mergedVaryings = mergeVaryingConfigs([POINT_MATERIAL_VARYINGS]);
