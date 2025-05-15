@@ -1,6 +1,7 @@
 import {
   VertexEffectConfig,
   UniformConfig,
+  VaryingConfig,
 } from "../../../../../../types/materials/index";
 import {
   PointsEffectProps,
@@ -28,13 +29,16 @@ import { formatUniformsForEffect } from "../../helpers/formatUniformsForEffect";
 import { imageToPoints } from "./image-vertex-effects/image-to-points/imageToPoints";
 import { imageAsMask } from "./image-vertex-effects/image-as-mask/imageAsMask";
 import { interactionBased } from "./interaction-based/interactionBased";
+import { formatVaryingsForEffect } from "../../helpers/formatVaryingsForEffect";
 
 export const getVertexEffect = (
   effect: VertexEffectConfig,
-  uniformConfig: UniformConfig
+  uniformConfig: UniformConfig,
+  varyingConfig: VaryingConfig[]
 ): VertexEffectData => {
   const { effectType, effectProps, id } = effect;
   const effectUniforms = formatUniformsForEffect(uniformConfig, id);
+  const effectVaryings = formatVaryingsForEffect(varyingConfig, id);
   switch (effectType) {
     case VERTEX_EFFECTS.EXPLODE: {
       return explode(effectUniforms);
@@ -82,8 +86,10 @@ export const getVertexEffect = (
       return interactionBased(
         effectType,
         effectUniforms,
+        effectVaryings,
+        effect?.subEffects ?? [],
         uniformConfig,
-        effect?.subEffects ?? []
+        varyingConfig
       );
     }
     default:

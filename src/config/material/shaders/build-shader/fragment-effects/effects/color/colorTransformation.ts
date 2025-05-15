@@ -1,13 +1,25 @@
-import { ColorFragmentEffectProps } from "../../fragmentShader.types";
-import { createColorVectorString } from "../../../helpers/createColorVectorString";
 import { FRAG_COLOR_NAME } from "../../../../../../../consts";
+import {
+  TransformationConfig,
+  UniformValueConfig,
+} from "../../../buildShader.types";
+import { generateShaderTransformation } from "../../../helpers/generateTransform";
 
-export const colorTransformation = (effectProps: ColorFragmentEffectProps) => {
-  const colorAsVector = createColorVectorString(
-    effectProps.color,
-    !!effectProps.opacity
+const colorTransformationConfig = {
+  effectName: "pointMaterial",
+  instantiationName: "",
+  singleInstance: true,
+  allowedValueTypes: [],
+  prefix: "",
+  effectCode: [`${FRAG_COLOR_NAME} = uColor;`],
+} as unknown as TransformationConfig;
+
+export const colorTransformation = (
+  configuredUniforms: UniformValueConfig[]
+) => {
+  const transformation = generateShaderTransformation(
+    colorTransformationConfig,
+    configuredUniforms
   );
-  return `
-       ${FRAG_COLOR_NAME} = ${colorAsVector};
-        `;
+  return transformation;
 };

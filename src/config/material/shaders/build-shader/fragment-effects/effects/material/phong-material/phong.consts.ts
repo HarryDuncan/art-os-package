@@ -1,7 +1,7 @@
 import { Vector3 } from "three";
 import { SHADER_PROPERTY_VALUE_TYPES } from "../../../../constants/shader.consts";
 import { VARYING_TYPES } from "../../../../shader-properties/varyings/varyings.consts";
-import { UNIFORM_TAGS } from "../../../../shader-properties/uniforms/uniforms.consts";
+import { SHADER_PROPERTY_TAGS } from "../../../../shader-properties/uniforms/uniforms.consts";
 import {
   DefaultUniform,
   UniformConfig,
@@ -18,7 +18,7 @@ export const DEFAULT_PHONG_UNIFORMS = {
     },
     {
       id: "uDiffuseColor",
-      tag: [UNIFORM_TAGS.COLOR],
+      tag: [SHADER_PROPERTY_TAGS.COLOR],
       valueType: SHADER_PROPERTY_VALUE_TYPES.VEC3,
       value: new Vector3(0.2, 0.2, 0.2),
     },

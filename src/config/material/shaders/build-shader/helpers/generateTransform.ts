@@ -1,16 +1,11 @@
-import { SHADER_PROPERTY_VALUE_TYPES } from "../../../../../consts";
 import { UniformValueConfig, TransformationConfig } from "../../../../../types";
+import { safeParseValue, valueTypeToValue } from "./safeParseValue";
 
-export const generateVertexTransformation = (
+export const generateShaderTransformation = (
   config: TransformationConfig,
   uniforms: UniformValueConfig[]
 ) => {
   let transformation = config.prefix ?? "";
-  const allowedUniforms = uniforms.filter((uniform) =>
-    (config.allowedValueTypes as unknown as string[]).includes(
-      uniform.valueType
-    )
-  );
 
   if (config.singleInstance) {
     config.effectCode.forEach((line: string) => {
@@ -19,6 +14,17 @@ export const generateVertexTransformation = (
       transformation += processedLine + "\n";
     });
   } else {
+    if (!config.allowedValueTypes) {
+      console.warn(
+        `No allowedValueTypes has been configured for ${config.effectName}`
+      );
+      return "";
+    }
+    const allowedUniforms = uniforms.filter((uniform) =>
+      (config.allowedValueTypes as unknown as string[]).includes(
+        uniform.valueType
+      )
+    );
     allowedUniforms.forEach((uniform, index) => {
       // Add instantiation
       transformation += `${valueTypeToValue(
@@ -49,44 +55,4 @@ export const generateVertexTransformation = (
   }
 
   return transformation;
-};
-
-function safeParseValue(
-  id: string,
-  valueType: string,
-  instantiationType: string
-): string {
-  if (instantiationType === SHADER_PROPERTY_VALUE_TYPES.VEC3) {
-    switch (valueType) {
-      case SHADER_PROPERTY_VALUE_TYPES.FLOAT:
-        return `vec3(${id},${id},${id})`;
-      case SHADER_PROPERTY_VALUE_TYPES.VEC2:
-        return `vec3(${id}, 0.0)`;
-      case SHADER_PROPERTY_VALUE_TYPES.VEC3:
-        return `vec3(${id})`;
-      case SHADER_PROPERTY_VALUE_TYPES.VEC4:
-        return `vec3(${id}.xyz)`;
-      default:
-        throw new Error(`Unsupported value type: ${valueType}`);
-    }
-  }
-  console.warn(
-    `No safe parse value for ${valueType} and ${instantiationType} has been configured`
-  );
-  return "";
-}
-
-const valueTypeToValue = (valueType: string) => {
-  switch (valueType) {
-    case SHADER_PROPERTY_VALUE_TYPES.FLOAT:
-      return `float`;
-    case SHADER_PROPERTY_VALUE_TYPES.VEC2:
-      return `vec2`;
-    case SHADER_PROPERTY_VALUE_TYPES.VEC3:
-      return `vec3`;
-    case SHADER_PROPERTY_VALUE_TYPES.VEC4:
-      return `vec4`;
-    default:
-      throw new Error(`Unsupported value type: ${valueType}`);
-  }
 };

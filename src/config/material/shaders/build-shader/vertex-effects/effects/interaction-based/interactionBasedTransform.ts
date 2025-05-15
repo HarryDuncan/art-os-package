@@ -2,11 +2,14 @@ import {
   TransformationConfig,
   UniformConfig,
   UniformValueConfig,
+  VaryingConfig,
   VertexEffectConfig,
 } from "../../../../../../..";
-import { generateVertexTransformation } from "../../../helpers/generateTransform";
+import { generateShaderTransformation } from "../../../helpers/generateTransform";
 import { reduceFunctions } from "../../../helpers/reduceFunctions";
+import { parseRawValueToShader } from "../../../helpers/safeParseValue";
 import { mergeVaryingConfigs } from "../../../shader-properties/varyings/helpers/mergeVaryingConfigs";
+import { VARYING_TYPES } from "../../../shader-properties/varyings/varyings.consts";
 import { getVertexEffect } from "../getVertexEffect";
 import { affectedPositionTransformConfig } from "./interaction-transforms/affectedPosition";
 
@@ -22,8 +25,10 @@ export const interactionTransformConfig = {
 export const interactionBasedTransform = (
   effectType: string,
   effectUniforms: UniformValueConfig[],
+  effectVaryings: VaryingConfig[],
+  subEffects: VertexEffectConfig[],
   unfilteredUniforms: UniformConfig,
-  subEffects: VertexEffectConfig[]
+  unfilteredVaryings: VaryingConfig[]
 ) => {
   console.log("subEffects", subEffects);
   const subEffectData = subEffects.map((subEffect) => {
@@ -33,7 +38,7 @@ export const interactionBasedTransform = (
       uniformConfig,
       attributeConfig,
       varyingConfig,
-    } = getVertexEffect(subEffect, unfilteredUniforms);
+    } = getVertexEffect(subEffect, unfilteredUniforms, unfilteredVaryings);
     return {
       transformation,
       requiredFunctions,
@@ -42,15 +47,18 @@ export const interactionBasedTransform = (
       varyingConfig,
     };
   });
-  console.log("subEffectData", subEffectData);
+
   const interactionAffectTransform = getInteractionEffectTransform(effectType);
+  const binaryVaryings = getActiveAndInactiveInstantiation(effectVaryings);
   const effectCode = [
+    ...binaryVaryings.map(({ inactiveInstantiation }) => inactiveInstantiation),
     ...interactionAffectTransform.effectCode,
     ...subEffectData.map((subEffect) => subEffect.transformation),
+    ...binaryVaryings.map(({ activeInstantiation }) => activeInstantiation),
     "};",
   ];
   const transformConfig = { ...interactionTransformConfig, effectCode };
-  const transformation = generateVertexTransformation(
+  const transformation = generateShaderTransformation(
     transformConfig,
     effectUniforms
   );
@@ -78,4 +86,29 @@ const getInteractionEffectTransform = (effectType: string) => {
       effectType as keyof typeof INTERACTION_TRANSFORM_MAP
     ];
   return transformationConfig;
+};
+
+const getActiveAndInactiveInstantiation = (effectVaryings: VaryingConfig[]) => {
+  const binaryVaryings = effectVaryings.flatMap((varying) => {
+    if (varying.varyingType === VARYING_TYPES.BINARY) {
+      const inactiveValue =
+        varying.inactiveValue !== undefined
+          ? varying.inactiveValue
+          : varying.value;
+
+      const inactiveInstantiation = `${varying.id} = ${parseRawValueToShader(
+        varying.valueType,
+        inactiveValue
+      )};`;
+      const activeValue =
+        varying.activeValue !== undefined ? varying.activeValue : varying.value;
+      const activeInstantiation = `${varying.id} = ${parseRawValueToShader(
+        varying.valueType,
+        activeValue
+      )};`;
+      return { inactiveInstantiation, activeInstantiation };
+    }
+    return [];
+  });
+  return binaryVaryings;
 };

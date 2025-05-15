@@ -23,6 +23,7 @@ import {
   UniformConfig,
   VaryingConfig,
 } from "./buildShader.types";
+import { formatShaderEffects } from "./helpers/formatEffectConfigs";
 
 const DEBUG = true;
 export const buildShader = (shaderConfig: BuiltShaderConfig) => {
@@ -38,13 +39,19 @@ export const buildShader = (shaderConfig: BuiltShaderConfig) => {
   const configuredUniformConfig = {
     ...(uniformConfig ?? { ...EMPTY_UNIFORM_CONFIG }),
   };
+  const configuredVaryingConfig = [...(varyingConfig ?? [])];
+
+  const { formattedVertexEffects, formattedFragmentEffects } =
+    formatShaderEffects(vertexEffectConfigs, fragmentEffectConfigs);
+
   const fragmentEffects = setUpFragmentEffects(
-    fragmentEffectConfigs,
+    formattedFragmentEffects,
     configuredUniformConfig
   );
   const vertexEffects = setUpVertexEffects(
-    vertexEffectConfigs,
-    configuredUniformConfig
+    formattedVertexEffects,
+    configuredUniformConfig,
+    configuredVaryingConfig
   );
 
   // pass the parsed uniform config first so the values override any values defined in the other effects - vertex/fragment

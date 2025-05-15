@@ -1,9 +1,7 @@
 import { Vector3 } from "three";
 import { UniformConfig } from "../../../../../../..";
-import {
-  ATTRIBUTE_VALUE_TYPES,
-  EMPTY_UNIFORM_CONFIG,
-} from "../../../constants/shader.consts";
+import { EMPTY_UNIFORM_CONFIG } from "../../../constants/shader.consts";
+import { VARYING_TYPES } from "../../../shader-properties/varyings/varyings.consts";
 
 export const INTERACTION_BASED_REQUIRED_FUNCTIONS = [];
 export const INTERACTION_BASED_UNIFORMS = EMPTY_UNIFORM_CONFIG;
@@ -12,7 +10,14 @@ export const INTERACTION_BASED_VARYING_CONFIG = [];
 
 export const AFFECTED_POSITION_UNIFORMS = {
   defaultUniforms: [],
-  customUniforms: [],
+  customUniforms: [
+    {
+      id: "uAffectedAreaDistance",
+      valueType: "FLOAT",
+      value: 1.5,
+      configLocked: true,
+    },
+  ],
   interactionMappedUniforms: [
     {
       id: "uAffectedPosition",
@@ -23,19 +28,14 @@ export const AFFECTED_POSITION_UNIFORMS = {
   ],
 } as unknown as UniformConfig;
 
-export const AFFECTED_POSITION_ATTRIBUTES = [
+export const AFFECTED_POSITION_ATTRIBUTES = [];
+
+export const AFFECTED_POSITION_VARYING_CONFIG = [
   {
-    id: "effectedAreaDistance",
+    id: "vAffected",
     valueType: "FLOAT",
-    value: 1.5,
+    value: 0.0,
     configLocked: true,
-    attributeValueType: ATTRIBUTE_VALUE_TYPES.SINGLE_VALUE,
-  },
-  {
-    id: "effectStrength",
-    valueType: "FLOAT",
-    value: 1.5,
-    configLocked: true,
-    attributeValueType: ATTRIBUTE_VALUE_TYPES.SINGLE_VALUE,
+    varyingType: VARYING_TYPES.CUSTOM,
   },
 ];

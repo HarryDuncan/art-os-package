@@ -7,7 +7,7 @@ import {
   FragmentEffectType,
   PointMaterialFragmentEffectProps,
 } from "../../../fragmentShader.types";
-import { generateVertexTransformation } from "../../../../helpers/generateTransform";
+import { generateShaderTransformation } from "../../../../helpers/generateTransform";
 import {
   FRAG_COLOR_NAME,
   FRAGMENT_EFFECT,
@@ -61,7 +61,7 @@ export const pointMaterialTransform = (
     `if(${FRAG_COLOR_NAME}.a < 0.5) discard;`,
   ];
   pointMaterialTransformConfig.effectCode = updatedEffectCode;
-  const transformation = generateVertexTransformation(
+  const transformation = generateShaderTransformation(
     pointMaterialTransformConfig,
     configuredUniforms
   );

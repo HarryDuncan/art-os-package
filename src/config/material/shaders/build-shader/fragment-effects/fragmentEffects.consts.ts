@@ -1,7 +1,9 @@
 import { DEFAULT_FRAG_BRIGHTNESS_PROPS } from "./effects/brightness/brightness.consts";
-import { DEFAULT_FRAG_COLOR_PROPS } from "./effects/color/color.consts";
-import { DEFAULT_FRAG_HUE_SHIFT_PROPS } from "./effects/hue-shift/hueShift.consts";
-import { DEFAULT_FRAG_IMAGE_AS_MASK_PROPS } from "./effects/image-as-mask/imageAsMask.consts";
+import {
+  DEFAULT_COLOR_UNIFORMS,
+  DEFAULT_FRAG_COLOR_PROPS,
+} from "./effects/color/color.consts";
+
 import {
   DEFAULT_FRAG_POINT_PROPS,
   POINT_MATERIAL_PHONG_UNIFORMS,
@@ -10,31 +12,30 @@ import {
   TEXTURED_POINTS_UNIFORMS,
 } from "./effects/material/point-material/pointMaterial.consts";
 import { POINTS_ATTRIBUTES } from "../vertex-effects/effects/points/points.consts";
+import { INTERACTIVE_EFFECTS } from "../constants/interactiveEffects.consts";
+import { AFFECTED_POSITION_VARYINGS } from "./effects/interaction-based/interactionBased.consts";
 
 export const FRAG_COLOR_NAME = "currentFragColor";
 
 export const FRAGMENT_EFFECT = {
   NONE: "NONE",
-  DEFAULT: "DEFAULT",
-  EMPTY: "EMPTY",
-  COLOR: "COLOR",
-  MATCAP: "MATCAP",
-  MATERIAL: "MATERIAL",
   POINT_MATERIAL: "POINT_MATERIAL",
   POINT_MATERIAL_PIXEL_COLOR: "POINT_MATERIAL_PIXEL_COLOR",
   POINT_MATERIAL_OVERLAY_COLOR: "POINT_MATERIAL_OVERLAY_COLOR",
   POINT_MATERIAL_MATCAP: "POINT_MATERIAL_MATCAP",
   POINT_MATERIAL_TEXTURE: "POINT_MATERIAL_TEXTURE",
   POINT_MATERIAL_PHONG: "POINT_MATERIAL_PHONG",
+  DEFAULT: "DEFAULT",
+  EMPTY: "EMPTY",
+  COLOR: "COLOR",
+  MATCAP: "MATCAP",
+  MATERIAL: "MATERIAL",
   OPACITY: "OPACITY",
-  INTERACTIVE: "INTERACTIVE",
-  TRIGGERED: "TRIGGERED",
   VANISH: "VANISH",
   BRIGHTNESS: "BRIGHTNESS",
   PHYSICAL_MATERIAL: "PHYSICAL_MATERIAL",
   PHONG: "PHONG",
-  IMAGE_AS_MASK: "IMAGE_AS_MASK",
-  HUE_SHIFT: "HUE_SHIFT",
+  ...INTERACTIVE_EFFECTS,
 };
 
 export const DEFAULT_FRAG_COLOR = "#ff1205";
@@ -84,14 +85,7 @@ export const FRAGMENT_EFFECT_PROPS_MAP = {
     effectType: FRAGMENT_EFFECT.OPACITY,
     effectProps: {},
   },
-  [FRAGMENT_EFFECT.INTERACTIVE]: {
-    effectType: FRAGMENT_EFFECT.INTERACTIVE,
-    effectProps: {},
-  },
-  [FRAGMENT_EFFECT.TRIGGERED]: {
-    effectType: FRAGMENT_EFFECT.TRIGGERED,
-    effectProps: {},
-  },
+
   [FRAGMENT_EFFECT.VANISH]: {
     effectType: FRAGMENT_EFFECT.VANISH,
     effectProps: {},
@@ -108,43 +102,69 @@ export const FRAGMENT_EFFECT_PROPS_MAP = {
     effectType: FRAGMENT_EFFECT.PHONG,
     effectProps: {},
   },
-  [FRAGMENT_EFFECT.IMAGE_AS_MASK]: {
-    effectType: FRAGMENT_EFFECT.IMAGE_AS_MASK,
-    effectProps: DEFAULT_FRAG_IMAGE_AS_MASK_PROPS,
-  },
-  [FRAGMENT_EFFECT.HUE_SHIFT]: {
-    effectType: FRAGMENT_EFFECT.HUE_SHIFT,
-    effectProps: DEFAULT_FRAG_HUE_SHIFT_PROPS,
+  [FRAGMENT_EFFECT.AFFECTED_POSITION]: {
+    effectType: FRAGMENT_EFFECT.AFFECTED_POSITION,
+    effectProps: {},
   },
 };
 
+// [FRAGMENT_EFFECT.INTERACTIVE]: {
+//   effectType: FRAGMENT_EFFECT.INTERACTIVE,
+//   effectProps: {},
+// },
+
+// [FRAGMENT_EFFECT.IMAGE_AS_MASK]: {
+//   effectType: FRAGMENT_EFFECT.IMAGE_AS_MASK,
+//   effectProps: DEFAULT_FRAG_IMAGE_AS_MASK_PROPS,
+// },
+// [FRAGMENT_EFFECT.HUE_SHIFT]: {
+//   effectType: FRAGMENT_EFFECT.HUE_SHIFT,
+//   effectProps: DEFAULT_FRAG_HUE_SHIFT_PROPS,
+// },
 export const FRAGMENT_EFFECT_CONFIG_MAP = {
   [FRAGMENT_EFFECT.POINT_MATERIAL]: {
     uniforms: POINT_MATERIAL_UNIFORMS,
     attributes: POINTS_ATTRIBUTES,
+    varyings: [],
   },
   [FRAGMENT_EFFECT.POINT_MATERIAL_PIXEL_COLOR]: {
     uniforms: POINT_MATERIAL_UNIFORMS,
     attributes: POINTS_ATTRIBUTES,
+    varyings: [],
   },
   [FRAGMENT_EFFECT.POINT_MATERIAL_OVERLAY_COLOR]: {
     uniforms: POINT_MATERIAL_UNIFORMS,
     attributes: POINTS_ATTRIBUTES,
+    varyings: [],
   },
   [FRAGMENT_EFFECT.POINT_MATERIAL_MATCAP]: {
     uniforms: POINT_MATERIAL_UNIFORMS,
     attributes: POINTS_ATTRIBUTES,
+    varyings: [],
   },
   [FRAGMENT_EFFECT.POINT_MATERIAL_TEXTURE]: {
     uniforms: POINT_MATERIAL_UNIFORMS,
     attributes: POINTS_ATTRIBUTES,
+    varyings: [],
   },
   [FRAGMENT_EFFECT.POINT_MATERIAL_PHONG]: {
     uniforms: POINT_MATERIAL_PHONG_UNIFORMS,
     attributes: POINTS_ATTRIBUTES,
+    varyings: [],
   },
   TEXTURED_POINTS: {
     uniforms: TEXTURED_POINTS_UNIFORMS,
     attributes: TEXTURED_POINTS_ATTRIBUTES,
+    varyings: [],
+  },
+  [FRAGMENT_EFFECT.COLOR]: {
+    uniforms: DEFAULT_COLOR_UNIFORMS,
+    attributes: [],
+    varyings: [],
+  },
+  [FRAGMENT_EFFECT.AFFECTED_POSITION]: {
+    uniforms: [],
+    attributes: [],
+    varyings: AFFECTED_POSITION_VARYINGS,
   },
 };

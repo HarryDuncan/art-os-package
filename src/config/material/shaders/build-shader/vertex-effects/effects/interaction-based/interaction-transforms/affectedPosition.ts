@@ -10,6 +10,6 @@ export const affectedPositionTransformConfig = {
   effectCode: [
     `vec3 effectDistanceVector =  vec3(uAffectedPosition.xy, 0.0) - vec3(${VERTEX_POINT_NAME}.xy, 0.0);`,
     `float effectDistanceLength = length(effectDistanceVector);`,
-    `if(effectDistanceLength <= uMinDistance ){`,
+    `if(effectDistanceLength <= uAffectedAreaDistance ){`,
   ],
 } as unknown as TransformationConfig;

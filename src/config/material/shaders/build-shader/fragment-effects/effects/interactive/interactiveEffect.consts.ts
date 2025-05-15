@@ -1,1 +1,0 @@
-export const DEFAULT_INTERACTIVE_EFFECT = {};

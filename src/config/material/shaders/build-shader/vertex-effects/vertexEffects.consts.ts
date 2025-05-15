@@ -8,7 +8,11 @@ import {
   IMAGE_TO_POINTS_UNIFORMS,
 } from "./effects/image-vertex-effects/image-to-points/imageToPoints.consts";
 import { DEFAULT_ROTATION_EFFECT_CONFIG } from "./effects/rotation/rotation.consts";
-import { AFFECTED_POSITION_UNIFORMS } from "./effects/interaction-based/interactionBased.consts";
+import {
+  AFFECTED_POSITION_ATTRIBUTES,
+  AFFECTED_POSITION_UNIFORMS,
+} from "./effects/interaction-based/interactionBased.consts";
+import { INTERACTIVE_EFFECTS } from "../constants/interactiveEffects.consts";
 export const VERTEX_POINT_NAME = "currentVertexPoint";
 export const VERTEX_NORMAL_NAME = "currentVertexNormal";
 export const VERTEX_EFFECTS = {
@@ -26,11 +30,7 @@ export const VERTEX_EFFECTS = {
   NOISE: "NOISE",
   IMAGE_TO_POINTS: "IMAGE_TO_POINTS",
   IMAGE_AS_MASK: "IMAGE_AS_MASK",
-  AFFECTED_POSITION: "AFFECTED_POSITION",
-};
-
-export const INTERACTION_BASED_VERTEX_EFFECTS = {
-  AFFECTED_POSITION: "AFFECTED_POSITION",
+  ...INTERACTIVE_EFFECTS,
 };
 
 export const enum TransformTypes {
@@ -147,6 +147,6 @@ export const VERTEX_EFFECT_CONFIG_MAP = {
   },
   [VERTEX_EFFECTS.AFFECTED_POSITION]: {
     uniforms: AFFECTED_POSITION_UNIFORMS,
-    attributes: [],
+    attributes: AFFECTED_POSITION_ATTRIBUTES,
   },
 };

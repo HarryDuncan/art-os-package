@@ -65,6 +65,7 @@ export interface EffectConfig {
   name?: string;
   isInteractive?: boolean;
   interactiveEffectIds?: string[];
+  pairedEffectIds?: string[];
 }
 export type VertexEffectConfig = EffectConfig & {
   effectType: keyof typeof VERTEX_EFFECTS;
@@ -104,6 +105,9 @@ export type VaryingTypes = keyof typeof VARYING_TYPES;
 export type VaryingConfig = ShaderPropertyConfig & {
   varyingType: VaryingTypes;
   attributeKey?: string;
+  effectIds?: string[];
+  activeValue?: string;
+  inactiveValue?: string;
 };
 
 // <------------------------------------ ATTRIBUTES ------------------------------>
@@ -141,6 +145,11 @@ export type UniformValueConfig = ShaderPropertyConfig & {
     assetId: string;
     relationship: string;
   };
+  tags?: string[];
+};
+
+export const SHADER_PROPERTY_TAGS = {
+  COLOR: "color",
 };
 
 export type InteractionMappedUniform = UniformValueConfig & {

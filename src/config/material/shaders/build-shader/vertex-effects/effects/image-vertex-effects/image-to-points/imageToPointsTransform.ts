@@ -3,7 +3,7 @@ import {
   TransformationConfig,
 } from "../../../../../../../../types/materials/index";
 import { VERTEX_POINT_NAME } from "../../../vertexEffects.consts";
-import { generateVertexTransformation } from "../../../../helpers/generateTransform";
+import { generateShaderTransformation } from "../../../../helpers/generateTransform";
 
 const imageToPointsTransformConfig = {
   effectName: "imageToPoints",
@@ -43,7 +43,7 @@ const imageToPointsTransformConfig = {
 export const imageToPointsTransform = (
   effectUniforms: UniformValueConfig[]
 ) => {
-  const transformation = generateVertexTransformation(
+  const transformation = generateShaderTransformation(
     imageToPointsTransformConfig,
     effectUniforms
   );

@@ -3,7 +3,7 @@ import {
   UniformValueConfig,
   TransformationConfig,
 } from "../../../../../../../../types/materials/index";
-import { generateVertexTransformation } from "../../../../helpers/generateTransform";
+import { generateShaderTransformation } from "../../../../helpers/generateTransform";
 
 const explodeTransformConfig = {
   effectName: "explode",
@@ -14,7 +14,8 @@ const explodeTransformConfig = {
   ],
 } as unknown as TransformationConfig;
 export const explodeTransform = (uniforms: UniformValueConfig[]) => {
-  const transformation = generateVertexTransformation(
+  console.log("uniforms", uniforms);
+  const transformation = generateShaderTransformation(
     explodeTransformConfig,
     uniforms
   );

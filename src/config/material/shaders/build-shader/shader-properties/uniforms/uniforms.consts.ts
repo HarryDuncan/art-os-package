@@ -5,6 +5,6 @@ export const EMPTY_UNIFORM_CONFIG = {
   customUniforms: [],
 };
 
-export const UNIFORM_TAGS = {
+export const SHADER_PROPERTY_TAGS = {
   COLOR: "COLOR",
 };

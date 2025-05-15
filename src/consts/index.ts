@@ -20,3 +20,4 @@ export { IMAGE_AS_MASK_UNIFORM_CONFIG } from "../config/material/shaders/build-s
 
 export * from "../config/material/shaders/build-shader/fragment-effects/fragmentEffects.consts";
 export * from "../config/material/shaders/build-shader/constants/buildShader.consts";
+export * from "../config/material/shaders/build-shader/constants/interactiveEffects.consts";
