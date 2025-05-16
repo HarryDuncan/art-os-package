@@ -91,7 +91,6 @@ export const transformGeometry = (
               const quadDimensions = attributeConfigs?.find(
                 ({ id }) => id === "quadDimensions"
               );
-              console.log("quadDimensions", quadDimensions);
               if (quadDimensions) {
                 const { value } = quadDimensions as { value: Vector2 };
                 const width = value?.x;
@@ -100,25 +99,31 @@ export const transformGeometry = (
                 if (width && height) {
                   const vertexesNumber = Number(width) * Number(height);
                   const indices = new Uint16Array(vertexesNumber);
-                  const offsets = new Float32Array(vertexesNumber);
+                  const offsets = new Float32Array(vertexesNumber * 3);
                   const normals = new Float32Array(vertexesNumber * 3);
-                  for (let i = 0, j = 0; i < vertexesNumber; i += 1) {
-                    const x = i % Number(width);
-                    const y = Math.floor(i / Number(height));
-                    offsets[j * 3 + 0] = x;
-                    offsets[j * 3 + 1] = y + Number(height) / 4;
-                    offsets[j * 3 + 2] = 0;
-                    indices[j] = i;
-                    j += 1;
 
-                    normals[j * 3 + 0] = 0; // nx
-                    normals[j * 3 + 1] = 0; // ny
-                    normals[j * 3 + 2] = 1; // nz
+                  for (let i = 0; i < vertexesNumber; i++) {
+                    const x = i % Number(width);
+                    const y = Math.floor(i / Number(width));
+
+                    // Set vertex positions directly
+                    offsets[i * 3 + 0] = x; // x coordinate
+                    offsets[i * 3 + 1] = y; // y coordinate
+                    offsets[i * 3 + 2] = 0; // z: flat plane
+
+                    indices[i] = i;
+
+                    // Set normals pointing up
+                    normals[i * 3 + 0] = 0; // nx
+                    normals[i * 3 + 1] = 0; // ny
+                    normals[i * 3 + 2] = 1; // nz
                   }
+
                   const positions = new BufferAttribute(offsets, 3);
                   const pointOffset = new BufferAttribute(offsets, 3);
-                  const indexes = new BufferAttribute(indices, 3);
+                  const indexes = new BufferAttribute(indices, 1); // Changed to 1 component per index
                   const normalAttributes = new BufferAttribute(normals, 3);
+
                   geometry.setAttribute("position", positions);
                   geometry.setAttribute("pointIndex", indexes);
                   geometry.setAttribute("normal", normalAttributes);
@@ -129,7 +134,7 @@ export const transformGeometry = (
                     geometry,
                   };
                 } else {
-                  console.warn("No width and height configure");
+                  console.warn("No width and height configured");
                 }
               }
               return geometry;

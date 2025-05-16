@@ -25,6 +25,7 @@ export const useThreadWithPostProcessor = (
         if (initializedScene?.orbitControls) {
           initializedScene.orbitControls.update();
         }
+
         if (initializedScene?.animationManager.hasCameraAnimations()) {
           initializedScene.animationManager.startCameraAnimation(camera);
         }
