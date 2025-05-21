@@ -36,6 +36,13 @@ export const AFFECTED_POSITION_VARYING_CONFIG = [
     valueType: "FLOAT",
     value: 0.0,
     configLocked: true,
-    varyingType: VARYING_TYPES.CUSTOM,
+    varyingType: VARYING_TYPES.BINARY,
   },
 ];
+
+export const AFFECTED_POSITION_EFFECT_CONFIG = {
+  uniforms: AFFECTED_POSITION_UNIFORMS,
+  attributes: AFFECTED_POSITION_ATTRIBUTES,
+  functions: INTERACTION_BASED_REQUIRED_FUNCTIONS,
+  varyings: AFFECTED_POSITION_VARYING_CONFIG,
+};

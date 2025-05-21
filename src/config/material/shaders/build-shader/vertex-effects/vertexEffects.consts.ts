@@ -1,18 +1,9 @@
-import { QUAD_MESH_TRANSFORM } from "../../../../mesh/meshTransforms.consts";
-import {
-  EXPLODE_ATTRIBUTES,
-  EXPLODE_UNIFORMS,
-} from "./effects/displacement/explode/explode.consts";
-import {
-  IMAGE_TO_POINTS_ATTRIBUTES,
-  IMAGE_TO_POINTS_UNIFORMS,
-} from "./effects/image-vertex-effects/image-to-points/imageToPoints.consts";
-import {
-  AFFECTED_POSITION_ATTRIBUTES,
-  AFFECTED_POSITION_UNIFORMS,
-} from "./effects/interaction-based/interactionBased.consts";
+import { IMAGE_TO_POINTS_EFFECT_CONFIG } from "./effects/image-vertex-effects/image-to-points/imageToPoints.consts";
+import { AFFECTED_POSITION_EFFECT_CONFIG } from "./effects/interaction-based/interactionBased.consts";
 import { INTERACTIVE_EFFECTS } from "../constants/interactiveEffects.consts";
-import { ROTATION_UNIFORMS } from "./effects/rotation-effects/rotationEffect.consts";
+import { EXPLODE_EFFECT_CONFIG } from "./effects/displacement/explode/explode.consts";
+import { ROTATION_EFFECT_CONFIG } from "./effects/rotation-effects/rotationEffect.config";
+
 export const VERTEX_POINT_NAME = "currentVertexPoint";
 export const VERTEX_NORMAL_NAME = "currentVertexNormal";
 
@@ -33,25 +24,8 @@ export const DEFAULT_VERTEX_EFFECT_PARAMS = {
 };
 
 export const VERTEX_EFFECT_CONFIG_MAP = {
-  [VERTEX_EFFECTS.IMAGE_TO_POINTS]: {
-    uniforms: IMAGE_TO_POINTS_UNIFORMS,
-    attributes: IMAGE_TO_POINTS_ATTRIBUTES,
-    transforms: [QUAD_MESH_TRANSFORM],
-  },
-  [VERTEX_EFFECTS.EXPLODE]: {
-    uniforms: EXPLODE_UNIFORMS,
-    attributes: EXPLODE_ATTRIBUTES,
-    functions: [],
-  },
-  [VERTEX_EFFECTS.AFFECTED_POSITION]: {
-    uniforms: AFFECTED_POSITION_UNIFORMS,
-    attributes: AFFECTED_POSITION_ATTRIBUTES,
-
-    functions: [],
-  },
-  [VERTEX_EFFECTS.ROTATION]: {
-    uniforms: ROTATION_UNIFORMS,
-    attributes: [],
-    functions: [],
-  },
+  [VERTEX_EFFECTS.IMAGE_TO_POINTS]: IMAGE_TO_POINTS_EFFECT_CONFIG,
+  [VERTEX_EFFECTS.EXPLODE]: EXPLODE_EFFECT_CONFIG,
+  [VERTEX_EFFECTS.AFFECTED_POSITION]: AFFECTED_POSITION_EFFECT_CONFIG,
+  [VERTEX_EFFECTS.ROTATION]: ROTATION_EFFECT_CONFIG,
 };

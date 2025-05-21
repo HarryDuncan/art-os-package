@@ -14,6 +14,7 @@ import {
   randomFloatFunction,
 } from "../../../../shader-properties/functions/random";
 import { noiseFunction } from "../../../../shader-properties/functions/noise";
+import { QUAD_MESH_TRANSFORM } from "../../../../../../../mesh/meshTransforms.consts";
 
 export const IMAGE_TO_POINTS_UNIFORMS = {
   defaultUniforms: [],
@@ -89,3 +90,11 @@ export const IMAGE_TO_POINTS_ATTRIBUTES = [
     assetId: "",
   },
 ] as AttributeConfig[];
+
+export const IMAGE_TO_POINTS_EFFECT_CONFIG = {
+  uniforms: IMAGE_TO_POINTS_UNIFORMS,
+  attributes: IMAGE_TO_POINTS_ATTRIBUTES,
+  functions: IMAGE_TO_POINTS_REQUIRED_FUNCTIONS,
+  varyings: IMAGE_TO_POINTS_VARYING_CONFIG,
+  transforms: [QUAD_MESH_TRANSFORM],
+};

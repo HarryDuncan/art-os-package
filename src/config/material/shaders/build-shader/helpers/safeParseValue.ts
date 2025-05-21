@@ -48,7 +48,7 @@ export const parseRawValueToShader = (
 ): string => {
   switch (valueType) {
     case SHADER_PROPERTY_VALUE_TYPES.FLOAT:
-      return parseFloat(value).toFixed(1);
+      return value === 0 ? "0.0" : parseFloat(value).toFixed(1);
     case SHADER_PROPERTY_VALUE_TYPES.VEC2:
       if (Array.isArray(value)) {
         return `vec2(${value[0]}, ${value[1]})`;
