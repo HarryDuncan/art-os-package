@@ -10,11 +10,13 @@ import { imageToPoints } from "./image-vertex-effects/image-to-points/imageToPoi
 import { interactionBased } from "./interaction-based/interactionBased";
 import { formatVaryingsForEffect } from "../../helpers/formatVaryingsForEffect";
 import { explode } from "./displacement/explode/explode";
+import { rotationEffect } from "./rotation-effects/rotationEffect";
 
 const VERTEX_EFFECTS_MAP = {
   [VERTEX_EFFECTS.EXPLODE]: explode,
   [VERTEX_EFFECTS.IMAGE_TO_POINTS]: imageToPoints,
   [VERTEX_EFFECTS.AFFECTED_POSITION]: interactionBased,
+  [VERTEX_EFFECTS.ROTATION]: rotationEffect,
 };
 export const getVertexEffect = (
   effect: VertexEffectConfig,

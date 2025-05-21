@@ -1,9 +1,9 @@
-import { VaryingConfig } from "../../../../buildShader.types";
+import { VaryingConfig } from "../../../buildShader.types";
 import {
   ATTRIBUTE_VALUE_TYPES,
   SHADER_PROPERTY_VALUE_TYPES,
-} from "../../../../constants/shader.consts";
-import { VARYING_TYPES } from "../../../../shader-properties/varyings/varyings.consts";
+} from "../../../constants/shader.consts";
+import { VARYING_TYPES } from "../../../shader-properties/varyings/varyings.consts";
 
 export const DEFAULT_FRAG_POINT_PROPS = {
   isTextured: false,
@@ -64,6 +64,7 @@ export const POINT_MATERIAL_PHONG_UNIFORMS = {
   ],
 };
 
+// TEXTURED POINTS
 export const TEXTURED_POINTS_UNIFORMS = {
   defaultUniforms: [],
   customUniforms: [

@@ -67,7 +67,6 @@ export const formatShaderEffects = (
     [] as FragmentEffectConfig[]
   );
 
-  console.log(formattedFragmentEffects);
   return {
     formattedVertexEffects,
     formattedFragmentEffects,

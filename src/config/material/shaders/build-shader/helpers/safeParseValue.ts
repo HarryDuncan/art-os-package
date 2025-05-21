@@ -61,9 +61,13 @@ export const parseRawValueToShader = (
       return `vec3(${value}, ${value}, ${value})`;
     case SHADER_PROPERTY_VALUE_TYPES.VEC4:
       if (Array.isArray(value)) {
-        return `vec4(${value[0]}, ${value[1]}, ${value[2]}, ${value[3]})`;
+        return `vec4(${shaderSafeFloat(value[0])}, ${shaderSafeFloat(
+          value[1]
+        )}, ${shaderSafeFloat(value[2])}, ${shaderSafeFloat(value[3])})`;
       }
-      return `vec4(${value}, ${value}, ${value}, ${value})`;
+      return `vec4(${shaderSafeFloat(value)}, ${shaderSafeFloat(
+        value
+      )}, ${shaderSafeFloat(value)}, ${shaderSafeFloat(value)})`;
     default:
       throw new Error(`Unsupported value type: ${valueType}`);
   }

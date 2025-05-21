@@ -1,10 +1,13 @@
 import { FRAG_COLOR_NAME } from "../fragment-effects/fragmentEffects.consts";
 import {
-  VERTEX_EFFECTS,
   VERTEX_NORMAL_NAME,
   VERTEX_POINT_NAME,
 } from "../vertex-effects/vertexEffects.consts";
 
+export const SHADER_TYPES = {
+  VERTEX: "VERTEX",
+  FRAGMENT: "FRAGMENT",
+};
 export const MAIN_START = `void main() { `;
 
 export const VERTEX_POINT_INSTANTIATION = `vec4 ${VERTEX_POINT_NAME} = vec4(position.xyz, 1.0);`;

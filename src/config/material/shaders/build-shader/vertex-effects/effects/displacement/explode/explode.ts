@@ -1,27 +1,21 @@
-import {
-  VertexEffectData,
-  VertexEffectProps,
-} from "../../../vertexEffects.types";
-import {
-  EXPLODE_FUNCTIONS,
-  EXPLODE_UNIFORMS,
-  EXPLODE_VARYINGS,
-} from "./explode.consts";
-import { explodeTransform } from "./explodeTransform";
+import { VERTEX_POINT_NAME } from "../../../vertexEffects.consts";
+import { TransformationConfig } from "../../../../../../../../types/materials/index";
+import { generateShaderTransformation } from "../../../../helpers/generateTransform";
+import { VertexEffectProps } from "../../../vertexEffects.types";
 
-export const explode = (
-  effectProps: VertexEffectProps
-): VertexEffectData | null => {
+const explodeTransformConfig = {
+  effectName: "explode",
+  singleInstance: true,
+  effectCode: [
+    `${VERTEX_POINT_NAME}.x +=  cos(randomAngle * uTime) * uStrength ;`,
+    `${VERTEX_POINT_NAME}.y +=  sin(randomAngle * uTime) * uStrength;`,
+  ],
+} as unknown as TransformationConfig;
+export const explode = (effectProps: VertexEffectProps) => {
   const { effectUniforms } = effectProps;
-  const transformation = explodeTransform(effectUniforms);
-  const requiredFunctions = EXPLODE_FUNCTIONS;
-  const varyingConfig = EXPLODE_VARYINGS;
-
-  return {
-    attributeConfig: [],
-    requiredFunctions,
-    uniformConfig: EXPLODE_UNIFORMS,
-    transformation,
-    varyingConfig,
-  };
+  const transformation = generateShaderTransformation(
+    explodeTransformConfig,
+    effectUniforms
+  );
+  return { transformation };
 };

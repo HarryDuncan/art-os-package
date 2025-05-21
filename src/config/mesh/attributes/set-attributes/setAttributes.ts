@@ -63,7 +63,7 @@ const setRandomizedPercentage = (
   value: number = 0.5
 ) => {
   const randomBool = new Float32Array(vertexCount);
-  randomBool.forEach((_value, index) => {
+  randomBool.forEach((_, index) => {
     randomBool[index] = Math.random() < value ? 1.0 : 0.0;
   });
   bufferGeometry.setAttribute(attributeId, new BufferAttribute(randomBool, 1));

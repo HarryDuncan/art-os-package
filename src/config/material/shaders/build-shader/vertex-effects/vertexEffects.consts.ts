@@ -12,6 +12,7 @@ import {
   AFFECTED_POSITION_UNIFORMS,
 } from "./effects/interaction-based/interactionBased.consts";
 import { INTERACTIVE_EFFECTS } from "../constants/interactiveEffects.consts";
+import { ROTATION_UNIFORMS } from "./effects/rotation-effects/rotationEffect.consts";
 export const VERTEX_POINT_NAME = "currentVertexPoint";
 export const VERTEX_NORMAL_NAME = "currentVertexNormal";
 
@@ -19,6 +20,7 @@ export const VERTEX_EFFECTS = {
   NONE: "NONE",
   EXPLODE: "EXPLODE",
   IMAGE_TO_POINTS: "IMAGE_TO_POINTS",
+  ROTATION: "ROTATION",
   ...INTERACTIVE_EFFECTS,
 };
 
@@ -39,9 +41,17 @@ export const VERTEX_EFFECT_CONFIG_MAP = {
   [VERTEX_EFFECTS.EXPLODE]: {
     uniforms: EXPLODE_UNIFORMS,
     attributes: EXPLODE_ATTRIBUTES,
+    functions: [],
   },
   [VERTEX_EFFECTS.AFFECTED_POSITION]: {
     uniforms: AFFECTED_POSITION_UNIFORMS,
     attributes: AFFECTED_POSITION_ATTRIBUTES,
+
+    functions: [],
+  },
+  [VERTEX_EFFECTS.ROTATION]: {
+    uniforms: ROTATION_UNIFORMS,
+    attributes: [],
+    functions: [],
   },
 };

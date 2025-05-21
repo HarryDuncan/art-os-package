@@ -53,10 +53,7 @@ export const DEFAULT_UNIFORMS = {
     valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
     defaultValue: 1.0,
   },
-  uStrength: {
-    valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
-    defaultValue: 8.0,
-  },
+
   uLoopCount: {
     valueType: SHADER_PROPERTY_VALUE_TYPES.INT,
     defaultValue: 0,
@@ -64,14 +61,6 @@ export const DEFAULT_UNIFORMS = {
   uCenter: {
     valueType: SHADER_PROPERTY_VALUE_TYPES.VEC3,
     defaultValue: new Vector3(0, 0, 0),
-  },
-  uIsTriggered: {
-    valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
-    defaultValue: 0.0,
-  },
-  uTextureSize: {
-    valueType: SHADER_PROPERTY_VALUE_TYPES.VEC2,
-    defaultValue: new Vector3(0, 0),
   },
 };
 

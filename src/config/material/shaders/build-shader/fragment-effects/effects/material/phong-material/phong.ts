@@ -1,28 +1,25 @@
-import {
-  DEFAULT_PHONG_UNIFORMS,
-  PHONG_REQUIRED_FUNCTIONS,
-  PHONG_VARYINGS,
-} from "./phong.consts";
-import { phongTransform } from "./phongTransform";
-import { mergeUniformConfigs } from "../../../../shader-properties/uniforms/helpers/mergeUniformConfigs";
-import {
-  FragmentEffectData,
-  FragmentEffectProps,
-} from "../../../fragmentShader.types";
+import { FragmentEffectProps } from "../../../fragmentShader.types";
+import { FRAG_COLOR_NAME } from "../../../../../../../..";
 
-export const phongMaterial = (
-  _effectProps: FragmentEffectProps
-): FragmentEffectData => {
-  const { transformation } = phongTransform();
-  const uniformConfig = mergeUniformConfigs([DEFAULT_PHONG_UNIFORMS]);
-  const varyingConfig = PHONG_VARYINGS;
-  const requiredFunctions = PHONG_REQUIRED_FUNCTIONS;
+export const phongMaterial = (_effectProps: FragmentEffectProps) => {
+  const transformation = `
+  vec3 N = normalize(vNormalInterpolation);
+  vec3 L = normalize(uLightPosition - vPosition);
 
-  return {
-    requiredFunctions,
-    uniformConfig,
-    transformation,
-    varyingConfig,
-    attributeConfig: [],
-  };
+  // Lambert's cosine law
+  float lambertian = max(dot(N, L), 0.0);
+  float specular = 0.0;
+  if(lambertian > 0.0) {
+    vec3 R = normalize(reflect(-L, N));      // Reflected light vector
+    vec3 V = normalize(cameraPosition   - vPosition );// Vector to viewer
+    // Compute the specular term
+    float specAngle = max(dot(R, V), 0.0);
+    specular = pow(specAngle, uShininess);
+  }
+  ${FRAG_COLOR_NAME} = vec4(uAmbientReflection * uAmbientColor +
+                      uDiffuseReflection * lambertian * uDiffuseColor +
+                      uSpecularReflection * specular * uSpecularColor, 1.0);
+
+    `;
+  return { transformation };
 };

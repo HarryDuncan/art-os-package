@@ -1,15 +1,22 @@
 import { FragmentEffectConfig, UniformConfig } from "../../buildShader.types";
 import { formatUniformsForEffect } from "../../helpers/formatUniformsForEffect";
 import { FRAGMENT_EFFECT } from "../fragmentEffects.consts";
-import { color } from "./color/color";
-import { pointMaterial } from "./material/point-material/pointMaterial";
+
 import { interactionBased } from "./interaction-based/interactionBased";
-import { FragmentEffectData } from "../fragmentShader.types";
+import {
+  FragmentEffectData,
+  FragmentEffectProps,
+} from "../fragmentShader.types";
+import { texturedPixelColor, color, overlayPixelColor } from "./color";
+import { EMPTY_UNIFORM_CONFIG } from "../../constants/shader.consts";
+import { mergeEffectData } from "../../helpers/mergeEffectData";
+import { SHADER_TYPES } from "../../constants";
+import { pointMaterial } from "./points/pointMaterial";
 
 const FRAGMENT_EFFECTS_MAP = {
+  [FRAGMENT_EFFECT.TEXTURE_PIXEL_COLOR]: texturedPixelColor,
   [FRAGMENT_EFFECT.POINT_MATERIAL]: pointMaterial,
-  [FRAGMENT_EFFECT.POINT_MATERIAL_PIXEL_COLOR]: pointMaterial,
-  [FRAGMENT_EFFECT.POINT_MATERIAL_OVERLAY_COLOR]: pointMaterial,
+  [FRAGMENT_EFFECT.OVERLAY_COLOR]: overlayPixelColor,
   [FRAGMENT_EFFECT.POINT_MATERIAL_MATCAP]: pointMaterial,
   [FRAGMENT_EFFECT.POINT_MATERIAL_TEXTURE]: pointMaterial,
   [FRAGMENT_EFFECT.POINT_MATERIAL_PHONG]: pointMaterial,
@@ -23,13 +30,7 @@ export const getFragmentEffects = (
 ): FragmentEffectData | null => {
   const { effectType, effectParameters, id } = effect;
   const effectUniforms = formatUniformsForEffect(uniformConfig, id);
-  const effectFunction = FRAGMENT_EFFECTS_MAP[effectType];
-  if (!effectFunction) {
-    console.warn(
-      `no fragment transformations configured for ${String(effectType)}`
-    );
-    return null;
-  }
+
   const fragmentEffectProps = {
     effectUniforms,
     effectParameters,
@@ -37,5 +38,38 @@ export const getFragmentEffects = (
     subEffects: effect?.subEffects ?? [],
     unfilteredUniforms: uniformConfig,
   };
-  return effectFunction(fragmentEffectProps);
+  return transformSetup(fragmentEffectProps);
+};
+
+export const transformSetup = (effectProps: FragmentEffectProps) => {
+  const { effectType } = effectProps;
+  const effectFunction = FRAGMENT_EFFECTS_MAP[effectType];
+  if (effectFunction) {
+    const effectData = fragmentEffectToEffectData(effectFunction(effectProps));
+    return mergeEffectData(effectData, effectType, SHADER_TYPES.FRAGMENT);
+  } else {
+    console.warn(
+      `no fragment transformations configured for ${String(effectType)}`
+    );
+    return null;
+  }
+};
+
+export const fragmentEffectToEffectData = (
+  effect: Partial<FragmentEffectData>
+) => {
+  const {
+    attributeConfig,
+    requiredFunctions,
+    transformation,
+    uniformConfig,
+    varyingConfig,
+  } = effect;
+  return {
+    attributeConfig: attributeConfig ?? [],
+    transformation: transformation ?? "",
+    requiredFunctions: requiredFunctions ?? [],
+    uniformConfig: uniformConfig ?? EMPTY_UNIFORM_CONFIG,
+    varyingConfig: varyingConfig ?? [],
+  };
 };

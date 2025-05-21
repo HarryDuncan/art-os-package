@@ -1,27 +1,22 @@
-import { colorTransformation } from "./colorTransformation";
-import {
-  DEFAULT_COLOR_FUNCTIONS,
-  DEFAULT_COLOR_UNIFORMS,
-  DEFAULT_COLOR_VARYINGS,
-} from "./color.consts";
-import {
-  FragmentEffectData,
-  FragmentEffectProps,
-} from "../../fragmentShader.types";
+import { FRAG_COLOR_NAME } from "../../../../../../../consts";
+import { TransformationConfig } from "../../../buildShader.types";
+import { generateShaderTransformation } from "../../../helpers/generateTransform";
+import { FragmentEffectProps } from "../../fragmentShader.types";
 
-export const color = (effectProps: FragmentEffectProps): FragmentEffectData => {
+const colorTransformationConfig = {
+  effectName: "pointMaterial",
+  instantiationName: "",
+  singleInstance: true,
+  allowedValueTypes: [],
+  prefix: "",
+  effectCode: [`${FRAG_COLOR_NAME} = uColor;`],
+} as unknown as TransformationConfig;
+
+export const color = (effectProps: FragmentEffectProps) => {
   const { effectUniforms } = effectProps;
-  const uniformConfig = DEFAULT_COLOR_UNIFORMS;
-  const varyingConfig = DEFAULT_COLOR_VARYINGS;
-  const requiredFunctions = DEFAULT_COLOR_FUNCTIONS;
-
-  const transformation = colorTransformation(effectUniforms);
-
-  return {
-    requiredFunctions,
-    uniformConfig,
-    transformation,
-    varyingConfig,
-    attributeConfig: [],
-  };
+  const transformation = generateShaderTransformation(
+    colorTransformationConfig,
+    effectUniforms
+  );
+  return { transformation };
 };
