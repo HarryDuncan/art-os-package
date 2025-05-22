@@ -1,11 +1,9 @@
 import { DEFAULT_COLOR_UNIFORMS } from "./effects/color/color.consts";
 
 import {
-  POINT_MATERIAL_PHONG_UNIFORMS,
   POINT_MATERIAL_UNIFORMS,
   POINT_MATERIAL_VARYINGS,
-  TEXTURED_POINTS_ATTRIBUTES,
-  TEXTURED_POINTS_UNIFORMS,
+  POINT_MATERIAL_PARAMETERS,
 } from "./effects/points/pointMaterial.consts";
 import { INTERACTIVE_EFFECTS } from "../constants/interactiveEffects.consts";
 import { AFFECTED_POSITION_VARYINGS } from "./effects/interaction-based/interactionBased.consts";
@@ -31,8 +29,7 @@ export const DEFAULT_FRAG_COLOR = "#ff1205";
 
 export const FRAGMENT_EFFECT_CONFIG_MAP = {
   [FRAGMENT_EFFECTS.POINT_MATERIAL]: {
-    uniforms: POINT_MATERIAL_UNIFORMS,
-    attributes: [],
+    parameters: POINT_MATERIAL_PARAMETERS,
     varyings: POINT_MATERIAL_VARYINGS,
     functions: [],
   },
@@ -57,15 +54,9 @@ export const FRAGMENT_EFFECT_CONFIG_MAP = {
     varyings: [],
   },
   [FRAGMENT_EFFECTS.POINT_MATERIAL_PHONG]: {
-    uniforms: POINT_MATERIAL_PHONG_UNIFORMS,
-    attributes: [],
     varyings: [],
   },
-  TEXTURED_POINTS: {
-    uniforms: TEXTURED_POINTS_UNIFORMS,
-    attributes: TEXTURED_POINTS_ATTRIBUTES,
-    varyings: [],
-  },
+
   [FRAGMENT_EFFECTS.COLOR]: {
     uniforms: DEFAULT_COLOR_UNIFORMS,
     attributes: [],

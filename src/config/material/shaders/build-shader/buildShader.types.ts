@@ -61,14 +61,19 @@ export type UniformObject = {
   [key: string]: { value: unknown } | { value: unknown }[];
 };
 
+// useful for customizing inputs - e.g color is vec4 but I want a color picker
+export const SHADER_PROPERTY_TAGS = {
+  COLOR: "color",
+};
+
 export type ParameterConfig = ShaderPropertyConfig & {
   configLocked?: boolean;
-
   description?: string;
   isUniform?: boolean;
   isInteractive?: boolean;
   isAssetMapped?: boolean;
   isAttribute?: boolean;
+  tags?: string[];
   assetMappingConfig?: {
     assetId: string;
     relationship: string;

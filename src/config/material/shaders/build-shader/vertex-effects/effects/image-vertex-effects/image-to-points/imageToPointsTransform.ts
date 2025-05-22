@@ -10,6 +10,7 @@ const imageToPointsTransformConfig = {
   allowedValueTypes: [],
   prefix: "",
   effectCode: [
+    `vec4 imageToPoint(vec2 uv, vec2 textureSize, vec2 pointIndex, vec2 pointOffset, float depth, float time) {`,
     `vUv = uv;`,
     `vec2 puv = position.xy / uTextureSize;`,
     `vPUv = puv;`,
@@ -35,18 +36,19 @@ const imageToPointsTransformConfig = {
     `pSize *= min(grey, siz);`,
     `pSize *= uSize;`,
     `gl_PointSize = pSize;`,
+    `}`,
+    `${VERTEX_POINT_NAME} = imageToPoint(vUv, uTextureSize, vPointIndex, vPointOffset, uDepth, uTime);`,
   ],
 } as unknown as TransformationConfig;
 
 export const imageToPoints = (effectProps: VertexEffectProps) => {
-  const { effectUniforms } = effectProps;
+  const { effectParameters } = effectProps;
   const transformation = generateShaderTransformation(
     imageToPointsTransformConfig,
-    effectUniforms
+    effectParameters
   );
 
   return {
     transformation,
-    effectUniforms,
   };
 };

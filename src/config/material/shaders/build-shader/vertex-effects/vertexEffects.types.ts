@@ -16,10 +16,8 @@ export interface VertexEffectData {
 }
 
 export type VertexEffectProps = {
-  effectUniforms: ParameterConfig[];
-  effectVaryings: VaryingConfig[];
+  id: string;
   effectType: string;
+  effectParameters: ParameterConfig[];
   subEffects: VertexEffectConfig[];
-  unfilteredUniforms: ParameterConfig[];
-  unfilteredVaryings: VaryingConfig[];
 };

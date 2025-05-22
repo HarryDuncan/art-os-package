@@ -26,9 +26,10 @@ export const getBuiltShaderMaterials = (
           builtShaderConfig,
           meshTransforms ?? []
         );
+
         const { uniformConfigs, vertexShader, fragmentShader } =
           buildShader(shaderConfig);
-
+        console.log(uniformConfigs);
         const formattedUniforms = formatBuiltShaderUniforms(
           uniformConfigs,
           assets

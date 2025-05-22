@@ -19,21 +19,11 @@ export const interactionTransformConfig = {
   effectCode: [],
 } as unknown as TransformationConfig;
 
+// todo - effect varyings
 export const interactionBased = (effectProps: VertexEffectProps) => {
-  const {
-    effectType,
-    effectUniforms,
-    effectVaryings,
-    subEffects,
-    unfilteredUniforms,
-    unfilteredVaryings,
-  } = effectProps;
+  const { effectType, effectParameters, subEffects } = effectProps;
   const subEffectData = subEffects.flatMap((subEffect) => {
-    const vertexEffectData = getVertexEffect(
-      subEffect,
-      unfilteredUniforms,
-      unfilteredVaryings
-    );
+    const vertexEffectData = getVertexEffect(subEffect);
     if (vertexEffectData !== null) {
       return {
         transformation: vertexEffectData.transformation,
@@ -47,7 +37,7 @@ export const interactionBased = (effectProps: VertexEffectProps) => {
   });
 
   const interactionAffectTransform = getInteractionEffectTransform(effectType);
-  const binaryVaryings = getActiveAndInactiveInstantiation(effectVaryings);
+  const binaryVaryings = getActiveAndInactiveInstantiation([]);
   const effectCode = [
     ...binaryVaryings.map(({ inactiveInstantiation }) => inactiveInstantiation),
     ...interactionAffectTransform.effectCode,
@@ -58,7 +48,7 @@ export const interactionBased = (effectProps: VertexEffectProps) => {
   const transformConfig = { ...interactionTransformConfig, effectCode };
   const transformation = generateShaderTransformation(
     transformConfig,
-    effectUniforms
+    effectParameters
   );
 
   const mergedVaryingConfigs = mergeVaryingConfigs(

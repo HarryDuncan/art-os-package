@@ -1,5 +1,4 @@
-import { FragmentEffectConfig, ParameterConfig } from "../../buildShader.types";
-import { formatUniformsForEffect } from "../../helpers/formatUniformsForEffect";
+import { FragmentEffectConfig } from "../../buildShader.types";
 import { FRAGMENT_EFFECTS } from "../fragmentEffects.consts";
 
 import { interactionBased } from "./interaction-based/interactionBased";
@@ -24,18 +23,15 @@ const FRAGMENT_EFFECTS_MAP = {
 };
 
 export const getFragmentEffects = (
-  effect: FragmentEffectConfig,
-  uniformConfigs: ParameterConfig[]
+  effect: FragmentEffectConfig
 ): FragmentEffectData | null => {
   const { effectType, effectParameters, id } = effect;
-  const effectUniforms = formatUniformsForEffect(uniformConfigs, id);
 
   const fragmentEffectProps = {
-    effectUniforms,
+    id,
     effectParameters,
     effectType,
     subEffects: effect?.subEffects ?? [],
-    unfilteredUniforms: uniformConfigs,
   };
   return transformSetup(fragmentEffectProps);
 };

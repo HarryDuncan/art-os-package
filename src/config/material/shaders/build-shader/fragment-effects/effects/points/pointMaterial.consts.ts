@@ -1,5 +1,6 @@
-import { VaryingConfig } from "../../../buildShader.types";
+import { ParameterConfig, VaryingConfig } from "../../../buildShader.types";
 import {
+  ASSET_MAPPING_RELATIONSHIPS,
   ATTRIBUTE_VALUE_TYPES,
   SHADER_PROPERTY_VALUE_TYPES,
 } from "../../../constants/shader.consts";
@@ -29,73 +30,57 @@ export const POINT_MATERIAL_FUNCTIONS = [];
 
 export const POINT_MATERIAL_ATTRIBUTES = [];
 
-export const POINT_MATERIAL_UNIFORMS = {
-  defaultUniforms: ["uOpacity"],
-  customUniforms: [],
-};
-export const POINT_MATERIAL_PHONG_UNIFORMS = {
-  defaultUniforms: [],
-  customUniforms: [
-    {
-      id: "uDiffuseColor",
-      valueType: SHADER_PROPERTY_VALUE_TYPES.VEC3,
-      value: "#bf0cf5",
-    },
-    {
-      id: "uLightColor",
-      valueType: SHADER_PROPERTY_VALUE_TYPES.VEC3,
-      value: "#ff00dd",
-    },
-    {
-      id: "uAmbientColor",
-      valueType: SHADER_PROPERTY_VALUE_TYPES.VEC3,
-      value: "#a200fa",
-    },
-    {
-      id: "uDiffuseReflection",
-      valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
-      value: 0.9,
-    },
-    {
-      id: "uSpecularColor",
-      valueType: SHADER_PROPERTY_VALUE_TYPES.VEC3,
-      value: "#ff00f1",
-    },
-  ],
-};
-
-// TEXTURED POINTS
-export const TEXTURED_POINTS_UNIFORMS = {
-  defaultUniforms: [],
-  customUniforms: [
-    {
-      id: "uPointTexture1",
-      valueType: SHADER_PROPERTY_VALUE_TYPES.SAMPLER2D,
-      value: null,
-      configLocked: true,
-      isAssetMapped: true,
-    },
-    {
-      id: "uPointTexture2",
-      valueType: SHADER_PROPERTY_VALUE_TYPES.SAMPLER2D,
-      value: null,
-      configLocked: true,
-      isAssetMapped: true,
-    },
-  ],
-};
+export const POINT_MATERIAL_UNIFORMS = [];
 
 export const TEXTURED_POINTS_ATTRIBUTES = [
   {
     id: "pointType",
-    valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
+    name: "Point Type",
+    description: "Determines the type of point to display",
     configLocked: true,
-    attributeValueType: ATTRIBUTE_VALUE_TYPES.RANDOM_VALUE,
+    isAttribute: true,
+    valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
+    attributeConfig: {
+      attributeValueType: ATTRIBUTE_VALUE_TYPES.RANDOM_VALUE,
+      assetId: "",
+    },
   },
   {
     id: "pointDisplay",
-    valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
+    name: "Point Display",
+    description: "Controls whether a point is displayed",
     configLocked: true,
-    attributeValueType: ATTRIBUTE_VALUE_TYPES.RANDOMIZED_BINARY,
+    isAttribute: true,
+    valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
+    attributeConfig: {
+      attributeValueType: ATTRIBUTE_VALUE_TYPES.RANDOMIZED_BINARY,
+      assetId: "",
+    },
   },
 ];
+
+export const POINT_MATERIAL_PARAMETERS = [
+  {
+    id: "uPointTexture1",
+    valueType: SHADER_PROPERTY_VALUE_TYPES.SAMPLER2D,
+    value: null,
+    configLocked: true,
+    isAssetMapped: true,
+    isUniform: true,
+    assetMappingConfig: {
+      relationship: ASSET_MAPPING_RELATIONSHIPS.TEXTURE,
+    },
+  },
+  {
+    id: "uPointTexture2",
+    valueType: SHADER_PROPERTY_VALUE_TYPES.SAMPLER2D,
+    value: null,
+    configLocked: true,
+    isAssetMapped: true,
+    isUniform: true,
+    assetMappingConfig: {
+      relationship: ASSET_MAPPING_RELATIONSHIPS.TEXTURE,
+    },
+  },
+  ...TEXTURED_POINTS_ATTRIBUTES,
+] as ParameterConfig[];

@@ -22,10 +22,10 @@ const rotationTransformConfig = {
 } as unknown as TransformationConfig;
 
 export const rotationEffect = (effectProps: VertexEffectProps) => {
-  const { effectUniforms } = effectProps;
+  const { effectParameters } = effectProps;
   const transformation = generateShaderTransformation(
     rotationTransformConfig,
-    effectUniforms
+    effectParameters
   );
   return { transformation };
 };

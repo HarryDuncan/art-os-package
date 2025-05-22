@@ -19,13 +19,9 @@ export const interactionTransformConfig = {
 } as unknown as TransformationConfig;
 
 export const interactionBased = (effectProps: FragmentEffectProps) => {
-  const { effectType, subEffects, unfilteredUniforms, effectUniforms } =
-    effectProps;
+  const { effectType, subEffects, effectParameters } = effectProps;
   const subEffectData = subEffects.flatMap((subEffect) => {
-    const fragmentEffectData = getFragmentEffects(
-      subEffect,
-      unfilteredUniforms
-    );
+    const fragmentEffectData = getFragmentEffects(subEffect);
     if (!fragmentEffectData) {
       return [];
     }
@@ -42,7 +38,7 @@ export const interactionBased = (effectProps: FragmentEffectProps) => {
   const transformConfig = { ...interactionTransformConfig, effectCode };
   const transformation = generateShaderTransformation(
     transformConfig,
-    effectUniforms
+    effectParameters
   );
 
   const mergedRequiredFunction = reduceFunctions(

@@ -12,10 +12,10 @@ const explodeTransformConfig = {
   ],
 } as unknown as TransformationConfig;
 export const explode = (effectProps: VertexEffectProps) => {
-  const { effectUniforms } = effectProps;
+  const { effectParameters } = effectProps;
   const transformation = generateShaderTransformation(
     explodeTransformConfig,
-    effectUniforms
+    effectParameters
   );
   return { transformation };
 };

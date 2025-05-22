@@ -5,19 +5,22 @@ export const formatBuiltShaderConfig = (
   parsedConfig: Partial<BuiltShaderConfig>,
   meshTransforms: MeshTransformConfig[]
 ): BuiltShaderConfig => {
-  const {
-    shaderEffectConfigs,
-    uniformConfigs,
-    varyingConfigs,
-    attributeConfigs,
-  } = parsedConfig;
+  const { shaderEffectConfigs, varyingConfigs } = parsedConfig;
   const meshTransformAttributes = meshTransforms.flatMap(
     (transform) => transform.attributeConfigs ?? []
   );
+  const materialAttributeConfigs = shaderEffectConfigs?.flatMap((effect) =>
+    effect.effectParameters.filter((parameter) => parameter.isAttribute)
+  );
   return {
     shaderEffectConfigs: shaderEffectConfigs ?? [],
-    uniformConfigs: uniformConfigs ?? [],
-    attributeConfigs: [...(attributeConfigs ?? []), ...meshTransformAttributes],
+    uniformConfigs: shaderEffectConfigs?.flatMap((effect) =>
+      effect.effectParameters.filter((parameter) => parameter.isUniform)
+    ),
+    attributeConfigs: [
+      ...(materialAttributeConfigs ?? []),
+      ...meshTransformAttributes,
+    ],
     varyingConfigs: varyingConfigs ?? [],
   };
 };

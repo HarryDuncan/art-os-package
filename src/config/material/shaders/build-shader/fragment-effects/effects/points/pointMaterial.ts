@@ -26,8 +26,8 @@ const pointMaterialTransformConfig = {
 //   // [FRAGMENT_EFFECTS.POINT_MATERIAL_PHONG]: phongMaterial,
 // };
 export const pointMaterial = (effectProps: FragmentEffectProps) => {
-  const { effectUniforms } = effectProps;
-  const textureTransform = getPointTexture(effectUniforms);
+  const { effectParameters } = effectProps;
+  const textureTransform = getPointTexture(effectParameters);
   const updatedEffectCode = [
     ...pointMaterialTransformConfig.effectCode,
     ...textureTransform,
@@ -40,7 +40,7 @@ export const pointMaterial = (effectProps: FragmentEffectProps) => {
   pointMaterialTransformConfig.effectCode = updatedEffectCode;
   const transformation = generateShaderTransformation(
     pointMaterialTransformConfig,
-    effectUniforms
+    effectParameters
   );
   return { transformation };
 };

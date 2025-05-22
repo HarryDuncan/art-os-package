@@ -16,9 +16,8 @@ export type FragmentEffectData = {
 };
 
 export type FragmentEffectProps = {
+  id: string;
   effectType: string;
-  effectUniforms: ParameterConfig[];
   effectParameters: ParameterConfig[];
   subEffects: FragmentEffectConfig[];
-  unfilteredUniforms: ParameterConfig[];
 };

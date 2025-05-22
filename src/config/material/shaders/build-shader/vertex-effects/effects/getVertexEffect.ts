@@ -1,12 +1,6 @@
-import {
-  VertexEffectConfig,
-  ParameterConfig,
-  VaryingConfig,
-} from "../../../../../../types/materials/index";
+import { VertexEffectConfig } from "../../../../../../types/materials/index";
 import { VERTEX_EFFECTS } from "../vertexEffects.consts";
 import { VertexEffectData, VertexEffectProps } from "../vertexEffects.types";
-import { formatUniformsForEffect } from "../../helpers/formatUniformsForEffect";
-import { formatVaryingsForEffect } from "../../helpers/formatVaryingsForEffect";
 import { SHADER_TYPES } from "../../constants";
 import { mergeEffectData } from "../../helpers/mergeEffectData";
 import { explode } from "./displacement/explode/explode";
@@ -21,22 +15,15 @@ const VERTEX_EFFECTS_MAP = {
   [VERTEX_EFFECTS.ROTATION]: rotationEffect,
 };
 export const getVertexEffect = (
-  effect: VertexEffectConfig,
-  uniformConfigs: ParameterConfig[],
-  varyingConfigs: VaryingConfig[]
+  effect: VertexEffectConfig
 ): VertexEffectData | null => {
   const { effectType, effectParameters, id } = effect;
-  const effectUniforms = formatUniformsForEffect(uniformConfigs, id);
-  const effectVaryings = formatVaryingsForEffect(varyingConfigs, id);
 
   const vertexEffectProps = {
-    effectUniforms,
-    effectVaryings,
-    effectParameters,
+    id,
     effectType,
+    effectParameters,
     subEffects: effect?.subEffects ?? [],
-    unfilteredUniforms: uniformConfigs,
-    unfilteredVaryings: varyingConfigs,
   };
   return transformSetup(vertexEffectProps);
 };

@@ -13,10 +13,10 @@ const colorTransformationConfig = {
 } as unknown as TransformationConfig;
 
 export const color = (effectProps: FragmentEffectProps) => {
-  const { effectUniforms } = effectProps;
+  const { effectParameters } = effectProps;
   const transformation = generateShaderTransformation(
     colorTransformationConfig,
-    effectUniforms
+    effectParameters
   );
   return { transformation };
 };

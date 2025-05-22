@@ -8,14 +8,12 @@ import {
   FragmentEffectConfig,
   ShaderFunction,
   StructConfig,
-  ParameterConfig,
 } from "../buildShader.types";
 import { FRAG_COLOR_NAME } from "../../../../../consts";
 import { FragmentEffectData } from "./fragmentShader.types";
 
 export const setUpFragmentEffects = (
-  fragmentEffects: FragmentEffectConfig[],
-  materialUniformConfigs: ParameterConfig[]
+  fragmentEffects: FragmentEffectConfig[]
 ) => {
   const {
     varyingConfigs,
@@ -24,7 +22,7 @@ export const setUpFragmentEffects = (
     attributeConfigs,
     requiredFunctions,
     structConfigs,
-  } = getFragmentColors(fragmentEffects, materialUniformConfigs);
+  } = getFragmentColors(fragmentEffects);
 
   const fragColor = `gl_FragColor = ${FRAG_COLOR_NAME};`;
   return {
@@ -38,10 +36,7 @@ export const setUpFragmentEffects = (
   };
 };
 
-export const getFragmentColors = (
-  fragmentEffects: FragmentEffectConfig[],
-  configuredUniformConfig: ParameterConfig[]
-) => {
+export const getFragmentColors = (fragmentEffects: FragmentEffectConfig[]) => {
   const {
     unmergedVaryingConfigs,
     unmergedUniformConfigs,
@@ -51,10 +46,7 @@ export const getFragmentColors = (
   } = setUpInitialParameters();
   const allRequiredFunctions: ShaderFunction[][] = [];
   fragmentEffects.forEach((effect) => {
-    const fragmentEffectData = getFragmentEffects(
-      effect,
-      configuredUniformConfig
-    );
+    const fragmentEffectData = getFragmentEffects(effect);
     if (fragmentEffectData) {
       unmergedVaryingConfigs.push(fragmentEffectData.varyingConfigs);
       unmergedUniformConfigs.push(fragmentEffectData.uniformConfigs);
