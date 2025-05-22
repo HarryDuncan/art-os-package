@@ -1,4 +1,3 @@
-import { EMPTY_UNIFORM_CONFIG } from "../shader-properties/uniforms/uniforms.consts";
 import { VertexEffectData } from "../vertex-effects/vertexEffects.types";
 
 export const vertexEffectToEffectData = (
@@ -17,7 +16,7 @@ export const vertexEffectToEffectData = (
     transformation,
     attributeConfig: attributeConfig ?? [],
     requiredFunctions: requiredFunctions ?? [],
-    uniformConfig: uniformConfig ?? EMPTY_UNIFORM_CONFIG,
+    uniformConfig: uniformConfig ?? [],
     varyingConfig: varyingConfig ?? [],
   };
 };

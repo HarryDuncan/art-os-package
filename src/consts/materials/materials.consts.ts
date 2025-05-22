@@ -1,5 +1,4 @@
 import { MeshPhongMaterial } from "three";
-import { EMPTY_UNIFORM_CONFIG } from "../../config/material/shaders/build-shader/shader-properties/uniforms/uniforms.consts";
 
 export const MATERIAL_TYPES = {
   MATCAP: "MATCAP",
@@ -32,7 +31,7 @@ export const DEFAULT_MATERIAL = new MeshPhongMaterial({
 export const DEFAULT_BUILT_SHADER_CONFIG = {
   vertexEffectConfigs: [],
   fragmentEffectConfigs: [],
-  uniformConfig: EMPTY_UNIFORM_CONFIG,
+  uniformConfig: [],
   varyingConfig: [],
   attributeConfig: [],
   structConfigs: [],

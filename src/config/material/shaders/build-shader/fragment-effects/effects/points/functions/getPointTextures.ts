@@ -2,10 +2,10 @@ import {
   FRAG_COLOR_NAME,
   SHADER_PROPERTY_VALUE_TYPES,
 } from "../../../../../../../../consts";
-import { UniformValueConfig } from "../../../../../../../../types/materials";
+import { UniformConfig } from "../../../../../../../../types/materials";
 import { parseRawValueToShader } from "../../../../helpers/safeParseValue";
 
-export const getPointTexture = (uniforms: UniformValueConfig[]) => {
+export const getPointTexture = (uniforms: UniformConfig[]) => {
   const pointTextureUniforms = uniforms.filter(
     ({ id }) => id.indexOf("PointTexture") !== -1 && id.indexOf("Color") === -1
   );

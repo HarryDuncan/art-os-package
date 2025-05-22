@@ -10,12 +10,12 @@ import {
   StructConfig,
   UniformConfig,
 } from "../buildShader.types";
-import { EMPTY_UNIFORM_CONFIG, FRAG_COLOR_NAME } from "../../../../../consts";
+import { FRAG_COLOR_NAME } from "../../../../../consts";
 import { FragmentEffectData } from "./fragmentShader.types";
 
 export const setUpFragmentEffects = (
   fragmentEffects: FragmentEffectConfig[],
-  uniformConfig: UniformConfig
+  uniformConfig: UniformConfig[]
 ) => {
   const {
     varyingConfigs,
@@ -40,7 +40,7 @@ export const setUpFragmentEffects = (
 
 export const getFragmentColors = (
   fragmentEffects: FragmentEffectConfig[],
-  configuredUniformConfig: UniformConfig
+  configuredUniformConfig: UniformConfig[]
 ) => {
   const {
     unmergedVaryingConfigs,
@@ -100,11 +100,10 @@ const setUpInitialParameters = () => {
 };
 
 export const defaultFragmentEffect = (): FragmentEffectData => {
-  const uniformConfig = { ...EMPTY_UNIFORM_CONFIG };
   const defaultFrag = ``;
   return {
     requiredFunctions: [],
-    uniformConfig,
+    uniformConfig: [],
     transformation: defaultFrag,
     varyingConfig: [],
     attributeConfig: [],

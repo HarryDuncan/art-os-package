@@ -8,7 +8,6 @@ import {
   FragmentEffectProps,
 } from "../fragmentShader.types";
 import { texturedPixelColor, color, overlayPixelColor } from "./color";
-import { EMPTY_UNIFORM_CONFIG } from "../../constants/shader.consts";
 import { mergeEffectData } from "../../helpers/mergeEffectData";
 import { SHADER_TYPES } from "../../constants";
 import { pointMaterial } from "./points/pointMaterial";
@@ -26,7 +25,7 @@ const FRAGMENT_EFFECTS_MAP = {
 
 export const getFragmentEffects = (
   effect: FragmentEffectConfig,
-  uniformConfig: UniformConfig
+  uniformConfig: UniformConfig[]
 ): FragmentEffectData | null => {
   const { effectType, effectParameters, id } = effect;
   const effectUniforms = formatUniformsForEffect(uniformConfig, id);
@@ -69,7 +68,7 @@ export const fragmentEffectToEffectData = (
     attributeConfig: attributeConfig ?? [],
     transformation: transformation ?? "",
     requiredFunctions: requiredFunctions ?? [],
-    uniformConfig: uniformConfig ?? EMPTY_UNIFORM_CONFIG,
+    uniformConfig: uniformConfig ?? [],
     varyingConfig: varyingConfig ?? [],
   };
 };

@@ -1,14 +1,11 @@
-import { UniformConfig, UniformValueConfig } from "../../../../../types";
+import { UniformConfig } from "../buildShader.types";
 
 export const formatUniformsForEffect = (
-  uniforms: UniformConfig,
+  uniforms: UniformConfig[],
   effectId: string
-): UniformValueConfig[] => {
-  const effectUniforms =
-    uniforms.customUniforms
-      ?.concat(uniforms.interactionMappedUniforms ?? [])
-      .filter((uniform) => {
-        return uniform.effectIds?.includes(effectId);
-      }) ?? [];
+): UniformConfig[] => {
+  const effectUniforms = uniforms.filter((uniform) => {
+    return uniform.effectIds?.includes(effectId);
+  });
   return effectUniforms;
 };

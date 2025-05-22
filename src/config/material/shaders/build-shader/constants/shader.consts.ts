@@ -1,10 +1,5 @@
 import { Vector3, Vector2 } from "three";
 
-export const EMPTY_UNIFORM_CONFIG = {
-  defaultUniforms: [],
-  customUniforms: [],
-};
-
 export const SHADER_PROPERTY_VALUE_TYPES = {
   INT: "INT",
   FLOAT: "FLOAT",
@@ -26,42 +21,6 @@ export const SHADER_PROPERTY_TYPES = {
   UNIFORM: "UNIFORM",
   VARYING: "VARYING",
   ATTRIBUTE: "ATTRIBUTE",
-};
-
-export const DEFAULT_UNIFORMS = {
-  uPosition: {
-    valueType: SHADER_PROPERTY_VALUE_TYPES.VEC3,
-    defaultValue: new Vector3(0, 0, 0),
-  },
-  uResolution: {
-    valueType: SHADER_PROPERTY_VALUE_TYPES.VEC2,
-    defaultValue: new Vector2(0, 0),
-  },
-  uMaterial: {
-    valueType: SHADER_PROPERTY_VALUE_TYPES.SAMPLER2D,
-    defaultValue: null,
-  },
-  uOpacity: {
-    valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
-    defaultValue: 1.0,
-  },
-  uProgress: {
-    valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
-    defaultValue: 0.0,
-  },
-  uBrightness: {
-    valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
-    defaultValue: 1.0,
-  },
-
-  uLoopCount: {
-    valueType: SHADER_PROPERTY_VALUE_TYPES.INT,
-    defaultValue: 0,
-  },
-  uCenter: {
-    valueType: SHADER_PROPERTY_VALUE_TYPES.VEC3,
-    defaultValue: new Vector3(0, 0, 0),
-  },
 };
 
 export const UNIFORM_TO_ASSET_MAPPING_CONFIG = {

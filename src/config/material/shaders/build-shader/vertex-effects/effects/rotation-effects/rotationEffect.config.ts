@@ -2,23 +2,20 @@ import { UniformConfig } from "../../../../../../..";
 import { ShaderFunction } from "../../../../../../..";
 import { VaryingConfig } from "../../../../../../..";
 
-const ROTATION_UNIFORMS = {
-  defaultUniforms: [],
-  customUniforms: [
-    {
-      id: "uRotationSpeed",
-      valueType: "FLOAT",
-      value: 1.0,
-      configLocked: true,
-    },
-    {
-      id: "uRotationAxis",
-      valueType: "VEC3",
-      value: [0, 1, 0],
-      configLocked: true,
-    },
-  ],
-} as unknown as UniformConfig;
+const ROTATION_UNIFORMS = [
+  {
+    id: "uRotationSpeed",
+    valueType: "FLOAT",
+    value: 1.0,
+    configLocked: true,
+  },
+  {
+    id: "uRotationAxis",
+    valueType: "VEC3",
+    value: [0, 1, 0],
+    configLocked: true,
+  },
+] as UniformConfig[];
 
 const ROTATION_FUNCTIONS = [] as ShaderFunction[];
 

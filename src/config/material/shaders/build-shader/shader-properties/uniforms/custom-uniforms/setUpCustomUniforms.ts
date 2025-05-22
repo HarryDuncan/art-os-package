@@ -5,11 +5,11 @@ import {
 } from "../../../constants/shader.consts";
 import { createDeclarationString } from "../../../helpers/createDeclarationString";
 import {
-  UniformValueConfig,
+  UniformConfig,
   UniformObject,
 } from "../../../../../../../types/materials/index";
 
-export const setUpCustom = (config: UniformValueConfig[] = []) => {
+export const setUpCustom = (config: UniformConfig[] = []) => {
   const customUniforms: UniformObject = {};
   const customStrings: string[] = [];
   config.forEach(({ value, id, valueType }) => {

@@ -16,7 +16,7 @@ import {
 
 export const setUpVertexEffects = (
   vertexEffects: VertexEffectConfig[],
-  uniformConfig: UniformConfig,
+  uniformConfig: UniformConfig[],
   varyingConfig: VaryingConfig[]
 ) => {
   const {
@@ -43,10 +43,10 @@ export const setUpVertexEffects = (
 
 const getVertexTransformations = (
   vertexEffects: VertexEffectConfig[],
-  configuredUniformConfig: UniformConfig,
+  configuredUniformConfig: UniformConfig[],
   configuredVaryingConfig: VaryingConfig[]
 ) => {
-  const unmergedUniformConfigs: UniformConfig[] = [];
+  const unmergedUniformConfigs: UniformConfig[][] = [];
   const unmergedVaryingConfigs: VaryingConfig[][] = [];
   const unmergedTransformations: string[] = [];
   const allRequiredFunctions: ShaderFunction[][] = [];

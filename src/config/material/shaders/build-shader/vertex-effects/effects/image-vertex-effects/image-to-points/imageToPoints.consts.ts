@@ -16,45 +16,42 @@ import {
 import { noiseFunction } from "../../../../shader-properties/functions/noise";
 import { QUAD_MESH_TRANSFORM } from "../../../../../../../mesh/meshTransforms.consts";
 
-export const IMAGE_TO_POINTS_UNIFORMS = {
-  defaultUniforms: [],
-  customUniforms: [
-    {
-      id: "uTexture",
-      valueType: SHADER_PROPERTY_VALUE_TYPES.SAMPLER2D,
-      value: null,
-      configLocked: true,
-      isAssetMapped: true,
-      relationship: ASSET_MAPPING_RELATIONSHIPS.TEXTURE,
-    },
-    {
-      id: "uTextureSize",
-      valueType: SHADER_PROPERTY_VALUE_TYPES.VEC2,
-      value: null,
-      configLocked: true,
-      isAssetMapped: true,
-      relationship: ASSET_MAPPING_RELATIONSHIPS.DIMENSION,
-    },
-    {
-      id: "uRandom",
-      valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
-      value: 1,
-      configLocked: true,
-    },
-    {
-      id: "uDepth",
-      valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
-      value: 1,
-      configLocked: true,
-    },
-    {
-      id: "uSize",
-      valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
-      value: 1,
-      configLocked: true,
-    },
-  ],
-} as unknown as UniformConfig;
+export const IMAGE_TO_POINTS_UNIFORMS = [
+  {
+    id: "uTexture",
+    valueType: SHADER_PROPERTY_VALUE_TYPES.SAMPLER2D,
+    value: null,
+    configLocked: true,
+    isAssetMapped: true,
+    relationship: ASSET_MAPPING_RELATIONSHIPS.TEXTURE,
+  },
+  {
+    id: "uTextureSize",
+    valueType: SHADER_PROPERTY_VALUE_TYPES.VEC2,
+    value: null,
+    configLocked: true,
+    isAssetMapped: true,
+    relationship: ASSET_MAPPING_RELATIONSHIPS.DIMENSION,
+  },
+  {
+    id: "uRandom",
+    valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
+    value: 1,
+    configLocked: true,
+  },
+  {
+    id: "uDepth",
+    valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
+    value: 1,
+    configLocked: true,
+  },
+  {
+    id: "uSize",
+    valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
+    value: 1,
+    configLocked: true,
+  },
+] as unknown as UniformConfig[];
 
 export const IMAGE_TO_POINTS_VARYING_CONFIG = [
   {

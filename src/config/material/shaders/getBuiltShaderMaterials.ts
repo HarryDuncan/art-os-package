@@ -27,7 +27,7 @@ export const getBuiltShaderMaterials = (
           buildShader(shaderConfig);
 
         const assetMapping =
-          shaderConfig.uniformConfig?.customUniforms?.flatMap((uniform) =>
+          shaderConfig.uniformConfig?.flatMap((uniform) =>
             uniform.isAssetMapped && uniform.assetMappingConfig
               ? { ...uniform.assetMappingConfig, uniformId: uniform.id }
               : []

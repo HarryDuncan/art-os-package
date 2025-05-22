@@ -1,6 +1,4 @@
 import { BuiltShaderConfig } from "../../../../types/materials/index";
-import { formatParsedUniformConfigs } from "../build-shader/shader-properties/uniforms/formatParsedUniformConfigs";
-import { EMPTY_UNIFORM_CONFIG } from "../build-shader/shader-properties/uniforms/uniforms.consts";
 
 export const formatBuiltShaderConfig = (
   parsedConfig: Partial<BuiltShaderConfig>
@@ -15,9 +13,7 @@ export const formatBuiltShaderConfig = (
   return {
     vertexEffectConfigs: vertexEffectConfigs ?? [],
     fragmentEffectConfigs: fragmentEffectConfigs ?? [],
-    uniformConfig: uniformConfig
-      ? formatParsedUniformConfigs(uniformConfig)
-      : EMPTY_UNIFORM_CONFIG,
+    uniformConfig: uniformConfig ?? [],
     attributeConfig: attributeConfig ?? [],
     varyingConfig: varyingConfig ?? [],
   };

@@ -10,7 +10,6 @@ import { buildAttributes } from "./shader-properties/attributes/buildAttributes"
 import { mergeAttributeConfigs } from "./shader-properties/attributes/helpers/mergeAttributeConfigs";
 import { buildUniforms } from "./shader-properties/uniforms/buildUniforms";
 import { mergeUniformConfigs } from "./shader-properties/uniforms/helpers/mergeUniformConfigs";
-import { EMPTY_UNIFORM_CONFIG } from "./shader-properties/uniforms/uniforms.consts";
 import { buildVaryings } from "./shader-properties/varyings/buildVaryings";
 import { mergeVaryingConfigs } from "./shader-properties/varyings/helpers/mergeVaryingConfigs";
 import { setUpVertexEffects } from "./vertex-effects/setUpVertexEffects";
@@ -20,7 +19,6 @@ import {
   AttributeConfig,
   BuiltShaderConfig,
   ShaderFunction,
-  UniformConfig,
   VaryingConfig,
 } from "./buildShader.types";
 import { formatShaderEffects } from "./helpers/formatEffectConfigs";
@@ -36,9 +34,7 @@ export const buildShader = (shaderConfig: BuiltShaderConfig) => {
     structConfigs,
   } = shaderConfig;
 
-  const configuredUniformConfig = {
-    ...(uniformConfig ?? { ...EMPTY_UNIFORM_CONFIG }),
-  };
+  const configuredUniformConfig = [...(uniformConfig ?? [])];
   const configuredVaryingConfig = [...(varyingConfig ?? [])];
 
   const { formattedVertexEffects, formattedFragmentEffects } =
@@ -55,13 +51,11 @@ export const buildShader = (shaderConfig: BuiltShaderConfig) => {
   );
 
   // pass the parsed uniform config first so the values override any values defined in the other effects - vertex/fragment
-  const shaderUniforms: UniformConfig[] = [
-    uniformConfig ?? { ...EMPTY_UNIFORM_CONFIG },
+  const mergedShaderUniforms = mergeUniformConfigs([
+    configuredUniformConfig,
     vertexEffects.uniformConfigs,
     fragmentEffects.uniformConfigs,
-  ];
-
-  const mergedShaderUniforms = mergeUniformConfigs(shaderUniforms);
+  ]);
 
   const shaderAttributes = [
     attributeConfig,

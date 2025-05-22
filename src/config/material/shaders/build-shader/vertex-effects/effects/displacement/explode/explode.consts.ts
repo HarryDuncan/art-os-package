@@ -8,12 +8,9 @@ import {
   SHADER_PROPERTY_VALUE_TYPES,
 } from "../../../../constants/shader.consts";
 
-export const EXPLODE_UNIFORMS = {
-  defaultUniforms: [],
-  customUniforms: [
-    { id: "uStrength", valueType: "FLOAT", value: 1.5, configLocked: true },
-  ],
-} as unknown as UniformConfig;
+export const EXPLODE_UNIFORMS = [
+  { id: "uStrength", valueType: "FLOAT", value: 1.5, configLocked: true },
+] as UniformConfig[];
 
 export const EXPLODE_FUNCTIONS = [] as ShaderFunction[];
 export const EXPLODE_ATTRIBUTES = [

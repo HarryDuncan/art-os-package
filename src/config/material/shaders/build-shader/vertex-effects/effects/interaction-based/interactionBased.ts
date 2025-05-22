@@ -1,10 +1,4 @@
-import {
-  TransformationConfig,
-  UniformConfig,
-  UniformValueConfig,
-  VaryingConfig,
-  VertexEffectConfig,
-} from "../../../../../../..";
+import { TransformationConfig, VaryingConfig } from "../../../../../../..";
 import { generateShaderTransformation } from "../../../helpers/generateTransform";
 import { reduceFunctions } from "../../../helpers/reduceFunctions";
 import { parseRawValueToShader } from "../../../helpers/safeParseValue";

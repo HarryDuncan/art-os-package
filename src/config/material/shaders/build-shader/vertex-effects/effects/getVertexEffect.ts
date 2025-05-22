@@ -9,7 +9,6 @@ import { formatUniformsForEffect } from "../../helpers/formatUniformsForEffect";
 import { formatVaryingsForEffect } from "../../helpers/formatVaryingsForEffect";
 import { SHADER_TYPES } from "../../constants";
 import { mergeEffectData } from "../../helpers/mergeEffectData";
-import { EMPTY_UNIFORM_CONFIG } from "../../constants/shader.consts";
 import { explode } from "./displacement/explode/explode";
 import { interactionBased } from "./interaction-based/interactionBased";
 import { imageToPoints } from "./image-vertex-effects/image-to-points/imageToPointsTransform";
@@ -23,7 +22,7 @@ const VERTEX_EFFECTS_MAP = {
 };
 export const getVertexEffect = (
   effect: VertexEffectConfig,
-  uniformConfig: UniformConfig,
+  uniformConfig: UniformConfig[],
   varyingConfig: VaryingConfig[]
 ): VertexEffectData | null => {
   const { effectType, effectParameters, id } = effect;
@@ -68,7 +67,7 @@ export const formatVertexEffectData = (effect: Partial<VertexEffectData>) => {
     attributeConfig: attributeConfig ?? [],
     transformation: transformation ?? "",
     requiredFunctions: requiredFunctions ?? [],
-    uniformConfig: uniformConfig ?? EMPTY_UNIFORM_CONFIG,
+    uniformConfig: uniformConfig ?? [],
     varyingConfig: varyingConfig ?? [],
   };
 };

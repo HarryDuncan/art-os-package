@@ -1,11 +1,9 @@
 import {
   ATTRIBUTE_VALUE_TYPES,
-  DEFAULT_UNIFORMS,
   SHADER_PROPERTY_VALUE_TYPES,
 } from "./constants/shader.consts";
 import { VARYING_TYPES } from "./shader-properties/varyings/varyings.consts";
 import { VERTEX_EFFECTS } from "./vertex-effects/vertexEffects.consts";
-import { AssetToUniformMappingConfig } from "../../../../types/materials/index";
 import { FRAGMENT_EFFECT } from "./fragment-effects/fragmentEffects.consts";
 import { AssetType } from "../../../../types";
 
@@ -78,18 +76,20 @@ export type AttributeConfig = ShaderPropertyConfig & {
 
 // <-------------------------------------UNIFORMS ---------------------------------->
 
-export type DefaultUniform = keyof typeof DEFAULT_UNIFORMS;
 export type UniformObject = {
   [key: string]: { value: unknown } | { value: unknown }[];
 };
 
-export type UniformValueConfig = ShaderPropertyConfig & {
+export type UniformConfig = ShaderPropertyConfig & {
   effectIds?: string[];
   configLocked?: boolean;
   isAssetMapped?: boolean;
   assetMappingConfig?: {
     assetId: string;
     relationship: string;
+  };
+  interactionConfig?: {
+    keyPointId: string;
   };
   tags?: string[];
 };
@@ -98,21 +98,11 @@ export const SHADER_PROPERTY_TAGS = {
   COLOR: "color",
 };
 
-export type InteractionMappedUniform = UniformValueConfig & {
-  keyPointId: string;
-};
-export type UniformConfig = {
-  defaultUniforms: DefaultUniform[];
-  customUniforms?: UniformValueConfig[];
-  mappedAssets?: AssetToUniformMappingConfig[];
-  interactionMappedUniforms?: InteractionMappedUniform[];
-};
-
 export type StructConfig = { id: string; properties: ShaderPropertyConfig[] };
 export type BuiltShaderConfig = {
   vertexEffectConfigs: VertexEffectConfig[];
   fragmentEffectConfigs: FragmentEffectConfig[];
-  uniformConfig?: UniformConfig;
+  uniformConfig?: UniformConfig[];
   varyingConfig?: VaryingConfig[];
   attributeConfig?: AttributeConfig[];
   structConfigs?: StructConfig[];

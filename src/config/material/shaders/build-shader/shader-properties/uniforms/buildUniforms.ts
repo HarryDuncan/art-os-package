@@ -1,75 +1,86 @@
+import { ShaderPropertyConfig, UniformConfig } from "../../buildShader.types";
 import {
-  DEFAULT_UNIFORMS,
   SHADER_PROPERTY_TYPES,
   SHADER_PROPERTY_VALUE_TYPES,
 } from "../../constants/shader.consts";
 import { createDeclarationString } from "../../helpers/createDeclarationString";
-import { setUpCustomPropertyValues } from "../../helpers/getShaderPropertyValues";
-import { getResolution } from "./helpers/getResolution";
+import { getDefaultValue } from "../../helpers/getDefaultValue";
 import { UNIFORM_DECLARATION } from "./uniforms.consts";
 
-import {
-  UniformConfig,
-  DefaultUniform,
-  UniformObject,
-  UniformValueConfig,
-  InteractionMappedUniform,
-} from "../../../../../../types/materials/index";
-
-export const buildUniforms = (uniformConfig: UniformConfig) => {
-  const { defaultUniforms, defaultStrings } = setUpDefaultUniforms(
-    uniformConfig.defaultUniforms
-  );
-  const { customUniforms, customStrings } = setUpCustom(
-    uniformConfig?.customUniforms ?? []
-  );
-  const uniforms = { ...defaultUniforms, ...customUniforms };
-  const uniformDeclaration = [
-    UNIFORM_DECLARATION,
-    ...defaultStrings,
-    ...customStrings,
-  ].join(" \n ");
-  return { uniforms, uniformDeclaration };
-};
-
-const setUpDefaultUniforms = (uniformConfig: DefaultUniform[]) => {
-  const defaultUniforms: UniformObject = { uTime: { value: 0.0 } };
-  const defaultStrings = [`uniform float uTime;`];
-  uniformConfig.forEach((uniformKey) => {
-    const defaultUniform =
-      DEFAULT_UNIFORMS[uniformKey as keyof typeof DEFAULT_UNIFORMS];
-    if (!defaultUniform) {
-      console.warn(`uniform configuration not set for ${String(uniformKey)}`);
-    } else {
-      const uniformString = createDeclarationString(
-        SHADER_PROPERTY_TYPES.UNIFORM as keyof typeof SHADER_PROPERTY_TYPES,
-        defaultUniform.valueType as keyof typeof SHADER_PROPERTY_VALUE_TYPES,
-        String(uniformKey)
-      );
-      const uniformValue = getDefaultUniformValue(String(uniformKey));
-      defaultUniforms[String(uniformKey)] = { value: uniformValue };
-      defaultStrings.push(uniformString);
-    }
-  });
-  return { defaultUniforms, defaultStrings };
-};
-
-const setUpCustom = (
-  config: UniformValueConfig[] | InteractionMappedUniform[]
-) => {
+export const buildUniforms = (uniformConfig: UniformConfig[]) => {
   const { customProperties, customStrings } = setUpCustomPropertyValues(
-    config,
+    uniformConfig,
     SHADER_PROPERTY_TYPES.UNIFORM as keyof typeof SHADER_PROPERTY_TYPES
   );
-  return { customUniforms: customProperties, customStrings };
+  const uniformDeclaration = [UNIFORM_DECLARATION, ...customStrings].join(
+    " \n "
+  );
+
+  return { uniforms: customProperties, uniformDeclaration };
 };
 
-const getDefaultUniformValue = (uniformKey: string) => {
-  switch (uniformKey) {
-    case "uResolution":
-      return getResolution();
-    default:
-      return DEFAULT_UNIFORMS[uniformKey as keyof typeof DEFAULT_UNIFORMS]
-        .defaultValue;
-  }
+export interface CustomProperties {
+  [key: string]:
+    | { value: unknown; keyPointId?: string }
+    | { value: unknown; keyPointId?: string }[];
+}
+
+export const setUpCustomPropertyValues = (
+  config: ShaderPropertyConfig[],
+  propertyType: keyof typeof SHADER_PROPERTY_TYPES
+) => {
+  const customProperties: CustomProperties = {};
+  const customStrings: string[] = [];
+  config.forEach(
+    ({
+      value,
+      id,
+      valueType,
+      arrayLength,
+      structProperties,
+      arrayValue,
+      keyPointId,
+    }) => {
+      if (arrayLength !== undefined) {
+        const propertyValues =
+          arrayValue ??
+          new Array(arrayLength).fill(
+            value ??
+              getDefaultValue(
+                valueType as keyof typeof SHADER_PROPERTY_VALUE_TYPES,
+                structProperties
+              )
+          );
+        customProperties[id] = { value: propertyValues };
+      } else {
+        const propertyValue =
+          value ??
+          getDefaultValue(
+            valueType as keyof typeof SHADER_PROPERTY_VALUE_TYPES,
+            structProperties
+          );
+        if (propertyValue !== undefined && propertyValue !== null) {
+          customProperties[id] = { value: propertyValue };
+          if (keyPointId) {
+            customProperties[id].keyPointId = keyPointId;
+          }
+        } else {
+          console.warn(
+            `Property value for ${id} ${String(valueType)} is undefined`
+          );
+        }
+      }
+
+      customStrings.push(
+        createDeclarationString(
+          propertyType,
+          valueType as keyof typeof SHADER_PROPERTY_VALUE_TYPES,
+          id,
+          arrayLength,
+          structProperties
+        )
+      );
+    }
+  );
+  return { customProperties, customStrings };
 };
