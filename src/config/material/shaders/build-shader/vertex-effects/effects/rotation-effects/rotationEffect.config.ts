@@ -1,4 +1,4 @@
-import { UniformConfig } from "../../../../../../..";
+import { ParameterConfig } from "../../../../../../..";
 import { ShaderFunction } from "../../../../../../..";
 import { VaryingConfig } from "../../../../../../..";
 
@@ -15,7 +15,7 @@ const ROTATION_UNIFORMS = [
     value: [0, 1, 0],
     configLocked: true,
   },
-] as UniformConfig[];
+] as ParameterConfig[];
 
 const ROTATION_FUNCTIONS = [] as ShaderFunction[];
 

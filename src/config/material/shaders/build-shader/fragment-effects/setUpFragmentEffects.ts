@@ -8,14 +8,14 @@ import {
   FragmentEffectConfig,
   ShaderFunction,
   StructConfig,
-  UniformConfig,
+  ParameterConfig,
 } from "../buildShader.types";
 import { FRAG_COLOR_NAME } from "../../../../../consts";
 import { FragmentEffectData } from "./fragmentShader.types";
 
 export const setUpFragmentEffects = (
   fragmentEffects: FragmentEffectConfig[],
-  uniformConfigs: UniformConfig[]
+  materialUniformConfigs: ParameterConfig[]
 ) => {
   const {
     varyingConfigs,
@@ -24,7 +24,7 @@ export const setUpFragmentEffects = (
     attributeConfigs,
     requiredFunctions,
     structConfigs,
-  } = getFragmentColors(fragmentEffects, uniformConfigs);
+  } = getFragmentColors(fragmentEffects, materialUniformConfigs);
 
   const fragColor = `gl_FragColor = ${FRAG_COLOR_NAME};`;
   return {
@@ -40,7 +40,7 @@ export const setUpFragmentEffects = (
 
 export const getFragmentColors = (
   fragmentEffects: FragmentEffectConfig[],
-  configuredUniformConfig: UniformConfig[]
+  configuredUniformConfig: ParameterConfig[]
 ) => {
   const {
     unmergedVaryingConfigs,

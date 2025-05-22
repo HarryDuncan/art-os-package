@@ -1,17 +1,15 @@
 import {
-  AttributeConfig,
-  FragmentEffectConfig,
   ParameterConfig,
+  FragmentEffectConfig,
   ShaderFunction,
   StructConfig,
-  UniformConfig,
   VaryingConfig,
 } from "../buildShader.types";
 
 export type FragmentEffectData = {
   requiredFunctions: ShaderFunction[];
-  uniformConfigs: UniformConfig[];
-  attributeConfigs: AttributeConfig[];
+  uniformConfigs: ParameterConfig[];
+  attributeConfigs: ParameterConfig[];
   varyingConfigs: VaryingConfig[];
   transformation: string;
   structConfigs?: StructConfig[];
@@ -19,8 +17,8 @@ export type FragmentEffectData = {
 
 export type FragmentEffectProps = {
   effectType: string;
-  effectUniforms: UniformConfig[];
+  effectUniforms: ParameterConfig[];
   effectParameters: ParameterConfig[];
   subEffects: FragmentEffectConfig[];
-  unfilteredUniforms: UniformConfig[];
+  unfilteredUniforms: ParameterConfig[];
 };

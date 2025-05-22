@@ -1,15 +1,16 @@
 import { BufferAttribute, BufferGeometry } from "three";
 import { getVerticesCount } from "../attribute.functions";
-import { AttributeConfig } from "../../../../types/materials/index";
 import { ATTRIBUTE_VALUE_TYPES } from "../../../material/shaders/build-shader/constants/shader.consts";
+import { ParameterConfig } from "../../../../types";
 
 export const setAttributes = (
   bufferGeometry: BufferGeometry,
-  attributeConfigs: AttributeConfig[] = []
+  attributeConfigs: ParameterConfig[] = []
 ) => {
   const vertexCount = getVerticesCount(bufferGeometry);
-  attributeConfigs.forEach(
-    ({ id, value, attributeValueType, attributeCount }) => {
+  attributeConfigs.forEach(({ id, value, isAttribute, attributeConfig }) => {
+    if (isAttribute && attributeConfig) {
+      const { attributeValueType, attributeCount } = attributeConfig;
       const valueCount = attributeCount ?? vertexCount;
       switch (attributeValueType) {
         case ATTRIBUTE_VALUE_TYPES.INDEXED:
@@ -28,7 +29,7 @@ export const setAttributes = (
           break;
       }
     }
-  );
+  });
 
   return bufferGeometry;
 };

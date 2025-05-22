@@ -1,23 +1,28 @@
 import { Asset } from "../../../types";
 import { Texture, Vector2 } from "three";
-import { AttributeConfig } from "../../../types/materials/index";
+import { ParameterConfig } from "../../../types/materials/index";
 import { ASSET_MAPPING_RELATIONSHIPS } from "../../../consts";
 
 export const getAttributeValuesFromAssets = (
-  attributeConfigs: AttributeConfig[],
+  attributeConfigs: ParameterConfig[],
   assets: Asset[]
 ) =>
   attributeConfigs.map((config) => {
-    if (config.assetId) {
-      const selectedAsset = assets.find((asset) => asset.id === config.assetId);
+    if (
+      config.isAttribute &&
+      config.isAssetMapped &&
+      config.assetMappingConfig
+    ) {
+      const { assetId, relationship } = config.assetMappingConfig;
+      const selectedAsset = assets.find((asset) => asset.id === assetId);
       if (selectedAsset) {
-        switch (config.relationship) {
+        switch (relationship) {
           case ASSET_MAPPING_RELATIONSHIPS.DIMENSION: {
             const value = getDimensionAttributeValues(selectedAsset);
             return { ...config, value };
           }
           default:
-            console.warn(`No configuration for ${config.relationship}`);
+            console.warn(`No configuration for ${relationship}`);
             return config;
         }
       }

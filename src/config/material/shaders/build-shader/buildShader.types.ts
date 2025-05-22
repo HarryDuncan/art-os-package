@@ -5,7 +5,6 @@ import {
 import { VARYING_TYPES } from "./shader-properties/varyings/varyings.consts";
 import { VERTEX_EFFECTS } from "./vertex-effects/vertexEffects.consts";
 import { FRAGMENT_EFFECTS } from "./fragment-effects/fragmentEffects.consts";
-import { AssetType } from "../../../../types";
 
 // GENERAL TYPES
 export type ShaderPropertyConfig = {
@@ -52,28 +51,8 @@ export type VaryingTypes = keyof typeof VARYING_TYPES;
 export type VaryingConfig = ShaderPropertyConfig & {
   varyingType: VaryingTypes;
   attributeKey?: string;
-
   activeValue?: string;
   inactiveValue?: string;
-};
-
-// <------------------------------------ ATTRIBUTES ------------------------------>
-export type RandomBoolConfig = {
-  randomizedPercentage: number;
-};
-export type ShaderAttributeConfig = {
-  attributeConfigs: AttributeConfig[];
-  materialId: string;
-};
-export type AttributeValueConfig = RandomBoolConfig;
-export type AttributeConfig = ShaderPropertyConfig & {
-  configLocked?: boolean;
-  attributeValueType: keyof typeof ATTRIBUTE_VALUE_TYPES;
-  assetId?: string;
-  attributeCount?: number;
-  assetType?: AssetType;
-  transformId?: string[];
-  relationship?: string;
 };
 
 // <-------------------------------------UNIFORMS ---------------------------------->
@@ -82,25 +61,14 @@ export type UniformObject = {
   [key: string]: { value: unknown } | { value: unknown }[];
 };
 
-export type UniformConfig = ShaderPropertyConfig & {
-  configLocked?: boolean;
-  isAssetMapped?: boolean;
-  assetMappingConfig?: {
-    assetId: string;
-    relationship: string;
-  };
-  interactionConfig?: {
-    keyPointId: string;
-  };
-  tags?: string[];
-};
-
 export type ParameterConfig = ShaderPropertyConfig & {
   configLocked?: boolean;
-  isAssetMapped?: boolean;
+
   description?: string;
   isUniform?: boolean;
   isInteractive?: boolean;
+  isAssetMapped?: boolean;
+  isAttribute?: boolean;
   assetMappingConfig?: {
     assetId: string;
     relationship: string;
@@ -108,17 +76,19 @@ export type ParameterConfig = ShaderPropertyConfig & {
   interactionConfig?: {
     keyPointId: string;
   };
-};
-export const SHADER_PROPERTY_TAGS = {
-  COLOR: "color",
+  attributeConfig?: {
+    attributeValueType: keyof typeof ATTRIBUTE_VALUE_TYPES;
+    assetId: "";
+    attributeCount?: number;
+  };
 };
 
 export type StructConfig = { id: string; properties: ShaderPropertyConfig[] };
 export type BuiltShaderConfig = {
   shaderEffectConfigs: ShaderEffectConfig[];
-  uniformConfigs?: UniformConfig[];
+  uniformConfigs?: ParameterConfig[];
   varyingConfigs?: VaryingConfig[];
-  attributeConfigs?: AttributeConfig[];
+  attributeConfigs?: ParameterConfig[];
   structConfigs?: StructConfig[];
 };
 

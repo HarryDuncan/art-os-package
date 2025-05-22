@@ -1,8 +1,4 @@
-import {
-  AttributeConfig,
-  UniformConfig,
-  VaryingConfig,
-} from "../../../../../../../../types/materials/index";
+import { VaryingConfig } from "../../../../../../../../types/materials/index";
 import {
   ASSET_MAPPING_RELATIONSHIPS,
   ATTRIBUTE_VALUE_TYPES,
@@ -15,6 +11,22 @@ import {
 } from "../../../../shader-properties/functions/random";
 import { noiseFunction } from "../../../../shader-properties/functions/noise";
 import { QUAD_MESH_TRANSFORM } from "../../../../../../../mesh/meshTransforms.consts";
+import { ParameterConfig } from "../../../../buildShader.types";
+
+export const IMAGE_TO_POINTS_ATTRIBUTES = [
+  {
+    id: "pointIndex",
+    name: "Point Index",
+    description: "Creates an index of each point of the mesh",
+    configLocked: true,
+    isAttribute: true,
+    valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
+    attributeConfig: {
+      attributeValueType: ATTRIBUTE_VALUE_TYPES.INDEXED,
+      assetId: "",
+    },
+  },
+] as ParameterConfig[];
 
 export const IMAGE_TO_POINTS_PARAMETERS = [
   {
@@ -62,9 +74,10 @@ export const IMAGE_TO_POINTS_PARAMETERS = [
     value: 1,
     configLocked: true,
   },
-];
+  ...IMAGE_TO_POINTS_ATTRIBUTES,
+] as ParameterConfig[];
 
-export const IMAGE_TO_POINTS_UNIFORMS = [] as unknown as UniformConfig[];
+export const IMAGE_TO_POINTS_UNIFORMS = [] as unknown as ParameterConfig[];
 
 export const IMAGE_TO_POINTS_VARYING_CONFIG = [
   {
@@ -91,15 +104,6 @@ export const IMAGE_TO_POINTS_REQUIRED_FUNCTIONS = [
   randFunction,
   noiseFunction,
 ];
-export const IMAGE_TO_POINTS_ATTRIBUTES = [
-  {
-    id: "pointIndex",
-    configLocked: true,
-    attributeValueType: ATTRIBUTE_VALUE_TYPES.INDEXED,
-    valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
-    assetId: "",
-  },
-] as AttributeConfig[];
 
 export const IMAGE_TO_POINTS_EFFECT_CONFIG = {
   uniforms: IMAGE_TO_POINTS_UNIFORMS,

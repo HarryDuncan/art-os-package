@@ -2,7 +2,7 @@ import { Vector3 } from "three";
 import { SHADER_PROPERTY_VALUE_TYPES } from "../../../../constants/shader.consts";
 import { VARYING_TYPES } from "../../../../shader-properties/varyings/varyings.consts";
 import { SHADER_PROPERTY_TAGS } from "../../../../shader-properties/uniforms/uniforms.consts";
-import { UniformConfig, VaryingConfig } from "../../../../buildShader.types";
+import { ParameterConfig, VaryingConfig } from "../../../../buildShader.types";
 
 export const DEFAULT_PHONG_UNIFORMS = [
   {
@@ -57,7 +57,7 @@ export const DEFAULT_PHONG_UNIFORMS = [
     valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
     value: 20.3,
   },
-] as UniformConfig[];
+] as ParameterConfig[];
 
 export const DEFAULT_PHONG_EFFECT_PROPS = { DEFAULT_PHONG_UNIFORMS };
 

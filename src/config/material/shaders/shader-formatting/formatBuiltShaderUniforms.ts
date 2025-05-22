@@ -1,18 +1,20 @@
 import { IUniform, Vector2 } from "three";
 import { Asset } from "../../../../types";
-
 import { mapAssetsToUniforms } from "./mapAssetsToUniform";
 import {
-  UniformConfig,
+  ParameterConfig,
   UniformObject,
 } from "../../../../types/materials/index";
 
 export const formatBuiltShaderUniforms = (
-  uniformConfigs: UniformConfig[],
+  uniformConfigs: ParameterConfig[],
   assets: Asset[]
 ): { [uniform: string]: IUniform<unknown> } => {
+  const uniformParameters = uniformConfigs.filter(
+    (uniform) => uniform.isUniform
+  );
   const assetMapping =
-    uniformConfigs.flatMap((uniformConfigs) =>
+    uniformParameters.flatMap((uniformConfigs) =>
       uniformConfigs.isAssetMapped && uniformConfigs.assetMappingConfig
         ? { ...uniformConfigs.assetMappingConfig, uniformId: uniformConfigs.id }
         : []

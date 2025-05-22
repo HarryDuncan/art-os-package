@@ -1,4 +1,4 @@
-import { UniformConfig } from "../../buildShader.types";
+import { ParameterConfig } from "../../buildShader.types";
 import {
   SHADER_PROPERTY_TYPES,
   SHADER_PROPERTY_VALUE_TYPES,
@@ -7,7 +7,7 @@ import { createDeclarationString } from "../../helpers/createDeclarationString";
 
 import { UNIFORM_DECLARATION } from "./uniforms.consts";
 
-export const buildUniformDeclaration = (uniformConfigs: UniformConfig[]) => {
+export const buildUniformDeclaration = (uniformConfigs: ParameterConfig[]) => {
   const customStrings = uniformConfigs.map(
     ({ id, valueType, arrayLength, structProperties }) =>
       createDeclarationString(

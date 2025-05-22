@@ -47,7 +47,7 @@ export const pointMaterial = (effectProps: FragmentEffectProps) => {
 
 // const getPointColorTransform = (
 //   effectType: string,
-//   configuredUniforms: UniformConfig[],
+//   configuredUniforms: ParameterConfig[],
 //   effectParameters: EffectParameters
 // ) => {
 //   return POINT_COLOR_EFFECT_FUNCTIONS[effectType](

@@ -14,7 +14,6 @@ import {
 } from "three";
 import { RendererParams } from "../hooks/use-three-js/renderer/renderer.types";
 import { Position3d } from "./position.types";
-import { AdvancedMeshConfig } from "../config/mesh/advanced-mesh/advancedMesh.types";
 import { GLTF } from "three/examples/jsm/loaders/GLTFLoader.js";
 import {
   ComponentProps,
@@ -22,7 +21,7 @@ import {
 } from "../config/components/threeJsComponents.types";
 import { LightConfigs, SceneLight } from "./lights";
 import { CustomGeometryConfig } from "./mesh.types";
-import { AttributeConfig } from "../config/material/shaders/build-shader/buildShader.types";
+import { ParameterConfig } from "../config/material/shaders/build-shader/buildShader.types";
 
 export type MultipleConfig = {
   instanceCount: number;
@@ -124,7 +123,7 @@ export type MeshTransformConfig = {
   type: MeshTransformType;
   transformedMeshIds: string[];
   materialId?: string;
-  attributeConfigs?: AttributeConfig[];
+  attributeConfigs?: ParameterConfig[];
 };
 
 export type ScreenSizeAdjustmentConfig = {
@@ -140,7 +139,7 @@ export type SceneConfig = {
   threeJsConfig: ThreeJSConfig;
   assets?: Asset[];
   meshComponentConfigs: MeshComponentConfig[];
-  advancedMeshConfigs?: AdvancedMeshConfig[];
+  // advancedMeshConfigs?: AdvancedMeshConfig[];
   meshTransforms?: MeshTransformConfig[];
   sceneMaterialConfigs: MaterialConfig[];
   animationConfig: AnimationConfig[];

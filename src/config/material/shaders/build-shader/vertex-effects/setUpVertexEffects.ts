@@ -6,18 +6,17 @@ import { getVertexEffect } from "./effects/getVertexEffect";
 import { VERTEX_POINT_NAME } from "./vertexEffects.consts";
 import { mergeStructConfigs } from "../shader-properties/structs/mergeStructConfigs";
 import {
-  AttributeConfig,
+  ParameterConfig,
   ShaderFunction,
   StructConfig,
-  UniformConfig,
   VaryingConfig,
   VertexEffectConfig,
 } from "../../../../../types/materials/index";
 
 export const setUpVertexEffects = (
   vertexEffects: VertexEffectConfig[],
-  uniformConfigs: UniformConfig[],
-  varyingConfigs: VaryingConfig[]
+  materialUniformConfigs: ParameterConfig[],
+  materialVaryingConfigs: VaryingConfig[]
 ) => {
   const {
     uniformConfigs,
@@ -26,7 +25,11 @@ export const setUpVertexEffects = (
     requiredFunctions,
     attributeConfigs,
     structConfigs,
-  } = getVertexTransformations(vertexEffects, uniformConfigs, varyingConfigs);
+  } = getVertexTransformations(
+    vertexEffects,
+    materialUniformConfigs,
+    materialVaryingConfigs
+  );
 
   const viewMatrix = `gl_Position = projectionMatrix * modelViewMatrix * vec4(${VERTEX_POINT_NAME}.xyz, 1.0);`;
 
@@ -43,15 +46,15 @@ export const setUpVertexEffects = (
 
 const getVertexTransformations = (
   vertexEffects: VertexEffectConfig[],
-  configuredUniformConfig: UniformConfig[],
+  configuredUniformConfig: ParameterConfig[],
   configuredVaryingConfig: VaryingConfig[]
 ) => {
-  const unmergedUniformConfigs: UniformConfig[][] = [];
+  const unmergedUniformConfigs: ParameterConfig[][] = [];
   const unmergedVaryingConfigs: VaryingConfig[][] = [];
   const unmergedTransformations: string[] = [];
   const allRequiredFunctions: ShaderFunction[][] = [];
   const unmergedStructConfigs: StructConfig[][] = [];
-  const unmergedAttributeConfigs: AttributeConfig[][] = [];
+  const unmergedAttributeConfigs: ParameterConfig[][] = [];
   vertexEffects.forEach((effect) => {
     const vertexEffectData = getVertexEffect(
       effect,

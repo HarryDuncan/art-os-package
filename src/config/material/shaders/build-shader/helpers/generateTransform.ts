@@ -1,9 +1,9 @@
-import { UniformConfig, TransformationConfig } from "../../../../../types";
+import { ParameterConfig, TransformationConfig } from "../../../../../types";
 import { safeParseValue, valueTypeToValue } from "./safeParseValue";
 
 export const generateShaderTransformation = (
   config: TransformationConfig,
-  uniforms: UniformConfig[]
+  uniforms: ParameterConfig[]
 ) => {
   let transformation = config.prefix ?? "";
 

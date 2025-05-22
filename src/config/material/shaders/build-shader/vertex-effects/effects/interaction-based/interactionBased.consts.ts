@@ -1,9 +1,9 @@
 import { Vector3 } from "three";
 import { VARYING_TYPES } from "../../../shader-properties/varyings/varyings.consts";
-import { UniformConfig } from "../../../buildShader.types";
+import { ParameterConfig } from "../../../../../../..";
 
 export const INTERACTION_BASED_REQUIRED_FUNCTIONS = [];
-export const INTERACTION_BASED_UNIFORMS = [] as UniformConfig[];
+export const INTERACTION_BASED_UNIFORMS = [] as ParameterConfig[];
 export const INTERACTION_BASED_ATTRIBUTES = [];
 export const INTERACTION_BASED_VARYING_CONFIG = [];
 
@@ -23,7 +23,7 @@ export const AFFECTED_POSITION_UNIFORMS = [
       keyPointId: null,
     },
   },
-] as UniformConfig[];
+] as ParameterConfig[];
 
 export const AFFECTED_POSITION_ATTRIBUTES = [];
 

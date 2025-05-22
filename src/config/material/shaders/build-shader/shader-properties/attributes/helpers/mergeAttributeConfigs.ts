@@ -1,10 +1,10 @@
-import { AttributeConfig } from "../../../../../../../types/materials/index";
+import { ParameterConfig } from "../../../../../../../types/materials/index";
 import { removeDuplicatesByKey } from "../../../../../../../utils/removeDuplicatesByKey";
 
 export const mergeAttributeConfigs = (
-  attributeConfigs: AttributeConfig[][]
-): AttributeConfig[] => {
+  attributeConfigs: ParameterConfig[][]
+): ParameterConfig[] => {
   const mergedConfigs = attributeConfigs.flatMap((config) => config ?? []);
-  const uniqueConfigs = removeDuplicatesByKey(mergedConfigs, "id");
-  return uniqueConfigs as AttributeConfig[];
+  const uniqueConfigs = removeDuplicatesByKey(mergedConfigs, "guid");
+  return uniqueConfigs as ParameterConfig[];
 };

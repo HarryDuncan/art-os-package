@@ -16,7 +16,7 @@ import { setUpVertexEffects } from "./vertex-effects/setUpVertexEffects";
 import { buildStruct } from "./shader-properties/structs/buildStructs";
 import { mergeStructConfigs } from "./shader-properties/structs/mergeStructConfigs";
 import {
-  AttributeConfig,
+  ParameterConfig,
   BuiltShaderConfig,
   ShaderFunction,
   VaryingConfig,
@@ -60,7 +60,7 @@ export const buildShader = (shaderConfig: BuiltShaderConfig) => {
     attributeConfigs,
     fragmentEffects.attributeConfigs,
     vertexEffects.attributeConfigs,
-  ] as AttributeConfig[][];
+  ] as ParameterConfig[][];
   const combinedAttributeConfigs = mergeAttributeConfigs(shaderAttributes);
   const attributes = buildAttributes(combinedAttributeConfigs);
 

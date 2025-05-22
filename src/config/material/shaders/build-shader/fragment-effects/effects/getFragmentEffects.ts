@@ -1,4 +1,4 @@
-import { FragmentEffectConfig, UniformConfig } from "../../buildShader.types";
+import { FragmentEffectConfig, ParameterConfig } from "../../buildShader.types";
 import { formatUniformsForEffect } from "../../helpers/formatUniformsForEffect";
 import { FRAGMENT_EFFECTS } from "../fragmentEffects.consts";
 
@@ -25,7 +25,7 @@ const FRAGMENT_EFFECTS_MAP = {
 
 export const getFragmentEffects = (
   effect: FragmentEffectConfig,
-  uniformConfigs: UniformConfig[]
+  uniformConfigs: ParameterConfig[]
 ): FragmentEffectData | null => {
   const { effectType, effectParameters, id } = effect;
   const effectUniforms = formatUniformsForEffect(uniformConfigs, id);

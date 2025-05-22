@@ -16,12 +16,12 @@ import {
 } from "../../vertex-effects/vertexEffects.consts";
 import {
   VaryingConfig,
-  AttributeConfig,
+  ParameterConfig,
 } from "../../../../../../types/materials/index";
 
 export const buildVaryings = (
   varyingSchema: VaryingConfig[],
-  attributeConfigs: AttributeConfig[]
+  attributeConfigs: ParameterConfig[]
 ) => {
   const declaration = varyingDeclarations(varyingSchema);
   const instantiation = varyingInstantiation(varyingSchema, attributeConfigs);
@@ -42,7 +42,7 @@ const varyingDeclarations = (config: VaryingConfig[]) => {
 
 const varyingInstantiation = (
   varyingConfigs: VaryingConfig[],
-  attributeConfigs: AttributeConfig[]
+  attributeConfigs: ParameterConfig[]
 ) => {
   const defaultVaryingStrings = getDefaultVaryingString(varyingConfigs);
   const attributeVaryingStrings = getAttributeVaryingStrings(
@@ -121,7 +121,7 @@ const getCustomVaryingStrings = (config: VaryingConfig[]) => {
 
 const getAttributeVaryingStrings = (
   config: VaryingConfig[],
-  attributeConfigs: AttributeConfig[] = []
+  attributeConfigs: ParameterConfig[] = []
 ) =>
   config.flatMap(({ id, attributeKey, varyingType }) => {
     if (varyingType === VARYING_TYPES.ATTRIBUTE) {

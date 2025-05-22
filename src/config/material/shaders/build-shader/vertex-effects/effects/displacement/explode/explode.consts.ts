@@ -1,6 +1,6 @@
 import {
   ShaderFunction,
-  UniformConfig,
+  ParameterConfig,
   VaryingConfig,
 } from "../../../../../../../../types/materials/index";
 import {
@@ -10,7 +10,7 @@ import {
 
 export const EXPLODE_UNIFORMS = [
   { id: "uStrength", valueType: "FLOAT", value: 1.5, configLocked: true },
-] as UniformConfig[];
+] as ParameterConfig[];
 
 export const EXPLODE_FUNCTIONS = [] as ShaderFunction[];
 export const EXPLODE_ATTRIBUTES = [

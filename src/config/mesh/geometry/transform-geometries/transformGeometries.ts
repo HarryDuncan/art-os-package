@@ -1,14 +1,11 @@
 import { BufferAttribute, Vector2 } from "three";
-import { getGeometryAttributes } from "../../attributes/attribute.functions";
 import { MeshTransformConfig } from "../../../../types/config.types";
 import { FormattedGeometry } from "../../../../assets/geometry/geometry.types";
-import { setAttributes } from "../../attributes/set-attributes/setAttributes";
 import { mergeArraysWithoutDuplicates } from "../../../../utils/mergeArraysWithoutDuplicates";
 import { MESH_TRANSFORM_TYPE } from "../../../../consts/mesh.consts";
-import { DEFAULT_MORPH_ATTRIBUTE_CONFIG } from "../../meshTransforms.consts";
-import { Asset, AttributeConfig } from "../../../../types";
 import { getAttributeValuesFromAssets } from "../../attributes/getAttributeValuesFromAsset";
-
+import { Asset } from "../../../../types";
+import { ParameterConfig } from "../../../../types/materials/index";
 export const transformGeometry = (
   meshTransforms: MeshTransformConfig[] | undefined,
   formattedGeometries: FormattedGeometry[],
@@ -27,63 +24,63 @@ export const transformGeometry = (
 
       if (transformedMeshes.length) {
         switch (type) {
-          case MESH_TRANSFORM_TYPE.MORPH: {
-            transformedMeshes.forEach((morphTarget, index) => {
-              if (index !== 0) {
-                const { vertices, normals } = getGeometryAttributes(
-                  morphTarget.geometry
-                );
+          // case MESH_TRANSFORM_TYPE.MORPH: {
+          //   transformedMeshes.forEach((morphTarget, index) => {
+          //     if (index !== 0) {
+          //       const { vertices, normals } = getGeometryAttributes(
+          //         morphTarget.geometry
+          //       );
 
-                transformedMeshes[0].geometry.setAttribute(
-                  `morphPosition${index - 1}`,
-                  new BufferAttribute(vertices, 3)
-                );
+          //       transformedMeshes[0].geometry.setAttribute(
+          //         `morphPosition${index - 1}`,
+          //         new BufferAttribute(vertices, 3)
+          //       );
 
-                transformedMeshes[0].geometry.setAttribute(
-                  `morphNormal${index - 1}`,
-                  new BufferAttribute(normals, 3)
-                );
-              }
-            });
-            const morphAttributeConfig = mergeAttributeConfigs(
-              DEFAULT_MORPH_ATTRIBUTE_CONFIG as AttributeConfig[],
-              attributeConfigs ?? []
-            );
-            const configuredRootGeometry = setAttributes(
-              transformedMeshes[0].geometry,
-              morphAttributeConfig
-            );
-            transformedMeshes[0] = {
-              ...transformedMeshes[0],
-              geometry: configuredRootGeometry,
-            };
-            return transformedMeshes;
-          }
-          case MESH_TRANSFORM_TYPE.CUSTOM_ATTRIBUTES: {
-            const attributesSet = transformedMeshes.map((formattedGeometry) => {
-              const { geometry } = formattedGeometry;
-              const setAttributeGeometry = setAttributes(
-                geometry,
-                attributeConfigs ?? []
-              );
-              return { ...formattedGeometry, geometry: setAttributeGeometry };
-            });
-            return attributesSet;
-          }
-          case MESH_TRANSFORM_TYPE.PRE_DEFINED: {
-            const attributesSet = transformedMeshes.flatMap(({ geometry }) => {
-              attributeConfigs?.forEach((config) => {
-                if (config.value) {
-                  geometry.setAttribute(
-                    config.id,
-                    config.value as BufferAttribute
-                  );
-                }
-              });
-              return geometry;
-            });
-            return attributesSet;
-          }
+          //       transformedMeshes[0].geometry.setAttribute(
+          //         `morphNormal${index - 1}`,
+          //         new BufferAttribute(normals, 3)
+          //       );
+          //     }
+          //   });
+          //   const morphAttributeConfig = mergeAttributeConfigs(
+          //     DEFAULT_MORPH_ATTRIBUTE_CONFIG as ParameterConfig[],
+          //     attributeConfigs ?? []
+          //   );
+          //   const configuredRootGeometry = setAttributes(
+          //     transformedMeshes[0].geometry,
+          //     morphAttributeConfig
+          //   );
+          //   transformedMeshes[0] = {
+          //     ...transformedMeshes[0],
+          //     geometry: configuredRootGeometry,
+          //   };
+          //   return transformedMeshes;
+          // }
+          // case MESH_TRANSFORM_TYPE.CUSTOM_ATTRIBUTES: {
+          //   const attributesSet = transformedMeshes.map((formattedGeometry) => {
+          //     const { geometry } = formattedGeometry;
+          //     const setAttributeGeometry = setAttributes(
+          //       geometry,
+          //       attributeConfigs ?? []
+          //     );
+          //     return { ...formattedGeometry, geometry: setAttributeGeometry };
+          //   });
+          //   return attributesSet;
+          // }
+          // case MESH_TRANSFORM_TYPE.PRE_DEFINED: {
+          //   const attributesSet = transformedMeshes.flatMap(({ geometry }) => {
+          //     attributeConfigs?.forEach((config) => {
+          //       if (config.value) {
+          //         geometry.setAttribute(
+          //           config.id,
+          //           config.value as BufferAttribute
+          //         );
+          //       }
+          //     });
+          //     return geometry;
+          //   });
+          //   return attributesSet;
+          // }
           case MESH_TRANSFORM_TYPE.SET_UP_QUAD: {
             const attributesSet = transformedMeshes.map((formattedGeometry) => {
               const { geometry } = formattedGeometry;
@@ -170,11 +167,6 @@ const getTransformedMeshes = (
       return indexA - indexB;
     });
 
-const mergeAttributeConfigs = (
-  defaultAttributeConfig: AttributeConfig[],
-  parsedAttributeConfig: AttributeConfig[]
-) =>
-  mergeArraysWithoutDuplicates(parsedAttributeConfig, defaultAttributeConfig);
 const TRANSFORM_SORTING = [
   MESH_TRANSFORM_TYPE.SET_UP_QUAD,
   MESH_TRANSFORM_TYPE.MORPH,

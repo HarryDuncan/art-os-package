@@ -1,8 +1,8 @@
 import { removeDuplicatesByKey } from "../../../../../../../utils/removeDuplicatesByKey";
-import { UniformConfig } from "../../../buildShader.types";
+import { ParameterConfig } from "../../../buildShader.types";
 
 export const mergeUniformConfigs = (
-  uniformConfigArray: (UniformConfig[] | undefined | null)[]
+  uniformConfigArray: (ParameterConfig[] | undefined | null)[]
 ) => {
   const filteredUniformConfigs = uniformConfigArray.flatMap(
     (config) => config ?? []
@@ -10,5 +10,5 @@ export const mergeUniformConfigs = (
   return removeDuplicatesByKey(
     filteredUniformConfigs,
     "id"
-  ) as unknown as UniformConfig[];
+  ) as unknown as ParameterConfig[];
 };

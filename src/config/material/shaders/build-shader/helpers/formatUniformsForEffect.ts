@@ -1,9 +1,9 @@
-import { UniformConfig } from "../buildShader.types";
+import { ParameterConfig } from "../buildShader.types";
 
 export const formatUniformsForEffect = (
-  uniforms: UniformConfig[],
+  uniforms: ParameterConfig[],
   effectId: string
-): UniformConfig[] => {
+): ParameterConfig[] => {
   const effectUniforms = uniforms.filter((uniform) => {
     return uniform.effectIds?.includes(effectId);
   });

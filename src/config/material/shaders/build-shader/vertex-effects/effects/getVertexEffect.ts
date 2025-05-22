@@ -1,6 +1,6 @@
 import {
   VertexEffectConfig,
-  UniformConfig,
+  ParameterConfig,
   VaryingConfig,
 } from "../../../../../../types/materials/index";
 import { VERTEX_EFFECTS } from "../vertexEffects.consts";
@@ -22,7 +22,7 @@ const VERTEX_EFFECTS_MAP = {
 };
 export const getVertexEffect = (
   effect: VertexEffectConfig,
-  uniformConfigs: UniformConfig[],
+  uniformConfigs: ParameterConfig[],
   varyingConfigs: VaryingConfig[]
 ): VertexEffectData | null => {
   const { effectType, effectParameters, id } = effect;

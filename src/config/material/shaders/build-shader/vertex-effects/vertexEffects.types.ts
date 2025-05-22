@@ -1,27 +1,25 @@
 import {
   ShaderFunction,
-  UniformConfig,
   VaryingConfig,
-  AttributeConfig,
   StructConfig,
   VertexEffectConfig,
+  ParameterConfig,
 } from "../buildShader.types";
 
 export interface VertexEffectData {
   requiredFunctions: ShaderFunction[];
-  uniformConfigs: UniformConfig[];
+  uniformConfigs: ParameterConfig[];
   varyingConfigs: VaryingConfig[];
   transformation: string;
-  attributeConfigs: AttributeConfig[];
+  attributeConfigs: ParameterConfig[];
   structConfigs?: StructConfig[];
 }
 
 export type VertexEffectProps = {
-  effectUniforms: UniformConfig[];
+  effectUniforms: ParameterConfig[];
   effectVaryings: VaryingConfig[];
-  effectParameters: any;
   effectType: string;
   subEffects: VertexEffectConfig[];
-  unfilteredUniforms: UniformConfig[];
+  unfilteredUniforms: ParameterConfig[];
   unfilteredVaryings: VaryingConfig[];
 };
