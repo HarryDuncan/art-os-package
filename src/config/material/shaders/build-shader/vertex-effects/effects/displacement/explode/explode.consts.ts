@@ -40,4 +40,6 @@ export const EXPLODE_EFFECT_CONFIG = {
   attributes: EXPLODE_ATTRIBUTES,
   functions: EXPLODE_FUNCTIONS,
   varyings: EXPLODE_VARYINGS,
+  meshTransformConfig: [],
+  parameters: [],
 };

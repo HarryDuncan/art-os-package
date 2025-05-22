@@ -96,5 +96,6 @@ export const IMAGE_TO_POINTS_EFFECT_CONFIG = {
   attributes: IMAGE_TO_POINTS_ATTRIBUTES,
   functions: IMAGE_TO_POINTS_REQUIRED_FUNCTIONS,
   varyings: IMAGE_TO_POINTS_VARYING_CONFIG,
-  transforms: [QUAD_MESH_TRANSFORM],
+  meshTransformConfig: [QUAD_MESH_TRANSFORM],
+  parameters: [],
 };

@@ -31,4 +31,6 @@ export const ROTATION_EFFECT_CONFIG = {
   functions: ROTATION_FUNCTIONS,
   varyings: ROTATION_VARYINGS,
   attributes: [],
+  meshTransformConfig: [],
+  parameters: [],
 };

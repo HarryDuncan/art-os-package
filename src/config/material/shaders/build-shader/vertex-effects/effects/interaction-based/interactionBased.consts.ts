@@ -45,4 +45,6 @@ export const AFFECTED_POSITION_EFFECT_CONFIG = {
   attributes: AFFECTED_POSITION_ATTRIBUTES,
   functions: INTERACTION_BASED_REQUIRED_FUNCTIONS,
   varyings: AFFECTED_POSITION_VARYING_CONFIG,
+  meshTransformConfig: [],
+  parameters: [],
 };
