@@ -10,6 +10,7 @@ import { AssetType } from "../../../../types";
 // GENERAL TYPES
 export type ShaderPropertyConfig = {
   id: string;
+  guid: string;
   name?: string;
   valueType: keyof typeof SHADER_PROPERTY_VALUE_TYPES;
   value?: unknown;
@@ -99,6 +100,7 @@ export type ParameterConfig = ShaderPropertyConfig & {
   isAssetMapped?: boolean;
   description?: string;
   isUniform?: boolean;
+  isInteractive?: boolean;
   assetMappingConfig?: {
     assetId: string;
     relationship: string;

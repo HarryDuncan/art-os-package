@@ -119,6 +119,8 @@ export type ScenePropertiesConfig = {
 export type MeshTransformType = keyof typeof MESH_TRANSFORM_TYPE;
 export type MeshTransformConfig = {
   id: string;
+  guid?: string;
+  effectId?: string;
   type: MeshTransformType;
   transformedMeshIds: string[];
   materialId?: string;

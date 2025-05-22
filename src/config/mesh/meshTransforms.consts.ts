@@ -48,4 +48,4 @@ export const QUAD_MESH_TRANSFORM = {
   transformedMeshIds: [],
   materialId: "",
   attributeConfigs: [...QUAD_MESH_TRANSFORM_ATTRIBUTES],
-} as MeshTransformConfig;
+} as unknown as MeshTransformConfig;
