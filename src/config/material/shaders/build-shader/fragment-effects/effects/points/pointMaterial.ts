@@ -19,11 +19,11 @@ const pointMaterialTransformConfig = {
 } as unknown as TransformationConfig;
 
 // const POINT_COLOR_EFFECT_FUNCTIONS = {
-//   [FRAGMENT_EFFECT.POINT_MATERIAL]: getPointColor,
-//   [FRAGMENT_EFFECT.TEXTURE_PIXEL_COLOR]: getTexturePixelColor,
-//   [FRAGMENT_EFFECT.OVERLAY_COLOR]: getOverlayPixelColor,
-//   // [FRAGMENT_EFFECT.POINT_MATERIAL_MATCAP]: matcapMaterial,
-//   // [FRAGMENT_EFFECT.POINT_MATERIAL_PHONG]: phongMaterial,
+//   [FRAGMENT_EFFECTS.POINT_MATERIAL]: getPointColor,
+//   [FRAGMENT_EFFECTS.TEXTURE_PIXEL_COLOR]: getTexturePixelColor,
+//   [FRAGMENT_EFFECTS.OVERLAY_COLOR]: getOverlayPixelColor,
+//   // [FRAGMENT_EFFECTS.POINT_MATERIAL_MATCAP]: matcapMaterial,
+//   // [FRAGMENT_EFFECTS.POINT_MATERIAL_PHONG]: phongMaterial,
 // };
 export const pointMaterial = (effectProps: FragmentEffectProps) => {
   const { effectUniforms } = effectProps;

@@ -23,19 +23,11 @@ export const getBuiltShaderMaterials = (
         const { builtShaderConfig } = materialConfig;
         if (!builtShaderConfig) return [];
         const shaderConfig = formatBuiltShaderConfig(builtShaderConfig);
-        const { uniforms, vertexShader, fragmentShader } =
+        const { uniformConfigs, vertexShader, fragmentShader } =
           buildShader(shaderConfig);
 
-        const assetMapping =
-          shaderConfig.uniformConfig?.flatMap((uniform) =>
-            uniform.isAssetMapped && uniform.assetMappingConfig
-              ? { ...uniform.assetMappingConfig, uniformId: uniform.id }
-              : []
-          ) || [];
-
         const formattedUniforms = formatBuiltShaderUniforms(
-          uniforms,
-          assetMapping,
+          uniformConfigs,
           assets
         );
         const blendingOptions = configureBlendingOptions(

@@ -8,7 +8,7 @@ import {
 import { setUpFragmentEffects } from "./fragment-effects/setUpFragmentEffects";
 import { buildAttributes } from "./shader-properties/attributes/buildAttributes";
 import { mergeAttributeConfigs } from "./shader-properties/attributes/helpers/mergeAttributeConfigs";
-import { buildUniforms } from "./shader-properties/uniforms/buildUniforms";
+import { buildUniformDeclaration } from "./shader-properties/uniforms/buildUniforms";
 import { mergeUniformConfigs } from "./shader-properties/uniforms/helpers/mergeUniformConfigs";
 import { buildVaryings } from "./shader-properties/varyings/buildVaryings";
 import { mergeVaryingConfigs } from "./shader-properties/varyings/helpers/mergeVaryingConfigs";
@@ -26,8 +26,7 @@ import { formatShaderEffects } from "./helpers/formatEffectConfigs";
 const DEBUG = true;
 export const buildShader = (shaderConfig: BuiltShaderConfig) => {
   const {
-    vertexEffectConfigs,
-    fragmentEffectConfigs,
+    shaderEffectConfigs,
     uniformConfig,
     varyingConfig,
     attributeConfig,
@@ -38,7 +37,7 @@ export const buildShader = (shaderConfig: BuiltShaderConfig) => {
   const configuredVaryingConfig = [...(varyingConfig ?? [])];
 
   const { formattedVertexEffects, formattedFragmentEffects } =
-    formatShaderEffects(vertexEffectConfigs, fragmentEffectConfigs);
+    formatShaderEffects(shaderEffectConfigs);
 
   const fragmentEffects = setUpFragmentEffects(
     formattedFragmentEffects,
@@ -74,7 +73,7 @@ export const buildShader = (shaderConfig: BuiltShaderConfig) => {
     shaderVaryings
   ) as VaryingConfig[];
 
-  const { uniforms, uniformDeclaration } = buildUniforms(mergedShaderUniforms);
+  const uniformDeclaration = buildUniformDeclaration(mergedShaderUniforms);
   const {
     declaration: varyingDeclaration,
     instantiation: varyingInstantiation,
@@ -115,7 +114,7 @@ export const buildShader = (shaderConfig: BuiltShaderConfig) => {
   return {
     vertexShader,
     fragmentShader,
-    uniforms,
+    uniformConfigs: mergedShaderUniforms,
     attributeConfigs: combinedAttributeConfigs,
   };
 };

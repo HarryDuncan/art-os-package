@@ -1,6 +1,7 @@
 import {
   AttributeConfig,
   FragmentEffectConfig,
+  ParameterConfig,
   ShaderFunction,
   StructConfig,
   UniformConfig,
@@ -17,9 +18,9 @@ export type FragmentEffectData = {
 };
 
 export type FragmentEffectProps = {
-  effectUniforms: UniformConfig[];
-  effectParameters: Record<string, unknown>;
   effectType: string;
+  effectUniforms: UniformConfig[];
+  effectParameters: ParameterConfig[];
   subEffects: FragmentEffectConfig[];
   unfilteredUniforms: UniformConfig[];
 };

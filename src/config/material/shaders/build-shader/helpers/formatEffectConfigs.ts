@@ -1,10 +1,17 @@
-import { VertexEffectConfig } from "../buildShader.types";
+import { ShaderEffectConfig, VertexEffectConfig } from "../buildShader.types";
 import { FragmentEffectConfig } from "../buildShader.types";
+import { SHADER_TYPES } from "../constants";
 
 export const formatShaderEffects = (
-  vertexEffectConfigs: VertexEffectConfig[],
-  fragmentEffectConfigs: FragmentEffectConfig[]
+  shaderEffectConfigs: ShaderEffectConfig[]
 ) => {
+  const vertexEffectConfigs = shaderEffectConfigs.filter(
+    (config) => config.shaderType === SHADER_TYPES.VERTEX
+  ) as VertexEffectConfig[];
+  const fragmentEffectConfigs = shaderEffectConfigs.filter(
+    (config) => config.shaderType === SHADER_TYPES.FRAGMENT
+  ) as FragmentEffectConfig[];
+
   // Process vertex effects to organize interactive effects as subEffects
   const formattedVertexEffects = vertexEffectConfigs.reduce((acc, effect) => {
     // If this effect has interactiveEffectIds, it should be a sub-effect

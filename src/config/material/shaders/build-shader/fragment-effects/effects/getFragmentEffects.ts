@@ -1,6 +1,6 @@
 import { FragmentEffectConfig, UniformConfig } from "../../buildShader.types";
 import { formatUniformsForEffect } from "../../helpers/formatUniformsForEffect";
-import { FRAGMENT_EFFECT } from "../fragmentEffects.consts";
+import { FRAGMENT_EFFECTS } from "../fragmentEffects.consts";
 
 import { interactionBased } from "./interaction-based/interactionBased";
 import {
@@ -13,14 +13,14 @@ import { SHADER_TYPES } from "../../constants";
 import { pointMaterial } from "./points/pointMaterial";
 
 const FRAGMENT_EFFECTS_MAP = {
-  [FRAGMENT_EFFECT.TEXTURE_PIXEL_COLOR]: texturedPixelColor,
-  [FRAGMENT_EFFECT.POINT_MATERIAL]: pointMaterial,
-  [FRAGMENT_EFFECT.OVERLAY_COLOR]: overlayPixelColor,
-  [FRAGMENT_EFFECT.POINT_MATERIAL_MATCAP]: pointMaterial,
-  [FRAGMENT_EFFECT.POINT_MATERIAL_TEXTURE]: pointMaterial,
-  [FRAGMENT_EFFECT.POINT_MATERIAL_PHONG]: pointMaterial,
-  [FRAGMENT_EFFECT.COLOR]: color,
-  [FRAGMENT_EFFECT.AFFECTED_POSITION]: interactionBased,
+  [FRAGMENT_EFFECTS.TEXTURE_PIXEL_COLOR]: texturedPixelColor,
+  [FRAGMENT_EFFECTS.POINT_MATERIAL]: pointMaterial,
+  [FRAGMENT_EFFECTS.OVERLAY_COLOR]: overlayPixelColor,
+  [FRAGMENT_EFFECTS.POINT_MATERIAL_MATCAP]: pointMaterial,
+  [FRAGMENT_EFFECTS.POINT_MATERIAL_TEXTURE]: pointMaterial,
+  [FRAGMENT_EFFECTS.POINT_MATERIAL_PHONG]: pointMaterial,
+  [FRAGMENT_EFFECTS.COLOR]: color,
+  [FRAGMENT_EFFECTS.AFFECTED_POSITION]: interactionBased,
 };
 
 export const getFragmentEffects = (

@@ -16,9 +16,17 @@ import {
 import { noiseFunction } from "../../../../shader-properties/functions/noise";
 import { QUAD_MESH_TRANSFORM } from "../../../../../../../mesh/meshTransforms.consts";
 
-export const IMAGE_TO_POINTS_UNIFORMS = [
+export const IMAGE_TO_POINTS_PARAMETERS = [
   {
-    id: "uTexture",
+    id: "",
+    name: "Point Size",
+    valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
+    value: 1,
+    configLocked: true,
+  },
+  {
+    id: "",
+    name: "Texture",
     valueType: SHADER_PROPERTY_VALUE_TYPES.SAMPLER2D,
     value: null,
     configLocked: true,
@@ -26,7 +34,8 @@ export const IMAGE_TO_POINTS_UNIFORMS = [
     relationship: ASSET_MAPPING_RELATIONSHIPS.TEXTURE,
   },
   {
-    id: "uTextureSize",
+    id: "",
+    name: "TextureSize",
     valueType: SHADER_PROPERTY_VALUE_TYPES.VEC2,
     value: null,
     configLocked: true,
@@ -34,24 +43,22 @@ export const IMAGE_TO_POINTS_UNIFORMS = [
     relationship: ASSET_MAPPING_RELATIONSHIPS.DIMENSION,
   },
   {
-    id: "uRandom",
+    id: "",
+    name: "Random",
     valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
     value: 1,
     configLocked: true,
   },
   {
-    id: "uDepth",
+    id: "",
+    name: "Depth",
     valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
     value: 1,
     configLocked: true,
   },
-  {
-    id: "uSize",
-    valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
-    value: 1,
-    configLocked: true,
-  },
-] as unknown as UniformConfig[];
+];
+
+export const IMAGE_TO_POINTS_UNIFORMS = [] as unknown as UniformConfig[];
 
 export const IMAGE_TO_POINTS_VARYING_CONFIG = [
   {
@@ -94,5 +101,5 @@ export const IMAGE_TO_POINTS_EFFECT_CONFIG = {
   functions: IMAGE_TO_POINTS_REQUIRED_FUNCTIONS,
   varyings: IMAGE_TO_POINTS_VARYING_CONFIG,
   meshTransformConfig: [QUAD_MESH_TRANSFORM],
-  parameters: [],
+  parameters: IMAGE_TO_POINTS_PARAMETERS,
 };

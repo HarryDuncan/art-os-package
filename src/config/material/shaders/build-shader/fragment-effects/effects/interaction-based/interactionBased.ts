@@ -1,5 +1,5 @@
 import { TransformationConfig } from "../../../buildShader.types";
-import { FRAGMENT_EFFECT } from "../../fragmentEffects.consts";
+import { FRAGMENT_EFFECTS } from "../../fragmentEffects.consts";
 import { generateShaderTransformation } from "../../../helpers/generateTransform";
 import { reduceFunctions } from "../../../helpers/reduceFunctions";
 import { getFragmentEffects } from "../getFragmentEffects";
@@ -69,7 +69,7 @@ export const interactionBased = (effectProps: FragmentEffectProps) => {
 };
 
 const INTERACTION_TRANSFORM_MAP: Record<string, TransformationConfig> = {
-  [FRAGMENT_EFFECT.AFFECTED_POSITION]: affectedPositionTransformConfig,
+  [FRAGMENT_EFFECTS.AFFECTED_POSITION]: affectedPositionTransformConfig,
 };
 
 const getInteractionEffectTransform = (effectType: string) => {

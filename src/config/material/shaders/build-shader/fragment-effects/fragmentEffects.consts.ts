@@ -12,7 +12,7 @@ import { AFFECTED_POSITION_VARYINGS } from "./effects/interaction-based/interact
 
 export const FRAG_COLOR_NAME = "currentFragColor";
 
-export const FRAGMENT_EFFECT = {
+export const FRAGMENT_EFFECTS = {
   NONE: "NONE",
   POINT_MATERIAL: "POINT_MATERIAL",
   TEXTURE_PIXEL_COLOR: "TEXTURE_PIXEL_COLOR",
@@ -30,33 +30,33 @@ export const FRAGMENT_EFFECT = {
 export const DEFAULT_FRAG_COLOR = "#ff1205";
 
 export const FRAGMENT_EFFECT_CONFIG_MAP = {
-  [FRAGMENT_EFFECT.POINT_MATERIAL]: {
+  [FRAGMENT_EFFECTS.POINT_MATERIAL]: {
     uniforms: POINT_MATERIAL_UNIFORMS,
     attributes: [],
     varyings: POINT_MATERIAL_VARYINGS,
     functions: [],
   },
-  [FRAGMENT_EFFECT.TEXTURE_PIXEL_COLOR]: {
+  [FRAGMENT_EFFECTS.TEXTURE_PIXEL_COLOR]: {
     uniforms: POINT_MATERIAL_UNIFORMS,
     attributes: [],
     varyings: [],
   },
-  [FRAGMENT_EFFECT.OVERLAY_COLOR]: {
+  [FRAGMENT_EFFECTS.OVERLAY_COLOR]: {
     uniforms: POINT_MATERIAL_UNIFORMS,
     attributes: [],
     varyings: [],
   },
-  [FRAGMENT_EFFECT.POINT_MATERIAL_MATCAP]: {
+  [FRAGMENT_EFFECTS.POINT_MATERIAL_MATCAP]: {
     uniforms: POINT_MATERIAL_UNIFORMS,
     attributes: [],
     varyings: [],
   },
-  [FRAGMENT_EFFECT.POINT_MATERIAL_TEXTURE]: {
+  [FRAGMENT_EFFECTS.POINT_MATERIAL_TEXTURE]: {
     uniforms: POINT_MATERIAL_UNIFORMS,
     attributes: [],
     varyings: [],
   },
-  [FRAGMENT_EFFECT.POINT_MATERIAL_PHONG]: {
+  [FRAGMENT_EFFECTS.POINT_MATERIAL_PHONG]: {
     uniforms: POINT_MATERIAL_PHONG_UNIFORMS,
     attributes: [],
     varyings: [],
@@ -66,12 +66,12 @@ export const FRAGMENT_EFFECT_CONFIG_MAP = {
     attributes: TEXTURED_POINTS_ATTRIBUTES,
     varyings: [],
   },
-  [FRAGMENT_EFFECT.COLOR]: {
+  [FRAGMENT_EFFECTS.COLOR]: {
     uniforms: DEFAULT_COLOR_UNIFORMS,
     attributes: [],
     varyings: [],
   },
-  [FRAGMENT_EFFECT.AFFECTED_POSITION]: {
+  [FRAGMENT_EFFECTS.AFFECTED_POSITION]: {
     uniforms: [],
     attributes: [],
     varyings: AFFECTED_POSITION_VARYINGS,
