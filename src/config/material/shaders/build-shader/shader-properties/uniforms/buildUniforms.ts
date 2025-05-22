@@ -7,8 +7,8 @@ import { createDeclarationString } from "../../helpers/createDeclarationString";
 
 import { UNIFORM_DECLARATION } from "./uniforms.consts";
 
-export const buildUniformDeclaration = (uniformConfig: UniformConfig[]) => {
-  const customStrings = uniformConfig.map(
+export const buildUniformDeclaration = (uniformConfigs: UniformConfig[]) => {
+  const customStrings = uniformConfigs.map(
     ({ id, valueType, arrayLength, structProperties }) =>
       createDeclarationString(
         SHADER_PROPERTY_TYPES.UNIFORM as keyof typeof SHADER_PROPERTY_TYPES,

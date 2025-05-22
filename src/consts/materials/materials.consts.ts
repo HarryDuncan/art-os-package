@@ -30,9 +30,9 @@ export const DEFAULT_MATERIAL = new MeshPhongMaterial({
 
 export const DEFAULT_BUILT_SHADER_CONFIG = {
   shaderEffectConfigs: [],
-  uniformConfig: [],
-  varyingConfig: [],
-  attributeConfig: [],
+  uniformConfigs: [],
+  varyingConfigs: [],
+  attributeConfigs: [],
   structConfigs: [],
 };
 

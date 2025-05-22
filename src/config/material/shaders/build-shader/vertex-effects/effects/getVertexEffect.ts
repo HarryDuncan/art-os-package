@@ -22,12 +22,12 @@ const VERTEX_EFFECTS_MAP = {
 };
 export const getVertexEffect = (
   effect: VertexEffectConfig,
-  uniformConfig: UniformConfig[],
-  varyingConfig: VaryingConfig[]
+  uniformConfigs: UniformConfig[],
+  varyingConfigs: VaryingConfig[]
 ): VertexEffectData | null => {
   const { effectType, effectParameters, id } = effect;
-  const effectUniforms = formatUniformsForEffect(uniformConfig, id);
-  const effectVaryings = formatVaryingsForEffect(varyingConfig, id);
+  const effectUniforms = formatUniformsForEffect(uniformConfigs, id);
+  const effectVaryings = formatVaryingsForEffect(varyingConfigs, id);
 
   const vertexEffectProps = {
     effectUniforms,
@@ -35,8 +35,8 @@ export const getVertexEffect = (
     effectParameters,
     effectType,
     subEffects: effect?.subEffects ?? [],
-    unfilteredUniforms: uniformConfig,
-    unfilteredVaryings: varyingConfig,
+    unfilteredUniforms: uniformConfigs,
+    unfilteredVaryings: varyingConfigs,
   };
   return transformSetup(vertexEffectProps);
 };
@@ -57,17 +57,17 @@ export const transformSetup = (effectProps: VertexEffectProps) => {
 
 export const formatVertexEffectData = (effect: Partial<VertexEffectData>) => {
   const {
-    attributeConfig,
+    attributeConfigs,
     requiredFunctions,
     transformation,
-    uniformConfig,
-    varyingConfig,
+    uniformConfigs,
+    varyingConfigs,
   } = effect;
   return {
-    attributeConfig: attributeConfig ?? [],
+    attributeConfigs: attributeConfigs ?? [],
     transformation: transformation ?? "",
     requiredFunctions: requiredFunctions ?? [],
-    uniformConfig: uniformConfig ?? [],
-    varyingConfig: varyingConfig ?? [],
+    uniformConfigs: uniformConfigs ?? [],
+    varyingConfigs: varyingConfigs ?? [],
   };
 };

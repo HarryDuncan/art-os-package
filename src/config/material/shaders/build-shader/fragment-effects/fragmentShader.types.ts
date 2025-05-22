@@ -10,9 +10,9 @@ import {
 
 export type FragmentEffectData = {
   requiredFunctions: ShaderFunction[];
-  uniformConfig: UniformConfig[];
-  attributeConfig: AttributeConfig[];
-  varyingConfig: VaryingConfig[];
+  uniformConfigs: UniformConfig[];
+  attributeConfigs: AttributeConfig[];
+  varyingConfigs: VaryingConfig[];
   transformation: string;
   structConfigs?: StructConfig[];
 };

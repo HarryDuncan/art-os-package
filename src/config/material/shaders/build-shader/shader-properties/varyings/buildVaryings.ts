@@ -21,10 +21,10 @@ import {
 
 export const buildVaryings = (
   varyingSchema: VaryingConfig[],
-  attributeConfig: AttributeConfig[]
+  attributeConfigs: AttributeConfig[]
 ) => {
   const declaration = varyingDeclarations(varyingSchema);
-  const instantiation = varyingInstantiation(varyingSchema, attributeConfig);
+  const instantiation = varyingInstantiation(varyingSchema, attributeConfigs);
   return { declaration, instantiation };
 };
 
@@ -41,15 +41,15 @@ const varyingDeclarations = (config: VaryingConfig[]) => {
 };
 
 const varyingInstantiation = (
-  varyingConfig: VaryingConfig[],
-  attributeConfig: AttributeConfig[]
+  varyingConfigs: VaryingConfig[],
+  attributeConfigs: AttributeConfig[]
 ) => {
-  const defaultVaryingStrings = getDefaultVaryingString(varyingConfig);
+  const defaultVaryingStrings = getDefaultVaryingString(varyingConfigs);
   const attributeVaryingStrings = getAttributeVaryingStrings(
-    varyingConfig,
-    attributeConfig
+    varyingConfigs,
+    attributeConfigs
   );
-  const customVaryingsStrings = getCustomVaryingStrings(varyingConfig);
+  const customVaryingsStrings = getCustomVaryingStrings(varyingConfigs);
   return [
     ...defaultVaryingStrings,
     ...attributeVaryingStrings,
@@ -121,11 +121,11 @@ const getCustomVaryingStrings = (config: VaryingConfig[]) => {
 
 const getAttributeVaryingStrings = (
   config: VaryingConfig[],
-  attributeConfig: AttributeConfig[] = []
+  attributeConfigs: AttributeConfig[] = []
 ) =>
   config.flatMap(({ id, attributeKey, varyingType }) => {
     if (varyingType === VARYING_TYPES.ATTRIBUTE) {
-      const hasAttribute = attributeConfig.findIndex(
+      const hasAttribute = attributeConfigs.findIndex(
         (attributeConf) => attributeConf.id === attributeKey
       );
       if (hasAttribute !== -1) {

@@ -27,14 +27,14 @@ const DEBUG = true;
 export const buildShader = (shaderConfig: BuiltShaderConfig) => {
   const {
     shaderEffectConfigs,
-    uniformConfig,
-    varyingConfig,
-    attributeConfig,
+    uniformConfigs,
+    varyingConfigs,
+    attributeConfigs,
     structConfigs,
   } = shaderConfig;
 
-  const configuredUniformConfig = [...(uniformConfig ?? [])];
-  const configuredVaryingConfig = [...(varyingConfig ?? [])];
+  const configuredUniformConfig = [...(uniformConfigs ?? [])];
+  const configuredVaryingConfig = [...(varyingConfigs ?? [])];
 
   const { formattedVertexEffects, formattedFragmentEffects } =
     formatShaderEffects(shaderEffectConfigs);
@@ -57,7 +57,7 @@ export const buildShader = (shaderConfig: BuiltShaderConfig) => {
   ]);
 
   const shaderAttributes = [
-    attributeConfig,
+    attributeConfigs,
     fragmentEffects.attributeConfigs,
     vertexEffects.attributeConfigs,
   ] as AttributeConfig[][];
@@ -67,7 +67,7 @@ export const buildShader = (shaderConfig: BuiltShaderConfig) => {
   const shaderVaryings = [
     vertexEffects.varyingConfigs,
     fragmentEffects.varyingConfigs,
-    varyingConfig ?? [],
+    varyingConfigs ?? [],
   ];
   const mergedShaderVaryings = mergeVaryingConfigs(
     shaderVaryings

@@ -30,6 +30,6 @@ export const SCENE_CONFIG_KEYS = {
 export const BUILT_SHADER_CONFIG_KEYS = {
   VERTEX_EFFECTS_CONFIG: "vertexEffectsConfig",
   FRAGMENT_EFFECTS_CONFIG: "fragmentEffectsConfig",
-  UNIFORM_CONFIG: "uniformConfig",
-  ATTRIBUTE_CONFIG: "attributeConfig",
+  UNIFORM_CONFIG: "uniformConfigs",
+  ATTRIBUTE_CONFIG: "attributeConfigs",
 };

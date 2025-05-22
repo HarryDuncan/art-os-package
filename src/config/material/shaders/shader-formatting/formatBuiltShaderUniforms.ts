@@ -12,9 +12,9 @@ export const formatBuiltShaderUniforms = (
   assets: Asset[]
 ): { [uniform: string]: IUniform<unknown> } => {
   const assetMapping =
-    uniformConfigs.flatMap((uniformConfig) =>
-      uniformConfig.isAssetMapped && uniformConfig.assetMappingConfig
-        ? { ...uniformConfig.assetMappingConfig, uniformId: uniformConfig.id }
+    uniformConfigs.flatMap((uniformConfigs) =>
+      uniformConfigs.isAssetMapped && uniformConfigs.assetMappingConfig
+        ? { ...uniformConfigs.assetMappingConfig, uniformId: uniformConfigs.id }
         : []
     ) || [];
   const uniforms = {};

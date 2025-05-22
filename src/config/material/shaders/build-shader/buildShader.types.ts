@@ -116,9 +116,9 @@ export const SHADER_PROPERTY_TAGS = {
 export type StructConfig = { id: string; properties: ShaderPropertyConfig[] };
 export type BuiltShaderConfig = {
   shaderEffectConfigs: ShaderEffectConfig[];
-  uniformConfig?: UniformConfig[];
-  varyingConfig?: VaryingConfig[];
-  attributeConfig?: AttributeConfig[];
+  uniformConfigs?: UniformConfig[];
+  varyingConfigs?: VaryingConfig[];
+  attributeConfigs?: AttributeConfig[];
   structConfigs?: StructConfig[];
 };
 

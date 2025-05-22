@@ -4,10 +4,10 @@ import { AttributeConfig } from "../../../types/materials/index";
 import { ASSET_MAPPING_RELATIONSHIPS } from "../../../consts";
 
 export const getAttributeValuesFromAssets = (
-  attributeConfig: AttributeConfig[],
+  attributeConfigs: AttributeConfig[],
   assets: Asset[]
 ) =>
-  attributeConfig.map((config) => {
+  attributeConfigs.map((config) => {
     if (config.assetId) {
       const selectedAsset = assets.find((asset) => asset.id === config.assetId);
       if (selectedAsset) {

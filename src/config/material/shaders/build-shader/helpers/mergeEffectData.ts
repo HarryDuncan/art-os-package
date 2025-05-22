@@ -18,9 +18,9 @@ export const mergeEffectData = (
   const {
     transformation,
     requiredFunctions,
-    uniformConfig,
-    varyingConfig,
-    attributeConfig,
+    uniformConfigs,
+    varyingConfigs,
+    attributeConfigs,
   } = effectData;
 
   const defaultEffectData =
@@ -30,15 +30,15 @@ export const mergeEffectData = (
 
   const defaultVaryingData = defaultEffectData?.varyings ?? [];
   const mergedUniforms = mergeUniformConfigs([
-    uniformConfig,
+    uniformConfigs,
     defaultEffectData.uniforms,
   ]);
   const mergedVaryings = mergeVaryingConfigs([
-    varyingConfig,
+    varyingConfigs,
     defaultVaryingData,
   ]);
   const mergedAttributes = mergeAttributeConfigs([
-    attributeConfig,
+    attributeConfigs,
     defaultEffectData.attributes,
   ]);
   const mergedFunctions = reduceFunctions([
@@ -49,8 +49,8 @@ export const mergeEffectData = (
   return {
     transformation,
     requiredFunctions: mergedFunctions,
-    uniformConfig: mergedUniforms,
-    varyingConfig: mergedVaryings,
-    attributeConfig: mergedAttributes,
+    uniformConfigs: mergedUniforms,
+    varyingConfigs: mergedVaryings,
+    attributeConfigs: mergedAttributes,
   };
 };

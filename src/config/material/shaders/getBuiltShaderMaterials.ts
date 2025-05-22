@@ -11,7 +11,7 @@ export const getBuiltShaderMaterials = (
   config: SceneConfig,
   assets: Asset[]
 ) => {
-  const { sceneMaterialConfigs } = config;
+  const { sceneMaterialConfigs, meshTransforms } = config;
   if (!sceneMaterialConfigs)
     return {
       attributeConfigs: [],
@@ -22,7 +22,10 @@ export const getBuiltShaderMaterials = (
       if (materialConfig.materialType === MATERIAL_TYPES.BUILT_SHADER) {
         const { builtShaderConfig } = materialConfig;
         if (!builtShaderConfig) return [];
-        const shaderConfig = formatBuiltShaderConfig(builtShaderConfig);
+        const shaderConfig = formatBuiltShaderConfig(
+          builtShaderConfig,
+          meshTransforms ?? []
+        );
         const { uniformConfigs, vertexShader, fragmentShader } =
           buildShader(shaderConfig);
 

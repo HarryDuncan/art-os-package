@@ -9,10 +9,10 @@ import {
 
 export interface VertexEffectData {
   requiredFunctions: ShaderFunction[];
-  uniformConfig: UniformConfig[];
-  varyingConfig: VaryingConfig[];
+  uniformConfigs: UniformConfig[];
+  varyingConfigs: VaryingConfig[];
   transformation: string;
-  attributeConfig: AttributeConfig[];
+  attributeConfigs: AttributeConfig[];
   structConfigs?: StructConfig[];
 }
 

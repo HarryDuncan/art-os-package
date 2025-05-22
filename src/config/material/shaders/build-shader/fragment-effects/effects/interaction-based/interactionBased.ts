@@ -50,21 +50,21 @@ export const interactionBased = (effectProps: FragmentEffectProps) => {
   );
 
   const mergedUniforms = mergeUniformConfigs(
-    subEffectData.map(({ uniformConfig }) => uniformConfig)
+    subEffectData.map(({ uniformConfigs }) => uniformConfigs)
   );
   const mergedVaryings = mergeVaryingConfigs(
-    subEffectData.map(({ varyingConfig }) => varyingConfig)
+    subEffectData.map(({ varyingConfigs }) => varyingConfigs)
   );
   const mergedAttributes = mergeAttributeConfigs(
-    subEffectData.map(({ attributeConfig }) => attributeConfig)
+    subEffectData.map(({ attributeConfigs }) => attributeConfigs)
   );
 
   return {
     transformation,
     requiredFunctions: mergedRequiredFunction,
-    uniformConfig: mergedUniforms,
-    varyingConfig: mergedVaryings,
-    attributeConfig: mergedAttributes,
+    uniformConfigs: mergedUniforms,
+    varyingConfigs: mergedVaryings,
+    attributeConfigs: mergedAttributes,
   };
 };
 

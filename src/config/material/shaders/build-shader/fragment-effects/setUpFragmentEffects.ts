@@ -15,7 +15,7 @@ import { FragmentEffectData } from "./fragmentShader.types";
 
 export const setUpFragmentEffects = (
   fragmentEffects: FragmentEffectConfig[],
-  uniformConfig: UniformConfig[]
+  uniformConfigs: UniformConfig[]
 ) => {
   const {
     varyingConfigs,
@@ -24,7 +24,7 @@ export const setUpFragmentEffects = (
     attributeConfigs,
     requiredFunctions,
     structConfigs,
-  } = getFragmentColors(fragmentEffects, uniformConfig);
+  } = getFragmentColors(fragmentEffects, uniformConfigs);
 
   const fragColor = `gl_FragColor = ${FRAG_COLOR_NAME};`;
   return {
@@ -56,9 +56,9 @@ export const getFragmentColors = (
       configuredUniformConfig
     );
     if (fragmentEffectData) {
-      unmergedVaryingConfigs.push(fragmentEffectData.varyingConfig);
-      unmergedUniformConfigs.push(fragmentEffectData.uniformConfig);
-      unmergedAttributeConfigs.push(fragmentEffectData.attributeConfig);
+      unmergedVaryingConfigs.push(fragmentEffectData.varyingConfigs);
+      unmergedUniformConfigs.push(fragmentEffectData.uniformConfigs);
+      unmergedAttributeConfigs.push(fragmentEffectData.attributeConfigs);
       unmergedTransformations.push(fragmentEffectData.transformation);
       unmergedStructConfigs.push(fragmentEffectData.structConfigs ?? []);
       allRequiredFunctions.push(fragmentEffectData.requiredFunctions);
@@ -84,12 +84,12 @@ export const getFragmentColors = (
 };
 
 const setUpInitialParameters = () => {
-  const { varyingConfig, uniformConfig, transformation, attributeConfig } =
+  const { varyingConfigs, uniformConfigs, transformation, attributeConfigs } =
     defaultFragmentEffect();
-  const unmergedVaryingConfigs = [varyingConfig];
-  const unmergedUniformConfigs = [uniformConfig];
+  const unmergedVaryingConfigs = [varyingConfigs];
+  const unmergedUniformConfigs = [uniformConfigs];
   const unmergedTransformations = [transformation];
-  const unmergedAttributeConfigs = [attributeConfig];
+  const unmergedAttributeConfigs = [attributeConfigs];
   return {
     unmergedVaryingConfigs,
     unmergedUniformConfigs,
@@ -103,9 +103,9 @@ export const defaultFragmentEffect = (): FragmentEffectData => {
   const defaultFrag = ``;
   return {
     requiredFunctions: [],
-    uniformConfig: [],
+    uniformConfigs: [],
     transformation: defaultFrag,
-    varyingConfig: [],
-    attributeConfig: [],
+    varyingConfigs: [],
+    attributeConfigs: [],
   };
 };

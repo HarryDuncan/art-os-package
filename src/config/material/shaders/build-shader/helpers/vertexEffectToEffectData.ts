@@ -6,17 +6,17 @@ export const vertexEffectToEffectData = (
   }
 ): VertexEffectData => {
   const {
-    attributeConfig,
+    attributeConfigs,
     requiredFunctions,
     transformation,
-    uniformConfig,
-    varyingConfig,
+    uniformConfigs,
+    varyingConfigs,
   } = effect;
   return {
     transformation,
-    attributeConfig: attributeConfig ?? [],
+    attributeConfigs: attributeConfigs ?? [],
     requiredFunctions: requiredFunctions ?? [],
-    uniformConfig: uniformConfig ?? [],
-    varyingConfig: varyingConfig ?? [],
+    uniformConfigs: uniformConfigs ?? [],
+    varyingConfigs: varyingConfigs ?? [],
   };
 };

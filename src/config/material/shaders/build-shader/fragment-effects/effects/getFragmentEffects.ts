@@ -25,17 +25,17 @@ const FRAGMENT_EFFECTS_MAP = {
 
 export const getFragmentEffects = (
   effect: FragmentEffectConfig,
-  uniformConfig: UniformConfig[]
+  uniformConfigs: UniformConfig[]
 ): FragmentEffectData | null => {
   const { effectType, effectParameters, id } = effect;
-  const effectUniforms = formatUniformsForEffect(uniformConfig, id);
+  const effectUniforms = formatUniformsForEffect(uniformConfigs, id);
 
   const fragmentEffectProps = {
     effectUniforms,
     effectParameters,
     effectType,
     subEffects: effect?.subEffects ?? [],
-    unfilteredUniforms: uniformConfig,
+    unfilteredUniforms: uniformConfigs,
   };
   return transformSetup(fragmentEffectProps);
 };
@@ -58,17 +58,17 @@ export const fragmentEffectToEffectData = (
   effect: Partial<FragmentEffectData>
 ) => {
   const {
-    attributeConfig,
+    attributeConfigs,
     requiredFunctions,
     transformation,
-    uniformConfig,
-    varyingConfig,
+    uniformConfigs,
+    varyingConfigs,
   } = effect;
   return {
-    attributeConfig: attributeConfig ?? [],
+    attributeConfigs: attributeConfigs ?? [],
     transformation: transformation ?? "",
     requiredFunctions: requiredFunctions ?? [],
-    uniformConfig: uniformConfig ?? [],
-    varyingConfig: varyingConfig ?? [],
+    uniformConfigs: uniformConfigs ?? [],
+    varyingConfigs: varyingConfigs ?? [],
   };
 };

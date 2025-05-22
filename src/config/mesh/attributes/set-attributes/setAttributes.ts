@@ -5,10 +5,10 @@ import { ATTRIBUTE_VALUE_TYPES } from "../../../material/shaders/build-shader/co
 
 export const setAttributes = (
   bufferGeometry: BufferGeometry,
-  attributeConfig: AttributeConfig[] = []
+  attributeConfigs: AttributeConfig[] = []
 ) => {
   const vertexCount = getVerticesCount(bufferGeometry);
-  attributeConfig.forEach(
+  attributeConfigs.forEach(
     ({ id, value, attributeValueType, attributeCount }) => {
       const valueCount = attributeCount ?? vertexCount;
       switch (attributeValueType) {

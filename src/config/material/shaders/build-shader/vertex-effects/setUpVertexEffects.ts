@@ -16,8 +16,8 @@ import {
 
 export const setUpVertexEffects = (
   vertexEffects: VertexEffectConfig[],
-  uniformConfig: UniformConfig[],
-  varyingConfig: VaryingConfig[]
+  uniformConfigs: UniformConfig[],
+  varyingConfigs: VaryingConfig[]
 ) => {
   const {
     uniformConfigs,
@@ -26,7 +26,7 @@ export const setUpVertexEffects = (
     requiredFunctions,
     attributeConfigs,
     structConfigs,
-  } = getVertexTransformations(vertexEffects, uniformConfig, varyingConfig);
+  } = getVertexTransformations(vertexEffects, uniformConfigs, varyingConfigs);
 
   const viewMatrix = `gl_Position = projectionMatrix * modelViewMatrix * vec4(${VERTEX_POINT_NAME}.xyz, 1.0);`;
 
@@ -60,16 +60,16 @@ const getVertexTransformations = (
     );
     if (vertexEffectData !== null) {
       const {
-        uniformConfig,
-        varyingConfig,
+        uniformConfigs,
+        varyingConfigs,
         transformation,
         requiredFunctions,
-        attributeConfig = [],
+        attributeConfigs = [],
         structConfigs = [],
       } = vertexEffectData ?? {};
-      unmergedUniformConfigs.push(uniformConfig);
-      unmergedVaryingConfigs.push(varyingConfig);
-      unmergedAttributeConfigs.push(attributeConfig);
+      unmergedUniformConfigs.push(uniformConfigs);
+      unmergedVaryingConfigs.push(varyingConfigs);
+      unmergedAttributeConfigs.push(attributeConfigs);
       unmergedTransformations.push(transformation);
       allRequiredFunctions.push(requiredFunctions);
       unmergedStructConfigs.push(structConfigs);

@@ -2,9 +2,9 @@ export const DEFAULT_VARYINGS = {};
 
 export const DEFAULT_VERTEX_EFFECT = {
   requiredFunctions: [],
-  uniformConfig: [],
+  uniformConfigs: [],
   transformation: "",
-  varyingConfig: [],
-  attributeConfig: [],
+  varyingConfigs: [],
+  attributeConfigs: [],
   pointName: "",
 };

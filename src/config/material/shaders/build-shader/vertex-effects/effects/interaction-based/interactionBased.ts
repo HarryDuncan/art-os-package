@@ -38,9 +38,9 @@ export const interactionBased = (effectProps: VertexEffectProps) => {
       return {
         transformation: vertexEffectData.transformation,
         requiredFunctions: vertexEffectData.requiredFunctions,
-        uniformConfig: vertexEffectData.uniformConfig,
-        attributeConfig: vertexEffectData.attributeConfig,
-        varyingConfig: vertexEffectData.varyingConfig,
+        uniformConfigs: vertexEffectData.uniformConfigs,
+        attributeConfigs: vertexEffectData.attributeConfigs,
+        varyingConfigs: vertexEffectData.varyingConfigs,
       };
     }
     return [];
@@ -62,23 +62,23 @@ export const interactionBased = (effectProps: VertexEffectProps) => {
   );
 
   const mergedVaryingConfigs = mergeVaryingConfigs(
-    subEffectData.map(({ varyingConfig }) => varyingConfig)
+    subEffectData.map(({ varyingConfigs }) => varyingConfigs)
   );
   const mergedRequiredFunction = reduceFunctions(
     subEffectData.map(({ requiredFunctions }) => requiredFunctions)
   );
   const mergedUniformConfig = mergeUniformConfigs(
-    subEffectData.map(({ uniformConfig }) => uniformConfig)
+    subEffectData.map(({ uniformConfigs }) => uniformConfigs)
   );
   const mergedAttributeConfig = mergeAttributeConfigs(
-    subEffectData.map(({ attributeConfig }) => attributeConfig)
+    subEffectData.map(({ attributeConfigs }) => attributeConfigs)
   );
   return {
     transformation,
     requiredFunctions: mergedRequiredFunction,
-    varyingConfig: mergedVaryingConfigs,
-    uniformConfig: mergedUniformConfig,
-    attributeConfig: mergedAttributeConfig,
+    varyingConfigs: mergedVaryingConfigs,
+    uniformConfigs: mergedUniformConfig,
+    attributeConfigs: mergedAttributeConfig,
   };
 };
 
