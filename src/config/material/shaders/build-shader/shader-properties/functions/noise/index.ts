@@ -3,10 +3,12 @@ import { noise3D, virusNoise } from "./noise3d";
 import { noise4D } from "./noise4d";
 import { simplePerlinNoise } from "./perlinNoise";
 import { voronoiNoise } from "./voronoiNoise";
+import { FUNCTION_TYPES } from "../../../constants/buildShader.consts";
 
 export const noiseFunction = {
   id: "noise",
   functionDefinition: noise,
+  functionType: FUNCTION_TYPES.STATIC,
 };
 
 export const fadeFunction = {
@@ -27,6 +29,7 @@ export const noise3dFunction = {
 export const virusNoiseFunction = {
   id: "virusNoise",
   functionDefinition: virusNoise.functionDefinition,
+  functionType: FUNCTION_TYPES.STATIC,
 };
 
 export const noise4dFunction = {
@@ -42,4 +45,5 @@ export const perlinNoiseFunction = {
 export const voronoiNoiseFunction = {
   id: "voronoiNoise",
   functionDefinition: voronoiNoise,
+  functionType: FUNCTION_TYPES.STATIC,
 };

@@ -6,6 +6,8 @@ import { ROTATION_EFFECT_CONFIG } from "./effects/rotation-effects/rotationEffec
 
 export const VERTEX_POINT_NAME = "currentVertexPoint";
 export const VERTEX_NORMAL_NAME = "currentVertexNormal";
+export const VERTEX_POINT_INSTANTIATION = `vec4 ${VERTEX_POINT_NAME} = vec4(position.xyz, 1.0);`;
+export const VERTEX_NORMAL_INSTANTIATION = `vec4 ${VERTEX_NORMAL_NAME} = vec4(normal.xyz, 1.0);`;
 
 export const VERTEX_EFFECTS = {
   NONE: "NONE",

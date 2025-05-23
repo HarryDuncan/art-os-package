@@ -1,8 +1,10 @@
 import {
   ParameterConfig,
+  ShaderFunction,
   ShaderTransformationConfig,
   TransformationConfig,
 } from "../buildShader.types";
+import { FUNCTION_TYPES } from "../constants/buildShader.consts";
 import { SHADER_PROPERTY_VALUE_TYPES } from "../constants/shader.consts";
 import { VERTEX_POINT_NAME } from "../vertex-effects/vertexEffects.consts";
 import { VertexEffectProps } from "../vertex-effects/vertexEffects.types";
@@ -70,24 +72,32 @@ const DEFAULT_VERTEX_PARAMETERS = [
     valueType: SHADER_PROPERTY_VALUE_TYPES.VEC4,
   },
 ];
+
+const shaderSafeGuid = (guid: string) => {
+  return guid.slice(0, 8);
+};
 export const generateShaderTransformation = (
   config: ShaderTransformationConfig,
   effectProps: VertexEffectProps
-) => {
+): { transformation: string; transformationFunctions: ShaderFunction[] } => {
   const { id, effectParameters, effectType } = effectProps;
 
-  const functionName = `${effectType}_${id}`;
+  const functionName = `${effectType}_${shaderSafeGuid(id)}`;
+
   const functionParameters = DEFAULT_VERTEX_PARAMETERS.map((effect) => ({
     id: effect.id,
     valueType: effect.valueType,
-    functionId: `${effect.id}_${id}`,
+    functionId: `${effect.id}_${shaderSafeGuid(id)}`,
   })).concat(
-    effectParameters.map((effectParameter) => {
+    effectParameters.flatMap((effectParameter) => {
       const { id: parameterId, guid } = effectParameter;
+      if (effectParameter.isUniform) {
+        return [];
+      }
       return {
         id: parameterId,
         valueType: effectParameter.valueType,
-        functionId: `${parameterId}_${guid}`,
+        functionId: `${parameterId}_${shaderSafeGuid(guid)}`,
       };
     })
   );
@@ -97,13 +107,17 @@ export const generateShaderTransformation = (
 
   const functionDeclaration = `vec4 ${functionName}(${functionInputs.join(
     ", "
-  )})`;
+  )}){`;
 
   const formattedFunctionContent = config.functionContent.map((line) => {
     return line.replace(/{{(\w+)}}/g, (match, key) => {
       const parameter = functionParameters.find((p) => p.id === key);
 
       if (!parameter) {
+        const uniform = effectParameters.find((p) => p.id === key);
+        if (uniform) {
+          return `${uniform.id}`;
+        }
         return match;
       }
       return `${parameter.functionId}`;
@@ -128,19 +142,25 @@ export const generateShaderTransformation = (
         p.value
       };`;
     });
-  console.log(constantDeclarations);
   const functionInstantiation = `${VERTEX_POINT_NAME} = ${functionName}(${VERTEX_POINT_NAME}, ${functionParameters
     .map((p) => {
       return `${p.id}`;
     })
     .join(", ")});`;
 
-  const transform = [
-    functionDeclaration,
-    ...formattedFunctionContent,
-    returnStatement,
-    ...constantDeclarations,
-    functionInstantiation,
-  ].join("\n");
-  return transform;
+  const transformation = [...constantDeclarations, functionInstantiation].join(
+    "\n"
+  );
+  const transformationFunctions = [
+    {
+      id: functionName,
+      functionDefinition: [
+        functionDeclaration,
+        ...formattedFunctionContent,
+        returnStatement,
+      ].join("\n"),
+      functionType: FUNCTION_TYPES.ROOT,
+    },
+  ];
+  return { transformation, transformationFunctions };
 };

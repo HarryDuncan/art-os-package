@@ -23,6 +23,7 @@ export type ShaderPropertyConfig = {
 export type ShaderFunction = {
   id: string;
   functionDefinition: string;
+  functionType: string;
 };
 
 export interface EffectConfig {

@@ -2,8 +2,6 @@ import {
   FRAG_COLOR_INSTANTIATION,
   MAIN_END,
   MAIN_START,
-  VERTEX_NORMAL_INSTANTIATION,
-  VERTEX_POINT_INSTANTIATION,
 } from "./constants/buildShader.consts";
 import { setUpFragmentEffects } from "./fragment-effects/setUpFragmentEffects";
 import { buildAttributes } from "./shader-properties/attributes/buildAttributes";
@@ -21,6 +19,11 @@ import {
   VaryingConfig,
 } from "./buildShader.types";
 import { formatShaderEffects } from "./helpers/formatEffectConfigs";
+import {
+  VERTEX_NORMAL_INSTANTIATION,
+  VERTEX_POINT_INSTANTIATION,
+} from "./vertex-effects/vertexEffects.consts";
+import { formatFunctionDeclarations } from "./helpers/formatFunctionDeclarations";
 
 const DEBUG = true;
 export const buildShader = (shaderConfig: BuiltShaderConfig) => {
@@ -62,7 +65,6 @@ export const buildShader = (shaderConfig: BuiltShaderConfig) => {
   } = buildVaryings(mergedShaderVaryings, combinedAttributeConfigs);
 
   const shaderStructConfigs = [
-    vertexEffects.structConfigs,
     fragmentEffects.structConfigs,
     structConfigs ?? [],
   ];
@@ -110,14 +112,14 @@ const formatVertexShader = (
   vertexTransformations: string,
   viewMatrix: string
 ) => {
+  const vertexFunctionDeclarations =
+    formatFunctionDeclarations(vertexFunctions);
   return [
     structDeclaration,
     attributes,
     uniformDeclarations,
     varyingDeclaration,
-    vertexFunctions
-      .map(({ functionDefinition }) => functionDefinition)
-      .join(""),
+    vertexFunctionDeclarations,
     MAIN_START,
     VERTEX_POINT_INSTANTIATION,
     VERTEX_NORMAL_INSTANTIATION,

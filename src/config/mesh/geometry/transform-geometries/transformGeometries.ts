@@ -1,11 +1,10 @@
 import { BufferAttribute, Vector2 } from "three";
 import { MeshTransformConfig } from "../../../../types/config.types";
 import { FormattedGeometry } from "../../../../assets/geometry/geometry.types";
-import { mergeArraysWithoutDuplicates } from "../../../../utils/mergeArraysWithoutDuplicates";
 import { MESH_TRANSFORM_TYPE } from "../../../../consts/mesh.consts";
 import { getAttributeValuesFromAssets } from "../../attributes/getAttributeValuesFromAsset";
 import { Asset } from "../../../../types";
-import { ParameterConfig } from "../../../../types/materials/index";
+
 export const transformGeometry = (
   meshTransforms: MeshTransformConfig[] | undefined,
   formattedGeometries: FormattedGeometry[],

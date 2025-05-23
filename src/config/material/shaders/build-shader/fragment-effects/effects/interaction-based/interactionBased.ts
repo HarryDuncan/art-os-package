@@ -1,7 +1,7 @@
 import { TransformationConfig } from "../../../buildShader.types";
 import { FRAGMENT_EFFECTS } from "../../fragmentEffects.consts";
 import { generateShaderTransformationOld } from "../../../helpers/generateTransform";
-import { reduceFunctions } from "../../../helpers/reduceFunctions";
+import { mergeShaderFunctions } from "../../../helpers/mergeShaderFunctions";
 import { getFragmentEffects } from "../getFragmentEffects";
 import { affectedPositionTransformConfig } from "./affectedPosition";
 import { FragmentEffectProps } from "../../fragmentShader.types";
@@ -41,7 +41,7 @@ export const interactionBased = (effectProps: FragmentEffectProps) => {
     effectParameters
   );
 
-  const mergedRequiredFunction = reduceFunctions(
+  const mergedRequiredFunction = mergeShaderFunctions(
     subEffectData.map(({ requiredFunctions }) => requiredFunctions)
   );
 

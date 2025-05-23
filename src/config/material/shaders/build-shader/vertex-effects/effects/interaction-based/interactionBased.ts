@@ -1,6 +1,6 @@
 import { TransformationConfig, VaryingConfig } from "../../../../../../..";
 import { generateShaderTransformationOld } from "../../../helpers/generateTransform";
-import { reduceFunctions } from "../../../helpers/reduceFunctions";
+import { mergeShaderFunctions } from "../../../helpers/mergeShaderFunctions";
 import { parseRawValueToShader } from "../../../helpers/safeParseValue";
 import { mergeAttributeConfigs } from "../../../shader-properties/attributes/helpers/mergeAttributeConfigs";
 import { mergeUniformConfigs } from "../../../shader-properties/uniforms/helpers/mergeUniformConfigs";
@@ -54,7 +54,7 @@ export const interactionBased = (effectProps: VertexEffectProps) => {
   const mergedVaryingConfigs = mergeVaryingConfigs(
     subEffectData.map(({ varyingConfigs }) => varyingConfigs)
   );
-  const mergedRequiredFunction = reduceFunctions(
+  const mergedRequiredFunction = mergeShaderFunctions(
     subEffectData.map(({ requiredFunctions }) => requiredFunctions)
   );
   const mergedUniformConfig = mergeUniformConfigs(

@@ -8,7 +8,7 @@ import { mergeUniformConfigs } from "../shader-properties/uniforms/helpers/merge
 import { mergeVaryingConfigs } from "../shader-properties/varyings/helpers/mergeVaryingConfigs";
 import { VERTEX_EFFECT_CONFIG_MAP } from "../vertex-effects/vertexEffects.consts";
 import { VertexEffectData } from "../vertex-effects/vertexEffects.types";
-import { reduceFunctions } from "./reduceFunctions";
+import { mergeShaderFunctions } from "./mergeShaderFunctions";
 
 export const mergeEffectData = (
   effectData: FragmentEffectData | VertexEffectData,
@@ -41,7 +41,7 @@ export const mergeEffectData = (
     attributeConfigs,
     defaultEffectData.attributes,
   ]);
-  const mergedFunctions = reduceFunctions([
+  const mergedFunctions = mergeShaderFunctions([
     requiredFunctions,
     defaultEffectData?.functions,
   ]);

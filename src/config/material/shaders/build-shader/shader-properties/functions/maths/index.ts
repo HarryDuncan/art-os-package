@@ -15,6 +15,7 @@ import {
 } from "./maths";
 
 import { scaleVector3 } from "./vectorCalculations";
+import { FUNCTION_TYPES } from "../../../constants/buildShader.consts";
 
 export const mod289FloatFunction = {
   id: "mod289",
@@ -24,16 +25,19 @@ export const mod289FloatFunction = {
 export const mod289Vec3Function = {
   id: "mod289",
   functionDefinition: mod289Vec3,
+  functionType: FUNCTION_TYPES.STATIC,
 };
 
 export const mod289Vec4Function = {
   id: "mod289",
   functionDefinition: mod289Vec4,
+  functionType: FUNCTION_TYPES.STATIC,
 };
 
 export const pow2Function = {
   id: "pow2",
   functionDefinition: pow2,
+  functionType: FUNCTION_TYPES.STATIC,
 };
 
 export const permuteFloatFunction = {
@@ -59,11 +63,13 @@ export const taylorInvSqrtVec4Function = {
 export const calculateNormalFunction = {
   id: "calculateNormal",
   functionDefinition: calculateNormal,
+  functionType: FUNCTION_TYPES.STATIC,
 };
 
 export const hash33Function = {
   id: "hash33",
   functionDefinition: hash33,
+  functionType: FUNCTION_TYPES.STATIC,
 };
 
 export const interpolateFunction = {
@@ -74,14 +80,17 @@ export const interpolateFunction = {
 export const normSinFunction = {
   id: "normSin",
   functionDefinition: normSin,
+  functionType: FUNCTION_TYPES.STATIC,
 };
 
 export const orthogonalFunction = {
   id: "orthogonal",
   functionDefinition: orthogonal,
+  functionType: FUNCTION_TYPES.STATIC,
 };
 
 export const scaleVector3Function = {
   id: "scaleVector3",
   functionDefinition: scaleVector3,
+  functionType: FUNCTION_TYPES.STATIC,
 };

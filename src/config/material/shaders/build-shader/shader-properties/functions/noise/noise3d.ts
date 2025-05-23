@@ -5,6 +5,7 @@ import {
   permuteVec4,
   taylorInvSqrtVec4,
 } from "../maths/maths";
+import { FUNCTION_TYPES } from "../../../constants/buildShader.consts";
 
 export const noise3D = `
   
@@ -92,6 +93,7 @@ export const noise3D = `
 export const noise3dFunction = {
   id: "noise3D",
   functionDefinition: noise3D,
+  functionType: FUNCTION_TYPES.STATIC,
 };
 
 export const virusNoise = {

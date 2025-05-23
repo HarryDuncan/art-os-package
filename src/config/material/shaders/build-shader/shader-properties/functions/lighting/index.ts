@@ -20,6 +20,7 @@ import {
 } from "./light";
 
 import { diffuseFactor } from "./diffuseFactor";
+import { FUNCTION_TYPES } from "../../../constants/buildShader.consts";
 
 export const pointLightInfoFunction = {
   id: "getPointLightInfo",
@@ -29,6 +30,7 @@ export const pointLightInfoFunction = {
 export const dfgApproxFunction = {
   id: "dfgApprox",
   functionDefinition: dfgApprox,
+  functionType: FUNCTION_TYPES.STATIC,
 };
 
 export const computeMultiScatteringFunction = {
@@ -84,16 +86,19 @@ export const indirectDiffusePhysicalFunction = {
 export const linearTosRGBFunction = {
   id: "linearTosRGB",
   functionDefinition: linearTosRGB,
+  functionType: FUNCTION_TYPES.STATIC,
 };
 
 export const fSchlickVectorFunction = {
   id: "fSchlickVector",
   functionDefinition: fSchlickVector,
+  functionType: FUNCTION_TYPES.STATIC,
 };
 
 export const fSchlickFloatFunction = {
   id: "fSchlickFloat",
   functionDefinition: fSchlickFloat,
+  functionType: FUNCTION_TYPES.STATIC,
 };
 
 export const vGGXSmithCorrelatedFunction = {
@@ -104,14 +109,17 @@ export const vGGXSmithCorrelatedFunction = {
 export const brdfGgxFunction = {
   id: "brdfGgx",
   functionDefinition: brdfGgx,
+  functionType: FUNCTION_TYPES.STATIC,
 };
 
 export const dGGXFunction = {
   id: "dGGX",
   functionDefinition: dGGX,
+  functionType: FUNCTION_TYPES.STATIC,
 };
 
 export const diffuseFactorFunction = {
   id: "diffuseFactor",
   functionDefinition: diffuseFactor,
+  functionType: FUNCTION_TYPES.STATIC,
 };
