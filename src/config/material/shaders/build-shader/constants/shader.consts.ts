@@ -1,4 +1,4 @@
-import { Vector3, Vector2 } from "three";
+import { ParameterConfig } from "../buildShader.types";
 
 export const SHADER_PROPERTY_VALUE_TYPES = {
   INT: "INT",
@@ -43,3 +43,14 @@ export const ATTRIBUTE_VALUE_TYPES = {
   RANDOM_VALUE: "RANDOM_VALUE",
   RANDOMIZED_BINARY: "RANDOMIZED_BINARY",
 };
+
+export const DEFAULT_UNIFORMS = [
+  {
+    id: "uTime",
+    valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
+    isUniform: true,
+    isAssetMapped: false,
+    assetMappingConfig: null,
+    value: 0,
+  },
+] as unknown as ParameterConfig[];

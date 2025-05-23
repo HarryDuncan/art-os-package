@@ -1,5 +1,6 @@
 import { MeshTransformConfig } from "../../../../types";
 import { BuiltShaderConfig } from "../../../../types/materials/index";
+import { DEFAULT_UNIFORMS } from "../build-shader/constants/shader.consts";
 
 export const formatBuiltShaderConfig = (
   parsedConfig: Partial<BuiltShaderConfig>,
@@ -27,9 +28,12 @@ export const formatBuiltShaderConfig = (
           ],
         };
       }) ?? [],
-    uniformConfigs: shaderEffectConfigs?.flatMap((effect) =>
-      effect.effectParameters.filter((parameter) => parameter.isUniform)
-    ),
+    uniformConfigs: [
+      ...DEFAULT_UNIFORMS,
+      ...(shaderEffectConfigs?.flatMap((effect) =>
+        effect.effectParameters.filter((parameter) => parameter.isUniform)
+      ) ?? []),
+    ],
     attributeConfigs: [
       ...(materialAttributeConfigs ?? []),
       ...meshTransformAttributes,
