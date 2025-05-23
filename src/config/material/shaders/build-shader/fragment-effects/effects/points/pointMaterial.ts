@@ -1,6 +1,6 @@
 import { getPointTexture } from "./functions/getPointTextures";
 import { TransformationConfig } from "../../../buildShader.types";
-import { generateShaderTransformation } from "../../../helpers/generateTransform";
+import { generateShaderTransformationOld } from "../../../helpers/generateTransform";
 import { FRAG_COLOR_NAME } from "../../fragmentEffects.consts";
 import { FragmentEffectProps } from "../../fragmentShader.types";
 
@@ -38,7 +38,7 @@ export const pointMaterial = (effectProps: FragmentEffectProps) => {
     `if(${FRAG_COLOR_NAME}.a < 0.5) discard;`,
   ];
   pointMaterialTransformConfig.effectCode = updatedEffectCode;
-  const transformation = generateShaderTransformation(
+  const transformation = generateShaderTransformationOld(
     pointMaterialTransformConfig,
     effectParameters
   );

@@ -97,6 +97,11 @@ export type BuiltShaderConfig = {
   structConfigs?: StructConfig[];
 };
 
+export type ShaderTransformationConfig = {
+  functionInputs: string;
+  functionContent: string[];
+};
+
 export type TransformationConfig = {
   effectName: string;
   instantiationName?: string;

@@ -27,11 +27,10 @@ export const getBuiltShaderMaterials = (
           meshTransforms ?? []
         );
 
-        const { uniformConfigs, vertexShader, fragmentShader } =
-          buildShader(shaderConfig);
-        console.log(uniformConfigs);
+        const { vertexShader, fragmentShader } = buildShader(shaderConfig);
+
         const formattedUniforms = formatBuiltShaderUniforms(
-          uniformConfigs,
+          shaderConfig.uniformConfigs ?? [],
           assets
         );
         const blendingOptions = configureBlendingOptions(

@@ -9,7 +9,6 @@ import { setUpFragmentEffects } from "./fragment-effects/setUpFragmentEffects";
 import { buildAttributes } from "./shader-properties/attributes/buildAttributes";
 import { mergeAttributeConfigs } from "./shader-properties/attributes/helpers/mergeAttributeConfigs";
 import { buildUniformDeclaration } from "./shader-properties/uniforms/buildUniforms";
-import { mergeUniformConfigs } from "./shader-properties/uniforms/helpers/mergeUniformConfigs";
 import { buildVaryings } from "./shader-properties/varyings/buildVaryings";
 import { mergeVaryingConfigs } from "./shader-properties/varyings/helpers/mergeVaryingConfigs";
 import { setUpVertexEffects } from "./vertex-effects/setUpVertexEffects";
@@ -33,20 +32,11 @@ export const buildShader = (shaderConfig: BuiltShaderConfig) => {
     structConfigs,
   } = shaderConfig;
 
-  const configuredUniformConfig = [...(uniformConfigs ?? [])];
-
   const { formattedVertexEffects, formattedFragmentEffects } =
     formatShaderEffects(shaderEffectConfigs);
 
   const fragmentEffects = setUpFragmentEffects(formattedFragmentEffects);
   const vertexEffects = setUpVertexEffects(formattedVertexEffects);
-
-  // pass the parsed uniform config first so the values override any values defined in the other effects - vertex/fragment
-  const mergedShaderUniforms = mergeUniformConfigs([
-    configuredUniformConfig,
-    vertexEffects.uniformConfigs,
-    fragmentEffects.uniformConfigs,
-  ]);
 
   const shaderAttributes = [
     attributeConfigs,
@@ -65,7 +55,7 @@ export const buildShader = (shaderConfig: BuiltShaderConfig) => {
     shaderVaryings
   ) as VaryingConfig[];
 
-  const uniformDeclaration = buildUniformDeclaration(mergedShaderUniforms);
+  const uniformDeclaration = buildUniformDeclaration(uniformConfigs ?? []);
   const {
     declaration: varyingDeclaration,
     instantiation: varyingInstantiation,
@@ -106,7 +96,6 @@ export const buildShader = (shaderConfig: BuiltShaderConfig) => {
   return {
     vertexShader,
     fragmentShader,
-    uniformConfigs: mergedShaderUniforms,
     attributeConfigs: combinedAttributeConfigs,
   };
 };

@@ -1,6 +1,5 @@
 import { FragmentEffectConfig } from "../../buildShader.types";
 import { FRAGMENT_EFFECTS } from "../fragmentEffects.consts";
-
 import { interactionBased } from "./interaction-based/interactionBased";
 import {
   FragmentEffectData,

@@ -1,5 +1,5 @@
 import { TransformationConfig, VaryingConfig } from "../../../../../../..";
-import { generateShaderTransformation } from "../../../helpers/generateTransform";
+import { generateShaderTransformationOld } from "../../../helpers/generateTransform";
 import { reduceFunctions } from "../../../helpers/reduceFunctions";
 import { parseRawValueToShader } from "../../../helpers/safeParseValue";
 import { mergeAttributeConfigs } from "../../../shader-properties/attributes/helpers/mergeAttributeConfigs";
@@ -46,7 +46,7 @@ export const interactionBased = (effectProps: VertexEffectProps) => {
     "};",
   ];
   const transformConfig = { ...interactionTransformConfig, effectCode };
-  const transformation = generateShaderTransformation(
+  const transformation = generateShaderTransformationOld(
     transformConfig,
     effectParameters
   );

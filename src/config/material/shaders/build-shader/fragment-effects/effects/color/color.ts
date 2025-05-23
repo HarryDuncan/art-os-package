@@ -1,6 +1,6 @@
 import { FRAG_COLOR_NAME } from "../../../../../../../consts";
 import { TransformationConfig } from "../../../buildShader.types";
-import { generateShaderTransformation } from "../../../helpers/generateTransform";
+import { generateShaderTransformationOld } from "../../../helpers/generateTransform";
 import { FragmentEffectProps } from "../../fragmentShader.types";
 
 const colorTransformationConfig = {
@@ -14,7 +14,7 @@ const colorTransformationConfig = {
 
 export const color = (effectProps: FragmentEffectProps) => {
   const { effectParameters } = effectProps;
-  const transformation = generateShaderTransformation(
+  const transformation = generateShaderTransformationOld(
     colorTransformationConfig,
     effectParameters
   );

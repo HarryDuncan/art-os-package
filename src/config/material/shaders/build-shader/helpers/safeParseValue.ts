@@ -27,7 +27,7 @@ export const safeParseValue = (
   return "";
 };
 
-export const valueTypeToValue = (valueType: string) => {
+export const shaderValueTypeInstantiation = (valueType: string) => {
   switch (valueType) {
     case SHADER_PROPERTY_VALUE_TYPES.FLOAT:
       return `float`;
@@ -37,6 +37,8 @@ export const valueTypeToValue = (valueType: string) => {
       return `vec3`;
     case SHADER_PROPERTY_VALUE_TYPES.VEC4:
       return `vec4`;
+    case SHADER_PROPERTY_VALUE_TYPES.SAMPLER2D:
+      return `sampler2D`;
     default:
       throw new Error(`Unsupported value type: ${valueType}`);
   }
