@@ -1,4 +1,4 @@
-export const randomFloat = `float random(float n) {
+export const randomFloat = `float randomFloat(float n) {
     return fract(sin(n) * 43758.5453123);
 }`;
 

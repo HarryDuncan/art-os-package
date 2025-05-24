@@ -5,11 +5,7 @@ import {
   SHADER_PROPERTY_VALUE_TYPES,
 } from "../../constants/shader.consts";
 import { VARYING_TYPES } from "../../shader-properties/varyings/varyings.consts";
-import {
-  randFunction,
-  randomFloatFunction,
-} from "../../shader-properties/functions/random";
-import { noiseFunction } from "../../shader-properties/functions/noise";
+
 import { QUAD_MESH_TRANSFORM } from "../../../../../mesh/meshTransforms.consts";
 import { ParameterConfig } from "../../buildShader.types";
 import {
@@ -18,6 +14,11 @@ import {
 } from "../../constants";
 import { MESH_TRANSFORM_TYPE } from "../../../../../mesh/mesh.consts";
 import { MeshTransformConfig } from "../../../../../../types/config.types";
+import {
+  randomFloatFunction,
+  randFunction,
+  noiseFunction,
+} from "../../shader-properties/static-functions";
 // {
 //   id: "vPixelColor",
 //   name: "Pixel Color",

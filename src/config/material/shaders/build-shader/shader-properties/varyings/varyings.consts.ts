@@ -10,6 +10,7 @@ export const VARYING_TYPES = {
   ATTRIBUTE: "ATTRIBUTE",
   CUSTOM: "CUSTOM",
   BINARY: "BINARY",
+  FUNCTION: "FUNCTION",
 };
 
 export const DEFAULT_VARYINGS = {

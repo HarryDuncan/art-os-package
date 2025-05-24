@@ -185,6 +185,7 @@ export const generateVertexShaderTransformation = (
       functionParameterIds,
       functionContent,
       shaderVariableType,
+      id: functionId,
     }) => {
       const returnTypeString = shaderValueTypeInstantiation(returnValue);
       const functionInputs = functionParameterIds.flatMap((parameterId) => {
@@ -215,7 +216,8 @@ export const generateVertexShaderTransformation = (
 
       const shaderFunctionType = getShaderFunctionType(shaderVariableType);
       const shaderFunctionConfig = {
-        id: functionName,
+        id: functionId,
+        functionName: functionName,
         functionDefinition: [
           functionDeclaration,
           ...formattedFunctionContent,
@@ -300,6 +302,7 @@ export const generateFragmentShaderTransformation = (
       functionParameterIds,
       functionContent,
       shaderVariableType,
+      id: functionId,
     }) => {
       const returnTypeString = shaderValueTypeInstantiation(returnValue);
       const functionInputs = functionParameterIds.flatMap((parameterId) => {
@@ -330,7 +333,8 @@ export const generateFragmentShaderTransformation = (
 
       const shaderFunctionType = getShaderFunctionType(shaderVariableType);
       const shaderFunctionConfig = {
-        id: functionName,
+        id: functionId,
+        functionName: functionName,
         functionDefinition: [
           functionDeclaration,
           ...formattedFunctionContent,

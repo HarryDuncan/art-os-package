@@ -1,5 +1,6 @@
 import { POINT_MATERIAL_EFFECT_CONFIG } from "./effects/pointMaterial.config";
 import { INTERACTIVE_EFFECTS } from "../constants/interactiveEffects.consts";
+import { TEXTURE_PIXEL_COLOR_EFFECT_CONFIG } from "./effects/texturePixelColor.config";
 
 export const FRAG_COLOR_NAME = "currentFragColor";
 export const FRAG_COLOR_INSTANTIATION = `vec4 ${FRAG_COLOR_NAME} = vec4(1.0,0,0,1.0);`;
@@ -23,6 +24,7 @@ export const DEFAULT_FRAG_COLOR = "#ff1205";
 
 export const FRAGMENT_EFFECT_CONFIG_MAP = {
   [FRAGMENT_EFFECTS.POINT_MATERIAL]: POINT_MATERIAL_EFFECT_CONFIG,
+  [FRAGMENT_EFFECTS.TEXTURE_PIXEL_COLOR]: TEXTURE_PIXEL_COLOR_EFFECT_CONFIG,
 };
 
 // [FRAGMENT_EFFECTS.OVERLAY_COLOR]: {

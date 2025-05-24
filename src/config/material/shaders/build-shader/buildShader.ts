@@ -37,7 +37,11 @@ export const buildShader = (shaderConfig: BuiltShaderConfig) => {
   const {
     declaration: varyingDeclaration,
     instantiation: varyingInstantiation,
-  } = buildVaryings(varyingConfigs ?? [], attributeConfigs ?? []);
+  } = buildVaryings(
+    varyingConfigs ?? [],
+    attributeConfigs ?? [],
+    vertexEffects.requiredFunctions
+  );
 
   const shaderStructConfigs = [structConfigs ?? []];
   const mergedStructConfig = mergeStructConfigs(shaderStructConfigs);

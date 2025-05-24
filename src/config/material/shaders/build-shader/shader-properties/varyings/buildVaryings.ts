@@ -15,13 +15,19 @@ import {
   VERTEX_POINT_NAME,
 } from "../../vertex-effects/vertexEffects.consts";
 import { ParameterConfig } from "../../../../../../types/materials/index";
+import { ShaderFunction } from "../../buildShader.types";
 
 export const buildVaryings = (
   varyingSchema: ParameterConfig[],
-  attributeConfigs: ParameterConfig[]
+  attributeConfigs: ParameterConfig[],
+  vertexEffectFunctions: ShaderFunction[]
 ) => {
   const declaration = varyingDeclarations(varyingSchema);
-  const instantiation = varyingInstantiation(varyingSchema, attributeConfigs);
+  const instantiation = varyingInstantiation(
+    varyingSchema,
+    attributeConfigs,
+    vertexEffectFunctions
+  );
   return { declaration, instantiation };
 };
 
@@ -39,7 +45,8 @@ const varyingDeclarations = (config: ParameterConfig[]) => {
 
 const varyingInstantiation = (
   varyingConfigs: ParameterConfig[],
-  attributeConfigs: ParameterConfig[]
+  attributeConfigs: ParameterConfig[],
+  vertexEffectFunctions: ShaderFunction[]
 ) => {
   const defaultVaryingStrings = getDefaultVaryingString(varyingConfigs);
   const attributeVaryingStrings = getAttributeVaryingStrings(
@@ -47,10 +54,15 @@ const varyingInstantiation = (
     attributeConfigs
   );
   const customVaryingsStrings = getCustomVaryingStrings(varyingConfigs);
+  const functionVaryingsStrings = getFunctionVaryingStrings(
+    varyingConfigs,
+    vertexEffectFunctions
+  );
   return [
     ...defaultVaryingStrings,
     ...attributeVaryingStrings,
     ...customVaryingsStrings,
+    ...functionVaryingsStrings,
   ].join(" \n ");
 };
 
@@ -135,3 +147,23 @@ const getAttributeVaryingStrings = (
     }
     return [];
   });
+
+const getFunctionVaryingStrings = (
+  config: ParameterConfig[],
+  functions: ShaderFunction[]
+) => {
+  const functionVaryings = config.filter(
+    ({ varyingConfig }) =>
+      varyingConfig?.varyingType === VARYING_TYPES.FUNCTION &&
+      varyingConfig?.functionId
+  );
+  if (!functionVaryings.length) return [];
+  const strings = [];
+  // functionVaryings.forEach((item: ParameterConfig) => {
+  //   const function = functions.find((func) => func.id === item.varyingConfig?.functionId);
+  //   if (function) {
+  //     strings.push(`${item.id} = ${function.functionName};`);
+  //   }
+  // });
+  return strings;
+};

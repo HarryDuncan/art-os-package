@@ -1,7 +1,7 @@
 import { ShaderFunction } from "../../../../../types/materials/index";
 
 interface UniqueFunction {
-  [key: string]: { functionDefinition: string; functionType: string };
+  [key: string]: Omit<ShaderFunction, "id">;
 }
 export const mergeShaderFunctions = (
   requiredFunctions: ShaderFunction[][]
@@ -10,15 +10,20 @@ export const mergeShaderFunctions = (
     (functionArray) => functionArray ?? []
   );
   const uniqueFunctions: UniqueFunction = {};
-  allFunctions.forEach(({ id, functionDefinition, functionType }) => {
-    if (!uniqueFunctions[id]) {
-      uniqueFunctions[id] = { functionDefinition, functionType };
+  allFunctions.forEach(
+    ({ id, functionDefinition, functionType, functionName }) => {
+      if (!uniqueFunctions[id]) {
+        uniqueFunctions[id] = {
+          functionDefinition,
+          functionType,
+          functionName,
+        };
+      }
     }
-  });
+  );
 
   return Object.keys(uniqueFunctions).map((key) => ({
+    ...uniqueFunctions[key],
     id: key,
-    functionDefinition: uniqueFunctions[key].functionDefinition,
-    functionType: uniqueFunctions[key].functionType,
   }));
 };
