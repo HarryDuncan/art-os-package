@@ -1,7 +1,6 @@
 import {
   ShaderFunction,
   ParameterConfig,
-  VaryingConfig,
 } from "../../../../../../../../types/materials/index";
 import {
   ATTRIBUTE_VALUE_TYPES,
@@ -28,15 +27,15 @@ export const EXPLODE_ATTRIBUTES = [
   },
 ];
 
-export const EXPLODE_VARYINGS = [
-  { id: "vPointId", valueType: "FLOAT", varyingType: "ATTRIBUTE" },
-] as VaryingConfig[];
+// export const EXPLODE_VARYINGS = [
+//   { id: "vPointId", valueType: "FLOAT", varyingType: "ATTRIBUTE" },
+// ] as VaryingConfig[];
 
 export const EXPLODE_EFFECT_CONFIG = {
   uniforms: EXPLODE_UNIFORMS,
   attributes: EXPLODE_ATTRIBUTES,
   functions: EXPLODE_FUNCTIONS,
-  varyings: EXPLODE_VARYINGS,
+  varyings: [],
   meshTransformConfig: [],
   parameters: [],
 };

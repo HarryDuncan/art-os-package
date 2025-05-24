@@ -2,7 +2,6 @@ import { DEFAULT_COLOR_UNIFORMS } from "./effects/color/color.consts";
 
 import {
   POINT_MATERIAL_UNIFORMS,
-  POINT_MATERIAL_VARYINGS,
   POINT_MATERIAL_PARAMETERS,
 } from "./effects/points/pointMaterial.consts";
 import { INTERACTIVE_EFFECTS } from "../constants/interactiveEffects.consts";
@@ -30,7 +29,7 @@ export const DEFAULT_FRAG_COLOR = "#ff1205";
 export const FRAGMENT_EFFECT_CONFIG_MAP = {
   [FRAGMENT_EFFECTS.POINT_MATERIAL]: {
     parameters: POINT_MATERIAL_PARAMETERS,
-    varyings: POINT_MATERIAL_VARYINGS,
+    varyings: [],
     functions: [],
   },
   [FRAGMENT_EFFECTS.TEXTURE_PIXEL_COLOR]: {

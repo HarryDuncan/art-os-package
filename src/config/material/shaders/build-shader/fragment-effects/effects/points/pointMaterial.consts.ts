@@ -1,30 +1,14 @@
-import { ParameterConfig, VaryingConfig } from "../../../buildShader.types";
+import { ParameterConfig } from "../../../buildShader.types";
 import {
   ASSET_MAPPING_RELATIONSHIPS,
   ATTRIBUTE_VALUE_TYPES,
   SHADER_PROPERTY_VALUE_TYPES,
 } from "../../../constants/shader.consts";
-import { VARYING_TYPES } from "../../../shader-properties/varyings/varyings.consts";
 
 export const DEFAULT_FRAG_POINT_PROPS = {
   isTextured: false,
   defaultPointColor: "#ff1205",
 };
-
-export const POINT_MATERIAL_VARYINGS = [
-  {
-    id: "vPointDisplay",
-    varyingType: VARYING_TYPES.ATTRIBUTE,
-    attributeKey: "pointDisplay",
-    valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
-  },
-  {
-    id: "vPointType",
-    varyingType: VARYING_TYPES.ATTRIBUTE,
-    attributeKey: "pointType",
-    valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
-  },
-] as VaryingConfig[];
 
 export const POINT_MATERIAL_FUNCTIONS = [];
 

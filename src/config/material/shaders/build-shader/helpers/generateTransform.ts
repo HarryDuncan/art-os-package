@@ -66,12 +66,20 @@ export const generateShaderTransformationOld = (
   return transformation;
 };
 
-const DEFAULT_VERTEX_PARAMETERS = [
+const DEFAULT_VERTEX_PARAMETERS: Partial<FunctionParameter>[] = [
   {
     id: "pointPosition",
     valueType: SHADER_PROPERTY_VALUE_TYPES.VEC4,
+    default: true,
   },
 ];
+
+type FunctionParameter = {
+  id: string;
+  valueType: string;
+  functionId: string;
+  default?: boolean;
+};
 
 const shaderSafeGuid = (guid: string) => {
   return guid.slice(0, 8);
@@ -85,8 +93,7 @@ export const generateShaderTransformation = (
   const functionName = `${effectType}_${shaderSafeGuid(id)}`;
 
   const functionParameters = DEFAULT_VERTEX_PARAMETERS.map((effect) => ({
-    id: effect.id,
-    valueType: effect.valueType,
+    ...effect,
     functionId: `${effect.id}_${shaderSafeGuid(id)}`,
   })).concat(
     effectParameters.flatMap((effectParameter) => {
@@ -100,7 +107,7 @@ export const generateShaderTransformation = (
         functionId: `${parameterId}_${shaderSafeGuid(guid)}`,
       };
     })
-  );
+  ) as FunctionParameter[];
   const functionInputs = functionParameters.map(({ functionId, valueType }) => {
     return `${shaderValueTypeInstantiation(valueType)} ${functionId}`;
   });
@@ -136,14 +143,17 @@ export const generateShaderTransformation = (
 
   // if parameters are just consts then add them
   const constantDeclarations = effectParameters
-    .filter((p) => !p.isUniform && !p.isAttribute)
+    .filter((p) => !p.isUniform && !p.isAttribute && !p.isVarying)
     .map((p) => {
       return `${shaderValueTypeInstantiation(p.valueType)} ${p.id} = ${
         p.value
       };`;
     });
   const functionInstantiation = `${VERTEX_POINT_NAME} = ${functionName}(${VERTEX_POINT_NAME}, ${functionParameters
-    .map((p) => {
+    .flatMap((p) => {
+      if (p.default) {
+        return [];
+      }
       return `${p.id}`;
     })
     .join(", ")});`;

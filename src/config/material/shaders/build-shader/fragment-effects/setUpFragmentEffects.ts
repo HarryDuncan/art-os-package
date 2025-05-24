@@ -1,6 +1,5 @@
 import { getFragmentEffects } from "./effects/getFragmentEffects";
 import { mergeUniformConfigs } from "../shader-properties/uniforms/helpers/mergeUniformConfigs";
-import { mergeVaryingConfigs } from "../shader-properties/varyings/helpers/mergeVaryingConfigs";
 import { mergeShaderFunctions } from "../helpers/mergeShaderFunctions";
 import { mergeAttributeConfigs } from "../shader-properties/attributes/helpers/mergeAttributeConfigs";
 import { mergeStructConfigs } from "../shader-properties/structs/mergeStructConfigs";
@@ -58,7 +57,7 @@ export const getFragmentColors = (fragmentEffects: FragmentEffectConfig[]) => {
   });
 
   const mergedUniformConfigs = mergeUniformConfigs(unmergedUniformConfigs);
-  const mergedVaryingConfigs = mergeVaryingConfigs(unmergedVaryingConfigs);
+  // const mergedVaryingConfigs = mergeVaryingConfigs(unmergedVaryingConfigs);
   const mergedAttributeConfigs = mergeAttributeConfigs(
     unmergedAttributeConfigs
   );
@@ -66,7 +65,7 @@ export const getFragmentColors = (fragmentEffects: FragmentEffectConfig[]) => {
   const mergedStructConfigs = mergeStructConfigs(unmergedStructConfigs);
   const mergedTransformations = unmergedTransformations.join("");
   return {
-    varyingConfigs: mergedVaryingConfigs,
+    varyingConfigs: [],
     uniformConfigs: mergedUniformConfigs,
     transformations: mergedTransformations,
     attributeConfigs: mergedAttributeConfigs,

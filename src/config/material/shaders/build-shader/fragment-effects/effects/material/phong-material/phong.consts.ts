@@ -2,7 +2,7 @@ import { Vector3 } from "three";
 import { SHADER_PROPERTY_VALUE_TYPES } from "../../../../constants/shader.consts";
 import { VARYING_TYPES } from "../../../../shader-properties/varyings/varyings.consts";
 import { SHADER_PROPERTY_TAGS } from "../../../../shader-properties/uniforms/uniforms.consts";
-import { ParameterConfig, VaryingConfig } from "../../../../buildShader.types";
+import { ParameterConfig } from "../../../../buildShader.types";
 
 export const DEFAULT_PHONG_UNIFORMS = [
   {
@@ -62,31 +62,31 @@ export const DEFAULT_PHONG_UNIFORMS = [
 export const DEFAULT_PHONG_EFFECT_PROPS = { DEFAULT_PHONG_UNIFORMS };
 
 export const PHONG_REQUIRED_FUNCTIONS = [];
-export const PHONG_VARYINGS = [
-  {
-    id: "vEye",
-    varyingType: VARYING_TYPES.DEFAULT,
-    valueType: SHADER_PROPERTY_VALUE_TYPES.VEC3,
-  },
+// export const PHONG_VARYINGS = [
+//   {
+//     id: "vEye",
+//     varyingType: VARYING_TYPES.DEFAULT,
+//     valueType: SHADER_PROPERTY_VALUE_TYPES.VEC3,
+//   },
 
-  {
-    id: "vPosition",
-    varyingType: VARYING_TYPES.DEFAULT,
-    valueType: SHADER_PROPERTY_VALUE_TYPES.VEC3,
-  },
-  {
-    id: "vNormal",
-    varyingType: VARYING_TYPES.DEFAULT,
-    valueType: SHADER_PROPERTY_VALUE_TYPES.VEC3,
-  },
-  {
-    id: "vUv",
-    varyingType: VARYING_TYPES.DEFAULT,
-    valueType: SHADER_PROPERTY_VALUE_TYPES.VEC2,
-  },
-  {
-    id: "vNormalInterpolation",
-    varyingType: VARYING_TYPES.DEFAULT,
-    valueType: SHADER_PROPERTY_VALUE_TYPES.VEC3,
-  },
-] as VaryingConfig[];
+//   {
+//     id: "vPosition",
+//     varyingType: VARYING_TYPES.DEFAULT,
+//     valueType: SHADER_PROPERTY_VALUE_TYPES.VEC3,
+//   },
+//   {
+//     id: "vNormal",
+//     varyingType: VARYING_TYPES.DEFAULT,
+//     valueType: SHADER_PROPERTY_VALUE_TYPES.VEC3,
+//   },
+//   {
+//     id: "vUv",
+//     varyingType: VARYING_TYPES.DEFAULT,
+//     valueType: SHADER_PROPERTY_VALUE_TYPES.VEC2,
+//   },
+//   {
+//     id: "vNormalInterpolation",
+//     varyingType: VARYING_TYPES.DEFAULT,
+//     valueType: SHADER_PROPERTY_VALUE_TYPES.VEC3,
+//   },
+// ] as VaryingConfig[];

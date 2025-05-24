@@ -6,7 +6,6 @@ import { getFragmentEffects } from "../getFragmentEffects";
 import { affectedPositionTransformConfig } from "./affectedPosition";
 import { FragmentEffectProps } from "../../fragmentShader.types";
 import { mergeUniformConfigs } from "../../../shader-properties/uniforms/helpers/mergeUniformConfigs";
-import { mergeVaryingConfigs } from "../../../shader-properties/varyings/helpers/mergeVaryingConfigs";
 import { mergeAttributeConfigs } from "../../../shader-properties/attributes/helpers/mergeAttributeConfigs";
 
 export const interactionTransformConfig = {
@@ -48,9 +47,9 @@ export const interactionBased = (effectProps: FragmentEffectProps) => {
   const mergedUniforms = mergeUniformConfigs(
     subEffectData.map(({ uniformConfigs }) => uniformConfigs)
   );
-  const mergedVaryings = mergeVaryingConfigs(
-    subEffectData.map(({ varyingConfigs }) => varyingConfigs)
-  );
+  // const mergedVaryings = mergeVaryingConfigs(
+  //   subEffectData.map(({ varyingConfigs }) => varyingConfigs)
+  // );
   const mergedAttributes = mergeAttributeConfigs(
     subEffectData.map(({ attributeConfigs }) => attributeConfigs)
   );
@@ -59,7 +58,7 @@ export const interactionBased = (effectProps: FragmentEffectProps) => {
     transformation,
     requiredFunctions: mergedRequiredFunction,
     uniformConfigs: mergedUniforms,
-    varyingConfigs: mergedVaryings,
+    varyingConfigs: [],
     attributeConfigs: mergedAttributes,
   };
 };

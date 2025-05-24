@@ -3,14 +3,13 @@ import {
   FragmentEffectConfig,
   ShaderFunction,
   StructConfig,
-  VaryingConfig,
 } from "../buildShader.types";
 
 export type FragmentEffectData = {
   requiredFunctions: ShaderFunction[];
   uniformConfigs: ParameterConfig[];
   attributeConfigs: ParameterConfig[];
-  varyingConfigs: VaryingConfig[];
+  varyingConfigs: ParameterConfig[];
   transformation: string;
   structConfigs?: StructConfig[];
 };

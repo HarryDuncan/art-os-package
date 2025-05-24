@@ -14,13 +14,10 @@ import {
   VERTEX_NORMAL_NAME,
   VERTEX_POINT_NAME,
 } from "../../vertex-effects/vertexEffects.consts";
-import {
-  VaryingConfig,
-  ParameterConfig,
-} from "../../../../../../types/materials/index";
+import { ParameterConfig } from "../../../../../../types/materials/index";
 
 export const buildVaryings = (
-  varyingSchema: VaryingConfig[],
+  varyingSchema: ParameterConfig[],
   attributeConfigs: ParameterConfig[]
 ) => {
   const declaration = varyingDeclarations(varyingSchema);
@@ -28,7 +25,7 @@ export const buildVaryings = (
   return { declaration, instantiation };
 };
 
-const varyingDeclarations = (config: VaryingConfig[]) => {
+const varyingDeclarations = (config: ParameterConfig[]) => {
   const declarationStrings = config.map(({ id, valueType }) =>
     createDeclarationString(
       SHADER_PROPERTY_TYPES.VARYING as keyof typeof SHADER_PROPERTY_TYPES,
@@ -41,7 +38,7 @@ const varyingDeclarations = (config: VaryingConfig[]) => {
 };
 
 const varyingInstantiation = (
-  varyingConfigs: VaryingConfig[],
+  varyingConfigs: ParameterConfig[],
   attributeConfigs: ParameterConfig[]
 ) => {
   const defaultVaryingStrings = getDefaultVaryingString(varyingConfigs);
@@ -57,13 +54,13 @@ const varyingInstantiation = (
   ].join(" \n ");
 };
 
-const getDefaultVaryingString = (config: VaryingConfig[]) => {
-  const defaultVaryings: VaryingConfig[] = config.filter(
-    (item) => item.varyingType === VARYING_TYPES.DEFAULT
+const getDefaultVaryingString = (config: ParameterConfig[]) => {
+  const defaultVaryings: ParameterConfig[] = config.filter(
+    (item) => item.varyingConfig?.varyingType === VARYING_TYPES.DEFAULT
   );
   if (!defaultVaryings.length) return [];
   const strings = [V_DEFAULT_INSTANTIATION];
-  defaultVaryings.forEach((item: VaryingConfig) => {
+  defaultVaryings.forEach((item: ParameterConfig) => {
     switch (item.id) {
       case "vUv":
         strings.push("vUv = uv;");
@@ -100,13 +97,13 @@ const getDefaultVaryingString = (config: VaryingConfig[]) => {
   return strings;
 };
 
-const getCustomVaryingStrings = (config: VaryingConfig[]) => {
+const getCustomVaryingStrings = (config: ParameterConfig[]) => {
   const customVaryings = config.filter(
-    ({ varyingType }) => varyingType === VARYING_TYPES.CUSTOM
+    ({ varyingConfig }) => varyingConfig?.varyingType === VARYING_TYPES.CUSTOM
   );
   if (!customVaryings.length) return [];
   const strings = [V_CUSTOM_INSTANTIATION];
-  customVaryings.forEach((item: VaryingConfig) => {
+  customVaryings.forEach((item: ParameterConfig) => {
     strings.push(
       `${item.id} = ${
         item.value ??
@@ -120,19 +117,19 @@ const getCustomVaryingStrings = (config: VaryingConfig[]) => {
 };
 
 const getAttributeVaryingStrings = (
-  config: VaryingConfig[],
+  config: ParameterConfig[],
   attributeConfigs: ParameterConfig[] = []
 ) =>
-  config.flatMap(({ id, attributeKey, varyingType }) => {
-    if (varyingType === VARYING_TYPES.ATTRIBUTE) {
+  config.flatMap(({ id, varyingConfig }) => {
+    if (varyingConfig?.varyingType === VARYING_TYPES.ATTRIBUTE) {
       const hasAttribute = attributeConfigs.findIndex(
-        (attributeConf) => attributeConf.id === attributeKey
+        (attributeConf) => attributeConf.id === varyingConfig?.attributeKey
       );
       if (hasAttribute !== -1) {
-        return `${id} = ${attributeKey};`;
+        return `${id} = ${varyingConfig?.attributeKey};`;
       }
       console.warn(
-        `varying ${id} links to ${attributeKey} but ${attributeKey} is not found`
+        `varying ${id} links to ${varyingConfig?.attributeKey} but ${varyingConfig?.attributeKey} is not found`
       );
       return [];
     }

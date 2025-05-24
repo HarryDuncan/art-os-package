@@ -1,6 +1,5 @@
 import {
   ShaderFunction,
-  VaryingConfig,
   StructConfig,
   VertexEffectConfig,
   ParameterConfig,
@@ -9,7 +8,7 @@ import {
 export interface VertexEffectData {
   requiredFunctions: ShaderFunction[];
   uniformConfigs: ParameterConfig[];
-  varyingConfigs: VaryingConfig[];
+  varyingConfigs: ParameterConfig[];
   transformation: string;
   attributeConfigs: ParameterConfig[];
   structConfigs?: StructConfig[];

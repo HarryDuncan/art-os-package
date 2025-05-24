@@ -8,7 +8,6 @@ import { buildAttributes } from "./shader-properties/attributes/buildAttributes"
 import { mergeAttributeConfigs } from "./shader-properties/attributes/helpers/mergeAttributeConfigs";
 import { buildUniformDeclaration } from "./shader-properties/uniforms/buildUniforms";
 import { buildVaryings } from "./shader-properties/varyings/buildVaryings";
-import { mergeVaryingConfigs } from "./shader-properties/varyings/helpers/mergeVaryingConfigs";
 import { setUpVertexEffects } from "./vertex-effects/setUpVertexEffects";
 import { buildStruct } from "./shader-properties/structs/buildStructs";
 import { mergeStructConfigs } from "./shader-properties/structs/mergeStructConfigs";
@@ -16,7 +15,6 @@ import {
   ParameterConfig,
   BuiltShaderConfig,
   ShaderFunction,
-  VaryingConfig,
 } from "./buildShader.types";
 import { formatShaderEffects } from "./helpers/formatEffectConfigs";
 import {
@@ -49,20 +47,11 @@ export const buildShader = (shaderConfig: BuiltShaderConfig) => {
   const combinedAttributeConfigs = mergeAttributeConfigs(shaderAttributes);
   const attributes = buildAttributes(combinedAttributeConfigs);
 
-  const shaderVaryings = [
-    vertexEffects.varyingConfigs,
-    fragmentEffects.varyingConfigs,
-    varyingConfigs ?? [],
-  ];
-  const mergedShaderVaryings = mergeVaryingConfigs(
-    shaderVaryings
-  ) as VaryingConfig[];
-
   const uniformDeclaration = buildUniformDeclaration(uniformConfigs ?? []);
   const {
     declaration: varyingDeclaration,
     instantiation: varyingInstantiation,
-  } = buildVaryings(mergedShaderVaryings, combinedAttributeConfigs);
+  } = buildVaryings(varyingConfigs ?? [], combinedAttributeConfigs);
 
   const shaderStructConfigs = [
     fragmentEffects.structConfigs,

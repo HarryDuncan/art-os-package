@@ -1,7 +1,4 @@
-import {
-  ShaderTransformationConfig,
-  VaryingConfig,
-} from "../../../../../../../../types/materials/index";
+import { ShaderTransformationConfig } from "../../../../../../../../types/materials/index";
 import {
   ASSET_MAPPING_RELATIONSHIPS,
   ATTRIBUTE_VALUE_TYPES,
@@ -15,6 +12,36 @@ import {
 import { noiseFunction } from "../../../../shader-properties/functions/noise";
 import { QUAD_MESH_TRANSFORM } from "../../../../../../../mesh/meshTransforms.consts";
 import { ParameterConfig } from "../../../../buildShader.types";
+
+export const IMAGE_TO_POINTS_VARYING_CONFIG = [
+  {
+    id: "vUv",
+    name: "UV",
+    configLocked: true,
+    valueType: SHADER_PROPERTY_VALUE_TYPES.VEC2,
+    description: "The UV coordinates of the texture",
+    isVarying: true,
+    varyingConfig: {
+      varyingType: VARYING_TYPES.DEFAULT,
+      attributeKey: "uv",
+      valueType: SHADER_PROPERTY_VALUE_TYPES.VEC2,
+    },
+  },
+];
+
+// {
+//   id: "vPixelColor",
+//   name: "Pixel Color",
+//   configLocked: true,
+//   description: "The color of the texture at the current pixel",
+//   valueType: SHADER_PROPERTY_VALUE_TYPES.VEC4,
+//   isVarying: true,
+//   varyingConfig: {
+//     varyingType: VARYING_TYPES.CUSTOM,
+//     valueType: SHADER_PROPERTY_VALUE_TYPES.VEC4,
+//     value: `colA`,
+//   },
+// },
 
 export const IMAGE_TO_POINTS_ATTRIBUTES = [
   {
@@ -78,29 +105,10 @@ export const IMAGE_TO_POINTS_PARAMETERS = [
     configLocked: true,
   },
   ...IMAGE_TO_POINTS_ATTRIBUTES,
+  ...IMAGE_TO_POINTS_VARYING_CONFIG,
 ] as ParameterConfig[];
 
 export const IMAGE_TO_POINTS_UNIFORMS = [] as unknown as ParameterConfig[];
-
-export const IMAGE_TO_POINTS_VARYING_CONFIG = [
-  {
-    id: "vUv",
-    varyingType: VARYING_TYPES.DEFAULT,
-    attributeKey: "uv",
-    valueType: SHADER_PROPERTY_VALUE_TYPES.VEC2,
-  },
-  {
-    id: "vPUv",
-    varyingType: VARYING_TYPES.CUSTOM,
-    valueType: SHADER_PROPERTY_VALUE_TYPES.VEC2,
-  },
-  {
-    id: "vPixelColor",
-    varyingType: VARYING_TYPES.CUSTOM,
-    valueType: SHADER_PROPERTY_VALUE_TYPES.VEC4,
-    value: `colA`,
-  },
-] as VaryingConfig[];
 
 export const IMAGE_TO_POINTS_REQUIRED_FUNCTIONS = [
   randomFloatFunction,
@@ -109,10 +117,10 @@ export const IMAGE_TO_POINTS_REQUIRED_FUNCTIONS = [
 ];
 
 export const IMAGE_TO_POINTS_EFFECT_CONFIG = {
-  uniforms: IMAGE_TO_POINTS_UNIFORMS,
-  attributes: IMAGE_TO_POINTS_ATTRIBUTES,
+  uniforms: [],
+  attributes: [],
   functions: IMAGE_TO_POINTS_REQUIRED_FUNCTIONS,
-  varyings: IMAGE_TO_POINTS_VARYING_CONFIG,
+  varyings: [],
   meshTransformConfig: [QUAD_MESH_TRANSFORM],
   parameters: IMAGE_TO_POINTS_PARAMETERS,
 };
@@ -123,7 +131,7 @@ export const imageToPointsTransformConfig = {
     // double check that point position is correct
     // if there are issues it may be because you are passing in altered points
     `vec2 puv = {{pointPosition}}.xy / {{textureSize}};`,
-    `vPUv = puv;`,
+
     // pixel color
     `vec4 colA = texture2D({{convertedTexture}}, puv);`,
     `float grey = colA.r * 0.2 + colA.g * 0.71 + colA.b * 0.07;`,
