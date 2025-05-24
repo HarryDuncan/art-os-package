@@ -29,9 +29,6 @@ export const interactionBased = (effectProps: VertexEffectProps) => {
       return {
         transformation: vertexEffectData.transformation,
         requiredFunctions: vertexEffectData.requiredFunctions,
-        uniformConfigs: vertexEffectData.uniformConfigs,
-        attributeConfigs: vertexEffectData.attributeConfigs,
-        varyingConfigs: vertexEffectData.varyingConfigs,
       };
     }
     return [];
@@ -58,18 +55,15 @@ export const interactionBased = (effectProps: VertexEffectProps) => {
   const mergedRequiredFunction = mergeShaderFunctions(
     subEffectData.map(({ requiredFunctions }) => requiredFunctions)
   );
-  const mergedUniformConfig = mergeUniformConfigs(
-    subEffectData.map(({ uniformConfigs }) => uniformConfigs)
-  );
-  const mergedAttributeConfig = mergeAttributeConfigs(
-    subEffectData.map(({ attributeConfigs }) => attributeConfigs)
-  );
+  // const mergedUniformConfig = mergeUniformConfigs(
+  //   subEffectData.map(({ uniformConfigs }) => uniformConfigs)
+  // );
+  // const mergedAttributeConfig = mergeAttributeConfigs(
+  //   subEffectData.map(({ attributeConfigs }) => attributeConfigs)
+  // );
   return {
     transformation,
     requiredFunctions: mergedRequiredFunction,
-
-    uniformConfigs: mergedUniformConfig,
-    attributeConfigs: mergedAttributeConfig,
   };
 };
 

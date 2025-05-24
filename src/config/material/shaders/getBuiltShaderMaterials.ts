@@ -14,7 +14,6 @@ export const getBuiltShaderMaterials = (
   const { sceneMaterialConfigs, meshTransforms } = config;
   if (!sceneMaterialConfigs)
     return {
-      attributeConfigs: [],
       builtShaders: [],
     };
   const builtShaderMaterials = sceneMaterialConfigs.flatMap(

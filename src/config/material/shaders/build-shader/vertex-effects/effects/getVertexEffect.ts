@@ -1,14 +1,12 @@
 import { VertexEffectConfig } from "../../../../../../types/materials/index";
 import { VERTEX_EFFECTS } from "../vertexEffects.consts";
 import { VertexEffectData, VertexEffectProps } from "../vertexEffects.types";
-import { SHADER_TYPES } from "../../constants";
-import { mergeEffectData } from "../../helpers/mergeEffectData";
 // import { explode } from "./displacement/explode/explode";
 // import { interactionBased } from "./interaction-based/interactionBased";
 
 // import { rotationEffect } from "./rotation-effects/rotationEffect";
 import { imageToPointsTransformConfig } from "./image-vertex-effects/image-to-points/imageToPoints.consts";
-import { generateShaderTransformation } from "../../helpers/generateTransform";
+import { generateVertexShaderTransformation } from "../../helpers/generateTransform";
 
 const VERTEX_EFFECT_TRANSFORMATION_CONFIGS = {
   // [VERTEX_EFFECTS.EXPLODE]: explode,
@@ -41,31 +39,10 @@ export const transformSetup = (effectProps: VertexEffectProps) => {
     return null;
   }
   const { transformationFunctions, transformation } =
-    generateShaderTransformation(transformationConfig, effectProps);
+    generateVertexShaderTransformation(transformationConfig, effectProps);
 
-  console.log(transformation);
-  console.log(transformationFunctions);
-
-  const effectData = formatVertexEffectData({
-    requiredFunctions: transformationFunctions,
-    transformation,
-  });
-  return mergeEffectData(effectData, effectType, SHADER_TYPES.VERTEX);
-};
-
-export const formatVertexEffectData = (effect: Partial<VertexEffectData>) => {
-  const {
-    attributeConfigs,
-    requiredFunctions,
-    transformation,
-    uniformConfigs,
-    varyingConfigs,
-  } = effect;
   return {
-    attributeConfigs: attributeConfigs ?? [],
-    transformation: transformation ?? "",
-    requiredFunctions: requiredFunctions ?? [],
-    uniformConfigs: uniformConfigs ?? [],
-    varyingConfigs: varyingConfigs ?? [],
+    transformation,
+    requiredFunctions: transformationFunctions,
   };
 };

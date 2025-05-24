@@ -1,14 +1,13 @@
-import { ParameterConfig } from "../../../buildShader.types";
+import {
+  ParameterConfig,
+  ShaderTransformationConfig,
+} from "../../../buildShader.types";
+import { SHADER_VARIABLE_TYPES } from "../../../constants";
 import {
   ASSET_MAPPING_RELATIONSHIPS,
   ATTRIBUTE_VALUE_TYPES,
   SHADER_PROPERTY_VALUE_TYPES,
 } from "../../../constants/shader.consts";
-
-export const DEFAULT_FRAG_POINT_PROPS = {
-  isTextured: false,
-  defaultPointColor: "#ff1205",
-};
 
 export const POINT_MATERIAL_FUNCTIONS = [];
 
@@ -68,3 +67,26 @@ export const POINT_MATERIAL_PARAMETERS = [
   },
   ...TEXTURED_POINTS_ATTRIBUTES,
 ] as ParameterConfig[];
+
+export const pointMaterialTransformConfig = [
+  {
+    id: "pointMaterial",
+    functionContent: [
+      `if(vPointType > 0.0 && vPointType < 0.5){`,
+      `vec4 textureColor =  texture2D(uPointTexture1, gl_PointCoord);`,
+      `currentFragColor = vec4(currentFragColor.rgb, 1.0) * textureColor;`,
+      `}`,
+      `if(vPointType > 0.5 && vPointType < 1.1){`,
+      `vec4 textureColor =  texture2D(uPointTexture2, gl_PointCoord);`,
+      `currentFragColor = vec4(currentFragColor.rgb, 1.0) * textureColor;`,
+      `}`,
+    ],
+    returnValue: SHADER_PROPERTY_VALUE_TYPES.VEC4,
+    shaderVariableType: SHADER_VARIABLE_TYPES.FRAGMENT_COLOR,
+  },
+  {
+    id: "discardPoints",
+    functionContent: [`if(vPointDisplay == 0.0 ){`, ` discard;`, `}`],
+    returnValue: SHADER_PROPERTY_VALUE_TYPES.BOOL,
+  },
+] as ShaderTransformationConfig[];

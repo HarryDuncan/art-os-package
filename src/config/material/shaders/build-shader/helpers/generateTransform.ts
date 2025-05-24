@@ -9,6 +9,7 @@ import {
   SHADER_VARIABLE_TYPES,
 } from "../constants/buildShader.consts";
 import { SHADER_PROPERTY_VALUE_TYPES } from "../constants/shader.consts";
+import { FragmentEffectProps } from "../fragment-effects/fragmentShader.types";
 import { VERTEX_POINT_NAME } from "../vertex-effects/vertexEffects.consts";
 import { VertexEffectProps } from "../vertex-effects/vertexEffects.types";
 import { safeParseValue, shaderValueTypeInstantiation } from "./safeParseValue";
@@ -251,7 +252,7 @@ const formatNestedFunction = (
   });
   return `${functionConfig.functionName}(${shaderParameterIds.join(",")});`;
 };
-export const generateShaderTransformation = (
+export const generateVertexShaderTransformation = (
   configs: ShaderTransformationConfig[],
   effectProps: VertexEffectProps
 ): { transformation: string; transformationFunctions: ShaderFunction[] } => {
@@ -365,4 +366,13 @@ export const generateShaderTransformation = (
   );
 
   return { transformation, transformationFunctions };
+};
+export const generateFragmentShaderTransformation = (
+  configs: ShaderTransformationConfig[],
+  effectProps: FragmentEffectProps
+): { transformation: string; transformationFunctions: ShaderFunction[] } => {
+  const { id, effectParameters } = effectProps;
+  // const shaderParameters = formatFunctionParameters(effectParameters, id);
+
+  return { transformation: "", transformationFunctions: [] };
 };

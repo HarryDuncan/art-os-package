@@ -87,6 +87,7 @@ export const transformGeometry = (
               const quadDimensions = attributeConfigs?.find(
                 ({ id }) => id === "quadDimensions"
               );
+              console.log(quadDimensions);
               if (quadDimensions) {
                 const { value } = quadDimensions as { value: Vector2 };
                 const width = value?.x;
@@ -124,7 +125,7 @@ export const transformGeometry = (
                   geometry.setAttribute("pointIndex", indexes);
                   geometry.setAttribute("normal", normalAttributes);
                   geometry.setAttribute("pointOffset", pointOffset);
-
+                  console.log(geometry);
                   return {
                     ...formattedGeometry,
                     geometry,

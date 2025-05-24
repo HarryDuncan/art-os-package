@@ -8,6 +8,7 @@ import { INTERACTIVE_EFFECTS } from "../constants/interactiveEffects.consts";
 import { AFFECTED_POSITION_VARYINGS } from "./effects/interaction-based/interactionBased.consts";
 
 export const FRAG_COLOR_NAME = "currentFragColor";
+export const FRAG_COLOR_INSTANTIATION = `vec4 ${FRAG_COLOR_NAME} = vec4(1.0,0,0,1.0);`;
 
 export const FRAGMENT_EFFECTS = {
   NONE: "NONE",

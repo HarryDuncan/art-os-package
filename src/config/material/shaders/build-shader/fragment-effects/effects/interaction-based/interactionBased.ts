@@ -5,8 +5,6 @@ import { mergeShaderFunctions } from "../../../helpers/mergeShaderFunctions";
 import { getFragmentEffects } from "../getFragmentEffects";
 import { affectedPositionTransformConfig } from "./affectedPosition";
 import { FragmentEffectProps } from "../../fragmentShader.types";
-import { mergeUniformConfigs } from "../../../shader-properties/uniforms/helpers/mergeUniformConfigs";
-import { mergeAttributeConfigs } from "../../../shader-properties/attributes/helpers/mergeAttributeConfigs";
 
 export const interactionTransformConfig = {
   effectName: "interactionTransform",
@@ -44,22 +42,19 @@ export const interactionBased = (effectProps: FragmentEffectProps) => {
     subEffectData.map(({ requiredFunctions }) => requiredFunctions)
   );
 
-  const mergedUniforms = mergeUniformConfigs(
-    subEffectData.map(({ uniformConfigs }) => uniformConfigs)
-  );
-  // const mergedVaryings = mergeVaryingConfigs(
-  //   subEffectData.map(({ varyingConfigs }) => varyingConfigs)
+  // const mergedUniforms = mergeUniformConfigs(
+  //   subEffectData.map(({ uniformConfigs }) => uniformConfigs)
   // );
-  const mergedAttributes = mergeAttributeConfigs(
-    subEffectData.map(({ attributeConfigs }) => attributeConfigs)
-  );
+  // // const mergedVaryings = mergeVaryingConfigs(
+  // //   subEffectData.map(({ varyingConfigs }) => varyingConfigs)
+  // // );
+  // const mergedAttributes = mergeAttributeConfigs(
+  //   subEffectData.map(({ attributeConfigs }) => attributeConfigs)
+  // );
 
   return {
     transformation,
     requiredFunctions: mergedRequiredFunction,
-    uniformConfigs: mergedUniforms,
-    varyingConfigs: [],
-    attributeConfigs: mergedAttributes,
   };
 };
 

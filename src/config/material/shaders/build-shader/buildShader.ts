@@ -1,27 +1,19 @@
-import {
-  FRAG_COLOR_INSTANTIATION,
-  MAIN_END,
-  MAIN_START,
-} from "./constants/buildShader.consts";
+import { MAIN_END, MAIN_START } from "./constants/buildShader.consts";
 import { setUpFragmentEffects } from "./fragment-effects/setUpFragmentEffects";
 import { buildAttributes } from "./shader-properties/attributes/buildAttributes";
-import { mergeAttributeConfigs } from "./shader-properties/attributes/helpers/mergeAttributeConfigs";
 import { buildUniformDeclaration } from "./shader-properties/uniforms/buildUniforms";
 import { buildVaryings } from "./shader-properties/varyings/buildVaryings";
 import { setUpVertexEffects } from "./vertex-effects/setUpVertexEffects";
 import { buildStruct } from "./shader-properties/structs/buildStructs";
 import { mergeStructConfigs } from "./shader-properties/structs/mergeStructConfigs";
-import {
-  ParameterConfig,
-  BuiltShaderConfig,
-  ShaderFunction,
-} from "./buildShader.types";
+import { BuiltShaderConfig, ShaderFunction } from "./buildShader.types";
 import { formatShaderEffects } from "./helpers/formatEffectConfigs";
 import {
   VERTEX_NORMAL_INSTANTIATION,
   VERTEX_POINT_INSTANTIATION,
 } from "./vertex-effects/vertexEffects.consts";
 import { formatFunctionDeclarations } from "./helpers/formatFunctionDeclarations";
+import { FRAG_COLOR_INSTANTIATION } from "./fragment-effects/fragmentEffects.consts";
 
 const DEBUG = true;
 export const buildShader = (shaderConfig: BuiltShaderConfig) => {
@@ -39,24 +31,15 @@ export const buildShader = (shaderConfig: BuiltShaderConfig) => {
   const fragmentEffects = setUpFragmentEffects(formattedFragmentEffects);
   const vertexEffects = setUpVertexEffects(formattedVertexEffects);
 
-  const shaderAttributes = [
-    attributeConfigs,
-    fragmentEffects.attributeConfigs,
-    vertexEffects.attributeConfigs,
-  ] as ParameterConfig[][];
-  const combinedAttributeConfigs = mergeAttributeConfigs(shaderAttributes);
-  const attributes = buildAttributes(combinedAttributeConfigs);
+  const attributes = buildAttributes(attributeConfigs ?? []);
 
   const uniformDeclaration = buildUniformDeclaration(uniformConfigs ?? []);
   const {
     declaration: varyingDeclaration,
     instantiation: varyingInstantiation,
-  } = buildVaryings(varyingConfigs ?? [], combinedAttributeConfigs);
+  } = buildVaryings(varyingConfigs ?? [], attributeConfigs ?? []);
 
-  const shaderStructConfigs = [
-    fragmentEffects.structConfigs,
-    structConfigs ?? [],
-  ];
+  const shaderStructConfigs = [structConfigs ?? []];
   const mergedStructConfig = mergeStructConfigs(shaderStructConfigs);
   const structDeclaration = buildStruct(mergedStructConfig);
 
@@ -87,7 +70,6 @@ export const buildShader = (shaderConfig: BuiltShaderConfig) => {
   return {
     vertexShader,
     fragmentShader,
-    attributeConfigs: combinedAttributeConfigs,
   };
 };
 
