@@ -11,12 +11,19 @@ export const mergeShaderFunctions = (
   );
   const uniqueFunctions: UniqueFunction = {};
   allFunctions.forEach(
-    ({ id, functionDefinition, functionType, functionName }) => {
+    ({
+      id,
+      functionDefinition,
+      functionType,
+      functionName,
+      functionInstantiation,
+    }) => {
       if (!uniqueFunctions[id]) {
         uniqueFunctions[id] = {
           functionDefinition,
           functionType,
           functionName,
+          functionInstantiation,
         };
       }
     }

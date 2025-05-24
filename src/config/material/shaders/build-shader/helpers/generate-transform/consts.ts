@@ -1,5 +1,7 @@
 import { SHADER_VARIABLE_TYPES } from "../../constants";
 import { SHADER_PROPERTY_VALUE_TYPES } from "../../constants/shader.consts";
+import { FRAG_COLOR_NAME } from "../../fragment-effects/fragmentEffects.consts";
+import { VERTEX_POINT_NAME } from "../../vertex-effects/vertexEffects.consts";
 import { getAssignedVariableName } from "./functions";
 import { FunctionParameter } from "./types";
 
@@ -30,4 +32,9 @@ const DISCARD_COLOR_EFFECT_CODE = {
 
 export const ADVANCED_SHADER_VARIABLE_EFFECT_CODE = {
   [SHADER_VARIABLE_TYPES.DISCARD_COLOR]: DISCARD_COLOR_EFFECT_CODE,
+};
+
+export const DEFAULT_SHADER_VARIABLE_KEYS = {
+  pointPosition: VERTEX_POINT_NAME,
+  fragColor: FRAG_COLOR_NAME,
 };

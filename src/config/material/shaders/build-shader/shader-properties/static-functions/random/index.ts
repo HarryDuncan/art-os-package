@@ -3,7 +3,7 @@ import { FUNCTION_TYPES } from "../../../constants/buildShader.consts";
 
 export const randomFloatFunction = {
   id: "random",
-  functionName: "randomFloat",
+  functionName: "random",
   functionDefinition: randomFloat,
   functionType: FUNCTION_TYPES.STATIC,
 };

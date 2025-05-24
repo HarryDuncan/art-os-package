@@ -25,6 +25,8 @@ export type ShaderFunction = {
   id: string;
   functionDefinition: string;
   functionType: string;
+  functionName: string;
+  functionInstantiation?: string;
 };
 
 export interface EffectConfig {
@@ -84,9 +86,11 @@ export type ParameterConfig = ShaderPropertyConfig & {
   };
   varyingConfig?: {
     varyingType: VaryingTypes;
+    functionId?: string;
     attributeKey?: string;
     activeValue?: string;
     inactiveValue?: string;
+    isAttributeReference?: boolean;
   };
 };
 

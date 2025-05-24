@@ -11,4 +11,5 @@ export type FormattedFunctionConfig = ShaderTransformationConfig & {
   functionName: string;
   functionDependencyIds: string[];
   functionParameterIds: string[];
+  functionInstantiationParameterIds: string[];
 };

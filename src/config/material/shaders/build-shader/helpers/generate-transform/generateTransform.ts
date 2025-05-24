@@ -3,8 +3,6 @@ import {
   ShaderFunction,
   ShaderTransformationConfig,
 } from "../../buildShader.types";
-import { FUNCTION_TYPES, SHADER_VARIABLE_TYPES } from "../../constants";
-import { VERTEX_POINT_NAME } from "../../vertex-effects/vertexEffects.consts";
 import { VertexEffectProps } from "../../vertex-effects/vertexEffects.types";
 import { FormattedFunctionConfig, FunctionParameter } from "./types";
 import {
@@ -14,9 +12,9 @@ import {
 } from "./consts";
 import { shaderValueTypeInstantiation } from "../safeParseValue";
 import { FragmentEffectProps } from "../../fragment-effects/fragmentShader.types";
-import { FRAG_COLOR_NAME } from "../../fragment-effects/fragmentEffects.consts";
-import { getAssignedVariableName } from "./functions";
-import { formatEffectCodeLines } from "./formatEffectCode";
+
+import { formatEffectFunctions } from "./formatEffectFunctions";
+import { getShaderVariableKeys } from "./functions";
 
 const shaderSafeGuid = (guid: string) => {
   return guid.slice(0, 8);
@@ -117,48 +115,16 @@ const prepareFunctionConfigs = (
       functionName: `${id}_${shaderSafeGuid(effectId)}`,
       functionDependencyIds: [...new Set(functionDependencies)],
       functionParameterIds: allParameterIds,
+      functionInstantiationParameterIds: allParameterIds.map((id) =>
+        getShaderVariableKeys(id)
+      ),
     };
   });
-};
-
-const DEFAULT_SHADER_VARIABLE_KEYS = {
-  pointPosition: VERTEX_POINT_NAME,
-  fragColor: FRAG_COLOR_NAME,
-};
-
-const formatDefaults = (id: string) => {
-  const shaderVariableId =
-    DEFAULT_SHADER_VARIABLE_KEYS[
-      id as keyof typeof DEFAULT_SHADER_VARIABLE_KEYS
-    ];
-  return shaderVariableId ?? id;
-};
-
-const setUpFunctionInstantiation = (
-  shaderVariableType: string | undefined,
-  functionName: string,
-  functionParameterIds: string[]
-) => {
-  if (!shaderVariableType) {
-    return null;
-  }
-  const formattedFunctionParameterIds = functionParameterIds.map((id) => {
-    return `${formatDefaults(id)}`;
-  });
-  const assignedVariableName = getAssignedVariableName(shaderVariableType);
-  return ` ${assignedVariableName} = ${functionName}(${formattedFunctionParameterIds.join(
-    ", "
-  )});`;
-};
-
-const getShaderFunctionType = (shaderVariableType: string | undefined) => {
-  switch (shaderVariableType) {
-    case SHADER_VARIABLE_TYPES.VERTEX_POINT:
-    case SHADER_VARIABLE_TYPES.GL_POINT_SIZE:
-      return FUNCTION_TYPES.VERTEX_ROOT;
-    default:
-      return FUNCTION_TYPES.CONFIGURED_STATIC;
-  }
+  // check for any additional function configs to be created via varying references
+  // - check varyings for any function ids
+  // - if matching function in current config - check for a function add the instantiation parameter config
+  // - if no function parameter config - ignore
+  // - if function parameter config duplicate the function config - add the instantiation parameter config
 };
 
 export const generateVertexShaderTransformation = (
@@ -178,58 +144,10 @@ export const generateVertexShaderTransformation = (
     id
   );
 
-  const effectFunctions = formattedFunctionConfigs.map(
-    ({
-      returnValue,
-      functionName,
-      functionParameterIds,
-      functionContent,
-      shaderVariableType,
-      id: functionId,
-    }) => {
-      const returnTypeString = shaderValueTypeInstantiation(returnValue);
-      const functionInputs = functionParameterIds.flatMap((parameterId) => {
-        const parameter = shaderParameters.find((p) => p.id === parameterId);
-        if (!parameter) {
-          return [];
-        }
-        return `${shaderValueTypeInstantiation(parameter.valueType)} ${
-          parameter.functionId
-        }`;
-      });
-      const functionDeclaration = `${returnTypeString} ${functionName}(${functionInputs.join(
-        ", "
-      )}){`;
-
-      const formattedFunctionContent = formatEffectCodeLines(
-        functionContent,
-        shaderParameters,
-        effectParameters,
-        formattedFunctionConfigs
-      );
-
-      const functionInstantiation = setUpFunctionInstantiation(
-        shaderVariableType,
-        functionName,
-        functionParameterIds
-      );
-
-      const shaderFunctionType = getShaderFunctionType(shaderVariableType);
-      const shaderFunctionConfig = {
-        id: functionId,
-        functionName: functionName,
-        functionDefinition: [
-          functionDeclaration,
-          ...formattedFunctionContent,
-          `}`,
-        ].join("\n"),
-        functionType: shaderFunctionType,
-      };
-      return {
-        shaderFunctionConfig,
-        functionInstantiation,
-      };
-    }
+  const effectFunctions = formatEffectFunctions(
+    formattedFunctionConfigs,
+    shaderParameters,
+    effectParameters
   );
 
   // // if parameters are just consts then add them
@@ -242,11 +160,11 @@ export const generateVertexShaderTransformation = (
     });
 
   const mainFunctionInstantiations = effectFunctions.flatMap(
-    ({ functionInstantiation }) => {
-      if (!functionInstantiation) {
+    ({ functionInstantiation, assignedVariableName }) => {
+      if (!assignedVariableName) {
         return [];
       }
-      return functionInstantiation;
+      return `${assignedVariableName} = ${functionInstantiation};`;
     }
   );
 
@@ -255,13 +173,7 @@ export const generateVertexShaderTransformation = (
     ...mainFunctionInstantiations,
   ].join("\n");
 
-  const transformationFunctions = effectFunctions.map(
-    ({ shaderFunctionConfig }) => {
-      return shaderFunctionConfig;
-    }
-  );
-
-  return { transformation, transformationFunctions };
+  return { transformation, transformationFunctions: effectFunctions };
 };
 export const generateFragmentShaderTransformation = (
   configs: ShaderTransformationConfig[],
@@ -295,58 +207,10 @@ export const generateFragmentShaderTransformation = (
     }
   );
 
-  const effectFunctions = formattedFunctionConfigs.map(
-    ({
-      returnValue,
-      functionName,
-      functionParameterIds,
-      functionContent,
-      shaderVariableType,
-      id: functionId,
-    }) => {
-      const returnTypeString = shaderValueTypeInstantiation(returnValue);
-      const functionInputs = functionParameterIds.flatMap((parameterId) => {
-        const parameter = shaderParameters.find((p) => p.id === parameterId);
-        if (!parameter) {
-          return [];
-        }
-        return `${shaderValueTypeInstantiation(parameter.valueType)} ${
-          parameter.functionId
-        }`;
-      });
-      const functionDeclaration = `${returnTypeString} ${functionName}(${functionInputs.join(
-        ", "
-      )}){`;
-
-      const formattedFunctionContent = formatEffectCodeLines(
-        functionContent,
-        shaderParameters,
-        effectParameters,
-        formattedFunctionConfigs
-      );
-
-      const functionInstantiation = setUpFunctionInstantiation(
-        shaderVariableType,
-        functionName,
-        functionParameterIds
-      );
-
-      const shaderFunctionType = getShaderFunctionType(shaderVariableType);
-      const shaderFunctionConfig = {
-        id: functionId,
-        functionName: functionName,
-        functionDefinition: [
-          functionDeclaration,
-          ...formattedFunctionContent,
-          `}`,
-        ].join("\n"),
-        functionType: shaderFunctionType,
-      };
-      return {
-        shaderFunctionConfig,
-        functionInstantiation,
-      };
-    }
+  const effectFunctions = formatEffectFunctions(
+    formattedFunctionConfigs,
+    shaderParameters,
+    effectParameters
   );
 
   // // if parameters are just consts then add them
@@ -371,11 +235,11 @@ export const generateFragmentShaderTransformation = (
   );
 
   const mainFunctionInstantiations = effectFunctions.flatMap(
-    ({ functionInstantiation }) => {
-      if (!functionInstantiation) {
+    ({ functionInstantiation, assignedVariableName }) => {
+      if (!assignedVariableName) {
         return [];
       }
-      return functionInstantiation;
+      return `${assignedVariableName} = ${functionInstantiation};`;
     }
   );
 
@@ -386,11 +250,5 @@ export const generateFragmentShaderTransformation = (
     ...advancedShaderVariablesAssignment,
   ].join("\n");
 
-  const transformationFunctions = effectFunctions.map(
-    ({ shaderFunctionConfig }) => {
-      return shaderFunctionConfig;
-    }
-  );
-
-  return { transformation, transformationFunctions };
+  return { transformation, transformationFunctions: effectFunctions };
 };

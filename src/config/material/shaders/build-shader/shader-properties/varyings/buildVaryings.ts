@@ -158,12 +158,18 @@ const getFunctionVaryingStrings = (
       varyingConfig?.functionId
   );
   if (!functionVaryings.length) return [];
-  const strings = [];
-  // functionVaryings.forEach((item: ParameterConfig) => {
-  //   const function = functions.find((func) => func.id === item.varyingConfig?.functionId);
-  //   if (function) {
-  //     strings.push(`${item.id} = ${function.functionName};`);
-  //   }
-  // });
+  const strings: string[] = [];
+  functionVaryings.forEach((item: ParameterConfig) => {
+    const functionConfig = functions.find(
+      (func) =>
+        func.id === item.varyingConfig?.functionId &&
+        func.functionInstantiation !== undefined
+    );
+    console.log(functions);
+    console.log(functionConfig);
+    if (functionConfig) {
+      strings.push(`${item.id} = ${functionConfig.functionInstantiation};`);
+    }
+  });
   return strings;
 };

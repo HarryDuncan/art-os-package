@@ -24,12 +24,11 @@ export const TEXTURE_PIXEL_COLOR_PARAMETERS = [
       functionId: "getTexturePixelColor",
     },
   },
-] as ParameterConfig[];
+] as unknown as ParameterConfig[];
 
 const TEXTURE_PIXEL_COLOR_TRANSFORMATION_CONFIG = {
   id: "varyingToValue",
   functionContent: [
-    `{{${SHADER_VARIABLE_ASSIGNMENT_KEYS.FRAGMENT_COLOR}}} = {{texturePixelColor}};`,
     `return {{${SHADER_VARIABLE_ASSIGNMENT_KEYS.FRAGMENT_COLOR}}};`,
   ],
   returnValue: SHADER_PROPERTY_VALUE_TYPES.VEC4,

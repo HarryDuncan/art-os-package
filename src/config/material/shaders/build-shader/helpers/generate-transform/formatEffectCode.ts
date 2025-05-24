@@ -29,7 +29,9 @@ export const formatEffectCodeLines = (
       if (!parameter) {
         const shaderVariable = effectParameters.find((p) => p.id === key);
         if (shaderVariable?.isVarying) {
-          return `${shaderVariable.id}_varying`;
+          return shaderVariable?.varyingConfig?.isAttributeReference
+            ? `${shaderVariable.id}_varying`
+            : `${shaderVariable.id}`;
         }
         if (shaderVariable) {
           return `${shaderVariable.id}`;

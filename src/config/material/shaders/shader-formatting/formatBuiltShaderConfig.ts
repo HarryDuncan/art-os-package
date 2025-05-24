@@ -22,6 +22,7 @@ const attributeToVarying = (
       varyingConfig: {
         varyingType: VARYING_TYPES.ATTRIBUTE,
         attributeKey: attributeConfig?.id ?? "",
+        isAttributeReference: true,
       },
     };
   });
