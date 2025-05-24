@@ -32,7 +32,11 @@ const formatFunctionParameters = (
     .concat(
       effectParameters.flatMap((effectParameter) => {
         const { id: parameterId, guid } = effectParameter;
-        if (effectParameter.isUniform || effectParameter.isAttribute) {
+        if (
+          effectParameter.isUniform ||
+          effectParameter.isAttribute ||
+          effectParameter.isVarying
+        ) {
           return [];
         }
         return {
@@ -122,6 +126,8 @@ const formatDefaults = (shaderVariableType: string, id: string) => {
         return VERTEX_POINT_NAME;
       }
       return id;
+    case SHADER_VARIABLE_TYPES.FRAGMENT_COLOR:
+      return FRAG_COLOR_NAME;
     default:
       return id;
   }
@@ -316,8 +322,7 @@ export const generateFragmentShaderTransformation = (
     shaderParameters,
     id
   );
-  console.log(shaderParameters);
-  console.log(formattedFunctionConfigs);
+
   const effectFunctions = formattedFunctionConfigs.map(
     ({
       returnValue,
@@ -345,9 +350,12 @@ export const generateFragmentShaderTransformation = (
           const parameter = shaderParameters.find((p) => p.id === key);
 
           if (!parameter) {
-            const uniform = effectParameters.find((p) => p.id === key);
-            if (uniform) {
-              return `${uniform.id}`;
+            const shaderVariable = effectParameters.find((p) => p.id === key);
+            if (shaderVariable?.isVarying) {
+              return `${shaderVariable.id}_varying`;
+            }
+            if (shaderVariable) {
+              return `${shaderVariable.id}`;
             }
 
             const effectFunction = formattedFunctionConfigs.find(

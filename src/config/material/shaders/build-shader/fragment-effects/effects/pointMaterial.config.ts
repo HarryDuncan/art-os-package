@@ -1,3 +1,4 @@
+import { MESH_TRANSFORM_TYPE } from "../../../../../../consts";
 import {
   ParameterConfig,
   ShaderTransformationConfig,
@@ -36,6 +37,14 @@ const TEXTURED_POINTS_ATTRIBUTES = [
   },
 ];
 
+const POINT_MATERIAL_MESH_TRANSFORM_CONFIG = {
+  id: "pointMaterialTransform",
+  type: MESH_TRANSFORM_TYPE.CUSTOM_ATTRIBUTES,
+  transformedMeshIds: [],
+  materialId: "",
+  attributeConfigs: [...TEXTURED_POINTS_ATTRIBUTES],
+};
+
 const POINT_MATERIAL_PARAMETERS = [
   {
     id: "uPointTexture1",
@@ -59,22 +68,21 @@ const POINT_MATERIAL_PARAMETERS = [
       relationship: ASSET_MAPPING_RELATIONSHIPS.TEXTURE,
     },
   },
-  ...TEXTURED_POINTS_ATTRIBUTES,
 ] as ParameterConfig[];
 
 export const pointMaterialTransformConfig = [
   {
     id: "pointMaterial",
     functionContent: [
+      `vec4 textureColor = vec4(1.0, 1.0, 1.0, 1.0);`,
       `if({{pointType}} > 0.0 && {{pointType}} < 0.5){`,
-      `vec4 textureColor =  texture2D({{uPointTexture1}}, gl_PointCoord);`,
-      `{{fragColor}} = vec4({{fragColor}}.rgb, 1.0) * textureColor;`,
+      `textureColor =  texture2D({{uPointTexture1}}, gl_PointCoord);`,
       `}`,
       `if({{pointType}} > 0.5 && {{pointType}} < 1.1){`,
-      `vec4 textureColor =  texture2D({{uPointTexture2}}, gl_PointCoord);`,
-      `{{fragColor}} = vec4({{fragColor}}.rgb, 1.0) * textureColor;`,
+      `textureColor =  texture2D({{uPointTexture2}}, gl_PointCoord);`,
       `}`,
-      "return {{fragColor}}",
+      `{{fragColor}} = vec4({{fragColor}}.rgb, 1.0) * textureColor;`,
+      "return {{fragColor}};",
     ],
     returnValue: SHADER_PROPERTY_VALUE_TYPES.VEC4,
     shaderVariableType: SHADER_VARIABLE_TYPES.FRAGMENT_COLOR,
@@ -88,7 +96,7 @@ export const pointMaterialTransformConfig = [
 
 export const POINT_MATERIAL_EFFECT_CONFIG = {
   functions: [],
-  meshTransformConfig: [],
+  meshTransformConfig: [POINT_MATERIAL_MESH_TRANSFORM_CONFIG],
   parameters: POINT_MATERIAL_PARAMETERS,
   transformationConfig: pointMaterialTransformConfig,
 };
