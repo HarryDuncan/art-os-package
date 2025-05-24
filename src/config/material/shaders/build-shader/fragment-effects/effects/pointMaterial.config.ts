@@ -3,7 +3,10 @@ import {
   ParameterConfig,
   ShaderTransformationConfig,
 } from "../../buildShader.types";
-import { SHADER_VARIABLE_TYPES } from "../../constants";
+import {
+  SHADER_VARIABLE_ASSIGNMENT_KEYS,
+  SHADER_VARIABLE_TYPES,
+} from "../../constants";
 import {
   ASSET_MAPPING_RELATIONSHIPS,
   ATTRIBUTE_VALUE_TYPES,
@@ -81,17 +84,26 @@ export const pointMaterialTransformConfig = [
       `if({{pointType}} > 0.5 && {{pointType}} < 1.1){`,
       `textureColor =  texture2D({{uPointTexture2}}, gl_PointCoord);`,
       `}`,
-      `{{fragColor}} = vec4({{fragColor}}.rgb, 1.0) * textureColor;`,
-      "return {{fragColor}};",
+      `{{${SHADER_VARIABLE_ASSIGNMENT_KEYS.FRAGMENT_COLOR}}} = vec4({{${SHADER_VARIABLE_ASSIGNMENT_KEYS.FRAGMENT_COLOR}}}.rgb, 1.0) * textureColor;`,
+      `return {{${SHADER_VARIABLE_ASSIGNMENT_KEYS.FRAGMENT_COLOR}}};`,
     ],
     returnValue: SHADER_PROPERTY_VALUE_TYPES.VEC4,
     shaderVariableType: SHADER_VARIABLE_TYPES.FRAGMENT_COLOR,
   },
-  // {
-  //   id: "discardPoints",
-  //   functionContent: [`if({{pointDisplay}} == 0.0 ){`, ` discard;`, `}`],
-  //   returnValue: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
-  // },
+  {
+    id: "discardPoints",
+    functionContent: [
+      `if({{pointDisplay}} == 0.0 ){`,
+      `return 1.0;`,
+      `}`,
+      `if({{${SHADER_VARIABLE_ASSIGNMENT_KEYS.FRAGMENT_COLOR}}}.a < 0.5){`,
+      `return 1.0;`,
+      `}`,
+      `return 0.0;`,
+    ],
+    returnValue: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
+    shaderVariableType: SHADER_VARIABLE_TYPES.DISCARD_COLOR,
+  },
 ] as ShaderTransformationConfig[];
 
 export const POINT_MATERIAL_EFFECT_CONFIG = {

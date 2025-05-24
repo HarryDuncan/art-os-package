@@ -34,6 +34,7 @@ export const getMeshesFromConfig = (
     formattedGeometry,
     assets
   );
+  console.log(transformedGeometry);
   const geometriesWithMaterials = addMaterials(
     transformedGeometry,
     materials,

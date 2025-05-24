@@ -1,8 +1,8 @@
 import { BufferGeometry, Material, Mesh, Points } from "three";
 import { MeshConfig } from "../../../assets/geometry/geometry.types";
-import { CustomMesh } from "../../../types/mesh.types";
+import { CustomMesh } from "../mesh.types";
 import { Position3d } from "../../../types/position.types";
-import { MESH_TYPES } from "../../../consts/mesh.consts";
+import { MESH_TYPES } from "../mesh.consts";
 
 export const setUpMeshes = (meshConfigs: MeshConfig[] = []) =>
   meshConfigs.flatMap(

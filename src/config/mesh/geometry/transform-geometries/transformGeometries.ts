@@ -1,9 +1,10 @@
 import { BufferAttribute, Vector2 } from "three";
 import { MeshTransformConfig } from "../../../../types/config.types";
 import { FormattedGeometry } from "../../../../assets/geometry/geometry.types";
-import { MESH_TRANSFORM_TYPE } from "../../../../consts/mesh.consts";
+import { MESH_TRANSFORM_TYPE } from "../../mesh.consts";
 import { getAttributeValuesFromAssets } from "../../attributes/getAttributeValuesFromAsset";
 import { Asset } from "../../../../types";
+import { setAttributes } from "../../attributes/set-attributes/setAttributes";
 
 export const transformGeometry = (
   meshTransforms: MeshTransformConfig[] | undefined,
@@ -55,17 +56,17 @@ export const transformGeometry = (
           //   };
           //   return transformedMeshes;
           // }
-          // case MESH_TRANSFORM_TYPE.CUSTOM_ATTRIBUTES: {
-          //   const attributesSet = transformedMeshes.map((formattedGeometry) => {
-          //     const { geometry } = formattedGeometry;
-          //     const setAttributeGeometry = setAttributes(
-          //       geometry,
-          //       attributeConfigs ?? []
-          //     );
-          //     return { ...formattedGeometry, geometry: setAttributeGeometry };
-          //   });
-          //   return attributesSet;
-          // }
+          case MESH_TRANSFORM_TYPE.CUSTOM_ATTRIBUTES: {
+            const attributesSet = transformedMeshes.map((formattedGeometry) => {
+              const { geometry } = formattedGeometry;
+              const setAttributeGeometry = setAttributes(
+                geometry,
+                attributeConfigs ?? []
+              );
+              return { ...formattedGeometry, geometry: setAttributeGeometry };
+            });
+            return attributesSet;
+          }
           // case MESH_TRANSFORM_TYPE.PRE_DEFINED: {
           //   const attributesSet = transformedMeshes.flatMap(({ geometry }) => {
           //     attributeConfigs?.forEach((config) => {
@@ -87,7 +88,7 @@ export const transformGeometry = (
               const quadDimensions = attributeConfigs?.find(
                 ({ id }) => id === "quadDimensions"
               );
-              console.log(quadDimensions);
+
               if (quadDimensions) {
                 const { value } = quadDimensions as { value: Vector2 };
                 const width = value?.x;
@@ -125,7 +126,7 @@ export const transformGeometry = (
                   geometry.setAttribute("pointIndex", indexes);
                   geometry.setAttribute("normal", normalAttributes);
                   geometry.setAttribute("pointOffset", pointOffset);
-                  console.log(geometry);
+
                   return {
                     ...formattedGeometry,
                     geometry,
@@ -166,17 +167,17 @@ const getTransformedMeshes = (
       const indexB = transformedMeshIds.indexOf(b.meshId ?? "");
       return indexA - indexB;
     });
-
 const TRANSFORM_SORTING = [
   MESH_TRANSFORM_TYPE.SET_UP_QUAD,
   MESH_TRANSFORM_TYPE.MORPH,
+  MESH_TRANSFORM_TYPE.CUSTOM_ATTRIBUTES,
 ];
 
 const formatTransforms = (
   meshTransforms: MeshTransformConfig[],
   assets: Asset[]
 ) => {
-  // Sort transforms based on TRANSFORM_SORTING order
+  // Sort transforms to ensure SET_UP_QUAD is first, then MORPH, then CUSTOM_ATTRIBUTES
   const sortedTransforms = [...meshTransforms].sort((a, b) => {
     const indexA = TRANSFORM_SORTING.indexOf(a.type);
     const indexB = TRANSFORM_SORTING.indexOf(b.type);

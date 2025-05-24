@@ -1,4 +1,4 @@
-import { ShaderMeshObject } from "../../../types/mesh.types";
+import { ShaderMeshObject } from "../../../config/mesh/mesh.types";
 import {
   AnimatedScene,
   ShaderAnimationConfig,

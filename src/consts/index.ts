@@ -1,5 +1,5 @@
 export * from "./files";
-export * from "./mesh.consts";
+export * from "../config/mesh/mesh.consts";
 export * from "./materials/materials.consts";
 export * from "../config/mesh/meshTransforms.consts";
 export * from "./consts";

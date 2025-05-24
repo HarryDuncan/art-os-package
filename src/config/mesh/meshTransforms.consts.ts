@@ -4,7 +4,7 @@ import {
   SHADER_PROPERTY_VALUE_TYPES,
 } from "../material/shaders/build-shader/constants/shader.consts";
 import { MeshTransformConfig } from "../../types";
-import { MESH_TRANSFORM_TYPE } from "../../consts/mesh.consts";
+import { MESH_TRANSFORM_TYPE } from "./mesh.consts";
 
 export const DEFAULT_MORPH_ATTRIBUTE_CONFIG = [
   {

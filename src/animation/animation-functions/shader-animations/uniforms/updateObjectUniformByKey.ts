@@ -1,5 +1,5 @@
 import { RawShaderMaterial } from "three";
-import { ExtendedMesh } from "../../../../types/mesh.types";
+import { ExtendedMesh } from "../../../../config/mesh/mesh.types";
 
 export const updateObjectUniformByKey = (
   mesh: ExtendedMesh,

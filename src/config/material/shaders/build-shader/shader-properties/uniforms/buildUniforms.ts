@@ -4,7 +4,6 @@ import {
   SHADER_PROPERTY_VALUE_TYPES,
 } from "../../constants/shader.consts";
 import { createDeclarationString } from "../../helpers/createDeclarationString";
-
 import { UNIFORM_DECLARATION } from "./uniforms.consts";
 
 export const buildUniformDeclaration = (uniformConfigs: ParameterConfig[]) => {

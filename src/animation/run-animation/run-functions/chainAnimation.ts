@@ -1,4 +1,4 @@
-import { MeshObject } from "../../../types/mesh.types";
+import { MeshObject } from "../../../config/mesh/mesh.types";
 import { Object3D } from "three";
 import {
   AnimationProperties,

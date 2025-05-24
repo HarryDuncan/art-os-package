@@ -13,11 +13,8 @@ import {
   formatRotationFromConfig,
 } from "../../../utils/three-dimension-space/formatFromConfig";
 import { setUpCustomBufferGeometry } from "./custom-buffer-geometry/setupCustomBufferGeometry";
-import {
-  CustomBufferGeometryType,
-  CustomGeometryConfig,
-} from "../../../types/mesh.types";
-import { CUSTOM_GEOMETRY_TYPES, MESH_TYPES } from "../../../consts/mesh.consts";
+import { CustomBufferGeometryType, CustomGeometryConfig } from "../mesh.types";
+import { CUSTOM_GEOMETRY_TYPES, MESH_TYPES } from "../mesh.consts";
 
 export const formatGeometry = (
   loadedAssets: Asset[],

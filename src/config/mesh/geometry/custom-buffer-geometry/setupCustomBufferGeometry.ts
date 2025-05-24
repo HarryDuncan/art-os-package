@@ -3,8 +3,8 @@ import {
   CustomGeometryConfig,
   CustomBufferGeometryType,
   FullQuadConfig,
-} from "../../../../types/mesh.types";
-import { CUSTOM_BUFFER_GEOMETRY_TYPES } from "../../../../consts/mesh.consts";
+} from "../../mesh.types";
+import { CUSTOM_BUFFER_GEOMETRY_TYPES } from "../../mesh.consts";
 
 export const setUpCustomBufferGeometry = (
   bufferGeometryType: CustomBufferGeometryType,

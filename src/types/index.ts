@@ -3,7 +3,7 @@ export * from "./asset.types";
 export * from "./three.types";
 export * from "./config.types";
 export * from "./node.types";
-export * from "./mesh.types";
+export * from "../config/mesh/mesh.types";
 export * from "./animation.types";
 export * from "./materials";
 export * from "./lights";

@@ -1,4 +1,4 @@
-import { ShaderMeshObject } from "../../../../../types/mesh.types";
+import { ShaderMeshObject } from "../../../../../config/mesh/mesh.types";
 import { getLoopType } from "../loops/getLoopTypes";
 import { updateObjectUniformByKey } from "../../uniforms/updateObjectUniformByKey";
 import { TransitionLoopConfig } from "../animationloop.types";

@@ -20,7 +20,7 @@ import {
   SceneElementType,
 } from "../config/components/threeJsComponents.types";
 import { LightConfigs, SceneLight } from "./lights";
-import { CustomGeometryConfig } from "./mesh.types";
+import { CustomGeometryConfig } from "../config/mesh/mesh.types";
 import { ParameterConfig } from "../config/material/shaders/build-shader/buildShader.types";
 
 export type MultipleConfig = {
