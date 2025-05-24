@@ -12,6 +12,7 @@ import {
 import { noiseFunction } from "../../../../shader-properties/functions/noise";
 import { QUAD_MESH_TRANSFORM } from "../../../../../../../mesh/meshTransforms.consts";
 import { ParameterConfig } from "../../../../buildShader.types";
+import { SHADER_VARIABLE_TYPES } from "../../../../constants";
 
 export const IMAGE_TO_POINTS_VARYING_CONFIG = [
   {
@@ -39,7 +40,7 @@ export const IMAGE_TO_POINTS_VARYING_CONFIG = [
 //   varyingConfig: {
 //     varyingType: VARYING_TYPES.CUSTOM,
 //     valueType: SHADER_PROPERTY_VALUE_TYPES.VEC4,
-//     value: `colA`,
+//     value: `texturePointColor`,
 //   },
 // },
 
@@ -125,33 +126,59 @@ export const IMAGE_TO_POINTS_EFFECT_CONFIG = {
   parameters: IMAGE_TO_POINTS_PARAMETERS,
 };
 
-export const imageToPointsTransformConfig = {
-  functionContent: [
-    // `vUv = uv;`, // move this as a varying declaration
-    // double check that point position is correct
-    // if there are issues it may be because you are passing in altered points
-    `vec2 puv = {{pointPosition}}.xy / {{textureSize}};`,
-
-    // pixel color
-    `vec4 colA = texture2D({{convertedTexture}}, puv);`,
-    `float grey = colA.r * 0.2 + colA.g * 0.71 + colA.b * 0.07;`,
-    `vec3 displaced = {{pointOffset}};`,
-    // randomise
-    `displaced.xy += vec2(random({{pointIndex}}) - 0.5, random({{pointIndex}}) - 0.5) * {{randomDirection}};`,
-    `float rndz = (random({{pointIndex}}) + noise(vec2({{pointIndex}} * 0.1, uTime * 0.1)));`,
-    `displaced.z += rndz * (random({{pointIndex}}) * 2.0 * {{pointDepth}});`,
-    // center
-    `displaced.xy -= {{textureSize}} * 0.5;`,
-    // particle size
-    `float pSize = (noise(vec2(uTime, {{pointIndex}}) * 0.5) + 2.0);`,
-    `float siz = 0.0;`,
-    `if( grey < 0.9 )`,
-    `{`,
-    `siz = 12.4 ;`,
-    `};`,
-    `{{pointPosition}} =  vec4(displaced, 1.0);`,
-    `pSize *= min(grey, siz);`,
-    `pSize *= {{pointSize}};`,
-    `gl_PointSize = pSize;`,
-  ],
-} as unknown as ShaderTransformationConfig;
+export const imageToPointsTransformConfig = [
+  {
+    id: "getPointSize",
+    functionContent: [
+      `vec4 color = {{getTexturePointColor}}`,
+      `float grey = color.r * 0.2 + color.g * 0.71 + color.b * 0.07;`,
+      `float pointSize = (noise(vec2(uTime, {{pointIndex}}) * 0.5) + 2.0);`,
+      `float size = 0.0;`,
+      `if( grey < 0.9 )`,
+      `{`,
+      `size = 12.4 ;`,
+      `};`,
+      `return size;`,
+    ],
+    returnValue: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
+    shaderVariableType: SHADER_VARIABLE_TYPES.GL_POINT_SIZE,
+  },
+  {
+    id: "getTexturePointColor",
+    functionContent: [
+      `vec2 puv = {{pointPosition}}.xy / {{textureSize}};`,
+      `vec4 color = texture2D({{convertedTexture}}, puv);`,
+      `return color;`,
+    ],
+    returnValue: SHADER_PROPERTY_VALUE_TYPES.VEC4,
+  },
+  {
+    id: "textureToPoints",
+    functionContent: [
+      // double check that point position is correct
+      // if there are issues it may be because you are passing in altered points
+      `vec4 texturePointColor = {{getTexturePointColor}}`,
+      `float grey = texturePointColor.r * 0.2 + texturePointColor.g * 0.71 + texturePointColor.b * 0.07;`,
+      `vec3 displaced = {{pointOffset}};`,
+      // randomise
+      `displaced.xy += vec2(random({{pointIndex}}) - 0.5, random({{pointIndex}}) - 0.5) * {{randomDirection}};`,
+      `float rndz = (random({{pointIndex}}) + noise(vec2({{pointIndex}} * 0.1, uTime * 0.1)));`,
+      `displaced.z += rndz * (random({{pointIndex}}) * 2.0 * {{pointDepth}});`,
+      // center
+      `displaced.xy -= {{textureSize}} * 0.5;`,
+      // particle size
+      `float pSize = (noise(vec2(uTime, {{pointIndex}}) * 0.5) + 2.0);`,
+      `float siz = 0.0;`,
+      `if( grey < 0.9 )`,
+      `{`,
+      `siz = 12.4 ;`,
+      `};`,
+      `{{pointPosition}} =  vec4(displaced, 1.0);`,
+      `pSize *= min(grey, siz);`,
+      `pSize *= {{pointSize}};`,
+      `gl_PointSize = pSize;`,
+    ],
+    returnValue: SHADER_PROPERTY_VALUE_TYPES.VEC4,
+    shaderVariableType: SHADER_VARIABLE_TYPES.VERTEX_POINT,
+  },
+] as unknown as ShaderTransformationConfig[];

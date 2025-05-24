@@ -17,14 +17,6 @@ export const VERTEX_EFFECTS = {
   ...INTERACTIVE_EFFECTS,
 };
 
-export const enum TransformTypes {
-  TRANSLATE = "TRANSLATE",
-}
-
-export const DEFAULT_VERTEX_EFFECT_PARAMS = {
-  declareInTransform: true,
-};
-
 export const VERTEX_EFFECT_CONFIG_MAP = {
   [VERTEX_EFFECTS.IMAGE_TO_POINTS]: IMAGE_TO_POINTS_EFFECT_CONFIG,
   [VERTEX_EFFECTS.EXPLODE]: EXPLODE_EFFECT_CONFIG,

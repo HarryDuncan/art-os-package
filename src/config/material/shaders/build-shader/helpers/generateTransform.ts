@@ -4,7 +4,10 @@ import {
   ShaderTransformationConfig,
   TransformationConfig,
 } from "../buildShader.types";
-import { FUNCTION_TYPES } from "../constants/buildShader.consts";
+import {
+  FUNCTION_TYPES,
+  SHADER_VARIABLE_TYPES,
+} from "../constants/buildShader.consts";
 import { SHADER_PROPERTY_VALUE_TYPES } from "../constants/shader.consts";
 import { VERTEX_POINT_NAME } from "../vertex-effects/vertexEffects.consts";
 import { VertexEffectProps } from "../vertex-effects/vertexEffects.types";
@@ -84,17 +87,20 @@ type FunctionParameter = {
 const shaderSafeGuid = (guid: string) => {
   return guid.slice(0, 8);
 };
-export const generateShaderTransformation = (
-  config: ShaderTransformationConfig,
-  effectProps: VertexEffectProps
-): { transformation: string; transformationFunctions: ShaderFunction[] } => {
-  const { id, effectParameters, effectType } = effectProps;
 
-  const functionName = `${effectType}_${shaderSafeGuid(id)}`;
+type FormattedFunctionConfig = ShaderTransformationConfig & {
+  functionName: string;
+  functionDependencyIds: string[];
+  functionParameterIds: string[];
+};
 
-  const functionParameters = DEFAULT_VERTEX_PARAMETERS.map((effect) => ({
+const formatFunctionParameters = (
+  effectParameters: ParameterConfig[],
+  effectGuid: string
+) => {
+  return DEFAULT_VERTEX_PARAMETERS.map((effect) => ({
     ...effect,
-    functionId: `${effect.id}_${shaderSafeGuid(id)}`,
+    functionId: `${effect.id}_${shaderSafeGuid(effectGuid)}`,
   })).concat(
     effectParameters.flatMap((effectParameter) => {
       const { id: parameterId, guid } = effectParameter;
@@ -108,40 +114,157 @@ export const generateShaderTransformation = (
       };
     })
   ) as FunctionParameter[];
-  const functionInputs = functionParameters.map(({ functionId, valueType }) => {
-    return `${shaderValueTypeInstantiation(valueType)} ${functionId}`;
-  });
+};
 
-  const functionDeclaration = `vec4 ${functionName}(${functionInputs.join(
-    ", "
-  )}){`;
-
-  const formattedFunctionContent = config.functionContent.map((line) => {
-    return line.replace(/{{(\w+)}}/g, (match, key) => {
-      const parameter = functionParameters.find((p) => p.id === key);
-
-      if (!parameter) {
-        const uniform = effectParameters.find((p) => p.id === key);
-        if (uniform) {
-          return `${uniform.id}`;
-        }
-        return match;
+const prepareFunctionConfigs = (
+  configs: ShaderTransformationConfig[],
+  functionParameters: FunctionParameter[],
+  effectId: string
+): FormattedFunctionConfig[] => {
+  const functionIds = configs.map(({ id }) => id);
+  const parameterIds = functionParameters.map(({ id }) => id);
+  return configs.map((config) => {
+    const { id, functionContent } = config;
+    const functionDependencies = functionContent.flatMap((line) => {
+      const variables = line
+        .match(/{{(\w+)}}/g)
+        ?.map((match) => match.replace(/[{}]/g, ""));
+      if (
+        variables &&
+        variables.some((variable) => functionIds.includes(variable))
+      ) {
+        return variables.filter((variable) => functionIds.includes(variable));
       }
-      return `${parameter.functionId}`;
+      return [];
     });
+    const functionParameterIds = functionContent.flatMap((line) => {
+      const variables = line
+        .match(/{{(\w+)}}/g)
+        ?.map((match) => match.replace(/[{}]/g, ""));
+      if (
+        variables &&
+        variables.some((variable) => parameterIds.includes(variable))
+      ) {
+        return variables.filter((variable) => parameterIds.includes(variable));
+      }
+      return [];
+    });
+    return {
+      ...config,
+      functionName: `${id}_${shaderSafeGuid(effectId)}`,
+      functionDependencyIds: [...new Set(functionDependencies)],
+      functionParameterIds: [...new Set(functionParameterIds)],
+    };
   });
+};
 
-  const returnStatement = `return ${
-    functionParameters.find((p) => p.id === "pointPosition")?.functionId ||
-    "vec4(0.0)"
-  };
-  }`;
+const setUpFunctionInstantiation = (
+  assignedVariableName: string,
+  functionName: string,
+  functionParameters: FunctionParameter[]
+) => {
+  return ` ${assignedVariableName} = ${functionName}(${functionParameters
+    .map((p) => p.functionId)
+    .join(", ")})`;
+};
 
-  console.log(functionDeclaration);
-  console.log(formattedFunctionContent);
-  console.log(returnStatement);
+const getAssignedVariableName = (shaderVariableType: string | undefined) => {
+  switch (shaderVariableType) {
+    case SHADER_VARIABLE_TYPES.VERTEX_POINT:
+      return VERTEX_POINT_NAME;
+    case SHADER_VARIABLE_TYPES.GL_POINT_SIZE:
+      return "gl_PointSize";
+    default:
+      return null;
+  }
+};
 
-  // if parameters are just consts then add them
+const getShaderFunctionType = (shaderVariableType: string | undefined) => {
+  switch (shaderVariableType) {
+    case SHADER_VARIABLE_TYPES.VERTEX_POINT:
+    case SHADER_VARIABLE_TYPES.GL_POINT_SIZE:
+      return FUNCTION_TYPES.VERTEX_ROOT;
+    default:
+      return FUNCTION_TYPES.CONFIGURED_STATIC;
+  }
+};
+export const generateShaderTransformation = (
+  configs: ShaderTransformationConfig[],
+  effectProps: VertexEffectProps
+): { transformation: string; transformationFunctions: ShaderFunction[] } => {
+  const { id, effectParameters } = effectProps;
+  const functionParameters = formatFunctionParameters(effectParameters, id);
+
+  const formattedFunctionConfigs = prepareFunctionConfigs(
+    configs,
+    functionParameters,
+    id
+  );
+
+  const effectFunctions = formattedFunctionConfigs.map(
+    ({
+      returnValue,
+      functionName,
+      functionParameterIds,
+      functionContent,
+      shaderVariableType,
+    }) => {
+      const returnTypeString = shaderValueTypeInstantiation(returnValue);
+      const functionInputs = functionParameterIds.flatMap((parameterId) => {
+        const parameter = functionParameters.find((p) => p.id === parameterId);
+        if (!parameter) {
+          return [];
+        }
+        return `${shaderValueTypeInstantiation(parameter.valueType)} ${
+          parameter.functionId
+        }`;
+      });
+      const functionDeclaration = `${returnTypeString} ${functionName}(${functionInputs.join(
+        ", "
+      )}){`;
+
+      const formattedFunctionContent = functionContent.map((line) => {
+        return line.replace(/{{(\w+)}}/g, (match, key) => {
+          const parameter = functionParameters.find((p) => p.id === key);
+
+          if (!parameter) {
+            const uniform = effectParameters.find((p) => p.id === key);
+            if (uniform) {
+              return `${uniform.id}`;
+            }
+            return match;
+          }
+          return `${parameter.functionId}`;
+        });
+      });
+
+      const assignedVariableName = getAssignedVariableName(shaderVariableType);
+
+      const functionInstantiation = assignedVariableName
+        ? setUpFunctionInstantiation(
+            assignedVariableName,
+            functionName,
+            functionParameters
+          )
+        : null;
+
+      const shaderFunctionType = getShaderFunctionType(shaderVariableType);
+      const shaderFunctionConfig = {
+        id: functionName,
+        functionDefinition: [
+          functionDeclaration,
+          ...formattedFunctionContent,
+        ].join("\n"),
+        functionType: shaderFunctionType,
+      };
+      return {
+        shaderFunctionConfig,
+        functionInstantiation,
+      };
+    }
+  );
+
+  // // if parameters are just consts then add them
   const constantDeclarations = effectParameters
     .filter((p) => !p.isUniform && !p.isAttribute && !p.isVarying)
     .map((p) => {
@@ -149,28 +272,26 @@ export const generateShaderTransformation = (
         p.value
       };`;
     });
-  const functionInstantiation = `${VERTEX_POINT_NAME} = ${functionName}(${VERTEX_POINT_NAME}, ${functionParameters
-    .flatMap((p) => {
-      if (p.default) {
+
+  const mainFunctionInstantiations = effectFunctions.flatMap(
+    ({ functionInstantiation }) => {
+      if (!functionInstantiation) {
         return [];
       }
-      return `${p.id}`;
-    })
-    .join(", ")});`;
-
-  const transformation = [...constantDeclarations, functionInstantiation].join(
-    "\n"
+      return functionInstantiation;
+    }
   );
-  const transformationFunctions = [
-    {
-      id: functionName,
-      functionDefinition: [
-        functionDeclaration,
-        ...formattedFunctionContent,
-        returnStatement,
-      ].join("\n"),
-      functionType: FUNCTION_TYPES.ROOT,
-    },
-  ];
+
+  const transformation = [
+    ...constantDeclarations,
+    ...mainFunctionInstantiations,
+  ].join("\n");
+
+  const transformationFunctions = effectFunctions.map(
+    ({ shaderFunctionConfig }) => {
+      return shaderFunctionConfig;
+    }
+  );
+
   return { transformation, transformationFunctions };
 };

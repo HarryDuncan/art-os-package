@@ -5,6 +5,7 @@ import {
 import { VARYING_TYPES } from "./shader-properties/varyings/varyings.consts";
 import { VERTEX_EFFECTS } from "./vertex-effects/vertexEffects.consts";
 import { FRAGMENT_EFFECTS } from "./fragment-effects/fragmentEffects.consts";
+import { SHADER_VARIABLE_TYPES } from "./constants";
 
 // GENERAL TYPES
 export type ShaderPropertyConfig = {
@@ -99,8 +100,10 @@ export type BuiltShaderConfig = {
 };
 
 export type ShaderTransformationConfig = {
-  functionInputs: string;
+  id: string;
   functionContent: string[];
+  returnValue: keyof typeof SHADER_PROPERTY_VALUE_TYPES;
+  shaderVariableType?: keyof typeof SHADER_VARIABLE_TYPES;
 };
 
 export type TransformationConfig = {
