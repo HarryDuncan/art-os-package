@@ -1,19 +1,32 @@
-import { ShaderTransformationConfig } from "../../../../../../../../types/materials/index";
+import { ShaderTransformationConfig } from "../../../../../../types/materials/index";
 import {
   ASSET_MAPPING_RELATIONSHIPS,
   ATTRIBUTE_VALUE_TYPES,
   SHADER_PROPERTY_VALUE_TYPES,
-} from "../../../../constants/shader.consts";
-import { VARYING_TYPES } from "../../../../shader-properties/varyings/varyings.consts";
+} from "../../constants/shader.consts";
+import { VARYING_TYPES } from "../../shader-properties/varyings/varyings.consts";
 import {
   randFunction,
   randomFloatFunction,
-} from "../../../../shader-properties/functions/random";
-import { noiseFunction } from "../../../../shader-properties/functions/noise";
-import { QUAD_MESH_TRANSFORM } from "../../../../../../../mesh/meshTransforms.consts";
-import { ParameterConfig } from "../../../../buildShader.types";
-import { SHADER_VARIABLE_TYPES } from "../../../../constants";
+} from "../../shader-properties/functions/random";
+import { noiseFunction } from "../../shader-properties/functions/noise";
+import { QUAD_MESH_TRANSFORM } from "../../../../../mesh/meshTransforms.consts";
+import { ParameterConfig } from "../../buildShader.types";
+import { SHADER_VARIABLE_TYPES } from "../../constants";
 
+// {
+//   id: "vPixelColor",
+//   name: "Pixel Color",
+//   configLocked: true,
+//   description: "The color of the texture at the current pixel",
+//   valueType: SHADER_PROPERTY_VALUE_TYPES.VEC4,
+//   isVarying: true,
+//   varyingConfig: {
+//     varyingType: VARYING_TYPES.CUSTOM,
+//     valueType: SHADER_PROPERTY_VALUE_TYPES.VEC4,
+//     value: `texturePointColor`,
+//   },
+// },
 export const IMAGE_TO_POINTS_VARYING_CONFIG = [
   {
     id: "vUv",
@@ -29,20 +42,6 @@ export const IMAGE_TO_POINTS_VARYING_CONFIG = [
     },
   },
 ];
-
-// {
-//   id: "vPixelColor",
-//   name: "Pixel Color",
-//   configLocked: true,
-//   description: "The color of the texture at the current pixel",
-//   valueType: SHADER_PROPERTY_VALUE_TYPES.VEC4,
-//   isVarying: true,
-//   varyingConfig: {
-//     varyingType: VARYING_TYPES.CUSTOM,
-//     valueType: SHADER_PROPERTY_VALUE_TYPES.VEC4,
-//     value: `texturePointColor`,
-//   },
-// },
 
 export const IMAGE_TO_POINTS_ATTRIBUTES = [
   {
@@ -109,24 +108,13 @@ export const IMAGE_TO_POINTS_PARAMETERS = [
   ...IMAGE_TO_POINTS_VARYING_CONFIG,
 ] as ParameterConfig[];
 
-export const IMAGE_TO_POINTS_UNIFORMS = [] as unknown as ParameterConfig[];
-
 export const IMAGE_TO_POINTS_REQUIRED_FUNCTIONS = [
   randomFloatFunction,
   randFunction,
   noiseFunction,
 ];
 
-export const IMAGE_TO_POINTS_EFFECT_CONFIG = {
-  uniforms: [],
-  attributes: [],
-  functions: IMAGE_TO_POINTS_REQUIRED_FUNCTIONS,
-  varyings: [],
-  meshTransformConfig: [QUAD_MESH_TRANSFORM],
-  parameters: IMAGE_TO_POINTS_PARAMETERS,
-};
-
-export const imageToPointsTransformConfig = [
+const imageToPointsTransformConfig = [
   {
     id: "getPointSize",
     functionContent: [
@@ -176,3 +164,10 @@ export const imageToPointsTransformConfig = [
     shaderVariableType: SHADER_VARIABLE_TYPES.VERTEX_POINT,
   },
 ] as unknown as ShaderTransformationConfig[];
+
+export const IMAGE_TO_POINTS_EFFECT_CONFIG = {
+  functions: IMAGE_TO_POINTS_REQUIRED_FUNCTIONS,
+  meshTransformConfig: [QUAD_MESH_TRANSFORM],
+  parameters: IMAGE_TO_POINTS_PARAMETERS,
+  transformationConfig: imageToPointsTransformConfig,
+};

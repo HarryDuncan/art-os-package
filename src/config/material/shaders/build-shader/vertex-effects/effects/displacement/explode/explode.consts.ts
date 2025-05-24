@@ -32,10 +32,8 @@ export const EXPLODE_ATTRIBUTES = [
 // ] as VaryingConfig[];
 
 export const EXPLODE_EFFECT_CONFIG = {
-  uniforms: EXPLODE_UNIFORMS,
-  attributes: EXPLODE_ATTRIBUTES,
   functions: EXPLODE_FUNCTIONS,
-  varyings: [],
   meshTransformConfig: [],
   parameters: [],
+  transformationConfig: [],
 };

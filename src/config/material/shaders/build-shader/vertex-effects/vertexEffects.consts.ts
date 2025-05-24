@@ -1,4 +1,4 @@
-import { IMAGE_TO_POINTS_EFFECT_CONFIG } from "./effects/image-vertex-effects/image-to-points/imageToPoints.consts";
+import { IMAGE_TO_POINTS_EFFECT_CONFIG } from "./effects/imageToPoints.config";
 import { AFFECTED_POSITION_EFFECT_CONFIG } from "./effects/interaction-based/interactionBased.consts";
 import { INTERACTIVE_EFFECTS } from "../constants/interactiveEffects.consts";
 import { EXPLODE_EFFECT_CONFIG } from "./effects/displacement/explode/explode.consts";

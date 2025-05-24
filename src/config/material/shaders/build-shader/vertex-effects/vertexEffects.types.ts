@@ -13,5 +13,5 @@ export type VertexEffectProps = {
   id: string;
   effectType: string;
   effectParameters: ParameterConfig[];
-  subEffects: VertexEffectConfig[];
+  subEffects?: VertexEffectConfig[];
 };

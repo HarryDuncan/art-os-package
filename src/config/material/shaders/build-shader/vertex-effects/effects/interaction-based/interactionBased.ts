@@ -3,12 +3,7 @@ import {
   TransformationConfig,
 } from "../../../buildShader.types";
 import { generateShaderTransformationOld } from "../../../helpers/generateTransform";
-import { mergeShaderFunctions } from "../../../helpers/mergeShaderFunctions";
-import { mergeAttributeConfigs } from "../../../shader-properties/attributes/helpers/mergeAttributeConfigs";
-import { mergeUniformConfigs } from "../../../shader-properties/uniforms/helpers/mergeUniformConfigs";
-
 import { VertexEffectProps } from "../../vertexEffects.types";
-import { getVertexEffect } from "../getVertexEffect";
 import { affectedPositionTransformConfig } from "./interaction-transforms/affectedPosition";
 
 export const interactionTransformConfig = {
@@ -22,24 +17,24 @@ export const interactionTransformConfig = {
 
 // todo - effect varyings
 export const interactionBased = (effectProps: VertexEffectProps) => {
-  const { effectType, effectParameters, subEffects } = effectProps;
-  const subEffectData = subEffects.flatMap((subEffect) => {
-    const vertexEffectData = getVertexEffect(subEffect);
-    if (vertexEffectData !== null) {
-      return {
-        transformation: vertexEffectData.transformation,
-        requiredFunctions: vertexEffectData.requiredFunctions,
-      };
-    }
-    return [];
-  });
+  const { effectType, effectParameters } = effectProps;
+  // const subEffectData = subEffects?.flatMap((subEffect) => { , subEffects
+  //   const vertexEffectData = getVertexEffect(subEffect);
+  //   if (vertexEffectData !== null) {
+  //     return {
+  //       transformation: vertexEffectData.transformation,
+  //       requiredFunctions: vertexEffectData.requiredFunctions,
+  //     };
+  //   }
+  //   return [];
+  // });
 
   const interactionAffectTransform = getInteractionEffectTransform(effectType);
   const binaryVaryings = getActiveAndInactiveInstantiation([]);
   const effectCode = [
     ...binaryVaryings.map(({ inactiveInstantiation }) => inactiveInstantiation),
     ...interactionAffectTransform.effectCode,
-    ...subEffectData.map((subEffect) => subEffect.transformation),
+    // ...subEffectData.map((subEffect) => subEffect.transformation),
     ...binaryVaryings.map(({ activeInstantiation }) => activeInstantiation),
     "};",
   ];
@@ -52,9 +47,9 @@ export const interactionBased = (effectProps: VertexEffectProps) => {
   // const mergedVaryingConfigs = mergeVaryingConfigs(
   //   subEffectData.map(({ varyingConfigs }) => varyingConfigs)
   // );
-  const mergedRequiredFunction = mergeShaderFunctions(
-    subEffectData.map(({ requiredFunctions }) => requiredFunctions)
-  );
+  // const mergedRequiredFunction = mergeShaderFunctions(
+  //   subEffectData.map(({ requiredFunctions }) => requiredFunctions)
+  // );
   // const mergedUniformConfig = mergeUniformConfigs(
   //   subEffectData.map(({ uniformConfigs }) => uniformConfigs)
   // );
@@ -63,7 +58,7 @@ export const interactionBased = (effectProps: VertexEffectProps) => {
   // );
   return {
     transformation,
-    requiredFunctions: mergedRequiredFunction,
+    requiredFunctions: [],
   };
 };
 

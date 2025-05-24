@@ -22,10 +22,8 @@ const ROTATION_FUNCTIONS = [] as ShaderFunction[];
 //   { id: "vPointId", valueType: "FLOAT", varyingType: "ATTRIBUTE" },
 // ] as VaryingConfig[];
 export const ROTATION_EFFECT_CONFIG = {
-  uniforms: ROTATION_UNIFORMS,
   functions: ROTATION_FUNCTIONS,
-  varyings: [],
-  attributes: [],
   meshTransformConfig: [],
   parameters: [],
+  transformationConfig: [],
 };
