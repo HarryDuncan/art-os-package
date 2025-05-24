@@ -1,8 +1,6 @@
 import { TransformationConfig } from "../../../buildShader.types";
 import { FRAGMENT_EFFECTS } from "../../fragmentEffects.consts";
-import { generateShaderTransformationOld } from "../../../helpers/generateTransform";
-import { mergeShaderFunctions } from "../../../helpers/mergeShaderFunctions";
-import { getFragmentEffects } from "../getFragmentEffects";
+// import { generateShaderTransformationOld } from "../../../helpers/generateTransform";
 import { affectedPositionTransformConfig } from "./affectedPosition";
 import { FragmentEffectProps } from "../../fragmentShader.types";
 
@@ -16,31 +14,31 @@ export const interactionTransformConfig = {
 } as unknown as TransformationConfig;
 
 export const interactionBased = (effectProps: FragmentEffectProps) => {
-  const { effectType, subEffects, effectParameters } = effectProps;
-  const subEffectData = subEffects.flatMap((subEffect) => {
-    const fragmentEffectData = getFragmentEffects(subEffect);
-    if (!fragmentEffectData) {
-      return [];
-    }
-    return fragmentEffectData;
-  });
+  const { effectType, effectParameters } = effectProps;
+  // const subEffectData = subEffects.flatMap((subEffect) => {
+  //   const fragmentEffectData = getFragmentEffects(subEffect);
+  //   if (!fragmentEffectData) {
+  //     return [];
+  //   }
+  //   return fragmentEffectData;
+  // });
 
   const interactionAffectTransform = getInteractionEffectTransform(effectType);
   const effectCode = [
     ...interactionAffectTransform.effectCode,
-    ...subEffectData.map((subEffect) => subEffect.transformation),
+    //  ...subEffectData.map((subEffect) => subEffect.transformation),
     "};",
   ];
 
   const transformConfig = { ...interactionTransformConfig, effectCode };
-  const transformation = generateShaderTransformationOld(
-    transformConfig,
-    effectParameters
-  );
+  // const transformation = generateShaderTransformationOld(
+  //   transformConfig,
+  //   effectParameters
+  // );
 
-  const mergedRequiredFunction = mergeShaderFunctions(
-    subEffectData.map(({ requiredFunctions }) => requiredFunctions)
-  );
+  // const mergedRequiredFunction = mergeShaderFunctions(
+  //   subEffectData.map(({ requiredFunctions }) => requiredFunctions)
+  // );
 
   // const mergedUniforms = mergeUniformConfigs(
   //   subEffectData.map(({ uniformConfigs }) => uniformConfigs)
@@ -53,8 +51,8 @@ export const interactionBased = (effectProps: FragmentEffectProps) => {
   // );
 
   return {
-    transformation,
-    requiredFunctions: mergedRequiredFunction,
+    transformation: "",
+    requiredFunctions: [],
   };
 };
 

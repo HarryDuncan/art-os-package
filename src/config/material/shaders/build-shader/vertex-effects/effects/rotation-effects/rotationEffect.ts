@@ -1,5 +1,5 @@
 import { TransformationConfig } from "../../../buildShader.types";
-import { generateShaderTransformationOld } from "../../../helpers/generateTransform";
+// import { generateShaderTransformationOld } from "../../../helpers/generateTransform";
 import { VERTEX_POINT_NAME } from "../../vertexEffects.consts";
 import { VertexEffectProps } from "../../vertexEffects.types";
 const rotationTransformConfig = {
@@ -23,9 +23,9 @@ const rotationTransformConfig = {
 
 export const rotationEffect = (effectProps: VertexEffectProps) => {
   const { effectParameters } = effectProps;
-  const transformation = generateShaderTransformationOld(
-    rotationTransformConfig,
-    effectParameters
-  );
-  return { transformation };
+  // const transformation = generateShaderTransformationOld(
+  //   rotationTransformConfig,
+  //   effectParameters
+  // );
+  return { transformation: "" };
 };

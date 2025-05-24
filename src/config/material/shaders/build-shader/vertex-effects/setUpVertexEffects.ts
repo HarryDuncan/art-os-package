@@ -8,7 +8,7 @@ import {
   VertexEffectConfig,
 } from "../../../../../types/materials/index";
 import { VertexEffectProps } from "./vertexEffects.types";
-import { generateVertexShaderTransformation } from "../helpers/generateTransform";
+import { generateVertexShaderTransformation } from "../helpers/generate-transform/generateTransform";
 
 export const setUpVertexEffects = (vertexEffects: VertexEffectConfig[]) => {
   const { transformations, requiredFunctions } =
@@ -61,6 +61,6 @@ export const transformSetup = (effectProps: VertexEffectProps) => {
 
   return {
     transformation,
-    requiredFunctions: transformationFunctions,
+    requiredFunctions: [...effectConfig.functions, ...transformationFunctions],
   };
 };

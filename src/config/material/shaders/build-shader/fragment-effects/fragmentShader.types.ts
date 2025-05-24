@@ -13,5 +13,5 @@ export type FragmentEffectProps = {
   id: string;
   effectType: string;
   effectParameters: ParameterConfig[];
-  subEffects: FragmentEffectConfig[];
+  subEffects?: FragmentEffectConfig[];
 };

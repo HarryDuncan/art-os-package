@@ -2,7 +2,7 @@ import {
   ParameterConfig,
   TransformationConfig,
 } from "../../../buildShader.types";
-import { generateShaderTransformationOld } from "../../../helpers/generateTransform";
+// import { generateShaderTransformationOld } from "../../../helpers/generateTransform";
 import { VertexEffectProps } from "../../vertexEffects.types";
 import { affectedPositionTransformConfig } from "./interaction-transforms/affectedPosition";
 
@@ -39,10 +39,10 @@ export const interactionBased = (effectProps: VertexEffectProps) => {
     "};",
   ];
   const transformConfig = { ...interactionTransformConfig, effectCode };
-  const transformation = generateShaderTransformationOld(
-    transformConfig,
-    effectParameters
-  );
+  // const transformation = generateShaderTransformationOld(
+  //   transformConfig,
+  //   effectParameters
+  // );
 
   // const mergedVaryingConfigs = mergeVaryingConfigs(
   //   subEffectData.map(({ varyingConfigs }) => varyingConfigs)
@@ -57,7 +57,7 @@ export const interactionBased = (effectProps: VertexEffectProps) => {
   //   subEffectData.map(({ attributeConfigs }) => attributeConfigs)
   // );
   return {
-    transformation,
+    transformation: "",
     requiredFunctions: [],
   };
 };

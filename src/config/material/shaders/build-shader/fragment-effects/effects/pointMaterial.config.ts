@@ -1,21 +1,15 @@
 import {
   ParameterConfig,
   ShaderTransformationConfig,
-} from "../../../buildShader.types";
-import { SHADER_VARIABLE_TYPES } from "../../../constants";
+} from "../../buildShader.types";
+import { SHADER_VARIABLE_TYPES } from "../../constants";
 import {
   ASSET_MAPPING_RELATIONSHIPS,
   ATTRIBUTE_VALUE_TYPES,
   SHADER_PROPERTY_VALUE_TYPES,
-} from "../../../constants/shader.consts";
+} from "../../constants/shader.consts";
 
-export const POINT_MATERIAL_FUNCTIONS = [];
-
-export const POINT_MATERIAL_ATTRIBUTES = [];
-
-export const POINT_MATERIAL_UNIFORMS = [];
-
-export const TEXTURED_POINTS_ATTRIBUTES = [
+const TEXTURED_POINTS_ATTRIBUTES = [
   {
     id: "pointType",
     name: "Point Type",
@@ -42,7 +36,7 @@ export const TEXTURED_POINTS_ATTRIBUTES = [
   },
 ];
 
-export const POINT_MATERIAL_PARAMETERS = [
+const POINT_MATERIAL_PARAMETERS = [
   {
     id: "uPointTexture1",
     valueType: SHADER_PROPERTY_VALUE_TYPES.SAMPLER2D,
@@ -72,21 +66,29 @@ export const pointMaterialTransformConfig = [
   {
     id: "pointMaterial",
     functionContent: [
-      `if(vPointType > 0.0 && vPointType < 0.5){`,
-      `vec4 textureColor =  texture2D(uPointTexture1, gl_PointCoord);`,
-      `currentFragColor = vec4(currentFragColor.rgb, 1.0) * textureColor;`,
+      `if({{pointType}} > 0.0 && {{pointType}} < 0.5){`,
+      `vec4 textureColor =  texture2D({{uPointTexture1}}, gl_PointCoord);`,
+      `{{fragColor}} = vec4({{fragColor}}.rgb, 1.0) * textureColor;`,
       `}`,
-      `if(vPointType > 0.5 && vPointType < 1.1){`,
-      `vec4 textureColor =  texture2D(uPointTexture2, gl_PointCoord);`,
-      `currentFragColor = vec4(currentFragColor.rgb, 1.0) * textureColor;`,
+      `if({{pointType}} > 0.5 && {{pointType}} < 1.1){`,
+      `vec4 textureColor =  texture2D({{uPointTexture2}}, gl_PointCoord);`,
+      `{{fragColor}} = vec4({{fragColor}}.rgb, 1.0) * textureColor;`,
       `}`,
+      "return {{fragColor}}",
     ],
     returnValue: SHADER_PROPERTY_VALUE_TYPES.VEC4,
     shaderVariableType: SHADER_VARIABLE_TYPES.FRAGMENT_COLOR,
   },
-  {
-    id: "discardPoints",
-    functionContent: [`if(vPointDisplay == 0.0 ){`, ` discard;`, `}`],
-    returnValue: SHADER_PROPERTY_VALUE_TYPES.BOOL,
-  },
+  // {
+  //   id: "discardPoints",
+  //   functionContent: [`if({{pointDisplay}} == 0.0 ){`, ` discard;`, `}`],
+  //   returnValue: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
+  // },
 ] as ShaderTransformationConfig[];
+
+export const POINT_MATERIAL_EFFECT_CONFIG = {
+  functions: [],
+  meshTransformConfig: [],
+  parameters: POINT_MATERIAL_PARAMETERS,
+  transformationConfig: pointMaterialTransformConfig,
+};
