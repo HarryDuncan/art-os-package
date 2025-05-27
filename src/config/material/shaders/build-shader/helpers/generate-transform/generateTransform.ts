@@ -1,5 +1,6 @@
 import {
   ParameterConfig,
+  ParameterFunctionConfig,
   ShaderFunction,
   ShaderTransformationConfig,
 } from "../../buildShader.types";
@@ -49,14 +50,36 @@ const formatFunctionParameters = (
     ) as FunctionParameter[];
 };
 
+const getFunctionParameterMapping = (
+  matchingFunctionConfig: FormattedFunctionConfig,
+  functionConfig: ParameterFunctionConfig | undefined
+) => {
+  const { functionParameterIds } = matchingFunctionConfig;
+  if (
+    !functionConfig ||
+    !functionConfig.functionInstantiationParameterMapping
+  ) {
+    return functionParameterIds;
+  }
+  const { functionInstantiationParameterMapping } = functionConfig;
+  const updatedInstantiationParameters = functionParameterIds.map((id) => {
+    const matchingParameter = functionInstantiationParameterMapping[id];
+    if (matchingParameter) {
+      return getShaderVariableKeys(matchingParameter);
+    }
+    return getShaderVariableKeys(id);
+  });
+  return updatedInstantiationParameters;
+};
 const prepareFunctionConfigs = (
   configs: ShaderTransformationConfig[],
   shaderParameters: FunctionParameter[],
-  effectId: string
+  effectId: string,
+  parametersWithFunctionConfigs: ParameterConfig[]
 ): FormattedFunctionConfig[] => {
   const functionIds = configs.map(({ id }) => id);
   const parameterIds = shaderParameters.map(({ id }) => id);
-  return configs.map((config) => {
+  const formattedConfigs = configs.map((config) => {
     const { id, functionContent } = config;
     const functionDependencies = functionContent.flatMap((line) => {
       const variables = line
@@ -120,11 +143,33 @@ const prepareFunctionConfigs = (
       ),
     };
   });
-  // check for any additional function configs to be created via varying references
-  // - check varyings for any function ids
+
   // - if matching function in current config - check for a function add the instantiation parameter config
-  // - if no function parameter config - ignore
-  // - if function parameter config duplicate the function config - add the instantiation parameter config
+  const matchingFunctionConfigs = parametersWithFunctionConfigs.flatMap(
+    (parameterConfig) => {
+      const { functionConfig, id } = parameterConfig;
+      const matchingFunctionConfig = formattedConfigs.find((config) => {
+        return config.id === functionConfig?.functionId;
+      });
+      if (matchingFunctionConfig) {
+        const instantiationParameters = getFunctionParameterMapping(
+          matchingFunctionConfig,
+          functionConfig
+        );
+
+        const shaderVariableType = id;
+        return {
+          ...matchingFunctionConfig,
+          functionInstantiationParameterIds: instantiationParameters,
+          shaderVariableType,
+          dontDeclare: true,
+        };
+      }
+      return [];
+    }
+  );
+
+  return [...formattedConfigs, ...matchingFunctionConfigs];
 };
 
 export const generateVertexShaderTransformation = (
@@ -137,11 +182,16 @@ export const generateVertexShaderTransformation = (
     effectParameters,
     id
   );
-
+  const parametersWithFunctionConfigs = effectParameters.filter((parameter) => {
+    const { functionConfig } = parameter;
+    if (functionConfig) return true;
+    return false;
+  });
   const formattedFunctionConfigs = prepareFunctionConfigs(
     configs,
     shaderParameters,
-    id
+    id,
+    parametersWithFunctionConfigs
   );
 
   const effectFunctions = formatEffectFunctions(
@@ -173,7 +223,11 @@ export const generateVertexShaderTransformation = (
     ...mainFunctionInstantiations,
   ].join("\n");
 
-  return { transformation, transformationFunctions: effectFunctions };
+  const transformationFunctions = effectFunctions.filter(({ dontDeclare }) => {
+    return !dontDeclare;
+  });
+
+  return { transformation, transformationFunctions };
 };
 export const generateFragmentShaderTransformation = (
   configs: ShaderTransformationConfig[],
@@ -189,7 +243,8 @@ export const generateFragmentShaderTransformation = (
   const formattedFunctionConfigs = prepareFunctionConfigs(
     configs,
     shaderParameters,
-    id
+    id,
+    []
   );
   const shaderVariableTypes = formattedFunctionConfigs.flatMap(
     ({ shaderVariableType }) => {

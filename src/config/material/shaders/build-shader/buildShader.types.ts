@@ -27,6 +27,7 @@ export type ShaderFunction = {
   functionType: string;
   functionName: string;
   functionInstantiation?: string;
+  parameterMappingInstantiation?: Record<string, string>;
 };
 
 export interface EffectConfig {
@@ -63,6 +64,10 @@ export const SHADER_PROPERTY_TAGS = {
   COLOR: "color",
 };
 
+export type ParameterFunctionConfig = {
+  functionId: string;
+  functionInstantiationParameterMapping?: Record<string, string>;
+};
 export type ParameterConfig = ShaderPropertyConfig & {
   configLocked?: boolean;
   description?: string;
@@ -86,12 +91,12 @@ export type ParameterConfig = ShaderPropertyConfig & {
   };
   varyingConfig?: {
     varyingType: VaryingTypes;
-    functionId?: string;
     attributeKey?: string;
     activeValue?: string;
     inactiveValue?: string;
     isAttributeReference?: boolean;
   };
+  functionConfig?: ParameterFunctionConfig;
 };
 
 export type StructConfig = { id: string; properties: ShaderPropertyConfig[] };
@@ -107,7 +112,7 @@ export type ShaderTransformationConfig = {
   id: string;
   functionContent: string[];
   returnValue: keyof typeof SHADER_PROPERTY_VALUE_TYPES;
-  shaderVariableType?: keyof typeof SHADER_VARIABLE_TYPES;
+  shaderVariableType?: keyof typeof SHADER_VARIABLE_TYPES | string;
 };
 
 export type TransformationConfig = {

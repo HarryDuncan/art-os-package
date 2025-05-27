@@ -37,6 +37,7 @@ export const formatEffectFunctions = (
       shaderVariableType,
       id: functionId,
       functionInstantiationParameterIds,
+      dontDeclare,
     }) => {
       const returnTypeString = shaderValueTypeInstantiation(returnValue);
       const functionInputs = functionParameterIds.flatMap((parameterId) => {
@@ -71,6 +72,7 @@ export const formatEffectFunctions = (
         functionName: functionName,
         assignedVariableName,
         functionInstantiation,
+        dontDeclare,
         functionDefinition: [
           functionDeclaration,
           ...formattedFunctionContent,

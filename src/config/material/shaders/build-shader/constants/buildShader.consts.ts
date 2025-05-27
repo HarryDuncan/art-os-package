@@ -2,9 +2,6 @@ export const SHADER_TYPES = {
   VERTEX: "VERTEX",
   FRAGMENT: "FRAGMENT",
 };
-export const MAIN_START = `void main() { `;
-
-export const MAIN_END = "}";
 
 export const FUNCTION_TYPES = {
   VERTEX_ROOT: "VERTEX_ROOT",
@@ -20,9 +17,20 @@ export const SHADER_VARIABLE_TYPES = {
   FRAGMENT_COLOR: "FRAGMENT_COLOR",
   DISCARD_COLOR: "DISCARD_COLOR",
   GL_POINT_SIZE: "GL_POINT_SIZE",
+  POSITION: "POSITION",
 };
 
 export const SHADER_VARIABLE_ASSIGNMENT_KEYS = {
   VERTEX_POINT: "pointPosition",
   FRAGMENT_COLOR: "fragColor",
 };
+
+// Shader Code Constants
+export const MAIN_START = `void main() { `;
+export const MAIN_END = "}";
+export const V_DECLARATION = "// VARYING DECLARATION";
+export const V_DEFAULT_INSTANTIATION = "// DEFAULT VARYING INSTANTIATION";
+export const V_ATTRIBUTE_INSTANTIATION = "// ATTRIBUTE AS VARYING";
+export const V_CUSTOM_INSTANTIATION = "// CUSTOM VARYING";
+
+export const UNIFORM_DECLARATION = "// UNIFORM DECLARATION";

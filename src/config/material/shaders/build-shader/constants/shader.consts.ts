@@ -23,12 +23,6 @@ export const SHADER_PROPERTY_TYPES = {
   ATTRIBUTE: "ATTRIBUTE",
 };
 
-export const UNIFORM_TO_ASSET_MAPPING_CONFIG = {
-  id: "",
-  assetId: "",
-  relationship: "TEXTURE",
-};
-
 export const ASSET_MAPPING_RELATIONSHIPS = {
   TEXTURE: "TEXTURE",
   DIMENSION: "DIMENSION",

@@ -57,6 +57,19 @@ const getVaryingFromFragmentEffectMeshTransforms = (
   });
 };
 
+const getOtherEffectParameters = (
+  effect: ShaderEffectConfig,
+  shaderEffectConfigs: ShaderEffectConfig[]
+) => {
+  const { id } = effect;
+  return shaderEffectConfigs.flatMap((effect) => {
+    if (effect.id === id) return [];
+    return effect.effectParameters.filter((parameter) =>
+      parameter.effectIds?.includes(id)
+    );
+  });
+};
+
 export const formatBuiltShaderConfig = (
   parsedConfig: Partial<BuiltShaderConfig>,
   meshTransforms: MeshTransformConfig[]
@@ -88,11 +101,18 @@ export const formatBuiltShaderConfig = (
               }
               return transform.attributeConfigs ?? [];
             }) ?? [];
+        const otherEffectParameters = getOtherEffectParameters(
+          effect,
+          shaderEffectConfigs ?? []
+        );
+
+        // todo - remove duplicate parameters
         return {
           ...effect,
           effectParameters: [
             ...effect.effectParameters,
             ...meshTransformParametersForEffect,
+            ...otherEffectParameters,
           ],
         };
       }) ?? [],

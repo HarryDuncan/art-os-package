@@ -21,7 +21,13 @@ export const TEXTURE_PIXEL_COLOR_PARAMETERS = [
     isVarying: true,
     varyingConfig: {
       varyingType: VARYING_TYPES.FUNCTION,
-      functionId: "getTexturePixelColor",
+    },
+    functionConfig: {
+      functionId: "getTexturePointColor",
+      functionInstantiationParameterMapping: {
+        [SHADER_VARIABLE_ASSIGNMENT_KEYS.VERTEX_POINT]:
+          SHADER_VARIABLE_TYPES.POSITION,
+      },
     },
   },
 ] as unknown as ParameterConfig[];
@@ -29,6 +35,7 @@ export const TEXTURE_PIXEL_COLOR_PARAMETERS = [
 const TEXTURE_PIXEL_COLOR_TRANSFORMATION_CONFIG = {
   id: "varyingToValue",
   functionContent: [
+    `{{${SHADER_VARIABLE_ASSIGNMENT_KEYS.FRAGMENT_COLOR}}} = {{texturePixelColor}};`,
     `return {{${SHADER_VARIABLE_ASSIGNMENT_KEYS.FRAGMENT_COLOR}}};`,
   ],
   returnValue: SHADER_PROPERTY_VALUE_TYPES.VEC4,

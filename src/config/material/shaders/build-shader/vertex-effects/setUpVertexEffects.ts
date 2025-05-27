@@ -44,7 +44,6 @@ const getVertexTransformations = (vertexEffects: VertexEffectConfig[]) => {
 
 export const transformSetup = (effectProps: VertexEffectProps) => {
   const { effectType } = effectProps;
-
   const effectConfig = VERTEX_EFFECT_CONFIG_MAP[effectType];
   if (!effectConfig || !effectConfig.transformationConfig) {
     console.warn(

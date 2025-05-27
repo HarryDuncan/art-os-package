@@ -8,12 +8,16 @@ export const getShaderVariableKeys = (id: string) => {
     DEFAULT_SHADER_VARIABLE_KEYS[
       id as keyof typeof DEFAULT_SHADER_VARIABLE_KEYS
     ];
+
   return shaderVariableId ?? id;
 };
 
 export const getAssignedVariableName = (
   shaderVariableType: string | undefined
 ) => {
+  if (!shaderVariableType) {
+    return null;
+  }
   switch (shaderVariableType) {
     case SHADER_VARIABLE_TYPES.VERTEX_POINT:
       return VERTEX_POINT_NAME;
@@ -24,6 +28,6 @@ export const getAssignedVariableName = (
     case SHADER_VARIABLE_TYPES.DISCARD_COLOR:
       return "discardColor";
     default:
-      return null;
+      return shaderVariableType;
   }
 };

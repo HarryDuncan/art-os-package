@@ -37,4 +37,5 @@ export const ADVANCED_SHADER_VARIABLE_EFFECT_CODE = {
 export const DEFAULT_SHADER_VARIABLE_KEYS = {
   pointPosition: VERTEX_POINT_NAME,
   fragColor: FRAG_COLOR_NAME,
+  POSITION: "vec4(position.xyz, 1.0)",
 };

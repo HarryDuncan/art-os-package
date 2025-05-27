@@ -12,4 +12,5 @@ export type FormattedFunctionConfig = ShaderTransformationConfig & {
   functionDependencyIds: string[];
   functionParameterIds: string[];
   functionInstantiationParameterIds: string[];
+  dontDeclare?: boolean;
 };

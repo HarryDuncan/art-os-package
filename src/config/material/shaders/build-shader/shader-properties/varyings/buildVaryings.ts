@@ -4,30 +4,24 @@ import {
 } from "../../constants/shader.consts";
 import { createDeclarationString } from "../../helpers/createDeclarationString";
 import { getDefaultValueAsString } from "../../helpers/getDefaultValue";
-import {
-  VARYING_TYPES,
-  V_CUSTOM_INSTANTIATION,
-  V_DECLARATION,
-  V_DEFAULT_INSTANTIATION,
-} from "./varyings.consts";
+import { VARYING_TYPES } from "./varyings.consts";
 import {
   VERTEX_NORMAL_NAME,
   VERTEX_POINT_NAME,
 } from "../../vertex-effects/vertexEffects.consts";
 import { ParameterConfig } from "../../../../../../types/materials/index";
-import { ShaderFunction } from "../../buildShader.types";
+import {
+  V_CUSTOM_INSTANTIATION,
+  V_DECLARATION,
+  V_DEFAULT_INSTANTIATION,
+} from "../../constants";
 
 export const buildVaryings = (
   varyingSchema: ParameterConfig[],
-  attributeConfigs: ParameterConfig[],
-  vertexEffectFunctions: ShaderFunction[]
+  attributeConfigs: ParameterConfig[]
 ) => {
   const declaration = varyingDeclarations(varyingSchema);
-  const instantiation = varyingInstantiation(
-    varyingSchema,
-    attributeConfigs,
-    vertexEffectFunctions
-  );
+  const instantiation = varyingInstantiation(varyingSchema, attributeConfigs);
   return { declaration, instantiation };
 };
 
@@ -45,8 +39,7 @@ const varyingDeclarations = (config: ParameterConfig[]) => {
 
 const varyingInstantiation = (
   varyingConfigs: ParameterConfig[],
-  attributeConfigs: ParameterConfig[],
-  vertexEffectFunctions: ShaderFunction[]
+  attributeConfigs: ParameterConfig[]
 ) => {
   const defaultVaryingStrings = getDefaultVaryingString(varyingConfigs);
   const attributeVaryingStrings = getAttributeVaryingStrings(
@@ -54,15 +47,11 @@ const varyingInstantiation = (
     attributeConfigs
   );
   const customVaryingsStrings = getCustomVaryingStrings(varyingConfigs);
-  const functionVaryingsStrings = getFunctionVaryingStrings(
-    varyingConfigs,
-    vertexEffectFunctions
-  );
+
   return [
     ...defaultVaryingStrings,
     ...attributeVaryingStrings,
     ...customVaryingsStrings,
-    ...functionVaryingsStrings,
   ].join(" \n ");
 };
 
@@ -147,29 +136,3 @@ const getAttributeVaryingStrings = (
     }
     return [];
   });
-
-const getFunctionVaryingStrings = (
-  config: ParameterConfig[],
-  functions: ShaderFunction[]
-) => {
-  const functionVaryings = config.filter(
-    ({ varyingConfig }) =>
-      varyingConfig?.varyingType === VARYING_TYPES.FUNCTION &&
-      varyingConfig?.functionId
-  );
-  if (!functionVaryings.length) return [];
-  const strings: string[] = [];
-  functionVaryings.forEach((item: ParameterConfig) => {
-    const functionConfig = functions.find(
-      (func) =>
-        func.id === item.varyingConfig?.functionId &&
-        func.functionInstantiation !== undefined
-    );
-    console.log(functions);
-    console.log(functionConfig);
-    if (functionConfig) {
-      strings.push(`${item.id} = ${functionConfig.functionInstantiation};`);
-    }
-  });
-  return strings;
-};
