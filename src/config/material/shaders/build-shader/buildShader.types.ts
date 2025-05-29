@@ -26,7 +26,8 @@ export type ShaderFunction = {
   functionDefinition: string;
   functionType: string;
   functionName: string;
-  functionInstantiation?: string;
+  assignedVariableId?: string;
+  functionInstantiationParameterIds?: string[];
   parameterMappingInstantiation?: Record<string, string>;
 };
 
@@ -110,9 +111,9 @@ export type BuiltShaderConfig = {
 
 export type ShaderTransformationConfig = {
   id: string;
-  functionContent: string[];
+  effectCode: string[];
   returnValue: keyof typeof SHADER_PROPERTY_VALUE_TYPES;
-  shaderVariableType?: keyof typeof SHADER_VARIABLE_TYPES | string;
+  assignedVariableId?: keyof typeof SHADER_VARIABLE_TYPES | string;
 };
 
 export type TransformationConfig = {

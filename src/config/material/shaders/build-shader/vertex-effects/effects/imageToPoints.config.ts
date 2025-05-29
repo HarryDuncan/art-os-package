@@ -122,7 +122,7 @@ export const IMAGE_TO_POINTS_REQUIRED_FUNCTIONS = [
 const imageToPointsTransformConfig = [
   {
     id: "getPointSize",
-    functionContent: [
+    effectCode: [
       `vec4 color = {{getTexturePointColor}}`,
       `float grey = color.r * 0.2 + color.g * 0.71 + color.b * 0.07;`,
       `float currentPointSize = (noise(vec2(uTime, {{pointIndex}}) * 0.5) + 2.0);`,
@@ -136,11 +136,11 @@ const imageToPointsTransformConfig = [
       `return currentPointSize;`,
     ],
     returnValue: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
-    shaderVariableType: SHADER_VARIABLE_TYPES.GL_POINT_SIZE,
+    assignedVariableId: SHADER_VARIABLE_TYPES.GL_POINT_SIZE,
   },
   {
     id: "getTexturePointColor",
-    functionContent: [
+    effectCode: [
       `vec2 puv = {{pointPosition}}.xy / {{textureSize}};`,
       `vec4 color = texture2D({{convertedTexture}}, puv);`,
       `return color;`,
@@ -149,7 +149,7 @@ const imageToPointsTransformConfig = [
   },
   {
     id: "textureToPoints",
-    functionContent: [
+    effectCode: [
       // double check that point position is correct
       // if there are issues it may be because you are passing in altered points
       `vec4 texturePointColor = {{getTexturePointColor}}`,
@@ -166,7 +166,7 @@ const imageToPointsTransformConfig = [
       `return {{${SHADER_VARIABLE_ASSIGNMENT_KEYS.VERTEX_POINT}}};`,
     ],
     returnValue: SHADER_PROPERTY_VALUE_TYPES.VEC4,
-    shaderVariableType: SHADER_VARIABLE_TYPES.VERTEX_POINT,
+    assignedVariableId: SHADER_VARIABLE_TYPES.VERTEX_POINT,
   },
 ] as unknown as ShaderTransformationConfig[];
 

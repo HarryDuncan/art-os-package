@@ -76,7 +76,7 @@ const POINT_MATERIAL_PARAMETERS = [
 export const pointMaterialTransformConfig = [
   {
     id: "pointMaterial",
-    functionContent: [
+    effectCode: [
       `vec4 textureColor = vec4(1.0, 1.0, 1.0, 1.0);`,
       `if({{pointType}} > 0.0 && {{pointType}} < 0.5){`,
       `textureColor =  texture2D({{uPointTexture1}}, gl_PointCoord);`,
@@ -88,11 +88,11 @@ export const pointMaterialTransformConfig = [
       `return {{${SHADER_VARIABLE_ASSIGNMENT_KEYS.FRAGMENT_COLOR}}};`,
     ],
     returnValue: SHADER_PROPERTY_VALUE_TYPES.VEC4,
-    shaderVariableType: SHADER_VARIABLE_TYPES.FRAGMENT_COLOR,
+    assignedVariableId: SHADER_VARIABLE_TYPES.FRAGMENT_COLOR,
   },
   {
     id: "discardPoints",
-    functionContent: [
+    effectCode: [
       `if({{pointDisplay}} == 0.0 ){`,
       `return 1.0;`,
       `}`,
@@ -102,7 +102,7 @@ export const pointMaterialTransformConfig = [
       `return 0.0;`,
     ],
     returnValue: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
-    shaderVariableType: SHADER_VARIABLE_TYPES.DISCARD_COLOR,
+    assignedVariableId: SHADER_VARIABLE_TYPES.DISCARD_COLOR,
   },
 ] as ShaderTransformationConfig[];
 

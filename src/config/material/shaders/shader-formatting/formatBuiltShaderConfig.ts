@@ -64,6 +64,7 @@ const getOtherEffectParameters = (
   const { id } = effect;
   return shaderEffectConfigs.flatMap((effect) => {
     if (effect.id === id) return [];
+
     return effect.effectParameters.filter((parameter) =>
       parameter.effectIds?.includes(id)
     );
