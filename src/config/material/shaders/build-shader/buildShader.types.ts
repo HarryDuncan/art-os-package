@@ -21,13 +21,29 @@ export type ShaderPropertyConfig = {
   effectIds?: string[];
 };
 
+export type ShaderEffectParameter = Map<string, FunctionParameter>;
+export type FunctionParameter = {
+  id: string;
+  valueType: string;
+  functionId: string;
+  default?: boolean;
+  mappedParameterKey?: string;
+};
+export type FormattedFunctionConfig = ShaderTransformationConfig & {
+  functionName: string;
+  functionDependencyIds: string[];
+  functionParameters: ShaderEffectParameter;
+  functionType: string;
+  dontDeclare?: boolean;
+};
+
 export type ShaderFunction = {
   id: string;
   functionDefinition: string;
   functionType: string;
   functionName: string;
   assignedVariableId?: string;
-  functionInstantiationParameterIds?: string[];
+  functionParameters?: ShaderEffectParameter;
   parameterMappingInstantiation?: Record<string, string>;
 };
 

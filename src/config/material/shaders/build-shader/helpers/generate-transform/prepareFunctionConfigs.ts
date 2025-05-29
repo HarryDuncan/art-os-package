@@ -1,25 +1,22 @@
 import {
+  FormattedFunctionConfig,
   ParameterConfig,
   ParameterFunctionConfig,
+  ShaderEffectParameter,
   ShaderFunction,
   ShaderTransformationConfig,
 } from "../../buildShader.types";
-import {
-  FUNCTION_TYPES,
-  SHADER_VARIABLE_ASSIGNMENT_KEYS,
-} from "../../constants/buildShader.consts";
+import { SHADER_VARIABLE_TYPES } from "../../constants/buildShader.consts";
 import {
   DEFAULT_PARAMETER_KEY_MAP,
   ROOT_ASSIGNED_VARIABLES,
   ROOT_FUNCTION_TYPES,
 } from "./consts";
-
 import {
   getShaderFunctionType,
   getShaderVariableKeys,
   shaderSafeGuid,
 } from "./functions";
-import { FormattedFunctionConfig, ShaderEffectParameter } from "./types";
 
 const getFunctionParameterMapping = (
   matchingFunctionConfig: FormattedFunctionConfig,
@@ -49,55 +46,50 @@ const getFunctionParameterMapping = (
   return updatedFunctionParameters;
 };
 
-// const parseSubEffectIntoFunctionContent = (
-//   effectCode: string[],
-//   subEffectData: {
-//     requiredFunctions: ShaderFunction[];
-//     transformation: string;
-//   }[],
-//   parameterIds: string[]
-// ) => {
-//   console.log("parsing subeffects");
-//   if (subEffectData.length === 0) {
-//     return effectCode;
-//   }
-//   console.log("subEffectData test", subEffectData);
-//   return effectCode.flatMap((line) => {
-//     if (line.includes("{{SUB_EFFECTS}}")) {
-//       return (
-//         subEffectData
-//           // write subeffect transformations and function instantiations using the function parameter keys
-//           .flatMap((subEffect) => {
-//             const { transformation, requiredFunctions } = subEffect;
-//             const selectedFunction = requiredFunctions[0];
+const parseSubEffectIntoFunctionContent = (
+  effectCode: string[],
+  subEffectData: {
+    requiredFunctions: ShaderFunction[];
+    transformation: string;
+  }[]
+) => {
+  if (subEffectData.length === 0) {
+    return effectCode;
+  }
 
-//             const updatedInstantiationParameters =
-//               selectedFunction.functionInstantiationParameterIds.map((id) => {
-//                 if (id === "currentVertexPoint") {
-//                   return "pointPosition";
-//                 }
-//                 return id;
-//               });
+  return effectCode.flatMap((line) => {
+    if (line.includes("{{SUB_EFFECTS}}")) {
+      return (
+        subEffectData
+          // write subeffect transformations and function instantiations using the function parameter keys
+          .flatMap((subEffect) => {
+            const { requiredFunctions, transformation } = subEffect;
+            console.log("subEffect", subEffect);
+            console.log("transformation", requiredFunctions);
+            const selectedFunction = requiredFunctions[0];
 
-//             const functionInstantiation = `{{pointPosition}} = ${
-//               selectedFunction.functionName
-//             }(${updatedInstantiationParameters
-//               .map((id) => `{{${id}}}`)
-//               .join(",")});`;
+            const subEffectAssignedVariableId =
+              selectedFunction.assignedVariableId ===
+              SHADER_VARIABLE_TYPES.VERTEX_POINT
+                ? "pointPosition"
+                : "fragColor";
 
-//             // const functionInstantiationParameters = requiredFunctions.flatMap(
-//             //   (function) => {
-//             //     return function.functionParameterIds;
-//             //   }
-//             // );
-//             return [transformation, functionInstantiation];
-//           })
-//           .join("\n")
-//       );
-//     }
-//     return line;
-//   });
-// };
+            const functionParameters = Array.from(
+              selectedFunction.functionParameters?.values() ?? []
+            )
+              .map((value) => {
+                return `{{${value.id}}}`;
+              })
+              .join(",");
+            const functionInstantiation = `{{${subEffectAssignedVariableId}}} = ${selectedFunction.functionName}(${functionParameters});`;
+            return [transformation, functionInstantiation];
+          })
+          .join("\n")
+      );
+    }
+    return line;
+  });
+};
 export const prepareFunctionConfigs = (
   configs: ShaderTransformationConfig[],
   shaderEffectParameters: ShaderEffectParameter,
@@ -122,7 +114,9 @@ export const prepareFunctionConfigs = (
     // console.log(shaderFunctionType);
     // console.log("subEffectData", subEffectData);
     // console.log(parameterIds);
-    const updatedEffectCode = effectCode;
+    const updatedEffectCode = ROOT_FUNCTION_TYPES.includes(shaderFunctionType)
+      ? parseSubEffectIntoFunctionContent(effectCode, subEffectData)
+      : effectCode;
 
     const functionDependencies = updatedEffectCode.flatMap((line) => {
       const variables = line

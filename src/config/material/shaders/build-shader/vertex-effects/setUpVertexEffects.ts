@@ -85,27 +85,27 @@ export const generateVertexShaderTransformation = (
   effectProps: VertexEffectProps,
   isSubEffect: boolean
 ): { transformation: string; transformationFunctions: ShaderFunction[] } => {
-  const { id, effectParameters } = effectProps;
+  const { id, effectParameters, subEffects } = effectProps;
 
   // subEffects
-  // const subEffectParameterIds =
-  //   subEffects?.flatMap(({ effectParameters }) => effectParameters) ?? [];
+  const subEffectParameterIds =
+    subEffects?.flatMap(({ effectParameters }) => effectParameters) ?? [];
 
-  // const allEffectParameters = [...effectParameters, ...subEffectParameterIds];
+  const allEffectParameters = [...effectParameters, ...subEffectParameterIds];
 
-  // const subEffectDataArray =
-  //   subEffects?.flatMap((subEffect) => {
-  //     const subEffectData = transformSetup(subEffect, true);
-  //     console.log("subEffectData", subEffectData);
-  //     if (subEffectData) {
-  //       return subEffectData;
-  //     }
-  //     return [];
-  //   }) ?? [];
+  const subEffectDataArray =
+    subEffects?.flatMap((subEffect) => {
+      const subEffectData = transformSetup(subEffect, true);
+      console.log("subEffectData", subEffectData);
+      if (subEffectData) {
+        return subEffectData;
+      }
+      return [];
+    }) ?? [];
 
   const shaderParameters = formatShaderEffectParameters(
     DEFAULT_VERTEX_PARAMETERS,
-    effectParameters,
+    allEffectParameters,
     id
   );
 
@@ -121,7 +121,7 @@ export const generateVertexShaderTransformation = (
     id,
     parametersWithFunctionConfigs,
     isSubEffect,
-    []
+    subEffectDataArray
   );
 
   const effectFunctions = formatEffectFunctions(
@@ -131,7 +131,7 @@ export const generateVertexShaderTransformation = (
   );
 
   // // if parameters are just consts then add them
-  const constantDeclarations = effectParameters
+  const constantDeclarations = allEffectParameters
     .filter((p) => !p.isUniform && !p.isAttribute && !p.isVarying)
     .map((p) => {
       return `${shaderValueTypeInstantiation(p.valueType)} ${p.id} = ${
@@ -165,9 +165,12 @@ export const generateVertexShaderTransformation = (
     ...mainFunctionInstantiations,
   ].join("\n");
 
-  const transformationFunctions = effectFunctions.filter(({ dontDeclare }) => {
-    return !dontDeclare;
-  });
+  const transformationFunctions = [
+    ...effectFunctions.filter(({ dontDeclare }) => {
+      return !dontDeclare;
+    }),
+    ...subEffectDataArray.flatMap(({ requiredFunctions }) => requiredFunctions),
+  ];
 
   return { transformation, transformationFunctions };
 };

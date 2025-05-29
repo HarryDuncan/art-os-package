@@ -15,10 +15,11 @@ export const mapToUniform = (
 
   const meshes = scene.children.flatMap((child) => {
     if (child) {
-      return child?.material?.name === materialIds ? child : [];
+      return materialIds.includes(child?.material?.name) ? child : [];
     }
     return [];
   });
+
   meshes.forEach((mesh) => {
     const uniformKeys = Object.entries(mesh?.material.uniforms ?? {}).flatMap(
       ([key, uniform]) => {
