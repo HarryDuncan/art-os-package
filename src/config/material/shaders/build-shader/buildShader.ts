@@ -109,11 +109,13 @@ export const formatFragmentShader = (
   fragmentTransformations: string,
   fragColor: string
 ) => {
+  const fragmentFunctionDeclarations =
+    formatFunctionDeclarations(fragmentFunctions);
   const shaderCodeArray: string[] = [
     structDeclaration,
     uniformDeclaration,
     varyingDeclaration,
-    ...fragmentFunctions.map(({ functionDefinition }) => functionDefinition),
+    fragmentFunctionDeclarations,
     MAIN_START,
     FRAG_COLOR_INSTANTIATION,
     fragmentTransformations,

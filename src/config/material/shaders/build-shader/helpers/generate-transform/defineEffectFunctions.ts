@@ -1,13 +1,17 @@
-import { ParameterConfig } from "../../buildShader.types";
+import {
+  DefinedEffectFunction,
+  FormattedFunctionConfig,
+  ParameterConfig,
+  ShaderEffectParameter,
+} from "../../buildShader.types";
 import { shaderValueTypeInstantiation } from "../safeParseValue";
 import { formatEffectCodeLines } from "./formatEffectCode";
-import { FormattedFunctionConfig, ShaderEffectParameter } from "./types";
 
-export const formatEffectFunctions = (
+export const defineEffectFunctions = (
   formattedFunctionConfigs: FormattedFunctionConfig[],
   shaderEffectParameters: ShaderEffectParameter,
   effectParameters: ParameterConfig[]
-) =>
+): DefinedEffectFunction[] =>
   formattedFunctionConfigs.map(
     ({
       returnValue,
@@ -40,6 +44,7 @@ export const formatEffectFunctions = (
       const shaderFunctionConfig = {
         id: functionId,
         functionType,
+        returnValue,
         functionName: functionName,
         assignedVariableId,
         functionParameters,

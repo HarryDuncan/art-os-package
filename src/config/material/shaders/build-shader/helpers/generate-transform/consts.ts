@@ -1,3 +1,4 @@
+import { FunctionParameter } from "../../buildShader.types";
 import {
   FUNCTION_TYPES,
   SHADER_VARIABLE_ASSIGNMENT_KEYS,
@@ -7,7 +8,6 @@ import { SHADER_PROPERTY_VALUE_TYPES } from "../../constants/shader.consts";
 import { FRAG_COLOR_NAME } from "../../fragment-effects/fragmentEffects.consts";
 import { VERTEX_POINT_NAME } from "../../vertex-effects/vertexEffects.consts";
 import { getAssignedVariableName } from "./functions";
-import { FunctionParameter } from "./types";
 
 export const DEFAULT_VERTEX_PARAMETERS: Partial<FunctionParameter>[] = [
   {
@@ -52,9 +52,9 @@ export const ROOT_FUNCTION_TYPES = [
 export const DEFAULT_PARAMETER_KEY_MAP = {
   [SHADER_VARIABLE_ASSIGNMENT_KEYS.VERTEX_POINT]: VERTEX_POINT_NAME,
   [SHADER_VARIABLE_ASSIGNMENT_KEYS.FRAGMENT_COLOR]: FRAG_COLOR_NAME,
+  [SHADER_VARIABLE_TYPES.POSITION]: "vec4(position.xyz, 1.0)",
   // [SHADER_VARIABLE_ASSIGNMENT_KEYS.DISCARD_COLOR]: DISCARD_COLOR_EFFECT_CODE,
   // [SHADER_VARIABLE_ASSIGNMENT_KEYS.GL_POINT_SIZE]: "gl_PointSize",
-  // [SHADER_VARIABLE_TYPES.POSITION]: "vec4(position.xyz, 1.0)",
 };
 
 export const ROOT_ASSIGNED_VARIABLES = [

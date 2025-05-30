@@ -1,11 +1,28 @@
 import { mergeShaderFunctions } from "../helpers/mergeShaderFunctions";
-import { FragmentEffectConfig, ShaderFunction } from "../buildShader.types";
+import {
+  FragmentEffectConfig,
+  ShaderFunction,
+  ShaderTransformationConfig,
+} from "../buildShader.types";
 import {
   FRAG_COLOR_NAME,
   FRAGMENT_EFFECT_CONFIG_MAP,
+  FUNCTION_TYPES,
 } from "../../../../../consts";
 import { FragmentEffectProps } from "./fragmentShader.types";
-import { generateFragmentShaderTransformation } from "../helpers/generate-transform/generateTransform";
+import {
+  DEFAULT_FRAGMENT_PARAMETERS,
+  ADVANCED_SHADER_VARIABLE_EFFECT_CODE,
+} from "../helpers/generate-transform/consts";
+
+import { formatShaderEffectParameters } from "../helpers/generate-transform/formatShaderEffectParameters";
+import { setUpFunctionInstantiation } from "../helpers/generate-transform/functions";
+import { prepareFunctionConfigs } from "../helpers/generate-transform/prepareFunctionConfigs";
+import {
+  parseRawValueToShader,
+  shaderValueTypeInstantiation,
+} from "../helpers/safeParseValue";
+import { defineEffectFunctions } from "../helpers/generate-transform/defineEffectFunctions";
 
 export const setUpFragmentEffects = (
   fragmentEffects: FragmentEffectConfig[]
@@ -25,7 +42,7 @@ export const getFragmentColors = (fragmentEffects: FragmentEffectConfig[]) => {
   const allRequiredFunctions: ShaderFunction[][] = [];
   const unmergedTransformations: string[] = [];
   fragmentEffects.forEach((effect) => {
-    const fragmentEffectData = transformSetup(effect);
+    const fragmentEffectData = transformSetup(effect, false);
     if (fragmentEffectData) {
       unmergedTransformations.push(fragmentEffectData.transformation);
       allRequiredFunctions.push(fragmentEffectData.requiredFunctions);
@@ -40,14 +57,18 @@ export const getFragmentColors = (fragmentEffects: FragmentEffectConfig[]) => {
   };
 };
 
-export const transformSetup = (effectProps: FragmentEffectProps) => {
+export const transformSetup = (
+  effectProps: FragmentEffectProps,
+  isSubEffect: boolean
+) => {
   const { effectType } = effectProps;
   const effectConfig = FRAGMENT_EFFECT_CONFIG_MAP[effectType];
   if (effectConfig) {
     const { transformationFunctions, transformation } =
       generateFragmentShaderTransformation(
         effectConfig.transformationConfig,
-        effectProps
+        effectProps,
+        isSubEffect
       );
 
     return {
@@ -60,4 +81,131 @@ export const transformSetup = (effectProps: FragmentEffectProps) => {
     );
     return null;
   }
+};
+
+export const generateFragmentShaderTransformation = (
+  configs: ShaderTransformationConfig[],
+  effectProps: FragmentEffectProps,
+  isSubEffect: boolean
+): { transformation: string; transformationFunctions: ShaderFunction[] } => {
+  const { id, effectParameters, subEffects } = effectProps;
+
+  console.log(subEffects);
+  // subEffects
+  const subEffectParameterIds =
+    subEffects?.flatMap(({ effectParameters }) => effectParameters) ?? [];
+
+  const allEffectParameters = [...effectParameters, ...subEffectParameterIds];
+
+  const subEffectDataArray =
+    subEffects?.flatMap((subEffect) => {
+      const subEffectData = transformSetup(subEffect, true);
+
+      if (subEffectData) {
+        return subEffectData;
+      }
+      return [];
+    }) ?? [];
+
+  const shaderEffectParameters = formatShaderEffectParameters(
+    DEFAULT_FRAGMENT_PARAMETERS,
+    allEffectParameters,
+    id
+  );
+
+  const formattedFunctionConfigs = prepareFunctionConfigs(
+    configs,
+    shaderEffectParameters,
+    id,
+    [],
+    isSubEffect,
+    subEffectDataArray
+  );
+
+  const shaderVariableTypes = formattedFunctionConfigs.flatMap(
+    ({ assignedVariableId }) => {
+      return assignedVariableId ?? [];
+    }
+  );
+  const advancedShaderVariables = shaderVariableTypes.flatMap(
+    (assignedVariableId) => {
+      const effectCode =
+        ADVANCED_SHADER_VARIABLE_EFFECT_CODE[assignedVariableId];
+      if (effectCode) {
+        return effectCode;
+      }
+      return [];
+    }
+  );
+
+  const effectFunctions = defineEffectFunctions(
+    formattedFunctionConfigs,
+    shaderEffectParameters,
+    effectParameters
+  );
+
+  // // if parameters are just consts then add them
+  const constantDeclarations = allEffectParameters
+    .filter(
+      (p) => !p.isUniform && !p.isAttribute && !p.isVarying && !isSubEffect
+    )
+    .map((p) => {
+      return `${shaderValueTypeInstantiation(p.valueType)} ${
+        p.id
+      } = ${parseRawValueToShader(p.valueType, p.value)};`;
+    });
+
+  const advancedShaderVariablesInstantiation = advancedShaderVariables.flatMap(
+    ({ instantiation }) => {
+      return instantiation ?? [];
+    }
+  );
+
+  const advancedShaderVariablesAssignment = advancedShaderVariables.flatMap(
+    ({ assignment }) => {
+      return assignment ?? [];
+    }
+  );
+
+  const mainFunctionInstantiations = effectFunctions.flatMap(
+    ({
+      functionParameters,
+      assignedVariableId,
+      functionName,
+      functionType,
+      returnValue,
+      dontDeclare,
+    }) => {
+      if (
+        !assignedVariableId ||
+        FUNCTION_TYPES.FRAGMENT_SUB_EFFECT === functionType
+      ) {
+        return [];
+      }
+
+      return setUpFunctionInstantiation(
+        assignedVariableId,
+        functionName,
+        functionParameters,
+        returnValue,
+        dontDeclare
+      );
+    }
+  );
+
+  const transformation = [
+    ...constantDeclarations,
+    ...advancedShaderVariablesInstantiation,
+    ...mainFunctionInstantiations,
+    ...advancedShaderVariablesAssignment,
+  ].join("\n");
+
+  const transformationFunctions = [
+    ...effectFunctions.filter(({ dontDeclare }) => {
+      return !dontDeclare;
+    }),
+    ...subEffectDataArray.flatMap(({ requiredFunctions }) => requiredFunctions),
+  ];
+
+  return { transformation, transformationFunctions };
 };

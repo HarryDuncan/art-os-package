@@ -37,6 +37,17 @@ export type FormattedFunctionConfig = ShaderTransformationConfig & {
   dontDeclare?: boolean;
 };
 
+export type DefinedEffectFunction = {
+  id: string;
+  functionType: string;
+  functionName: string;
+  assignedVariableId: string | undefined;
+  functionParameters: ShaderEffectParameter;
+  functionDefinition: string;
+  dontDeclare?: boolean;
+  returnValue: keyof typeof SHADER_PROPERTY_VALUE_TYPES;
+};
+
 export type ShaderFunction = {
   id: string;
   functionDefinition: string;

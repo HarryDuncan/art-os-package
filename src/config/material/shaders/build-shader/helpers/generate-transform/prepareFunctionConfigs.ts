@@ -12,35 +12,32 @@ import {
   ROOT_ASSIGNED_VARIABLES,
   ROOT_FUNCTION_TYPES,
 } from "./consts";
-import {
-  getShaderFunctionType,
-  getShaderVariableKeys,
-  shaderSafeGuid,
-} from "./functions";
+import { getShaderFunctionType, shaderSafeGuid } from "./functions";
 
 const getFunctionParameterMapping = (
   matchingFunctionConfig: FormattedFunctionConfig,
   functionConfig: ParameterFunctionConfig | undefined
 ) => {
   const { functionParameters } = matchingFunctionConfig;
-  if (
-    !functionConfig ||
-    !functionConfig.functionInstantiationParameterMapping
-  ) {
+  if (!functionConfig) {
     return functionParameters;
   }
   const { functionInstantiationParameterMapping } = functionConfig;
   const updatedFunctionParameters = new Map(functionParameters);
   Array.from(functionParameters.keys()).forEach((id) => {
-    const matchingParameter = functionInstantiationParameterMapping[id];
-    const newId = getShaderVariableKeys(matchingParameter ?? id);
-    const functionParameterContent = functionParameters.get(id);
-    if (functionParameterContent) {
-      updatedFunctionParameters.delete(id);
-      updatedFunctionParameters.set(newId, {
-        ...functionParameterContent,
-        id: newId,
-      });
+    const mappedParameterKey =
+      functionInstantiationParameterMapping?.[id] ?? null;
+    const matchingParameter =
+      DEFAULT_PARAMETER_KEY_MAP[mappedParameterKey || id];
+
+    if (matchingParameter) {
+      const functionParameterContent = functionParameters.get(id);
+      if (functionParameterContent) {
+        updatedFunctionParameters.set(id, {
+          ...functionParameterContent,
+          mappedParameterKey: matchingParameter,
+        });
+      }
     }
   });
   return updatedFunctionParameters;
@@ -64,8 +61,6 @@ const parseSubEffectIntoFunctionContent = (
           // write subeffect transformations and function instantiations using the function parameter keys
           .flatMap((subEffect) => {
             const { requiredFunctions, transformation } = subEffect;
-            console.log("subEffect", subEffect);
-            console.log("transformation", requiredFunctions);
             const selectedFunction = requiredFunctions[0];
 
             const subEffectAssignedVariableId =
@@ -210,6 +205,7 @@ export const prepareFunctionConfigs = (
         return config.id === functionConfig?.functionId;
       });
       if (matchingFunctionConfig) {
+        console.log(functionConfig?.functionId);
         const instantiationParameters = getFunctionParameterMapping(
           matchingFunctionConfig as unknown as FormattedFunctionConfig,
           functionConfig
@@ -223,6 +219,9 @@ export const prepareFunctionConfigs = (
           dontDeclare: true,
         };
       }
+      console.warn(
+        `No matching config ids found for - ${functionConfig?.functionId}`
+      );
       return [];
     }
   );

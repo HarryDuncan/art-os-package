@@ -1,5 +1,8 @@
-import { ParameterConfig } from "../../buildShader.types";
-import { FormattedFunctionConfig, ShaderEffectParameter } from "./types";
+import {
+  FormattedFunctionConfig,
+  ParameterConfig,
+  ShaderEffectParameter,
+} from "../../buildShader.types";
 
 const formatNestedFunction = (
   functionConfig: FormattedFunctionConfig,
@@ -44,7 +47,6 @@ export const formatEffectCodeLines = (
           (f) => f.id === key
         );
         if (effectFunction) {
-          console.log(effectFunction);
           const functionCall = formatNestedFunction(
             effectFunction,
             shaderEffectParameters

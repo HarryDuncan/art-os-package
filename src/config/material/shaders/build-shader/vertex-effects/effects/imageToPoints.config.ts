@@ -124,14 +124,14 @@ const imageToPointsTransformConfig = [
     id: "getPointSize",
     effectCode: [
       `vec4 color = {{getTexturePointColor}}`,
-      `float grey = color.r * 0.2 + color.g * 0.71 + color.b * 0.07;`,
+      `float grey = color.r + color.g + color.b;`,
       `float currentPointSize = (noise(vec2(uTime, {{pointIndex}}) * 0.5) + 2.0);`,
       `float size = 0.0;`,
       `if( grey < 0.9 )`,
       `{`,
       `size = 12.4 ;`,
       `};`,
-      `currentPointSize *= min(grey, size);`,
+
       `currentPointSize *= {{pointSize}};`,
       `return currentPointSize;`,
     ],
@@ -150,19 +150,12 @@ const imageToPointsTransformConfig = [
   {
     id: "textureToPoints",
     effectCode: [
-      // double check that point position is correct
-      // if there are issues it may be because you are passing in altered points
-      `vec4 texturePointColor = {{getTexturePointColor}}`,
-      `float grey = texturePointColor.r * 0.2 + texturePointColor.g * 0.71 + texturePointColor.b * 0.07;`,
-      `vec3 displaced = {{${SHADER_VARIABLE_ASSIGNMENT_KEYS.VERTEX_POINT}}}.xyz;`,
       // randomise
-      `displaced.xy += vec2(random({{pointIndex}}) - 0.5, random({{pointIndex}}) - 0.5) * {{randomDirection}};`,
-      `float rndz = (random({{pointIndex}}) + noise(vec2({{pointIndex}} * 0.1, uTime * 0.1)));`,
-      `displaced.z += rndz * (random({{pointIndex}}) * 2.0 * {{pointDepth}});`,
-      // center
-      `displaced.xy -= {{textureSize}} * 0.5;`,
-      // particle size
-      `{{${SHADER_VARIABLE_ASSIGNMENT_KEYS.VERTEX_POINT}}} = vec4(displaced, 1.0);`,
+      //   `{{${SHADER_VARIABLE_ASSIGNMENT_KEYS.VERTEX_POINT}}}.xy += vec2(random({{pointIndex}}) - 0.5, random({{pointIndex}}) - 0.5) ;`,
+      //  `float rndz = (random({{pointIndex}}) + noise(vec2({{pointIndex}} * 0.1, uTime * 0.1)));`,
+      `{{${SHADER_VARIABLE_ASSIGNMENT_KEYS.VERTEX_POINT}}}.z +=  (random({{pointIndex}}) * 2.0 * {{pointDepth}});`,
+      `{{${SHADER_VARIABLE_ASSIGNMENT_KEYS.VERTEX_POINT}}}.xy -= {{textureSize}} * 0.5;`,
+
       `return {{${SHADER_VARIABLE_ASSIGNMENT_KEYS.VERTEX_POINT}}};`,
     ],
     returnValue: SHADER_PROPERTY_VALUE_TYPES.VEC4,

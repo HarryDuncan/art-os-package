@@ -1,6 +1,9 @@
-import { ParameterConfig } from "../../buildShader.types";
+import {
+  FunctionParameter,
+  ParameterConfig,
+  ShaderEffectParameter,
+} from "../../buildShader.types";
 import { shaderSafeGuid } from "./functions";
-import { FunctionParameter, ShaderEffectParameter } from "./types";
 
 export const formatShaderEffectParameters = (
   defaultParameters: Partial<FunctionParameter>[],

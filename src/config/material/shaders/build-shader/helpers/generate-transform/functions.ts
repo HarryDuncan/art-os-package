@@ -1,8 +1,10 @@
+import { ShaderEffectParameter } from "../../buildShader.types";
 import { FUNCTION_TYPES, SHADER_VARIABLE_TYPES } from "../../constants";
+import { SHADER_PROPERTY_VALUE_TYPES } from "../../constants/shader.consts";
 import { FRAG_COLOR_NAME } from "../../fragment-effects/fragmentEffects.consts";
 import { VERTEX_POINT_NAME } from "../../vertex-effects/vertexEffects.consts";
+import { shaderValueTypeInstantiation } from "../safeParseValue";
 import { DEFAULT_SHADER_VARIABLE_KEYS } from "./consts";
-import { ShaderEffectParameter } from "./types";
 
 export const getShaderVariableKeys = (id: string) => {
   const shaderVariableId =
@@ -40,8 +42,21 @@ export const shaderSafeGuid = (guid: string) => {
 export const setUpFunctionInstantiation = (
   assignedVariableId: string,
   functionName: string,
-  functionParameters: ShaderEffectParameter
+  functionParameters: ShaderEffectParameter,
+  returnValue: keyof typeof SHADER_PROPERTY_VALUE_TYPES,
+  dontDeclare?: boolean | undefined
 ) => {
+  if (dontDeclare) {
+    const uniqueId = shaderSafeGuid(assignedVariableId);
+    return [
+      `${shaderValueTypeInstantiation(
+        returnValue
+      )} ${uniqueId} = ${functionName}(${Array.from(functionParameters.values())
+        .map(({ id, mappedParameterKey }) => mappedParameterKey ?? id)
+        .join(", ")});`,
+      `${getAssignedVariableName(assignedVariableId)} = ${uniqueId};`,
+    ].join("\n");
+  }
   return `${getAssignedVariableName(
     assignedVariableId
   )} = ${functionName}(${Array.from(functionParameters.values())
