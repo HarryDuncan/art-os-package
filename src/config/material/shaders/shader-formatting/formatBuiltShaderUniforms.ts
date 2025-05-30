@@ -20,7 +20,7 @@ export const formatBuiltShaderUniforms = (
         ? { ...uniformConfigs.assetMappingConfig, uniformId: uniformConfigs.id }
         : []
     ) || [];
-  console.log(uniformParameters);
+
   const uniforms = uniformParameters.reduce((acc, uniform) => {
     acc[uniform.id] = { value: uniform.value };
     if (uniform.interactionConfig?.keyPointId) {

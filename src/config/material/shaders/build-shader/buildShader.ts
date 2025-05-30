@@ -15,7 +15,7 @@ import {
 import { formatFunctionDeclarations } from "./helpers/formatFunctionDeclarations";
 import { FRAG_COLOR_INSTANTIATION } from "./fragment-effects/fragmentEffects.consts";
 
-const DEBUG = true;
+const DEBUG = false;
 export const buildShader = (shaderConfig: BuiltShaderConfig) => {
   const {
     shaderEffectConfigs,

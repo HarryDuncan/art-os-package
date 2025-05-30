@@ -90,7 +90,6 @@ export const generateFragmentShaderTransformation = (
 ): { transformation: string; transformationFunctions: ShaderFunction[] } => {
   const { id, effectParameters, subEffects } = effectProps;
 
-  console.log(subEffects);
   // subEffects
   const subEffectParameterIds =
     subEffects?.flatMap(({ effectParameters }) => effectParameters) ?? [];

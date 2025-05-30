@@ -13,6 +13,8 @@ export const useInitializeNode = (
   useEffect(() => {
     if (containerRef?.current) {
       const container = containerRef.current as HTMLElement;
+      const existingCanvas = container.querySelector("canvas");
+      existingCanvas?.remove();
       container.appendChild(renderer.domElement);
     }
   }, [containerRef, renderer]);

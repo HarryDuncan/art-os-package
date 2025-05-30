@@ -119,7 +119,7 @@ export const transformGeometry = (
 
                   const positions = new BufferAttribute(offsets, 3);
                   const pointOffset = new BufferAttribute(offsets, 3);
-                  const indexes = new BufferAttribute(indices, 1); // Changed to 1 component per index
+                  const indexes = new BufferAttribute(indices, 1);
                   const normalAttributes = new BufferAttribute(normals, 3);
 
                   geometry.setAttribute("position", positions);

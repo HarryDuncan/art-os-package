@@ -18,7 +18,7 @@ export const useOrbitControls = (
     controls.dampingFactor = 0.05;
     controls.screenSpacePanning = false;
     controls.minDistance = 1;
-    controls.maxDistance = 500;
+    controls.maxDistance = 1000;
     controls.maxPolarAngle = Math.PI;
     controls.mouseButtons = {
       LEFT: MOUSE.ROTATE,

@@ -105,10 +105,7 @@ export const prepareFunctionConfigs = (
       assignedVariableId,
       isSubEffect
     );
-    // console.log(id);
-    // console.log(shaderFunctionType);
-    // console.log("subEffectData", subEffectData);
-    // console.log(parameterIds);
+
     const updatedEffectCode = ROOT_FUNCTION_TYPES.includes(shaderFunctionType)
       ? parseSubEffectIntoFunctionContent(effectCode, subEffectData)
       : effectCode;
@@ -205,7 +202,6 @@ export const prepareFunctionConfigs = (
         return config.id === functionConfig?.functionId;
       });
       if (matchingFunctionConfig) {
-        console.log(functionConfig?.functionId);
         const instantiationParameters = getFunctionParameterMapping(
           matchingFunctionConfig as unknown as FormattedFunctionConfig,
           functionConfig

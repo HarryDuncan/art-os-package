@@ -127,11 +127,11 @@ const imageToPointsTransformConfig = [
       `float grey = color.r + color.g + color.b;`,
       `float currentPointSize = (noise(vec2(uTime, {{pointIndex}}) * 0.5) + 2.0);`,
       `float size = 0.0;`,
-      `if( grey < 0.9 )`,
+      `if( grey < 2.5 )`,
       `{`,
-      `size = 12.4 ;`,
+      `size = 1.0 ;`,
       `};`,
-
+      `currentPointSize *= size;`,
       `currentPointSize *= {{pointSize}};`,
       `return currentPointSize;`,
     ],
@@ -153,7 +153,8 @@ const imageToPointsTransformConfig = [
       // randomise
       //   `{{${SHADER_VARIABLE_ASSIGNMENT_KEYS.VERTEX_POINT}}}.xy += vec2(random({{pointIndex}}) - 0.5, random({{pointIndex}}) - 0.5) ;`,
       //  `float rndz = (random({{pointIndex}}) + noise(vec2({{pointIndex}} * 0.1, uTime * 0.1)));`,
-      `{{${SHADER_VARIABLE_ASSIGNMENT_KEYS.VERTEX_POINT}}}.z +=  (random({{pointIndex}}) * 2.0 * {{pointDepth}});`,
+      `{{${SHADER_VARIABLE_ASSIGNMENT_KEYS.VERTEX_POINT}}}.z +=  (random({{pointIndex}}) * 2.0 * {{pointDepth}}  );`,
+
       `{{${SHADER_VARIABLE_ASSIGNMENT_KEYS.VERTEX_POINT}}}.xy -= {{textureSize}} * 0.5;`,
 
       `return {{${SHADER_VARIABLE_ASSIGNMENT_KEYS.VERTEX_POINT}}};`,
