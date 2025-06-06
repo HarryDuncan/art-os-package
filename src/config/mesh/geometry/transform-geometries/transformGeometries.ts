@@ -126,9 +126,7 @@ export const transformGeometry = (
                   geometry.setAttribute("pointIndex", indexes);
                   geometry.setAttribute("normal", normalAttributes);
                   geometry.setAttribute("pointOffset", pointOffset);
-                  geometry.setIndex(new BufferAttribute(indices, 1));
-                  geometry.computeBoundingBox();
-                  geometry.computeBoundingSphere();
+                  geometry.setIndex(null);
                   return {
                     ...formattedGeometry,
                     geometry,
