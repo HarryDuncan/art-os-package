@@ -1,4 +1,3 @@
-import { Vector4 } from "three";
 import {
   ParameterConfig,
   SHADER_PROPERTY_TAGS,
@@ -14,7 +13,7 @@ export const DEFAULT_COLOR_PARAMETERS = [
   {
     id: "defaultColor",
     valueType: SHADER_PROPERTY_VALUE_TYPES.VEC4,
-    value: new Vector4(0, 0, 0, 1),
+    value: [0, 0, 0, 1],
     configLocked: false,
     isAssetMapped: false,
     isAttribute: false,

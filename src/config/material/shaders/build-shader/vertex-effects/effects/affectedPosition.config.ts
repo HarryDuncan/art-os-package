@@ -1,4 +1,3 @@
-import { Vector3 } from "three";
 import {
   ParameterConfig,
   ShaderTransformationConfig,
@@ -25,7 +24,7 @@ export const AFFECTED_POSITION_PARAMETERS = [
     valueType: "VEC3",
     isUniform: true,
     isInteractive: true,
-    value: new Vector3(0.0, 0.0, 0.0),
+    value: [0.0, 0.0, 0.0],
     configLocked: true,
     interactionConfig: {
       keyPointId: null,

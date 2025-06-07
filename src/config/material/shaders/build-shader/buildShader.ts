@@ -15,7 +15,7 @@ import {
 import { formatFunctionDeclarations } from "./helpers/formatFunctionDeclarations";
 import { FRAG_COLOR_INSTANTIATION } from "./fragment-effects/fragmentEffects.consts";
 
-const DEBUG = false;
+const DEBUG = true;
 export const buildShader = (shaderConfig: BuiltShaderConfig) => {
   const {
     shaderEffectConfigs,
@@ -95,8 +95,8 @@ const formatVertexShader = (
     VERTEX_POINT_INSTANTIATION,
     VERTEX_NORMAL_INSTANTIATION,
     vertexTransformations,
-    varyingInstantiation,
     viewMatrix,
+    varyingInstantiation,
     MAIN_END,
   ].join(" \n ");
 };

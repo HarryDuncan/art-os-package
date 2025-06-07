@@ -7,6 +7,7 @@ import {
 import { SHADER_TYPES } from "../build-shader/constants";
 import { DEFAULT_UNIFORMS } from "../build-shader/constants/shader.consts";
 import { VARYING_TYPES } from "../build-shader/shader-properties/varyings/varyings.consts";
+import { formatShaderVaryingParameters } from "./formatShaderVaryingParameters";
 
 const attributeToVarying = (
   attributeConfigs: ParameterConfig[],
@@ -127,11 +128,13 @@ export const formatBuiltShaderConfig = (
       ...(materialAttributeConfigs ?? []),
       ...meshTransformAttributes,
     ],
-    varyingConfigs: [
+    varyingConfigs: formatShaderVaryingParameters([
       ...(transformVaryingConfigs ?? []),
-      ...(shaderEffectConfigs?.flatMap((effect) =>
-        effect.effectParameters.filter((parameter) => parameter.isVarying)
+      ...(shaderEffectConfigs?.flatMap(
+        (effect) =>
+          effect.effectParameters?.filter((parameter) => parameter.isVarying) ??
+          []
       ) ?? []),
-    ],
+    ] as ParameterConfig[]),
   };
 };

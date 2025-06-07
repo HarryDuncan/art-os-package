@@ -67,30 +67,35 @@ const getDefaultVaryingString = (config: ParameterConfig[]) => {
         strings.push("vUv = uv;");
         break;
       case "vPosition":
-        strings.push(`vPosition = ${VERTEX_POINT_NAME}.xyz;`);
+        strings.push(`vPosition = ${VERTEX_POINT_NAME};`);
         break;
       case "vNormal":
         strings.push(`vNormal = ${VERTEX_NORMAL_NAME}.xyz;`);
         break;
-      case "vModelViewMatrix":
-        strings.push("vModelViewMatrix = modelViewMatrix;");
-        break;
-      case "vNormalInterpolation":
+      case "vViewDirection":
         strings.push(
-          `vNormalInterpolation = normalize(normalMatrix  * ${VERTEX_NORMAL_NAME}.xyz);`
+          `vViewDirection = normalize(vec3(modelViewMatrix * vec4(${VERTEX_POINT_NAME})));`
         );
         break;
-      case "vTexCoord":
-        strings.push(`vTexCoord = texcoord;`);
-        break;
-      case "vGeometryNormal":
-        strings.push(`vGeometryNormal = ${VERTEX_NORMAL_NAME}.xyz`);
-        break;
-      case "vEye":
-        strings.push(
-          `vEye = normalize(vec3(modelViewMatrix * vec4(${VERTEX_POINT_NAME}.xyz, 1.0)));`
-        );
-        break;
+      // case "vModelViewMatrix":
+      //   strings.push("vModelViewMatrix = modelViewMatrix;");
+      //   break;
+      // case "vNormalInterpolation":
+      //   strings.push(
+      //     `vNormalInterpolation = normalize(normalMatrix  * ${VERTEX_NORMAL_NAME}.xyz);`
+      //   );
+      //   break;
+      // case "vTexCoord":
+      //   strings.push(`vTexCoord = texcoord;`);
+      //   break;
+      // case "vGeometryNormal":
+      //   strings.push(`vGeometryNormal = ${VERTEX_NORMAL_NAME}.xyz`);
+      //   break;
+      // case "vEye":
+      //   strings.push(
+      //     `vEye = normalize(vec3(modelViewMatrix * vec4(${VERTEX_POINT_NAME}.xyz, 1.0)));`
+      //   );
+      //   break;
       default:
         console.warn(`nothing made for default varying ${item.id}`);
     }

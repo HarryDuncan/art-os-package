@@ -1,6 +1,4 @@
-import { Vector3 } from "three";
 import { SHADER_PROPERTY_VALUE_TYPES } from "../../../../constants/shader.consts";
-import { VARYING_TYPES } from "../../../../shader-properties/varyings/varyings.consts";
 import { SHADER_PROPERTY_TAGS } from "../../../../shader-properties/uniforms/uniforms.consts";
 import { ParameterConfig } from "../../../../buildShader.types";
 
@@ -8,18 +6,18 @@ export const DEFAULT_PHONG_UNIFORMS = [
   {
     id: "uLightPosition",
     valueType: SHADER_PROPERTY_VALUE_TYPES.VEC3,
-    value: new Vector3(10, 10, 10),
+    value: [10, 10, 10],
   },
   {
     id: "uDiffuseColor",
     tag: [SHADER_PROPERTY_TAGS.COLOR],
     valueType: SHADER_PROPERTY_VALUE_TYPES.VEC3,
-    value: new Vector3(0.2, 0.2, 0.2),
+    value: [0.2, 0.2, 0.2],
   },
   {
     id: "uLightColor",
     valueType: SHADER_PROPERTY_VALUE_TYPES.VEC3,
-    value: new Vector3(1, 1.0, 1.0),
+    value: [1, 1.0, 1.0],
   },
   {
     id: "uAmbientReflection",
@@ -39,18 +37,17 @@ export const DEFAULT_PHONG_UNIFORMS = [
   {
     id: "uAmbientColor",
     valueType: SHADER_PROPERTY_VALUE_TYPES.VEC3,
-    value: new Vector3(0.82, 0.92, 0.2),
+    value: [0.82, 0.92, 0.2],
   },
   {
     id: "uMaterialDiffuse",
     valueType: SHADER_PROPERTY_VALUE_TYPES.VEC3,
-    value: new Vector3(0.5, 0.5, 0.5),
+    value: [0.5, 0.5, 0.5],
   },
-
   {
     id: "uSpecularColor",
     valueType: SHADER_PROPERTY_VALUE_TYPES.VEC3,
-    value: new Vector3(1.0, 1.0, 1.0),
+    value: [1.0, 1.0, 1.0],
   },
   {
     id: "uShininess",

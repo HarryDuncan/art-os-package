@@ -1,8 +1,9 @@
-export const removeDuplicatesByKey = (
-  inputArray: Record<string, unknown>[],
+export const removeDuplicatesByKey = <T extends Record<string, unknown>>(
+  inputArray: T[],
   keyProperty: string
-): Record<string, unknown>[] => {
-  const uniqueObjects = new Map<string, Record<string, unknown>>();
+): T[] => {
+  console.log("inputArray", inputArray);
+  const uniqueObjects = new Map<string, T>();
   inputArray.forEach((obj) => {
     if (obj[keyProperty]) {
       const keyValue = obj[keyProperty] as string;

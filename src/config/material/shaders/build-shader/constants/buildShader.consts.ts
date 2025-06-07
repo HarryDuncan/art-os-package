@@ -18,11 +18,13 @@ export const SHADER_VARIABLE_TYPES = {
   DISCARD_COLOR: "DISCARD_COLOR",
   GL_POINT_SIZE: "GL_POINT_SIZE",
   POSITION: "POSITION",
+  LIGHT: "LIGHT",
 };
 
 export const SHADER_VARIABLE_ASSIGNMENT_KEYS = {
   VERTEX_POINT: "pointPosition",
   FRAGMENT_COLOR: "fragColor",
+  LIGHT: "light",
 };
 
 // Shader Code Constants
