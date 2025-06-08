@@ -36,11 +36,10 @@ export const AMBIENT_LIGHT_PARAMETERS = [
 const AMBIENT_LIGHT_TRANSFORMATION_CONFIG = {
   id: "ambientLightFunction",
   effectCode: [
-    `vec4 lightEffect = vec4({{ambientLightColor}}.rgb * {{ambientLightIntensity}}, {{ambientLightColor}}.a);`,
-    `{{${SHADER_VARIABLE_ASSIGNMENT_KEYS.FRAGMENT_COLOR}}} = {{${SHADER_VARIABLE_ASSIGNMENT_KEYS.FRAGMENT_COLOR}}} * lightEffect;`,
-    `return {{${SHADER_VARIABLE_ASSIGNMENT_KEYS.FRAGMENT_COLOR}}};`,
+    `vec3 lightEffect = {{ambientLightColor}}.rgb * {{ambientLightIntensity}};`,
+    `return lightEffect;`,
   ],
-  returnValue: SHADER_PROPERTY_VALUE_TYPES.VEC4,
+  returnValue: SHADER_PROPERTY_VALUE_TYPES.VEC3,
   assignedVariableId: SHADER_VARIABLE_TYPES.LIGHT,
 } as ShaderTransformationConfig;
 

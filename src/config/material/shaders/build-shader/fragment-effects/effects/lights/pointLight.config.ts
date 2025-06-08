@@ -93,10 +93,9 @@ const POINT_LIGHT_TRANSFORMATION_CONFIG = {
     `decay = max(0.0, decay);`,
 
     `vec3 lightEffect = {{pointLightColor}}.rgb * {{pointLightIntensity}} * decay * (shading + specular);`,
-    `{{${SHADER_VARIABLE_ASSIGNMENT_KEYS.FRAGMENT_COLOR}}} = vec4({{${SHADER_VARIABLE_ASSIGNMENT_KEYS.FRAGMENT_COLOR}}}.rgb * lightEffect, {{${SHADER_VARIABLE_ASSIGNMENT_KEYS.FRAGMENT_COLOR}}}.a);`,
-    `return {{${SHADER_VARIABLE_ASSIGNMENT_KEYS.FRAGMENT_COLOR}}};`,
+    `return lightEffect;`,
   ],
-  returnValue: SHADER_PROPERTY_VALUE_TYPES.VEC4,
+  returnValue: SHADER_PROPERTY_VALUE_TYPES.VEC3,
   assignedVariableId: SHADER_VARIABLE_TYPES.LIGHT,
 } as ShaderTransformationConfig;
 

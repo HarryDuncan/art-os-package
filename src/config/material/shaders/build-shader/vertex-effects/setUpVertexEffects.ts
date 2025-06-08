@@ -14,7 +14,10 @@ import {
   ShaderTransformationConfig,
   VertexEffectConfig,
 } from "../buildShader.types";
-import { shaderValueTypeInstantiation } from "../helpers/safeParseValue";
+import {
+  parseRawValueToShader,
+  shaderValueTypeInstantiation,
+} from "../helpers/safeParseValue";
 import { setUpFunctionInstantiation } from "../helpers/generate-transform/functions";
 import { FUNCTION_TYPES } from "../constants";
 
@@ -137,9 +140,9 @@ export const generateVertexShaderTransformation = (
       (p) => !p.isUniform && !p.isAttribute && !p.isVarying && !isSubEffect
     )
     .map((p) => {
-      return `${shaderValueTypeInstantiation(p.valueType)} ${p.id} = ${
-        p.value
-      };`;
+      return `${shaderValueTypeInstantiation(p.valueType)} ${
+        p.id
+      } = ${parseRawValueToShader(p.valueType, p.value)};`;
     });
 
   const mainFunctionInstantiations = effectFunctions

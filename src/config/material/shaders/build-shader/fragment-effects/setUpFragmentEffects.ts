@@ -27,33 +27,43 @@ import { defineEffectFunctions } from "../helpers/generate-transform/defineEffec
 export const setUpFragmentEffects = (
   fragmentEffects: FragmentEffectConfig[]
 ) => {
-  const { transformations, requiredFunctions } =
+  const { unmergedTransformations, requiredFunctions, assignedVariableIds } =
     getFragmentColors(fragmentEffects);
 
+  if (assignedVariableIds.includes("LIGHT")) {
+    unmergedTransformations.push(
+      `${FRAG_COLOR_NAME} = ${FRAG_COLOR_NAME} * vec4(light, 1.0);`
+    );
+  }
+  const transformations = unmergedTransformations.join("");
   const fragColor = `gl_FragColor = ${FRAG_COLOR_NAME};`;
   return {
     fragColor,
     transformations,
     requiredFunctions,
+    assignedVariableIds,
   };
 };
 
 export const getFragmentColors = (fragmentEffects: FragmentEffectConfig[]) => {
   const allRequiredFunctions: ShaderFunction[][] = [];
   const unmergedTransformations: string[] = [];
+  const assignedVariableIds: string[] = [];
   fragmentEffects.forEach((effect) => {
     const fragmentEffectData = transformSetup(effect, false);
     if (fragmentEffectData) {
       unmergedTransformations.push(fragmentEffectData.transformation);
       allRequiredFunctions.push(fragmentEffectData.requiredFunctions);
+      assignedVariableIds.push(fragmentEffectData.assignedVariableId);
     }
   });
 
   const mergedRequiredFunction = mergeShaderFunctions(allRequiredFunctions);
-  const mergedTransformations = unmergedTransformations.join("");
+
   return {
-    transformations: mergedTransformations,
+    unmergedTransformations,
     requiredFunctions: mergedRequiredFunction,
+    assignedVariableIds: Array.from(new Set(assignedVariableIds)),
   };
 };
 
@@ -70,10 +80,13 @@ export const transformSetup = (
         effectProps,
         isSubEffect
       );
+    // @ts-expect-error
+    const assignedVariableId = effectConfig?.assignedVariableId;
 
     return {
       transformation,
       requiredFunctions: transformationFunctions,
+      assignedVariableId,
     };
   } else {
     console.warn(

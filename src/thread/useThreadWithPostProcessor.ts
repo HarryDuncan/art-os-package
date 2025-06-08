@@ -2,10 +2,10 @@
 // @ts-nocheck
 import { MutableRefObject, useCallback, useEffect, useRef } from "react";
 import { Camera, WebGLRenderer } from "three";
-import PostProcessor from "../../components/post-processor/PostProcessor";
-import { sceneUpdateEvent } from "../../engine/engineEvents";
-import { useSceneContext } from "../../context/context";
-import { PROCESS_STATUS } from "../../consts/consts";
+import PostProcessor from "../components/post-processor/PostProcessor";
+import { sceneUpdateEvent } from "./threadEvents";
+import { useSceneContext } from "../context/context";
+import { PROCESS_STATUS } from "../consts/consts";
 
 export const useThreadWithPostProcessor = (
   currentFrameRef: MutableRefObject<number>,

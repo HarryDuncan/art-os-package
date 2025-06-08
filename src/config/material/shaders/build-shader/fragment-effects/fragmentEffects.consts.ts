@@ -8,7 +8,7 @@ import { AMBIENT_LIGHT_EFFECT_CONFIG } from "./effects/lights/ambientLight.confi
 import { DIRECTIONAL_LIGHT_EFFECT_CONFIG } from "./effects/lights/directionalLight.config";
 
 export const FRAG_COLOR_NAME = "currentFragColor";
-export const FRAG_COLOR_INSTANTIATION = `vec4 ${FRAG_COLOR_NAME} = vec4(1.0,0,0,1.0);`;
+export const FRAG_COLOR_INSTANTIATION = `vec4 ${FRAG_COLOR_NAME} = vec4(1.0,0,0,1.0); vec3 light = vec3(0.0);`;
 
 export const FRAGMENT_EFFECTS = {
   NONE: "NONE",

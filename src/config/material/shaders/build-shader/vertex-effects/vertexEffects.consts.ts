@@ -1,7 +1,7 @@
 import { IMAGE_TO_POINTS_EFFECT_CONFIG } from "./effects/imageToPoints.config";
 import { INTERACTIVE_EFFECTS } from "../constants/interactiveEffects.consts";
 import { EXPLODE_EFFECT_CONFIG } from "./effects/explode.config";
-import { ROTATION_EFFECT_CONFIG } from "./effects/rotation-effects/rotationEffect.config";
+import { ROTATION_EFFECT_CONFIG } from "./effects/rotationEffect.config";
 import { AFFECTED_POSITION_EFFECT_CONFIG } from "./effects/affectedPosition.config";
 
 export const VERTEX_POINT_NAME = "currentVertexPoint";

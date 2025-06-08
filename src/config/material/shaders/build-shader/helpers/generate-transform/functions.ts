@@ -30,6 +30,8 @@ export const getAssignedVariableName = (
       return FRAG_COLOR_NAME;
     case SHADER_VARIABLE_TYPES.DISCARD_COLOR:
       return "discardColor";
+    case SHADER_VARIABLE_TYPES.LIGHT:
+      return "light";
     default:
       return assignedVariableId;
   }
@@ -39,6 +41,14 @@ export const shaderSafeGuid = (guid: string) => {
   return guid.slice(0, 8);
 };
 
+const getOperator = (assignedVariableId: string) => {
+  switch (assignedVariableId) {
+    case SHADER_VARIABLE_TYPES.LIGHT:
+      return "+=";
+    default:
+      return "=";
+  }
+};
 export const setUpFunctionInstantiation = (
   assignedVariableId: string,
   functionName: string,
@@ -57,9 +67,12 @@ export const setUpFunctionInstantiation = (
       `${getAssignedVariableName(assignedVariableId)} = ${uniqueId};`,
     ].join("\n");
   }
-  return `${getAssignedVariableName(
-    assignedVariableId
-  )} = ${functionName}(${Array.from(functionParameters.values())
+
+  const operator = getOperator(assignedVariableId);
+  const assignedVariableName = getAssignedVariableName(assignedVariableId);
+  return `${assignedVariableName} ${operator} ${functionName}(${Array.from(
+    functionParameters.values()
+  )
     .map(({ id, mappedParameterKey }) => mappedParameterKey ?? id)
     .join(", ")});`;
 };

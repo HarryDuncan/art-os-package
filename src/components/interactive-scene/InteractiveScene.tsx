@@ -8,7 +8,7 @@ import {
 import { Clock, Scene, Camera } from "three";
 import { AnimationManager } from "../../animation/animation-manager/AnimationManager";
 import { AnimationConfig } from "../../types/animation.types";
-import { ENGINE_EVENTS } from "../../engine/engine.consts";
+import { THREAD_EVENTS } from "../../thread/thread.consts";
 import { SceneProperties } from "../../types/config.types";
 import { SceneLight } from "../../config/lights/lights.types";
 import { OrbitControl } from "../../types";
@@ -66,17 +66,17 @@ export class InteractiveScene extends Scene {
   bindExecutionFunctions() {
     const { onTimeUpdate, onTriggeredUpdate } = this.sceneFunctions;
     if (onTimeUpdate) {
-      document.addEventListener(ENGINE_EVENTS.UPDATE_SCENE, () =>
+      document.addEventListener(THREAD_EVENTS.UPDATE_SCENE, () =>
         onTimeUpdate(this)
       );
     }
     if (onTriggeredUpdate) {
-      document.addEventListener(ENGINE_EVENTS.TRIGGERED, () =>
+      document.addEventListener(THREAD_EVENTS.TRIGGERED, () =>
         onTriggeredUpdate(this)
       );
     }
     // @ts-ignore
-    document.addEventListener(ENGINE_EVENTS.MESH_ADDED, ({ detail }) => {
+    document.addEventListener(THREAD_EVENTS.MESH_ADDED, ({ detail }) => {
       // @ts-ignore
       this.add(detail);
     });

@@ -70,7 +70,9 @@ const getDefaultVaryingString = (config: ParameterConfig[]) => {
         strings.push(`vPosition = ${VERTEX_POINT_NAME};`);
         break;
       case "vNormal":
-        strings.push(`vNormal = ${VERTEX_NORMAL_NAME}.xyz;`);
+        strings.push(
+          `vNormal = (modelMatrix *  vec4(${VERTEX_NORMAL_NAME})).xyz;`
+        );
         break;
       case "vViewDirection":
         strings.push(

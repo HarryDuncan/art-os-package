@@ -1,6 +1,5 @@
 import { RootContainer } from "../root/root-container";
 import { useInteractiveScene } from "../../components/interactive-scene/useInteractiveScene";
-import { useThreadWithPostProcessor } from "../../hooks/use-thread";
 import { useThreeJs } from "../../hooks/use-three-js/useThreeJs";
 import {
   NodeProps,
@@ -15,6 +14,7 @@ import { useSceneData } from "../../config/useSceneData";
 import { useAssets } from "../../assets/useAssets";
 import { Loader } from "../../components/loaders/Loader";
 import { WindowStateProvider } from "../../compat/window-state/windowStateProvider";
+import { useThreadWithPostProcessor } from "../../thread/useThreadWithPostProcessor";
 
 export const SceneNode = ({
   sceneConfig,
