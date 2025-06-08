@@ -1,39 +1,39 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-// @ts-nocheck
-import React from "react";
-import { Root } from "./RootContainer.styles";
+import { MutableRefObject } from "react";
 import { VideoBackground } from "../video-background/VideoBackground";
-import { Layer } from "../../../components/layers/types";
-import { Layers } from "../../../components/layers/Layers";
 import { SceneProperties } from "../../../types/config.types";
 
 interface IRootContainerProps {
-  containerRef: React.RefObject<HTMLDivElement | null>;
+  containerRef: MutableRefObject<HTMLDivElement | null>;
   sceneProperties: SceneProperties;
-  layers?: Layer[];
 }
 
 export const RootContainer = ({
   containerRef,
   sceneProperties,
-  layers = [],
 }: IRootContainerProps) => {
   return (
-    <>
-      <Layers layers={layers} />
-
-      <Root
-        $position={sceneProperties.position}
-        $height={sceneProperties.viewHeight}
-        $width={sceneProperties.viewWidth}
-        $fixed={sceneProperties.fixed}
-        ref={containerRef}
-        $cursor={sceneProperties.cursor}
-        $backgroundColor={sceneProperties.backgroundColor}
-        $backgroundUrl={sceneProperties.backgroundUrl}
-      >
-        <VideoBackground videoSrc={sceneProperties.videoBackground} />
-      </Root>
-    </>
+    <div
+      style={{
+        height: sceneProperties.viewHeight,
+        width: sceneProperties.viewWidth,
+        overflow: "hidden",
+        margin: "0 auto",
+        cursor: sceneProperties.cursor ?? "pointer",
+        position: sceneProperties.position as
+          | "relative"
+          | "absolute"
+          | "fixed"
+          | "sticky"
+          | undefined,
+        backgroundColor: sceneProperties.backgroundColor ?? "transparent",
+        backgroundImage: sceneProperties.backgroundUrl
+          ? `url(${sceneProperties.backgroundUrl})`
+          : "none",
+        backgroundSize: "cover",
+      }}
+      ref={containerRef}
+    >
+      <VideoBackground videoSrc={sceneProperties.videoBackground} />
+    </div>
   );
 };

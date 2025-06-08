@@ -68,6 +68,7 @@ export interface EffectConfig {
   shaderType: string;
 }
 export type VertexEffectConfig = EffectConfig & {
+  applyToNormal?: boolean;
   effectType: keyof typeof VERTEX_EFFECTS;
   subEffects?: VertexEffectConfig[];
 };

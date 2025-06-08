@@ -17,7 +17,6 @@ export const useThreadWithPostProcessor = (
     state: { initializedScene, status },
   } = useSceneContext();
   const postProcessor: MutableRefObject<null | PostProcessor> = useRef(null);
-
   const update = useCallback(() => {
     if (postProcessor.current?.isInitialized()) {
       sceneUpdateEvent();
@@ -25,7 +24,6 @@ export const useThreadWithPostProcessor = (
         if (initializedScene?.orbitControls) {
           initializedScene.orbitControls.update();
         }
-
         if (initializedScene?.animationManager.hasCameraAnimations()) {
           initializedScene.animationManager.startCameraAnimation(camera);
         }
@@ -74,6 +72,7 @@ export const useThreadWithPostProcessor = (
         payload: { status: PROCESS_STATUS.RUNNING },
       });
     }
+    console.log("status", status);
     if (status === PROCESS_STATUS.RUNNING) {
       currentFrameRef.current = requestAnimationFrame(update);
     }

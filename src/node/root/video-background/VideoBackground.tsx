@@ -1,5 +1,3 @@
-import { VideoBackgroundContainer } from "./VideoBackground.styles";
-
 export const VideoBackground = ({
   videoSrc,
 }: {
@@ -7,10 +5,30 @@ export const VideoBackground = ({
 }) => {
   if (!videoSrc) return null;
   return (
-    <VideoBackgroundContainer>
-      <video preload="auto" autoPlay muted loop>
+    <div
+      style={{
+        height: "100vh",
+        width: "100vw",
+        position: "absolute",
+        top: 0,
+        left: 0,
+        zIndex: -1,
+      }}
+    >
+      <video
+        style={{
+          objectFit: "fill",
+          overflow: "visible",
+          height: "100%",
+          width: "100%",
+        }}
+        preload="auto"
+        autoPlay
+        muted
+        loop
+      >
         <source src={videoSrc} type="video/mp4" />
       </video>
-    </VideoBackgroundContainer>
+    </div>
   );
 };
