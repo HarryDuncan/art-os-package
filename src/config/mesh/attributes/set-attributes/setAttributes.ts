@@ -1,28 +1,27 @@
 import { BufferAttribute, BufferGeometry } from "three";
 import { getVerticesCount } from "../attribute.functions";
 import { ATTRIBUTE_VALUE_TYPES } from "../../../material/shaders/build-shader/constants/shader.consts";
-import { ParameterConfig } from "../../../../types";
+import { TransformValueConfig } from "../../../../types";
 
 export const setAttributes = (
   bufferGeometry: BufferGeometry,
-  attributeConfigs: ParameterConfig[] = []
+  transformValues: Record<string, TransformValueConfig>
 ) => {
   const vertexCount = getVerticesCount(bufferGeometry);
-  attributeConfigs.forEach(({ id, value, isAttribute, attributeConfig }) => {
-    if (isAttribute && attributeConfig) {
-      const { attributeValueType, attributeCount } = attributeConfig;
-      const valueCount = attributeCount ?? vertexCount;
-      switch (attributeValueType) {
+
+  Object.entries(transformValues).forEach(([key, { value, type }]) => {
+    if (type) {
+      switch (type) {
         case ATTRIBUTE_VALUE_TYPES.INDEXED:
-          setIndexValues(id, valueCount, bufferGeometry);
+          setIndexValues(key, vertexCount, bufferGeometry);
           break;
         case ATTRIBUTE_VALUE_TYPES.RANDOM_VALUE:
-          setRandomValues(id, valueCount, bufferGeometry);
+          setRandomValues(key, vertexCount, bufferGeometry);
           break;
         case ATTRIBUTE_VALUE_TYPES.RANDOMIZED_BINARY:
           setRandomizedPercentage(
-            id,
-            valueCount,
+            key,
+            vertexCount,
             bufferGeometry,
             value as number
           );
@@ -67,5 +66,6 @@ const setRandomizedPercentage = (
   randomBool.forEach((_, index) => {
     randomBool[index] = Math.random() < value ? 1.0 : 0.0;
   });
+
   bufferGeometry.setAttribute(attributeId, new BufferAttribute(randomBool, 1));
 };

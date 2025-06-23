@@ -12,7 +12,7 @@ import {
   NORMAL_VARYING,
   POSITION_VARYING,
   VIEW_DIRECTION_VARYING,
-} from "../../../defaultParameters.config";
+} from "../../../constants/default-parameters/defaultVaryings";
 
 export const POINT_LIGHT_PARAMETERS = [
   {

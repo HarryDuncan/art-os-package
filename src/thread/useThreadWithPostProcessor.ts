@@ -72,7 +72,6 @@ export const useThreadWithPostProcessor = (
         payload: { status: PROCESS_STATUS.RUNNING },
       });
     }
-    console.log("status", status);
     if (status === PROCESS_STATUS.RUNNING) {
       currentFrameRef.current = requestAnimationFrame(update);
     }

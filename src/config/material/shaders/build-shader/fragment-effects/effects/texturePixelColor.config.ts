@@ -19,6 +19,7 @@ export const TEXTURE_PIXEL_COLOR_PARAMETERS = [
     isAttribute: false,
     isUniform: false,
     isVarying: true,
+    isFunctionBased: true,
     varyingConfig: {
       varyingType: VARYING_TYPES.FUNCTION,
     },

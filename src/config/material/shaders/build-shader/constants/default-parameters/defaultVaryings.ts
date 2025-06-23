@@ -1,5 +1,5 @@
-import { SHADER_PROPERTY_VALUE_TYPES } from "./constants/shader.consts";
-import { VARYING_TYPES } from "./shader-properties/varyings/varyings.consts";
+import { SHADER_PROPERTY_VALUE_TYPES } from "../shader.consts";
+import { VARYING_TYPES } from "../../shader-properties/varyings/varyings.consts";
 
 export const NORMAL_VARYING = {
   id: "vNormal",

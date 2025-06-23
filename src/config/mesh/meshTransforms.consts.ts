@@ -31,15 +31,11 @@ export const QUAD_MESH_TRANSFORM_ATTRIBUTES = [
     name: "Quad Dimensions",
     description: "The dimensions of the quad mesh",
     configLocked: true,
-    isAttribute: true,
     valueType: SHADER_PROPERTY_VALUE_TYPES.VEC2,
     isAssetMapped: true,
+    isTransformInput: true,
     assetMappingConfig: {
       relationship: ASSET_MAPPING_RELATIONSHIPS.DIMENSION,
-    },
-    attributeConfig: {
-      attributeValueType: ATTRIBUTE_VALUE_TYPES.SINGLE_VALUE,
-      assetId: "",
     },
   },
   {
@@ -61,5 +57,5 @@ export const QUAD_MESH_TRANSFORM = {
   type: MESH_TRANSFORM_TYPE.SET_UP_QUAD,
   transformedMeshIds: [],
   materialId: "",
-  attributeConfigs: [...QUAD_MESH_TRANSFORM_ATTRIBUTES],
+  transformParameterConfigs: [...QUAD_MESH_TRANSFORM_ATTRIBUTES],
 } as unknown as MeshTransformConfig;

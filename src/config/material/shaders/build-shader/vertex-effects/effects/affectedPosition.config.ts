@@ -66,7 +66,7 @@ const AFFECTED_POSITION_MESH_TRANSFORM = {
   type: MESH_TRANSFORM_TYPE.CUSTOM_ATTRIBUTES,
   transformedMeshIds: [],
   materialId: "",
-  attributeConfigs: [...AFFECTED_POSITION_ATTRIBUTES],
+  transformParameterConfigs: [...AFFECTED_POSITION_ATTRIBUTES],
 } as unknown as MeshTransformConfig;
 
 export const AFFECTED_POSITION_EFFECT_CONFIG = {

@@ -66,6 +66,7 @@ export interface EffectConfig {
   pairedEffectIds?: string[];
   effectParameters: ParameterConfig[];
   shaderType: string;
+  subEffectIds?: string[];
 }
 export type VertexEffectConfig = EffectConfig & {
   applyToNormal?: boolean;
@@ -101,17 +102,16 @@ export type ParameterConfig = ShaderPropertyConfig & {
   configLocked?: boolean;
   description?: string;
   isUniform?: boolean;
-  isInteractive?: boolean;
+  isFunctionBased?: boolean;
   isAssetMapped?: boolean;
   isAttribute?: boolean;
   isVarying?: boolean;
+  canSetValue?: boolean;
+  isTransformInput?: boolean;
   tags?: string[];
   assetMappingConfig?: {
     assetId: string;
     relationship: string;
-  };
-  interactionConfig?: {
-    keyPointId: string;
   };
   attributeConfig?: {
     attributeValueType: keyof typeof ATTRIBUTE_VALUE_TYPES;
@@ -126,6 +126,11 @@ export type ParameterConfig = ShaderPropertyConfig & {
     isAttributeReference?: boolean;
   };
   functionConfig?: ParameterFunctionConfig;
+  // TODO - remove these
+  isInteractive?: boolean;
+  interactionConfig?: {
+    keyPointId: string;
+  };
 };
 
 export type StructConfig = { id: string; properties: ShaderPropertyConfig[] };

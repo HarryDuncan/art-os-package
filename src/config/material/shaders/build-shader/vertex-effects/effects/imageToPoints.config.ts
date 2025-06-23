@@ -169,7 +169,7 @@ const IMAGE_TO_POINTS_MESH_TRANSFORM = {
   type: MESH_TRANSFORM_TYPE.CUSTOM_ATTRIBUTES,
   transformedMeshIds: [],
   materialId: "",
-  attributeConfigs: [...IMAGE_TO_POINTS_ATTRIBUTES],
+  transformParameterConfigs: [...IMAGE_TO_POINTS_ATTRIBUTES],
 } as unknown as MeshTransformConfig;
 
 export const IMAGE_TO_POINTS_EFFECT_CONFIG = {

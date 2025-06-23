@@ -28,14 +28,6 @@ export const DEFAULT_MATERIAL = new MeshPhongMaterial({
   shininess: 250,
 });
 
-export const DEFAULT_BUILT_SHADER_CONFIG = {
-  shaderEffectConfigs: [],
-  uniformConfigs: [],
-  varyingConfigs: [],
-  attributeConfigs: [],
-  structConfigs: [],
-};
-
 export const DEFAULT_PHONG_PROPS = {
   color: "#111111",
   emissive: "#bfbfbf",

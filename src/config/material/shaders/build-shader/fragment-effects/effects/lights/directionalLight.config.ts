@@ -11,7 +11,7 @@ import { SHADER_PROPERTY_VALUE_TYPES } from "../../../constants/shader.consts";
 import {
   NORMAL_VARYING,
   VIEW_DIRECTION_VARYING,
-} from "../../../defaultParameters.config";
+} from "../../../constants/default-parameters/defaultVaryings";
 
 export const DIRECTIONAL_LIGHT_PARAMETERS = [
   {

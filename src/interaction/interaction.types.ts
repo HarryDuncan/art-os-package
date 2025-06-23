@@ -15,6 +15,8 @@ export type InteractionConfig = {
   eventKey: string;
   materialIds?: string[];
   functionType?: string;
+  keyPointId?: string;
+  mappingTo: Record<string, string[]>;
 };
 
 export type ExternalInteractionConfig = InteractionConfig & {

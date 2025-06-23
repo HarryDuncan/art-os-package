@@ -20,14 +20,17 @@ export const AFFECTED_POSITION_PARAMETERS = [
     isAttribute: false,
     isUniform: false,
     isVarying: true,
+    isFunctionBased: true,
     valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
     varyingConfig: {
       varyingType: VARYING_TYPES.FUNCTION,
     },
-    functionId: "isPositionAffected",
-    functionInstantiationParameterMapping: {
-      [SHADER_VARIABLE_ASSIGNMENT_KEYS.VERTEX_POINT]:
-        SHADER_VARIABLE_TYPES.POSITION,
+    functionConfig: {
+      functionId: "isPositionAffected",
+      functionInstantiationParameterMapping: {
+        [SHADER_VARIABLE_ASSIGNMENT_KEYS.VERTEX_POINT]:
+          SHADER_VARIABLE_TYPES.POSITION,
+      },
     },
   },
 ] as unknown as ParameterConfig[];

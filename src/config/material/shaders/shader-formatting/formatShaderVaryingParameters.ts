@@ -7,7 +7,6 @@ export const formatShaderVaryingParameters = (
   const varyingConfigs = parameterConfigs.filter(
     (parameterConfig) => parameterConfig.isVarying
   );
-  console.log("varyingConfigs", varyingConfigs);
   const uniqueVaryingConfigs = removeDuplicatesByKey(varyingConfigs, "id");
   return uniqueVaryingConfigs;
 };

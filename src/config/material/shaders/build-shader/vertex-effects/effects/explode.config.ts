@@ -58,7 +58,7 @@ const EXPLODE_MESH_TRANSFORM = {
   type: MESH_TRANSFORM_TYPE.CUSTOM_ATTRIBUTES,
   transformedMeshIds: [],
   materialId: "",
-  attributeConfigs: [...EXPLODE_ATTRIBUTES],
+  transformParameterConfigs: [...EXPLODE_ATTRIBUTES],
 } as unknown as MeshTransformConfig;
 
 const EXPLODE_TRANSFORMATION_CONFIG = {

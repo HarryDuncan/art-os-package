@@ -42,7 +42,7 @@ const getVaryingFromFragmentEffectMeshTransforms = (
       transform.effectId ?? ""
     );
     if (!isFragmentEffect) return [];
-    return transform.attributeConfigs;
+    return transform.transformParameterConfigs;
   });
   return fragmentAttributeConfigs.map((attributeConfig) => {
     return {
@@ -73,13 +73,12 @@ const getOtherEffectParameters = (
 };
 
 export const formatBuiltShaderConfig = (
-  parsedConfig: Partial<BuiltShaderConfig>,
+  shaderEffectConfigs: ShaderEffectConfig[],
   meshTransforms: MeshTransformConfig[]
 ): BuiltShaderConfig => {
-  const { shaderEffectConfigs } = parsedConfig;
-  const meshTransformAttributes = meshTransforms.flatMap(
-    (transform) => transform.attributeConfigs ?? []
-  );
+  // const meshTransformAttributes = meshTransforms.flatMap(
+  //   (transform) => transform.attributeConfigs ?? []
+  // );
   const materialAttributeConfigs = shaderEffectConfigs?.flatMap((effect) =>
     effect.effectParameters.filter((parameter) => parameter.isAttribute)
   );
@@ -91,43 +90,21 @@ export const formatBuiltShaderConfig = (
   return {
     shaderEffectConfigs:
       shaderEffectConfigs?.map((effect) => {
-        const meshTransformParametersForEffect =
-          meshTransforms
-            .filter((transform) => transform.effectId === effect.id)
-            .flatMap((transform) => {
-              if (effect.shaderType === SHADER_TYPES.FRAGMENT) {
-                return attributeToVarying(
-                  transform.attributeConfigs ?? [],
-                  false
-                ) as ParameterConfig[];
-              }
-              return transform.attributeConfigs ?? [];
-            }) ?? [];
-        const otherEffectParameters = getOtherEffectParameters(
+        const formattedEffect = formatEffectParameters(
           effect,
-          shaderEffectConfigs ?? []
+          shaderEffectConfigs
         );
-
-        // todo - remove duplicate parameters
-        return {
-          ...effect,
-          effectParameters: [
-            ...effect.effectParameters,
-            ...meshTransformParametersForEffect,
-            ...otherEffectParameters,
-          ],
-        };
+        return formattedEffect;
       }) ?? [],
     uniformConfigs: [
       ...DEFAULT_UNIFORMS,
       ...(shaderEffectConfigs?.flatMap((effect) =>
-        effect.effectParameters.filter((parameter) => parameter.isUniform)
+        effect.effectParameters.filter(
+          (parameter) => parameter.isUniform && !parameter.isTransformInput
+        )
       ) ?? []),
     ],
-    attributeConfigs: [
-      ...(materialAttributeConfigs ?? []),
-      ...meshTransformAttributes,
-    ],
+    attributeConfigs: [...(materialAttributeConfigs ?? [])],
     varyingConfigs: formatShaderVaryingParameters([
       ...(transformVaryingConfigs ?? []),
       ...(shaderEffectConfigs?.flatMap(
@@ -136,5 +113,34 @@ export const formatBuiltShaderConfig = (
           []
       ) ?? []),
     ] as ParameterConfig[]),
+  };
+};
+
+const formatEffectParameters = (
+  effect: ShaderEffectConfig,
+  shaderEffectConfigs: ShaderEffectConfig[]
+) => {
+  const otherEffectParameters = getOtherEffectParameters(
+    effect,
+    shaderEffectConfigs ?? []
+  );
+
+  const allEffectParameters = [
+    ...effect.effectParameters,
+    ...otherEffectParameters,
+  ].flatMap((parameter) => {
+    if (parameter.isTransformInput) {
+      return [];
+    }
+    if (effect.shaderType === SHADER_TYPES.FRAGMENT && parameter.isAttribute) {
+      return attributeToVarying([parameter], false) as ParameterConfig[];
+    }
+    return [parameter];
+  });
+
+  // todo - remove duplicate parameters
+  return {
+    ...effect,
+    effectParameters: allEffectParameters,
   };
 };
