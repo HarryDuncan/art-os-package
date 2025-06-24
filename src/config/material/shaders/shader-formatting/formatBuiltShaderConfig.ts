@@ -58,7 +58,7 @@ const getVaryingFromFragmentEffectMeshTransforms = (
   });
 };
 
-const getOtherEffectParameters = (
+const getLinkedEffectParameters = (
   effect: ShaderEffectConfig,
   shaderEffectConfigs: ShaderEffectConfig[]
 ) => {
@@ -66,9 +66,12 @@ const getOtherEffectParameters = (
   return shaderEffectConfigs.flatMap((effect) => {
     if (effect.id === id) return [];
 
-    return effect.effectParameters.filter((parameter) =>
-      parameter.effectIds?.includes(id)
-    );
+    return effect.effectParameters.filter((parameter) => {
+      if (parameter.isFunctionBased) {
+        return parameter.functionConfig?.effectId === id;
+      }
+      return parameter.effectIds?.includes(id);
+    });
   });
 };
 
@@ -120,7 +123,7 @@ const formatEffectParameters = (
   effect: ShaderEffectConfig,
   shaderEffectConfigs: ShaderEffectConfig[]
 ) => {
-  const otherEffectParameters = getOtherEffectParameters(
+  const otherEffectParameters = getLinkedEffectParameters(
     effect,
     shaderEffectConfigs ?? []
   );

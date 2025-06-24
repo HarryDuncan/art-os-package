@@ -12,30 +12,28 @@ export const formatShaderEffects = (
     (config) => config.shaderType === SHADER_TYPES.FRAGMENT
   ) as FragmentEffectConfig[];
 
-  // Process vertex effects to organize interactive effects as subEffects
   const formattedVertexEffects = vertexEffectConfigs.reduce((acc, effect) => {
-    // If this effect has interactiveEffectIds, it should be a sub-effect
-    // of the effects it references, so don't add it directly
-    if (effect.isInteractive && effect.interactiveEffectIds) {
+    if (effect.subEffectIds && effect.subEffectIds.length > 0) {
+      const effectsReferencingThis = vertexEffectConfigs.filter((subEffect) =>
+        effect.subEffectIds?.includes(subEffect.id)
+      );
+      if (effectsReferencingThis.length > 0) {
+        // Add this effect with the referencing effects as its subEffects
+        acc.push({
+          ...effect,
+          subEffects: effectsReferencingThis,
+        });
+      } else {
+        // Add regular effects normally
+        acc.push(effect);
+      }
       return acc;
     }
 
-    // Check if other effects reference this effect
-    const effectsReferencingThis = vertexEffectConfigs.filter(
-      (interactiveEffect) =>
-        interactiveEffect.isInteractive &&
-        interactiveEffect.interactiveEffectIds &&
-        interactiveEffect.interactiveEffectIds.includes(effect.id)
-    );
-
-    if (effectsReferencingThis.length > 0) {
-      // Add this effect with the interactive effects as its subEffects
-      acc.push({
-        ...effect,
-        subEffects: effectsReferencingThis,
-      });
+    const isSubEffect = acc.some((ef) => ef.subEffectIds?.includes(effect.id));
+    if (isSubEffect) {
+      return acc;
     } else {
-      // Add regular effects normally
       acc.push(effect);
     }
 
@@ -44,28 +42,29 @@ export const formatShaderEffects = (
 
   const formattedFragmentEffects = fragmentEffectConfigs.reduce(
     (acc, effect) => {
-      // If this effect has interactiveEffectIds, it should be a sub-effect
-      // of the effects it references, so don't add it directly
-      if (effect.isInteractive && effect.interactiveEffectIds) {
+      if (effect.subEffectIds && effect.subEffectIds.length > 0) {
+        const effectsReferencingThis = fragmentEffectConfigs.filter(
+          (subEffect) => effect.subEffectIds?.includes(subEffect.id)
+        );
+        if (effectsReferencingThis.length > 0) {
+          // Add this effect with the referencing effects as its subEffects
+          acc.push({
+            ...effect,
+            subEffects: effectsReferencingThis,
+          });
+        } else {
+          // Add regular effects normally
+          acc.push(effect);
+        }
         return acc;
       }
 
-      // Check if other effects reference this effect
-      const effectsReferencingThis = fragmentEffectConfigs.filter(
-        (interactiveEffect) =>
-          interactiveEffect.isInteractive &&
-          interactiveEffect.interactiveEffectIds &&
-          interactiveEffect.interactiveEffectIds.includes(effect.id)
+      const isSubEffect = acc.some((ef) =>
+        ef.subEffectIds?.includes(effect.id)
       );
-
-      if (effectsReferencingThis.length > 0) {
-        // Add this effect with the interactive effects as its subEffects
-        acc.push({
-          ...effect,
-          subEffects: effectsReferencingThis,
-        });
+      if (isSubEffect) {
+        return acc;
       } else {
-        // Add regular effects normally
         acc.push(effect);
       }
 

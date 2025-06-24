@@ -23,7 +23,6 @@ export const AFFECTED_POSITION_PARAMETERS = [
     description: "The position of the affected area",
     valueType: "VEC3",
     isUniform: true,
-    isInteractive: true,
     value: [0.0, 0.0, 0.0],
     configLocked: true,
     interactionConfig: {

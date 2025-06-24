@@ -16,7 +16,7 @@ export type InteractionConfig = {
   materialIds?: string[];
   functionType?: string;
   keyPointId?: string;
-  mappingTo: Record<string, string[]>;
+  mappingTo: Record<string, { parameterId: string; parameterKey: string }[]>;
 };
 
 export type ExternalInteractionConfig = InteractionConfig & {

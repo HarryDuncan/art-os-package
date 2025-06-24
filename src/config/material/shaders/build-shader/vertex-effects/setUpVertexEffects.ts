@@ -93,7 +93,7 @@ export const generateVertexShaderTransformation = (
   transformationFunctions: ShaderFunction[];
 } => {
   const { id, effectParameters, subEffects } = effectProps;
-
+  console.log(subEffects);
   // subEffects
   const subEffectParameterIds =
     subEffects?.flatMap(({ effectParameters }) => effectParameters) ?? [];
@@ -101,7 +101,7 @@ export const generateVertexShaderTransformation = (
   const subEffectDataArray =
     subEffects?.flatMap((subEffect) => {
       const subEffectData = transformSetup(subEffect, true);
-
+      console.log(subEffectData);
       if (subEffectData) {
         return subEffectData;
       }

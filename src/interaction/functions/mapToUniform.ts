@@ -9,7 +9,7 @@ export const mapToUniform = (
   eventData: Record<string, unknown>,
   interactionConfig: InteractionConfig
 ) => {
-  const { materialIds } = interactionConfig;
+  const { materialIds, uniformKeys, keyPointId } = interactionConfig;
 
   if (!materialIds) return;
 
@@ -21,22 +21,15 @@ export const mapToUniform = (
   });
 
   meshes.forEach((mesh) => {
-    const uniformKeys = Object.entries(mesh?.material.uniforms ?? {}).flatMap(
-      ([key, uniform]) => {
-        if (uniform && typeof uniform === "object" && "keyPointId" in uniform) {
-          return key;
-        }
-        return [];
-      }
-    );
+    const uniforms = mesh?.material.uniforms;
 
-    Object.entries(eventData).forEach(([key, value]) => {
+    if (uniforms) {
       uniformKeys.forEach((uniformKey) => {
-        const uniforms = mesh?.material.uniforms;
-        if (uniforms && uniforms[uniformKey]?.keyPointId === key) {
-          uniforms[uniformKey].value = value;
+        if (uniforms[uniformKey]) {
+          console.log(uniforms[uniformKey]);
+          uniforms[uniformKey].value = eventData[keyPointId];
         }
       });
-    });
+    }
   });
 };

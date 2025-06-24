@@ -6,6 +6,7 @@ import { VARYING_TYPES } from "./shader-properties/varyings/varyings.consts";
 import { VERTEX_EFFECTS } from "./vertex-effects/vertexEffects.consts";
 import { FRAGMENT_EFFECTS } from "./fragment-effects/fragmentEffects.consts";
 import { SHADER_VARIABLE_TYPES } from "./constants";
+import { MeshTransformConfig } from "../../../..";
 
 // GENERAL TYPES
 export type ShaderPropertyConfig = {
@@ -61,9 +62,6 @@ export type ShaderFunction = {
 export interface EffectConfig {
   id: string;
   name?: string;
-  isInteractive?: boolean;
-  interactiveEffectIds?: string[];
-  pairedEffectIds?: string[];
   effectParameters: ParameterConfig[];
   shaderType: string;
   subEffectIds?: string[];
@@ -97,6 +95,7 @@ export const SHADER_PROPERTY_TAGS = {
 export type ParameterFunctionConfig = {
   functionId: string;
   functionInstantiationParameterMapping?: Record<string, string>;
+  effectId?: string;
 };
 export type ParameterConfig = ShaderPropertyConfig & {
   configLocked?: boolean;
@@ -126,11 +125,6 @@ export type ParameterConfig = ShaderPropertyConfig & {
     isAttributeReference?: boolean;
   };
   functionConfig?: ParameterFunctionConfig;
-  // TODO - remove these
-  isInteractive?: boolean;
-  interactionConfig?: {
-    keyPointId: string;
-  };
 };
 
 export type StructConfig = { id: string; properties: ShaderPropertyConfig[] };
@@ -158,4 +152,11 @@ export type TransformationConfig = {
   effectCode: string[];
   singleInstance?: boolean;
   prefix?: string;
+};
+
+export type ShaderEffectSchema = {
+  functions: ShaderFunction[];
+  meshTransformConfig: MeshTransformConfig[];
+  parameters: ParameterConfig[];
+  transformationConfig: ShaderTransformationConfig[];
 };

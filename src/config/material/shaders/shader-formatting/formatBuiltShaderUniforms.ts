@@ -23,10 +23,6 @@ export const formatBuiltShaderUniforms = (
 
   const uniforms = uniformParameters.reduce((acc, uniform) => {
     acc[uniform.id] = { value: uniform.value };
-    if (uniform.interactionConfig?.keyPointId) {
-      //@ts-ignore
-      acc[uniform.id].keyPointId = uniform.interactionConfig.keyPointId;
-    }
     return acc;
   }, {} as UniformObject);
   const mappedUniforms = mapAssetsToUniforms(assetMapping, assets, uniforms);
