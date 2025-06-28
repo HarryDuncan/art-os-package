@@ -1,26 +1,27 @@
 import { Scene } from "three";
-import {
-  EVENT_BINDING_TYPE,
-  EVENT_BIND_TYPES,
-  KEYS,
-} from "./interaction.consts";
+import { EVENT_BIND_TYPES } from "./interaction.consts";
+import { KEYS } from "./peripheral-interactions/peripheralInteractions.consts";
 
-export type InteractionEventBinding = keyof typeof EVENT_BINDING_TYPE;
+export type InteractionEventBinding = keyof typeof EVENT_BIND_TYPES;
 
-export type PeripheralInputConfig = {
+export type PeripheralSourceConfig = {
   eventKey: string;
   keypointId: string;
 };
+export type PoseEstimationConfig = {
+  keypointId: string;
+  mappingTo: Record<string, { parameterId: string; parameterKey: string }[]>;
+};
+
+export type SourceConfig = PeripheralSourceConfig;
 export type InteractionConfig = {
   id: string;
   name?: string;
   bindingType?: InteractionEventBinding;
   interactionSource: string;
-  //  sourceConfig :
-  // eventKey: string;
+  sourceConfig: SourceConfig;
   materialIds?: string[];
   functionType?: string;
-  keyPointId?: string;
   mappingTo: Record<string, { parameterId: string; parameterKey: string }[]>;
 };
 

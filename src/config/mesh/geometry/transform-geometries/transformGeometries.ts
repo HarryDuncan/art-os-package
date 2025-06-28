@@ -106,7 +106,6 @@ export const transformGeometry = (
     return formattedGeometries;
   });
 
-  console.log(formattedGeometries);
   return formattedGeometries;
 };
 

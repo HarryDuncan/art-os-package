@@ -1,5 +1,5 @@
 import { Vector2, Camera, Vector3, Ray } from "three";
-import { EVENT_KEYS } from "../../consts/interaction.consts";
+import { EVENT_KEYS } from "../peripheral-interactions/peripheralInteractions.consts";
 
 export const mouseMoveKeyPoints = (
   event: MouseEvent,

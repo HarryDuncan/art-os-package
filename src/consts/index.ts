@@ -11,10 +11,12 @@ export * from "./lights/lights";
 export * from "../config/material/shaders/build-shader/vertex-effects/vertexEffects.consts";
 export * from "../config/material/shaders/build-shader/fragment-effects/fragmentEffects.consts";
 export * from "../config/material/shaders/build-shader/constants/shader.consts";
-export * from "./interaction.consts";
-export * from "../interaction/key-point-extraction/keyPointExtraction";
 
 export * from "../config/material/shaders/build-shader/fragment-effects/fragmentEffects.consts";
 export * from "../config/material/shaders/build-shader/constants/buildShader.consts";
 export * from "../config/material/shaders/build-shader/constants/interactiveEffects.consts";
 export * from "../config/material/shaders/build-shader/shader-properties/varyings/varyings.consts";
+
+export * from "../interaction/interaction.consts";
+export * from "../interaction/peripheral-interactions/peripheralInteractions.consts";
+export * from "../interaction/key-point-extraction/keyPointExtraction";
