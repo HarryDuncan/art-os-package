@@ -127,7 +127,7 @@ export type MeshTransformConfig = {
   guid?: string;
   effectId?: string;
   type: MeshTransformType;
-  meshIds: string[];
+  transformedMeshIds: string[];
   parameterIds?: string[];
   materialId?: string;
   transformParameterConfigs?: ParameterConfig[];

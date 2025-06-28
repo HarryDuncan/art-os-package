@@ -1,7 +1,6 @@
 import {
   ParameterConfig,
   ShaderTransformationConfig,
-  TransformationConfig,
 } from "../../buildShader.types";
 import {
   SHADER_VARIABLE_ASSIGNMENT_KEYS,

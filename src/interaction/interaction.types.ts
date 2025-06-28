@@ -7,12 +7,17 @@ import {
 
 export type InteractionEventBinding = keyof typeof EVENT_BINDING_TYPE;
 
+export type PeripheralInputConfig = {
+  eventKey: string;
+  keypointId: string;
+};
 export type InteractionConfig = {
   id: string;
   name?: string;
-  interactionType: string;
   bindingType?: InteractionEventBinding;
-  eventKey: string;
+  interactionSource: string;
+  //  sourceConfig :
+  // eventKey: string;
   materialIds?: string[];
   functionType?: string;
   keyPointId?: string;

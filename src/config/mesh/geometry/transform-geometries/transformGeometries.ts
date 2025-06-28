@@ -18,10 +18,10 @@ export const transformGeometry = (
 
   const formattedMeshTransforms = formatMeshTransforms(meshTransforms, assets);
 
-  formattedMeshTransforms.forEach(({ type, values, meshIds }) => {
+  formattedMeshTransforms.forEach(({ type, values, transformedMeshIds }) => {
     const transformedMeshes = getTransformedMeshes(
       formattedGeometries,
-      meshIds
+      transformedMeshIds
     );
     if (transformedMeshes.length) {
       switch (type) {
@@ -92,17 +92,21 @@ export const transformGeometry = (
 
           return attributesSet;
         }
+
         case MESH_TRANSFORM_TYPE.DEFAULT:
         default: {
           return formattedGeometries;
         }
       }
     } else {
-      console.warn(`No transformed meshes - check transform config ${meshIds}`);
+      console.warn(
+        `No transformed meshes - check transform config ${transformedMeshIds}`
+      );
     }
     return formattedGeometries;
   });
 
+  console.log(formattedGeometries);
   return formattedGeometries;
 };
 

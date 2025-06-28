@@ -7,8 +7,8 @@ import {
   SHADER_VARIABLE_TYPES,
 } from "../../constants";
 import { SHADER_PROPERTY_VALUE_TYPES } from "../../constants/shader.consts";
-import { MeshTransformConfig } from "../../../../../../types/config.types";
-import { MESH_TRANSFORM_TYPE } from "../../../../../mesh/mesh.consts";
+// import { MeshTransformConfig } from "../../../../../../types/config.types";
+// import { MESH_TRANSFORM_TYPE } from "../../../../../mesh/mesh.consts";
 
 export const AFFECTED_POSITION_PARAMETERS = [
   {
@@ -60,17 +60,17 @@ export const affectedPositionTransformConfig = [
   },
 ] as unknown as ShaderTransformationConfig[];
 
-const AFFECTED_POSITION_MESH_TRANSFORM = {
-  id: "affectedPositionMeshTransform",
-  type: MESH_TRANSFORM_TYPE.CUSTOM_ATTRIBUTES,
-  transformedMeshIds: [],
-  materialId: "",
-  transformParameterConfigs: [...AFFECTED_POSITION_ATTRIBUTES],
-} as unknown as MeshTransformConfig;
+// const AFFECTED_POSITION_MESH_TRANSFORM = {
+//   id: "affectedPositionMeshTransform",
+//   type: MESH_TRANSFORM_TYPE.CUSTOM_ATTRIBUTES,
+//   transformedMeshIds: [],
+//   materialId: "",
+//   transformParameterConfigs: [...AFFECTED_POSITION_ATTRIBUTES],
+// } as unknown as MeshTransformConfig;
 
 export const AFFECTED_POSITION_EFFECT_CONFIG = {
   functions: [],
-  meshTransformConfig: [AFFECTED_POSITION_MESH_TRANSFORM],
+  meshTransformConfig: [],
   parameters: AFFECTED_POSITION_PARAMETERS,
   transformationConfig: affectedPositionTransformConfig,
 };

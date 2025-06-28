@@ -22,11 +22,9 @@ export const mapToUniform = (
 
   meshes.forEach((mesh) => {
     const uniforms = mesh?.material.uniforms;
-
     if (uniforms) {
       uniformKeys.forEach((uniformKey) => {
         if (uniforms[uniformKey]) {
-          console.log(uniforms[uniformKey]);
           uniforms[uniformKey].value = eventData[keyPointId];
         }
       });

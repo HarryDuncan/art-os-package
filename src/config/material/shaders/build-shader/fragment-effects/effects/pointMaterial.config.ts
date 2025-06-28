@@ -45,7 +45,7 @@ const POINT_MATERIAL_MESH_TRANSFORM_CONFIG = {
   type: MESH_TRANSFORM_TYPE.CUSTOM_ATTRIBUTES,
   transformedMeshIds: [],
   materialId: "",
-  attributeConfigs: [...TEXTURED_POINTS_ATTRIBUTES],
+  transformParameterConfigs: [...TEXTURED_POINTS_ATTRIBUTES],
 };
 
 const POINT_MATERIAL_PARAMETERS = [

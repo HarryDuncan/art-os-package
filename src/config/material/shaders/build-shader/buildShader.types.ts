@@ -143,17 +143,6 @@ export type ShaderTransformationConfig = {
   assignedVariableId?: keyof typeof SHADER_VARIABLE_TYPES | string;
 };
 
-export type TransformationConfig = {
-  effectName: string;
-  instantiationName?: string;
-  instantiationType?: keyof typeof SHADER_PROPERTY_VALUE_TYPES;
-  instantiationValue?: string;
-  allowedValueTypes?: keyof (typeof SHADER_PROPERTY_VALUE_TYPES)[];
-  effectCode: string[];
-  singleInstance?: boolean;
-  prefix?: string;
-};
-
 export type ShaderEffectSchema = {
   functions: ShaderFunction[];
   meshTransformConfig: MeshTransformConfig[];
