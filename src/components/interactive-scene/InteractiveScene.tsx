@@ -1,10 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 // @ts-nocheck
 
-import {
-  EventConfig,
-  InteractionConfig,
-} from "../../interaction/interaction.types";
+import { InteractionConfig } from "../../interaction/interaction.types";
 import { Clock, Scene, Camera } from "three";
 import { AnimationManager } from "../../animation/animation-manager/AnimationManager";
 import { AnimationConfig } from "../../types/animation.types";
@@ -39,7 +36,6 @@ export class InteractiveScene extends Scene {
 
   constructor(
     sceneFunctions: InteractiveSceneFunctions,
-    eventConfig: EventConfig[],
     animationConfig: AnimationConfig[],
     interactionConfig: InteractionConfig[],
     sceneProperties: SceneProperties,

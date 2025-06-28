@@ -1,16 +1,18 @@
-import { ControlConfig, ThreeJSConfig } from "../../types/config.types";
+import {
+  ControlConfig,
+  SceneConfig,
+  ThreeJSConfig,
+} from "../../types/config.types";
 import { useCallback } from "react";
 import { useSetUpCamera } from "./use-camera/useCamera";
 
-export const useThreeJsFromConfig = () => {
-  const setUpCamera = useSetUpCamera();
+export const useThreeJsFromConfig = (config: SceneConfig) => {
+  const setUpCamera = useSetUpCamera(config?.threeJsConfig?.camera);
   const setUpControls = useSetUpControls();
   return useCallback(
     (config: ThreeJSConfig) => {
-      const camera = setUpCamera(config?.camera);
       const controls = setUpControls(config?.controls);
       return {
-        camera,
         controls,
       };
     },

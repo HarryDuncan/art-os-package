@@ -19,7 +19,7 @@ export const useSceneData = (
   areAssetsInitialized: boolean
 ): SceneData | null => {
   useInitializeVideos(assets, areAssetsInitialized);
-  const setUpThreeJs = useThreeJsFromConfig();
+  const setUpThreeJs = useThreeJsFromConfig(config);
   const {
     state: { screenType },
   } = useWindowState();

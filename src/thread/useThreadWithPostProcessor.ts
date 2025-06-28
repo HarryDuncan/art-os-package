@@ -9,12 +9,12 @@ import { PROCESS_STATUS } from "../consts/consts";
 
 export const useThreadWithPostProcessor = (
   currentFrameRef: MutableRefObject<number>,
-  camera: Camera,
   renderer: WebGLRenderer
 ) => {
   const {
     dispatch,
     state: { initializedScene, status },
+    camera,
   } = useSceneContext();
   const postProcessor: MutableRefObject<null | PostProcessor> = useRef(null);
   const update = useCallback(() => {
@@ -40,6 +40,7 @@ export const useThreadWithPostProcessor = (
 
   useEffect(() => {
     const initPostProcessor = async () => {
+      console.log("camera", camera);
       postProcessor.current = new PostProcessor(
         camera,
         initializedScene,

@@ -7,20 +7,18 @@ import { useOrbitControls } from "./use-orbit-controls/useOrbitControls";
 import { ThreeJsParams } from "../../types/config.types";
 import { useProcessStatus } from "../useProcessStatus";
 import { PROCESS_STATUS } from "../../consts/consts";
+import { useSceneContext } from "../../context/context";
 
 export const useThreeJs = (threeJsParams: ThreeJsParams) => {
   const { status, setStatus } = useProcessStatus();
-  const { camera } = threeJsParams;
+  const { camera } = useSceneContext();
+  const { controls } = threeJsParams;
   const container = useRef<HTMLDivElement | null>(null);
   const currentFrameRef = useRef<number>(0);
   const renderer = useWebGLRenderer(threeJsParams.renderer);
   // const cssRenderer = useCssRenderer(threeJsParams.renderer);
   useInitializeNode(container, renderer);
-  const orbitControls = useOrbitControls(
-    camera,
-    renderer,
-    threeJsParams?.controls
-  );
+  const orbitControls = useOrbitControls(camera, renderer, controls);
 
   useEffect(() => {
     if (

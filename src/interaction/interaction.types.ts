@@ -39,12 +39,6 @@ export type InteractionEvent = Event & {
   detail: unknown;
 };
 
-export interface EventConfig {
-  eventKey: string;
-  eventFunction: (scene: Scene, event: Event) => void;
-  sceneIdentifier?: string;
-}
-
 export type BindType = typeof EVENT_BIND_TYPES;
 export type BindTypeKey = keyof BindType;
 

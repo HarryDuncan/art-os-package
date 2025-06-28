@@ -1,11 +1,13 @@
-import { useCallback } from "react";
+import { useEffect } from "react";
 import { OrthographicCamera, PerspectiveCamera } from "three";
 import { CAMERA_TYPES, CameraConfig } from "./camera.types";
 import { useWindowState } from "../../../compat/window-state/windowStateProvider";
 import { DEFAULT_ORTHOGRAPHIC, DEFAULT_PERSPECTIVE } from "./camera.consts";
 import { positionConfigToPosition } from "../../../utils/conversion/conversion";
+import { useSceneContext } from "../../../context/context";
 
-export const useSetUpCamera = () => {
+export const useSetUpCamera = (config: CameraConfig | undefined) => {
+  const { camera, setCamera } = useSceneContext();
   const {
     state: {
       windowSize: { width, height },
@@ -13,15 +15,14 @@ export const useSetUpCamera = () => {
   } = useWindowState();
   const aspect = width / height;
 
-  return useCallback(
-    (config?: CameraConfig) => {
+  useEffect(() => {
+    if (!camera && config && aspect) {
       const camera = getCamera(aspect, config);
       const { x, y, z } = positionConfigToPosition(config?.position ?? {});
       camera.position.set(x, y, z);
-      return camera;
-    },
-    [aspect]
-  );
+      setCamera(camera);
+    }
+  }, [camera, config, setCamera, aspect]);
 };
 
 const getCamera = (aspect: number, config?: CameraConfig) => {

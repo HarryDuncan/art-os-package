@@ -3,10 +3,7 @@ import {
   InteractiveScene,
   InteractiveSceneFunctions,
 } from "./InteractiveScene";
-import {
-  EventConfig,
-  InteractionConfig,
-} from "../../interaction/interaction.types";
+import { InteractionConfig } from "../../interaction/interaction.types";
 import { AnimationConfig } from "../../types/animation.types";
 import { Camera, Object3D } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
@@ -18,9 +15,7 @@ import { PROCESS_STATUS } from "../../consts/consts";
 import { SceneLight } from "../../types";
 
 export const useInteractiveScene = (
-  camera: Camera,
   sceneFunction: InteractiveSceneFunctions,
-  eventConfig: EventConfig[],
   animationConfig: AnimationConfig[],
   meshes: Object3D[] | GLTF[],
   lights: SceneLight[],
@@ -32,6 +27,7 @@ export const useInteractiveScene = (
   const {
     dispatch,
     state: { initializedScene, status },
+    camera,
   } = useSceneContext();
   const setUpSceneObjects = useCallback(
     async (scene: InteractiveScene) => {
@@ -62,18 +58,18 @@ export const useInteractiveScene = (
     async function setUpScene() {
       const scene = new InteractiveScene(
         sceneFunction,
-        eventConfig,
         animationConfig,
         interactionConfig,
         sceneProperties,
         lights,
-        camera
+        camera as Camera
       );
 
       await setUpSceneObjects(scene);
     }
     if (
       initializedScene === null &&
+      !!camera &&
       status === PROCESS_STATUS.FORMATTING_THREE
     ) {
       setUpScene();
@@ -81,7 +77,6 @@ export const useInteractiveScene = (
   }, [
     status,
     sceneFunction,
-    eventConfig,
     animationConfig,
     setUpSceneObjects,
     interactionConfig,

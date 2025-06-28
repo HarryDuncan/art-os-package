@@ -5,9 +5,11 @@ import {
   ReactNode,
   Dispatch,
   FC,
+  useState,
 } from "react";
 import { SceneActions, SceneState } from "./scene.context.types";
 import { PROCESS_STATUS } from "../consts/consts";
+import { Camera } from "three";
 
 export const INITIAL_SCENE_STATE: SceneState = {
   isLoading: false,
@@ -18,6 +20,12 @@ export const INITIAL_SCENE_STATE: SceneState = {
 type SceneContextType = {
   state: SceneState;
   dispatch: Dispatch<SceneActions>;
+  camera: Camera | null;
+  setCamera: (camera: Camera | null) => void;
+  rendererHeight: number;
+  setRendererHeight: (rendererHeight: number) => void;
+  rendererWidth: number;
+  setRendererWidth: (rendererWidth: number) => void;
 };
 export const SceneContext = createContext<SceneContextType | undefined>(
   undefined
@@ -48,8 +56,22 @@ const reducer = (state: SceneState, action: SceneActions) => {
 
 const SceneProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, INITIAL_SCENE_STATE);
+  const [camera, setCamera] = useState<Camera | null>(null);
+  const [rendererHeight, setRendererHeight] = useState<number>(0);
+  const [rendererWidth, setRendererWidth] = useState<number>(0);
   return (
-    <SceneContext.Provider value={{ state, dispatch }}>
+    <SceneContext.Provider
+      value={{
+        state,
+        dispatch,
+        camera,
+        setCamera,
+        rendererHeight,
+        setRendererHeight,
+        rendererWidth,
+        setRendererWidth,
+      }}
+    >
       {children}
     </SceneContext.Provider>
   );

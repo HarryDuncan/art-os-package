@@ -9,16 +9,16 @@ import {
 import { useSetWindowState } from "../../compat/window-state/useSetWindowState";
 import { useSceneFunctions } from "../../hooks/useSceneFunctions";
 import { SceneProvider } from "../../context/context";
-import { AppendedNodes } from "../appended-nodes/AppendedNodes";
 import { useSceneData } from "../../config/useSceneData";
 import { useAssets } from "../../assets/useAssets";
 import { Loader } from "../../components/loaders/Loader";
 import { WindowStateProvider } from "../../compat/window-state/windowStateProvider";
 import { useThreadWithPostProcessor } from "../../thread/useThreadWithPostProcessor";
+import { ExternalInteractionNode } from "../external-interaction-nodes/ExternalInteractionNode";
 
 export const SceneNode = ({
   sceneConfig,
-  appendedNodes,
+  externalInteractionConfig,
   loaderComponent,
 }: SceneNodeProps) => (
   <WindowStateProvider>
@@ -26,10 +26,12 @@ export const SceneNode = ({
       <SceneNodeContent
         sceneConfig={sceneConfig}
         loaderComponent={loaderComponent}
-        events={[]}
-        interactionConfig={[]}
       />
-      {appendedNodes && <AppendedNodes appendedNodes={appendedNodes} />}
+      {externalInteractionConfig && (
+        <ExternalInteractionNode
+          externalInteractionConfig={externalInteractionConfig}
+        />
+      )}
     </SceneProvider>
   </WindowStateProvider>
 );
@@ -38,8 +40,6 @@ const SceneNodeContent = ({
   sceneConfig,
   loaderComponent,
   sceneFunctions = {},
-  events = [],
-  interactionConfig = [],
 }: SceneNodeContentProps) => {
   const { areAssetsInitialized, initializedAssets } = useAssets(
     sceneConfig.assets,
@@ -58,7 +58,6 @@ const SceneNodeContent = ({
         <DisplayContent
           sceneFunctions={sceneFunctions}
           interactionConfig={sceneConfig?.interactionConfig ?? []}
-          events={events}
           sceneData={sceneData}
         />
       )}
@@ -69,7 +68,6 @@ const SceneNodeContent = ({
 const DisplayContent = ({
   sceneFunctions,
   interactionConfig = [],
-  events,
   sceneData: {
     threeJsParams,
     animationConfig,
@@ -81,15 +79,13 @@ const DisplayContent = ({
 }: NodeProps) => {
   useSetWindowState();
 
-  const { container, renderer, camera, currentFrameRef, orbitControls } =
+  const { container, renderer, currentFrameRef, orbitControls } =
     useThreeJs(threeJsParams);
 
   const formattedSceneFunctions = useSceneFunctions(sceneFunctions);
 
   useInteractiveScene(
-    camera,
     formattedSceneFunctions,
-    events,
     animationConfig ?? [],
     meshes,
     lights,
@@ -99,7 +95,7 @@ const DisplayContent = ({
     interactionConfig
   );
 
-  useThreadWithPostProcessor(currentFrameRef, camera, renderer);
+  useThreadWithPostProcessor(currentFrameRef, renderer);
   return (
     <RootContainer containerRef={container} sceneProperties={sceneProperties} />
   );
