@@ -111,4 +111,5 @@ export const POINT_MATERIAL_EFFECT_CONFIG = {
   meshTransformConfig: [POINT_MATERIAL_MESH_TRANSFORM_CONFIG],
   parameters: POINT_MATERIAL_PARAMETERS,
   transformationConfig: pointMaterialTransformConfig,
+  outputValueType: SHADER_PROPERTY_VALUE_TYPES.VEC4,
 };

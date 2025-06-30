@@ -1,37 +1,22 @@
-import { ShaderTransformationConfig } from "../../../../../../types/materials/index";
+import { ShaderTransformationConfig } from "../../../../../../../types/materials/index";
 import {
   ASSET_MAPPING_RELATIONSHIPS,
-  ATTRIBUTE_VALUE_TYPES,
   SHADER_PROPERTY_VALUE_TYPES,
-} from "../../constants/shader.consts";
-import { VARYING_TYPES } from "../../shader-properties/varyings/varyings.consts";
+} from "../../../constants/shader.consts";
+import { VARYING_TYPES } from "../../../shader-properties/varyings/varyings.consts";
 
-import { QUAD_MESH_TRANSFORM } from "../../../../../mesh/meshTransforms.consts";
-import { ParameterConfig } from "../../buildShader.types";
+import { QUAD_MESH_TRANSFORM } from "../../../../../../mesh/meshTransforms.consts";
+import { ParameterConfig } from "../../../buildShader.types";
 import {
   SHADER_VARIABLE_ASSIGNMENT_KEYS,
   SHADER_VARIABLE_TYPES,
-} from "../../constants";
-import { MESH_TRANSFORM_TYPE } from "../../../../../mesh/mesh.consts";
-import { MeshTransformConfig } from "../../../../../../types/config.types";
+} from "../../../constants";
 import {
   randomFloatFunction,
   randFunction,
   noiseFunction,
-} from "../../shader-properties/static-functions";
-// {
-//   id: "vPixelColor",
-//   name: "Pixel Color",
-//   configLocked: true,
-//   description: "The color of the texture at the current pixel",
-//   valueType: SHADER_PROPERTY_VALUE_TYPES.VEC4,
-//   isVarying: true,
-//   varyingConfig: {
-//     varyingType: VARYING_TYPES.CUSTOM,
-//     valueType: SHADER_PROPERTY_VALUE_TYPES.VEC4,
-//     value: `texturePointColor`,
-//   },
-// },
+} from "../../../shader-properties/static-functions";
+
 export const IMAGE_TO_POINTS_VARYING_CONFIG = [
   {
     id: "vUv",
@@ -48,30 +33,22 @@ export const IMAGE_TO_POINTS_VARYING_CONFIG = [
   },
 ];
 
-export const IMAGE_TO_POINTS_ATTRIBUTES = [
-  {
-    id: "pointIndex",
-    name: "Point Index",
-    description: "Creates an index of each point of the mesh",
-    configLocked: true,
-    isAttribute: true,
-    valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
-    attributeConfig: {
-      attributeValueType: ATTRIBUTE_VALUE_TYPES.INDEXED,
-      assetId: "",
-    },
-  },
-] as ParameterConfig[];
+// export const IMAGE_TO_POINTS_ATTRIBUTES = [
+//   {
+//     id: "pointIndex",
+//     name: "Point Index",
+//     description: "Creates an index of each point of the mesh",
+//     configLocked: true,
+//     isAttribute: true,
+//     valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
+//     attributeConfig: {
+//       attributeValueType: ATTRIBUTE_VALUE_TYPES.INDEXED,
+//       assetId: "",
+//     },
+//   },
+// ] as ParameterConfig[];
 
 export const IMAGE_TO_POINTS_PARAMETERS = [
-  {
-    id: "pointSize",
-    name: "Point Size",
-    description: "The size of the points",
-    valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
-    value: 10,
-    configLocked: true,
-  },
   {
     id: "convertedTexture",
     name: "Converted Texture",
@@ -164,17 +141,17 @@ const imageToPointsTransformConfig = [
   },
 ] as unknown as ShaderTransformationConfig[];
 
-const IMAGE_TO_POINTS_MESH_TRANSFORM = {
-  id: "imageToPointsMeshTransform",
-  type: MESH_TRANSFORM_TYPE.CUSTOM_ATTRIBUTES,
-  transformedMeshIds: [],
-  materialId: "",
-  transformParameterConfigs: [...IMAGE_TO_POINTS_ATTRIBUTES],
-} as unknown as MeshTransformConfig;
+// const IMAGE_TO_POINTS_MESH_TRANSFORM = {
+//   id: "imageToPointsMeshTransform",
+//   type: MESH_TRANSFORM_TYPE.CUSTOM_ATTRIBUTES,
+//   transformedMeshIds: [],
+//   materialId: "",
+//   transformParameterConfigs: [...IMAGE_TO_POINTS_ATTRIBUTES],
+// } as unknown as MeshTransformConfig;
 
 export const IMAGE_TO_POINTS_EFFECT_CONFIG = {
   functions: IMAGE_TO_POINTS_REQUIRED_FUNCTIONS,
-  meshTransformConfig: [QUAD_MESH_TRANSFORM, IMAGE_TO_POINTS_MESH_TRANSFORM],
+  meshTransformConfig: [QUAD_MESH_TRANSFORM],
   parameters: IMAGE_TO_POINTS_PARAMETERS,
   transformationConfig: imageToPointsTransformConfig,
 };

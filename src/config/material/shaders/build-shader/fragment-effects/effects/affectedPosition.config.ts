@@ -26,6 +26,7 @@ export const AFFECTED_POSITION_PARAMETERS = [
       varyingType: VARYING_TYPES.FUNCTION,
     },
     functionConfig: {
+      outputType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
       functionId: "isPositionAffected",
       functionInstantiationParameterMapping: {
         [SHADER_VARIABLE_ASSIGNMENT_KEYS.VERTEX_POINT]:
@@ -56,4 +57,5 @@ export const AFFECTED_POSITION_EFFECT_FRAGMENT_CONFIG = {
   meshTransformConfig: [],
   parameters: AFFECTED_POSITION_PARAMETERS,
   transformationConfig: affectedPositionTransformConfig,
+  outputValueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
 };

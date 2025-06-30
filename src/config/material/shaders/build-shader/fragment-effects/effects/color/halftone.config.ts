@@ -88,4 +88,5 @@ export const HALFTONE_EFFECT_CONFIG = {
   meshTransformConfig: [],
   parameters: HALFTONE_PARAMETERS,
   transformationConfig: [HALFTONE_TRANSFORMATION_CONFIG],
+  outputValueType: SHADER_PROPERTY_VALUE_TYPES.VEC4,
 };

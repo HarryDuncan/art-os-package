@@ -3,10 +3,7 @@ import {
   ParameterConfig,
   ShaderTransformationConfig,
 } from "../../../buildShader.types";
-import {
-  SHADER_VARIABLE_ASSIGNMENT_KEYS,
-  SHADER_VARIABLE_TYPES,
-} from "../../../constants";
+import { SHADER_VARIABLE_TYPES } from "../../../constants";
 import { SHADER_PROPERTY_VALUE_TYPES } from "../../../constants/shader.consts";
 import {
   NORMAL_VARYING,
@@ -105,4 +102,5 @@ export const POINT_LIGHT_EFFECT_CONFIG = {
   parameters: POINT_LIGHT_PARAMETERS,
   transformationConfig: [POINT_LIGHT_TRANSFORMATION_CONFIG],
   assignedVariableId: SHADER_VARIABLE_TYPES.LIGHT,
+  outputValueType: SHADER_PROPERTY_VALUE_TYPES.VEC3,
 };

@@ -3,10 +3,7 @@ import {
   ParameterConfig,
   ShaderTransformationConfig,
 } from "../../../buildShader.types";
-import {
-  SHADER_VARIABLE_ASSIGNMENT_KEYS,
-  SHADER_VARIABLE_TYPES,
-} from "../../../constants";
+import { SHADER_VARIABLE_TYPES } from "../../../constants";
 import { SHADER_PROPERTY_VALUE_TYPES } from "../../../constants/shader.consts";
 
 export const AMBIENT_LIGHT_PARAMETERS = [
@@ -49,4 +46,5 @@ export const AMBIENT_LIGHT_EFFECT_CONFIG = {
   parameters: AMBIENT_LIGHT_PARAMETERS,
   transformationConfig: [AMBIENT_LIGHT_TRANSFORMATION_CONFIG],
   assignedVariableId: SHADER_VARIABLE_TYPES.LIGHT,
+  outputValueType: SHADER_PROPERTY_VALUE_TYPES.VEC3,
 };

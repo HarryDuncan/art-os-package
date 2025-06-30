@@ -1,8 +1,9 @@
-import { IMAGE_TO_POINTS_EFFECT_CONFIG } from "./effects/imageToPoints.config";
+import { IMAGE_TO_POINTS_EFFECT_CONFIG } from "./effects/points/imageToPoints.config";
 import { INTERACTIVE_EFFECTS } from "../constants/interactiveEffects.consts";
 import { EXPLODE_EFFECT_CONFIG } from "./effects/explode.config";
 import { ROTATION_EFFECT_CONFIG } from "./effects/rotationEffect.config";
 import { AFFECTED_POSITION_EFFECT_CONFIG } from "./effects/affectedPosition.config";
+import { POINT_SIZE_EFFECT_CONFIG } from "./effects/points/glPointSize.config";
 
 export const VERTEX_POINT_NAME = "currentVertexPoint";
 export const VERTEX_NORMAL_NAME = "currentVertexNormal";
@@ -11,6 +12,7 @@ export const VERTEX_NORMAL_INSTANTIATION = `vec4 ${VERTEX_NORMAL_NAME} = vec4(no
 
 export const VERTEX_EFFECTS = {
   NONE: "NONE",
+  POINT_SIZE: "POINT_SIZE",
   EXPLODE: "EXPLODE",
   IMAGE_TO_POINTS: "IMAGE_TO_POINTS",
   ROTATION: "ROTATION",
@@ -18,6 +20,7 @@ export const VERTEX_EFFECTS = {
 };
 
 export const VERTEX_EFFECT_CONFIG_MAP = {
+  [VERTEX_EFFECTS.POINT_SIZE]: POINT_SIZE_EFFECT_CONFIG,
   [VERTEX_EFFECTS.IMAGE_TO_POINTS]: IMAGE_TO_POINTS_EFFECT_CONFIG,
   [VERTEX_EFFECTS.EXPLODE]: EXPLODE_EFFECT_CONFIG,
   [VERTEX_EFFECTS.AFFECTED_POSITION]: AFFECTED_POSITION_EFFECT_CONFIG,

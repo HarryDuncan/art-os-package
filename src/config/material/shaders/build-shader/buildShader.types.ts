@@ -94,6 +94,7 @@ export const SHADER_PROPERTY_TAGS = {
 
 export type ParameterFunctionConfig = {
   functionId: string;
+  outputValueType: keyof typeof SHADER_PROPERTY_VALUE_TYPES;
   functionInstantiationParameterMapping?: Record<string, string>;
   effectId?: string;
 };

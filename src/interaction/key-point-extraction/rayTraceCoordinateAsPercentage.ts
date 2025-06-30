@@ -5,11 +5,9 @@ export const rayTraceCoordinateAsPercentage = (
   params: {
     camera: Camera;
     zTarget: number;
-    rendererHeight: number;
-    rendererWidth: number;
   }
 ) => {
-  const { camera, zTarget, rendererHeight, rendererWidth } = params;
+  const { camera, zTarget } = params;
 
   if (!camera) {
     console.warn("Camera is required for rayTraceCoordinateAsPercentage");

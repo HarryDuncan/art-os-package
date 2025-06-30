@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 // @ts-nocheck
 import { MutableRefObject, useCallback, useEffect, useRef } from "react";
-import { Camera, WebGLRenderer } from "three";
+import { WebGLRenderer } from "three";
 import PostProcessor from "../components/post-processor/PostProcessor";
 import { sceneUpdateEvent } from "./threadEvents";
 import { useSceneContext } from "../context/context";
@@ -40,7 +40,6 @@ export const useThreadWithPostProcessor = (
 
   useEffect(() => {
     const initPostProcessor = async () => {
-      console.log("camera", camera);
       postProcessor.current = new PostProcessor(
         camera,
         initializedScene,
