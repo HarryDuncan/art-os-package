@@ -3,7 +3,6 @@ import {
   VERTEX_EFFECT_CONFIG_MAP,
   VERTEX_POINT_NAME,
 } from "./vertexEffects.consts";
-
 import { VertexEffectProps } from "./vertexEffects.types";
 import { setupEffectParameters } from "../helpers/generate-transform/formatShaderEffectParameters";
 import { DEFAULT_VERTEX_PARAMETERS } from "../helpers/generate-transform/consts";

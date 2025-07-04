@@ -11,15 +11,23 @@ export const buildAttributes = (config: ParameterConfig[]) => {
 };
 
 const NON_DECLARABLE_ATTRIBUTES = ["position"];
-const createDeclarationStrings = (config: ParameterConfig[]) =>
-  config
-    .flatMap(({ id, valueType }) =>
-      NON_DECLARABLE_ATTRIBUTES.includes(id)
-        ? []
-        : createDeclarationString(
-            SHADER_PROPERTY_TYPES.ATTRIBUTE as keyof typeof SHADER_PROPERTY_TYPES,
-            valueType as keyof typeof SHADER_PROPERTY_VALUE_TYPES,
-            id
-          )
+const createDeclarationStrings = (config: ParameterConfig[]) => {
+  // Create a map to ensure unique attribute IDs
+  const attributeMap = new Map<string, ParameterConfig>();
+
+  config.forEach((attribute) => {
+    if (!NON_DECLARABLE_ATTRIBUTES.includes(attribute.id)) {
+      attributeMap.set(attribute.id, attribute);
+    }
+  });
+
+  return Array.from(attributeMap.values())
+    .map(({ id, valueType }) =>
+      createDeclarationString(
+        SHADER_PROPERTY_TYPES.ATTRIBUTE as keyof typeof SHADER_PROPERTY_TYPES,
+        valueType as keyof typeof SHADER_PROPERTY_VALUE_TYPES,
+        id
+      )
     )
     .join(" \n ");
+};
