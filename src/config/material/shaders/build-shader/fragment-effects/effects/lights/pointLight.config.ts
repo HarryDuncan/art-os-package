@@ -70,7 +70,7 @@ export const POINT_LIGHT_PARAMETERS = [
 
 const POINT_LIGHT_TRANSFORMATION_CONFIG = {
   id: "pointLightFunction",
-  effectCode: [
+  transformCode: [
     `vec3 lightDelta = {{lightPosition}} - {{vPosition}}.xyz;`,
     `float lightDistance = length(lightDelta);`,
     `vec3 lightDirection = normalize(lightDelta);`,

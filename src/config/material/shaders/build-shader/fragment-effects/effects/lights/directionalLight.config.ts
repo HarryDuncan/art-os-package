@@ -61,7 +61,7 @@ export const DIRECTIONAL_LIGHT_PARAMETERS = [
 
 const DIRECTIONAL_LIGHT_TRANSFORMATION_CONFIG = {
   id: "directionalLightFunction",
-  effectCode: [
+  transformCode: [
     `vec3 lightDirection = normalize({{directionalLightPosition}});`,
     `vec3 lightReflection = reflect(-lightDirection, {{vNormal}});`,
     `float shading = dot({{vNormal}}, lightDirection);`,

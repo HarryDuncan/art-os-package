@@ -63,7 +63,7 @@ const EXPLODE_MESH_TRANSFORM = {
 
 const EXPLODE_TRANSFORMATION_CONFIG = {
   id: "explodeTransformation",
-  effectCode: [
+  transformCode: [
     `{{${SHADER_VARIABLE_ASSIGNMENT_KEYS.VERTEX_POINT}}}.x +=  cos({{randomAngle}} * uTime) * {{uStrength}} ;`,
     `{{${SHADER_VARIABLE_ASSIGNMENT_KEYS.VERTEX_POINT}}}.y +=  sin({{randomAngle}} * uTime) * {{uStrength}};`,
     `return {{${SHADER_VARIABLE_ASSIGNMENT_KEYS.VERTEX_POINT}}};`,

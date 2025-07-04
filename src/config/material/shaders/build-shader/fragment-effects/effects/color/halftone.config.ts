@@ -68,7 +68,7 @@ export const HALFTONE_PARAMETERS = [
 
 const HALFTONE_TRANSFORMATION_CONFIG = {
   id: "halftonePoint",
-  effectCode: [
+  transformCode: [
     `float intensity = dot({{vNormal}}, {{lightDirection}});`,
     `intensity = smoothstep({{halftoneLow}}, {{halftoneHigh}}, intensity);`,
     `vec2 uv = gl_FragCoord.xy / {{uResolution}}.y;`,

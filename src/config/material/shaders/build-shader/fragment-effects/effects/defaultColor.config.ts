@@ -25,7 +25,7 @@ export const DEFAULT_COLOR_PARAMETERS = [
 
 const COLOR_TRANSFORMATION_CONFIG = {
   id: "defaultColorFunction",
-  effectCode: [
+  transformCode: [
     `{{${SHADER_VARIABLE_ASSIGNMENT_KEYS.FRAGMENT_COLOR}}} = {{defaultColor}};`,
     `return {{${SHADER_VARIABLE_ASSIGNMENT_KEYS.FRAGMENT_COLOR}}};`,
   ],

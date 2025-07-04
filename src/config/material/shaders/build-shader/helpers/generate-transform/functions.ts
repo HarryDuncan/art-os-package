@@ -1,4 +1,4 @@
-import { ShaderEffectParameter } from "../../buildShader.types";
+import { ShaderParameterMap } from "../../buildShader.types";
 import { FUNCTION_TYPES, SHADER_VARIABLE_TYPES } from "../../constants";
 import { SHADER_PROPERTY_VALUE_TYPES } from "../../constants/shader.consts";
 import { FRAG_COLOR_NAME } from "../../fragment-effects/fragmentEffects.consts";
@@ -52,7 +52,7 @@ const getOperator = (assignedVariableId: string) => {
 export const setUpFunctionInstantiation = (
   assignedVariableId: string,
   functionName: string,
-  functionParameters: ShaderEffectParameter,
+  functionParameters: ShaderParameterMap,
   returnValue: keyof typeof SHADER_PROPERTY_VALUE_TYPES,
   dontDeclare?: boolean | undefined
 ) => {

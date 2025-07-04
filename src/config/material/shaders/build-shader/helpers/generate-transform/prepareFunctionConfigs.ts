@@ -2,7 +2,7 @@ import {
   FormattedFunctionConfig,
   ParameterConfig,
   ParameterFunctionConfig,
-  ShaderEffectParameter,
+  ShaderParameterMap,
   ShaderFunction,
   ShaderTransformationConfig,
 } from "../../buildShader.types";
@@ -43,18 +43,18 @@ const getFunctionParameterMapping = (
   return updatedFunctionParameters;
 };
 
-const parseSubEffectIntoFunctionContent = (
-  effectCode: string[],
+const parseSubEffectIntoTransformCode = (
+  transformCode: string[],
   subEffectData: {
     requiredFunctions: ShaderFunction[];
     transformation: string;
   }[]
 ) => {
   if (subEffectData.length === 0) {
-    return effectCode;
+    return transformCode;
   }
 
-  return effectCode.flatMap((line) => {
+  return transformCode.flatMap((line) => {
     if (line.includes("{{SUB_EFFECTS}}")) {
       return (
         subEffectData
@@ -86,39 +86,41 @@ const parseSubEffectIntoFunctionContent = (
   });
 };
 export const prepareFunctionConfigs = (
-  configs: ShaderTransformationConfig[],
-  shaderEffectParameters: ShaderEffectParameter,
+  transformConfigs: ShaderTransformationConfig[],
+  shaderParameterMap: ShaderParameterMap,
   effectId: string,
-  parametersWithFunctionConfigs: ParameterConfig[],
+  functionBasedParameters: ParameterConfig[],
   isSubEffect: boolean,
   subEffectData: {
     requiredFunctions: ShaderFunction[];
     transformation: string;
   }[]
 ): FormattedFunctionConfig[] => {
-  const functionIds = configs.map(({ id }) => id);
+  const transformIds = transformConfigs.map(({ id }) => id);
 
-  const formattedConfigs = configs.map((config) => {
-    const { id, effectCode, assignedVariableId } = config;
+  const formattedTransformConfigs = transformConfigs.map((config) => {
+    const { id, transformCode, assignedVariableId } = config;
 
     const shaderFunctionType = getShaderFunctionType(
       assignedVariableId,
       isSubEffect
     );
 
-    const updatedEffectCode = ROOT_FUNCTION_TYPES.includes(shaderFunctionType)
-      ? parseSubEffectIntoFunctionContent(effectCode, subEffectData)
-      : effectCode;
+    const updatedTransformCode = ROOT_FUNCTION_TYPES.includes(
+      shaderFunctionType
+    )
+      ? parseSubEffectIntoTransformCode(transformCode, subEffectData)
+      : transformCode;
 
-    const functionDependencies = updatedEffectCode.flatMap((line) => {
+    const functionDependencies = updatedTransformCode.flatMap((line) => {
       const variables = line
         .match(/{{(\w+)}}/g)
         ?.map((match) => match.replace(/[{}]/g, ""));
       if (
         variables &&
-        variables.some((variable) => functionIds.includes(variable))
+        variables.some((variable) => transformIds.includes(variable))
       ) {
-        return variables.filter((variable) => functionIds.includes(variable));
+        return variables.filter((variable) => transformIds.includes(variable));
       }
       return [];
     });
@@ -126,22 +128,22 @@ export const prepareFunctionConfigs = (
     // Get parameters from dependent functions
     const effectFunctionParameterMap = new Map();
     functionDependencies.forEach((depId) => {
-      const dependentFunction = configs.find((f) => f.id === depId);
+      const dependentFunction = transformConfigs.find((f) => f.id === depId);
       if (!dependentFunction) return [];
 
-      dependentFunction.effectCode.forEach((line) => {
+      dependentFunction.transformCode.forEach((line) => {
         const variables = line
           .match(/{{(\w+)}}/g)
           ?.map((match) => match.replace(/[{}]/g, ""));
         if (
           variables &&
-          variables.some((variable) => shaderEffectParameters.has(variable))
+          variables.some((variable) => shaderParameterMap.has(variable))
         ) {
           variables.forEach((variable) => {
-            if (shaderEffectParameters.has(variable)) {
+            if (shaderParameterMap.has(variable)) {
               effectFunctionParameterMap.set(
                 variable,
-                shaderEffectParameters.get(variable)
+                shaderParameterMap.get(variable)
               );
             }
           });
@@ -149,19 +151,19 @@ export const prepareFunctionConfigs = (
       });
     });
 
-    updatedEffectCode.forEach((line) => {
+    updatedTransformCode.forEach((line) => {
       const variables = line
         .match(/{{(\w+)}}/g)
         ?.map((match) => match.replace(/[{}]/g, ""));
       if (
         variables &&
-        variables.some((variable) => shaderEffectParameters.has(variable))
+        variables.some((variable) => shaderParameterMap.has(variable))
       ) {
         variables.forEach((variable) => {
-          if (shaderEffectParameters.has(variable)) {
+          if (shaderParameterMap.has(variable)) {
             effectFunctionParameterMap.set(
               variable,
-              shaderEffectParameters.get(variable)
+              shaderParameterMap.get(variable)
             );
           }
         });
@@ -186,7 +188,7 @@ export const prepareFunctionConfigs = (
 
     return {
       ...config,
-      effectCode: updatedEffectCode,
+      transformCode: updatedTransformCode,
       functionType: shaderFunctionType,
       functionName: `${id}_${shaderSafeGuid(effectId)}`,
       functionDependencyIds: [...new Set(functionDependencies)],
@@ -194,13 +196,18 @@ export const prepareFunctionConfigs = (
     };
   });
 
-  // - if matching function in current config - check for a function add the instantiation parameter config
-  const matchingFunctionConfigs = parametersWithFunctionConfigs.flatMap(
+  /*
+     if the parameter value is based of a function, check if the function is 
+     already defined in the transform configs. Otherwise add the function to the transform configs
+  */
+  const matchingFunctionConfigs = functionBasedParameters.flatMap(
     (parameterConfig) => {
       const { functionConfig, id } = parameterConfig;
-      const matchingFunctionConfig = formattedConfigs.find((config) => {
-        return config.id === functionConfig?.functionId;
-      });
+      const matchingFunctionConfig = formattedTransformConfigs.find(
+        (config) => {
+          return config.id === functionConfig?.functionId;
+        }
+      );
       if (matchingFunctionConfig) {
         const instantiationParameters = getFunctionParameterMapping(
           matchingFunctionConfig as unknown as FormattedFunctionConfig,
@@ -223,7 +230,7 @@ export const prepareFunctionConfigs = (
   );
 
   return [
-    ...formattedConfigs,
+    ...formattedTransformConfigs,
     ...(matchingFunctionConfigs as unknown as FormattedFunctionConfig[]),
   ] as unknown as FormattedFunctionConfig[];
 };

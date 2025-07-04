@@ -18,7 +18,7 @@ export const POINT_SIZE_FROM_TEXTURE_TRANSFORM = {
   id: "pointSizeFromTexture",
   returnValue: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
   assignedVariableId: SHADER_VARIABLE_TYPES.GL_POINT_SIZE,
-  effectCode: [
+  transformCode: [
     `vec4 color = {{getTexturePointColor}}`,
     `float grey = color.r + color.g + color.b;`,
     `float currentPointSize = (noise(vec2(uTime, {{pointIndex}}) * 0.5) + 2.0);`,
@@ -27,10 +27,13 @@ export const POINT_SIZE_FROM_TEXTURE_TRANSFORM = {
     `{`,
     `size = 1.0 ;`,
     `};`,
+    `currentPointSize *= size;`,
+    `currentPointSize *= {{pointSize}};`,
+    `return currentPointSize;`,
   ],
 };
 
-export const IMAGE_TO_POINTS_PARAMETERS = [
+export const POINT_SIZE_FROM_TEXTURE_PARAMETERS = [
   {
     id: "pointSize",
     name: "Point Size",
@@ -41,7 +44,7 @@ export const IMAGE_TO_POINTS_PARAMETERS = [
   },
 ] as ParameterConfig[];
 
-export const IMAGE_TO_POINTS_ATTRIBUTES = [
+export const POINT_SIZE_FROM_TEXTURE_ATTRIBUTES = [
   {
     id: "pointIndex",
     name: "Point Index",
@@ -56,23 +59,23 @@ export const IMAGE_TO_POINTS_ATTRIBUTES = [
   },
 ] as ParameterConfig[];
 
-export const IMAGE_TO_POINTS_REQUIRED_FUNCTIONS = [
+export const POINT_SIZE_FROM_TEXTURE_REQUIRED_FUNCTIONS = [
   randomFloatFunction,
   randFunction,
   noiseFunction,
 ];
 
-const IMAGE_TO_POINTS_MESH_TRANSFORM = {
+const POINT_SIZE_FROM_TEXTURE_MESH_TRANSFORM = {
   id: "pointSizeMeshTransform",
   type: MESH_TRANSFORM_TYPE.CUSTOM_ATTRIBUTES,
   transformedMeshIds: [],
   materialId: "",
-  transformParameterConfigs: [...IMAGE_TO_POINTS_ATTRIBUTES],
+  transformParameterConfigs: [...POINT_SIZE_FROM_TEXTURE_ATTRIBUTES],
 } as unknown as MeshTransformConfig;
 
 export const POINT_SIZE_EFFECT_CONFIG = {
-  functions: IMAGE_TO_POINTS_REQUIRED_FUNCTIONS,
-  meshTransformConfig: [IMAGE_TO_POINTS_MESH_TRANSFORM],
-  parameters: IMAGE_TO_POINTS_PARAMETERS,
+  functions: POINT_SIZE_FROM_TEXTURE_REQUIRED_FUNCTIONS,
+  meshTransformConfig: [POINT_SIZE_FROM_TEXTURE_MESH_TRANSFORM],
+  parameters: POINT_SIZE_FROM_TEXTURE_PARAMETERS,
   transformationConfig: POINT_SIZE_FROM_TEXTURE_TRANSFORM,
 };

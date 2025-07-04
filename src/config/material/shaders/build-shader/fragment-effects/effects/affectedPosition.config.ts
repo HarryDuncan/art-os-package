@@ -41,7 +41,7 @@ export const AFFECTED_POSITION_ATTRIBUTES = [];
 export const affectedPositionTransformConfig = [
   {
     id: "affectedPositionVarying",
-    effectCode: [
+    transformCode: [
       `if({{vIsAffected}} == 1.0){`,
       `{{SUB_EFFECTS}}`,
       `}`,

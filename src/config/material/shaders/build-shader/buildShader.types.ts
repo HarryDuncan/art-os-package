@@ -22,7 +22,7 @@ export type ShaderPropertyConfig = {
   effectIds?: string[];
 };
 
-export type ShaderEffectParameter = Map<string, FunctionParameter>;
+export type ShaderParameterMap = Map<string, FunctionParameter>;
 export type FunctionParameter = {
   id: string;
   valueType: string;
@@ -33,7 +33,7 @@ export type FunctionParameter = {
 export type FormattedFunctionConfig = ShaderTransformationConfig & {
   functionName: string;
   functionDependencyIds: string[];
-  functionParameters: ShaderEffectParameter;
+  functionParameters: ShaderParameterMap;
   functionType: string;
   dontDeclare?: boolean;
 };
@@ -43,7 +43,7 @@ export type DefinedEffectFunction = {
   functionType: string;
   functionName: string;
   assignedVariableId: string | undefined;
-  functionParameters: ShaderEffectParameter;
+  functionParameters: ShaderParameterMap;
   functionDefinition: string;
   dontDeclare?: boolean;
   returnValue: keyof typeof SHADER_PROPERTY_VALUE_TYPES;
@@ -55,7 +55,7 @@ export type ShaderFunction = {
   functionType: string;
   functionName: string;
   assignedVariableId?: string;
-  functionParameters?: ShaderEffectParameter;
+  functionParameters?: ShaderParameterMap;
   parameterMappingInstantiation?: Record<string, string>;
 };
 
@@ -139,7 +139,7 @@ export type BuiltShaderConfig = {
 
 export type ShaderTransformationConfig = {
   id: string;
-  effectCode: string[];
+  transformCode: string[];
   returnValue: keyof typeof SHADER_PROPERTY_VALUE_TYPES;
   assignedVariableId?: keyof typeof SHADER_VARIABLE_TYPES | string;
 };

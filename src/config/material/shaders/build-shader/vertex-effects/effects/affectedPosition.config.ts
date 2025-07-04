@@ -36,7 +36,7 @@ export const AFFECTED_POSITION_ATTRIBUTES = [];
 export const affectedPositionTransformConfig = [
   {
     id: "isPositionAffected",
-    effectCode: [
+    transformCode: [
       `vec2 effectDistanceVector =  vec2({{${SHADER_VARIABLE_ASSIGNMENT_KEYS.VERTEX_POINT}}}.xy) - vec2({{uAffectedPosition}}.xy);`,
       `float effectDistanceLength = length(effectDistanceVector);`,
       `if(effectDistanceLength <= {{uAffectedAreaDistance}} ){`,
@@ -48,7 +48,7 @@ export const affectedPositionTransformConfig = [
   },
   {
     id: "affectedPositionTransform",
-    effectCode: [
+    transformCode: [
       `float isAffected = {{isPositionAffected}};`,
       `if(isAffected == 1.0 ){`,
       `{{SUB_EFFECTS}}`,

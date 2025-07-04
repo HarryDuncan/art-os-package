@@ -5,7 +5,7 @@ import {
 } from "./vertexEffects.consts";
 
 import { VertexEffectProps } from "./vertexEffects.types";
-import { formatShaderEffectParameters } from "../helpers/generate-transform/formatShaderEffectParameters";
+import { setupEffectParameters } from "../helpers/generate-transform/formatShaderEffectParameters";
 import { DEFAULT_VERTEX_PARAMETERS } from "../helpers/generate-transform/consts";
 import { prepareFunctionConfigs } from "../helpers/generate-transform/prepareFunctionConfigs";
 import { defineEffectFunctions } from "../helpers/generate-transform/defineEffectFunctions";
@@ -73,8 +73,8 @@ export const transformSetup = (
     return null;
   }
   const { transformationFunctions, transformation } =
-    generateVertexShaderTransformation(
-      effectConfig.transformationConfig,
+    generateVertexShaderTransforms(
+      effectConfig.transformationConfig as ShaderTransformationConfig[],
       effectProps,
       isSubEffect
     );
@@ -84,17 +84,18 @@ export const transformSetup = (
   };
 };
 
-export const generateVertexShaderTransformation = (
-  configs: ShaderTransformationConfig[],
+export const generateVertexShaderTransforms = (
+  transformConfig: ShaderTransformationConfig[],
   effectProps: VertexEffectProps,
   isSubEffect: boolean
 ): {
   transformation: string;
   transformationFunctions: ShaderFunction[];
 } => {
-  const { id, effectParameters, subEffects } = effectProps;
-  const subEffectParameterIds =
-    subEffects?.flatMap(({ effectParameters }) => effectParameters) ?? [];
+  const { id: effectGuid, subEffects } = effectProps;
+
+  const { shaderParameterMap, effectParameters, functionBasedParameters } =
+    setupEffectParameters(effectProps, DEFAULT_VERTEX_PARAMETERS);
 
   const subEffectDataArray =
     subEffects?.flatMap((subEffect) => {
@@ -105,34 +106,22 @@ export const generateVertexShaderTransformation = (
       return [];
     }) ?? [];
 
-  const allEffectParameters = [...effectParameters, ...subEffectParameterIds];
-  const shaderParameters = formatShaderEffectParameters(
-    DEFAULT_VERTEX_PARAMETERS,
-    allEffectParameters,
-    id
-  );
-
-  const parametersWithFunctionConfigs = effectParameters.filter((parameter) => {
-    const { functionConfig } = parameter;
-    if (functionConfig) return true;
-    return false;
-  });
-  const formattedFunctionConfigs = prepareFunctionConfigs(
-    configs,
-    shaderParameters,
-    id,
-    parametersWithFunctionConfigs,
+  const transformFunctionConfigs = prepareFunctionConfigs(
+    transformConfig,
+    shaderParameterMap,
+    effectGuid,
+    functionBasedParameters,
     isSubEffect,
     subEffectDataArray
   );
 
   const effectFunctions = defineEffectFunctions(
-    formattedFunctionConfigs,
-    shaderParameters,
+    transformFunctionConfigs,
+    shaderParameterMap,
     effectParameters
   );
 
-  const constantDeclarations = allEffectParameters
+  const constantDeclarations = effectParameters
     .filter(
       (p) => !p.isUniform && !p.isAttribute && !p.isVarying && !isSubEffect
     )

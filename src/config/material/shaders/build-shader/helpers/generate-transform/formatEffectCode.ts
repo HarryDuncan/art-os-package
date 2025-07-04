@@ -1,12 +1,12 @@
 import {
   FormattedFunctionConfig,
   ParameterConfig,
-  ShaderEffectParameter,
+  ShaderParameterMap,
 } from "../../buildShader.types";
 
 const formatNestedFunction = (
   functionConfig: FormattedFunctionConfig,
-  shaderEffectParameters: ShaderEffectParameter
+  shaderEffectParameters: ShaderParameterMap
 ) => {
   const { functionParameters } = functionConfig;
   const shaderParameterIds = Array.from(functionParameters.keys()).map((id) => {
@@ -21,7 +21,7 @@ const formatNestedFunction = (
 
 export const formatEffectCodeLines = (
   effectCodeLines: string[],
-  shaderEffectParameters: ShaderEffectParameter,
+  shaderEffectParameters: ShaderParameterMap,
   effectParameters: ParameterConfig[],
   formattedFunctionConfigs: FormattedFunctionConfig[]
 ) => {

@@ -141,10 +141,10 @@ export const generateFragmentShaderTransformation = (
   );
   const advancedShaderVariables = shaderVariableTypes.flatMap(
     (assignedVariableId) => {
-      const effectCode =
+      const transformCode =
         ADVANCED_SHADER_VARIABLE_EFFECT_CODE[assignedVariableId];
-      if (effectCode) {
-        return effectCode;
+      if (transformCode) {
+        return transformCode;
       }
       return [];
     }

@@ -1,6 +1,7 @@
 import { ShaderTransformationConfig } from "../../../../../../../types/materials/index";
 import {
   ASSET_MAPPING_RELATIONSHIPS,
+  ATTRIBUTE_VALUE_TYPES,
   SHADER_PROPERTY_VALUE_TYPES,
 } from "../../../constants/shader.consts";
 import { VARYING_TYPES } from "../../../shader-properties/varyings/varyings.consts";
@@ -16,8 +17,10 @@ import {
   randFunction,
   noiseFunction,
 } from "../../../shader-properties/static-functions";
+import { MESH_TRANSFORM_TYPE } from "../../../../../../mesh/mesh.consts";
+import { MeshTransformConfig } from "../../../../../../../types";
 
-export const IMAGE_TO_POINTS_VARYING_CONFIG = [
+export const PLANE_FROM_IMAGE_VARYING_CONFIG = [
   {
     id: "vUv",
     name: "UV",
@@ -33,22 +36,22 @@ export const IMAGE_TO_POINTS_VARYING_CONFIG = [
   },
 ];
 
-// export const IMAGE_TO_POINTS_ATTRIBUTES = [
-//   {
-//     id: "pointIndex",
-//     name: "Point Index",
-//     description: "Creates an index of each point of the mesh",
-//     configLocked: true,
-//     isAttribute: true,
-//     valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
-//     attributeConfig: {
-//       attributeValueType: ATTRIBUTE_VALUE_TYPES.INDEXED,
-//       assetId: "",
-//     },
-//   },
-// ] as ParameterConfig[];
+export const PLANE_FROM_IMAGE_ATTRIBUTES = [
+  {
+    id: "pointIndex",
+    name: "Point Index",
+    description: "Creates an index of each point of the mesh",
+    configLocked: true,
+    isAttribute: true,
+    valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
+    attributeConfig: {
+      attributeValueType: ATTRIBUTE_VALUE_TYPES.INDEXED,
+      assetId: "",
+    },
+  },
+] as ParameterConfig[];
 
-export const IMAGE_TO_POINTS_PARAMETERS = [
+export const PLANE_FROM_IMAGE_PARAMETERS = [
   {
     id: "convertedTexture",
     name: "Converted Texture",
@@ -87,34 +90,16 @@ export const IMAGE_TO_POINTS_PARAMETERS = [
     configLocked: true,
   },
 
-  ...IMAGE_TO_POINTS_VARYING_CONFIG,
+  ...PLANE_FROM_IMAGE_VARYING_CONFIG,
 ] as ParameterConfig[];
 
-export const IMAGE_TO_POINTS_REQUIRED_FUNCTIONS = [
+export const PLANE_FROM_IMAGE_REQUIRED_FUNCTIONS = [
   randomFloatFunction,
   randFunction,
   noiseFunction,
 ];
 
-const imageToPointsTransformConfig = [
-  {
-    id: "getPointSize",
-    transformCode: [
-      `vec4 color = {{getTexturePointColor}}`,
-      `float grey = color.r + color.g + color.b;`,
-      `float currentPointSize = (noise(vec2(uTime, {{pointIndex}}) * 0.5) + 2.0);`,
-      `float size = 0.0;`,
-      `if( grey < 2.5 )`,
-      `{`,
-      `size = 1.0 ;`,
-      `};`,
-      `currentPointSize *= size;`,
-      `currentPointSize *= {{pointSize}};`,
-      `return currentPointSize;`,
-    ],
-    returnValue: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
-    assignedVariableId: SHADER_VARIABLE_TYPES.GL_POINT_SIZE,
-  },
+export const PLANE_FROM_IMAGE_TRANSFORM_CONFIG = [
   {
     id: "getTexturePointColor",
     transformCode: [
@@ -141,17 +126,17 @@ const imageToPointsTransformConfig = [
   },
 ] as unknown as ShaderTransformationConfig[];
 
-// const IMAGE_TO_POINTS_MESH_TRANSFORM = {
-//   id: "imageToPointsMeshTransform",
-//   type: MESH_TRANSFORM_TYPE.CUSTOM_ATTRIBUTES,
-//   transformedMeshIds: [],
-//   materialId: "",
-//   transformParameterConfigs: [...IMAGE_TO_POINTS_ATTRIBUTES],
-// } as unknown as MeshTransformConfig;
+const PLANE_FROM_IMAGE_MESH_TRANSFORM = {
+  id: "imageToPointsMeshTransform",
+  type: MESH_TRANSFORM_TYPE.CUSTOM_ATTRIBUTES,
+  transformedMeshIds: [],
+  materialId: "",
+  transformParameterConfigs: [...PLANE_FROM_IMAGE_ATTRIBUTES],
+} as unknown as MeshTransformConfig;
 
-export const IMAGE_TO_POINTS_EFFECT_CONFIG = {
-  functions: IMAGE_TO_POINTS_REQUIRED_FUNCTIONS,
-  meshTransformConfig: [QUAD_MESH_TRANSFORM],
-  parameters: IMAGE_TO_POINTS_PARAMETERS,
-  transformationConfig: imageToPointsTransformConfig,
+export const PLANE_FROM_IMAGE_EFFECT_CONFIG = {
+  functions: PLANE_FROM_IMAGE_REQUIRED_FUNCTIONS,
+  meshTransformConfig: [QUAD_MESH_TRANSFORM, PLANE_FROM_IMAGE_MESH_TRANSFORM],
+  parameters: PLANE_FROM_IMAGE_PARAMETERS,
+  transformationConfig: PLANE_FROM_IMAGE_TRANSFORM_CONFIG,
 };

@@ -76,7 +76,7 @@ const POINT_MATERIAL_PARAMETERS = [
 export const pointMaterialTransformConfig = [
   {
     id: "pointMaterial",
-    effectCode: [
+    transformCode: [
       `vec4 textureColor = vec4(1.0, 1.0, 1.0, 1.0);`,
       `if({{pointType}} > 0.0 && {{pointType}} < 0.5){`,
       `textureColor =  texture2D({{uPointTexture1}}, gl_PointCoord);`,
@@ -92,7 +92,7 @@ export const pointMaterialTransformConfig = [
   },
   {
     id: "discardPoints",
-    effectCode: [
+    transformCode: [
       `if({{pointDisplay}} == 0.0 ){`,
       `return 1.0;`,
       `}`,
