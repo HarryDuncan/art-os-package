@@ -10,7 +10,6 @@ export const mapToUniform = (
   interactionConfig: InteractionConfig
 ) => {
   const { materialIds, uniformKeys, keyPointId } = interactionConfig;
-
   if (!materialIds) return;
 
   const meshes = scene.children.flatMap((child) => {

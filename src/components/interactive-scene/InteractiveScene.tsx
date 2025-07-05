@@ -104,20 +104,21 @@ export class InteractiveScene extends Scene {
         const formattedInteractionConfig = {
           materialIds: interactionConfig.materialIds,
           uniformKeys: Object.values(interactionConfig.mappingTo).flatMap(
-            (mapping) => mapping.map((m) => m.parameterKey)
+            (mapping) =>
+              mapping.map((m) => `${m.parameterKey}_${m.parameterId}`)
           ),
           keyPointId: interactionConfig.sourceConfig.keypointId,
         };
 
         const eventHandler = (e: Event) => {
           const eventData = keyPointExtractor(e, params);
-
           eventFunction(
             this as InteractiveScene,
             eventData,
             formattedInteractionConfig
           );
         };
+
         this.eventListeners[interactionConfig.sourceConfig.eventKey] =
           eventHandler;
         document.addEventListener(
