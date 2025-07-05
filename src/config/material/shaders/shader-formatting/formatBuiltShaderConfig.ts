@@ -97,6 +97,7 @@ export const formatBuiltShaderConfig = (
           effect,
           shaderEffectConfigs
         );
+
         return formattedEffect;
       }) ?? [],
     uniformConfigs: [

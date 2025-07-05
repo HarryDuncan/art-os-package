@@ -5,7 +5,6 @@ import {
 } from "../../buildShader.types";
 import { FragmentEffectProps } from "../../fragment-effects/fragmentShader.types";
 import { VertexEffectProps } from "../../vertex-effects/vertexEffects.types";
-import { shaderSafeGuid } from "./functions";
 
 export const setupEffectParameters = (
   effectProps: VertexEffectProps | FragmentEffectProps,
@@ -13,7 +12,6 @@ export const setupEffectParameters = (
 ): {
   shaderParameterMap: ShaderParameterMap;
   effectParameters: ParameterConfig[];
-  functionBasedParameters: ParameterConfig[];
 } => {
   const { id, effectParameters, subEffects } = effectProps;
   const allEffectParameters = [
@@ -26,16 +24,9 @@ export const setupEffectParameters = (
     id
   );
 
-  const functionBasedParameters = allEffectParameters.filter((parameter) => {
-    const { functionConfig } = parameter;
-    if (functionConfig) return true;
-    return false;
-  });
-
   return {
     shaderParameterMap,
     effectParameters: allEffectParameters,
-    functionBasedParameters,
   };
 };
 
@@ -54,15 +45,23 @@ export const formatShaderEffectParameters = (
 
   const effectParamsMap = effectParameters.reduce((acc, effectParameter) => {
     const { id: parameterId, guid } = effectParameter;
-    if (effectParameter.isAttribute || effectParameter.isVarying) {
+    if (effectParameter.isAttribute) {
       return acc;
+    } else if (effectParameter.isVarying) {
+      acc.set(parameterId, {
+        id: parameterId,
+        valueType: effectParameter.valueType,
+        shaderParameterId: parameterId,
+        parameterConfig: effectParameter,
+      } as FunctionParameter);
+    } else {
+      acc.set(parameterId, {
+        id: parameterId,
+        valueType: effectParameter.valueType,
+        shaderParameterId: `${parameterId}_${guid}`,
+        parameterConfig: effectParameter,
+      } as FunctionParameter);
     }
-    acc.set(parameterId, {
-      id: parameterId,
-      valueType: effectParameter.valueType,
-      shaderParameterId: `${parameterId}_${guid}`,
-      parameterConfig: effectParameter,
-    } as FunctionParameter);
 
     return acc;
   }, new Map() as ShaderParameterMap);

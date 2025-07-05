@@ -40,6 +40,7 @@ const getFunctionParameterMapping = (
       }
     }
   });
+
   return updatedFunctionParameters;
 };
 
@@ -200,11 +201,13 @@ export const prepareFunctionConfigs = (
   const functionBasedParameters = Array.from(
     shaderParameterMap.values()
   ).filter((parameter) => parameter.parameterConfig?.isFunctionBased);
+
   const matchingFunctionConfigs = functionBasedParameters.flatMap(
     ({ parameterConfig, id }) => {
       if (!parameterConfig) {
         return [];
       }
+      console.log(parameterConfig);
       const { functionConfig } = parameterConfig;
       const matchingFunctionConfig = formattedTransformConfigs.find(
         (config) => {

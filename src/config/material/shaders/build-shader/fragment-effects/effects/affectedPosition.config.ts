@@ -30,7 +30,7 @@ export const AFFECTED_POSITION_PARAMETERS = [
       functionId: "isPositionAffected",
       functionInstantiationParameterMapping: {
         [SHADER_VARIABLE_ASSIGNMENT_KEYS.VERTEX_POINT]:
-          SHADER_VARIABLE_TYPES.POSITION,
+          SHADER_VARIABLE_ASSIGNMENT_KEYS.VERTEX_POINT,
       },
     },
   },
