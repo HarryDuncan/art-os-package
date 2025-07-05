@@ -95,7 +95,7 @@ export const generateVertexShaderTransforms = (
   transformationFunctions: ShaderFunction[];
   constantDeclarations: string[];
 } => {
-  const { id: effectGuid, subEffects } = effectProps;
+  const { subEffects } = effectProps;
 
   const { shaderParameterMap, effectParameters } = setupEffectParameters(
     effectProps,
@@ -114,7 +114,6 @@ export const generateVertexShaderTransforms = (
   const transformFunctionConfigs = prepareFunctionConfigs(
     transformConfig,
     shaderParameterMap,
-    effectGuid,
     isSubEffect,
     subEffectDataArray
   );

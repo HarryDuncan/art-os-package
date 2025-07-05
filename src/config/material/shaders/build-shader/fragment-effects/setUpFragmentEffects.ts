@@ -140,7 +140,7 @@ export const generateFragmentShaderTransformation = (
   constantDeclarations: string[];
   advancedShaderVariables: AdvancedShaderVariableMap;
 } => {
-  const { id, subEffects } = effectProps;
+  const { subEffects } = effectProps;
   const { shaderParameterMap, effectParameters } = setupEffectParameters(
     effectProps,
     DEFAULT_FRAGMENT_PARAMETERS
@@ -149,7 +149,6 @@ export const generateFragmentShaderTransformation = (
   const subEffectDataArray =
     subEffects?.flatMap((subEffect) => {
       const subEffectData = transformSetup(subEffect, true);
-
       if (subEffectData) {
         return subEffectData;
       }
@@ -159,7 +158,6 @@ export const generateFragmentShaderTransformation = (
   const formattedFunctionConfigs = prepareFunctionConfigs(
     configs,
     shaderParameterMap,
-    id,
     isSubEffect,
     subEffectDataArray
   );
@@ -178,6 +176,18 @@ export const generateFragmentShaderTransformation = (
 
   const constantDeclarations = generateConstantDeclarations(shaderParameterMap);
 
+  const advancedShaderVariables = shaderVariableTypes.reduce(
+    (map, assignedVariableId) => {
+      const transformCode =
+        ADVANCED_SHADER_VARIABLE_EFFECT_CODE[assignedVariableId];
+      if (transformCode) {
+        map.set(assignedVariableId, transformCode);
+      }
+      return map;
+    },
+    new Map() as AdvancedShaderVariableMap
+  );
+
   const mainFunctionInstantiations = effectFunctions.flatMap(
     ({
       functionParameters,
@@ -189,7 +199,8 @@ export const generateFragmentShaderTransformation = (
     }) => {
       if (
         !assignedVariableId ||
-        FUNCTION_TYPES.FRAGMENT_SUB_EFFECT === functionType
+        FUNCTION_TYPES.FRAGMENT_SUB_EFFECT === functionType ||
+        ADVANCED_SHADER_VARIABLE_EFFECT_CODE[assignedVariableId]
       ) {
         return [];
       }
@@ -206,17 +217,6 @@ export const generateFragmentShaderTransformation = (
 
   const transformation = [...mainFunctionInstantiations].join("\n");
 
-  const advancedShaderVariables = shaderVariableTypes.reduce(
-    (map, assignedVariableId) => {
-      const transformCode =
-        ADVANCED_SHADER_VARIABLE_EFFECT_CODE[assignedVariableId];
-      if (transformCode) {
-        map.set(assignedVariableId, transformCode);
-      }
-      return map;
-    },
-    new Map() as AdvancedShaderVariableMap
-  );
   const transformationFunctions = [
     ...effectFunctions.filter(({ dontDeclare }) => {
       return !dontDeclare;

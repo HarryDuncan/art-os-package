@@ -1,4 +1,5 @@
 import {
+  AdvancedShaderVariableMap,
   FormattedFunctionConfig,
   ParameterFunctionConfig,
   ShaderParameterMap,
@@ -61,7 +62,6 @@ const parseSubEffectIntoTransformCode = (
           .flatMap((subEffect) => {
             const { requiredFunctions, transformation } = subEffect;
             const selectedFunction = requiredFunctions[0];
-
             const subEffectAssignedVariableId =
               selectedFunction.assignedVariableId ===
               SHADER_VARIABLE_TYPES.VERTEX_POINT
@@ -87,7 +87,6 @@ const parseSubEffectIntoTransformCode = (
 export const prepareFunctionConfigs = (
   transformConfigs: ShaderTransformationConfig[],
   shaderParameterMap: ShaderParameterMap,
-  effectId: string,
   isSubEffect: boolean,
   subEffectData: {
     requiredFunctions: ShaderFunction[];
