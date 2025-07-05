@@ -26,6 +26,7 @@ export const DEFAULT_FRAGMENT_PARAMETERS: Partial<FunctionParameter>[] = [
 ];
 
 const DISCARD_COLOR_EFFECT_CODE = {
+  key: SHADER_VARIABLE_TYPES.DISCARD_COLOR,
   instantiation: `float ${getAssignedVariableName(
     SHADER_VARIABLE_TYPES.DISCARD_COLOR
   )};`,

@@ -37,7 +37,6 @@ const getVaryingFromFragmentEffectMeshTransforms = (
   );
   if (fragmentEffectIds.length === 0) return [];
 
-  console.log("meshTransforms", meshTransforms);
   const fragmentAttributeConfigs = meshTransforms.flatMap((transform) => {
     const isFragmentEffect = fragmentEffectIds.includes(
       transform.effectId ?? ""
@@ -45,7 +44,6 @@ const getVaryingFromFragmentEffectMeshTransforms = (
     if (!isFragmentEffect || !transform.transformParameterConfigs) return [];
     return transform.transformParameterConfigs;
   });
-  console.log("fragmentAttributeConfigs", fragmentAttributeConfigs);
   return fragmentAttributeConfigs.map((attributeConfig) => {
     return {
       ...attributeConfig,

@@ -38,6 +38,7 @@ export const ATTRIBUTE_VALUE_TYPES = {
   RANDOMIZED_BINARY: "RANDOMIZED_BINARY",
 };
 
+export const DEFAULT_UNIFORM_IDS = ["uTime"];
 export const DEFAULT_UNIFORMS = [
   {
     id: "uTime",

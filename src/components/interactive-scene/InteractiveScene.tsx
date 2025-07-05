@@ -118,7 +118,6 @@ export class InteractiveScene extends Scene {
             formattedInteractionConfig
           );
         };
-        console.log(interactionConfig.sourceConfig.eventKey);
         this.eventListeners[interactionConfig.sourceConfig.eventKey] =
           eventHandler;
         document.addEventListener(

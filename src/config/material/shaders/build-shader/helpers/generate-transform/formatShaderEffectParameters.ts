@@ -45,27 +45,23 @@ export const formatShaderEffectParameters = (
   effectGuid: string
 ): ShaderParameterMap => {
   const defaultParamsMap = defaultParameters.reduce((acc, effect) => {
-    const functionId = `${effect.id}_${shaderSafeGuid(effectGuid)}`;
     acc.set(effect.id!, {
       ...effect,
-      functionId,
+      shaderParameterId: `${effect.id}_${effectGuid}`,
     } as FunctionParameter);
     return acc;
   }, new Map() as ShaderParameterMap);
 
   const effectParamsMap = effectParameters.reduce((acc, effectParameter) => {
     const { id: parameterId, guid } = effectParameter;
-    if (
-      effectParameter.isUniform ||
-      effectParameter.isAttribute ||
-      effectParameter.isVarying
-    ) {
+    if (effectParameter.isAttribute || effectParameter.isVarying) {
       return acc;
     }
     acc.set(parameterId, {
       id: parameterId,
       valueType: effectParameter.valueType,
-      functionId: `${parameterId}_${shaderSafeGuid(guid)}`,
+      shaderParameterId: `${parameterId}_${guid}`,
+      parameterConfig: effectParameter,
     } as FunctionParameter);
 
     return acc;

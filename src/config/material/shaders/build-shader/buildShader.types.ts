@@ -26,7 +26,8 @@ export type ShaderParameterMap = Map<string, FunctionParameter>;
 export type FunctionParameter = {
   id: string;
   valueType: string;
-  functionId: string;
+  shaderParameterId: string;
+  parameterConfig?: ParameterConfig;
   default?: boolean;
   mappedParameterKey?: string;
 };
@@ -99,6 +100,7 @@ export type ParameterFunctionConfig = {
   effectId?: string;
 };
 export type ParameterConfig = ShaderPropertyConfig & {
+  uniqueId?: string;
   configLocked?: boolean;
   description?: string;
   isUniform?: boolean;
@@ -149,4 +151,11 @@ export type ShaderEffectSchema = {
   meshTransformConfig: MeshTransformConfig[];
   parameters: ParameterConfig[];
   transformationConfig: ShaderTransformationConfig[];
+};
+
+export type AdvancedShaderVariableMap = Map<string, AdvancedShaderVariable>;
+export type AdvancedShaderVariable = {
+  key: string;
+  instantiation: string;
+  assignment: string;
 };

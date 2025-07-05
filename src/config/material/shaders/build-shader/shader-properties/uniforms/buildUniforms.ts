@@ -6,13 +6,14 @@ import {
 } from "../../constants/shader.consts";
 import { createDeclarationString } from "../../helpers/createDeclarationString";
 
+const DEFAULT_UNIFORMS = ["uTime"];
 export const buildUniformDeclaration = (uniformConfigs: ParameterConfig[]) => {
   const customStrings = uniformConfigs.map(
-    ({ id, valueType, arrayLength, structProperties }) =>
+    ({ id, valueType, arrayLength, structProperties, guid }) =>
       createDeclarationString(
         SHADER_PROPERTY_TYPES.UNIFORM as keyof typeof SHADER_PROPERTY_TYPES,
         valueType as keyof typeof SHADER_PROPERTY_VALUE_TYPES,
-        id,
+        DEFAULT_UNIFORMS.includes(id) ? id : `${id}_${guid}`,
         arrayLength,
         structProperties
       )

@@ -1,6 +1,5 @@
 import {
   FormattedFunctionConfig,
-  ParameterConfig,
   ParameterFunctionConfig,
   ShaderParameterMap,
   ShaderFunction,
@@ -12,7 +11,7 @@ import {
   ROOT_ASSIGNED_VARIABLES,
   ROOT_FUNCTION_TYPES,
 } from "./consts";
-import { getShaderFunctionType, shaderSafeGuid } from "./functions";
+import { getShaderFunctionType } from "./functions";
 
 const getFunctionParameterMapping = (
   matchingFunctionConfig: FormattedFunctionConfig,
@@ -89,7 +88,6 @@ export const prepareFunctionConfigs = (
   transformConfigs: ShaderTransformationConfig[],
   shaderParameterMap: ShaderParameterMap,
   effectId: string,
-  functionBasedParameters: ParameterConfig[],
   isSubEffect: boolean,
   subEffectData: {
     requiredFunctions: ShaderFunction[];
@@ -190,7 +188,7 @@ export const prepareFunctionConfigs = (
       ...config,
       transformCode: updatedTransformCode,
       functionType: shaderFunctionType,
-      functionName: `${id}_${shaderSafeGuid(effectId)}`,
+      functionName: `${id}`,
       functionDependencyIds: [...new Set(functionDependencies)],
       functionParameters: effectFunctionParameterMap,
     };
@@ -200,9 +198,15 @@ export const prepareFunctionConfigs = (
      if the parameter value is based of a function, check if the function is 
      already defined in the transform configs. Otherwise add the function to the transform configs
   */
+  const functionBasedParameters = Array.from(
+    shaderParameterMap.values()
+  ).filter((parameter) => parameter.parameterConfig?.isFunctionBased);
   const matchingFunctionConfigs = functionBasedParameters.flatMap(
-    (parameterConfig) => {
-      const { functionConfig, id } = parameterConfig;
+    ({ parameterConfig, id }) => {
+      if (!parameterConfig) {
+        return [];
+      }
+      const { functionConfig } = parameterConfig;
       const matchingFunctionConfig = formattedTransformConfigs.find(
         (config) => {
           return config.id === functionConfig?.functionId;

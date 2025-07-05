@@ -13,42 +13,44 @@ import {
   ShaderTransformationConfig,
   VertexEffectConfig,
 } from "../buildShader.types";
-import {
-  parseRawValueToShader,
-  shaderValueTypeInstantiation,
-} from "../helpers/safeParseValue";
 import { setUpFunctionInstantiation } from "../helpers/generate-transform/functions";
 import { FUNCTION_TYPES } from "../constants";
+import { generateConstantDeclarations } from "../helpers/generate-transform/constantDeclarations";
 
 export const setUpVertexEffects = (vertexEffects: VertexEffectConfig[]) => {
-  const { transformations, requiredFunctions } =
+  const { transformations, requiredFunctions, constantDeclarations } =
     getVertexTransformations(vertexEffects);
   const viewMatrix = `gl_Position = projectionMatrix * modelViewMatrix * vec4(${VERTEX_POINT_NAME}.xyz, 1.0);`;
   return {
     transformations,
     requiredFunctions,
     viewMatrix,
+    constantDeclarations,
   };
 };
 
 const getVertexTransformations = (vertexEffects: VertexEffectConfig[]) => {
   const unmergedTransformations: string[] = [];
   const allRequiredFunctions: ShaderFunction[][] = [];
-
+  const allConstantDeclarations: string[][] = [];
   vertexEffects.forEach((effect) => {
     const vertexEffectData = transformSetup(effect, false);
     if (vertexEffectData !== null) {
-      const { transformation, requiredFunctions } = vertexEffectData ?? {};
+      const { transformation, requiredFunctions, constantDeclarations } =
+        vertexEffectData ?? {};
       unmergedTransformations.push(transformation);
       allRequiredFunctions.push(requiredFunctions);
+      allConstantDeclarations.push(constantDeclarations);
     }
   });
 
   const mergedRequiredFunction = mergeShaderFunctions(allRequiredFunctions);
   const transformations = unmergedTransformations.join("");
+  const constantDeclarations = allConstantDeclarations.flat().join("");
   return {
     transformations,
     requiredFunctions: mergedRequiredFunction,
+    constantDeclarations,
   };
 };
 
@@ -71,7 +73,7 @@ export const transformSetup = (
   if (!effectConfig) {
     return null;
   }
-  const { transformationFunctions, transformation } =
+  const { transformationFunctions, transformation, constantDeclarations } =
     generateVertexShaderTransforms(
       effectConfig.transformationConfig as ShaderTransformationConfig[],
       effectProps,
@@ -80,6 +82,7 @@ export const transformSetup = (
   return {
     transformation,
     requiredFunctions: [...effectConfig.functions, ...transformationFunctions],
+    constantDeclarations,
   };
 };
 
@@ -90,11 +93,14 @@ export const generateVertexShaderTransforms = (
 ): {
   transformation: string;
   transformationFunctions: ShaderFunction[];
+  constantDeclarations: string[];
 } => {
   const { id: effectGuid, subEffects } = effectProps;
 
-  const { shaderParameterMap, effectParameters, functionBasedParameters } =
-    setupEffectParameters(effectProps, DEFAULT_VERTEX_PARAMETERS);
+  const { shaderParameterMap, effectParameters } = setupEffectParameters(
+    effectProps,
+    DEFAULT_VERTEX_PARAMETERS
+  );
 
   const subEffectDataArray =
     subEffects?.flatMap((subEffect) => {
@@ -109,7 +115,6 @@ export const generateVertexShaderTransforms = (
     transformConfig,
     shaderParameterMap,
     effectGuid,
-    functionBasedParameters,
     isSubEffect,
     subEffectDataArray
   );
@@ -120,15 +125,7 @@ export const generateVertexShaderTransforms = (
     effectParameters
   );
 
-  const constantDeclarations = effectParameters
-    .filter(
-      (p) => !p.isUniform && !p.isAttribute && !p.isVarying && !isSubEffect
-    )
-    .map((p) => {
-      return `${shaderValueTypeInstantiation(p.valueType)} ${
-        p.id
-      } = ${parseRawValueToShader(p.valueType, p.value)};`;
-    });
+  const constantDeclarations = generateConstantDeclarations(shaderParameterMap);
 
   const mainFunctionInstantiations = effectFunctions
     .sort((a, b) =>
@@ -159,10 +156,7 @@ export const generateVertexShaderTransforms = (
       }
     );
 
-  const transformation = [
-    ...constantDeclarations,
-    ...mainFunctionInstantiations,
-  ].join("\n");
+  const transformation = [...mainFunctionInstantiations].join("\n");
 
   const transformationFunctions = [
     ...effectFunctions.filter(({ dontDeclare }) => {
@@ -170,5 +164,9 @@ export const generateVertexShaderTransforms = (
     }),
     ...subEffectDataArray.flatMap(({ requiredFunctions }) => requiredFunctions),
   ];
-  return { transformation, transformationFunctions };
+  return {
+    transformation,
+    transformationFunctions,
+    constantDeclarations,
+  };
 };

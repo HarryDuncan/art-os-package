@@ -26,7 +26,6 @@ export const buildVaryings = (
 };
 
 const varyingDeclarations = (config: ParameterConfig[]) => {
-  console.log("config", config);
   const declarationStrings = config.map(({ id, valueType }) =>
     createDeclarationString(
       SHADER_PROPERTY_TYPES.VARYING as keyof typeof SHADER_PROPERTY_TYPES,

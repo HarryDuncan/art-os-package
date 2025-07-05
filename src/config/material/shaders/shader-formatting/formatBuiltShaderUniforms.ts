@@ -5,6 +5,7 @@ import {
   ParameterConfig,
   UniformObject,
 } from "../../../../types/materials/index";
+import { DEFAULT_UNIFORM_IDS } from "../build-shader/constants/shader.consts";
 
 export const formatBuiltShaderUniforms = (
   uniformConfigs: ParameterConfig[],
@@ -13,21 +14,26 @@ export const formatBuiltShaderUniforms = (
   const uniformParameters = uniformConfigs.filter(
     (uniform) => uniform.isUniform
   );
-
   const assetMapping =
     uniformParameters.flatMap((uniformConfigs) =>
       uniformConfigs.isAssetMapped && uniformConfigs.assetMappingConfig
-        ? { ...uniformConfigs.assetMappingConfig, uniformId: uniformConfigs.id }
+        ? {
+            ...uniformConfigs.assetMappingConfig,
+            uniformId: `${uniformConfigs.id}_${uniformConfigs.guid}`,
+          }
         : []
     ) || [];
 
   const uniforms = uniformParameters.reduce((acc, uniform) => {
-    acc[uniform.id] = { value: uniform.value };
+    if (DEFAULT_UNIFORM_IDS.includes(uniform.id)) {
+      acc[uniform.id] = { value: uniform.value };
+      return acc;
+    }
+    acc[`${uniform.id}_${uniform.guid}`] = { value: uniform.value };
     return acc;
   }, {} as UniformObject);
   const mappedUniforms = mapAssetsToUniforms(assetMapping, assets, uniforms);
   const formattedUniforms = formatDefaultShaderValues(mappedUniforms);
-
   return formattedUniforms as { [uniform: string]: IUniform<unknown> };
 };
 

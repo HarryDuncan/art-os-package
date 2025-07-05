@@ -26,8 +26,10 @@ export const defineEffectFunctions = (
       const returnTypeString = shaderValueTypeInstantiation(returnValue);
 
       const functionInputs = Array.from(functionParameters.values()).map(
-        ({ functionId, valueType }) => {
-          return `${shaderValueTypeInstantiation(valueType)} ${functionId}`;
+        ({ shaderParameterId, valueType }) => {
+          return `${shaderValueTypeInstantiation(
+            valueType
+          )} ${shaderParameterId}`;
         }
       );
       const functionDeclaration = `${returnTypeString} ${functionName}(${functionInputs.join(

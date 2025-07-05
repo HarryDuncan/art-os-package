@@ -14,7 +14,7 @@ const formatNestedFunction = (
     if (!parameter) {
       return null;
     }
-    return `${parameter.functionId}`;
+    return `${parameter.shaderParameterId}`;
   });
   return `${functionConfig.functionName}(${shaderParameterIds.join(",")});`;
 };
@@ -57,7 +57,7 @@ export const formatEffectCodeLines = (
         return match;
       }
 
-      return `${parameter.functionId}`;
+      return `${parameter.shaderParameterId}`;
     });
   });
 };

@@ -73,7 +73,10 @@ export const setUpFunctionInstantiation = (
   return `${assignedVariableName} ${operator} ${functionName}(${Array.from(
     functionParameters.values()
   )
-    .map(({ id, mappedParameterKey }) => mappedParameterKey ?? id)
+    .map(
+      ({ id, shaderParameterId, mappedParameterKey }) =>
+        mappedParameterKey ?? shaderParameterId ?? id
+    )
     .join(", ")});`;
 };
 
