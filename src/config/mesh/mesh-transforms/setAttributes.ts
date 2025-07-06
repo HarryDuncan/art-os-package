@@ -1,7 +1,7 @@
 import { BufferAttribute, BufferGeometry } from "three";
-import { getVerticesCount } from "../attribute.functions";
-import { ATTRIBUTE_VALUE_TYPES } from "../../../material/shaders/build-shader/constants/shader.consts";
-import { TransformValueConfig } from "../../../../types";
+import { getVerticesCount } from "./attribute.functions";
+import { ATTRIBUTE_VALUE_TYPES } from "../../material/shaders/build-shader/constants/shader.consts";
+import { TransformValueConfig } from "../../../types";
 
 export const setAttributes = (
   bufferGeometry: BufferGeometry,

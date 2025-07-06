@@ -5,7 +5,7 @@ import { setUpMeshes } from "./mesh-setup/setUpMeshes";
 import { setUpRandomizedMeshConfigs } from "./randomized/setUpRandomizedMeshConfigs";
 import { Asset } from "../../types";
 import { SceneConfig } from "../../types/config.types";
-import { transformGeometry } from "./geometry/transform-geometries/transformGeometries";
+import { applyMeshTransforms } from "./mesh-transforms/applyMeshTransforms";
 import { multipleMeshes } from "./multiple-meshes/multipleMeshes";
 // import { setUpAdvancedMeshes } from "./advanced-mesh/setUpAdvancedMeshes";
 import { GLTF } from "three/examples/jsm/loaders/GLTFLoader.js";
@@ -29,7 +29,7 @@ export const getMeshesFromConfig = (
   ];
   const formattedGeometry = formatGeometry(assets, allMeshes);
 
-  const transformedGeometry = transformGeometry(
+  const transformedGeometry = applyMeshTransforms(
     meshTransforms ?? [],
     formattedGeometry,
     assets

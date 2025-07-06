@@ -1,4 +1,5 @@
 import {
+  ASSET_MAPPING_RELATIONSHIPS,
   ATTRIBUTE_VALUE_TYPES,
   SHADER_PROPERTY_VALUE_TYPES,
 } from "../../../constants/shader.consts";
@@ -7,6 +8,7 @@ import { MESH_TRANSFORM_TYPE } from "../../../../../../mesh/mesh.consts";
 import {
   MeshTransformConfig,
   ParameterConfig,
+  ShaderTransformationConfig,
 } from "../../../../../../../types";
 import {
   randFunction,
@@ -14,24 +16,35 @@ import {
 } from "../../../shader-properties/static-functions/random";
 import { noiseFunction } from "../../../shader-properties/static-functions/noise";
 
-export const POINT_SIZE_FROM_TEXTURE_TRANSFORM = {
-  id: "pointSizeFromTexture",
-  returnValue: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
-  assignedVariableId: SHADER_VARIABLE_TYPES.GL_POINT_SIZE,
-  transformCode: [
-    `vec4 color = {{getTexturePointColor}}`,
-    `float grey = color.r + color.g + color.b;`,
-    `float currentPointSize = (noise(vec2(uTime, {{pointIndex}}) * 0.5) + 2.0);`,
-    `float size = 0.0;`,
-    `if( grey < 2.5 )`,
-    `{`,
-    `size = 1.0 ;`,
-    `};`,
-    `currentPointSize *= size;`,
-    `currentPointSize *= {{pointSize}};`,
-    `return currentPointSize;`,
-  ],
-};
+export const POINT_SIZE_FROM_TEXTURE_TRANSFORM = [
+  {
+    id: "getTexturePointColor",
+    transformCode: [
+      `vec2 puv = {{pointPosition}}.xy / {{textureSize}};`,
+      `vec4 color = texture2D({{convertedTexture}}, puv);`,
+      `return color;`,
+    ],
+    returnValue: SHADER_PROPERTY_VALUE_TYPES.VEC4,
+  },
+  {
+    id: "pointSizeFromTexture",
+    returnValue: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
+    assignedVariableId: SHADER_VARIABLE_TYPES.GL_POINT_SIZE,
+    transformCode: [
+      `vec4 color = {{getTexturePointColor}}`,
+      `float grey = color.r + color.g + color.b;`,
+      `float currentPointSize = (noise(vec2(uTime, {{pointIndex}}) * 0.5) + 2.0);`,
+      `float size = 0.0;`,
+      `if( grey < 2.5 )`,
+      `{`,
+      `size = 1.0 ;`,
+      `};`,
+      `currentPointSize *= size;`,
+      `currentPointSize *= {{pointSize}};`,
+      `return currentPointSize;`,
+    ],
+  },
+] as ShaderTransformationConfig[];
 
 export const POINT_SIZE_FROM_TEXTURE_PARAMETERS = [
   {
@@ -41,6 +54,29 @@ export const POINT_SIZE_FROM_TEXTURE_PARAMETERS = [
     valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
     value: 10,
     configLocked: true,
+  },
+  {
+    id: "convertedTexture",
+    name: "Converted Texture",
+    description: "The texture to convert to points",
+    valueType: SHADER_PROPERTY_VALUE_TYPES.SAMPLER2D,
+    value: null,
+    configLocked: true,
+    isAssetMapped: true,
+    assetMappingConfig: {
+      relationship: ASSET_MAPPING_RELATIONSHIPS.TEXTURE,
+    },
+  },
+  {
+    id: "textureSize",
+    name: "TextureSize",
+    valueType: SHADER_PROPERTY_VALUE_TYPES.VEC2,
+    value: null,
+    configLocked: true,
+    isAssetMapped: true,
+    assetMappingConfig: {
+      relationship: ASSET_MAPPING_RELATIONSHIPS.DIMENSION,
+    },
   },
 ] as ParameterConfig[];
 

@@ -1,13 +1,13 @@
-import { Asset } from "../../../../types";
+import { Asset } from "../../../types";
 import { Texture, Vector2 } from "three";
 import {
   ASSET_MAPPING_RELATIONSHIPS,
   MESH_TRANSFORM_TYPE,
-} from "../../../../consts";
+} from "../../../consts";
 import {
   MeshTransformConfig,
   TransformValueConfig,
-} from "../../../../types/config.types";
+} from "../../../types/config.types";
 
 const TRANSFORM_SORTING = [
   MESH_TRANSFORM_TYPE.SET_UP_QUAD,

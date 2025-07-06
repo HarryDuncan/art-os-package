@@ -38,8 +38,8 @@ const getVaryingFromFragmentEffectMeshTransforms = (
   if (fragmentEffectIds.length === 0) return [];
 
   const fragmentAttributeConfigs = meshTransforms.flatMap((transform) => {
-    const isFragmentEffect = fragmentEffectIds.includes(
-      transform.effectId ?? ""
+    const isFragmentEffect = fragmentEffectIds.some((effectId) =>
+      transform.effectIds?.includes(effectId)
     );
     if (!isFragmentEffect || !transform.transformParameterConfigs) return [];
     return transform.transformParameterConfigs;

@@ -122,16 +122,27 @@ export type TransformValueConfig = {
   type: string;
 };
 
+export type SplitValueConfig = {
+  numSplits: number;
+  splitValues: number[];
+};
+
 export type MeshTransformConfig = {
   id: string;
   guid?: string;
-  effectId?: string;
+  effectIds?: string[];
+
   type: MeshTransformType;
+
   transformedMeshIds: string[];
   parameterIds?: string[];
   materialId?: string;
   transformParameterConfigs?: ParameterConfig[];
   values: Record<string, TransformValueConfig>;
+
+  isEditable?: boolean;
+  transformEditorType?: string;
+  meshTransformEditorValues?: SplitValueConfig;
 };
 
 export type ScreenSizeAdjustmentConfig = {

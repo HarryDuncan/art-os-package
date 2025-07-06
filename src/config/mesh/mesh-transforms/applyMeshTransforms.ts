@@ -2,14 +2,14 @@ import { BufferAttribute, Vector2 } from "three";
 import {
   MeshTransformConfig,
   TransformValueConfig,
-} from "../../../../types/config.types";
-import { FormattedGeometry } from "../../../../assets/geometry/geometry.types";
-import { MESH_TRANSFORM_TYPE } from "../../mesh.consts";
+} from "../../../types/config.types";
+import { FormattedGeometry } from "../../../assets/geometry/geometry.types";
+import { MESH_TRANSFORM_TYPE } from "../mesh.consts";
 import { formatMeshTransforms } from "./formatMeshTransforms";
-import { Asset } from "../../../../types";
-import { setAttributes } from "../../attributes/set-attributes/setAttributes";
+import { Asset } from "../../../types";
+import { setAttributes } from "./setAttributes";
 
-export const transformGeometry = (
+export const applyMeshTransforms = (
   meshTransforms: MeshTransformConfig[] | undefined,
   formattedGeometries: FormattedGeometry[],
   assets: Asset[]

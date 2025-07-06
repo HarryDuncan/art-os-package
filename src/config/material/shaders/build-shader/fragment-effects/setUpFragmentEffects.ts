@@ -200,7 +200,8 @@ export const generateFragmentShaderTransformation = (
       if (
         !assignedVariableId ||
         FUNCTION_TYPES.FRAGMENT_SUB_EFFECT === functionType ||
-        ADVANCED_SHADER_VARIABLE_EFFECT_CODE[assignedVariableId]
+        (ADVANCED_SHADER_VARIABLE_EFFECT_CODE[assignedVariableId] &&
+          isSubEffect)
       ) {
         return [];
       }
