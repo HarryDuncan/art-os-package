@@ -117,6 +117,7 @@ export const formatBuiltShaderConfig = (
           []
       ) ?? []),
     ] as ParameterConfig[]),
+    effectFunctionConfigs: [],
   };
 };
 

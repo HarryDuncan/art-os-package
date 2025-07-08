@@ -39,6 +39,16 @@ export const formatShaderEffects = (
 
     return acc;
   }, [] as VertexEffectConfig[]);
+  const vertexEffectFunctions = formattedVertexEffects.map((effect) => {
+    const defaultEffectFunction = {
+      id: effect.id,
+      functionId: "DEFAULT_EFFECT_FUNCTION",
+      effects: [effect],
+      outputMapping: {},
+      inputMapping: {},
+    };
+    return defaultEffectFunction;
+  });
 
   const formattedFragmentEffects = fragmentEffectConfigs.reduce(
     (acc, effect) => {
@@ -72,9 +82,19 @@ export const formatShaderEffects = (
     },
     [] as FragmentEffectConfig[]
   );
+  const fragmentEffectFunctions = formattedFragmentEffects.map((effect) => {
+    const defaultEffectFunction = {
+      id: effect.id,
+      functionId: "DEFAULT_EFFECT_FUNCTION",
+      effects: [effect],
+      outputMapping: {},
+      inputMapping: {},
+    };
+    return defaultEffectFunction;
+  });
 
   return {
-    formattedVertexEffects,
-    formattedFragmentEffects,
+    vertexEffectFunctions,
+    fragmentEffectFunctions,
   };
 };

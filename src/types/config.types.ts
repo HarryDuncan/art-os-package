@@ -124,7 +124,7 @@ export type TransformValueConfig = {
 
 export type SplitValueConfig = {
   numSplits: number;
-  splitValues: number[];
+  splitValues: Record<string, TransformValueConfig>;
 };
 
 export type MeshTransformConfig = {
@@ -143,6 +143,7 @@ export type MeshTransformConfig = {
   isEditable?: boolean;
   transformEditorType?: string;
   meshTransformEditorValues?: SplitValueConfig;
+  editorValueMapping?: Record<string, unknown>;
 };
 
 export type ScreenSizeAdjustmentConfig = {

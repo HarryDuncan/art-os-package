@@ -25,11 +25,11 @@ export const buildShader = (shaderConfig: BuiltShaderConfig) => {
     structConfigs,
   } = shaderConfig;
 
-  const { formattedVertexEffects, formattedFragmentEffects } =
+  const { vertexEffectFunctions, fragmentEffectFunctions } =
     formatShaderEffects(shaderEffectConfigs);
 
-  const fragmentEffects = setUpFragmentEffects(formattedFragmentEffects);
-  const vertexEffects = setUpVertexEffects(formattedVertexEffects);
+  const fragmentEffects = setUpFragmentEffects(fragmentEffectFunctions);
+  const vertexEffects = setUpVertexEffects(vertexEffectFunctions);
 
   const attributes = buildAttributes(attributeConfigs ?? []);
 

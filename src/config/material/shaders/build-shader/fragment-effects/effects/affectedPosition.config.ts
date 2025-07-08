@@ -23,7 +23,7 @@ export const AFFECTED_POSITION_PARAMETERS = [
     isFunctionBased: true,
     valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
     varyingConfig: {
-      varyingType: VARYING_TYPES.FUNCTION,
+      varyingType: VARYING_TYPES.PARAMETER_FUNCTION,
     },
     functionConfig: {
       outputType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,

@@ -16,6 +16,7 @@ export * from "../config/material/shaders/build-shader/fragment-effects/fragment
 export * from "../config/material/shaders/build-shader/constants/buildShader.consts";
 export * from "../config/material/shaders/build-shader/constants/interactiveEffects.consts";
 export * from "../config/material/shaders/build-shader/shader-properties/varyings/varyings.consts";
+export * from "../config/material/shaders/build-shader/effect-functions/index";
 
 export * from "../interaction/interaction.consts";
 export * from "../interaction/peripheral-interactions/peripheralInteractions.consts";

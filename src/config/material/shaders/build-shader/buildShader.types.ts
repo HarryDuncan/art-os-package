@@ -7,6 +7,10 @@ import { VERTEX_EFFECTS } from "./vertex-effects/vertexEffects.consts";
 import { FRAGMENT_EFFECTS } from "./fragment-effects/fragmentEffects.consts";
 import { SHADER_VARIABLE_TYPES } from "./constants";
 import { MeshTransformConfig } from "../../../..";
+import {
+  EffectFunctionConfig,
+  SplitValueEditorConfig,
+} from "./effect-functions/types";
 
 // GENERAL TYPES
 export type ShaderPropertyConfig = {
@@ -133,6 +137,7 @@ export type ParameterConfig = ShaderPropertyConfig & {
 export type StructConfig = { id: string; properties: ShaderPropertyConfig[] };
 export type BuiltShaderConfig = {
   shaderEffectConfigs: ShaderEffectConfig[];
+  effectFunctionConfigs: EffectFunctionConfig[];
   uniformConfigs?: ParameterConfig[];
   varyingConfigs?: ParameterConfig[];
   attributeConfigs?: ParameterConfig[];
@@ -159,3 +164,5 @@ export type AdvancedShaderVariable = {
   instantiation: string;
   assignment: string;
 };
+
+export type { EffectFunctionConfig, SplitValueEditorConfig };

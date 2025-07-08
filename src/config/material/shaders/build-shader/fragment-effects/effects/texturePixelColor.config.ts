@@ -21,7 +21,7 @@ export const TEXTURE_PIXEL_COLOR_PARAMETERS = [
     isVarying: true,
     isFunctionBased: true,
     varyingConfig: {
-      varyingType: VARYING_TYPES.FUNCTION,
+      varyingType: VARYING_TYPES.PARAMETER_FUNCTION,
     },
     functionConfig: {
       functionId: "getTexturePointColor",
