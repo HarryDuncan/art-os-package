@@ -54,7 +54,6 @@ export const POINT_SIZE_FROM_TEXTURE_PARAMETERS = [
     description: "The size of the points",
     valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
     value: 10,
-    configLocked: true,
     parameterType: SHADER_PROPERTY_TYPES.UNIFORM,
   },
   {
@@ -63,7 +62,6 @@ export const POINT_SIZE_FROM_TEXTURE_PARAMETERS = [
     description: "The texture to convert to points",
     valueType: SHADER_PROPERTY_VALUE_TYPES.SAMPLER2D,
     value: null,
-    configLocked: true,
     isAssetMapped: true,
     assetMappingConfig: {
       relationship: ASSET_MAPPING_RELATIONSHIPS.TEXTURE,
@@ -75,7 +73,6 @@ export const POINT_SIZE_FROM_TEXTURE_PARAMETERS = [
     name: "TextureSize",
     valueType: SHADER_PROPERTY_VALUE_TYPES.VEC2,
     value: null,
-    configLocked: true,
     isAssetMapped: true,
     assetMappingConfig: {
       relationship: ASSET_MAPPING_RELATIONSHIPS.DIMENSION,
@@ -89,12 +86,10 @@ export const POINT_SIZE_FROM_TEXTURE_ATTRIBUTES = [
     id: "pointIndex",
     name: "Point Index",
     description: "Creates an index of each point of the mesh",
-    configLocked: true,
     parameterType: SHADER_PROPERTY_TYPES.ATTRIBUTE,
     valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
     attributeConfig: {
       attributeValueType: ATTRIBUTE_VALUE_TYPES.INDEXED,
-      assetId: "",
     },
   },
 ] as ParameterConfig[];

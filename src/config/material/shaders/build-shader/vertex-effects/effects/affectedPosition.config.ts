@@ -18,7 +18,6 @@ export const AFFECTED_POSITION_PARAMETERS = [
     id: "uAffectedAreaDistance",
     valueType: "FLOAT",
     value: 1.5,
-    configLocked: true,
   },
   {
     id: "uAffectedPosition",
@@ -27,7 +26,6 @@ export const AFFECTED_POSITION_PARAMETERS = [
     valueType: "VEC3",
     parameterType: SHADER_PROPERTY_TYPES.UNIFORM,
     value: [0.0, 0.0, 0.0],
-    configLocked: true,
     interactionConfig: {
       keyPointId: null,
     },

@@ -25,7 +25,6 @@ export const PLANE_FROM_IMAGE_VARYING_CONFIG = [
   {
     id: "vUv",
     name: "UV",
-    configLocked: true,
     valueType: SHADER_PROPERTY_VALUE_TYPES.VEC2,
     description: "The UV coordinates of the texture",
     parameterType: SHADER_PROPERTY_TYPES.VARYING,
@@ -42,12 +41,10 @@ export const PLANE_FROM_IMAGE_ATTRIBUTES = [
     id: "pointIndex",
     name: "Point Index",
     description: "Creates an index of each point of the mesh",
-    configLocked: true,
     parameterType: SHADER_PROPERTY_TYPES.ATTRIBUTE,
     valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
     attributeConfig: {
       attributeValueType: ATTRIBUTE_VALUE_TYPES.INDEXED,
-      assetId: "",
     },
   },
 ] as ParameterConfig[];
@@ -59,7 +56,6 @@ export const PLANE_FROM_IMAGE_PARAMETERS = [
     description: "The texture to convert to points",
     valueType: SHADER_PROPERTY_VALUE_TYPES.SAMPLER2D,
     value: null,
-    configLocked: true,
     isAssetMapped: true,
     assetMappingConfig: {
       relationship: ASSET_MAPPING_RELATIONSHIPS.TEXTURE,
@@ -70,7 +66,6 @@ export const PLANE_FROM_IMAGE_PARAMETERS = [
     name: "TextureSize",
     valueType: SHADER_PROPERTY_VALUE_TYPES.VEC2,
     value: null,
-    configLocked: true,
     isAssetMapped: true,
     assetMappingConfig: {
       relationship: ASSET_MAPPING_RELATIONSHIPS.DIMENSION,
@@ -81,14 +76,12 @@ export const PLANE_FROM_IMAGE_PARAMETERS = [
     name: "Random",
     valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
     value: 1,
-    configLocked: true,
   },
   {
     id: "pointDepth",
     name: "Depth",
     valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
     value: 1,
-    configLocked: true,
   },
 
   ...PLANE_FROM_IMAGE_VARYING_CONFIG,

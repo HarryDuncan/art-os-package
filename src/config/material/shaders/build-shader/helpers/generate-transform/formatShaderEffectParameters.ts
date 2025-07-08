@@ -54,7 +54,7 @@ export const formatShaderEffectParameters = (
       acc.set(parameterId, {
         id: parameterId,
         valueType: effectParameter.valueType,
-        shaderParameterId: parameterId,
+        shaderParameterId: `${parameterId}_varying`,
         parameterConfig: effectParameter,
       } as FunctionParameter);
     } else {

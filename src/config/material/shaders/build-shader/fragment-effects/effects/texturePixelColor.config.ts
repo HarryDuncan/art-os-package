@@ -17,7 +17,6 @@ export const TEXTURE_PIXEL_COLOR_PARAMETERS = [
     id: "texturePixelColor",
     valueType: SHADER_PROPERTY_VALUE_TYPES.VEC4,
     value: null,
-    configLocked: true,
     isAssetMapped: false,
     parameterType: SHADER_PROPERTY_TYPES.VARYING,
     isFunctionBased: true,

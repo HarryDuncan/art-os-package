@@ -18,7 +18,6 @@ export const AFFECTED_POSITION_PARAMETERS = [
     name: "Is Affected",
     description: "The position of the affected area",
     value: null,
-    configLocked: true,
     isAssetMapped: false,
     parameterType: SHADER_PROPERTY_TYPES.VARYING,
     isFunctionBased: true,

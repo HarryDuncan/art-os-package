@@ -17,7 +17,6 @@ export const DEFAULT_COLOR_PARAMETERS = [
     id: "defaultColor",
     valueType: SHADER_PROPERTY_VALUE_TYPES.VEC4,
     value: [0, 0, 0, 1],
-    configLocked: false,
     isAssetMapped: false,
     parameterType: SHADER_PROPERTY_TYPES.UNIFORM,
     tags: [SHADER_PROPERTY_TAGS.COLOR],

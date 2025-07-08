@@ -8,7 +8,6 @@ export const NORMAL_VARYING = {
   id: "vNormal",
   valueType: SHADER_PROPERTY_VALUE_TYPES.VEC3,
   value: null,
-  configLocked: true,
   isAssetMapped: false,
   parameterType: SHADER_PROPERTY_TYPES.VARYING,
   varyingConfig: {
@@ -20,7 +19,6 @@ export const POSITION_VARYING = {
   id: "vPosition",
   valueType: SHADER_PROPERTY_VALUE_TYPES.VEC4,
   value: null,
-  configLocked: true,
   isAssetMapped: false,
   parameterType: SHADER_PROPERTY_TYPES.VARYING,
   varyingConfig: {
@@ -32,7 +30,6 @@ export const VIEW_DIRECTION_VARYING = {
   id: "vViewDirection",
   valueType: SHADER_PROPERTY_VALUE_TYPES.VEC3,
   value: null,
-  configLocked: true,
   isAssetMapped: false,
   parameterType: SHADER_PROPERTY_TYPES.VARYING,
   varyingConfig: {

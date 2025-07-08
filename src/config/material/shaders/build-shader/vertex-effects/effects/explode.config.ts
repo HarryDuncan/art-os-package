@@ -20,7 +20,6 @@ export const EXPLODE_ATTRIBUTES = [
   {
     id: "randomAngle",
     valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
-    configLocked: true,
     parameterType: SHADER_PROPERTY_TYPES.ATTRIBUTE,
     attributeConfig: {
       attributeValueType: ATTRIBUTE_VALUE_TYPES.RANDOM_VALUE,
@@ -32,7 +31,6 @@ export const EXPLODE_ATTRIBUTES = [
     description: "The direction of the explode effect",
     parameterType: SHADER_PROPERTY_TYPES.ATTRIBUTE,
     valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
-    configLocked: true,
     attributeConfig: {
       attributeValueType: ATTRIBUTE_VALUE_TYPES.RANDOMIZED_BINARY,
     },
@@ -50,7 +48,6 @@ export const EXPLODE_PARAMETERS = [
     description: "The strength of the explode effect",
     valueType: "FLOAT",
     value: 1.5,
-    configLocked: true,
   },
 ] as ParameterConfig[];
 

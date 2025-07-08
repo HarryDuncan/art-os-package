@@ -9,7 +9,6 @@ export const RESOLUTION_UNIFORM = {
   description: "The resolution of the screen",
   valueType: SHADER_PROPERTY_VALUE_TYPES.VEC2,
   value: null,
-  configLocked: true,
   isAssetMapped: false,
   parameterType: SHADER_PROPERTY_TYPES.UNIFORM,
 };

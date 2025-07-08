@@ -178,6 +178,7 @@ export const generateFragmentShaderTransformation = (
     isSubEffect,
     subEffectDataArray
   );
+  console.log("formattedFunctionConfigs", formattedFunctionConfigs);
 
   const shaderVariableTypes = formattedFunctionConfigs.flatMap(
     ({ assignedVariableId }) => {

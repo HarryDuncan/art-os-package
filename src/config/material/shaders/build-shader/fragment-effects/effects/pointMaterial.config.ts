@@ -19,7 +19,6 @@ const TEXTURED_POINTS_ATTRIBUTES = [
     id: "pointType",
     name: "Point Type",
     description: "Determines the type of point to display",
-    configLocked: true,
     parameterType: SHADER_PROPERTY_TYPES.ATTRIBUTE,
     valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
     attributeConfig: {
@@ -31,7 +30,6 @@ const TEXTURED_POINTS_ATTRIBUTES = [
     id: "pointDisplay",
     name: "Point Display",
     description: "Controls whether a point is displayed",
-    configLocked: true,
     parameterType: SHADER_PROPERTY_TYPES.ATTRIBUTE,
     valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
     attributeConfig: {
@@ -54,7 +52,6 @@ const POINT_MATERIAL_PARAMETERS = [
     id: "uPointTexture1",
     valueType: SHADER_PROPERTY_VALUE_TYPES.SAMPLER2D,
     value: null,
-    configLocked: true,
     isAssetMapped: true,
     parameterType: SHADER_PROPERTY_TYPES.UNIFORM,
     assetMappingConfig: {
@@ -65,7 +62,6 @@ const POINT_MATERIAL_PARAMETERS = [
     id: "uPointTexture2",
     valueType: SHADER_PROPERTY_VALUE_TYPES.SAMPLER2D,
     value: null,
-    configLocked: true,
     isAssetMapped: true,
     parameterType: SHADER_PROPERTY_TYPES.UNIFORM,
     assetMappingConfig: {

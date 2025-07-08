@@ -13,12 +13,10 @@ export const POINT_SIZE_PARAMETERS = [
     description: "The size of the points",
     valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
     value: 10,
-    configLocked: true,
   },
   {
     id: "vUv",
     name: "UV",
-    configLocked: true,
     valueType: SHADER_PROPERTY_VALUE_TYPES.VEC2,
     description: "The UV coordinates of the texture",
     parameterType: SHADER_PROPERTY_TYPES.VARYING,

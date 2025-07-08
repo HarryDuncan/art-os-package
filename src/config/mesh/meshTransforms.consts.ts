@@ -31,7 +31,6 @@ export const QUAD_MESH_TRANSFORM_ATTRIBUTES = [
     id: "quadDimensions",
     name: "Quad Dimensions",
     description: "The dimensions of the quad mesh",
-    configLocked: true,
     valueType: SHADER_PROPERTY_VALUE_TYPES.VEC2,
     isAssetMapped: true,
     isTransformInput: true,
@@ -43,7 +42,6 @@ export const QUAD_MESH_TRANSFORM_ATTRIBUTES = [
     id: "pointOffset",
     name: "Point Offset",
     description: "The offset of each point in the mesh",
-    configLocked: true,
     parameterType: SHADER_PROPERTY_TYPES.ATTRIBUTE,
     valueType: SHADER_PROPERTY_VALUE_TYPES.VEC3,
     attributeConfig: {

@@ -16,7 +16,7 @@ import {
 // GENERAL TYPES
 export type ShaderPropertyConfig = {
   id: string;
-  guid: string;
+  guid?: string;
   name?: string;
   valueType: keyof typeof SHADER_PROPERTY_VALUE_TYPES;
   value?: unknown;
@@ -104,11 +104,20 @@ export type ParameterFunctionConfig = {
   functionInstantiationParameterMapping?: Record<string, string>;
   effectId?: string;
 };
+export type AttributeConfig = {
+  attributeValueType: keyof typeof ATTRIBUTE_VALUE_TYPES;
+};
 
+export type VaryingConfig = {
+  varyingType: VaryingTypes;
+  attributeKey?: string;
+  activeValue?: string;
+  inactiveValue?: string;
+  isAttributeReference?: boolean;
+};
 export type ParameterConfig = ShaderPropertyConfig & {
   parameterType: keyof typeof SHADER_PROPERTY_TYPES;
   uniqueId?: string;
-  configLocked?: boolean;
   description?: string;
   isFunctionBased?: boolean;
   isAssetMapped?: boolean;
@@ -119,18 +128,8 @@ export type ParameterConfig = ShaderPropertyConfig & {
     assetId: string;
     relationship: string;
   };
-  attributeConfig?: {
-    attributeValueType: keyof typeof ATTRIBUTE_VALUE_TYPES;
-    assetId: "";
-    attributeCount?: number;
-  };
-  varyingConfig?: {
-    varyingType: VaryingTypes;
-    attributeKey?: string;
-    activeValue?: string;
-    inactiveValue?: string;
-    isAttributeReference?: boolean;
-  };
+  attributeConfig?: AttributeConfig;
+  varyingConfig?: VaryingConfig;
   functionConfig?: ParameterFunctionConfig;
 };
 

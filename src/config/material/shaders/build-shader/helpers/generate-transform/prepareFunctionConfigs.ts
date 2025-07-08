@@ -207,7 +207,7 @@ export const prepareFunctionConfigs = (
       if (!parameterConfig) {
         return [];
       }
-      console.log(parameterConfig);
+
       const { functionConfig } = parameterConfig;
       const matchingFunctionConfig = formattedTransformConfigs.find(
         (config) => {

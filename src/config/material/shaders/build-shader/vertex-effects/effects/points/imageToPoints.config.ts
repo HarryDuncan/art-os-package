@@ -22,7 +22,6 @@ export const IMAGE_TO_POINTS_VARYING_CONFIG = [
   {
     id: "vUv",
     name: "UV",
-    configLocked: true,
     valueType: SHADER_PROPERTY_VALUE_TYPES.VEC2,
     description: "The UV coordinates of the texture",
     parameterType: SHADER_PROPERTY_TYPES.VARYING,
@@ -56,7 +55,6 @@ export const IMAGE_TO_POINTS_PARAMETERS = [
     description: "The texture to convert to points",
     valueType: SHADER_PROPERTY_VALUE_TYPES.SAMPLER2D,
     value: null,
-    configLocked: true,
     isAssetMapped: true,
     assetMappingConfig: {
       relationship: ASSET_MAPPING_RELATIONSHIPS.TEXTURE,
@@ -67,7 +65,6 @@ export const IMAGE_TO_POINTS_PARAMETERS = [
     name: "TextureSize",
     valueType: SHADER_PROPERTY_VALUE_TYPES.VEC2,
     value: null,
-    configLocked: true,
     isAssetMapped: true,
     assetMappingConfig: {
       relationship: ASSET_MAPPING_RELATIONSHIPS.DIMENSION,
@@ -78,14 +75,12 @@ export const IMAGE_TO_POINTS_PARAMETERS = [
     name: "Random",
     valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
     value: 1,
-    configLocked: true,
   },
   {
     id: "pointDepth",
     name: "Depth",
     valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
     value: 1,
-    configLocked: true,
   },
 
   ...IMAGE_TO_POINTS_VARYING_CONFIG,

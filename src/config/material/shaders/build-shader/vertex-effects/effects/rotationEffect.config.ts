@@ -13,13 +13,11 @@ const ROTATION_EFFECT_PARAMETERS = [
     id: "rotationSpeed",
     valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
     value: 1.0,
-    configLocked: true,
   },
   {
     id: "rotationAxis",
     valueType: SHADER_PROPERTY_VALUE_TYPES.VEC3,
     value: [0, 1, 0],
-    configLocked: true,
   },
 ] as ParameterConfig[];
 
