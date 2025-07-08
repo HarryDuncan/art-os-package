@@ -2,6 +2,7 @@ import { ShaderTransformationConfig } from "../../../../../../../types/materials
 import {
   ASSET_MAPPING_RELATIONSHIPS,
   ATTRIBUTE_VALUE_TYPES,
+  SHADER_PROPERTY_TYPES,
   SHADER_PROPERTY_VALUE_TYPES,
 } from "../../../constants/shader.consts";
 import { VARYING_TYPES } from "../../../shader-properties/varyings/varyings.consts";
@@ -27,7 +28,7 @@ export const PLANE_FROM_IMAGE_VARYING_CONFIG = [
     configLocked: true,
     valueType: SHADER_PROPERTY_VALUE_TYPES.VEC2,
     description: "The UV coordinates of the texture",
-    isVarying: true,
+    parameterType: SHADER_PROPERTY_TYPES.VARYING,
     varyingConfig: {
       varyingType: VARYING_TYPES.DEFAULT,
       attributeKey: "uv",
@@ -42,7 +43,7 @@ export const PLANE_FROM_IMAGE_ATTRIBUTES = [
     name: "Point Index",
     description: "Creates an index of each point of the mesh",
     configLocked: true,
-    isAttribute: true,
+    parameterType: SHADER_PROPERTY_TYPES.ATTRIBUTE,
     valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
     attributeConfig: {
       attributeValueType: ATTRIBUTE_VALUE_TYPES.INDEXED,

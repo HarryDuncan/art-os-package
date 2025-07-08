@@ -23,10 +23,13 @@ export const buildShader = (shaderConfig: BuiltShaderConfig) => {
     varyingConfigs,
     attributeConfigs,
     structConfigs,
+    effectFunctionConfigs,
   } = shaderConfig;
 
+  console.log("shaderEffectConfigs", shaderEffectConfigs);
+
   const { vertexEffectFunctions, fragmentEffectFunctions } =
-    formatShaderEffects(shaderEffectConfigs);
+    formatShaderEffects(shaderEffectConfigs, effectFunctionConfigs);
 
   const fragmentEffects = setUpFragmentEffects(fragmentEffectFunctions);
   const vertexEffects = setUpVertexEffects(vertexEffectFunctions);

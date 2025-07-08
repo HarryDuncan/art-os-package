@@ -1,5 +1,8 @@
 import { ShaderTransformationConfig } from "../../../../../../../types/materials/index";
-import { SHADER_PROPERTY_VALUE_TYPES } from "../../../constants/shader.consts";
+import {
+  SHADER_PROPERTY_TYPES,
+  SHADER_PROPERTY_VALUE_TYPES,
+} from "../../../constants/shader.consts";
 import { VARYING_TYPES } from "../../../shader-properties/varyings/varyings.consts";
 import { SHADER_VARIABLE_TYPES } from "../../../constants";
 
@@ -18,7 +21,7 @@ export const POINT_SIZE_PARAMETERS = [
     configLocked: true,
     valueType: SHADER_PROPERTY_VALUE_TYPES.VEC2,
     description: "The UV coordinates of the texture",
-    isVarying: true,
+    parameterType: SHADER_PROPERTY_TYPES.VARYING,
     varyingConfig: {
       varyingType: VARYING_TYPES.DEFAULT,
       attributeKey: "uv",

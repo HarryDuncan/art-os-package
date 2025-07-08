@@ -1,11 +1,15 @@
 import { MeshTransformConfig } from "../../../../types";
 import {
   BuiltShaderConfig,
+  EffectFunctionConfig,
   ParameterConfig,
   ShaderEffectConfig,
 } from "../../../../types/materials/index";
 import { SHADER_TYPES } from "../build-shader/constants";
-import { DEFAULT_UNIFORMS } from "../build-shader/constants/shader.consts";
+import {
+  DEFAULT_UNIFORMS,
+  SHADER_PROPERTY_TYPES,
+} from "../build-shader/constants/shader.consts";
 import { VARYING_TYPES } from "../build-shader/shader-properties/varyings/varyings.consts";
 import { formatShaderVaryingParameters } from "./formatShaderVaryingParameters";
 
@@ -19,7 +23,7 @@ const attributeToVarying = (
       id: replaceId
         ? `${attributeConfig?.id ?? ""}_varying`
         : attributeConfig?.id ?? "",
-      isVarying: true,
+      parameterType: SHADER_PROPERTY_TYPES.VARYING,
       varyingConfig: {
         varyingType: VARYING_TYPES.ATTRIBUTE,
         attributeKey: attributeConfig?.id ?? "",
@@ -48,8 +52,7 @@ const getVaryingFromFragmentEffectMeshTransforms = (
     return {
       ...attributeConfig,
       id: `${attributeConfig?.id ?? ""}_varying`,
-      isVarying: true,
-      isAttribute: false,
+      parameterType: SHADER_PROPERTY_TYPES.VARYING,
       varyingConfig: {
         varyingType: VARYING_TYPES.ATTRIBUTE,
         attributeKey: attributeConfig?.id ?? "",
@@ -77,13 +80,16 @@ const getLinkedEffectParameters = (
 
 export const formatBuiltShaderConfig = (
   shaderEffectConfigs: ShaderEffectConfig[],
-  meshTransforms: MeshTransformConfig[]
+  meshTransforms: MeshTransformConfig[],
+  effectFunctionConfigs: EffectFunctionConfig[]
 ): BuiltShaderConfig => {
   // const meshTransformAttributes = meshTransforms.flatMap(
   //   (transform) => transform.attributeConfigs ?? []
   // );
   const materialAttributeConfigs = shaderEffectConfigs?.flatMap((effect) =>
-    effect.effectParameters.filter((parameter) => parameter.isAttribute)
+    effect.effectParameters.filter(
+      (parameter) => parameter.parameterType === SHADER_PROPERTY_TYPES.ATTRIBUTE
+    )
   );
 
   const transformVaryingConfigs = getVaryingFromFragmentEffectMeshTransforms(
@@ -104,7 +110,9 @@ export const formatBuiltShaderConfig = (
       ...DEFAULT_UNIFORMS,
       ...(shaderEffectConfigs?.flatMap((effect) =>
         effect.effectParameters.filter(
-          (parameter) => parameter.isUniform && !parameter.isTransformInput
+          (parameter) =>
+            parameter.parameterType === SHADER_PROPERTY_TYPES.UNIFORM &&
+            !parameter.isTransformInput
         )
       ) ?? []),
     ],
@@ -113,11 +121,13 @@ export const formatBuiltShaderConfig = (
       ...(transformVaryingConfigs ?? []),
       ...(shaderEffectConfigs?.flatMap(
         (effect) =>
-          effect.effectParameters?.filter((parameter) => parameter.isVarying) ??
-          []
+          effect.effectParameters?.filter(
+            (parameter) =>
+              parameter.parameterType === SHADER_PROPERTY_TYPES.VARYING
+          ) ?? []
       ) ?? []),
     ] as ParameterConfig[]),
-    effectFunctionConfigs: [],
+    effectFunctionConfigs,
   };
 };
 
@@ -137,7 +147,10 @@ const formatEffectParameters = (
     if (parameter.isTransformInput) {
       return [];
     }
-    if (effect.shaderType === SHADER_TYPES.FRAGMENT && parameter.isAttribute) {
+    if (
+      effect.shaderType === SHADER_TYPES.FRAGMENT &&
+      parameter.parameterType === SHADER_PROPERTY_TYPES.ATTRIBUTE
+    ) {
       return attributeToVarying([parameter], false) as ParameterConfig[];
     }
     return [parameter];

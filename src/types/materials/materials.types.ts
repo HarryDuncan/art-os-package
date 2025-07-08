@@ -3,7 +3,10 @@ import {
   ENV_MAP_TYPES,
   MATERIAL_TYPES,
 } from "../../consts/materials/materials.consts";
-import { ShaderEffectConfig } from "../../config/material/shaders/build-shader/buildShader.types";
+import {
+  ShaderEffectConfig,
+  ParameterConfig,
+} from "../../config/material/shaders/build-shader/buildShader.types";
 import { EffectFunctionConfig } from "../../config/material/shaders/build-shader/effect-functions/types";
 
 export type MaterialType = keyof typeof MATERIAL_TYPES;
@@ -66,6 +69,7 @@ export interface MaterialConfig {
   materialProps: MaterialConfigProps;
   shaderEffectConfigs?: ShaderEffectConfig[];
   effectFunctionConfigs?: EffectFunctionConfig[];
+  singleParameterConfigs?: ParameterConfig[];
   assetMapping?: AssetToUniformMappingConfig[];
   blendingConfig?: Record<string, unknown>;
 }

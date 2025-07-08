@@ -5,6 +5,7 @@ import {
 } from "../../buildShader.types";
 import { FragmentEffectProps } from "../../fragment-effects/fragmentShader.types";
 import { VertexEffectProps } from "../../vertex-effects/vertexEffects.types";
+import { SHADER_PROPERTY_TYPES } from "../../constants/shader.consts";
 
 export const setupEffectParameters = (
   effectProps: VertexEffectProps | FragmentEffectProps,
@@ -45,9 +46,11 @@ export const formatShaderEffectParameters = (
 
   const effectParamsMap = effectParameters.reduce((acc, effectParameter) => {
     const { id: parameterId, guid } = effectParameter;
-    if (effectParameter.isAttribute) {
+    if (effectParameter.parameterType === SHADER_PROPERTY_TYPES.ATTRIBUTE) {
       return acc;
-    } else if (effectParameter.isVarying) {
+    } else if (
+      effectParameter.parameterType === SHADER_PROPERTY_TYPES.VARYING
+    ) {
       acc.set(parameterId, {
         id: parameterId,
         valueType: effectParameter.valueType,

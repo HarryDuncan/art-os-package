@@ -10,6 +10,7 @@ import {
 import {
   ASSET_MAPPING_RELATIONSHIPS,
   ATTRIBUTE_VALUE_TYPES,
+  SHADER_PROPERTY_TYPES,
   SHADER_PROPERTY_VALUE_TYPES,
 } from "../../../constants/shader.consts";
 
@@ -19,7 +20,7 @@ const TEXTURED_POINTS_ATTRIBUTES = [
     name: "Point Type",
     description: "Determines the type of point to display",
     configLocked: true,
-    isAttribute: true,
+    parameterType: SHADER_PROPERTY_TYPES.ATTRIBUTE,
     valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
     attributeConfig: {
       attributeValueType: ATTRIBUTE_VALUE_TYPES.RANDOM_VALUE,
@@ -31,7 +32,7 @@ const TEXTURED_POINTS_ATTRIBUTES = [
     name: "Point Display",
     description: "Controls whether a point is displayed",
     configLocked: true,
-    isAttribute: true,
+    parameterType: SHADER_PROPERTY_TYPES.ATTRIBUTE,
     valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
     attributeConfig: {
       attributeValueType: ATTRIBUTE_VALUE_TYPES.RANDOMIZED_BINARY,
@@ -55,7 +56,7 @@ const TEXTURED_POINT_PARAMETERS = [
     value: null,
     configLocked: true,
     isAssetMapped: true,
-    isUniform: true,
+    parameterType: SHADER_PROPERTY_TYPES.UNIFORM,
     assetMappingConfig: {
       relationship: ASSET_MAPPING_RELATIONSHIPS.TEXTURE,
     },

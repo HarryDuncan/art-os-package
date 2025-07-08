@@ -6,7 +6,10 @@ import {
   SHADER_VARIABLE_ASSIGNMENT_KEYS,
   SHADER_VARIABLE_TYPES,
 } from "../../constants";
-import { SHADER_PROPERTY_VALUE_TYPES } from "../../constants/shader.consts";
+import {
+  SHADER_PROPERTY_TYPES,
+  SHADER_PROPERTY_VALUE_TYPES,
+} from "../../constants/shader.consts";
 import { VARYING_TYPES } from "../../shader-properties/varyings/varyings.consts";
 
 export const AFFECTED_POSITION_PARAMETERS = [
@@ -17,9 +20,7 @@ export const AFFECTED_POSITION_PARAMETERS = [
     value: null,
     configLocked: true,
     isAssetMapped: false,
-    isAttribute: false,
-    isUniform: false,
-    isVarying: true,
+    parameterType: SHADER_PROPERTY_TYPES.VARYING,
     isFunctionBased: true,
     valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
     varyingConfig: {

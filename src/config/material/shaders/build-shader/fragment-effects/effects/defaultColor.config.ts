@@ -3,7 +3,10 @@ import {
   SHADER_PROPERTY_TAGS,
   ShaderTransformationConfig,
 } from "../../buildShader.types";
-import { SHADER_PROPERTY_VALUE_TYPES } from "../../constants/shader.consts";
+import {
+  SHADER_PROPERTY_TYPES,
+  SHADER_PROPERTY_VALUE_TYPES,
+} from "../../constants/shader.consts";
 import {
   SHADER_VARIABLE_ASSIGNMENT_KEYS,
   SHADER_VARIABLE_TYPES,
@@ -16,9 +19,7 @@ export const DEFAULT_COLOR_PARAMETERS = [
     value: [0, 0, 0, 1],
     configLocked: false,
     isAssetMapped: false,
-    isAttribute: false,
-    isUniform: false,
-    isVarying: false,
+    parameterType: SHADER_PROPERTY_TYPES.UNIFORM,
     tags: [SHADER_PROPERTY_TAGS.COLOR],
   },
 ] as ParameterConfig[];

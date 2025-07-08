@@ -3,6 +3,7 @@ import {
   ParameterConfig,
   ShaderParameterMap,
 } from "../../buildShader.types";
+import { SHADER_PROPERTY_TYPES } from "../../constants/shader.consts";
 
 const formatNestedFunction = (
   functionConfig: FormattedFunctionConfig,
@@ -34,7 +35,7 @@ export const formatEffectCodeLines = (
       }
       if (!parameter) {
         const shaderVariable = effectParameters.find((p) => p.id === key);
-        if (shaderVariable?.isVarying) {
+        if (shaderVariable?.parameterType === SHADER_PROPERTY_TYPES.VARYING) {
           return shaderVariable?.varyingConfig?.isAttributeReference
             ? `${shaderVariable.id}_varying`
             : `${shaderVariable.id}`;

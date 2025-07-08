@@ -1,5 +1,6 @@
 import {
   ATTRIBUTE_VALUE_TYPES,
+  SHADER_PROPERTY_TYPES,
   SHADER_PROPERTY_VALUE_TYPES,
 } from "./constants/shader.consts";
 import { VARYING_TYPES } from "./shader-properties/varyings/varyings.consts";
@@ -103,15 +104,14 @@ export type ParameterFunctionConfig = {
   functionInstantiationParameterMapping?: Record<string, string>;
   effectId?: string;
 };
+
 export type ParameterConfig = ShaderPropertyConfig & {
+  parameterType: keyof typeof SHADER_PROPERTY_TYPES;
   uniqueId?: string;
   configLocked?: boolean;
   description?: string;
-  isUniform?: boolean;
   isFunctionBased?: boolean;
   isAssetMapped?: boolean;
-  isAttribute?: boolean;
-  isVarying?: boolean;
   canSetValue?: boolean;
   isTransformInput?: boolean;
   tags?: string[];

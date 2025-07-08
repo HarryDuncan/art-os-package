@@ -18,6 +18,7 @@ export const SHADER_PROPERTY_VALUE_TYPES = {
 };
 
 export const SHADER_PROPERTY_TYPES = {
+  CONSTANT: "CONSTANT",
   UNIFORM: "UNIFORM",
   VARYING: "VARYING",
   ATTRIBUTE: "ATTRIBUTE",
@@ -43,7 +44,7 @@ export const DEFAULT_UNIFORMS = [
   {
     id: "uTime",
     valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
-    isUniform: true,
+    parameterType: SHADER_PROPERTY_TYPES.UNIFORM,
     isAssetMapped: false,
     assetMappingConfig: null,
     value: 0,

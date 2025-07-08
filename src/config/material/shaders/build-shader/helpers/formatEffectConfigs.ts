@@ -1,10 +1,16 @@
-import { ShaderEffectConfig, VertexEffectConfig } from "../buildShader.types";
+import {
+  EffectFunctionConfig,
+  ShaderEffectConfig,
+  VertexEffectConfig,
+} from "../buildShader.types";
 import { FragmentEffectConfig } from "../buildShader.types";
 import { SHADER_TYPES } from "../constants";
 
 export const formatShaderEffects = (
-  shaderEffectConfigs: ShaderEffectConfig[]
+  shaderEffectConfigs: ShaderEffectConfig[],
+  effectFunctionConfigs: EffectFunctionConfig[]
 ) => {
+  console.log("effectFunctionConfigs", effectFunctionConfigs);
   const vertexEffectConfigs = shaderEffectConfigs.filter(
     (config) => config.shaderType === SHADER_TYPES.VERTEX
   ) as VertexEffectConfig[];

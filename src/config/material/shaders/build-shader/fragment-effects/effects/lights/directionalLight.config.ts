@@ -3,11 +3,11 @@ import {
   ParameterConfig,
   ShaderTransformationConfig,
 } from "../../../buildShader.types";
+import { SHADER_VARIABLE_TYPES } from "../../../constants";
 import {
-  SHADER_VARIABLE_ASSIGNMENT_KEYS,
-  SHADER_VARIABLE_TYPES,
-} from "../../../constants";
-import { SHADER_PROPERTY_VALUE_TYPES } from "../../../constants/shader.consts";
+  SHADER_PROPERTY_TYPES,
+  SHADER_PROPERTY_VALUE_TYPES,
+} from "../../../constants/shader.consts";
 import {
   NORMAL_VARYING,
   VIEW_DIRECTION_VARYING,
@@ -20,9 +20,7 @@ export const DIRECTIONAL_LIGHT_PARAMETERS = [
     value: [1, 1, 1, 1],
     configLocked: false,
     isAssetMapped: false,
-    isAttribute: false,
-    isUniform: true,
-    isVarying: false,
+    parameterType: SHADER_PROPERTY_TYPES.UNIFORM,
     tags: [SHADER_PROPERTY_TAGS.COLOR],
   },
   {
@@ -31,9 +29,7 @@ export const DIRECTIONAL_LIGHT_PARAMETERS = [
     value: [0, 1, 0],
     configLocked: false,
     isAssetMapped: false,
-    isAttribute: false,
-    isUniform: true,
-    isVarying: false,
+    parameterType: SHADER_PROPERTY_TYPES.UNIFORM,
   },
   {
     id: "directionalLightIntensity",
@@ -41,9 +37,7 @@ export const DIRECTIONAL_LIGHT_PARAMETERS = [
     value: 1.0,
     configLocked: false,
     isAssetMapped: false,
-    isAttribute: false,
-    isUniform: true,
-    isVarying: false,
+    parameterType: SHADER_PROPERTY_TYPES.UNIFORM,
   },
   {
     id: "directionalLightSpecularPower",
@@ -51,9 +45,7 @@ export const DIRECTIONAL_LIGHT_PARAMETERS = [
     value: 32.0,
     configLocked: false,
     isAssetMapped: false,
-    isAttribute: false,
-    isUniform: true,
-    isVarying: false,
+    parameterType: SHADER_PROPERTY_TYPES.UNIFORM,
   },
   NORMAL_VARYING,
   VIEW_DIRECTION_VARYING,

@@ -1,6 +1,7 @@
 import {
   ASSET_MAPPING_RELATIONSHIPS,
   ATTRIBUTE_VALUE_TYPES,
+  SHADER_PROPERTY_TYPES,
   SHADER_PROPERTY_VALUE_TYPES,
 } from "../../../constants/shader.consts";
 import { SHADER_VARIABLE_TYPES } from "../../../constants";
@@ -54,6 +55,7 @@ export const POINT_SIZE_FROM_TEXTURE_PARAMETERS = [
     valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
     value: 10,
     configLocked: true,
+    parameterType: SHADER_PROPERTY_TYPES.UNIFORM,
   },
   {
     id: "convertedTexture",
@@ -66,6 +68,7 @@ export const POINT_SIZE_FROM_TEXTURE_PARAMETERS = [
     assetMappingConfig: {
       relationship: ASSET_MAPPING_RELATIONSHIPS.TEXTURE,
     },
+    parameterType: SHADER_PROPERTY_TYPES.UNIFORM,
   },
   {
     id: "textureSize",
@@ -77,6 +80,7 @@ export const POINT_SIZE_FROM_TEXTURE_PARAMETERS = [
     assetMappingConfig: {
       relationship: ASSET_MAPPING_RELATIONSHIPS.DIMENSION,
     },
+    parameterType: SHADER_PROPERTY_TYPES.UNIFORM,
   },
 ] as ParameterConfig[];
 
@@ -86,7 +90,7 @@ export const POINT_SIZE_FROM_TEXTURE_ATTRIBUTES = [
     name: "Point Index",
     description: "Creates an index of each point of the mesh",
     configLocked: true,
-    isAttribute: true,
+    parameterType: SHADER_PROPERTY_TYPES.ATTRIBUTE,
     valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
     attributeConfig: {
       attributeValueType: ATTRIBUTE_VALUE_TYPES.INDEXED,

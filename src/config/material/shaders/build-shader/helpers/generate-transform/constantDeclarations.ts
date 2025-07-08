@@ -1,4 +1,5 @@
 import { ShaderParameterMap } from "../../buildShader.types";
+import { SHADER_PROPERTY_TYPES } from "../../constants/shader.consts";
 import {
   parseRawValueToShader,
   shaderValueTypeInstantiation,
@@ -11,9 +12,7 @@ export const generateConstantDeclarations = (
     .filter(
       ({ parameterConfig }) =>
         parameterConfig &&
-        !parameterConfig.isUniform &&
-        !parameterConfig.isAttribute &&
-        !parameterConfig.isVarying
+        parameterConfig.parameterType === SHADER_PROPERTY_TYPES.CONSTANT
     )
     .map(({ shaderParameterId, valueType, parameterConfig }) => {
       return `${shaderValueTypeInstantiation(

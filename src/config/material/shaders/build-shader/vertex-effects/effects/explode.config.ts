@@ -11,6 +11,7 @@ import {
 } from "../../constants";
 import {
   ATTRIBUTE_VALUE_TYPES,
+  SHADER_PROPERTY_TYPES,
   SHADER_PROPERTY_VALUE_TYPES,
 } from "../../constants/shader.consts";
 
@@ -20,7 +21,7 @@ export const EXPLODE_ATTRIBUTES = [
     id: "randomAngle",
     valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
     configLocked: true,
-    isAttribute: true,
+    parameterType: SHADER_PROPERTY_TYPES.ATTRIBUTE,
     attributeConfig: {
       attributeValueType: ATTRIBUTE_VALUE_TYPES.RANDOM_VALUE,
     },
@@ -29,7 +30,7 @@ export const EXPLODE_ATTRIBUTES = [
     id: "signDirection",
     name: "Sign Direction",
     description: "The direction of the explode effect",
-    isAttribute: true,
+    parameterType: SHADER_PROPERTY_TYPES.ATTRIBUTE,
     valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
     configLocked: true,
     attributeConfig: {

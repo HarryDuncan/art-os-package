@@ -6,7 +6,10 @@ import {
   SHADER_VARIABLE_ASSIGNMENT_KEYS,
   SHADER_VARIABLE_TYPES,
 } from "../../constants";
-import { SHADER_PROPERTY_VALUE_TYPES } from "../../constants/shader.consts";
+import {
+  SHADER_PROPERTY_TYPES,
+  SHADER_PROPERTY_VALUE_TYPES,
+} from "../../constants/shader.consts";
 // import { MeshTransformConfig } from "../../../../../../types/config.types";
 // import { MESH_TRANSFORM_TYPE } from "../../../../../mesh/mesh.consts";
 
@@ -22,14 +25,14 @@ export const AFFECTED_POSITION_PARAMETERS = [
     name: "Affected Position",
     description: "The position of the affected area",
     valueType: "VEC3",
-    isUniform: true,
+    parameterType: SHADER_PROPERTY_TYPES.UNIFORM,
     value: [0.0, 0.0, 0.0],
     configLocked: true,
     interactionConfig: {
       keyPointId: null,
     },
   },
-] as ParameterConfig[];
+] as unknown as ParameterConfig[];
 
 export const AFFECTED_POSITION_ATTRIBUTES = [];
 

@@ -1,4 +1,7 @@
-import { SHADER_PROPERTY_VALUE_TYPES } from "../shader.consts";
+import {
+  SHADER_PROPERTY_TYPES,
+  SHADER_PROPERTY_VALUE_TYPES,
+} from "../shader.consts";
 
 export const RESOLUTION_UNIFORM = {
   id: "uResolution",
@@ -8,6 +11,5 @@ export const RESOLUTION_UNIFORM = {
   value: null,
   configLocked: true,
   isAssetMapped: false,
-  isAttribute: false,
-  isUniform: true,
+  parameterType: SHADER_PROPERTY_TYPES.UNIFORM,
 };

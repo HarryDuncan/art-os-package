@@ -3,7 +3,10 @@ import {
   SHADER_PROPERTY_TAGS,
   ShaderTransformationConfig,
 } from "../../../buildShader.types";
-import { SHADER_PROPERTY_VALUE_TYPES } from "../../../constants/shader.consts";
+import {
+  SHADER_PROPERTY_TYPES,
+  SHADER_PROPERTY_VALUE_TYPES,
+} from "../../../constants/shader.consts";
 import {
   SHADER_VARIABLE_ASSIGNMENT_KEYS,
   SHADER_VARIABLE_TYPES,
@@ -18,9 +21,7 @@ export const HALFTONE_PARAMETERS = [
     value: [0, 1, 0],
     configLocked: false,
     isAssetMapped: false,
-    isAttribute: false,
-    isUniform: true,
-    isVarying: false,
+    parameterType: SHADER_PROPERTY_TYPES.UNIFORM,
   },
   RESOLUTION_UNIFORM,
   {
@@ -29,9 +30,7 @@ export const HALFTONE_PARAMETERS = [
     value: 10,
     configLocked: false,
     isAssetMapped: false,
-    isAttribute: false,
-    isUniform: true,
-    isVarying: false,
+    parameterType: SHADER_PROPERTY_TYPES.UNIFORM,
   },
   {
     id: "halftoneColor",
@@ -39,9 +38,7 @@ export const HALFTONE_PARAMETERS = [
     value: [1, 1, 1, 1],
     configLocked: false,
     isAssetMapped: false,
-    isAttribute: false,
-    isUniform: true,
-    isVarying: false,
+    parameterType: SHADER_PROPERTY_TYPES.UNIFORM,
     tags: [SHADER_PROPERTY_TAGS.COLOR],
   },
   {
@@ -50,9 +47,7 @@ export const HALFTONE_PARAMETERS = [
     value: 0,
     configLocked: false,
     isAssetMapped: false,
-    isAttribute: false,
-    isUniform: true,
-    isVarying: false,
+    parameterType: SHADER_PROPERTY_TYPES.UNIFORM,
   },
   {
     id: "halftoneHigh",
@@ -60,9 +55,7 @@ export const HALFTONE_PARAMETERS = [
     value: 1,
     configLocked: false,
     isAssetMapped: false,
-    isAttribute: false,
-    isUniform: true,
-    isVarying: false,
+    parameterType: SHADER_PROPERTY_TYPES.UNIFORM,
   },
 ] as ParameterConfig[];
 

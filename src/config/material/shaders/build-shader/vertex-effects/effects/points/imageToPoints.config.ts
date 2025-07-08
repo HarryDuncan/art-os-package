@@ -1,6 +1,7 @@
 import { ShaderTransformationConfig } from "../../../../../../../types/materials/index";
 import {
   ASSET_MAPPING_RELATIONSHIPS,
+  SHADER_PROPERTY_TYPES,
   SHADER_PROPERTY_VALUE_TYPES,
 } from "../../../constants/shader.consts";
 import { VARYING_TYPES } from "../../../shader-properties/varyings/varyings.consts";
@@ -24,7 +25,7 @@ export const IMAGE_TO_POINTS_VARYING_CONFIG = [
     configLocked: true,
     valueType: SHADER_PROPERTY_VALUE_TYPES.VEC2,
     description: "The UV coordinates of the texture",
-    isVarying: true,
+    parameterType: SHADER_PROPERTY_TYPES.VARYING,
     varyingConfig: {
       varyingType: VARYING_TYPES.DEFAULT,
       attributeKey: "uv",

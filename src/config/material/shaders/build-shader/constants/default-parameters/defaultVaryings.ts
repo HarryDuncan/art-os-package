@@ -1,4 +1,7 @@
-import { SHADER_PROPERTY_VALUE_TYPES } from "../shader.consts";
+import {
+  SHADER_PROPERTY_VALUE_TYPES,
+  SHADER_PROPERTY_TYPES,
+} from "../shader.consts";
 import { VARYING_TYPES } from "../../shader-properties/varyings/varyings.consts";
 
 export const NORMAL_VARYING = {
@@ -7,9 +10,7 @@ export const NORMAL_VARYING = {
   value: null,
   configLocked: true,
   isAssetMapped: false,
-  isAttribute: false,
-  isUniform: false,
-  isVarying: true,
+  parameterType: SHADER_PROPERTY_TYPES.VARYING,
   varyingConfig: {
     varyingType: VARYING_TYPES.DEFAULT,
   },
@@ -21,9 +22,7 @@ export const POSITION_VARYING = {
   value: null,
   configLocked: true,
   isAssetMapped: false,
-  isAttribute: false,
-  isUniform: false,
-  isVarying: true,
+  parameterType: SHADER_PROPERTY_TYPES.VARYING,
   varyingConfig: {
     varyingType: VARYING_TYPES.DEFAULT,
   },
@@ -35,9 +34,7 @@ export const VIEW_DIRECTION_VARYING = {
   value: null,
   configLocked: true,
   isAssetMapped: false,
-  isAttribute: false,
-  isUniform: false,
-  isVarying: true,
+  parameterType: SHADER_PROPERTY_TYPES.VARYING,
   varyingConfig: {
     varyingType: VARYING_TYPES.DEFAULT,
   },
