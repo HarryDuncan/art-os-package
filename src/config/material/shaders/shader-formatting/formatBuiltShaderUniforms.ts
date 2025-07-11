@@ -11,10 +11,10 @@ import {
 } from "../build-shader/buildShader.types";
 
 export const formatBuiltShaderUniforms = (
-  uniformConfigs: ParameterConfig[],
+  parameterConfigs: ParameterConfig[],
   assets: Asset[]
 ): { [uniform: string]: IUniform<unknown> } => {
-  const uniformParameters = uniformConfigs.filter(
+  const uniformParameters = parameterConfigs.filter(
     (uniform) => uniform.parameterType === SHADER_PROPERTY_TYPES.UNIFORM
   );
   const assetMapping =

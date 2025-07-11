@@ -9,19 +9,24 @@ import {
   VERTEX_NORMAL_NAME,
   VERTEX_POINT_NAME,
 } from "../../vertex-effects/vertexEffects.consts";
-import { ParameterConfig } from "../../buildShader.types";
+import { ParameterConfig, ShaderEffectConfig } from "../../buildShader.types";
 import {
   V_CUSTOM_INSTANTIATION,
   V_DECLARATION,
   V_DEFAULT_INSTANTIATION,
 } from "../../constants";
+import { formatShaderVaryingParameters } from "../../../shader-formatting/formatShaderVaryingParameters";
 
 export const buildVaryings = (
-  varyingSchema: ParameterConfig[],
-  attributeConfigs: ParameterConfig[]
+  parametersConfigs: ParameterConfig[],
+  shaderEffectConfigs: ShaderEffectConfig[]
 ) => {
-  const declaration = varyingDeclarations(varyingSchema);
-  const instantiation = varyingInstantiation(varyingSchema, attributeConfigs);
+  const formattedVaryingParameters = formatShaderVaryingParameters(
+    parametersConfigs,
+    shaderEffectConfigs
+  );
+  const declaration = varyingDeclarations(formattedVaryingParameters);
+  const instantiation = varyingInstantiation(formattedVaryingParameters);
   return { declaration, instantiation };
 };
 
@@ -37,15 +42,9 @@ const varyingDeclarations = (config: ParameterConfig[]) => {
   return declaration;
 };
 
-const varyingInstantiation = (
-  varyingConfigs: ParameterConfig[],
-  attributeConfigs: ParameterConfig[]
-) => {
+const varyingInstantiation = (varyingConfigs: ParameterConfig[]) => {
   const defaultVaryingStrings = getDefaultVaryingString(varyingConfigs);
-  const attributeVaryingStrings = getAttributeVaryingStrings(
-    varyingConfigs,
-    attributeConfigs
-  );
+  const attributeVaryingStrings = getAttributeVaryingStrings(varyingConfigs);
   const customVaryingsStrings = getCustomVaryingStrings(varyingConfigs);
 
   return [
@@ -124,22 +123,10 @@ const getCustomVaryingStrings = (config: ParameterConfig[]) => {
   return strings;
 };
 
-const getAttributeVaryingStrings = (
-  config: ParameterConfig[],
-  attributeConfigs: ParameterConfig[] = []
-) =>
+const getAttributeVaryingStrings = (config: ParameterConfig[]) =>
   config.flatMap(({ id, varyingConfig }) => {
     if (varyingConfig?.varyingType === VARYING_TYPES.ATTRIBUTE) {
-      const hasAttribute = attributeConfigs.findIndex(
-        (attributeConf) => attributeConf.id === varyingConfig?.attributeKey
-      );
-      if (hasAttribute !== -1) {
-        return `${id} = ${varyingConfig?.attributeKey};`;
-      }
-      console.warn(
-        `varying ${id} links to ${varyingConfig?.attributeKey} but ${varyingConfig?.attributeKey} is not found`
-      );
-      return [];
+      return `${id} = ${varyingConfig?.attributeKey};`;
     }
     return [];
   });

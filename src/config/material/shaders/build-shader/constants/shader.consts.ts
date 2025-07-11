@@ -40,7 +40,7 @@ export const ATTRIBUTE_VALUE_TYPES = {
 };
 
 export const DEFAULT_UNIFORM_IDS = ["uTime"];
-export const DEFAULT_UNIFORMS = [
+export const DEFAULT_UNIFORM_CONFIGS = [
   {
     id: "uTime",
     valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,

@@ -2,7 +2,6 @@ import { Asset } from "../../../types";
 import { SceneConfig } from "../../../types/config.types";
 import { DoubleSide, ShaderMaterial } from "three";
 import { buildShader } from "./build-shader/buildShader";
-import { formatBuiltShaderConfig } from "./shader-formatting/formatBuiltShaderConfig";
 import { formatBuiltShaderUniforms } from "./shader-formatting/formatBuiltShaderUniforms";
 import { configureBlendingOptions } from "../blending-options/configureBlendingOptions";
 import { MATERIAL_TYPES } from "../../../consts/materials/materials.consts";
@@ -11,7 +10,7 @@ export const getBuiltShaderMaterials = (
   config: SceneConfig,
   assets: Asset[]
 ) => {
-  const { sceneMaterialConfigs, meshTransforms } = config;
+  const { sceneMaterialConfigs } = config;
   if (!sceneMaterialConfigs)
     return {
       builtShaders: [],
@@ -22,17 +21,15 @@ export const getBuiltShaderMaterials = (
         const { shaderEffectConfigs, effectFunctionConfigs, parameterConfigs } =
           materialConfig;
         if (!shaderEffectConfigs) return [];
-        const shaderConfig = formatBuiltShaderConfig(
+
+        const { vertexShader, fragmentShader } = buildShader(
           shaderEffectConfigs,
-          meshTransforms ?? [],
           effectFunctionConfigs ?? [],
           parameterConfigs ?? []
         );
 
-        const { vertexShader, fragmentShader } = buildShader(shaderConfig);
-
         const formattedUniforms = formatBuiltShaderUniforms(
-          shaderConfig.uniformConfigs ?? [],
+          parameterConfigs ?? [],
           assets
         );
         const blendingOptions = configureBlendingOptions(

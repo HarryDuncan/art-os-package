@@ -1,13 +1,20 @@
 import { ParameterConfig } from "../../buildShader.types";
 import { UNIFORM_DECLARATION } from "../../constants";
 import {
+  DEFAULT_UNIFORM_CONFIGS,
   SHADER_PROPERTY_TYPES,
   SHADER_PROPERTY_VALUE_TYPES,
 } from "../../constants/shader.consts";
 import { createDeclarationString } from "../../helpers/createDeclarationString";
 
 const DEFAULT_UNIFORMS = ["uTime"];
-export const buildUniformDeclaration = (uniformConfigs: ParameterConfig[]) => {
+export const buildUniformDeclaration = (
+  parameterConfigs: ParameterConfig[]
+) => {
+  const uniformConfigs = parameterConfigs.filter(
+    (parameterConfig) =>
+      parameterConfig.parameterType === SHADER_PROPERTY_TYPES.UNIFORM
+  );
   const customStrings = uniformConfigs.map(
     ({ id, valueType, arrayLength, structProperties, guid }) =>
       createDeclarationString(
@@ -18,9 +25,18 @@ export const buildUniformDeclaration = (uniformConfigs: ParameterConfig[]) => {
         structProperties
       )
   );
-  const uniformDeclaration = [UNIFORM_DECLARATION, ...customStrings].join(
-    " \n "
+  const defaultDeclarations = DEFAULT_UNIFORM_CONFIGS.map(({ id, valueType }) =>
+    createDeclarationString(
+      SHADER_PROPERTY_TYPES.UNIFORM as keyof typeof SHADER_PROPERTY_TYPES,
+      valueType as keyof typeof SHADER_PROPERTY_VALUE_TYPES,
+      id
+    )
   );
+  const uniformDeclaration = [
+    UNIFORM_DECLARATION,
+    ...defaultDeclarations,
+    ...customStrings,
+  ].join(" \n ");
 
   return uniformDeclaration;
 };

@@ -5,8 +5,12 @@ import {
 } from "../../constants/shader.consts";
 import { createDeclarationString } from "../../helpers/createDeclarationString";
 
-export const buildAttributes = (config: ParameterConfig[]) => {
-  const declarationString = createDeclarationStrings(config);
+export const buildAttributes = (parameterConfigs: ParameterConfig[]) => {
+  const attributeConfigs = parameterConfigs.filter(
+    (parameterConfig) =>
+      parameterConfig.parameterType === SHADER_PROPERTY_TYPES.ATTRIBUTE
+  );
+  const declarationString = createDeclarationStrings(attributeConfigs);
   return declarationString;
 };
 
