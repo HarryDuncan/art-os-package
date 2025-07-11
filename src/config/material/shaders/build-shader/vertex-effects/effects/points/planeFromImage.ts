@@ -1,4 +1,3 @@
-import { ShaderTransformationConfig } from "../../../../../../../types/materials/index";
 import {
   ASSET_MAPPING_RELATIONSHIPS,
   ATTRIBUTE_VALUE_TYPES,
@@ -6,9 +5,11 @@ import {
   SHADER_PROPERTY_VALUE_TYPES,
 } from "../../../constants/shader.consts";
 import { VARYING_TYPES } from "../../../shader-properties/varyings/varyings.consts";
-
 import { QUAD_MESH_TRANSFORM } from "../../../../../../mesh/meshTransforms.consts";
-import { ParameterConfig } from "../../../buildShader.types";
+import {
+  ParameterConfig,
+  ShaderTransformationConfig,
+} from "../../../buildShader.types";
 import {
   SHADER_VARIABLE_ASSIGNMENT_KEYS,
   SHADER_VARIABLE_TYPES,

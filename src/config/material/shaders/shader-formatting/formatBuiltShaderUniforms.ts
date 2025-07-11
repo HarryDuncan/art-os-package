@@ -2,13 +2,13 @@ import { IUniform, Vector2 } from "three";
 import { Asset } from "../../../../types";
 import { mapAssetsToUniforms } from "./mapAssetsToUniform";
 import {
-  ParameterConfig,
-  UniformObject,
-} from "../../../../types/materials/index";
-import {
   DEFAULT_UNIFORM_IDS,
   SHADER_PROPERTY_TYPES,
 } from "../build-shader/constants/shader.consts";
+import {
+  UniformObject,
+  ParameterConfig,
+} from "../build-shader/buildShader.types";
 
 export const formatBuiltShaderUniforms = (
   uniformConfigs: ParameterConfig[],

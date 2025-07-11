@@ -1,5 +1,5 @@
 import { AnimationConfig } from "./animation.types";
-import { MaterialConfig } from "./materials";
+import { MaterialConfig } from "../config/material/types";
 import { InteractionConfig } from "../interaction/interaction.types";
 import { Asset } from ".";
 import { GeometryConfig } from "../assets/geometry/geometry.types";
@@ -130,12 +130,11 @@ export type SplitValueConfig = {
 export type MeshTransformConfig = {
   id: string;
   guid?: string;
-  effectIds?: string[];
 
   type: MeshTransformType;
 
   transformedMeshIds: string[];
-  parameterIds?: string[];
+
   materialId?: string;
   transformParameterConfigs?: ParameterConfig[];
   values: Record<string, TransformValueConfig>;
@@ -143,6 +142,7 @@ export type MeshTransformConfig = {
   isEditable?: boolean;
   transformEditorType?: string;
   meshTransformEditorValues?: SplitValueConfig;
+  outputMapping?: Record<string, string[]>;
   editorValueMapping?: Record<string, unknown>;
 };
 

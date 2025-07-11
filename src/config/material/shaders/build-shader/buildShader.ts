@@ -6,7 +6,11 @@ import { buildVaryings } from "./shader-properties/varyings/buildVaryings";
 import { setUpVertexEffects } from "./vertex-effects/setUpVertexEffects";
 import { buildStruct } from "./shader-properties/structs/buildStructs";
 import { mergeStructConfigs } from "./shader-properties/structs/mergeStructConfigs";
-import { BuiltShaderConfig, ShaderFunction } from "./buildShader.types";
+import {
+  BuiltShaderConfig,
+  EffectFunctionConfig,
+  ShaderFunction,
+} from "./buildShader.types";
 import { formatShaderEffects } from "./helpers/formatEffectConfigs";
 import {
   VERTEX_NORMAL_INSTANTIATION,
@@ -24,14 +28,21 @@ export const buildShader = (shaderConfig: BuiltShaderConfig) => {
     attributeConfigs,
     structConfigs,
     effectFunctionConfigs,
+    singleParameters,
   } = shaderConfig;
-
+  console.log("singleParameters", singleParameters);
   console.log("shaderEffectConfigs", shaderEffectConfigs);
 
   const { vertexEffectFunctions, fragmentEffectFunctions } =
-    formatShaderEffects(shaderEffectConfigs, effectFunctionConfigs);
+    formatShaderEffects(
+      shaderEffectConfigs,
+      effectFunctionConfigs,
+      singleParameters ?? []
+    );
 
-  const fragmentEffects = setUpFragmentEffects(fragmentEffectFunctions);
+  const fragmentEffects = setUpFragmentEffects(
+    fragmentEffectFunctions as EffectFunctionConfig[]
+  );
   const vertexEffects = setUpVertexEffects(vertexEffectFunctions);
 
   const attributes = buildAttributes(attributeConfigs ?? []);

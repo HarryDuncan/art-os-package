@@ -19,12 +19,14 @@ export const getBuiltShaderMaterials = (
   const builtShaderMaterials = sceneMaterialConfigs.flatMap(
     (materialConfig) => {
       if (materialConfig.materialType === MATERIAL_TYPES.BUILT_SHADER) {
-        const { shaderEffectConfigs, effectFunctionConfigs } = materialConfig;
+        const { shaderEffectConfigs, effectFunctionConfigs, parameterConfigs } =
+          materialConfig;
         if (!shaderEffectConfigs) return [];
         const shaderConfig = formatBuiltShaderConfig(
           shaderEffectConfigs,
           meshTransforms ?? [],
-          effectFunctionConfigs ?? []
+          effectFunctionConfigs ?? [],
+          parameterConfigs ?? []
         );
 
         const { vertexShader, fragmentShader } = buildShader(shaderConfig);

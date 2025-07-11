@@ -1,5 +1,4 @@
 import { POINT_MATERIAL_EFFECT_CONFIG } from "./effects/pointMaterial.config";
-import { INTERACTIVE_EFFECTS } from "../constants/interactiveEffects.consts";
 import { TEXTURE_PIXEL_COLOR_EFFECT_CONFIG } from "./effects/texturePixelColor.config";
 import { DEFAULT_COLOR_EFFECT_CONFIG } from "./effects/defaultColor.config";
 import { AFFECTED_POSITION_EFFECT_FRAGMENT_CONFIG } from "./effects/affectedPosition.config";
@@ -30,7 +29,7 @@ export const FRAGMENT_EFFECTS = {
   // MATCAP: "MATCAP",
   // MATERIAL: "MATERIAL",
   // PHONG: "PHONG",
-  ...INTERACTIVE_EFFECTS,
+  AFFECTED_POSITION: "AFFECTED_POSITION",
 };
 
 export const DEFAULT_FRAG_COLOR = "#ff1205";

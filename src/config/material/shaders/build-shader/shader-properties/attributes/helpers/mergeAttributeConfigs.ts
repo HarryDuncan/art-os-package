@@ -1,4 +1,4 @@
-import { ParameterConfig } from "../../../../../../../types/materials/index";
+import { ParameterConfig } from "../../../buildShader.types";
 import { removeDuplicatesByKey } from "../../../../../../../utils/removeDuplicatesByKey";
 
 export const mergeAttributeConfigs = (

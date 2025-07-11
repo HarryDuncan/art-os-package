@@ -4,7 +4,7 @@ import {
   EffectFunctionConfig,
   ParameterConfig,
   ShaderEffectConfig,
-} from "../../../../types/materials/index";
+} from "../build-shader/buildShader.types";
 import { SHADER_TYPES } from "../build-shader/constants";
 import {
   DEFAULT_UNIFORMS,
@@ -42,8 +42,8 @@ const getVaryingFromFragmentEffectMeshTransforms = (
   if (fragmentEffectIds.length === 0) return [];
 
   const fragmentAttributeConfigs = meshTransforms.flatMap((transform) => {
-    const isFragmentEffect = fragmentEffectIds.some((effectId) =>
-      transform.effectIds?.includes(effectId)
+    const isFragmentEffect = fragmentEffectIds.some(
+      (effectId) => transform.outputMapping?.[effectId]
     );
     if (!isFragmentEffect || !transform.transformParameterConfigs) return [];
     return transform.transformParameterConfigs;
@@ -69,7 +69,7 @@ const getLinkedEffectParameters = (
   return shaderEffectConfigs.flatMap((effect) => {
     if (effect.id === id) return [];
 
-    return effect.effectParameters.filter((parameter) => {
+    return effect.effectParameters.filter((parameter: ParameterConfig) => {
       if (parameter.isFunctionBased) {
         return parameter.functionConfig?.effectId === id;
       }
@@ -81,14 +81,16 @@ const getLinkedEffectParameters = (
 export const formatBuiltShaderConfig = (
   shaderEffectConfigs: ShaderEffectConfig[],
   meshTransforms: MeshTransformConfig[],
-  effectFunctionConfigs: EffectFunctionConfig[]
+  effectFunctionConfigs: EffectFunctionConfig[],
+  singleParameters: ParameterConfig[]
 ): BuiltShaderConfig => {
   // const meshTransformAttributes = meshTransforms.flatMap(
   //   (transform) => transform.attributeConfigs ?? []
   // );
   const materialAttributeConfigs = shaderEffectConfigs?.flatMap((effect) =>
     effect.effectParameters.filter(
-      (parameter) => parameter.parameterType === SHADER_PROPERTY_TYPES.ATTRIBUTE
+      (parameter: ParameterConfig) =>
+        parameter.parameterType === SHADER_PROPERTY_TYPES.ATTRIBUTE
     )
   );
 
@@ -96,6 +98,8 @@ export const formatBuiltShaderConfig = (
     meshTransforms,
     shaderEffectConfigs ?? []
   ) as ParameterConfig[];
+
+  const formattedSingleParameters = formatSingleParameters(singleParameters);
   return {
     shaderEffectConfigs:
       shaderEffectConfigs?.map((effect) => {
@@ -110,25 +114,61 @@ export const formatBuiltShaderConfig = (
       ...DEFAULT_UNIFORMS,
       ...(shaderEffectConfigs?.flatMap((effect) =>
         effect.effectParameters.filter(
-          (parameter) =>
+          (parameter: ParameterConfig) =>
             parameter.parameterType === SHADER_PROPERTY_TYPES.UNIFORM &&
             !parameter.isTransformInput
         )
       ) ?? []),
+      ...(formattedSingleParameters.uniforms ?? []),
     ],
-    attributeConfigs: [...(materialAttributeConfigs ?? [])],
+    attributeConfigs: [
+      ...(materialAttributeConfigs ?? []),
+      ...(formattedSingleParameters.attributes ?? []),
+    ],
     varyingConfigs: formatShaderVaryingParameters([
       ...(transformVaryingConfigs ?? []),
       ...(shaderEffectConfigs?.flatMap(
         (effect) =>
           effect.effectParameters?.filter(
-            (parameter) =>
+            (parameter: ParameterConfig) =>
               parameter.parameterType === SHADER_PROPERTY_TYPES.VARYING
           ) ?? []
       ) ?? []),
+      ...(formattedSingleParameters.varyings ?? []),
     ] as ParameterConfig[]),
     effectFunctionConfigs,
+    singleParameters: singleParameters ?? [],
   };
+};
+
+const formatSingleParameters = (singleParameters: ParameterConfig[]) => {
+  const result = {
+    uniforms: [] as ParameterConfig[],
+    attributes: [] as ParameterConfig[],
+    varyings: [] as ParameterConfig[],
+    constants: [] as ParameterConfig[],
+  };
+
+  singleParameters.forEach((parameter) => {
+    switch (parameter.parameterType) {
+      case SHADER_PROPERTY_TYPES.UNIFORM:
+        result.uniforms.push(parameter);
+        break;
+      case SHADER_PROPERTY_TYPES.ATTRIBUTE:
+        result.attributes.push(parameter);
+        break;
+      case SHADER_PROPERTY_TYPES.VARYING:
+        result.varyings.push(parameter);
+        break;
+      case SHADER_PROPERTY_TYPES.CONSTANT:
+        result.constants.push(parameter);
+        break;
+      default:
+        console.warn(`Unknown parameter type: ${parameter.parameterType}`);
+    }
+  });
+
+  return result;
 };
 
 const formatEffectParameters = (

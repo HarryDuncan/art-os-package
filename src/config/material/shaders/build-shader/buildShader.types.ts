@@ -8,61 +8,11 @@ import { VERTEX_EFFECTS } from "./vertex-effects/vertexEffects.consts";
 import { FRAGMENT_EFFECTS } from "./fragment-effects/fragmentEffects.consts";
 import { SHADER_VARIABLE_TYPES } from "./constants";
 import { MeshTransformConfig } from "../../../..";
-import {
-  EffectFunctionConfig,
-  SplitValueEditorConfig,
-} from "./effect-functions/types";
 
-// GENERAL TYPES
-export type ShaderPropertyConfig = {
-  id: string;
-  guid?: string;
-  name?: string;
-  valueType: keyof typeof SHADER_PROPERTY_VALUE_TYPES;
-  value?: unknown;
-  arrayLength?: number;
-  arrayValue?: unknown[];
-  structProperties?: StructConfig;
-  keyPointId?: string;
-  effectIds?: string[];
-};
-
-export type ShaderParameterMap = Map<string, FunctionParameter>;
-export type FunctionParameter = {
-  id: string;
-  valueType: string;
-  shaderParameterId: string;
-  parameterConfig?: ParameterConfig;
-  default?: boolean;
-  mappedParameterKey?: string;
-};
-export type FormattedFunctionConfig = ShaderTransformationConfig & {
-  functionName: string;
-  functionDependencyIds: string[];
-  functionParameters: ShaderParameterMap;
-  functionType: string;
-  dontDeclare?: boolean;
-};
-
-export type DefinedEffectFunction = {
-  id: string;
-  functionType: string;
-  functionName: string;
-  assignedVariableId: string | undefined;
-  functionParameters: ShaderParameterMap;
-  functionDefinition: string;
-  dontDeclare?: boolean;
-  returnValue: keyof typeof SHADER_PROPERTY_VALUE_TYPES;
-};
-
-export type ShaderFunction = {
-  id: string;
-  functionDefinition: string;
-  functionType: string;
-  functionName: string;
-  assignedVariableId?: string;
-  functionParameters?: ShaderParameterMap;
-  parameterMappingInstantiation?: Record<string, string>;
+export type OutputInputMapping = {
+  itemId: string;
+  nodeType: string;
+  type?: string;
 };
 
 export interface EffectConfig {
@@ -71,6 +21,8 @@ export interface EffectConfig {
   effectParameters: ParameterConfig[];
   shaderType: string;
   subEffectIds?: string[];
+  inputMapping?: Record<string, OutputInputMapping>;
+  outputMapping?: Record<string, OutputInputMapping>;
 }
 export type VertexEffectConfig = EffectConfig & {
   applyToNormal?: boolean;
@@ -93,9 +45,16 @@ export type UniformObject = {
   [key: string]: { value: unknown } | { value: unknown }[];
 };
 
-// useful for customizing inputs - e.g color is vec4 but I want a color picker
-export const SHADER_PROPERTY_TAGS = {
-  COLOR: "color",
+// GENERAL TYPES
+export type ShaderPropertyConfig = {
+  id: string;
+  guid?: string;
+  name?: string;
+  valueType: keyof typeof SHADER_PROPERTY_VALUE_TYPES;
+  value?: unknown;
+  arrayLength?: number;
+  arrayValue?: unknown[];
+  structProperties?: StructConfig;
 };
 
 export type ParameterFunctionConfig = {
@@ -117,7 +76,6 @@ export type VaryingConfig = {
 };
 export type ParameterConfig = ShaderPropertyConfig & {
   parameterType: keyof typeof SHADER_PROPERTY_TYPES;
-  uniqueId?: string;
   description?: string;
   isFunctionBased?: boolean;
   isAssetMapped?: boolean;
@@ -133,6 +91,63 @@ export type ParameterConfig = ShaderPropertyConfig & {
   functionConfig?: ParameterFunctionConfig;
 };
 
+export type SplitValueEditorConfig = {
+  numSplits: number;
+  splitValues: number[];
+};
+
+export type EffectFunctionConfig = {
+  id: string;
+  functionId: string;
+  value?: SplitValueEditorConfig | null;
+  outputMapping: Record<string, OutputInputMapping>;
+  inputMapping: Record<string, OutputInputMapping> | null;
+  effects: ShaderEffectConfig[];
+  inputParameters?: ParameterConfig[];
+};
+
+// POST INIT TYPE
+export type ShaderParameterMap = Map<string, FunctionParameter>;
+export type FunctionParameter = {
+  id: string;
+  valueType: string;
+  shaderParameterId: string;
+  parameterConfig?: ParameterConfig;
+  default?: boolean;
+  mappedParameterKey?: string;
+};
+export type FormattedFunctionConfig = ShaderTransformationConfig & {
+  functionName: string;
+  functionDependencyIds: string[];
+  functionParameters: ShaderParameterMap;
+  functionType: string;
+  dontDeclare?: boolean;
+};
+export type DefinedEffectFunction = {
+  id: string;
+  functionType: string;
+  functionName: string;
+  assignedVariableId: string | undefined;
+  functionParameters: ShaderParameterMap;
+  functionDefinition: string;
+  dontDeclare?: boolean;
+  returnValue: keyof typeof SHADER_PROPERTY_VALUE_TYPES;
+};
+export type ShaderFunction = {
+  id: string;
+  functionDefinition: string;
+  functionType: string;
+  functionName: string;
+  assignedVariableId?: string;
+  functionParameters?: ShaderParameterMap;
+  parameterMappingInstantiation?: Record<string, string>;
+};
+
+// useful for customizing inputs - e.g color is vec4 but I want a color picker
+export const SHADER_PROPERTY_TAGS = {
+  COLOR: "color",
+};
+
 export type StructConfig = { id: string; properties: ShaderPropertyConfig[] };
 export type BuiltShaderConfig = {
   shaderEffectConfigs: ShaderEffectConfig[];
@@ -141,6 +156,7 @@ export type BuiltShaderConfig = {
   varyingConfigs?: ParameterConfig[];
   attributeConfigs?: ParameterConfig[];
   structConfigs?: StructConfig[];
+  singleParameters?: ParameterConfig[];
 };
 
 export type ShaderTransformationConfig = {
@@ -156,12 +172,16 @@ export type ShaderEffectSchema = {
   parameters: ParameterConfig[];
   transformationConfig: ShaderTransformationConfig[];
 };
-
+export type TransformData = {
+  transformation: string;
+  requiredFunctions: ShaderFunction[];
+  assignedVariableId: string | null;
+  constantDeclarations: string[];
+  advancedShaderVariables: AdvancedShaderVariableMap;
+};
 export type AdvancedShaderVariableMap = Map<string, AdvancedShaderVariable>;
 export type AdvancedShaderVariable = {
   key: string;
   instantiation: string;
   assignment: string;
 };
-
-export type { EffectFunctionConfig, SplitValueEditorConfig };

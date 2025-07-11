@@ -1,7 +1,4 @@
-import {
-  StructConfig,
-  ShaderPropertyConfig,
-} from "../../../../../../types/materials/index";
+import { StructConfig, ShaderPropertyConfig } from "../../buildShader.types";
 import { STRUCT_DECLARATION } from "./structs.consts";
 
 export const buildStruct = (config: StructConfig[]): string => {

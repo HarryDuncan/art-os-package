@@ -34,7 +34,6 @@ export const setUpVertexEffects = (
 const getVertexTransformations = (
   vertexEffectFunctions: EffectFunctionConfig[]
 ) => {
-  console.log("vertexEffectFunctions", vertexEffectFunctions);
   const unmergedTransformations: string[] = [];
   const allRequiredFunctions: ShaderFunction[][] = [];
   const allConstantDeclarations: string[][] = [];
@@ -64,7 +63,7 @@ export const transformSetup = (effectProps: EffectFunctionConfig) => {
   const effectTransformationData = effects.flatMap((effect) => {
     return generateShaderTransformData(effect as VertexEffectProps, false);
   });
-  console.log("effectTransformationData", effectTransformationData);
+
   switch (functionId) {
     case "DEFAULT_EFFECT_FUNCTION":
       return effectTransformationData[0];

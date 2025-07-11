@@ -9,7 +9,7 @@ import {
   VERTEX_NORMAL_NAME,
   VERTEX_POINT_NAME,
 } from "../../vertex-effects/vertexEffects.consts";
-import { ParameterConfig } from "../../../../../../types/materials/index";
+import { ParameterConfig } from "../../buildShader.types";
 import {
   V_CUSTOM_INSTANTIATION,
   V_DECLARATION,

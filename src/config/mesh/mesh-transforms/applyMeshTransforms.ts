@@ -25,6 +25,7 @@ export const applyMeshTransforms = (
     );
     if (transformedMeshes.length) {
       switch (type) {
+        case MESH_TRANSFORM_TYPE.SINGLE_PARAMETERS:
         case MESH_TRANSFORM_TYPE.CUSTOM_ATTRIBUTES: {
           return transformedMeshes.map((formattedGeometry) => {
             const { geometry } = formattedGeometry;

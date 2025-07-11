@@ -1,10 +1,10 @@
-import { ShaderTransformationConfig } from "../../../../../../../types/materials/index";
 import {
   SHADER_PROPERTY_TYPES,
   SHADER_PROPERTY_VALUE_TYPES,
 } from "../../../constants/shader.consts";
 import { VARYING_TYPES } from "../../../shader-properties/varyings/varyings.consts";
 import { SHADER_VARIABLE_TYPES } from "../../../constants";
+import { ShaderTransformationConfig } from "../../../buildShader.types";
 
 export const POINT_SIZE_PARAMETERS = [
   {

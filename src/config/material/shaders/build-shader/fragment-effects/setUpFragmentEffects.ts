@@ -4,6 +4,7 @@ import {
   EffectFunctionConfig,
   ShaderFunction,
   ShaderTransformationConfig,
+  TransformData,
 } from "../buildShader.types";
 import {
   FRAG_COLOR_NAME,
@@ -20,6 +21,8 @@ import { setUpFunctionInstantiation } from "../helpers/generate-transform/functi
 import { prepareFunctionConfigs } from "../helpers/generate-transform/prepareFunctionConfigs";
 import { defineEffectFunctions } from "../helpers/generate-transform/defineEffectFunctions";
 import { generateConstantDeclarations } from "../helpers/generate-transform/constantDeclarations";
+import { EFFECT_FUNCTIONS } from "../effect-functions";
+import { splitValueTransform } from "../effect-functions/splitValueTransform";
 
 export const setUpFragmentEffects = (
   fragmentEffectFunctions: EffectFunctionConfig[]
@@ -73,7 +76,7 @@ export const getFragmentColors = (
     if (fragmentEffectData) {
       unmergedTransformations.push(fragmentEffectData.transformation);
       allRequiredFunctions.push(fragmentEffectData.requiredFunctions);
-      assignedVariableIds.push(fragmentEffectData.assignedVariableId);
+      assignedVariableIds.push(fragmentEffectData.assignedVariableId ?? "");
       allConstantDeclarations.push(fragmentEffectData.constantDeclarations);
       if (fragmentEffectData.advancedShaderVariables) {
         Array.from(
@@ -99,12 +102,23 @@ export const getFragmentColors = (
 export const transformSetup = (effectProps: EffectFunctionConfig) => {
   const { functionId, effects } = effectProps;
   const effectTransformationData = effects.flatMap((effect) => {
-    return generateFragmentShaderTransformData(effect as FragmentEffectProps);
+    const data = generateFragmentShaderTransformData(
+      effect as FragmentEffectProps
+    );
+    if (data) {
+      return {
+        id: effect.id,
+        ...data,
+      };
+    }
+    return [];
   });
 
   switch (functionId) {
-    case "DEFAULT_EFFECT_FUNCTION":
+    case EFFECT_FUNCTIONS.DEFAULT:
       return effectTransformationData[0];
+    case EFFECT_FUNCTIONS.SPLIT_VALUE:
+      return splitValueTransform(effectProps, effectTransformationData);
     default:
       return null;
   }
@@ -113,7 +127,7 @@ export const transformSetup = (effectProps: EffectFunctionConfig) => {
 const generateFragmentShaderTransformData = (
   effect: FragmentEffectProps,
   isSubEffect: boolean = false
-) => {
+): TransformData | null => {
   const { effectType } = effect;
   const effectConfig = FRAGMENT_EFFECT_CONFIG_MAP[effectType];
   if (effectConfig) {
@@ -141,7 +155,7 @@ const generateFragmentShaderTransformData = (
       advancedShaderVariables,
     };
   }
-  return [];
+  return null;
 };
 
 export const generateFragmentShaderTransformation = (
@@ -178,6 +192,7 @@ export const generateFragmentShaderTransformation = (
     isSubEffect,
     subEffectDataArray
   );
+
   console.log("formattedFunctionConfigs", formattedFunctionConfigs);
 
   const shaderVariableTypes = formattedFunctionConfigs.flatMap(

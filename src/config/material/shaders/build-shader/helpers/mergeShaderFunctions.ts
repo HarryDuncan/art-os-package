@@ -1,4 +1,4 @@
-import { ShaderFunction } from "../../../../../types/materials/index";
+import { ShaderFunction } from "../buildShader.types";
 
 interface UniqueFunction {
   [key: string]: Omit<ShaderFunction, "id">;

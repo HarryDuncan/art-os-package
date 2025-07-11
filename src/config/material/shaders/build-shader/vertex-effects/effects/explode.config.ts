@@ -3,7 +3,7 @@ import {
   ShaderFunction,
   ParameterConfig,
   ShaderTransformationConfig,
-} from "../../../../../../types/materials/index";
+} from "../../buildShader.types";
 import { MESH_TRANSFORM_TYPE } from "../../../../../mesh/mesh.consts";
 import {
   SHADER_VARIABLE_ASSIGNMENT_KEYS,

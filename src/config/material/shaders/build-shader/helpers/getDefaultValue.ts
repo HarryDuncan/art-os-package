@@ -1,9 +1,6 @@
 import { Matrix3, Matrix4, Vector2, Vector3, Vector4 } from "three";
 import { SHADER_PROPERTY_VALUE_TYPES } from "../constants/shader.consts";
-import {
-  ShaderPropertyConfig,
-  StructConfig,
-} from "../../../../../types/materials/index";
+import { ShaderPropertyConfig, StructConfig } from "../buildShader.types";
 
 export const getDefaultValue = (
   valueType: keyof typeof SHADER_PROPERTY_VALUE_TYPES,

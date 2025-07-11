@@ -1,5 +1,4 @@
 import { IMAGE_TO_POINTS_EFFECT_CONFIG } from "./effects/points/imageToPoints.config";
-import { INTERACTIVE_EFFECTS } from "../constants/interactiveEffects.consts";
 import { EXPLODE_EFFECT_CONFIG } from "./effects/explode.config";
 import { ROTATION_EFFECT_CONFIG } from "./effects/rotationEffect.config";
 import { AFFECTED_POSITION_EFFECT_CONFIG } from "./effects/affectedPosition.config";
@@ -20,7 +19,7 @@ export const VERTEX_EFFECTS = {
   IMAGE_TO_POINTS: "IMAGE_TO_POINTS",
   ROTATION: "ROTATION",
   PLANE_FROM_IMAGE: "PLANE_FROM_IMAGE",
-  ...INTERACTIVE_EFFECTS,
+  AFFECTED_POSITION: "AFFECTED_POSITION",
 };
 
 export const VERTEX_EFFECT_CONFIG_MAP = {

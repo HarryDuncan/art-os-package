@@ -6,8 +6,8 @@ import {
 import {
   ShaderEffectConfig,
   ParameterConfig,
-} from "../../config/material/shaders/build-shader/buildShader.types";
-import { EffectFunctionConfig } from "../../config/material/shaders/build-shader/effect-functions/types";
+  EffectFunctionConfig,
+} from "./shaders/build-shader/buildShader.types";
 
 export type MaterialType = keyof typeof MATERIAL_TYPES;
 export type EnvMapType = keyof typeof ENV_MAP_TYPES;
@@ -69,7 +69,7 @@ export interface MaterialConfig {
   materialProps: MaterialConfigProps;
   shaderEffectConfigs?: ShaderEffectConfig[];
   effectFunctionConfigs?: EffectFunctionConfig[];
-  singleParameterConfigs?: ParameterConfig[];
+  parameterConfigs?: ParameterConfig[];
   assetMapping?: AssetToUniformMappingConfig[];
   blendingConfig?: Record<string, unknown>;
 }
@@ -87,4 +87,4 @@ export type AssetToUniformMappingConfig = {
   relationship: string;
 };
 
-export type { BlendingConfig } from "../../config/material/blending-options/blendingOptions.types";
+export type { BlendingConfig } from "./blending-options/blendingOptions.types";

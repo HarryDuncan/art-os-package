@@ -1,4 +1,4 @@
-import { ParameterConfig } from "../../../../../../types/materials/index";
+import { ParameterConfig } from "../../buildShader.types";
 import {
   SHADER_PROPERTY_VALUE_TYPES,
   SHADER_PROPERTY_TYPES,
