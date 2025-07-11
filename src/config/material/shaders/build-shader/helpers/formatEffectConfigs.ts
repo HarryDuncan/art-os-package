@@ -8,17 +8,48 @@ import { FragmentEffectConfig } from "../buildShader.types";
 import { SHADER_TYPES } from "../constants";
 import { EFFECT_FUNCTIONS } from "../effect-functions";
 
+const nestSubEffects = <T extends ShaderEffectConfig>(
+  effectConfigs: T[]
+): T[] =>
+  effectConfigs.reduce((acc: T[], effect: T) => {
+    if (effect.subEffectIds && effect.subEffectIds.length > 0) {
+      const effectsReferencingThis = effectConfigs.filter((subEffect) =>
+        effect.subEffectIds?.includes(subEffect.id)
+      );
+      if (effectsReferencingThis.length > 0) {
+        acc.push({
+          ...effect,
+          subEffects: effectsReferencingThis,
+        } as T);
+      } else {
+        acc.push(effect);
+      }
+      return acc;
+    }
+    const isSubEffect = acc.some((ef) => ef.subEffectIds?.includes(effect.id));
+    if (isSubEffect) {
+      return acc;
+    } else {
+      acc.push(effect);
+    }
+    return acc;
+  }, [] as T[]);
+
 export const formatShaderEffects = (
   shaderEffectConfigs: ShaderEffectConfig[],
   effectFunctionConfigs: EffectFunctionConfig[],
-  singleParameters: ParameterConfig[]
+  parameterConfigs: ParameterConfig[]
 ) => {
-  console.log("effectFunctionConfigs", effectFunctionConfigs);
-  const vertexEffectConfigs = shaderEffectConfigs.filter(
-    (config) => config.shaderType === SHADER_TYPES.VERTEX
+  const vertexEffectConfigs = nestSubEffects(
+    shaderEffectConfigs.filter(
+      (config) => config.shaderType === SHADER_TYPES.VERTEX
+    ) as VertexEffectConfig[]
   ) as VertexEffectConfig[];
-  const fragmentEffectConfigs = shaderEffectConfigs.filter(
-    (config) => config.shaderType === SHADER_TYPES.FRAGMENT
+
+  const fragmentEffectConfigs = nestSubEffects(
+    shaderEffectConfigs.filter(
+      (config) => config.shaderType === SHADER_TYPES.FRAGMENT
+    ) as FragmentEffectConfig[]
   ) as FragmentEffectConfig[];
 
   const fragmentEffectFunctionConfigs = effectFunctionConfigs.flatMap(
@@ -34,7 +65,7 @@ export const formatShaderEffects = (
         const inputIds = Object.values(config.inputMapping ?? {}).map(
           (mapping) => mapping.itemId
         );
-        const inputParameters = singleParameters.filter((parameter) =>
+        const inputParameters = parameterConfigs.filter((parameter) =>
           inputIds.includes(parameter.guid ?? "")
         );
         return { ...config, inputParameters };
@@ -43,45 +74,7 @@ export const formatShaderEffects = (
     }
   );
 
-  // const vertexEffectFunctionConfigs = effectFunctionConfigs.filter(
-  //   (config) => {
-  //     const { outputMapping } = config;
-  //     const outputIds = Object.values(outputMapping).map((mapping) => mapping.itemId);
-  //     const isVertexEffect = outputIds.some((id) =>
-  //       vertexEffectConfigs.some((config) => config.id === id)
-  //     );
-  //     return isVertexEffect;
-  //   }
-  // );
-
-  const formattedVertexEffects = vertexEffectConfigs.reduce((acc, effect) => {
-    if (effect.subEffectIds && effect.subEffectIds.length > 0) {
-      const effectsReferencingThis = vertexEffectConfigs.filter((subEffect) =>
-        effect.subEffectIds?.includes(subEffect.id)
-      );
-      if (effectsReferencingThis.length > 0) {
-        // Add this effect with the referencing effects as its subEffects
-        acc.push({
-          ...effect,
-          subEffects: effectsReferencingThis,
-        });
-      } else {
-        // Add regular effects normally
-        acc.push(effect);
-      }
-      return acc;
-    }
-
-    const isSubEffect = acc.some((ef) => ef.subEffectIds?.includes(effect.id));
-    if (isSubEffect) {
-      return acc;
-    } else {
-      acc.push(effect);
-    }
-
-    return acc;
-  }, [] as VertexEffectConfig[]);
-  const vertexEffectFunctions = formattedVertexEffects.map((effect) => {
+  const vertexEffectFunctions = vertexEffectConfigs.map((effect) => {
     const defaultEffectFunction = {
       id: effect.id,
       functionId: "DEFAULT_EFFECT_FUNCTION",
@@ -92,40 +85,7 @@ export const formatShaderEffects = (
     return defaultEffectFunction;
   });
 
-  const formattedFragmentEffects = fragmentEffectConfigs.reduce(
-    (acc, effect) => {
-      if (effect.subEffectIds && effect.subEffectIds.length > 0) {
-        const effectsReferencingThis = fragmentEffectConfigs.filter(
-          (subEffect) => effect.subEffectIds?.includes(subEffect.id)
-        );
-        if (effectsReferencingThis.length > 0) {
-          // Add this effect with the referencing effects as its subEffects
-          acc.push({
-            ...effect,
-            subEffects: effectsReferencingThis,
-          });
-        } else {
-          // Add regular effects normally
-          acc.push(effect);
-        }
-        return acc;
-      }
-
-      const isSubEffect = acc.some((ef) =>
-        ef.subEffectIds?.includes(effect.id)
-      );
-      if (isSubEffect) {
-        return acc;
-      } else {
-        acc.push(effect);
-      }
-
-      return acc;
-    },
-    [] as FragmentEffectConfig[]
-  );
-
-  const fragmentEffectFunctions = formattedFragmentEffects.reduce(
+  const fragmentEffectFunctions = fragmentEffectConfigs.reduce(
     (acc, effect) => {
       // Check if there are any fragmentEffectFunctionConfigs that reference this effect
       const matchingFunctionConfig = fragmentEffectFunctionConfigs.find(

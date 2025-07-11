@@ -33,7 +33,7 @@ export const QUAD_MESH_TRANSFORM_ATTRIBUTES = [
     description: "The dimensions of the quad mesh",
     valueType: SHADER_PROPERTY_VALUE_TYPES.VEC2,
     isAssetMapped: true,
-    isTransformInput: true,
+    parameterType: SHADER_PROPERTY_TYPES.MESH_TRANSFORM_VALUE,
     assetMappingConfig: {
       relationship: ASSET_MAPPING_RELATIONSHIPS.DIMENSION,
     },

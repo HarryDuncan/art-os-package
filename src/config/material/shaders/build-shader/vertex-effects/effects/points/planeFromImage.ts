@@ -8,7 +8,7 @@ import { VARYING_TYPES } from "../../../shader-properties/varyings/varyings.cons
 import { QUAD_MESH_TRANSFORM } from "../../../../../../mesh/meshTransforms.consts";
 import {
   ParameterConfig,
-  ShaderTransformationConfig,
+  ShaderTransformationSchema,
 } from "../../../buildShader.types";
 import {
   SHADER_VARIABLE_ASSIGNMENT_KEYS,
@@ -118,7 +118,7 @@ export const PLANE_FROM_IMAGE_TRANSFORM_CONFIG = [
     returnValue: SHADER_PROPERTY_VALUE_TYPES.VEC4,
     assignedVariableId: SHADER_VARIABLE_TYPES.VERTEX_POINT,
   },
-] as unknown as ShaderTransformationConfig[];
+] as unknown as ShaderTransformationSchema[];
 
 export const PLANE_FROM_IMAGE_EFFECT_CONFIG = {
   functions: PLANE_FROM_IMAGE_REQUIRED_FUNCTIONS,

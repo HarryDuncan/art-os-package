@@ -4,13 +4,13 @@ import {
   VERTEX_POINT_NAME,
 } from "./vertexEffects.consts";
 import { VertexEffectProps } from "./vertexEffects.types";
-import { setupEffectParameters } from "../helpers/generate-transform/formatShaderEffectParameters";
+import { setupEffectParameters } from "../../shader-formatting/setUpParameterMap";
 import { DEFAULT_VERTEX_PARAMETERS } from "../helpers/generate-transform/consts";
 import { prepareFunctionConfigs } from "../helpers/generate-transform/prepareFunctionConfigs";
 import { defineEffectFunctions } from "../helpers/generate-transform/defineEffectFunctions";
 import {
   ShaderFunction,
-  ShaderTransformationConfig,
+  ShaderTransformationSchema,
 } from "../buildShader.types";
 import { setUpFunctionInstantiation } from "../helpers/generate-transform/functions";
 import { FUNCTION_TYPES } from "../constants";
@@ -81,7 +81,7 @@ const generateShaderTransformData = (
   if (effectConfig) {
     const { transformationFunctions, transformation, constantDeclarations } =
       generateVertexShaderTransforms(
-        effectConfig.transformationConfig as ShaderTransformationConfig[],
+        effectConfig.transformationConfig as ShaderTransformationSchema[],
         effect as VertexEffectProps,
         isSubEffect
       );
@@ -102,7 +102,7 @@ const generateShaderTransformData = (
 };
 
 export const generateVertexShaderTransforms = (
-  transformConfig: ShaderTransformationConfig[],
+  transformConfig: ShaderTransformationSchema[],
   effectProps: VertexEffectProps,
   isSubEffect: boolean
 ): {

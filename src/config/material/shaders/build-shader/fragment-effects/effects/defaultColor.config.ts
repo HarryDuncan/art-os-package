@@ -1,7 +1,7 @@
 import {
   ParameterConfig,
   SHADER_PROPERTY_TAGS,
-  ShaderTransformationConfig,
+  ShaderTransformationSchema,
 } from "../../buildShader.types";
 import {
   SHADER_PROPERTY_TYPES,
@@ -31,7 +31,7 @@ const COLOR_TRANSFORMATION_CONFIG = {
   ],
   returnValue: SHADER_PROPERTY_VALUE_TYPES.VEC4,
   assignedVariableId: SHADER_VARIABLE_TYPES.FRAGMENT_COLOR,
-} as ShaderTransformationConfig;
+} as ShaderTransformationSchema;
 
 export const DEFAULT_COLOR_EFFECT_CONFIG = {
   functions: [],

@@ -1,6 +1,6 @@
 import {
   ParameterConfig,
-  ShaderTransformationConfig,
+  ShaderTransformationSchema,
 } from "../../buildShader.types";
 import {
   SHADER_VARIABLE_ASSIGNMENT_KEYS,
@@ -50,7 +50,7 @@ export const affectedPositionTransformConfig = [
     returnValue: SHADER_PROPERTY_VALUE_TYPES.VEC4,
     assignedVariableId: SHADER_VARIABLE_TYPES.FRAGMENT_COLOR,
   },
-] as unknown as ShaderTransformationConfig[];
+] as unknown as ShaderTransformationSchema[];
 
 export const AFFECTED_POSITION_EFFECT_FRAGMENT_CONFIG = {
   functions: [],

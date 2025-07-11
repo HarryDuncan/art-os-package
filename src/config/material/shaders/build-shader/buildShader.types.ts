@@ -116,7 +116,7 @@ export type FunctionParameter = {
   default?: boolean;
   mappedParameterKey?: string;
 };
-export type FormattedFunctionConfig = ShaderTransformationConfig & {
+export type FormattedFunctionConfig = ShaderTransformationSchema & {
   functionName: string;
   functionDependencyIds: string[];
   functionParameters: ShaderParameterMap;
@@ -159,7 +159,7 @@ export type BuiltShaderConfig = {
   singleParameters?: ParameterConfig[];
 };
 
-export type ShaderTransformationConfig = {
+export type ShaderTransformationSchema = {
   id: string;
   transformCode: string[];
   returnValue: keyof typeof SHADER_PROPERTY_VALUE_TYPES;
@@ -170,7 +170,7 @@ export type ShaderEffectSchema = {
   functions: ShaderFunction[];
   meshTransformConfig: MeshTransformConfig[];
   parameters: ParameterConfig[];
-  transformationConfig: ShaderTransformationConfig[];
+  transformationConfig: ShaderTransformationSchema[];
 };
 export type TransformData = {
   transformation: string;

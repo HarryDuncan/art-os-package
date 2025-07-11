@@ -7,7 +7,7 @@ import {
 import { SHADER_VARIABLE_TYPES } from "../../../constants";
 import {
   ParameterConfig,
-  ShaderTransformationConfig,
+  ShaderTransformationSchema,
 } from "../../../../../../../types";
 import {
   randFunction,
@@ -43,7 +43,7 @@ export const POINT_SIZE_FROM_TEXTURE_TRANSFORM = [
       `return currentPointSize;`,
     ],
   },
-] as ShaderTransformationConfig[];
+] as ShaderTransformationSchema[];
 
 export const POINT_SIZE_FROM_TEXTURE_ATTRIBUTES = [
   {

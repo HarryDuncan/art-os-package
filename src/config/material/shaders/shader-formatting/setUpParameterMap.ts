@@ -2,10 +2,10 @@ import {
   FunctionParameter,
   ParameterConfig,
   ShaderParameterMap,
-} from "../../buildShader.types";
-import { FragmentEffectProps } from "../../fragment-effects/fragmentShader.types";
-import { VertexEffectProps } from "../../vertex-effects/vertexEffects.types";
-import { SHADER_PROPERTY_TYPES } from "../../constants/shader.consts";
+} from "../build-shader/buildShader.types";
+import { FragmentEffectProps } from "../build-shader/fragment-effects/fragmentShader.types";
+import { VertexEffectProps } from "../build-shader/vertex-effects/vertexEffects.types";
+import { SHADER_PROPERTY_TYPES } from "../build-shader/constants/shader.consts";
 
 export const setupEffectParameters = (
   effectProps: VertexEffectProps | FragmentEffectProps,

@@ -1,6 +1,6 @@
 import {
   ParameterConfig,
-  ShaderTransformationConfig,
+  ShaderTransformationSchema,
 } from "../../buildShader.types";
 import {
   SHADER_VARIABLE_ASSIGNMENT_KEYS,
@@ -51,7 +51,7 @@ const ROTATION_EFFECT_TRANSFORMATION = [
     returnValue: SHADER_PROPERTY_VALUE_TYPES.VEC4,
     assignedVariableId: SHADER_VARIABLE_TYPES.VERTEX_POINT,
   },
-] as unknown as ShaderTransformationConfig[];
+] as unknown as ShaderTransformationSchema[];
 
 // const ROTATION_VARYINGS = [
 //   { id: "vPointId", valueType: "FLOAT", varyingType: "ATTRIBUTE" },

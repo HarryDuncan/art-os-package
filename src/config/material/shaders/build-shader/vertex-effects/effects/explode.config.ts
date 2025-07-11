@@ -1,7 +1,7 @@
 import {
   ShaderFunction,
   ParameterConfig,
-  ShaderTransformationConfig,
+  ShaderTransformationSchema,
 } from "../../buildShader.types";
 import {
   SHADER_VARIABLE_ASSIGNMENT_KEYS,
@@ -59,7 +59,7 @@ const EXPLODE_TRANSFORMATION_CONFIG = {
   ],
   returnValue: SHADER_PROPERTY_VALUE_TYPES.VEC4,
   assignedVariableId: SHADER_VARIABLE_TYPES.VERTEX_POINT,
-} as unknown as ShaderTransformationConfig;
+} as unknown as ShaderTransformationSchema;
 
 export const EXPLODE_EFFECT_CONFIG = {
   functions: EXPLODE_FUNCTIONS,

@@ -4,7 +4,7 @@ import {
 } from "../../../constants/shader.consts";
 import { VARYING_TYPES } from "../../../shader-properties/varyings/varyings.consts";
 import { SHADER_VARIABLE_TYPES } from "../../../constants";
-import { ShaderTransformationConfig } from "../../../buildShader.types";
+import { ShaderTransformationSchema } from "../../../buildShader.types";
 
 export const POINT_SIZE_PARAMETERS = [
   {
@@ -40,7 +40,7 @@ const imageToPointsTransformConfig = [
     returnValue: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
     assignedVariableId: SHADER_VARIABLE_TYPES.GL_POINT_SIZE,
   },
-] as unknown as ShaderTransformationConfig[];
+] as unknown as ShaderTransformationSchema[];
 
 export const POINT_SIZE_EFFECT_CONFIG = {
   functions: POINT_SIZE_REQUIRED_FUNCTIONS,

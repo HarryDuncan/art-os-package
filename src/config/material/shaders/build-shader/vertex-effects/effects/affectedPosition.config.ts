@@ -1,6 +1,6 @@
 import {
   ParameterConfig,
-  ShaderTransformationConfig,
+  ShaderTransformationSchema,
 } from "../../buildShader.types";
 import {
   SHADER_VARIABLE_ASSIGNMENT_KEYS,
@@ -59,7 +59,7 @@ export const affectedPositionTransformConfig = [
     returnValue: SHADER_PROPERTY_VALUE_TYPES.VEC4,
     assignedVariableId: SHADER_VARIABLE_TYPES.VERTEX_POINT,
   },
-] as unknown as ShaderTransformationConfig[];
+] as unknown as ShaderTransformationSchema[];
 
 // const AFFECTED_POSITION_MESH_TRANSFORM = {
 //   id: "affectedPositionMeshTransform",

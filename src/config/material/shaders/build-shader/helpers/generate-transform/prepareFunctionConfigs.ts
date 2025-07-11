@@ -4,7 +4,7 @@ import {
   ParameterFunctionConfig,
   ShaderParameterMap,
   ShaderFunction,
-  ShaderTransformationConfig,
+  ShaderTransformationSchema,
 } from "../../buildShader.types";
 import { SHADER_VARIABLE_TYPES } from "../../constants/buildShader.consts";
 import {
@@ -86,7 +86,7 @@ const parseSubEffectIntoTransformCode = (
   });
 };
 export const prepareFunctionConfigs = (
-  transformConfigs: ShaderTransformationConfig[],
+  transformConfigs: ShaderTransformationSchema[],
   shaderParameterMap: ShaderParameterMap,
   isSubEffect: boolean,
   subEffectData: {

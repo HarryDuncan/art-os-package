@@ -1,6 +1,6 @@
 import {
   ParameterConfig,
-  ShaderTransformationConfig,
+  ShaderTransformationSchema,
 } from "../../buildShader.types";
 import {
   SHADER_VARIABLE_ASSIGNMENT_KEYS,
@@ -42,7 +42,7 @@ const TEXTURE_PIXEL_COLOR_TRANSFORMATION_CONFIG = {
   ],
   returnValue: SHADER_PROPERTY_VALUE_TYPES.VEC4,
   assignedVariableId: SHADER_VARIABLE_TYPES.FRAGMENT_COLOR,
-} as unknown as ShaderTransformationConfig;
+} as unknown as ShaderTransformationSchema;
 
 export const TEXTURE_PIXEL_COLOR_EFFECT_CONFIG = {
   functions: [],

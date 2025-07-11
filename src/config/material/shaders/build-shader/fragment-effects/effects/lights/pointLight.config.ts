@@ -1,7 +1,7 @@
 import {
   SHADER_PROPERTY_TAGS,
   ParameterConfig,
-  ShaderTransformationConfig,
+  ShaderTransformationSchema,
 } from "../../../buildShader.types";
 import { SHADER_VARIABLE_TYPES } from "../../../constants";
 import {
@@ -82,7 +82,7 @@ const POINT_LIGHT_TRANSFORMATION_CONFIG = {
   ],
   returnValue: SHADER_PROPERTY_VALUE_TYPES.VEC3,
   assignedVariableId: SHADER_VARIABLE_TYPES.LIGHT,
-} as ShaderTransformationConfig;
+} as ShaderTransformationSchema;
 
 export const POINT_LIGHT_EFFECT_CONFIG = {
   functions: [],

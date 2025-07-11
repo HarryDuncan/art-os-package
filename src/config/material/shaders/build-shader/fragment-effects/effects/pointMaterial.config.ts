@@ -1,6 +1,6 @@
 import {
   ParameterConfig,
-  ShaderTransformationConfig,
+  ShaderTransformationSchema,
 } from "../../buildShader.types";
 import {
   SHADER_VARIABLE_ASSIGNMENT_KEYS,
@@ -93,7 +93,7 @@ export const pointMaterialTransformConfig = [
     returnValue: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
     assignedVariableId: SHADER_VARIABLE_TYPES.DISCARD_COLOR,
   },
-] as ShaderTransformationConfig[];
+] as ShaderTransformationSchema[];
 
 export const POINT_MATERIAL_EFFECT_CONFIG = {
   functions: [],

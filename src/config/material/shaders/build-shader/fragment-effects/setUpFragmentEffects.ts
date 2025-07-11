@@ -3,7 +3,7 @@ import {
   AdvancedShaderVariableMap,
   EffectFunctionConfig,
   ShaderFunction,
-  ShaderTransformationConfig,
+  ShaderTransformationSchema,
   TransformData,
 } from "../buildShader.types";
 import {
@@ -16,7 +16,7 @@ import {
   DEFAULT_FRAGMENT_PARAMETERS,
   ADVANCED_SHADER_VARIABLE_EFFECT_CODE,
 } from "../helpers/generate-transform/consts";
-import { setupEffectParameters } from "../helpers/generate-transform/formatShaderEffectParameters";
+import { setupEffectParameters } from "../../shader-formatting/setUpParameterMap";
 import { setUpFunctionInstantiation } from "../helpers/generate-transform/functions";
 import { prepareFunctionConfigs } from "../helpers/generate-transform/prepareFunctionConfigs";
 import { defineEffectFunctions } from "../helpers/generate-transform/defineEffectFunctions";
@@ -73,6 +73,7 @@ export const getFragmentColors = (
   const allAdvancedShaderVariables: AdvancedShaderVariableMap = new Map();
   fragmentEffectFunctions.forEach((effect) => {
     const fragmentEffectData = transformSetup(effect);
+
     if (fragmentEffectData) {
       unmergedTransformations.push(fragmentEffectData.transformation);
       allRequiredFunctions.push(fragmentEffectData.requiredFunctions);
@@ -159,8 +160,9 @@ const generateFragmentShaderTransformData = (
 };
 
 export const generateFragmentShaderTransformation = (
-  configs: ShaderTransformationConfig[],
+  configs: ShaderTransformationSchema[],
   effectProps: FragmentEffectProps,
+  parameterMap,
   isSubEffect: boolean
 ): {
   transformation: string;
@@ -169,10 +171,6 @@ export const generateFragmentShaderTransformation = (
   advancedShaderVariables: AdvancedShaderVariableMap;
 } => {
   const { subEffects } = effectProps;
-  const { shaderParameterMap, effectParameters } = setupEffectParameters(
-    effectProps,
-    DEFAULT_FRAGMENT_PARAMETERS
-  );
 
   const subEffectDataArray =
     subEffects?.flatMap((subEffect) => {
