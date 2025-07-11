@@ -1,4 +1,3 @@
-import { MESH_TRANSFORM_TYPE } from "../../../../../../mesh/mesh.consts";
 import {
   ParameterConfig,
   ShaderTransformationConfig,
@@ -39,14 +38,6 @@ const TEXTURED_POINTS_ATTRIBUTES = [
   },
 ];
 
-const TEXTURED_POINT_MESH_TRANSFORM_CONFIG = {
-  id: "texturedPointTransform",
-  type: MESH_TRANSFORM_TYPE.CUSTOM_ATTRIBUTES,
-  transformedMeshIds: [],
-  materialId: "",
-  transformParameterConfigs: [...TEXTURED_POINTS_ATTRIBUTES],
-};
-
 const TEXTURED_POINT_PARAMETERS = [
   {
     id: "pointTexture",
@@ -58,6 +49,7 @@ const TEXTURED_POINT_PARAMETERS = [
       relationship: ASSET_MAPPING_RELATIONSHIPS.TEXTURE,
     },
   },
+  ...TEXTURED_POINTS_ATTRIBUTES,
 ] as ParameterConfig[];
 
 export const pointMaterialTransformConfig = [
@@ -89,7 +81,7 @@ export const pointMaterialTransformConfig = [
 
 export const TEXTURED_POINT_EFFECT_CONFIG = {
   functions: [],
-  meshTransformConfig: [TEXTURED_POINT_MESH_TRANSFORM_CONFIG],
+  meshTransformConfig: [],
   parameters: TEXTURED_POINT_PARAMETERS,
   transformationConfig: pointMaterialTransformConfig,
   outputValueType: SHADER_PROPERTY_VALUE_TYPES.VEC4,

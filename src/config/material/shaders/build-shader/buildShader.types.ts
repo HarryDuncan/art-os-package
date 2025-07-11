@@ -79,9 +79,9 @@ export type ParameterConfig = ShaderPropertyConfig & {
   description?: string;
   isFunctionBased?: boolean;
   isAssetMapped?: boolean;
-  canSetValue?: boolean;
   isTransformInput?: boolean;
   tags?: string[];
+  fromConfig?: boolean;
   assetMappingConfig?: {
     assetId: string;
     relationship: string;

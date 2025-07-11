@@ -19,8 +19,6 @@ import {
   randFunction,
   noiseFunction,
 } from "../../../shader-properties/static-functions";
-import { MESH_TRANSFORM_TYPE } from "../../../../../../mesh/mesh.consts";
-import { MeshTransformConfig } from "../../../../../../../types";
 
 export const PLANE_FROM_IMAGE_VARYING_CONFIG = [
   {
@@ -86,6 +84,7 @@ export const PLANE_FROM_IMAGE_PARAMETERS = [
   },
 
   ...PLANE_FROM_IMAGE_VARYING_CONFIG,
+  ...PLANE_FROM_IMAGE_ATTRIBUTES,
 ] as ParameterConfig[];
 
 export const PLANE_FROM_IMAGE_REQUIRED_FUNCTIONS = [
@@ -121,17 +120,9 @@ export const PLANE_FROM_IMAGE_TRANSFORM_CONFIG = [
   },
 ] as unknown as ShaderTransformationConfig[];
 
-const PLANE_FROM_IMAGE_MESH_TRANSFORM = {
-  id: "imageToPointsMeshTransform",
-  type: MESH_TRANSFORM_TYPE.CUSTOM_ATTRIBUTES,
-  transformedMeshIds: [],
-  materialId: "",
-  transformParameterConfigs: [...PLANE_FROM_IMAGE_ATTRIBUTES],
-} as unknown as MeshTransformConfig;
-
 export const PLANE_FROM_IMAGE_EFFECT_CONFIG = {
   functions: PLANE_FROM_IMAGE_REQUIRED_FUNCTIONS,
-  meshTransformConfig: [QUAD_MESH_TRANSFORM, PLANE_FROM_IMAGE_MESH_TRANSFORM],
+  meshTransformConfig: [QUAD_MESH_TRANSFORM],
   parameters: PLANE_FROM_IMAGE_PARAMETERS,
   transformationConfig: PLANE_FROM_IMAGE_TRANSFORM_CONFIG,
 };

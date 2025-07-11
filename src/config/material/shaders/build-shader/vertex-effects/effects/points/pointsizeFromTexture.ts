@@ -5,9 +5,7 @@ import {
   SHADER_PROPERTY_VALUE_TYPES,
 } from "../../../constants/shader.consts";
 import { SHADER_VARIABLE_TYPES } from "../../../constants";
-import { MESH_TRANSFORM_TYPE } from "../../../../../../mesh/mesh.consts";
 import {
-  MeshTransformConfig,
   ParameterConfig,
   ShaderTransformationConfig,
 } from "../../../../../../../types";
@@ -47,6 +45,19 @@ export const POINT_SIZE_FROM_TEXTURE_TRANSFORM = [
   },
 ] as ShaderTransformationConfig[];
 
+export const POINT_SIZE_FROM_TEXTURE_ATTRIBUTES = [
+  {
+    id: "pointIndex",
+    name: "Point Index",
+    description: "Creates an index of each point of the mesh",
+    parameterType: SHADER_PROPERTY_TYPES.ATTRIBUTE,
+    valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
+    attributeConfig: {
+      attributeValueType: ATTRIBUTE_VALUE_TYPES.INDEXED,
+    },
+  },
+] as ParameterConfig[];
+
 export const POINT_SIZE_FROM_TEXTURE_PARAMETERS = [
   {
     id: "pointSize",
@@ -79,19 +90,7 @@ export const POINT_SIZE_FROM_TEXTURE_PARAMETERS = [
     },
     parameterType: SHADER_PROPERTY_TYPES.UNIFORM,
   },
-] as ParameterConfig[];
-
-export const POINT_SIZE_FROM_TEXTURE_ATTRIBUTES = [
-  {
-    id: "pointIndex",
-    name: "Point Index",
-    description: "Creates an index of each point of the mesh",
-    parameterType: SHADER_PROPERTY_TYPES.ATTRIBUTE,
-    valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
-    attributeConfig: {
-      attributeValueType: ATTRIBUTE_VALUE_TYPES.INDEXED,
-    },
-  },
+  ...POINT_SIZE_FROM_TEXTURE_ATTRIBUTES,
 ] as ParameterConfig[];
 
 export const POINT_SIZE_FROM_TEXTURE_REQUIRED_FUNCTIONS = [
@@ -100,17 +99,9 @@ export const POINT_SIZE_FROM_TEXTURE_REQUIRED_FUNCTIONS = [
   noiseFunction,
 ];
 
-const POINT_SIZE_FROM_TEXTURE_MESH_TRANSFORM = {
-  id: "pointSizeMeshTransform",
-  type: MESH_TRANSFORM_TYPE.CUSTOM_ATTRIBUTES,
-  transformedMeshIds: [],
-  materialId: "",
-  transformParameterConfigs: [...POINT_SIZE_FROM_TEXTURE_ATTRIBUTES],
-} as unknown as MeshTransformConfig;
-
 export const POINT_SIZE_EFFECT_CONFIG = {
   functions: POINT_SIZE_FROM_TEXTURE_REQUIRED_FUNCTIONS,
-  meshTransformConfig: [POINT_SIZE_FROM_TEXTURE_MESH_TRANSFORM],
+  meshTransformConfig: [],
   parameters: POINT_SIZE_FROM_TEXTURE_PARAMETERS,
   transformationConfig: POINT_SIZE_FROM_TEXTURE_TRANSFORM,
 };

@@ -1,10 +1,8 @@
-import { MeshTransformConfig } from "../../../../../../types/config.types";
 import {
   ShaderFunction,
   ParameterConfig,
   ShaderTransformationConfig,
 } from "../../buildShader.types";
-import { MESH_TRANSFORM_TYPE } from "../../../../../mesh/mesh.consts";
 import {
   SHADER_VARIABLE_ASSIGNMENT_KEYS,
   SHADER_VARIABLE_TYPES,
@@ -49,15 +47,8 @@ export const EXPLODE_PARAMETERS = [
     valueType: "FLOAT",
     value: 1.5,
   },
+  ...EXPLODE_ATTRIBUTES,
 ] as ParameterConfig[];
-
-const EXPLODE_MESH_TRANSFORM = {
-  id: "explodeMeshTransform",
-  type: MESH_TRANSFORM_TYPE.CUSTOM_ATTRIBUTES,
-  transformedMeshIds: [],
-  materialId: "",
-  transformParameterConfigs: [...EXPLODE_ATTRIBUTES],
-} as unknown as MeshTransformConfig;
 
 const EXPLODE_TRANSFORMATION_CONFIG = {
   id: "explodeTransformation",
@@ -72,7 +63,7 @@ const EXPLODE_TRANSFORMATION_CONFIG = {
 
 export const EXPLODE_EFFECT_CONFIG = {
   functions: EXPLODE_FUNCTIONS,
-  meshTransformConfig: [EXPLODE_MESH_TRANSFORM],
+  meshTransformConfig: [],
   parameters: EXPLODE_PARAMETERS,
   transformationConfig: [EXPLODE_TRANSFORMATION_CONFIG],
 };
