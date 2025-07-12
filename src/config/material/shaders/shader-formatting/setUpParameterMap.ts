@@ -45,12 +45,12 @@ export const formatParametersAndEffects = (
       } else if (
         effectParameter.parameterType === SHADER_PROPERTY_TYPES.VARYING
       ) {
-        acc.set(parameterId, {
+        acc.set(`${parameterId}_varying`, {
           ...effectParameter,
-          shaderParameterId: `${parameterId}_varying`,
+          shaderParameterId: `${parameterId}`,
         } as ShaderParameter);
       } else {
-        acc.set(parameterId, {
+        acc.set(`${parameterId}_${guid}`, {
           ...effectParameter,
           shaderParameterId: `${parameterId}_${guid}`,
         } as ShaderParameter);
@@ -89,7 +89,7 @@ export const formatParametersAndEffects = (
   return { parameterMap, updatedEffectConfigs };
 };
 
-export const attributeToVarying = (
+const attributeToVarying = (
   attributeConfigs: ParameterConfig[],
   replaceId: boolean = true
 ) =>
@@ -108,7 +108,7 @@ export const attributeToVarying = (
     };
   });
 
-export const formatShaderVaryingParameters = (
+const formatShaderVaryingParameters = (
   parameterConfigs: ParameterConfig[],
   shaderEffectConfigs: ShaderEffectConfig[]
 ) => {
@@ -147,8 +147,17 @@ export const formatShaderVaryingParameters = (
     return attributeConfigs;
   });
 
+  const functionWrapperAttributes = parameterConfigs.filter(
+    (parameterConfig) =>
+      parameterConfig.parameterType === SHADER_PROPERTY_TYPES.ATTRIBUTE &&
+      !parameterConfig.fromConfig
+  );
+
   // Make attributeConfigs unique on id
-  const uniqueAttributeConfigs = removeDuplicatesByKey(attributeConfigs, "id");
+  const uniqueAttributeConfigs = removeDuplicatesByKey(
+    [...attributeConfigs, ...functionWrapperAttributes],
+    "id"
+  );
   const convertedAttributes = attributeToVarying(uniqueAttributeConfigs);
   return { convertedAttributes, updatedFragShaderInputMapping };
 };

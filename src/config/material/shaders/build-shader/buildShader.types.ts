@@ -114,7 +114,7 @@ export type ShaderParameter = ParameterConfig & {
   mappedParameterKey?: string;
 };
 export type ShaderTransformationConfig = ShaderTransformationSchema & {
-  inputIds?: string[];
+  inputMap: ShaderParameterMap;
   functionName: string;
   functionDependencyIds: string[];
   functionType: string;
@@ -125,7 +125,7 @@ export type DefinedEffectFunction = {
   functionType: string;
   functionName: string;
   assignedVariableId: string | undefined;
-  inputIds: string[];
+  inputMap: ShaderParameterMap;
   functionDefinition: string;
   dontDeclare?: boolean;
   returnValue: keyof typeof SHADER_PROPERTY_VALUE_TYPES;

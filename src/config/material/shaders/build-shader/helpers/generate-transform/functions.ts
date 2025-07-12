@@ -55,34 +55,34 @@ const getOperator = (assignedVariableId: string) => {
 export const setUpFunctionInstantiation = (
   assignedVariableId: string,
   functionName: string,
-  inputIds: string[],
+  inputMap: ShaderParameterMap,
   returnValue: keyof typeof SHADER_PROPERTY_VALUE_TYPES,
-  parameterMap: ShaderParameterMap,
   shaderEffectId: string,
   dontDeclare?: boolean | undefined
 ) => {
-  const functionParameters = inputIds.flatMap((id) => {
-    const parameter = parameterMap?.get(id);
-    if (!parameter) return [];
+  const functionParameters = Array.from(inputMap.entries())?.flatMap(
+    ([id, parameter]) => {
+      if (!parameter) return [];
 
-    if (!GLOBAL_PARAMETER_TYPES.includes(parameter.parameterType)) {
-      if (
-        DEFAULT_SHADER_VARIABLE_KEYS[
-          id as keyof typeof DEFAULT_SHADER_VARIABLE_KEYS
-        ]
-      ) {
-        return DEFAULT_SHADER_VARIABLE_KEYS[
-          id as keyof typeof DEFAULT_SHADER_VARIABLE_KEYS
-        ];
+      if (!GLOBAL_PARAMETER_TYPES.includes(parameter.parameterType)) {
+        if (
+          DEFAULT_SHADER_VARIABLE_KEYS[
+            id as keyof typeof DEFAULT_SHADER_VARIABLE_KEYS
+          ]
+        ) {
+          return DEFAULT_SHADER_VARIABLE_KEYS[
+            id as keyof typeof DEFAULT_SHADER_VARIABLE_KEYS
+          ];
+        }
+        const parameterKey =
+          parameter.mappedParameterKey ??
+          parameter.shaderParameterId ??
+          `${id}_${shaderEffectId}`;
+        return parameterKey;
       }
-      const parameterKey =
-        parameter.mappedParameterKey ??
-        parameter.shaderParameterId ??
-        `${id}_${shaderEffectId}`;
-      return parameterKey;
+      return [];
     }
-    return [];
-  });
+  );
   if (dontDeclare) {
     const uniqueId = shaderSafeGuid(assignedVariableId);
 
@@ -121,16 +121,13 @@ export const getShaderFunctionType = (
 };
 
 export const getFunctionInputs = (
-  parameters: ShaderParameterMap,
-  inputIds: string[],
+  inputMap: ShaderParameterMap,
   shaderEffectId: string,
   withValueType: boolean = true
 ) => {
   const defaultInputs =
-    inputIds?.flatMap((id) => {
-      const parameter = parameters.get(id);
+    Array.from(inputMap.entries())?.flatMap(([id, parameter]) => {
       if (!parameter) return [];
-
       if (!GLOBAL_PARAMETER_TYPES.includes(parameter.parameterType)) {
         if (withValueType) {
           return `${shaderValueTypeInstantiation(

@@ -91,8 +91,7 @@ export const generateTransform = (
 
   const effectFunctions = transformationToFunction(
     transformationConfigs,
-    effectConfig,
-    parameterMap
+    effectConfig
   );
 
   const shaderVariableTypes = transformationConfigs.flatMap(
@@ -118,7 +117,7 @@ export const generateTransform = (
     )
     .flatMap(
       ({
-        inputIds,
+        inputMap,
         assignedVariableId,
         functionName,
         functionType,
@@ -137,9 +136,8 @@ export const generateTransform = (
         return setUpFunctionInstantiation(
           assignedVariableId,
           functionName,
-          inputIds,
+          inputMap,
           returnValue,
-          parameterMap,
           effectId,
           dontDeclare
         );

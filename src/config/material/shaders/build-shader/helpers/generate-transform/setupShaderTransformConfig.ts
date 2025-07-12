@@ -6,33 +6,9 @@ import {
   ShaderTransformationSchema,
 } from "../../buildShader.types";
 import { SHADER_TYPES, SHADER_VARIABLE_TYPES } from "../../constants";
+import { getInputIds, getShaderInputMap } from "../parameterMap";
 import { DEFAULT_PARAMETER_KEYS, ROOT_FUNCTION_TYPES } from "./consts";
 import { getShaderFunctionType } from "./functions";
-
-const getInputIds = (
-  transformCode: string[],
-  shaderEffectConfig: ShaderEffectConfig
-) => {
-  const keys: string[] = [];
-  const isFragment = shaderEffectConfig.shaderType === SHADER_TYPES.FRAGMENT;
-  transformCode.forEach((line) => {
-    const matches = line.matchAll(/{{(\w+)}}/g);
-    for (const match of matches) {
-      const key = match[1];
-      if (DEFAULT_PARAMETER_KEYS.includes(key)) {
-        keys.push(key);
-      } else if (shaderEffectConfig.inputMapping?.[key]) {
-        keys.push(key);
-      } else if (isFragment) {
-        const varyingKey = `${key}_varying`;
-        if (shaderEffectConfig.inputMapping?.[varyingKey]) {
-          keys.push(varyingKey);
-        }
-      }
-    }
-  });
-  return Array.from(new Set(keys));
-};
 
 const getFunctionDependencies = (
   transformConfigs: ShaderTransformationSchema[],
@@ -52,6 +28,7 @@ const getFunctionDependencies = (
     }
     return [];
   });
+  const allParameters = Array.from(shaderParameterMap.values());
   const parameterIds: string[] = [];
   functionDependencies.forEach((depId) => {
     const dependentFunction = transformConfigs.find((f) => f.id === depId);
@@ -60,12 +37,15 @@ const getFunctionDependencies = (
       const variables = line
         .match(/{{(\w+)}}/g)
         ?.map((match) => match.replace(/[{}]/g, ""));
+
       if (
         variables &&
-        variables.some((variable) => shaderParameterMap.has(variable))
+        variables.some((variable) =>
+          allParameters.some((p) => p.id === variable)
+        )
       ) {
         variables.forEach((variable) => {
-          if (shaderParameterMap.has(variable)) {
+          if (allParameters.some((p) => p.id === variable)) {
             parameterIds.push(variable);
           }
         });
@@ -139,7 +119,11 @@ export const setupShaderTransformationConfig = (
       ? parseSubEffectIntoTransformCode(transformCode, subEffectData)
       : transformCode;
 
-    const inputIds = getInputIds(updatedTransformCode, shaderEffectConfig);
+    const inputIds = getInputIds(
+      updatedTransformCode,
+      shaderEffectConfig.inputMapping ?? {},
+      shaderEffectConfig.shaderType === SHADER_TYPES.FRAGMENT
+    );
 
     const functionDependencies = getFunctionDependencies(
       transformConfigs,
@@ -147,12 +131,30 @@ export const setupShaderTransformationConfig = (
       parameters
     );
 
+    // Get default ids first, then the rest, both sorted alphabetically
+    const allInputIds = Array.from(
+      new Set([...inputIds, ...functionDependencies])
+    );
+    const defaultInputIds = allInputIds
+      .filter((key) => DEFAULT_PARAMETER_KEYS.includes(key))
+      .sort((a, b) => a.localeCompare(b));
+    const nonDefaultInputIds = allInputIds
+      .filter((key) => !DEFAULT_PARAMETER_KEYS.includes(key))
+      .sort((a, b) => a.localeCompare(b));
+    const formattedInputIds = [...defaultInputIds, ...nonDefaultInputIds];
+
+    const inputMap = getShaderInputMap(
+      parameters,
+      formattedInputIds,
+      shaderEffectConfig
+    );
+
     return {
       ...config,
       transformCode: updatedTransformCode,
       functionType: shaderFunctionType,
       functionName: `${id}`,
-      inputIds: Array.from(new Set([...inputIds, ...functionDependencies])),
+      inputMap,
     };
   });
 

@@ -1,14 +1,34 @@
-import { AdvancedShaderVariableMap, TransformData } from "../buildShader.types";
+import {
+  AdvancedShaderVariableMap,
+  ShaderParameterMap,
+  TransformData,
+} from "../buildShader.types";
 import { EffectFunctionConfig } from "../buildShader.types";
 
 export const splitValueTransform = (
   effectFunctionTransform: EffectFunctionConfig,
-  effectTransforms: (TransformData & { id: string })[]
+  effectTransforms: (TransformData & { id: string })[],
+  parameterMap: ShaderParameterMap
 ): TransformData => {
-  const { inputParameters, value } = effectFunctionTransform;
+  const inputParameters = Array.from(parameterMap.values());
+  const inputMappingData = Object.entries(
+    effectFunctionTransform.inputMapping || {}
+  ).map(([key, value]) => {
+    const inputParameter = inputParameters.find(
+      (parameter) => parameter.guid === value.itemId
+    );
+    if (!inputParameter) {
+      throw new Error(`No input parameter found for id ${value.itemId}`);
+    }
+    return {
+      key,
+      inputParameter,
+    };
+  });
+  const { value } = effectFunctionTransform;
 
   // Check if we have the required data
-  if (!inputParameters || inputParameters.length === 0) {
+  if (!inputMappingData || inputMappingData.length === 0) {
     throw new Error("No input parameters found for split value transform");
   }
 
@@ -16,7 +36,7 @@ export const splitValueTransform = (
     throw new Error("No split values found for split value transform");
   }
 
-  const inputParameter = inputParameters[0]; // There's only one input parameter
+  const inputParameter = inputMappingData[0].inputParameter; // There's only one input parameter
   const { splitValues } = value;
 
   // Calculate cumulative split values for WebGL-safe comparisons

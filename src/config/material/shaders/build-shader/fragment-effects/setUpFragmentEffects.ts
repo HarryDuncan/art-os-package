@@ -102,7 +102,11 @@ export const transformSetup = (
     case EFFECT_FUNCTIONS.DEFAULT:
       return effectTransformationData[0];
     case EFFECT_FUNCTIONS.SPLIT_VALUE:
-      return splitValueTransform(effectProps, effectTransformationData);
+      return splitValueTransform(
+        effectProps,
+        effectTransformationData,
+        parameterMap
+      );
     default:
       return null;
   }

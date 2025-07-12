@@ -19,7 +19,7 @@ import {
 } from "./vertex-effects/vertexEffects.consts";
 import { formatFunctionDeclarations } from "./helpers/formatFunctionDeclarations";
 import { FRAG_COLOR_INSTANTIATION } from "./fragment-effects/fragmentEffects.consts";
-import { generateConstantDeclarations } from "./helpers/generate-transform/constantDeclarations";
+import { generateConstantDeclarations } from "./shader-properties/constants/constantDeclarations";
 
 const DEBUG = true;
 export const buildShader = (

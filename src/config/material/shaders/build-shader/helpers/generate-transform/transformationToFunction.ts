@@ -1,7 +1,6 @@
 import {
   DefinedEffectFunction,
   ShaderTransformationConfig,
-  ShaderParameterMap,
   FragmentEffectConfig,
   VertexEffectConfig,
 } from "../../buildShader.types";
@@ -12,15 +11,13 @@ import { SHADER_TYPES } from "../../constants";
 
 export const transformationToFunction = (
   transformationConfigs: ShaderTransformationConfig[],
-  shaderEffectConfig: FragmentEffectConfig | VertexEffectConfig,
-  parameters: ShaderParameterMap
+  shaderEffectConfig: FragmentEffectConfig | VertexEffectConfig
 ): DefinedEffectFunction[] => {
   const { id: shaderEffectId } = shaderEffectConfig;
-  const isFragment = shaderEffectConfig.shaderType === SHADER_TYPES.FRAGMENT;
   return transformationConfigs.map(
     ({
       returnValue,
-      inputIds,
+      inputMap,
       functionName,
       transformCode,
       assignedVariableId,
@@ -29,12 +26,7 @@ export const transformationToFunction = (
       functionType,
     }) => {
       const returnTypeString = shaderValueTypeInstantiation(returnValue);
-
-      const functionInputs = getFunctionInputs(
-        parameters,
-        inputIds ?? [],
-        shaderEffectId
-      );
+      const functionInputs = getFunctionInputs(inputMap, shaderEffectId);
 
       const functionDeclaration = `${returnTypeString} ${functionName}(${[
         ...functionInputs,
@@ -42,11 +34,9 @@ export const transformationToFunction = (
 
       const formattedFunctionContent = formatEffectCodeLines(
         transformCode,
-        inputIds ?? [],
-        parameters,
+        inputMap,
         transformationConfigs,
-        shaderEffectId,
-        isFragment
+        shaderEffectId
       );
 
       const shaderFunctionConfig = {
@@ -55,7 +45,7 @@ export const transformationToFunction = (
         returnValue,
         functionName: functionName,
         assignedVariableId,
-        inputIds,
+        inputMap,
         functionDefinition: [
           functionDeclaration,
           ...formattedFunctionContent,

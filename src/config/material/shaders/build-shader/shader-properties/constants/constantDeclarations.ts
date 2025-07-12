@@ -3,7 +3,7 @@ import { SHADER_PROPERTY_TYPES } from "../../constants/shader.consts";
 import {
   parseRawValueToShader,
   shaderValueTypeInstantiation,
-} from "../safeParseValue";
+} from "../../helpers/safeParseValue";
 
 export const generateConstantDeclarations = (
   shaderParameterMap: ShaderParameterMap
