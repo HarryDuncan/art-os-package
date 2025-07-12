@@ -11,7 +11,7 @@ import { FRAGMENT_EFFECT_CONFIG_MAP } from "../../fragment-effects/fragmentEffec
 import { VERTEX_EFFECT_CONFIG_MAP } from "../../vertex-effects/vertexEffects.consts";
 import { ADVANCED_SHADER_VARIABLE_EFFECT_CODE } from "./consts";
 import { setUpFunctionInstantiation } from "./functions";
-import { setupShaderTransformationConfig } from "./setupShaderTransformConfig";
+import { setupShaderTransformationConfigs } from "./setupShaderTransformConfigs";
 import { transformationToFunction } from "./transformationToFunction";
 
 export const getTransformationData = (
@@ -81,7 +81,7 @@ export const generateTransform = (
       return [];
     }) ?? [];
 
-  const transformationConfigs = setupShaderTransformationConfig(
+  const transformationConfigs = setupShaderTransformationConfigs(
     transformConfig,
     effectConfig,
     isSubEffect,
@@ -121,7 +121,6 @@ export const generateTransform = (
         assignedVariableId,
         functionName,
         functionType,
-        dontDeclare,
         returnValue,
       }) => {
         if (
@@ -138,8 +137,7 @@ export const generateTransform = (
           functionName,
           inputMap,
           returnValue,
-          effectId,
-          dontDeclare
+          effectId
         );
       }
     );

@@ -60,8 +60,7 @@ export type ShaderPropertyConfig = {
 export type ParameterFunctionConfig = {
   functionId: string;
   outputValueType: keyof typeof SHADER_PROPERTY_VALUE_TYPES;
-  functionInstantiationParameterMapping?: Record<string, string>;
-  effectId?: string;
+  inputMapping: Record<string, OutputInputMapping>;
 };
 export type AttributeConfig = {
   attributeValueType: keyof typeof ATTRIBUTE_VALUE_TYPES;
@@ -116,7 +115,6 @@ export type ShaderParameter = ParameterConfig & {
 export type ShaderTransformationConfig = ShaderTransformationSchema & {
   inputMap: ShaderParameterMap;
   functionName: string;
-  functionDependencyIds: string[];
   functionType: string;
   dontDeclare?: boolean;
 };

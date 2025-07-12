@@ -25,10 +25,7 @@ export const TEXTURE_PIXEL_COLOR_PARAMETERS = [
     },
     functionConfig: {
       functionId: "getTexturePointColor",
-      functionInstantiationParameterMapping: {
-        [SHADER_VARIABLE_ASSIGNMENT_KEYS.VERTEX_POINT]:
-          SHADER_VARIABLE_TYPES.POSITION,
-      },
+      inputMapping: {},
       outputValueType: SHADER_PROPERTY_VALUE_TYPES.VEC4,
     },
   },

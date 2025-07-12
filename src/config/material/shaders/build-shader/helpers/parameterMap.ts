@@ -75,3 +75,30 @@ export const getInputIds = (
   });
   return Array.from(new Set(keys));
 };
+
+export const getParametersFromInputMapping = (
+  inputMapping: Record<string, OutputInputMapping>,
+  parameterMap: ShaderParameterMap
+) => {
+  const inputIds = Object.keys(inputMapping);
+  const parameters = getParametersByKey(parameterMap, inputIds);
+  return parameters.flatMap((parameter) => {
+    const itemId = inputMapping?.[parameter.id]?.itemId;
+    if (itemId === parameter.guid) {
+      return parameter;
+    }
+    return [];
+  });
+};
+
+export const sortInputIds = (inputIds: string[]) => {
+  const allInputIds = Array.from(new Set([...inputIds]));
+  const defaultInputIds = allInputIds
+    .filter((key) => DEFAULT_PARAMETER_KEYS.includes(key))
+    .sort((a, b) => a.localeCompare(b));
+  const nonDefaultInputIds = allInputIds
+    .filter((key) => !DEFAULT_PARAMETER_KEYS.includes(key))
+    .sort((a, b) => a.localeCompare(b));
+  const sortedInputIds = [...defaultInputIds, ...nonDefaultInputIds];
+  return sortedInputIds;
+};

@@ -20,6 +20,7 @@ import {
 import { formatFunctionDeclarations } from "./helpers/formatFunctionDeclarations";
 import { FRAG_COLOR_INSTANTIATION } from "./fragment-effects/fragmentEffects.consts";
 import { generateConstantDeclarations } from "./shader-properties/constants/constantDeclarations";
+import { mergeShaderFunctions } from "./helpers/mergeShaderFunctions";
 
 const DEBUG = true;
 export const buildShader = (
@@ -31,8 +32,9 @@ export const buildShader = (
   const uniformDeclaration = buildUniformDeclaration(parameterMap);
 
   const {
-    declaration: varyingDeclaration,
-    instantiation: varyingInstantiation,
+    varyingDeclaration,
+    varyingInstantiation,
+    varyingFunctionDeclarations,
   } = buildVaryings(parameterMap);
   const constantDeclarations = generateConstantDeclarations(parameterMap);
 
@@ -48,6 +50,11 @@ export const buildShader = (
   // const shaderStructConfigs = [structConfigs ?? []];
   // const mergedStructConfig = mergeStructConfigs(shaderStructConfigs);
   // const structDeclaration = buildStruct(mergedStructConfig);
+  // @ ts-ignore
+  const vertexEffectFunctionDefinitions = mergeShaderFunctions([
+    vertexEffects.requiredFunctions,
+    varyingFunctionDeclarations,
+  ]);
 
   const vertexShader = formatVertexShader(
     // structDeclaration,
@@ -56,7 +63,7 @@ export const buildShader = (
     varyingDeclaration,
     constantDeclarations,
     varyingInstantiation,
-    vertexEffects.requiredFunctions,
+    vertexEffectFunctionDefinitions,
     vertexEffects.transformations,
     vertexEffects.viewMatrix
   );
@@ -85,9 +92,9 @@ const formatVertexShader = (
   //  structDeclaration: string,
   attributes: string,
   uniformDeclarations: string,
-  varyingDeclaration: string,
+  varyingDeclarations: string[],
   constantDeclarations: string,
-  varyingInstantiation: string,
+  varyingInstantiations: string[],
   vertexFunctions: ShaderFunction[],
   vertexTransformations: string,
   viewMatrix: string
@@ -98,7 +105,7 @@ const formatVertexShader = (
     //   structDeclaration,
     attributes,
     uniformDeclarations,
-    varyingDeclaration,
+    varyingDeclarations.join("\n"),
     constantDeclarations,
     vertexFunctionDeclarations,
     MAIN_START,
@@ -106,7 +113,7 @@ const formatVertexShader = (
     VERTEX_NORMAL_INSTANTIATION,
     vertexTransformations,
     viewMatrix,
-    varyingInstantiation,
+    varyingInstantiations.join("\n"),
     MAIN_END,
   ].join(" \n ");
 };
@@ -114,7 +121,7 @@ const formatVertexShader = (
 export const formatFragmentShader = (
   // structDeclaration: string,
   uniformDeclaration: string,
-  varyingDeclaration: string,
+  varyingDeclarations: string[],
   constantDeclarations: string,
   fragmentFunctions: ShaderFunction[],
   fragmentTransformations: string,
@@ -125,7 +132,7 @@ export const formatFragmentShader = (
   const shaderCodeArray: string[] = [
     //   structDeclaration,
     uniformDeclaration,
-    varyingDeclaration,
+    varyingDeclarations.join("\n"),
     constantDeclarations,
     fragmentFunctionDeclarations,
     MAIN_START,

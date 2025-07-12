@@ -9,12 +9,19 @@ import {
   VERTEX_NORMAL_NAME,
   VERTEX_POINT_NAME,
 } from "../../vertex-effects/vertexEffects.consts";
-import { ParameterConfig, ShaderParameterMap } from "../../buildShader.types";
+import {
+  ParameterConfig,
+  ShaderEffectConfig,
+  ShaderParameterMap,
+} from "../../buildShader.types";
 import {
   V_CUSTOM_INSTANTIATION,
   V_DECLARATION,
   V_DEFAULT_INSTANTIATION,
 } from "../../constants";
+import { transformationConfigFromFunctionParameter } from "../../helpers/generate-transform/setupShaderTransformConfigs";
+import { transformationToFunction } from "../../helpers/generate-transform/transformationToFunction";
+import { setUpFunctionInstantiation } from "../../helpers/generate-transform/functions";
 
 export const buildVaryings = (parameterMap: ShaderParameterMap) => {
   const varyingConfigs = Array.from(parameterMap.values()).filter(
@@ -23,7 +30,15 @@ export const buildVaryings = (parameterMap: ShaderParameterMap) => {
 
   const declaration = varyingDeclarations(varyingConfigs);
   const instantiation = varyingInstantiation(varyingConfigs);
-  return { declaration, instantiation };
+  const { functionInstantiations, varyingFunctions } = getFunctionVarying(
+    varyingConfigs,
+    parameterMap
+  );
+  return {
+    varyingDeclaration: declaration,
+    varyingInstantiation: [...instantiation, ...functionInstantiations],
+    varyingFunctionDeclarations: varyingFunctions,
+  };
 };
 
 const varyingDeclarations = (config: ParameterConfig[]) => {
@@ -34,7 +49,7 @@ const varyingDeclarations = (config: ParameterConfig[]) => {
       id
     )
   );
-  const declaration = [V_DECLARATION, ...declarationStrings].join(" \n ");
+  const declaration = [V_DECLARATION, ...declarationStrings];
   return declaration;
 };
 
@@ -47,7 +62,7 @@ const varyingInstantiation = (varyingConfigs: ParameterConfig[]) => {
     ...defaultVaryingStrings,
     ...attributeVaryingStrings,
     ...customVaryingsStrings,
-  ].join(" \n ");
+  ];
 };
 
 const getDefaultVaryingString = (config: ParameterConfig[]) => {
@@ -126,3 +141,30 @@ const getAttributeVaryingStrings = (config: ParameterConfig[]) =>
     }
     return [];
   });
+
+const getFunctionVarying = (
+  config: ParameterConfig[],
+  parameterMap: ShaderParameterMap
+) => {
+  const functionVaryings = config.filter((item) => item.isFunctionBased);
+  const transformations = functionVaryings.flatMap((item) => {
+    return transformationConfigFromFunctionParameter(item, parameterMap) ?? [];
+  });
+  const varyingFunctions = transformationToFunction(transformations, {
+    id: "effectId",
+  } as unknown as ShaderEffectConfig);
+
+  const functionInstantiations = varyingFunctions.flatMap(
+    ({ assignedVariableId, functionName, inputMap, returnValue }) => {
+      return setUpFunctionInstantiation(
+        assignedVariableId as string,
+        functionName,
+        inputMap,
+        returnValue,
+        "effectId"
+      );
+    }
+  );
+
+  return { functionInstantiations, varyingFunctions };
+};

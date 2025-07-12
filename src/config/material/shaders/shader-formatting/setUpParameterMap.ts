@@ -32,7 +32,7 @@ export const formatParametersAndEffects = (
   }, new Map() as ShaderParameterMap);
 
   const { convertedAttributes, updatedFragShaderInputMapping } =
-    formatShaderVaryingParameters(effectParameters, shaderEffectConfigs);
+    convertAttributesToVaryings(effectParameters, shaderEffectConfigs);
 
   const effectParamsMap = [...convertedAttributes, ...effectParameters].reduce(
     (acc, effectParameter) => {
@@ -84,6 +84,23 @@ export const formatParametersAndEffects = (
         inputMapping: updatedInputMapping,
       };
     }
+    // const mappingToRemove = fragmentIdsToRemove[config.id];
+    // if (mappingToRemove) {
+    //   const { inputMapping } = config;
+    //   const updatedInputMapping = Object.entries(inputMapping ?? {}).reduce(
+    //     (acc, [key, value]) => {
+    //       if (key !== mappingToRemove) {
+    //         acc[key] = value;
+    //       }
+    //       return acc;
+    //     },
+    //     {} as Record<string, OutputInputMapping>
+    //   );
+    //   return {
+    //     ...config,
+    //     inputMapping: updatedInputMapping,
+    //   };
+    // }
     return config;
   });
   return { parameterMap, updatedEffectConfigs };
@@ -108,7 +125,7 @@ const attributeToVarying = (
     };
   });
 
-const formatShaderVaryingParameters = (
+const convertAttributesToVaryings = (
   parameterConfigs: ParameterConfig[],
   shaderEffectConfigs: ShaderEffectConfig[]
 ) => {
