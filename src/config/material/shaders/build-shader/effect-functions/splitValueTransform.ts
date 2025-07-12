@@ -146,9 +146,7 @@ export const splitValueTransform = (
       t.assignedVariableId ? [t.assignedVariableId] : []
     )
   );
-  const mergedConstantDeclarations = mergeUnique(
-    effectTransforms.map((t) => t.constantDeclarations)
-  );
+
   const mergedAdvancedShaderVariables = mergeAdvancedShaderVariableMaps(
     effectTransforms.map((t) => t.advancedShaderVariables)
   );
@@ -161,7 +159,6 @@ export const splitValueTransform = (
       mergedAssignedVariableIds.length > 0
         ? mergedAssignedVariableIds[0]
         : null,
-    constantDeclarations: mergedConstantDeclarations,
     advancedShaderVariables: mergedAdvancedShaderVariables,
   };
 

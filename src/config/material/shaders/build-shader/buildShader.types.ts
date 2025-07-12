@@ -107,19 +107,16 @@ export type EffectFunctionConfig = {
 };
 
 // POST INIT TYPE
-export type ShaderParameterMap = Map<string, FunctionParameter>;
-export type FunctionParameter = {
-  id: string;
-  valueType: string;
+export type ShaderParameterMap = Map<string, ShaderParameter>;
+export type ShaderParameter = ParameterConfig & {
   shaderParameterId: string;
-  parameterConfig?: ParameterConfig;
   default?: boolean;
   mappedParameterKey?: string;
 };
-export type FormattedFunctionConfig = ShaderTransformationSchema & {
+export type ShaderTransformationConfig = ShaderTransformationSchema & {
+  inputIds?: string[];
   functionName: string;
   functionDependencyIds: string[];
-  functionParameters: ShaderParameterMap;
   functionType: string;
   dontDeclare?: boolean;
 };
@@ -128,7 +125,7 @@ export type DefinedEffectFunction = {
   functionType: string;
   functionName: string;
   assignedVariableId: string | undefined;
-  functionParameters: ShaderParameterMap;
+  inputIds: string[];
   functionDefinition: string;
   dontDeclare?: boolean;
   returnValue: keyof typeof SHADER_PROPERTY_VALUE_TYPES;
@@ -163,7 +160,7 @@ export type ShaderTransformationSchema = {
   id: string;
   transformCode: string[];
   returnValue: keyof typeof SHADER_PROPERTY_VALUE_TYPES;
-  assignedVariableId?: keyof typeof SHADER_VARIABLE_TYPES | string;
+  assignedVariableId: keyof typeof SHADER_VARIABLE_TYPES | string;
 };
 
 export type ShaderEffectSchema = {
@@ -176,7 +173,6 @@ export type TransformData = {
   transformation: string;
   requiredFunctions: ShaderFunction[];
   assignedVariableId: string | null;
-  constantDeclarations: string[];
   advancedShaderVariables: AdvancedShaderVariableMap;
 };
 export type AdvancedShaderVariableMap = Map<string, AdvancedShaderVariable>;

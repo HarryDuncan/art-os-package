@@ -1,10 +1,13 @@
-import { ShaderParameterMap } from "../../buildShader.types";
+import {
+  OutputInputMapping,
+  ShaderParameterMap,
+} from "../../buildShader.types";
 import { FUNCTION_TYPES, SHADER_VARIABLE_TYPES } from "../../constants";
 import { SHADER_PROPERTY_VALUE_TYPES } from "../../constants/shader.consts";
 import { FRAG_COLOR_NAME } from "../../fragment-effects/fragmentEffects.consts";
 import { VERTEX_POINT_NAME } from "../../vertex-effects/vertexEffects.consts";
 import { shaderValueTypeInstantiation } from "../safeParseValue";
-import { DEFAULT_SHADER_VARIABLE_KEYS } from "./consts";
+import { DEFAULT_SHADER_VARIABLE_KEYS, GLOBAL_PARAMETER_TYPES } from "./consts";
 
 export const getShaderVariableKeys = (id: string) => {
   const shaderVariableId =
@@ -52,35 +55,50 @@ const getOperator = (assignedVariableId: string) => {
 export const setUpFunctionInstantiation = (
   assignedVariableId: string,
   functionName: string,
-  functionParameters: ShaderParameterMap,
+  inputIds: string[],
   returnValue: keyof typeof SHADER_PROPERTY_VALUE_TYPES,
+  parameterMap: ShaderParameterMap,
+  shaderEffectId: string,
   dontDeclare?: boolean | undefined
 ) => {
+  const functionParameters = inputIds.flatMap((id) => {
+    const parameter = parameterMap?.get(id);
+    if (!parameter) return [];
+
+    if (!GLOBAL_PARAMETER_TYPES.includes(parameter.parameterType)) {
+      if (
+        DEFAULT_SHADER_VARIABLE_KEYS[
+          id as keyof typeof DEFAULT_SHADER_VARIABLE_KEYS
+        ]
+      ) {
+        return DEFAULT_SHADER_VARIABLE_KEYS[
+          id as keyof typeof DEFAULT_SHADER_VARIABLE_KEYS
+        ];
+      }
+      const parameterKey =
+        parameter.mappedParameterKey ??
+        parameter.shaderParameterId ??
+        `${id}_${shaderEffectId}`;
+      return parameterKey;
+    }
+    return [];
+  });
   if (dontDeclare) {
     const uniqueId = shaderSafeGuid(assignedVariableId);
+
     return [
       `${shaderValueTypeInstantiation(
         returnValue
-      )} ${uniqueId} = ${functionName}(${Array.from(functionParameters.values())
-        .map(
-          ({ id, shaderParameterId, mappedParameterKey }) =>
-            mappedParameterKey ?? shaderParameterId ?? id
-        )
-        .join(", ")});`,
+      )} ${uniqueId} = ${functionName}(${functionParameters.join(", ")});`,
       `${getAssignedVariableName(assignedVariableId)} = ${uniqueId};`,
     ].join("\n");
   }
 
   const operator = getOperator(assignedVariableId);
   const assignedVariableName = getAssignedVariableName(assignedVariableId);
-  return `${assignedVariableName} ${operator} ${functionName}(${Array.from(
-    functionParameters.values()
-  )
-    .map(
-      ({ id, shaderParameterId, mappedParameterKey }) =>
-        mappedParameterKey ?? shaderParameterId ?? id
-    )
-    .join(", ")});`;
+  return `${assignedVariableName} ${operator} ${functionName}(${functionParameters.join(
+    ", "
+  )});`;
 };
 
 export const getShaderFunctionType = (
@@ -100,4 +118,29 @@ export const getShaderFunctionType = (
     default:
       return FUNCTION_TYPES.CONFIGURED_STATIC;
   }
+};
+
+export const getFunctionInputs = (
+  parameters: ShaderParameterMap,
+  inputIds: string[],
+  shaderEffectId: string,
+  withValueType: boolean = true
+) => {
+  const defaultInputs =
+    inputIds?.flatMap((id) => {
+      const parameter = parameters.get(id);
+      if (!parameter) return [];
+
+      if (!GLOBAL_PARAMETER_TYPES.includes(parameter.parameterType)) {
+        if (withValueType) {
+          return `${shaderValueTypeInstantiation(
+            parameter.valueType
+          )} ${id}_${shaderEffectId}`;
+        }
+        return `${id}_${shaderEffectId}`;
+      }
+      return [];
+    }) ?? [];
+
+  return defaultInputs;
 };

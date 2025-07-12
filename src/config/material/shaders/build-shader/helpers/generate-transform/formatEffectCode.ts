@@ -1,30 +1,33 @@
 import {
-  FormattedFunctionConfig,
-  ParameterConfig,
+  ShaderTransformationConfig,
   ShaderParameterMap,
 } from "../../buildShader.types";
 import { SHADER_PROPERTY_TYPES } from "../../constants/shader.consts";
+import { getFunctionInputs } from "./functions";
 
 const formatNestedFunction = (
-  functionConfig: FormattedFunctionConfig,
-  shaderEffectParameters: ShaderParameterMap
+  transformationConfig: ShaderTransformationConfig,
+  defaultInputIds: string[],
+  shaderEffectParameters: ShaderParameterMap,
+  shaderEffectId: string
 ) => {
-  const { functionParameters } = functionConfig;
-  const shaderParameterIds = Array.from(functionParameters.keys()).map((id) => {
-    const parameter = shaderEffectParameters.get(id);
-    if (!parameter) {
-      return null;
-    }
-    return `${parameter.shaderParameterId}`;
-  });
-  return `${functionConfig.functionName}(${shaderParameterIds.join(",")});`;
+  const functionInputs = getFunctionInputs(
+    shaderEffectParameters,
+    defaultInputIds ?? [],
+    shaderEffectId,
+    false
+  );
+
+  return `${transformationConfig.functionName}(${functionInputs.join(",")});`;
 };
 
 export const formatEffectCodeLines = (
   effectCodeLines: string[],
+  inputIds: string[],
   shaderEffectParameters: ShaderParameterMap,
-  effectParameters: ParameterConfig[],
-  formattedFunctionConfigs: FormattedFunctionConfig[]
+  formattedFunctionConfigs: ShaderTransformationConfig[],
+  effectId: string,
+  isFragment: boolean
 ) => {
   return effectCodeLines.map((line) => {
     return line.replace(/{{(\w+)}}/g, (match, key) => {
@@ -34,31 +37,33 @@ export const formatEffectCodeLines = (
         return "";
       }
       if (!parameter) {
-        const shaderVariable = effectParameters.find((p) => p.id === key);
-        if (shaderVariable?.parameterType === SHADER_PROPERTY_TYPES.VARYING) {
-          return shaderVariable?.varyingConfig?.isAttributeReference
-            ? `${shaderVariable.id}_varying`
-            : `${shaderVariable.id}`;
-        }
-        if (shaderVariable) {
-          return `${shaderVariable.id}`;
-        }
-
         const effectFunction = formattedFunctionConfigs.find(
           (f) => f.id === key
         );
         if (effectFunction) {
           const functionCall = formatNestedFunction(
             effectFunction,
-            shaderEffectParameters
+            inputIds,
+            shaderEffectParameters,
+            effectId
           );
           return `${functionCall}`;
         }
 
         return match;
       }
-
-      return `${parameter.shaderParameterId}`;
+      if (
+        isFragment &&
+        parameter.parameterType === SHADER_PROPERTY_TYPES.ATTRIBUTE
+      ) {
+        return `${parameter.id}_varying`;
+      }
+      if (parameter.shaderParameterId) {
+        return `${parameter.shaderParameterId}`;
+      } else if (inputIds.includes(key)) {
+        return `${parameter.id}_${effectId}`;
+      }
+      return match;
     });
   });
 };

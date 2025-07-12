@@ -7,21 +7,19 @@ import {
 
 export const generateConstantDeclarations = (
   shaderParameterMap: ShaderParameterMap
-) => {
+): string => {
   const constantDeclarations = Array.from(shaderParameterMap.values())
     .filter(
-      ({ parameterConfig }) =>
-        parameterConfig &&
-        parameterConfig.parameterType === SHADER_PROPERTY_TYPES.CONSTANT
+      ({ parameterType }) => parameterType === SHADER_PROPERTY_TYPES.CONSTANT
     )
-    .map(({ shaderParameterId, valueType, parameterConfig }) => {
+    .map(({ shaderParameterId, valueType, value }) => {
       return `${shaderValueTypeInstantiation(
         valueType
       )} ${shaderParameterId} = ${parseRawValueToShader(
         valueType,
-        parameterConfig?.value ?? ""
+        value ?? ""
       )};`;
     });
 
-  return constantDeclarations;
+  return ["// CONSTANT DECLARATIONS", ...constantDeclarations].join("\n");
 };

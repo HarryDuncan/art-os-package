@@ -1,14 +1,13 @@
-import { ParameterConfig } from "../../buildShader.types";
+import { ParameterConfig, ShaderParameterMap } from "../../buildShader.types";
 import {
   SHADER_PROPERTY_VALUE_TYPES,
   SHADER_PROPERTY_TYPES,
 } from "../../constants/shader.consts";
 import { createDeclarationString } from "../../helpers/createDeclarationString";
 
-export const buildAttributes = (parameterConfigs: ParameterConfig[]) => {
-  const attributeConfigs = parameterConfigs.filter(
-    (parameterConfig) =>
-      parameterConfig.parameterType === SHADER_PROPERTY_TYPES.ATTRIBUTE
+export const buildAttributes = (parameterMap: ShaderParameterMap) => {
+  const attributeConfigs = Array.from(parameterMap.values()).filter(
+    (parameter) => parameter.parameterType === SHADER_PROPERTY_TYPES.ATTRIBUTE
   );
   const declarationString = createDeclarationStrings(attributeConfigs);
   return declarationString;

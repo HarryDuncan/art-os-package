@@ -1,6 +1,5 @@
 import {
   EffectFunctionConfig,
-  ParameterConfig,
   ShaderEffectConfig,
   VertexEffectConfig,
 } from "../buildShader.types";
@@ -37,8 +36,7 @@ const nestSubEffects = <T extends ShaderEffectConfig>(
 
 export const formatShaderEffects = (
   shaderEffectConfigs: ShaderEffectConfig[],
-  effectFunctionConfigs: EffectFunctionConfig[],
-  parameterConfigs: ParameterConfig[]
+  effectFunctionConfigs: EffectFunctionConfig[]
 ) => {
   const vertexEffectConfigs = nestSubEffects(
     shaderEffectConfigs.filter(
@@ -52,25 +50,15 @@ export const formatShaderEffects = (
     ) as FragmentEffectConfig[]
   ) as FragmentEffectConfig[];
 
-  const fragmentEffectFunctionConfigs = effectFunctionConfigs.flatMap(
+  const fragmentEffectFunctionConfigs = effectFunctionConfigs.filter(
     (config) => {
       const { outputMapping } = config;
       const outputIds = Object.values(outputMapping).map(
         (mapping) => mapping.itemId
       );
-      const isFragmentEffect = outputIds.some((id) =>
+      return outputIds.some((id) =>
         fragmentEffectConfigs.some((config) => config.id === id)
       );
-      if (isFragmentEffect) {
-        const inputIds = Object.values(config.inputMapping ?? {}).map(
-          (mapping) => mapping.itemId
-        );
-        const inputParameters = parameterConfigs.filter((parameter) =>
-          inputIds.includes(parameter.guid ?? "")
-        );
-        return { ...config, inputParameters };
-      }
-      return [];
     }
   );
 
@@ -139,7 +127,7 @@ export const formatShaderEffects = (
         }
     )[]
   );
-  console.log("fragmentEffectFunctions", fragmentEffectFunctions);
+
   return {
     vertexEffectFunctions,
     fragmentEffectFunctions,

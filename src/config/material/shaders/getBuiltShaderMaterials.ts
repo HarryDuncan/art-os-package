@@ -5,6 +5,7 @@ import { buildShader } from "./build-shader/buildShader";
 import { formatBuiltShaderUniforms } from "./shader-formatting/formatBuiltShaderUniforms";
 import { configureBlendingOptions } from "../blending-options/configureBlendingOptions";
 import { MATERIAL_TYPES } from "../../../consts/materials/materials.consts";
+import { formatParametersAndEffects } from "./shader-formatting/setUpParameterMap";
 
 export const getBuiltShaderMaterials = (
   config: SceneConfig,
@@ -21,17 +22,23 @@ export const getBuiltShaderMaterials = (
         const { shaderEffectConfigs, effectFunctionConfigs, parameterConfigs } =
           materialConfig;
         if (!shaderEffectConfigs) return [];
+        const { parameterMap, updatedEffectConfigs } =
+          formatParametersAndEffects(
+            parameterConfigs ?? [],
+            shaderEffectConfigs
+          );
 
         const { vertexShader, fragmentShader } = buildShader(
-          shaderEffectConfigs,
+          updatedEffectConfigs,
           effectFunctionConfigs ?? [],
-          parameterConfigs ?? []
+          parameterMap
         );
 
         const formattedUniforms = formatBuiltShaderUniforms(
-          parameterConfigs ?? [],
+          parameterMap,
           assets
         );
+
         const blendingOptions = configureBlendingOptions(
           materialConfig.blendingConfig
         );

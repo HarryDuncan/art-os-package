@@ -7,14 +7,14 @@ import {
 } from "../build-shader/constants/shader.consts";
 import {
   UniformObject,
-  ParameterConfig,
+  ShaderParameterMap,
 } from "../build-shader/buildShader.types";
 
 export const formatBuiltShaderUniforms = (
-  parameterConfigs: ParameterConfig[],
+  parameterMap: ShaderParameterMap,
   assets: Asset[]
 ): { [uniform: string]: IUniform<unknown> } => {
-  const uniformParameters = parameterConfigs.filter(
+  const uniformParameters = Array.from(parameterMap.values()).filter(
     (uniform) => uniform.parameterType === SHADER_PROPERTY_TYPES.UNIFORM
   );
   const assetMapping =

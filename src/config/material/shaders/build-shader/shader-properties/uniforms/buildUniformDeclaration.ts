@@ -1,4 +1,4 @@
-import { ParameterConfig } from "../../buildShader.types";
+import { ShaderParameterMap } from "../../buildShader.types";
 import { UNIFORM_DECLARATION } from "../../constants";
 import {
   DEFAULT_UNIFORM_CONFIGS,
@@ -8,13 +8,11 @@ import {
 import { createDeclarationString } from "../../helpers/createDeclarationString";
 
 const DEFAULT_UNIFORMS = ["uTime"];
-export const buildUniformDeclaration = (
-  parameterConfigs: ParameterConfig[]
-) => {
-  const uniformConfigs = parameterConfigs.filter(
-    (parameterConfig) =>
-      parameterConfig.parameterType === SHADER_PROPERTY_TYPES.UNIFORM
+export const buildUniformDeclaration = (parameterMap: ShaderParameterMap) => {
+  const uniformConfigs = Array.from(parameterMap.values()).filter(
+    (parameter) => parameter.parameterType === SHADER_PROPERTY_TYPES.UNIFORM
   );
+
   const customStrings = uniformConfigs.map(
     ({ id, valueType, arrayLength, structProperties, guid }) =>
       createDeclarationString(

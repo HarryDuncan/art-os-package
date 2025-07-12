@@ -1,8 +1,4 @@
-import {
-  ParameterConfig,
-  FragmentEffectConfig,
-  ShaderFunction,
-} from "../buildShader.types";
+import { FragmentEffectConfig, ShaderFunction } from "../buildShader.types";
 
 export type FragmentEffectData = {
   requiredFunctions: ShaderFunction[];
@@ -12,6 +8,5 @@ export type FragmentEffectData = {
 export type FragmentEffectProps = {
   id: string;
   effectType: string;
-  effectParameters: ParameterConfig[];
   subEffects?: FragmentEffectConfig[];
 };

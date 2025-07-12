@@ -9,24 +9,20 @@ import {
   VERTEX_NORMAL_NAME,
   VERTEX_POINT_NAME,
 } from "../../vertex-effects/vertexEffects.consts";
-import { ParameterConfig, ShaderEffectConfig } from "../../buildShader.types";
+import { ParameterConfig, ShaderParameterMap } from "../../buildShader.types";
 import {
   V_CUSTOM_INSTANTIATION,
   V_DECLARATION,
   V_DEFAULT_INSTANTIATION,
 } from "../../constants";
-import { formatShaderVaryingParameters } from "../../../shader-formatting/formatShaderVaryingParameters";
 
-export const buildVaryings = (
-  parametersConfigs: ParameterConfig[],
-  shaderEffectConfigs: ShaderEffectConfig[]
-) => {
-  const formattedVaryingParameters = formatShaderVaryingParameters(
-    parametersConfigs,
-    shaderEffectConfigs
+export const buildVaryings = (parameterMap: ShaderParameterMap) => {
+  const varyingConfigs = Array.from(parameterMap.values()).filter(
+    (parameter) => parameter.parameterType === SHADER_PROPERTY_TYPES.VARYING
   );
-  const declaration = varyingDeclarations(formattedVaryingParameters);
-  const instantiation = varyingInstantiation(formattedVaryingParameters);
+
+  const declaration = varyingDeclarations(varyingConfigs);
+  const instantiation = varyingInstantiation(varyingConfigs);
   return { declaration, instantiation };
 };
 

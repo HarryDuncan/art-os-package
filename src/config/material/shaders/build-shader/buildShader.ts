@@ -1,16 +1,16 @@
 import { MAIN_END, MAIN_START } from "./constants/buildShader.consts";
 import { setUpFragmentEffects } from "./fragment-effects/setUpFragmentEffects";
 import { buildAttributes } from "./shader-properties/attributes/buildAttributes";
-import { buildUniformDeclaration } from "./shader-properties/uniforms/buildUniforms";
+import { buildUniformDeclaration } from "./shader-properties/uniforms/buildUniformDeclaration";
 import { buildVaryings } from "./shader-properties/varyings/buildVaryings";
 import { setUpVertexEffects } from "./vertex-effects/setUpVertexEffects";
 // import { buildStruct } from "./shader-properties/structs/buildStructs";
 // import { mergeStructConfigs } from "./shader-properties/structs/mergeStructConfigs";
 import {
   EffectFunctionConfig,
-  ParameterConfig,
   ShaderEffectConfig,
   ShaderFunction,
+  ShaderParameterMap,
 } from "./buildShader.types";
 import { formatShaderEffects } from "./helpers/formatEffectConfigs";
 import {
@@ -19,32 +19,31 @@ import {
 } from "./vertex-effects/vertexEffects.consts";
 import { formatFunctionDeclarations } from "./helpers/formatFunctionDeclarations";
 import { FRAG_COLOR_INSTANTIATION } from "./fragment-effects/fragmentEffects.consts";
+import { generateConstantDeclarations } from "./helpers/generate-transform/constantDeclarations";
 
 const DEBUG = true;
 export const buildShader = (
   shaderEffectConfigs: ShaderEffectConfig[],
   effectFunctionConfigs: EffectFunctionConfig[],
-  parameterConfigs: ParameterConfig[]
+  parameterMap: ShaderParameterMap
 ) => {
-  const { vertexEffectFunctions, fragmentEffectFunctions } =
-    formatShaderEffects(
-      shaderEffectConfigs,
-      effectFunctionConfigs,
-      parameterConfigs ?? []
-    );
+  const attributes = buildAttributes(parameterMap);
+  const uniformDeclaration = buildUniformDeclaration(parameterMap);
 
-  const fragmentEffects = setUpFragmentEffects(
-    fragmentEffectFunctions as EffectFunctionConfig[]
-  );
-  const vertexEffects = setUpVertexEffects(vertexEffectFunctions);
-
-  const attributes = buildAttributes(parameterConfigs ?? []);
-
-  const uniformDeclaration = buildUniformDeclaration(parameterConfigs ?? []);
   const {
     declaration: varyingDeclaration,
     instantiation: varyingInstantiation,
-  } = buildVaryings(parameterConfigs, shaderEffectConfigs);
+  } = buildVaryings(parameterMap);
+  const constantDeclarations = generateConstantDeclarations(parameterMap);
+
+  const { vertexEffectFunctions, fragmentEffectFunctions } =
+    formatShaderEffects(shaderEffectConfigs, effectFunctionConfigs);
+
+  const fragmentEffects = setUpFragmentEffects(
+    fragmentEffectFunctions as EffectFunctionConfig[],
+    parameterMap
+  );
+  const vertexEffects = setUpVertexEffects(vertexEffectFunctions, parameterMap);
 
   // const shaderStructConfigs = [structConfigs ?? []];
   // const mergedStructConfig = mergeStructConfigs(shaderStructConfigs);
@@ -55,7 +54,7 @@ export const buildShader = (
     attributes,
     uniformDeclaration,
     varyingDeclaration,
-    vertexEffects.constantDeclarations,
+    constantDeclarations,
     varyingInstantiation,
     vertexEffects.requiredFunctions,
     vertexEffects.transformations,
@@ -66,7 +65,7 @@ export const buildShader = (
     //  structDeclaration,
     uniformDeclaration,
     varyingDeclaration,
-    fragmentEffects.constantDeclarations,
+    constantDeclarations,
     fragmentEffects.requiredFunctions,
     fragmentEffects.transformations,
     fragmentEffects.fragColor
