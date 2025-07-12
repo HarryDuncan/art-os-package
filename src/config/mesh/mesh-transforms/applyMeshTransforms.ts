@@ -104,9 +104,10 @@ export const applyMeshTransforms = (
         `No transformed meshes - check transform config ${transformedMeshIds}`
       );
     }
+
     return formattedGeometries;
   });
-
+  console.log(formattedGeometries);
   return formattedGeometries;
 };
 

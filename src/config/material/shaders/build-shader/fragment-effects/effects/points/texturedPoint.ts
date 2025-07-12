@@ -15,17 +15,6 @@ import {
 
 const TEXTURED_POINTS_ATTRIBUTES = [
   {
-    id: "pointType",
-    name: "Point Type",
-    description: "Determines the type of point to display",
-    parameterType: SHADER_PROPERTY_TYPES.ATTRIBUTE,
-    valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
-    attributeConfig: {
-      attributeValueType: ATTRIBUTE_VALUE_TYPES.RANDOM_VALUE,
-      assetId: "",
-    },
-  },
-  {
     id: "pointDisplay",
     name: "Point Display",
     description: "Controls whether a point is displayed",

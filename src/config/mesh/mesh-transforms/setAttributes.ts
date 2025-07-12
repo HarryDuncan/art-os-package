@@ -49,11 +49,11 @@ const setRandomValues = (
   vertexCount: number,
   bufferGeometry: BufferGeometry
 ) => {
-  const angles = new Float32Array(vertexCount);
-  angles.forEach((_value, index) => {
-    angles[index] = Math.random();
+  const values = new Float32Array(vertexCount);
+  values.forEach((_value, index) => {
+    values[index] = Math.random();
   });
-  bufferGeometry.setAttribute(attributeId, new BufferAttribute(angles, 1));
+  bufferGeometry.setAttribute(attributeId, new BufferAttribute(values, 1));
 };
 
 const setRandomizedPercentage = (

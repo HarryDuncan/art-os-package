@@ -7,7 +7,6 @@ import {
 import { shaderValueTypeInstantiation } from "../safeParseValue";
 import { formatEffectCodeLines } from "./formatEffectCode";
 import { getFunctionInputs } from "./functions";
-import { SHADER_TYPES } from "../../constants";
 
 export const transformationToFunction = (
   transformationConfigs: ShaderTransformationConfig[],

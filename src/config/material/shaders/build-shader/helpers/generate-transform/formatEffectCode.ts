@@ -1,3 +1,4 @@
+import { SHADER_PROPERTY_TYPES } from "../../../../../../consts";
 import {
   ShaderTransformationConfig,
   ShaderParameterMap,
@@ -42,9 +43,15 @@ export const formatEffectCodeLines = (
         return match;
       }
 
-      if (parameter.shaderParameterId) {
+      if (
+        parameter.parameterType === SHADER_PROPERTY_TYPES.ATTRIBUTE ||
+        parameter.parameterType === SHADER_PROPERTY_TYPES.VARYING ||
+        parameter.parameterType === SHADER_PROPERTY_TYPES.CONSTANT
+      ) {
         return `${parameter.shaderParameterId}`;
-      } else if (inputMap.has(key)) {
+      }
+
+      if (inputMap.has(key)) {
         return `${parameter.id}_${effectId}`;
       }
       return match;

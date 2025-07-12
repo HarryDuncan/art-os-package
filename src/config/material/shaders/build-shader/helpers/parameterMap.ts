@@ -41,11 +41,12 @@ export const getShaderInputMap = (
     }
 
     const itemId = inputMapping?.[parameter.id]?.itemId;
-    if (itemId) {
+    if (itemId === parameter.guid) {
       shaderInputMap.set(`${parameter.id}`, parameter);
       return;
     }
   });
+
   return shaderInputMap;
 };
 

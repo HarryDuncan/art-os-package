@@ -78,6 +78,7 @@ export const setUpFunctionInstantiation = (
           parameter.mappedParameterKey ??
           parameter.shaderParameterId ??
           `${id}_${shaderEffectId}`;
+
         return parameterKey;
       }
       return [];
