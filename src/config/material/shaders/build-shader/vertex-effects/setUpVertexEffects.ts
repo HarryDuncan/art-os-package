@@ -1,24 +1,8 @@
 import { mergeShaderFunctions } from "../helpers/mergeShaderFunctions";
-import {
-  VERTEX_EFFECT_CONFIG_MAP,
-  VERTEX_POINT_NAME,
-} from "./vertexEffects.consts";
-import { VertexEffectProps } from "./vertexEffects.types";
-import {
-  ShaderFunction,
-  ShaderParameterMap,
-  ShaderTransformationSchema,
-  VertexEffectConfig,
-} from "../buildShader.types";
-import { setUpFunctionInstantiation } from "../helpers/generate-transform/functions";
-import { FUNCTION_TYPES } from "../constants";
-import {
-  EffectFunctionConfig,
-  ShaderEffectConfig,
-  TransformData,
-} from "../buildShader.types";
-import { setupShaderTransformationConfig } from "../helpers/generate-transform/setupShaderTransformConfig";
-import { transformationToFunction } from "../helpers/generate-transform/transformationToFunction";
+import { VERTEX_POINT_NAME } from "./vertexEffects.consts";
+import { ShaderFunction, ShaderParameterMap } from "../buildShader.types";
+import { EffectFunctionConfig } from "../buildShader.types";
+import { generateShaderTransformData } from "../helpers/generate-transform/generateTransform";
 
 export const setUpVertexEffects = (
   vertexEffectFunctions: EffectFunctionConfig[],
@@ -65,11 +49,13 @@ export const transformSetup = (
 ) => {
   const { functionId, effects } = effectProps;
   const effectTransformationData = effects.flatMap((effect) => {
-    return generateShaderTransformData(
-      effect as VertexEffectProps,
-      false,
-      parameterMap
-    );
+    const data = generateShaderTransformData(effect, parameterMap);
+    if (data) {
+      return {
+        id: effect.id,
+        ...data,
+      };
+    }
   });
 
   switch (functionId) {
@@ -78,118 +64,4 @@ export const transformSetup = (
     default:
       return null;
   }
-};
-
-const generateShaderTransformData = (
-  effect: VertexEffectProps,
-  isSubEffect: boolean,
-  parameterMap: ShaderParameterMap
-): TransformData | null => {
-  const { effectType } = effect;
-  const effectConfig = VERTEX_EFFECT_CONFIG_MAP[effectType];
-  if (effectConfig) {
-    const { transformationFunctions, transformation } =
-      generateVertexShaderTransforms(
-        effectConfig.transformationConfig as ShaderTransformationSchema[],
-        effect as VertexEffectProps,
-        parameterMap,
-        isSubEffect
-      );
-    // @ts-expect-error - this is a valid type
-    const assignedVariableId = effectConfig?.assignedVariableId;
-
-    return {
-      transformation,
-      requiredFunctions: [
-        ...(effectConfig.functions || []),
-        ...transformationFunctions,
-      ],
-      assignedVariableId,
-    } as TransformData;
-  }
-  return null;
-};
-
-export const generateVertexShaderTransforms = (
-  transformConfig: ShaderTransformationSchema[],
-  effectProps: VertexEffectProps,
-  parameterMap: ShaderParameterMap,
-  isSubEffect: boolean
-): {
-  transformation: string;
-  transformationFunctions: ShaderFunction[];
-  mainFunctionInstantiations: any;
-} => {
-  const { subEffects } = effectProps;
-  const subEffectDataArray =
-    subEffects?.flatMap((subEffect) => {
-      const subEffectData = generateShaderTransformData(
-        subEffect,
-        true,
-        parameterMap
-      );
-      if (subEffectData) {
-        return subEffectData;
-      }
-      return [];
-    }) ?? [];
-
-  const transformFunctionConfigs = setupShaderTransformationConfig(
-    transformConfig,
-    effectProps as unknown as ShaderEffectConfig,
-    isSubEffect,
-    subEffectDataArray,
-    parameterMap
-  );
-
-  const effectFunctions = transformationToFunction(
-    transformFunctionConfigs,
-    effectProps as unknown as VertexEffectConfig,
-    parameterMap
-  );
-
-  const mainFunctionInstantiations = effectFunctions
-    .sort((a, b) =>
-      a.dontDeclare === b.dontDeclare ? 0 : a.dontDeclare ? -1 : 1
-    )
-    .flatMap(
-      ({
-        inputIds,
-        assignedVariableId,
-        functionName,
-        functionType,
-        dontDeclare,
-        returnValue,
-      }) => {
-        if (
-          !assignedVariableId ||
-          FUNCTION_TYPES.VERTEX_SUB_EFFECT === functionType
-        ) {
-          return [];
-        }
-        return setUpFunctionInstantiation(
-          assignedVariableId,
-          functionName,
-          inputIds,
-          returnValue,
-          parameterMap,
-          effectProps.id,
-          dontDeclare
-        );
-      }
-    );
-
-  const transformation = [...mainFunctionInstantiations].join("\n");
-
-  const transformationFunctions = [
-    ...effectFunctions.filter(({ dontDeclare }) => {
-      return !dontDeclare;
-    }),
-    ...subEffectDataArray.flatMap(({ requiredFunctions }) => requiredFunctions),
-  ];
-  return {
-    transformation,
-    mainFunctionInstantiations,
-    transformationFunctions,
-  };
 };

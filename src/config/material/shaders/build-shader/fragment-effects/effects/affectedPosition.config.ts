@@ -58,4 +58,5 @@ export const AFFECTED_POSITION_EFFECT_FRAGMENT_CONFIG = {
   parameters: AFFECTED_POSITION_PARAMETERS,
   transformationConfig: affectedPositionTransformConfig,
   outputValueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
+  assignedVariableId: SHADER_VARIABLE_TYPES.FRAGMENT_COLOR,
 };

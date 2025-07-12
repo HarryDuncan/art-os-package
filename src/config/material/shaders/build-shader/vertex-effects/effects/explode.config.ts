@@ -66,4 +66,5 @@ export const EXPLODE_EFFECT_CONFIG = {
   meshTransformConfig: [],
   parameters: EXPLODE_PARAMETERS,
   transformationConfig: [EXPLODE_TRANSFORMATION_CONFIG],
+  assignedVariableId: SHADER_VARIABLE_TYPES.VERTEX_POINT,
 };

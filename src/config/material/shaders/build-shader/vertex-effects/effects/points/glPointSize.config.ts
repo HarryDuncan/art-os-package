@@ -47,4 +47,5 @@ export const POINT_SIZE_EFFECT_CONFIG = {
   meshTransformConfig: [],
   parameters: POINT_SIZE_PARAMETERS,
   transformationConfig: imageToPointsTransformConfig,
+  assignedVariableId: SHADER_VARIABLE_TYPES.GL_POINT_SIZE,
 };

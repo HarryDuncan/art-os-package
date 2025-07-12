@@ -74,4 +74,5 @@ export const AFFECTED_POSITION_EFFECT_CONFIG = {
   meshTransformConfig: [],
   parameters: AFFECTED_POSITION_PARAMETERS,
   transformationConfig: affectedPositionTransformConfig,
+  assignedVariableId: SHADER_VARIABLE_TYPES.VERTEX_POINT,
 };

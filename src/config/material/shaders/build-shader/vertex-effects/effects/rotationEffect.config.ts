@@ -61,4 +61,5 @@ export const ROTATION_EFFECT_CONFIG = {
   meshTransformConfig: [],
   parameters: ROTATION_EFFECT_PARAMETERS,
   transformationConfig: ROTATION_EFFECT_TRANSFORMATION,
+  assignedVariableId: SHADER_VARIABLE_TYPES.VERTEX_POINT,
 };

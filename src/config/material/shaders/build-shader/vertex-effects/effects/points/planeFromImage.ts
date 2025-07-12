@@ -125,4 +125,5 @@ export const PLANE_FROM_IMAGE_EFFECT_CONFIG = {
   meshTransformConfig: [QUAD_MESH_TRANSFORM],
   parameters: PLANE_FROM_IMAGE_PARAMETERS,
   transformationConfig: PLANE_FROM_IMAGE_TRANSFORM_CONFIG,
+  assignedVariableId: SHADER_VARIABLE_TYPES.VERTEX_POINT,
 };
