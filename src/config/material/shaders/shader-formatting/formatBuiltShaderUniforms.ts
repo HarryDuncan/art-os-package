@@ -35,6 +35,7 @@ export const formatBuiltShaderUniforms = (
     acc[`${uniform.id}_${uniform.guid}`] = { value: uniform.value };
     return acc;
   }, {} as UniformObject);
+  uniforms.uTime = { value: 0 };
   const mappedUniforms = mapAssetsToUniforms(assetMapping, assets, uniforms);
   const formattedUniforms = formatDefaultShaderValues(mappedUniforms);
   return formattedUniforms as { [uniform: string]: IUniform<unknown> };

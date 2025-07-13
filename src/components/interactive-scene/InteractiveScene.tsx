@@ -103,9 +103,8 @@ export class InteractiveScene extends Scene {
         };
         const formattedInteractionConfig = {
           materialIds: interactionConfig.materialIds,
-          uniformKeys: Object.values(interactionConfig.mappingTo).flatMap(
-            (mapping) =>
-              mapping.map((m) => `${m.parameterKey}_${m.parameterId}`)
+          uniformKeys: Object.values(interactionConfig.outputMapping).flatMap(
+            (mapping) => `${mapping.parameterKey}_${mapping.parameterId}`
           ),
           keyPointId: interactionConfig.sourceConfig.keypointId,
         };
