@@ -1,13 +1,14 @@
+import { mergeUnique } from "../../../../../../utils/mergeUnique";
 import {
   AdvancedShaderVariableMap,
   ShaderParameterMap,
   TransformData,
-} from "../buildShader.types";
-import { EffectFunctionConfig } from "../buildShader.types";
+} from "../../buildShader.types";
+import { EffectFunctionConfig } from "../../buildShader.types";
 
 export const splitValueTransform = (
-  effectFunctionTransform: EffectFunctionConfig,
   effectTransforms: (TransformData & { id: string })[],
+  effectFunctionTransform: EffectFunctionConfig,
   parameterMap: ShaderParameterMap
 ): TransformData => {
   const inputParameters = Array.from(parameterMap.values());
@@ -129,20 +130,6 @@ export const splitValueTransform = (
   }
 
   // Helper to merge arrays and deduplicate by string value
-  const mergeUnique = <T>(arrs: T[][]): T[] => {
-    const seen = new Set();
-    const result: T[] = [];
-    for (const arr of arrs) {
-      for (const item of arr) {
-        const key = typeof item === "string" ? item : JSON.stringify(item);
-        if (!seen.has(key)) {
-          seen.add(key);
-          result.push(item);
-        }
-      }
-    }
-    return result;
-  };
 
   // Helper to merge AdvancedShaderVariableMap
   const mergeAdvancedShaderVariableMaps = (

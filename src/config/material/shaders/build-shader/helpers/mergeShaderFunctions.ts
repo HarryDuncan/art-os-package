@@ -1,10 +1,10 @@
-import { ShaderFunction } from "../buildShader.types";
+import { DefinedEffectFunction, ShaderFunction } from "../buildShader.types";
 
 interface UniqueFunction {
   [key: string]: Omit<ShaderFunction, "id">;
 }
 export const mergeShaderFunctions = (
-  requiredFunctions: ShaderFunction[][]
+  requiredFunctions: (ShaderFunction | DefinedEffectFunction)[][]
 ): ShaderFunction[] => {
   const allFunctions = requiredFunctions.flatMap(
     (functionArray) => functionArray ?? []

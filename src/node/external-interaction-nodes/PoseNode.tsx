@@ -14,8 +14,8 @@ export const PoseNode = ({ config }: { config: InteractionConfig }) => {
   } = useSceneContext();
 
   const { materialIds } = config;
-  const uniformKeys = Object.values(config.mappingTo).flatMap((mapping) =>
-    mapping.map((m) => m.parameterKey)
+  const uniformKeys = Object.values(config.outputMapping).flatMap(
+    (mapping) => mapping.parameterKey
   );
   const [isStreaming, setIsStreaming] = useState(false);
   useEffect(() => {

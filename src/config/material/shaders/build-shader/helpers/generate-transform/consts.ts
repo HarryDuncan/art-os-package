@@ -10,7 +10,6 @@ import {
 } from "../../constants/shader.consts";
 import { FRAG_COLOR_NAME } from "../../fragment-effects/fragmentEffects.consts";
 import { VERTEX_POINT_NAME } from "../../vertex-effects/vertexEffects.consts";
-import { getAssignedVariableName } from "./functions";
 
 export const DEFAULT_VERTEX_PARAMETERS: Partial<ShaderParameter>[] = [
   {
@@ -29,6 +28,28 @@ export const DEFAULT_FRAGMENT_PARAMETERS: Partial<ShaderParameter>[] = [
     default: true,
   },
 ];
+
+export const getAssignedVariableName = (
+  assignedVariableId: string | undefined
+) => {
+  if (!assignedVariableId) {
+    return null;
+  }
+  switch (assignedVariableId) {
+    case SHADER_VARIABLE_TYPES.VERTEX_POINT:
+      return VERTEX_POINT_NAME;
+    case SHADER_VARIABLE_TYPES.GL_POINT_SIZE:
+      return "gl_PointSize";
+    case SHADER_VARIABLE_TYPES.FRAGMENT_COLOR:
+      return FRAG_COLOR_NAME;
+    case SHADER_VARIABLE_TYPES.DISCARD_COLOR:
+      return "discardColor";
+    case SHADER_VARIABLE_TYPES.LIGHT:
+      return "light";
+    default:
+      return assignedVariableId;
+  }
+};
 
 const DISCARD_COLOR_EFFECT_CODE = {
   key: SHADER_VARIABLE_TYPES.DISCARD_COLOR,

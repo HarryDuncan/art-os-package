@@ -34,6 +34,14 @@ const nestSubEffects = <T extends ShaderEffectConfig>(
     return acc;
   }, [] as T[]);
 
+const DEFAULT_EFFECT_FUNCTION_CONFIG = {
+  id: "DEFAULT_EFFECT_FUNCTION",
+  functionId: EFFECT_FUNCTIONS.DEFAULT,
+  effects: [],
+  outputMapping: {},
+  inputMapping: {},
+};
+
 export const formatShaderEffects = (
   shaderEffectConfigs: ShaderEffectConfig[],
   effectFunctionConfigs: EffectFunctionConfig[]
@@ -62,16 +70,56 @@ export const formatShaderEffects = (
     }
   );
 
-  const vertexEffectFunctions = vertexEffectConfigs.map((effect) => {
-    const defaultEffectFunction = {
-      id: effect.id,
-      functionId: "DEFAULT_EFFECT_FUNCTION",
-      effects: [effect],
-      outputMapping: {},
-      inputMapping: {},
-    };
-    return defaultEffectFunction;
+  const vertexEffectFunctionConfigs = effectFunctionConfigs.filter((config) => {
+    const { outputMapping } = config;
+    const outputIds = Object.values(outputMapping).map(
+      (mapping) => mapping.itemId
+    );
+    return outputIds.some((id) =>
+      vertexEffectConfigs.some((config) => config.id === id)
+    );
   });
+
+  const vertexEffectFunctions = vertexEffectConfigs.reduce((acc, effect) => {
+    // Check if there are any fragmentEffectFunctionConfigs that reference this effect
+    const matchingFunctionConfig = vertexEffectFunctionConfigs.find(
+      (config) => {
+        const { outputMapping } = config;
+        const outputIds = Object.values(outputMapping).map(
+          (mapping) => mapping.itemId
+        );
+        return outputIds.includes(effect.id);
+      }
+    );
+
+    if (matchingFunctionConfig) {
+      // Check if we already have a function config for this effect
+      const existingFunctionIndex = acc.findIndex(
+        (func) => func.id === matchingFunctionConfig.id
+      );
+
+      if (existingFunctionIndex >= 0) {
+        // Merge the effect into the existing function
+        acc[existingFunctionIndex].effects.push(effect);
+      } else {
+        // Create new function config with this effect
+        acc.push({
+          ...matchingFunctionConfig,
+          effects: [effect],
+        });
+      }
+    } else {
+      // Return default effect function
+      const defaultEffectFunction = {
+        ...DEFAULT_EFFECT_FUNCTION_CONFIG,
+        id: effect.id,
+        effects: [effect],
+      };
+      acc.push(defaultEffectFunction);
+    }
+
+    return acc;
+  }, [] as EffectFunctionConfig[]);
 
   const fragmentEffectFunctions = fragmentEffectConfigs.reduce(
     (acc, effect) => {
@@ -116,16 +164,7 @@ export const formatShaderEffects = (
 
       return acc;
     },
-    [] as (
-      | EffectFunctionConfig
-      | {
-          id: string;
-          functionId: string;
-          effects: FragmentEffectConfig[];
-          outputMapping: Record<string, unknown>;
-          inputMapping: Record<string, unknown>;
-        }
-    )[]
+    [] as EffectFunctionConfig[]
   );
 
   return {

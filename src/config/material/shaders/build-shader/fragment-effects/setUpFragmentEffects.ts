@@ -6,9 +6,7 @@ import {
   ShaderParameterMap,
 } from "../buildShader.types";
 import { FRAG_COLOR_NAME } from "../../../../../consts";
-import { EFFECT_FUNCTIONS } from "../effect-functions";
-import { splitValueTransform } from "../effect-functions/splitValueTransform";
-import { generateShaderTransformData } from "../helpers/generate-transform/generateTransform";
+import { transformSetup } from "../helpers/generate-transform/generate";
 
 export const setUpFragmentEffects = (
   fragmentEffectFunctions: EffectFunctionConfig[],
@@ -58,7 +56,6 @@ export const getFragmentColors = (
   const allAdvancedShaderVariables: AdvancedShaderVariableMap = new Map();
   fragmentEffectFunctions.forEach((effect) => {
     const fragmentEffectData = transformSetup(effect, parameterMap);
-
     if (fragmentEffectData) {
       unmergedTransformations.push(fragmentEffectData.transformation);
       allRequiredFunctions.push(fragmentEffectData.requiredFunctions);
@@ -80,34 +77,4 @@ export const getFragmentColors = (
     assignedVariableIds: Array.from(new Set(assignedVariableIds)),
     advancedShaderVariables: allAdvancedShaderVariables,
   };
-};
-
-export const transformSetup = (
-  effectProps: EffectFunctionConfig,
-  parameterMap: ShaderParameterMap
-) => {
-  const { functionId, effects } = effectProps;
-  const effectTransformationData = effects.flatMap((effect) => {
-    const data = generateShaderTransformData(effect, parameterMap);
-    if (data) {
-      return {
-        id: effect.id,
-        ...data,
-      };
-    }
-    return [];
-  });
-
-  switch (functionId) {
-    case EFFECT_FUNCTIONS.DEFAULT:
-      return effectTransformationData[0];
-    case EFFECT_FUNCTIONS.SPLIT_VALUE:
-      return splitValueTransform(
-        effectProps,
-        effectTransformationData,
-        parameterMap
-      );
-    default:
-      return null;
-  }
 };

@@ -54,7 +54,8 @@ export const setUpFunctionInstantiation = (
   functionName: string,
   inputMap: ShaderParameterMap,
   returnValue: keyof typeof SHADER_PROPERTY_VALUE_TYPES,
-  shaderEffectId: string
+  shaderEffectId: string,
+  declareAsVariable: boolean = false
 ) => {
   const functionParameters = Array.from(inputMap.entries())?.flatMap(
     ([id, parameter]) => {
@@ -83,16 +84,18 @@ export const setUpFunctionInstantiation = (
       return [];
     }
   );
-  // if (dontDeclareAssignedVariable) {
-  //   const uniqueId = shaderSafeGuid(assignedVariableId);
-
-  //   return [
-  //     `${shaderValueTypeInstantiation(
-  //       returnValue
-  //     )} ${uniqueId} = ${functionName}(${functionParameters.join(", ")});`,
-  //     `${getAssignedVariableName(assignedVariableId)} = ${uniqueId};`,
-  //   ].join("\n");
-  // }
+  if (declareAsVariable) {
+    console.log(assignedVariableId);
+    const uniqueId = shaderSafeGuid(assignedVariableId);
+    return [
+      `${shaderValueTypeInstantiation(
+        returnValue
+      )} ${assignedVariableId} = ${functionName}(${functionParameters.join(
+        ", "
+      )});`,
+      `${getAssignedVariableName(assignedVariableId)} = ${uniqueId};`,
+    ].join("\n");
+  }
 
   const operator = getOperator(assignedVariableId);
   const assignedVariableName = getAssignedVariableName(assignedVariableId);

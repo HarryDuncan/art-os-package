@@ -37,7 +37,10 @@ export const getShaderInputMap = (
     if (itemId === parameter.guid) {
       shaderInputMap.set(`${parameter.id}`, parameter);
       return;
-    } else if (DEFAULT_PARAMETER_KEYS.includes(parameter.id)) {
+    } else if (
+      DEFAULT_PARAMETER_KEYS.includes(parameter.id) &&
+      !parameter.guid
+    ) {
       shaderInputMap.set(parameter.id, {
         ...parameter,
         shaderParameterId: `${parameter.id}_${id}`,
@@ -45,7 +48,6 @@ export const getShaderInputMap = (
       return;
     }
   });
-
   return shaderInputMap;
 };
 

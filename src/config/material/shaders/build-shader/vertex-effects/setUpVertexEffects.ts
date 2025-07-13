@@ -2,7 +2,7 @@ import { mergeShaderFunctions } from "../helpers/mergeShaderFunctions";
 import { VERTEX_POINT_NAME } from "./vertexEffects.consts";
 import { ShaderFunction, ShaderParameterMap } from "../buildShader.types";
 import { EffectFunctionConfig } from "../buildShader.types";
-import { generateShaderTransformData } from "../helpers/generate-transform/generateTransform";
+import { transformSetup } from "../helpers/generate-transform/generate";
 
 export const setUpVertexEffects = (
   vertexEffectFunctions: EffectFunctionConfig[],
@@ -28,6 +28,7 @@ const getVertexTransformations = (
   const allRequiredFunctions: ShaderFunction[][] = [];
   vertexEffectFunctions.forEach((effect) => {
     const vertexEffectData = transformSetup(effect, parameterMap);
+
     if (vertexEffectData !== null) {
       const { transformation, requiredFunctions } = vertexEffectData ?? {};
       unmergedTransformations.push(transformation ?? "");
@@ -41,27 +42,4 @@ const getVertexTransformations = (
     transformations,
     requiredFunctions: mergedRequiredFunction,
   };
-};
-
-export const transformSetup = (
-  effectProps: EffectFunctionConfig,
-  parameterMap: ShaderParameterMap
-) => {
-  const { functionId, effects } = effectProps;
-  const effectTransformationData = effects.flatMap((effect) => {
-    const data = generateShaderTransformData(effect, parameterMap);
-    if (data) {
-      return {
-        id: effect.id,
-        ...data,
-      };
-    }
-  });
-
-  switch (functionId) {
-    case "DEFAULT_EFFECT_FUNCTION":
-      return effectTransformationData[0];
-    default:
-      return null;
-  }
 };

@@ -8,6 +8,7 @@ import { VERTEX_EFFECTS } from "./vertex-effects/vertexEffects.consts";
 import { FRAGMENT_EFFECTS } from "./fragment-effects/fragmentEffects.consts";
 import { SHADER_VARIABLE_TYPES } from "./constants";
 import { MeshTransformConfig } from "../../../..";
+import { EffectFunctionValueConfig } from "./effect-functions/types";
 
 export type OutputInputMapping = {
   itemId: string;
@@ -21,8 +22,8 @@ export interface EffectConfig {
   effectParameters: ParameterConfig[];
   shaderType: string;
   subEffectIds?: string[];
-  inputMapping?: Record<string, OutputInputMapping>;
-  outputMapping?: Record<string, OutputInputMapping>;
+  inputMapping: Record<string, OutputInputMapping>;
+  outputMapping: Record<string, OutputInputMapping>;
 }
 export type VertexEffectConfig = EffectConfig & {
   applyToNormal?: boolean;
@@ -96,19 +97,15 @@ export type ParameterConfig = ShaderPropertyConfig & {
   shaderVariableConfig?: ShaderVariableConfig;
 };
 
-export type SplitValueEditorConfig = {
-  numSplits: number;
-  splitValues: number[];
-};
-
 export type EffectFunctionConfig = {
   id: string;
   functionId: string;
-  value?: SplitValueEditorConfig | null;
+  value?: EffectFunctionValueConfig;
   outputMapping: Record<string, OutputInputMapping>;
-  inputMapping: Record<string, OutputInputMapping> | null;
+  inputMapping: Record<string, OutputInputMapping>;
+  inputMapSchema?: Record<string, string> | null;
+  outputMapSchema?: Record<string, string> | null;
   effects: ShaderEffectConfig[];
-  inputParameters?: ParameterConfig[];
 };
 
 // POST INIT TYPE

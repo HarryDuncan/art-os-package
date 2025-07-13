@@ -49,6 +49,11 @@ export const formatParametersAndEffects = (
           ...effectParameter,
           shaderParameterId: `${parameterId}`,
         } as ShaderParameter);
+      } else if (effectParameter.isFunctionBased) {
+        acc.set(`${parameterId}`, {
+          ...effectParameter,
+          shaderParameterId: `${parameterId}`,
+        } as ShaderParameter);
       } else {
         acc.set(`${parameterId}_${guid}`, {
           ...effectParameter,
