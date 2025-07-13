@@ -15,7 +15,7 @@ export const PoseNode = ({ config }: { config: InteractionConfig }) => {
 
   const { materialIds } = config;
   const uniformKeys = Object.values(config.outputMapping).flatMap(
-    (mapping) => mapping.parameterKey
+    (mapping) => `${mapping.parameterKey}_${mapping.parameterId}`
   );
   const [isStreaming, setIsStreaming] = useState(false);
   useEffect(() => {
@@ -41,7 +41,7 @@ export const PoseNode = ({ config }: { config: InteractionConfig }) => {
                   { x, y },
                   { camera: camera!, zTarget: 0 }
                 );
-                console.log("position", position);
+
                 setUniforms(
                   initializedScene as Scene,
                   materialIds ?? [],
