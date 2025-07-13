@@ -73,6 +73,11 @@ export type VaryingConfig = {
   inactiveValue?: string;
   isAttributeReference?: boolean;
 };
+export type ShaderVariableConfig = {
+  shaderVariableType: keyof typeof SHADER_VARIABLE_TYPES;
+  mappedVariableId?: string;
+};
+
 export type ParameterConfig = ShaderPropertyConfig & {
   parameterType: keyof typeof SHADER_PROPERTY_TYPES;
   description?: string;
@@ -88,6 +93,7 @@ export type ParameterConfig = ShaderPropertyConfig & {
   attributeConfig?: AttributeConfig;
   varyingConfig?: VaryingConfig;
   functionConfig?: ParameterFunctionConfig;
+  shaderVariableConfig?: ShaderVariableConfig;
 };
 
 export type SplitValueEditorConfig = {

@@ -1,3 +1,5 @@
+import { SHADER_VARIABLE_TYPES } from "../../constants";
+
 export const SHADER_VARIABLE_MAPPINGS = {
-  pointPosition: ["currentVertexPoint", "position"],
+  [SHADER_VARIABLE_TYPES.VERTEX_POINT]: ["currentVertexPoint", "position"],
 };

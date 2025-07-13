@@ -24,13 +24,6 @@ export const getShaderInputMap = (
   const parameters = getParametersByKey(parameterMap, inputIds);
   const { inputMapping, id } = shaderEffectConfig;
   parameters.forEach((parameter) => {
-    if (DEFAULT_PARAMETER_KEYS.includes(parameter.id)) {
-      shaderInputMap.set(parameter.id, {
-        ...parameter,
-        shaderParameterId: `${parameter.id}_${id}`,
-      });
-      return;
-    }
     if (parameter.parameterType === SHADER_PROPERTY_TYPES.ATTRIBUTE) {
       shaderInputMap.set(parameter.id, parameter);
       return;
@@ -43,6 +36,12 @@ export const getShaderInputMap = (
     const itemId = inputMapping?.[parameter.id]?.itemId;
     if (itemId === parameter.guid) {
       shaderInputMap.set(`${parameter.id}`, parameter);
+      return;
+    } else if (DEFAULT_PARAMETER_KEYS.includes(parameter.id)) {
+      shaderInputMap.set(parameter.id, {
+        ...parameter,
+        shaderParameterId: `${parameter.id}_${id}`,
+      });
       return;
     }
   });

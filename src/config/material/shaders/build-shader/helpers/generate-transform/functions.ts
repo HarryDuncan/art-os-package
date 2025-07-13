@@ -1,7 +1,4 @@
-import {
-  OutputInputMapping,
-  ShaderParameterMap,
-} from "../../buildShader.types";
+import { ShaderParameterMap } from "../../buildShader.types";
 import { FUNCTION_TYPES, SHADER_VARIABLE_TYPES } from "../../constants";
 import { SHADER_PROPERTY_VALUE_TYPES } from "../../constants/shader.consts";
 import { FRAG_COLOR_NAME } from "../../fragment-effects/fragmentEffects.consts";
@@ -64,6 +61,9 @@ export const setUpFunctionInstantiation = (
       if (!parameter) return [];
 
       if (!GLOBAL_PARAMETER_TYPES.includes(parameter.parameterType)) {
+        if (parameter.shaderVariableConfig?.mappedVariableId) {
+          return parameter.shaderVariableConfig.mappedVariableId;
+        }
         if (
           DEFAULT_SHADER_VARIABLE_KEYS[
             id as keyof typeof DEFAULT_SHADER_VARIABLE_KEYS

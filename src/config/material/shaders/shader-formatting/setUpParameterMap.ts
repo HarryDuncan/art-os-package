@@ -62,7 +62,7 @@ export const formatParametersAndEffects = (
   );
 
   const parameterMap = new Map([...defaultParamsMap, ...effectParamsMap]);
-
+  console.log(parameterMap);
   const updatedEffectConfigs = shaderEffectConfigs.map((config) => {
     const mappingUpdates = updatedFragShaderInputMapping[config.id];
     if (mappingUpdates) {

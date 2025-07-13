@@ -17,6 +17,7 @@ export * from "../config/material/shaders/build-shader/constants/buildShader.con
 export * from "../config/material/shaders/build-shader/shader-properties/varyings/varyings.consts";
 export * from "../config/material/shaders/build-shader/effect-functions/index";
 export * from "../config/material/shaders/build-shader/shader-properties/functions/index";
+export * from "../config/material/shaders/build-shader/shader-properties/parameters/index";
 
 export * from "../interaction/interaction.consts";
 export * from "../interaction/peripheral-interactions/peripheralInteractions.consts";
