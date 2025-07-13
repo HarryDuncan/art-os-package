@@ -18,6 +18,7 @@ export * from "../config/material/shaders/build-shader/shader-properties/varying
 export * from "../config/material/shaders/build-shader/effect-functions/index";
 export * from "../config/material/shaders/build-shader/shader-properties/functions/index";
 export * from "../config/material/shaders/build-shader/shader-properties/parameters/index";
+export * from "../config/material/shaders/build-shader/shader-properties/effects/getEffectSchema";
 
 export * from "../interaction/interaction.consts";
 export * from "../interaction/peripheral-interactions/peripheralInteractions.consts";

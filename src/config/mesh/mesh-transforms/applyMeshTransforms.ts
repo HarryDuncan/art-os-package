@@ -33,7 +33,7 @@ export const applyMeshTransforms = (
             return { ...formattedGeometry, geometry: setAttributeGeometry };
           });
         }
-
+        case MESH_TRANSFORM_TYPE.SET_UP_PLANE:
         case MESH_TRANSFORM_TYPE.SET_UP_QUAD: {
           const attributesSet = transformedMeshes.map((formattedGeometry) => {
             const { geometry } = formattedGeometry;
@@ -43,7 +43,22 @@ export const applyMeshTransforms = (
             ] as TransformValueConfig;
 
             if (quadDimensions) {
-              const { x, y } = quadDimensions.value as Vector2;
+              let x: number, y: number;
+              if (Array.isArray(quadDimensions.value)) {
+                [x, y] = quadDimensions.value;
+              } else if (
+                quadDimensions.value &&
+                typeof quadDimensions.value === "object" &&
+                "x" in quadDimensions.value &&
+                "y" in quadDimensions.value
+              ) {
+                x = (quadDimensions.value as Vector2).x;
+                y = (quadDimensions.value as Vector2).y;
+              } else {
+                throw new Error(
+                  "quadDimensions.value must be a Vector2 or [x, y] array"
+                );
+              }
               const width = x;
               const height = y;
 
@@ -80,6 +95,7 @@ export const applyMeshTransforms = (
                 geometry.setAttribute("normal", normalAttributes);
                 geometry.setAttribute("pointOffset", pointOffset);
                 geometry.setIndex(null);
+
                 return {
                   ...formattedGeometry,
                   geometry,

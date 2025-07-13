@@ -21,7 +21,10 @@ import {
 } from "../config/components/threeJsComponents.types";
 import { LightConfigs, SceneLight } from "./lights";
 import { CustomGeometryConfig } from "../config/mesh/mesh.types";
-import { ParameterConfig } from "../config/material/shaders/build-shader/buildShader.types";
+import {
+  OutputInputMapping,
+  ParameterConfig,
+} from "../config/material/shaders/build-shader/buildShader.types";
 
 export type MultipleConfig = {
   instanceCount: number;
@@ -122,28 +125,16 @@ export type TransformValueConfig = {
   type: string;
 };
 
-export type SplitValueConfig = {
-  numSplits: number;
-  splitValues: Record<string, TransformValueConfig>;
-};
-
 export type MeshTransformConfig = {
   id: string;
   guid?: string;
-
   type: MeshTransformType;
-
   transformedMeshIds: string[];
-
   materialId?: string;
   transformParameterConfigs?: ParameterConfig[];
   values: Record<string, TransformValueConfig>;
-
-  isEditable?: boolean;
-  transformEditorType?: string;
-  meshTransformEditorValues?: SplitValueConfig;
-  outputMapping?: Record<string, string[]>;
-  editorValueMapping?: Record<string, unknown>;
+  outputMapping: Record<string, OutputInputMapping>;
+  inputMapping: Record<string, OutputInputMapping>;
 };
 
 export type ScreenSizeAdjustmentConfig = {

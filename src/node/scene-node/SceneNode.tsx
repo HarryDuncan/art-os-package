@@ -8,13 +8,15 @@ import {
 } from "../../types/node.types";
 import { useSetWindowState } from "../../compat/window-state/useSetWindowState";
 import { useSceneFunctions } from "../../hooks/useSceneFunctions";
-import { SceneProvider } from "../../context/context";
+import { SceneProvider, useSceneContext } from "../../context/context";
 import { useSceneData } from "../../config/useSceneData";
 import { useAssets } from "../../assets/useAssets";
 import { Loader } from "../../components/loaders/Loader";
 import { WindowStateProvider } from "../../compat/window-state/windowStateProvider";
 import { useThreadWithPostProcessor } from "../../thread/useThreadWithPostProcessor";
 import { ExternalInteractionNode } from "../external-interaction-nodes/ExternalInteractionNode";
+import { StatusToolbar } from "../../components/status-toolbar/StatusToolbar";
+import { useStatusToolbar } from "../../components/status-toolbar/useStatusToolbar";
 
 export const SceneNode = ({
   sceneConfig,
@@ -96,8 +98,17 @@ const DisplayContent = ({
   );
 
   useThreadWithPostProcessor(currentFrameRef, renderer);
+
+  const { isVisible } = useStatusToolbar();
+
   return (
-    <RootContainer containerRef={container} sceneProperties={sceneProperties} />
+    <>
+      <RootContainer
+        containerRef={container}
+        sceneProperties={sceneProperties}
+      />
+      <StatusToolbar isVisible={isVisible} />
+    </>
   );
 };
 

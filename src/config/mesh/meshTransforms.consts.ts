@@ -58,3 +58,30 @@ export const QUAD_MESH_TRANSFORM = {
   materialId: "",
   transformParameterConfigs: [...QUAD_MESH_TRANSFORM_ATTRIBUTES],
 } as unknown as MeshTransformConfig;
+
+export const PLANE_MESH_TRANSFORM = {
+  id: "planeMeshTransform",
+  type: MESH_TRANSFORM_TYPE.SET_UP_PLANE,
+  transformedMeshIds: [],
+  materialId: "",
+  transformParameterConfigs: [
+    {
+      id: "quadDimensions",
+      name: "Plane Dimensions",
+      description: "The dimensions of the plane mesh",
+      valueType: SHADER_PROPERTY_VALUE_TYPES.VEC2,
+      parameterType: SHADER_PROPERTY_TYPES.MESH_TRANSFORM_VALUE,
+    },
+    {
+      id: "pointOffset",
+      name: "Point Offset",
+      description: "The offset of each point in the mesh",
+      parameterType: SHADER_PROPERTY_TYPES.ATTRIBUTE,
+      valueType: SHADER_PROPERTY_VALUE_TYPES.VEC3,
+      attributeConfig: {
+        attributeValueType: ATTRIBUTE_VALUE_TYPES.INDEXED,
+        assetId: "",
+      },
+    },
+  ],
+} as unknown as MeshTransformConfig;

@@ -3,6 +3,7 @@ import {
   SHADER_PROPERTY_VALUE_TYPES,
   SHADER_VARIABLE_TYPES,
 } from "../../../constants";
+import { VARYING_TYPES } from "../../varyings/varyings.consts";
 
 export const VERTEX_POINT = {
   id: "pointPosition",
@@ -13,5 +14,18 @@ export const VERTEX_POINT = {
   valueType: SHADER_PROPERTY_VALUE_TYPES.VEC4,
   shaderVariableConfig: {
     shaderVariableType: SHADER_VARIABLE_TYPES.VERTEX_POINT,
+  },
+};
+
+export const UV = {
+  id: "vUv",
+  name: "UV",
+  valueType: SHADER_PROPERTY_VALUE_TYPES.VEC2,
+  description: "The UV coordinates of the texture",
+  parameterType: SHADER_PROPERTY_TYPES.VARYING,
+  varyingConfig: {
+    varyingType: VARYING_TYPES.DEFAULT,
+    attributeKey: "uv",
+    valueType: SHADER_PROPERTY_VALUE_TYPES.VEC2,
   },
 };
