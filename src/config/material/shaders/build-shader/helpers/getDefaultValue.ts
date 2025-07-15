@@ -10,8 +10,8 @@ export const getDefaultValue = (
     case SHADER_PROPERTY_VALUE_TYPES.STRUCT:
       if (structConfigs) {
         return structConfigs.properties.reduce((acc, curr) => {
-          const key = curr.id as keyof ShaderPropertyConfig;
-          // @ts-ignore
+          const key = curr.key as keyof ShaderPropertyConfig;
+          // @ts-expect-error
           acc[key] = curr.value ?? getDefaultValue(curr.valueType);
           return acc;
         }, {} as ShaderPropertyConfig);

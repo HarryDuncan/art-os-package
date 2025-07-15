@@ -1,4 +1,4 @@
-import { Scene, WebGLRenderer, WebGLRenderTarget } from "three";
+import { Camera, Scene, WebGLRenderer, WebGLRenderTarget } from "three";
 import { PostProcessorCamera } from "./postProcessor.types";
 import { defaultRenderTargetParameters } from "./postProcessor.consts";
 
@@ -45,6 +45,10 @@ export default class PostProcessor {
 
   render() {
     this.composer.render();
+  }
+
+  vrRender(scene: Scene, camera: Camera) {
+    this.composer.render(scene, camera);
   }
 
   resize(width: number, height: number) {

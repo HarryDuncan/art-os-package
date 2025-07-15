@@ -12,7 +12,7 @@ export const transformationToFunction = (
   transformationConfigs: ShaderTransformationConfig[],
   shaderEffectConfig: FragmentEffectConfig | VertexEffectConfig
 ): DefinedEffectFunction[] => {
-  const { id: shaderEffectId } = shaderEffectConfig;
+  const { guid: shaderEffectId } = shaderEffectConfig;
   return transformationConfigs.map(
     ({
       returnValue,

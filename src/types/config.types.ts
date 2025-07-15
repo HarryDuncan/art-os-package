@@ -48,6 +48,7 @@ export type SceneComponentConfig = {
 
 export type MeshConfig = {
   id: string;
+  guid: string;
   name?: string;
   meshType: string;
   materialId?: string;
@@ -127,7 +128,7 @@ export type TransformValueConfig = {
 
 export type MeshTransformConfig = {
   id: string;
-  guid?: string;
+  guid: string;
   type: MeshTransformType;
   transformedMeshIds: string[];
   materialId?: string;

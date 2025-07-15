@@ -14,7 +14,7 @@ export const transformSetup = (
     const data = generateShaderTransformData(effect, parameterMap);
     if (data) {
       return {
-        id: effect.id,
+        id: effect.guid,
         ...data,
       };
     }

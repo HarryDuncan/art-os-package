@@ -47,7 +47,7 @@ export const POINT_SIZE_FROM_TEXTURE_TRANSFORM = [
 
 export const POINT_SIZE_FROM_TEXTURE_ATTRIBUTES = [
   {
-    id: "pointIndex",
+    key: "pointIndex",
     name: "Point Index",
     description: "Creates an index of each point of the mesh",
     parameterType: SHADER_PROPERTY_TYPES.ATTRIBUTE,
@@ -60,7 +60,7 @@ export const POINT_SIZE_FROM_TEXTURE_ATTRIBUTES = [
 
 export const POINT_SIZE_FROM_TEXTURE_PARAMETERS = [
   {
-    id: "pointSize",
+    key: "pointSize",
     name: "Point Size",
     description: "The size of the points",
     valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
@@ -68,7 +68,7 @@ export const POINT_SIZE_FROM_TEXTURE_PARAMETERS = [
     parameterType: SHADER_PROPERTY_TYPES.UNIFORM,
   },
   {
-    id: "convertedTexture",
+    key: "convertedTexture",
     name: "Converted Texture",
     description: "The texture to convert to points",
     valueType: SHADER_PROPERTY_VALUE_TYPES.SAMPLER2D,
@@ -80,7 +80,7 @@ export const POINT_SIZE_FROM_TEXTURE_PARAMETERS = [
     parameterType: SHADER_PROPERTY_TYPES.UNIFORM,
   },
   {
-    id: "textureSize",
+    key: "textureSize",
     name: "TextureSize",
     valueType: SHADER_PROPERTY_VALUE_TYPES.VEC2,
     value: null,

@@ -14,13 +14,11 @@ import { useAssets } from "../../assets/useAssets";
 import { Loader } from "../../components/loaders/Loader";
 import { WindowStateProvider } from "../../compat/window-state/windowStateProvider";
 import { useThreadWithPostProcessor } from "../../thread/useThreadWithPostProcessor";
-import { ExternalInteractionNode } from "../external-interaction-nodes/ExternalInteractionNode";
 import { StatusToolbar } from "../../components/status-toolbar/StatusToolbar";
 import { useStatusToolbar } from "../../components/status-toolbar/useStatusToolbar";
 
-export const SceneNode = ({
+export const PreviewNode = ({
   sceneConfig,
-  externalInteractionConfig,
   loaderComponent,
 }: SceneNodeProps) => (
   <WindowStateProvider>
@@ -29,11 +27,6 @@ export const SceneNode = ({
         sceneConfig={sceneConfig}
         loaderComponent={loaderComponent}
       />
-      {externalInteractionConfig && (
-        <ExternalInteractionNode
-          externalInteractionConfig={externalInteractionConfig}
-        />
-      )}
     </SceneProvider>
   </WindowStateProvider>
 );
@@ -112,4 +105,4 @@ const DisplayContent = ({
   );
 };
 
-export default SceneNode;
+export default PreviewNode;

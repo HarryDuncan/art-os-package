@@ -22,17 +22,17 @@ export const formatBuiltShaderUniforms = (
       uniformConfigs.isAssetMapped && uniformConfigs.assetMappingConfig
         ? {
             ...uniformConfigs.assetMappingConfig,
-            uniformId: `${uniformConfigs.id}_${uniformConfigs.guid}`,
+            uniformId: `${uniformConfigs.key}_${uniformConfigs.guid}`,
           }
         : []
     ) || [];
 
   const uniforms = uniformParameters.reduce((acc, uniform) => {
-    if (DEFAULT_UNIFORM_IDS.includes(uniform.id)) {
-      acc[uniform.id] = { value: uniform.value };
+    if (!uniform.guid) {
+      acc[uniform.key] = { value: uniform.value };
       return acc;
     }
-    acc[`${uniform.id}_${uniform.guid}`] = { value: uniform.value };
+    acc[`${uniform.key}_${uniform.guid}`] = { value: uniform.value };
     return acc;
   }, {} as UniformObject);
   uniforms.uTime = { value: 0 };

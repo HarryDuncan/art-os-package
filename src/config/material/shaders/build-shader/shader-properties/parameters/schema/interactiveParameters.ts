@@ -4,7 +4,7 @@ import {
 } from "../../../constants";
 
 export const AFFECTED_POSITION = {
-  id: "affectedPosition",
+  key: "affectedPosition",
   name: "Affected Position",
   description:
     "The position of an effect - normally maps to a key point from an interaction",
@@ -14,7 +14,7 @@ export const AFFECTED_POSITION = {
 };
 
 export const AFFECTED_AREA_DISTANCE = {
-  id: "affectedAreaDistance",
+  key: "affectedAreaDistance",
   name: "Affected Area Distance",
   description:
     "The distance from the affected position that the effect will be applied",

@@ -51,7 +51,7 @@ export const getAttributeValuesFromAssets = (
         assetId: string;
         relationship: string;
       };
-      const selectedAsset = assets.find((asset) => asset.id === assetId);
+      const selectedAsset = assets.find((asset) => asset.guid === assetId);
       if (selectedAsset) {
         switch (relationship) {
           case ASSET_MAPPING_RELATIONSHIPS.DIMENSION: {

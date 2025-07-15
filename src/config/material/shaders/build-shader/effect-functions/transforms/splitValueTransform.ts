@@ -75,15 +75,15 @@ export const splitValueTransform = (
       let condition: string;
       if (i === 0) {
         // First condition: inputParameter < cumulativeSplitValues[0]
-        condition = `${inputParameter.id} < ${currentCumulativeValue.toFixed(
+        condition = `${inputParameter.key} < ${currentCumulativeValue.toFixed(
           6
         )}`;
       } else {
         // Subsequent conditions: inputParameter >= prevCumulativeValue && inputParameter < currentCumulativeValue
         const prevCumulativeValue = cumulativeSplitValues[i - 1];
-        condition = `${inputParameter.id} >= ${prevCumulativeValue.toFixed(
+        condition = `${inputParameter.key} >= ${prevCumulativeValue.toFixed(
           6
-        )} && ${inputParameter.id} < ${currentCumulativeValue.toFixed(6)}`;
+        )} && ${inputParameter.key} < ${currentCumulativeValue.toFixed(6)}`;
       }
 
       // Add if or else if statement

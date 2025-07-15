@@ -42,11 +42,11 @@ export const buildVaryings = (parameterMap: ShaderParameterMap) => {
 };
 
 const varyingDeclarations = (config: ParameterConfig[]) => {
-  const declarationStrings = config.map(({ id, valueType }) =>
+  const declarationStrings = config.map(({ key, valueType }) =>
     createDeclarationString(
       SHADER_PROPERTY_TYPES.VARYING as keyof typeof SHADER_PROPERTY_TYPES,
       valueType as keyof typeof SHADER_PROPERTY_VALUE_TYPES,
-      id
+      key
     )
   );
   const declaration = [V_DECLARATION, ...declarationStrings];
@@ -72,7 +72,7 @@ const getDefaultVaryingString = (config: ParameterConfig[]) => {
   if (!defaultVaryings.length) return [];
   const strings = [V_DEFAULT_INSTANTIATION];
   defaultVaryings.forEach((item: ParameterConfig) => {
-    switch (item.id) {
+    switch (item.key) {
       case "vUv":
         strings.push("vUv = uv;");
         break;
@@ -109,7 +109,7 @@ const getDefaultVaryingString = (config: ParameterConfig[]) => {
       //   );
       //   break;
       default:
-        console.warn(`nothing made for default varying ${item.id}`);
+        console.warn(`nothing made for default varying ${item.key}`);
     }
   });
   return strings;
@@ -123,7 +123,7 @@ const getCustomVaryingStrings = (config: ParameterConfig[]) => {
   const strings = [V_CUSTOM_INSTANTIATION];
   customVaryings.forEach((item: ParameterConfig) => {
     strings.push(
-      `${item.id} = ${
+      `${item.key} = ${
         item.value ??
         getDefaultValueAsString(
           item.valueType as keyof typeof SHADER_PROPERTY_VALUE_TYPES
@@ -135,9 +135,9 @@ const getCustomVaryingStrings = (config: ParameterConfig[]) => {
 };
 
 const getAttributeVaryingStrings = (config: ParameterConfig[]) =>
-  config.flatMap(({ id, varyingConfig }) => {
+  config.flatMap(({ key, varyingConfig }) => {
     if (varyingConfig?.varyingType === VARYING_TYPES.ATTRIBUTE) {
-      return `${id} = ${varyingConfig?.attributeKey};`;
+      return `${key} = ${varyingConfig?.attributeKey};`;
     }
     return [];
   });

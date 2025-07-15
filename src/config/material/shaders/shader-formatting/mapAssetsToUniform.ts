@@ -24,7 +24,9 @@ const getMappedAsset = (
   assetMapping: AssetToUniformMappingConfig,
   assets: Asset[]
 ) => {
-  const mappedAsset = assets.find((asset) => asset.id === assetMapping.assetId);
+  const mappedAsset = assets.find(
+    (asset) => asset.guid === assetMapping.assetId
+  );
   if (mappedAsset && mappedAsset.data) {
     switch (assetMapping.relationship) {
       case ASSET_MAPPING_RELATIONSHIPS.TEXTURE: {

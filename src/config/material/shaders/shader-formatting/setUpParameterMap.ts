@@ -6,7 +6,10 @@ import {
   ShaderParameter,
   OutputInputMapping,
 } from "../build-shader/buildShader.types";
-import { SHADER_TYPES } from "../build-shader/constants";
+import {
+  DEFAULT_UNIFORM_CONFIGS,
+  SHADER_TYPES,
+} from "../build-shader/constants";
 import { SHADER_PROPERTY_TYPES } from "../build-shader/constants/shader.consts";
 import {
   DEFAULT_FRAGMENT_PARAMETERS,
@@ -22,10 +25,11 @@ export const formatParametersAndEffects = (
   updatedEffectConfigs: ShaderEffectConfig[];
 } => {
   const defaultParamsMap = [
+    ...DEFAULT_UNIFORM_CONFIGS,
     ...DEFAULT_VERTEX_PARAMETERS,
     ...DEFAULT_FRAGMENT_PARAMETERS,
   ].reduce((acc, effect) => {
-    acc.set(effect.id!, {
+    acc.set(effect.key!, {
       ...effect,
     } as ShaderParameter);
     return acc;
@@ -36,7 +40,7 @@ export const formatParametersAndEffects = (
 
   const effectParamsMap = [...convertedAttributes, ...effectParameters].reduce(
     (acc, effectParameter) => {
-      const { id: parameterId, guid } = effectParameter;
+      const { key: parameterId, guid } = effectParameter;
       if (effectParameter.parameterType === SHADER_PROPERTY_TYPES.ATTRIBUTE) {
         acc.set(parameterId, {
           ...effectParameter,
@@ -67,9 +71,8 @@ export const formatParametersAndEffects = (
   );
 
   const parameterMap = new Map([...defaultParamsMap, ...effectParamsMap]);
-  console.log(parameterMap);
   const updatedEffectConfigs = shaderEffectConfigs.map((config) => {
-    const mappingUpdates = updatedFragShaderInputMapping[config.id];
+    const mappingUpdates = updatedFragShaderInputMapping[config.guid];
     if (mappingUpdates) {
       const { inputMapping } = config;
       const updatedInputMapping = Object.entries(inputMapping ?? {}).reduce(
@@ -119,12 +122,12 @@ const attributeToVarying = (
     return {
       ...attributeConfig,
       id: replaceId
-        ? `${attributeConfig?.id ?? ""}_varying`
-        : attributeConfig?.id ?? "",
+        ? `${attributeConfig?.key ?? ""}_varying`
+        : attributeConfig?.key ?? "",
       parameterType: SHADER_PROPERTY_TYPES.VARYING,
       varyingConfig: {
         varyingType: VARYING_TYPES.ATTRIBUTE,
-        attributeKey: attributeConfig?.id ?? "",
+        attributeKey: attributeConfig?.key ?? "",
         isAttributeReference: true,
       },
     };
@@ -160,9 +163,9 @@ const convertAttributesToVaryings = (
           : [];
       }) ?? [];
     if (attributeConfigs.length > 0) {
-      updatedFragShaderInputMapping[shaderEffectConfig.id] =
+      updatedFragShaderInputMapping[shaderEffectConfig.guid] =
         attributeConfigs.reduce((acc, attributeConfig) => {
-          acc[attributeConfig.id] = `${attributeConfig.id}_varying`;
+          acc[attributeConfig.key] = `${attributeConfig.key}_varying`;
           return acc;
         }, {} as Record<string, string>);
     }

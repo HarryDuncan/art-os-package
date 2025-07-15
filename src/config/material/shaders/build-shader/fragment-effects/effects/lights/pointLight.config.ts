@@ -16,7 +16,7 @@ import {
 
 export const POINT_LIGHT_PARAMETERS = [
   {
-    id: "pointLightColor",
+    key: "pointLightColor",
     valueType: SHADER_PROPERTY_VALUE_TYPES.VEC4,
     value: [1, 1, 1, 1],
     isAssetMapped: false,
@@ -26,7 +26,7 @@ export const POINT_LIGHT_PARAMETERS = [
   POSITION_VARYING,
   NORMAL_VARYING,
   {
-    id: "lightPosition",
+    key: "lightPosition",
     valueType: SHADER_PROPERTY_VALUE_TYPES.VEC3,
     value: [0, 0, 0],
     isAssetMapped: false,
@@ -34,21 +34,21 @@ export const POINT_LIGHT_PARAMETERS = [
   },
   VIEW_DIRECTION_VARYING,
   {
-    id: "pointLightSpecularPower",
+    key: "pointLightSpecularPower",
     valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
     value: 32.0,
     isAssetMapped: false,
     parameterType: SHADER_PROPERTY_TYPES.UNIFORM,
   },
   {
-    id: "pointLightDecay",
+    key: "pointLightDecay",
     valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
     value: 0.1,
     isAssetMapped: false,
     parameterType: SHADER_PROPERTY_TYPES.UNIFORM,
   },
   {
-    id: "pointLightIntensity",
+    key: "pointLightIntensity",
     valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
     value: 1.0,
     isAssetMapped: false,

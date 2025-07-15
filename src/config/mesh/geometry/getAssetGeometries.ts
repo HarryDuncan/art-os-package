@@ -14,7 +14,7 @@ export const getAssetGeometries = (assets: Asset[]): AssetGeometry[] =>
     return geometry && geometry.length
       ? geometry?.map((geometryItem) => ({
           ...geometryItem,
-          assetId: asset.id,
+          assetId: asset.guid,
         }))
       : [];
   });

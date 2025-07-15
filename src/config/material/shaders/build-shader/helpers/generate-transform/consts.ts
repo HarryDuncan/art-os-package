@@ -13,7 +13,7 @@ import { VERTEX_POINT_NAME } from "../../vertex-effects/vertexEffects.consts";
 
 export const DEFAULT_VERTEX_PARAMETERS: Partial<ShaderParameter>[] = [
   {
-    id: "pointPosition",
+    key: "pointPosition",
     valueType:
       SHADER_PROPERTY_VALUE_TYPES.VEC4 as keyof typeof SHADER_PROPERTY_VALUE_TYPES,
     default: true,
@@ -22,7 +22,7 @@ export const DEFAULT_VERTEX_PARAMETERS: Partial<ShaderParameter>[] = [
 
 export const DEFAULT_FRAGMENT_PARAMETERS: Partial<ShaderParameter>[] = [
   {
-    id: "fragColor",
+    key: "fragColor",
     valueType:
       SHADER_PROPERTY_VALUE_TYPES.VEC4 as keyof typeof SHADER_PROPERTY_VALUE_TYPES,
     default: true,

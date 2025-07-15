@@ -6,7 +6,7 @@ import {
 import { VARYING_TYPES } from "../../varyings/varyings.consts";
 
 export const VERTEX_POINT = {
-  id: "pointPosition",
+  key: "pointPosition",
   name: "Current Vertex Point",
   description:
     "The current vertex point - can be mapped to the current position or te original position of the mesh",
@@ -18,7 +18,7 @@ export const VERTEX_POINT = {
 };
 
 export const UV = {
-  id: "vUv",
+  key: "vUv",
   name: "UV",
   valueType: SHADER_PROPERTY_VALUE_TYPES.VEC2,
   description: "The UV coordinates of the texture",

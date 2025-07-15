@@ -15,7 +15,7 @@ import {
 
 export const DIRECTIONAL_LIGHT_PARAMETERS = [
   {
-    id: "directionalLightColor",
+    key: "directionalLightColor",
     valueType: SHADER_PROPERTY_VALUE_TYPES.VEC4,
     value: [1, 1, 1, 1],
     isAssetMapped: false,
@@ -23,21 +23,21 @@ export const DIRECTIONAL_LIGHT_PARAMETERS = [
     tags: [SHADER_PROPERTY_TAGS.COLOR],
   },
   {
-    id: "directionalLightPosition",
+    key: "directionalLightPosition",
     valueType: SHADER_PROPERTY_VALUE_TYPES.VEC3,
     value: [0, 1, 0],
     isAssetMapped: false,
     parameterType: SHADER_PROPERTY_TYPES.UNIFORM,
   },
   {
-    id: "directionalLightIntensity",
+    key: "directionalLightIntensity",
     valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
     value: 1.0,
     isAssetMapped: false,
     parameterType: SHADER_PROPERTY_TYPES.UNIFORM,
   },
   {
-    id: "directionalLightSpecularPower",
+    key: "directionalLightSpecularPower",
     valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
     value: 32.0,
     isAssetMapped: false,

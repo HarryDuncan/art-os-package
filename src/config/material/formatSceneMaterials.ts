@@ -8,29 +8,22 @@ import { getMaterialsFromConfig } from "./getMaterialsFromConfig";
 import { Material } from "three";
 import { getAssetMappedMaterials } from "./getAssetMappedMaterials";
 import { getBuiltShaderMaterials } from "./shaders/getBuiltShaderMaterials";
-import { ShaderAttributeConfig } from "./shaders/build-shader/types";
 
 export const formatSceneMaterials = (
   assets: Asset[],
   config: SceneConfig
-): { materials: Material[]; attributeConfigs: ShaderAttributeConfig[] } => {
+): Material[] => {
   const assetMappedMaterials = getAssetMappedMaterials(
     config?.sceneMaterialConfigs ?? [],
     assets
   );
   const shaderMaterials = []; // getShaderMaterials(config, assets);
-  const { builtShaders, attributeConfigs } = getBuiltShaderMaterials(
-    config,
-    assets
-  );
+  const { builtShaders } = getBuiltShaderMaterials(config, assets);
   const sceneMaterials = getMaterialsFromConfig(config);
-  return {
-    materials: [
-      ...assetMappedMaterials,
-      ...shaderMaterials,
-      ...(builtShaders ?? []),
-      ...sceneMaterials,
-    ],
-    attributeConfigs,
-  };
+  return [
+    ...assetMappedMaterials,
+    ...shaderMaterials,
+    ...(builtShaders ?? []),
+    ...sceneMaterials,
+  ];
 };

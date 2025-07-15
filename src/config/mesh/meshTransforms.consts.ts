@@ -28,7 +28,7 @@ export const DEFAULT_MORPH_ATTRIBUTE_CONFIG = [
 
 export const QUAD_MESH_TRANSFORM_ATTRIBUTES = [
   {
-    id: "quadDimensions",
+    key: "quadDimensions",
     name: "Quad Dimensions",
     description: "The dimensions of the quad mesh",
     valueType: SHADER_PROPERTY_VALUE_TYPES.VEC2,
@@ -39,7 +39,7 @@ export const QUAD_MESH_TRANSFORM_ATTRIBUTES = [
     },
   },
   {
-    id: "pointOffset",
+    key: "pointOffset",
     name: "Point Offset",
     description: "The offset of each point in the mesh",
     parameterType: SHADER_PROPERTY_TYPES.ATTRIBUTE,
@@ -66,14 +66,14 @@ export const PLANE_MESH_TRANSFORM = {
   materialId: "",
   transformParameterConfigs: [
     {
-      id: "quadDimensions",
+      key: "quadDimensions",
       name: "Plane Dimensions",
       description: "The dimensions of the plane mesh",
       valueType: SHADER_PROPERTY_VALUE_TYPES.VEC2,
       parameterType: SHADER_PROPERTY_TYPES.MESH_TRANSFORM_VALUE,
     },
     {
-      id: "pointOffset",
+      key: "pointOffset",
       name: "Point Offset",
       description: "The offset of each point in the mesh",
       parameterType: SHADER_PROPERTY_TYPES.ATTRIBUTE,

@@ -10,12 +10,12 @@ import { SHADER_PROPERTY_VALUE_TYPES } from "../../constants/shader.consts";
 
 const ROTATION_EFFECT_PARAMETERS = [
   {
-    id: "rotationSpeed",
+    key: "rotationSpeed",
     valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
     value: 1.0,
   },
   {
-    id: "rotationAxis",
+    key: "rotationAxis",
     valueType: SHADER_PROPERTY_VALUE_TYPES.VEC3,
     value: [0, 1, 0],
   },

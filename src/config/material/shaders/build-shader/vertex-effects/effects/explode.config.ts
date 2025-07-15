@@ -16,7 +16,7 @@ import {
 export const EXPLODE_FUNCTIONS = [] as ShaderFunction[];
 export const EXPLODE_ATTRIBUTES = [
   {
-    id: "randomAngle",
+    key: "randomAngle",
     valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
     parameterType: SHADER_PROPERTY_TYPES.ATTRIBUTE,
     attributeConfig: {
@@ -24,7 +24,7 @@ export const EXPLODE_ATTRIBUTES = [
     },
   },
   {
-    id: "signDirection",
+    key: "signDirection",
     name: "Sign Direction",
     description: "The direction of the explode effect",
     parameterType: SHADER_PROPERTY_TYPES.ATTRIBUTE,
@@ -41,7 +41,7 @@ export const EXPLODE_ATTRIBUTES = [
 
 export const EXPLODE_PARAMETERS = [
   {
-    id: "uStrength",
+    key: "uStrength",
     name: "Strength",
     description: "The strength of the explode effect",
     valueType: "FLOAT",

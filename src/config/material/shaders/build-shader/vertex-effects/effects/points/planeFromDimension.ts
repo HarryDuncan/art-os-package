@@ -10,7 +10,7 @@ import {
 import { UV } from "../../../shader-properties/parameters";
 
 const PLANE_SIZE = {
-  id: "planeSize",
+  key: "planeSize",
   name: "Plane Size",
   valueType: SHADER_PROPERTY_VALUE_TYPES.VEC2,
   value: null,

@@ -14,21 +14,22 @@ export const buildUniformDeclaration = (parameterMap: ShaderParameterMap) => {
   );
 
   const customStrings = uniformConfigs.map(
-    ({ id, valueType, arrayLength, structProperties, guid }) =>
+    ({ key, valueType, arrayLength, structProperties, guid }) =>
       createDeclarationString(
         SHADER_PROPERTY_TYPES.UNIFORM as keyof typeof SHADER_PROPERTY_TYPES,
         valueType as keyof typeof SHADER_PROPERTY_VALUE_TYPES,
-        DEFAULT_UNIFORMS.includes(id) ? id : `${id}_${guid}`,
+        DEFAULT_UNIFORMS.includes(key) ? key : `${key}_${guid}`,
         arrayLength,
         structProperties
       )
   );
-  const defaultDeclarations = DEFAULT_UNIFORM_CONFIGS.map(({ id, valueType }) =>
-    createDeclarationString(
-      SHADER_PROPERTY_TYPES.UNIFORM as keyof typeof SHADER_PROPERTY_TYPES,
-      valueType as keyof typeof SHADER_PROPERTY_VALUE_TYPES,
-      id
-    )
+  const defaultDeclarations = DEFAULT_UNIFORM_CONFIGS.map(
+    ({ key, valueType }) =>
+      createDeclarationString(
+        SHADER_PROPERTY_TYPES.UNIFORM as keyof typeof SHADER_PROPERTY_TYPES,
+        valueType as keyof typeof SHADER_PROPERTY_VALUE_TYPES,
+        key
+      )
   );
   const uniformDeclaration = [
     UNIFORM_DECLARATION,

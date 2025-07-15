@@ -12,7 +12,7 @@ export const getParametersByKey = (
   key: string[]
 ) => {
   const parameterArray = Array.from(parameterMap.values());
-  return parameterArray.filter((parameter) => key.includes(parameter.id));
+  return parameterArray.filter((parameter) => key.includes(parameter.key));
 };
 
 export const getShaderInputMap = (
@@ -22,28 +22,28 @@ export const getShaderInputMap = (
 ) => {
   const shaderInputMap = new Map<string, ShaderParameter>();
   const parameters = getParametersByKey(parameterMap, inputIds);
-  const { inputMapping, id } = shaderEffectConfig;
+  const { inputMapping, guid } = shaderEffectConfig;
   parameters.forEach((parameter) => {
     if (parameter.parameterType === SHADER_PROPERTY_TYPES.ATTRIBUTE) {
-      shaderInputMap.set(parameter.id, parameter);
+      shaderInputMap.set(parameter.key, parameter);
       return;
     }
     if (parameter.parameterType === SHADER_PROPERTY_TYPES.VARYING) {
-      shaderInputMap.set(`${parameter.id.replace("_varying", "")}`, parameter);
+      shaderInputMap.set(`${parameter.key.replace("_varying", "")}`, parameter);
       return;
     }
 
-    const itemId = inputMapping?.[parameter.id]?.itemId;
+    const itemId = inputMapping?.[parameter.key]?.itemId;
     if (itemId === parameter.guid) {
-      shaderInputMap.set(`${parameter.id}`, parameter);
+      shaderInputMap.set(`${parameter.key}`, parameter);
       return;
     } else if (
-      DEFAULT_PARAMETER_KEYS.includes(parameter.id) &&
+      DEFAULT_PARAMETER_KEYS.includes(parameter.key) &&
       !parameter.guid
     ) {
-      shaderInputMap.set(parameter.id, {
+      shaderInputMap.set(parameter.key, {
         ...parameter,
-        shaderParameterId: `${parameter.id}_${id}`,
+        shaderParameterId: `${parameter.key}_${guid}`,
       });
       return;
     }
@@ -84,7 +84,7 @@ export const getParametersFromInputMapping = (
   const inputIds = Object.keys(inputMapping);
   const parameters = getParametersByKey(parameterMap, inputIds);
   return parameters.flatMap((parameter) => {
-    const itemId = inputMapping?.[parameter.id]?.itemId;
+    const itemId = inputMapping?.[parameter.key]?.itemId;
     if (itemId === parameter.guid) {
       return parameter;
     }

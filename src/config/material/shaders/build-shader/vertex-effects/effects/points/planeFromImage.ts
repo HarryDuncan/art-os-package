@@ -22,7 +22,7 @@ import {
 
 export const PLANE_FROM_IMAGE_VARYING_CONFIG = [
   {
-    id: "vUv",
+    key: "vUv",
     name: "UV",
     valueType: SHADER_PROPERTY_VALUE_TYPES.VEC2,
     description: "The UV coordinates of the texture",
@@ -37,7 +37,7 @@ export const PLANE_FROM_IMAGE_VARYING_CONFIG = [
 
 export const PLANE_FROM_IMAGE_ATTRIBUTES = [
   {
-    id: "pointIndex",
+    key: "pointIndex",
     name: "Point Index",
     description: "Creates an index of each point of the mesh",
     parameterType: SHADER_PROPERTY_TYPES.ATTRIBUTE,
@@ -50,7 +50,7 @@ export const PLANE_FROM_IMAGE_ATTRIBUTES = [
 
 export const PLANE_FROM_IMAGE_PARAMETERS = [
   {
-    id: "convertedTexture",
+    key: "convertedTexture",
     name: "Converted Texture",
     description: "The texture to convert to points",
     valueType: SHADER_PROPERTY_VALUE_TYPES.SAMPLER2D,
@@ -61,7 +61,7 @@ export const PLANE_FROM_IMAGE_PARAMETERS = [
     },
   },
   {
-    id: "textureSize",
+    key: "textureSize",
     name: "TextureSize",
     valueType: SHADER_PROPERTY_VALUE_TYPES.VEC2,
     value: null,
@@ -71,13 +71,13 @@ export const PLANE_FROM_IMAGE_PARAMETERS = [
     },
   },
   {
-    id: "randomDirection",
+    key: "randomDirection",
     name: "Random",
     valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
     value: 1,
   },
   {
-    id: "pointDepth",
+    key: "pointDepth",
     name: "Depth",
     valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
     value: 1,

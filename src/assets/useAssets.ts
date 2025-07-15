@@ -28,7 +28,7 @@ export const useAssets = (
       assets.flatMap(async (asset) => {
         if (!assetPath && !asset.path) {
           console.warn(
-            `asset ${asset.id} not properly loaded no assetPath or path found`
+            `asset ${asset.guid} not properly loaded no assetPath or path found`
           );
         }
         const formattedAsset = assetPath

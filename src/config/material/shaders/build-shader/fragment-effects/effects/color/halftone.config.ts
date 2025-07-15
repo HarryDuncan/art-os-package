@@ -16,7 +16,7 @@ import { NORMAL_VARYING, RESOLUTION_UNIFORM } from "../../../constants";
 export const HALFTONE_PARAMETERS = [
   NORMAL_VARYING,
   {
-    id: "lightDirection",
+    key: "lightDirection",
     valueType: SHADER_PROPERTY_VALUE_TYPES.VEC3,
     value: [0, 1, 0],
     isAssetMapped: false,
@@ -24,14 +24,14 @@ export const HALFTONE_PARAMETERS = [
   },
   RESOLUTION_UNIFORM,
   {
-    id: "halftoneRepetitions",
+    key: "halftoneRepetitions",
     valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
     value: 10,
     isAssetMapped: false,
     parameterType: SHADER_PROPERTY_TYPES.UNIFORM,
   },
   {
-    id: "halftoneColor",
+    key: "halftoneColor",
     valueType: SHADER_PROPERTY_VALUE_TYPES.VEC4,
     value: [1, 1, 1, 1],
     isAssetMapped: false,
@@ -39,14 +39,14 @@ export const HALFTONE_PARAMETERS = [
     tags: [SHADER_PROPERTY_TAGS.COLOR],
   },
   {
-    id: "halftoneLow",
+    key: "halftoneLow",
     valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
     value: 0,
     isAssetMapped: false,
     parameterType: SHADER_PROPERTY_TYPES.UNIFORM,
   },
   {
-    id: "halftoneHigh",
+    key: "halftoneHigh",
     valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
     value: 1,
     isAssetMapped: false,

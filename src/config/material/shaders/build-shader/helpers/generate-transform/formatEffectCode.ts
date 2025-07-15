@@ -52,7 +52,7 @@ export const formatEffectCodeLines = (
       }
 
       if (inputMap.has(key)) {
-        return `${parameter.id}_${effectId}`;
+        return `${parameter.key}_${effectId}`;
       }
       return match;
     });

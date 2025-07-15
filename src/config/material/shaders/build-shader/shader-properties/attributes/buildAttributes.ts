@@ -19,17 +19,17 @@ const createDeclarationStrings = (config: ParameterConfig[]) => {
   const attributeMap = new Map<string, ParameterConfig>();
 
   config.forEach((attribute) => {
-    if (!NON_DECLARABLE_ATTRIBUTES.includes(attribute.id)) {
-      attributeMap.set(attribute.id, attribute);
+    if (!NON_DECLARABLE_ATTRIBUTES.includes(attribute.key)) {
+      attributeMap.set(attribute.key, attribute);
     }
   });
 
   return Array.from(attributeMap.values())
-    .map(({ id, valueType }) =>
+    .map(({ key, valueType }) =>
       createDeclarationString(
         SHADER_PROPERTY_TYPES.ATTRIBUTE as keyof typeof SHADER_PROPERTY_TYPES,
         valueType as keyof typeof SHADER_PROPERTY_VALUE_TYPES,
-        id
+        key
       )
     )
     .join(" \n ");

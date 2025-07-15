@@ -1,13 +1,12 @@
 import { MeshPhongMaterial } from "three";
 
 export const MATERIAL_TYPES = {
+  BUILT_SHADER: "BUILT_SHADER",
   MATCAP: "MATCAP",
   VIDEO: "VIDEO",
   ENV_MAP: "ENV_MAP",
   STANDARD: "STANDARD",
   PHONG: "PHONG",
-  MATERIAL: "MATERIAL",
-  BUILT_SHADER: "BUILT_SHADER",
 };
 
 export const ASSET_MAPPED_MATERIALS = [

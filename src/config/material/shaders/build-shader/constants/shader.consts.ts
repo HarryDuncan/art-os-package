@@ -44,7 +44,7 @@ export const ATTRIBUTE_VALUE_TYPES = {
 export const DEFAULT_UNIFORM_IDS = ["uTime"];
 export const DEFAULT_UNIFORM_CONFIGS = [
   {
-    id: "uTime",
+    key: "uTime",
     valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
     parameterType: SHADER_PROPERTY_TYPES.UNIFORM,
     isAssetMapped: false,

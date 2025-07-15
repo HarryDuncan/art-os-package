@@ -13,7 +13,7 @@ const nestSubEffects = <T extends ShaderEffectConfig>(
   effectConfigs.reduce((acc: T[], effect: T) => {
     if (effect.subEffectIds && effect.subEffectIds.length > 0) {
       const effectsReferencingThis = effectConfigs.filter((subEffect) =>
-        effect.subEffectIds?.includes(subEffect.id)
+        effect.subEffectIds?.includes(subEffect.guid)
       );
       if (effectsReferencingThis.length > 0) {
         acc.push({
@@ -25,7 +25,9 @@ const nestSubEffects = <T extends ShaderEffectConfig>(
       }
       return acc;
     }
-    const isSubEffect = acc.some((ef) => ef.subEffectIds?.includes(effect.id));
+    const isSubEffect = acc.some((ef) =>
+      ef.subEffectIds?.includes(effect.guid)
+    );
     if (isSubEffect) {
       return acc;
     } else {
@@ -65,7 +67,7 @@ export const formatShaderEffects = (
         (mapping) => mapping.itemId
       );
       return outputIds.some((id) =>
-        fragmentEffectConfigs.some((config) => config.id === id)
+        fragmentEffectConfigs.some((config) => config.guid === id)
       );
     }
   );
@@ -76,7 +78,7 @@ export const formatShaderEffects = (
       (mapping) => mapping.itemId
     );
     return outputIds.some((id) =>
-      vertexEffectConfigs.some((config) => config.id === id)
+      vertexEffectConfigs.some((config) => config.guid === id)
     );
   });
 
@@ -88,14 +90,14 @@ export const formatShaderEffects = (
         const outputIds = Object.values(outputMapping).map(
           (mapping) => mapping.itemId
         );
-        return outputIds.includes(effect.id);
+        return outputIds.includes(effect.guid);
       }
     );
 
     if (matchingFunctionConfig) {
       // Check if we already have a function config for this effect
       const existingFunctionIndex = acc.findIndex(
-        (func) => func.id === matchingFunctionConfig.id
+        (func) => func.guid === matchingFunctionConfig.guid
       );
 
       if (existingFunctionIndex >= 0) {
@@ -112,7 +114,7 @@ export const formatShaderEffects = (
       // Return default effect function
       const defaultEffectFunction = {
         ...DEFAULT_EFFECT_FUNCTION_CONFIG,
-        id: effect.id,
+        guid: effect.guid,
         effects: [effect],
       };
       acc.push(defaultEffectFunction);
@@ -130,14 +132,14 @@ export const formatShaderEffects = (
           const outputIds = Object.values(outputMapping).map(
             (mapping) => mapping.itemId
           );
-          return outputIds.includes(effect.id);
+          return outputIds.includes(effect.guid);
         }
       );
 
       if (matchingFunctionConfig) {
         // Check if we already have a function config for this effect
         const existingFunctionIndex = acc.findIndex(
-          (func) => func.id === matchingFunctionConfig.id
+          (func) => func.guid === matchingFunctionConfig.guid
         );
 
         if (existingFunctionIndex >= 0) {
@@ -153,7 +155,7 @@ export const formatShaderEffects = (
       } else {
         // Return default effect function
         const defaultEffectFunction = {
-          id: effect.id,
+          guid: effect.guid,
           functionId: EFFECT_FUNCTIONS.DEFAULT,
           effects: [effect],
           outputMapping: {},

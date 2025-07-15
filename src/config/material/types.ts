@@ -63,7 +63,7 @@ export type MaterialConfigProps =
   | PhongMaterialProps;
 
 export interface MaterialConfig {
-  id: string;
+  guid: string;
   name: string;
   materialType: MaterialType;
   materialProps: MaterialConfigProps;

@@ -14,7 +14,7 @@ import { VARYING_TYPES } from "../../shader-properties/varyings/varyings.consts"
 
 export const TEXTURE_PIXEL_COLOR_PARAMETERS = [
   {
-    id: "texturePixelColor",
+    key: "texturePixelColor",
     valueType: SHADER_PROPERTY_VALUE_TYPES.VEC4,
     value: null,
     isAssetMapped: false,

@@ -15,7 +15,7 @@ import {
 
 const TEXTURED_POINTS_ATTRIBUTES = [
   {
-    id: "pointDisplay",
+    key: "pointDisplay",
     name: "Point Display",
     description: "Controls whether a point is displayed",
     parameterType: SHADER_PROPERTY_TYPES.ATTRIBUTE,
@@ -29,7 +29,7 @@ const TEXTURED_POINTS_ATTRIBUTES = [
 
 const TEXTURED_POINT_PARAMETERS = [
   {
-    id: "pointTexture",
+    key: "pointTexture",
     valueType: SHADER_PROPERTY_VALUE_TYPES.SAMPLER2D,
     value: null,
     isAssetMapped: true,

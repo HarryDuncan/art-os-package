@@ -18,7 +18,7 @@ export type PoseEstimationConfig = {
 
 export type SourceConfig = PeripheralSourceConfig;
 export type InteractionConfig = {
-  id: string;
+  guid: string;
   name?: string;
   bindingType?: InteractionEventBinding;
   interactionSource: string;

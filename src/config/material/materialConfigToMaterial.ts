@@ -3,8 +3,8 @@ import { MaterialConfig } from "../../types";
 import { getMaterial } from "./getMaterial";
 
 export const materialConfigToMaterial = (materialConfig: MaterialConfig) => {
-  const { materialType, materialProps, id } = materialConfig;
+  const { materialType, materialProps, guid } = materialConfig;
   const material = getMaterial(materialType, materialProps) as Material;
-  material.name = id;
+  material.name = guid;
   return material;
 };

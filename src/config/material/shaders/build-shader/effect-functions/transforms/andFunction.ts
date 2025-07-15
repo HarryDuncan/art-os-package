@@ -74,7 +74,7 @@ export const andFunctionTransform = (
       const paramKey =
         inputParameter.mappedParameterKey ||
         inputParameter.shaderParameterId ||
-        inputParameter.id;
+        inputParameter.key;
       return `(${paramKey} == 1.0)`;
     })
     .join(" && ");

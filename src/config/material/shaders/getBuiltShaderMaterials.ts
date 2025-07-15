@@ -28,6 +28,8 @@ export const getBuiltShaderMaterials = (
             shaderEffectConfigs
           );
 
+        console.log(parameterMap);
+
         const { vertexShader, fragmentShader } = buildShader(
           updatedEffectConfigs,
           effectFunctionConfigs ?? [],
@@ -50,7 +52,7 @@ export const getBuiltShaderMaterials = (
           ...blendingOptions,
           side: DoubleSide,
         });
-        shaderMaterial.name = materialConfig.id;
+        shaderMaterial.name = materialConfig.guid;
 
         return shaderMaterial;
       }

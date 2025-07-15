@@ -23,7 +23,7 @@ const getValueTypeString = (
   switch (valueType) {
     case SHADER_PROPERTY_VALUE_TYPES.STRUCT:
       if (structProperties) {
-        return structProperties.id;
+        return structProperties.key;
       }
       console.warn("Struct properties not defined");
       return "";

@@ -14,7 +14,7 @@ import {
 
 export const DEFAULT_COLOR_PARAMETERS = [
   {
-    id: "defaultColor",
+    key: "defaultColor",
     valueType: SHADER_PROPERTY_VALUE_TYPES.VEC4,
     value: [0, 0, 0, 1],
     isAssetMapped: false,

@@ -17,7 +17,7 @@ export type OutputInputMapping = {
 };
 
 export interface EffectConfig {
-  id: string;
+  guid: string;
   name?: string;
   effectParameters: ParameterConfig[];
   shaderType: string;
@@ -48,8 +48,8 @@ export type UniformObject = {
 
 // GENERAL TYPES
 export type ShaderPropertyConfig = {
-  id: string;
-  guid?: string;
+  key: string;
+  guid: string;
   name?: string;
   valueType: keyof typeof SHADER_PROPERTY_VALUE_TYPES;
   value?: unknown;
@@ -98,7 +98,7 @@ export type ParameterConfig = ShaderPropertyConfig & {
 };
 
 export type EffectFunctionConfig = {
-  id: string;
+  guid: string;
   functionId: string;
   value?: EffectFunctionValueConfig;
   outputMapping: Record<string, OutputInputMapping>;
@@ -146,7 +146,7 @@ export const SHADER_PROPERTY_TAGS = {
   COLOR: "color",
 };
 
-export type StructConfig = { id: string; properties: ShaderPropertyConfig[] };
+export type StructConfig = { key: string; properties: ShaderPropertyConfig[] };
 export type BuiltShaderConfig = {
   shaderEffectConfigs: ShaderEffectConfig[];
   effectFunctionConfigs: EffectFunctionConfig[];

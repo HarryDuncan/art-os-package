@@ -5,7 +5,7 @@ import {
 } from "../../../constants";
 
 export const TEXTURE_SIZE = {
-  id: "textureSize",
+  key: "textureSize",
   name: "Texture Size",
   description:
     "The size of the texture - can be mapped to the size of the texture or the size of the mesh",
@@ -18,7 +18,7 @@ export const TEXTURE_SIZE = {
 };
 
 export const CONVERTED_TEXTURE = {
-  id: "convertedTexture",
+  key: "convertedTexture",
   name: "Converted Texture",
   description:
     "The converted texture - can be mapped to the texture or the texture of the mesh",

@@ -3,11 +3,12 @@ import { SceneConfig } from "../types/config.types";
 import { useAssetLocation } from "../compat/asset-location/useAssetLocation";
 
 export const useFetchConfig = (filePath: string | null) => {
-  const [data, setData] = useState<SceneConfig[] | null>(null);
+  const [data, setData] = useState<SceneConfig | null>(null);
   const configuredData = useAssetLocation(data);
   useEffect(() => {
     const fetchData = async () => {
       try {
+        console.log("loading");
         if (!data && filePath?.length) {
           const response = await fetch(filePath);
           if (!response.ok) {

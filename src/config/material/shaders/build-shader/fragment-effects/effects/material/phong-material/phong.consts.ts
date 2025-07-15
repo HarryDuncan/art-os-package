@@ -4,53 +4,53 @@ import { ParameterConfig } from "../../../../buildShader.types";
 
 export const DEFAULT_PHONG_UNIFORMS = [
   {
-    id: "uLightPosition",
+    key: "uLightPosition",
     valueType: SHADER_PROPERTY_VALUE_TYPES.VEC3,
     value: [10, 10, 10],
   },
   {
-    id: "uDiffuseColor",
+    key: "uDiffuseColor",
     tag: [SHADER_PROPERTY_TAGS.COLOR],
     valueType: SHADER_PROPERTY_VALUE_TYPES.VEC3,
     value: [0.2, 0.2, 0.2],
   },
   {
-    id: "uLightColor",
+    key: "uLightColor",
     valueType: SHADER_PROPERTY_VALUE_TYPES.VEC3,
     value: [1, 1.0, 1.0],
   },
   {
-    id: "uAmbientReflection",
+    key: "uAmbientReflection",
     valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
     value: 0.75,
   },
   {
-    id: "uDiffuseReflection",
+    key: "uDiffuseReflection",
     valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
     value: 0.9,
   },
   {
-    id: "uSpecularReflection",
+    key: "uSpecularReflection",
     valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
     value: 0.7,
   },
   {
-    id: "uAmbientColor",
+    key: "uAmbientColor",
     valueType: SHADER_PROPERTY_VALUE_TYPES.VEC3,
     value: [0.82, 0.92, 0.2],
   },
   {
-    id: "uMaterialDiffuse",
+    key: "uMaterialDiffuse",
     valueType: SHADER_PROPERTY_VALUE_TYPES.VEC3,
     value: [0.5, 0.5, 0.5],
   },
   {
-    id: "uSpecularColor",
+    key: "uSpecularColor",
     valueType: SHADER_PROPERTY_VALUE_TYPES.VEC3,
     value: [1.0, 1.0, 1.0],
   },
   {
-    id: "uShininess",
+    key: "uShininess",
     valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
     value: 20.3,
   },

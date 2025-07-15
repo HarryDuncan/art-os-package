@@ -53,11 +53,11 @@ const getFunctionDependencies = (
       if (
         variables &&
         variables.some((variable) =>
-          allParameters.some((p) => p.id === variable)
+          allParameters.some((p) => p.key === variable)
         )
       ) {
         variables.forEach((variable) => {
-          if (allParameters.some((p) => p.id === variable)) {
+          if (allParameters.some((p) => p.key === variable)) {
             parameterIds.push(variable);
           }
         });
@@ -95,7 +95,7 @@ const parseSubEffectIntoTransformCode = (
               selectedFunction.functionParameters?.values() ?? []
             )
               .map((value) => {
-                return `{{${value.id}}}`;
+                return `{{${value.key}}}`;
               })
               .join(",");
             const functionInstantiation = `{{${subEffectAssignedVariableId}}} = ${selectedFunction.functionName}(${functionParameters});`;
@@ -121,13 +121,15 @@ export const transformationConfigFromFunctionParameter = (
     parameters
   );
 
-  const sortedInputIds = sortInputIds([...functionParameters.map((p) => p.id)]);
+  const sortedInputIds = sortInputIds([
+    ...functionParameters.map((p) => p.key),
+  ]);
   const sortedFunctionParameters = sortedInputIds.map((id) => {
-    return functionParameters.find((p) => p.id === id);
+    return functionParameters.find((p) => p.key === id);
   }) as ParameterConfig[];
   const inputMap = new Map();
   sortedFunctionParameters.forEach((parameter) => {
-    inputMap.set(parameter.id, parameter);
+    inputMap.set(parameter.key, parameter);
   });
 
   return {
@@ -137,7 +139,7 @@ export const transformationConfigFromFunctionParameter = (
     functionName: functionId,
     inputMap,
     returnValue: functionParameter.valueType,
-    assignedVariableId: functionParameter.id,
+    assignedVariableId: functionParameter.key,
   };
 };
 export const setupShaderTransformationConfigs = (

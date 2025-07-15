@@ -2,29 +2,26 @@ import { useMemo } from "react";
 import { SceneConfig } from "../../types/config.types";
 
 export const useAssetLocation = (
-  configData: SceneConfig[] | null,
+  configData: SceneConfig | null,
   staticContentRootUrl: string = ""
-): SceneConfig[] | undefined => {
-  return useMemo(
-    () =>
-      configData?.map((config) => {
-        const updatedAssets = config.assets?.map((asset) => {
-          const path = staticContentRootUrl.length
-            ? `/${removeElipse(asset.path ?? "")}`
-            : asset.path;
+): SceneConfig | undefined => {
+  return useMemo(() => {
+    if (!configData) return undefined;
+    const updatedAssets = configData.assets?.map((asset) => {
+      const path = staticContentRootUrl.length
+        ? `/${removeElipse(asset.path ?? "")}`
+        : asset.path;
 
-          return {
-            ...asset,
-            path: `${staticContentRootUrl}${path}`,
-          };
-        });
-        return {
-          ...config,
-          assets: updatedAssets,
-        };
-      }),
-    [staticContentRootUrl, configData]
-  );
+      return {
+        ...asset,
+        path: `${staticContentRootUrl}${path}`,
+      };
+    });
+    return {
+      ...configData,
+      assets: updatedAssets,
+    };
+  }, [staticContentRootUrl, configData]);
 };
 
 const removeElipse = (inputString: string) =>

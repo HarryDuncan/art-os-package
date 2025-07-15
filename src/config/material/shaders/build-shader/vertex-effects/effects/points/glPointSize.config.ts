@@ -8,14 +8,14 @@ import { ShaderTransformationSchema } from "../../../buildShader.types";
 
 export const POINT_SIZE_PARAMETERS = [
   {
-    id: "pointSize",
+    key: "pointSize",
     name: "Point Size",
     description: "The size of the points",
     valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
     value: 10,
   },
   {
-    id: "vUv",
+    key: "vUv",
     name: "UV",
     valueType: SHADER_PROPERTY_VALUE_TYPES.VEC2,
     description: "The UV coordinates of the texture",

@@ -67,7 +67,7 @@ export const generateTransform = (
   mainFunctionInstantiations: string[];
   advancedShaderVariables: AdvancedShaderVariableMap;
 } => {
-  const { subEffects, id: effectId } = effectConfig;
+  const { subEffects, guid: effectId } = effectConfig;
   const subEffectDataArray =
     subEffects?.flatMap((subEffect) => {
       const subEffectData = generateShaderTransformData(

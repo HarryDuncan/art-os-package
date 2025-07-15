@@ -11,7 +11,7 @@ import {
 
 export const AMBIENT_LIGHT_PARAMETERS = [
   {
-    id: "ambientLightColor",
+    key: "ambientLightColor",
     valueType: SHADER_PROPERTY_VALUE_TYPES.VEC4,
     value: [1, 1, 1, 1],
     isAssetMapped: false,
@@ -19,7 +19,7 @@ export const AMBIENT_LIGHT_PARAMETERS = [
     tags: [SHADER_PROPERTY_TAGS.COLOR],
   },
   {
-    id: "ambientLightIntensity",
+    key: "ambientLightIntensity",
     valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
     value: 1.0,
     isAssetMapped: false,
