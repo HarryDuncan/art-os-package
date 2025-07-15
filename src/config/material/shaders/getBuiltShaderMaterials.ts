@@ -28,8 +28,6 @@ export const getBuiltShaderMaterials = (
             shaderEffectConfigs
           );
 
-        console.log(parameterMap);
-
         const { vertexShader, fragmentShader } = buildShader(
           updatedEffectConfigs,
           effectFunctionConfigs ?? [],

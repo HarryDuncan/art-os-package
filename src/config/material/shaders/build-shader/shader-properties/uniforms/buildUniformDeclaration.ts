@@ -1,7 +1,6 @@
 import { ShaderParameterMap } from "../../buildShader.types";
 import { UNIFORM_DECLARATION } from "../../constants";
 import {
-  DEFAULT_UNIFORM_CONFIGS,
   SHADER_PROPERTY_TYPES,
   SHADER_PROPERTY_VALUE_TYPES,
 } from "../../constants/shader.consts";
@@ -23,19 +22,10 @@ export const buildUniformDeclaration = (parameterMap: ShaderParameterMap) => {
         structProperties
       )
   );
-  const defaultDeclarations = DEFAULT_UNIFORM_CONFIGS.map(
-    ({ key, valueType }) =>
-      createDeclarationString(
-        SHADER_PROPERTY_TYPES.UNIFORM as keyof typeof SHADER_PROPERTY_TYPES,
-        valueType as keyof typeof SHADER_PROPERTY_VALUE_TYPES,
-        key
-      )
+
+  const uniformDeclaration = [UNIFORM_DECLARATION, ...customStrings].join(
+    " \n "
   );
-  const uniformDeclaration = [
-    UNIFORM_DECLARATION,
-    ...defaultDeclarations,
-    ...customStrings,
-  ].join(" \n ");
 
   return uniformDeclaration;
 };

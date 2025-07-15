@@ -39,7 +39,7 @@ const setUpRandom = (meshConfig: MeshComponentConfig) => {
       : rotation;
     return {
       ...meshConfig,
-      id: `${meshConfig.id}-${index}`,
+      id: `${meshConfig.guid}-${index}`,
       position: coordinate,
       rotation: meshRotation,
     };

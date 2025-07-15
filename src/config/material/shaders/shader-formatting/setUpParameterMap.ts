@@ -121,7 +121,7 @@ const attributeToVarying = (
   attributeConfigs.map((attributeConfig) => {
     return {
       ...attributeConfig,
-      id: replaceId
+      key: replaceId
         ? `${attributeConfig?.key ?? ""}_varying`
         : attributeConfig?.key ?? "",
       parameterType: SHADER_PROPERTY_TYPES.VARYING,
@@ -181,7 +181,7 @@ const convertAttributesToVaryings = (
   // Make attributeConfigs unique on id
   const uniqueAttributeConfigs = removeDuplicatesByKey(
     [...attributeConfigs, ...functionWrapperAttributes],
-    "id"
+    "key"
   );
   const convertedAttributes = attributeToVarying(uniqueAttributeConfigs);
   return { convertedAttributes, updatedFragShaderInputMapping };

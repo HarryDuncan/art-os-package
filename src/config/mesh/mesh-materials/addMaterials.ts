@@ -13,7 +13,7 @@ export const addMaterials = (
 ): MeshConfig[] => {
   return formattedGeometries.flatMap((formattedGeometry) => {
     const meshConfig = meshComponentConfigs.find(
-      (config) => formattedGeometry.meshId === (config.id ?? "")
+      (config) => formattedGeometry.meshId === (config.guid ?? "")
     );
     if (!meshConfig) {
       console.warn(
@@ -23,7 +23,7 @@ export const addMaterials = (
     }
     const material = setUpMaterial(materials, meshConfig);
     return {
-      id: meshConfig.id,
+      id: meshConfig.guid,
       ...formattedGeometry,
       material,
     };
@@ -34,7 +34,7 @@ const setUpMaterial = (
   sceneMaterials: Material[],
   config?: MeshComponentConfig
 ): Material => {
-  const { materialId, id } = config ?? {};
+  const { materialId, guid } = config ?? {};
   if (materialId) {
     const selectedMaterial = sceneMaterials.find(
       (material) => String(material.name) === String(materialId)
@@ -43,9 +43,9 @@ const setUpMaterial = (
     if (selectedMaterial) {
       return selectedMaterial;
     }
-    console.warn(`Could not assign ${materialId} material to mesh:${id}`);
+    console.warn(`Could not assign ${materialId} material to mesh:${guid}`);
     return DEFAULT_MATERIAL;
   }
-  console.warn(`Could not assign ${materialId} material to mesh:${id}`);
+  console.warn(`Could not assign ${materialId} material to mesh:${guid}`);
   return DEFAULT_MATERIAL;
 };

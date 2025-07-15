@@ -85,7 +85,6 @@ export const setUpFunctionInstantiation = (
     }
   );
   if (declareAsVariable) {
-    console.log(assignedVariableId);
     const uniqueId = shaderSafeGuid(assignedVariableId);
     return [
       `${shaderValueTypeInstantiation(

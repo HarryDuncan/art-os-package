@@ -41,7 +41,7 @@ export const formatGeometry = (
     );
 
     return {
-      meshId: meshConfig.id,
+      meshId: meshConfig.guid,
       materialId: meshConfig.materialId,
       geometry: configuredGeometry,
       assetId: meshConfig.assetId,

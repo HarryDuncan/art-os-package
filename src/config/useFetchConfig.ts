@@ -8,7 +8,6 @@ export const useFetchConfig = (filePath: string | null) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        console.log("loading");
         if (!data && filePath?.length) {
           const response = await fetch(filePath);
           if (!response.ok) {

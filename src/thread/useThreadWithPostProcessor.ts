@@ -16,6 +16,7 @@ export const useThreadWithPostProcessor = (
     state: { initializedScene, status },
     camera,
   } = useSceneContext();
+
   const postProcessor: MutableRefObject<null | PostProcessor> = useRef(null);
   const update = useCallback(() => {
     if (postProcessor.current?.isInitialized()) {

@@ -34,7 +34,7 @@ const setUpMulti = (meshConfig: MeshComponentConfig) => {
   const formattedMeshConfig = spreadCoordinates.map((coordinate, index) => {
     return {
       ...meshConfig,
-      id: `${meshConfig.id}-${index}`,
+      id: `${meshConfig.guid}-${index}`,
       position: coordinate,
     };
   });
