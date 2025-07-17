@@ -21,7 +21,6 @@ export const transformationToFunction = (
       transformCode,
       assignedVariableId,
       id: functionId,
-      dontDeclare,
       functionType,
     }) => {
       const returnTypeString = shaderValueTypeInstantiation(returnValue);
@@ -50,7 +49,6 @@ export const transformationToFunction = (
           ...formattedFunctionContent,
           `}`,
         ].join("\n"),
-        dontDeclare,
       };
       return shaderFunctionConfig as DefinedEffectFunction;
     }

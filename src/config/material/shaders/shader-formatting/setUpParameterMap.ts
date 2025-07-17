@@ -5,6 +5,7 @@ import {
   ShaderEffectConfig,
   ShaderParameter,
   OutputInputMapping,
+  EffectFunctionConfig,
 } from "../build-shader/buildShader.types";
 import {
   DEFAULT_UNIFORM_CONFIGS,
@@ -16,13 +17,21 @@ import {
   DEFAULT_VERTEX_PARAMETERS,
 } from "../build-shader/helpers/generate-transform/consts";
 import { VARYING_TYPES } from "../build-shader/shader-properties/varyings/varyings.consts";
+import {
+  getEffectConfigUsingParameters,
+  getEffectFunctionConfigs,
+  getFunctionBasedParameters,
+  getShaderConfigsByType,
+} from "../build-shader/helpers/utils";
 
 export const formatParametersAndEffects = (
   effectParameters: ParameterConfig[],
-  shaderEffectConfigs: ShaderEffectConfig[]
+  shaderEffectConfigs: ShaderEffectConfig[],
+  effectFunctions: EffectFunctionConfig[]
 ): {
   parameterMap: ShaderParameterMap;
   updatedEffectConfigs: ShaderEffectConfig[];
+  updatedEffectFunctionConfigs: EffectFunctionConfig[];
 } => {
   const defaultParamsMap = [
     ...DEFAULT_UNIFORM_CONFIGS,
@@ -38,37 +47,44 @@ export const formatParametersAndEffects = (
   const { convertedAttributes, updatedFragShaderInputMapping } =
     convertAttributesToVaryings(effectParameters, shaderEffectConfigs);
 
-  const effectParamsMap = [...convertedAttributes, ...effectParameters].reduce(
-    (acc, effectParameter) => {
-      const { key: parameterId, guid } = effectParameter;
-      if (effectParameter.parameterType === SHADER_PROPERTY_TYPES.ATTRIBUTE) {
-        acc.set(parameterId, {
-          ...effectParameter,
-          shaderParameterId: `${parameterId}`,
-        } as ShaderParameter);
-      } else if (
-        effectParameter.parameterType === SHADER_PROPERTY_TYPES.VARYING
-      ) {
-        acc.set(`${parameterId}_varying`, {
-          ...effectParameter,
-          shaderParameterId: `${parameterId}`,
-        } as ShaderParameter);
-      } else if (effectParameter.isFunctionBased) {
-        acc.set(`${parameterId}`, {
-          ...effectParameter,
-          shaderParameterId: `${parameterId}`,
-        } as ShaderParameter);
-      } else {
-        acc.set(`${parameterId}_${guid}`, {
-          ...effectParameter,
-          shaderParameterId: `${parameterId}_${guid}`,
-        } as ShaderParameter);
-      }
+  const { functionBasedVaryings, updatedEffectInputMapping } =
+    getFunctionBasedVaryings(
+      effectParameters,
+      shaderEffectConfigs,
+      effectFunctions
+    );
+  const effectParamsMap = [
+    ...convertedAttributes,
+    ...effectParameters,
+    ...functionBasedVaryings,
+  ].reduce((acc, effectParameter) => {
+    const { key: parameterId, guid } = effectParameter;
+    if (effectParameter.parameterType === SHADER_PROPERTY_TYPES.ATTRIBUTE) {
+      acc.set(parameterId, {
+        ...effectParameter,
+        shaderParameterId: `${parameterId}`,
+      } as ShaderParameter);
+    } else if (
+      effectParameter.parameterType === SHADER_PROPERTY_TYPES.VARYING
+    ) {
+      acc.set(`${parameterId}_varying`, {
+        ...effectParameter,
+        shaderParameterId: `${parameterId}`,
+      } as ShaderParameter);
+    } else if (effectParameter.isFunctionBased) {
+      acc.set(`${parameterId}`, {
+        ...effectParameter,
+        shaderParameterId: `${parameterId}`,
+      } as ShaderParameter);
+    } else {
+      acc.set(`${parameterId}_${guid}`, {
+        ...effectParameter,
+        shaderParameterId: `${parameterId}_${guid}`,
+      } as ShaderParameter);
+    }
 
-      return acc;
-    },
-    new Map() as ShaderParameterMap
-  );
+    return acc;
+  }, new Map() as ShaderParameterMap);
 
   const parameterMap = new Map([...defaultParamsMap, ...effectParamsMap]);
   const updatedEffectConfigs = shaderEffectConfigs.map((config) => {
@@ -111,19 +127,26 @@ export const formatParametersAndEffects = (
     // }
     return config;
   });
-  return { parameterMap, updatedEffectConfigs };
+
+  const updatedEffectFunctionConfigs = effectFunctions.map((config) => {
+    const mappingUpdates = updatedEffectInputMapping[config.guid];
+    if (mappingUpdates) {
+      return {
+        ...config,
+        inputMapping: mappingUpdates,
+      };
+    }
+    return config;
+  });
+  return { parameterMap, updatedEffectConfigs, updatedEffectFunctionConfigs };
 };
 
-const attributeToVarying = (
-  attributeConfigs: ParameterConfig[],
-  replaceId: boolean = true
-) =>
+const attributeToVarying = (attributeConfigs: ParameterConfig[]) =>
   attributeConfigs.map((attributeConfig) => {
     return {
       ...attributeConfig,
-      key: replaceId
-        ? `${attributeConfig?.key ?? ""}_varying`
-        : attributeConfig?.key ?? "",
+      guid: `${attributeConfig?.guid}`,
+      key: `${attributeConfig?.key ?? ""}_varying`,
       parameterType: SHADER_PROPERTY_TYPES.VARYING,
       varyingConfig: {
         varyingType: VARYING_TYPES.ATTRIBUTE,
@@ -133,15 +156,30 @@ const attributeToVarying = (
     };
   });
 
+const constantToVarying = (constantConfigs: ParameterConfig[]) => {
+  return constantConfigs.map((constantConfig) => {
+    return {
+      ...constantConfig,
+      guid: `${constantConfig?.guid}_varying`,
+      key: `${constantConfig?.key ?? ""}_varying`,
+      parameterType: SHADER_PROPERTY_TYPES.VARYING,
+      value: constantConfig.key,
+      isFunctionBased: false,
+      varyingConfig: {
+        varyingType: VARYING_TYPES.CUSTOM,
+      },
+    };
+  });
+};
+
 const convertAttributesToVaryings = (
   parameterConfigs: ParameterConfig[],
   shaderEffectConfigs: ShaderEffectConfig[]
 ) => {
-  const fragmentShaders = shaderEffectConfigs.filter(
-    (shaderEffectConfig) =>
-      shaderEffectConfig.shaderType === SHADER_TYPES.FRAGMENT
+  const fragmentShaders = getShaderConfigsByType(
+    shaderEffectConfigs,
+    SHADER_TYPES.FRAGMENT
   );
-
   const updatedFragShaderInputMapping: Record<
     string,
     Record<string, string>
@@ -185,4 +223,58 @@ const convertAttributesToVaryings = (
   );
   const convertedAttributes = attributeToVarying(uniqueAttributeConfigs);
   return { convertedAttributes, updatedFragShaderInputMapping };
+};
+
+const getFunctionBasedVaryings = (
+  effectParameters: ParameterConfig[],
+  shaderEffectConfigs: ShaderEffectConfig[],
+  effectFunctions: EffectFunctionConfig[]
+) => {
+  const functionBasedParameters = getFunctionBasedParameters(effectParameters);
+  if (functionBasedParameters.length === 0)
+    return { functionBasedVaryings: [], updatedEffectInputMapping: {} };
+  const fragmentShaders = getShaderConfigsByType(
+    shaderEffectConfigs,
+    SHADER_TYPES.FRAGMENT
+  );
+  const fragmentEffectFunctionConfigs = getEffectFunctionConfigs(
+    effectFunctions,
+    fragmentShaders
+  );
+  const filteredShaders = getEffectConfigUsingParameters(
+    fragmentEffectFunctionConfigs,
+    functionBasedParameters
+  );
+
+  const updatedEffectInputMapping: Record<
+    string,
+    Record<string, OutputInputMapping>
+  > = {};
+
+  const requireConversion = filteredShaders.flatMap((shader) => {
+    const { inputMapping } = shader;
+    const inputIds = Object.values(inputMapping).map(
+      (mapping) => mapping.itemId
+    );
+    const parameters = functionBasedParameters.flatMap((parameter) =>
+      inputIds.includes(parameter.guid) ? parameter : []
+    );
+    if (parameters.length > 0) {
+      updatedEffectInputMapping[shader.guid] = Object.entries(
+        inputMapping
+      ).reduce((acc, [key, value]) => {
+        if (parameters.some((parameter) => parameter.guid === value.itemId)) {
+          acc[key] = {
+            ...value,
+            itemId: `${value.itemId}_varying`,
+          };
+        }
+        return acc;
+      }, {} as Record<string, OutputInputMapping>);
+    }
+    return parameters;
+  });
+  const functionBasedVaryings = constantToVarying(requireConversion);
+
+  return { functionBasedVaryings, updatedEffectInputMapping };
 };

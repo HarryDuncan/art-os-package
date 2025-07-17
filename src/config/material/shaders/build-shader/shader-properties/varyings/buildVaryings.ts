@@ -155,12 +155,11 @@ const getFunctionVarying = (
   } as unknown as ShaderEffectConfig);
 
   const functionInstantiations = varyingFunctions.flatMap(
-    ({ assignedVariableId, functionName, inputMap, returnValue }) => {
+    ({ assignedVariableId, functionName, inputMap }) => {
       return setUpFunctionInstantiation(
         assignedVariableId as string,
         functionName,
         inputMap,
-        returnValue,
         "effectId"
       );
     }

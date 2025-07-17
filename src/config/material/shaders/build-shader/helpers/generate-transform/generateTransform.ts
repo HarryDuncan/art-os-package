@@ -115,32 +115,23 @@ export const generateTransform = (
     .sort((a, b) =>
       a.dontDeclare === b.dontDeclare ? 0 : a.dontDeclare ? -1 : 1
     )
-    .flatMap(
-      ({
-        inputMap,
+    .flatMap(({ inputMap, assignedVariableId, functionName, functionType }) => {
+      if (
+        !assignedVariableId ||
+        FUNCTION_TYPES.VERTEX_SUB_EFFECT === functionType ||
+        FUNCTION_TYPES.FRAGMENT_SUB_EFFECT === functionType ||
+        (ADVANCED_SHADER_VARIABLE_EFFECT_CODE[assignedVariableId] &&
+          isSubEffect)
+      ) {
+        return [];
+      }
+      return setUpFunctionInstantiation(
         assignedVariableId,
         functionName,
-        functionType,
-        returnValue,
-      }) => {
-        if (
-          !assignedVariableId ||
-          FUNCTION_TYPES.VERTEX_SUB_EFFECT === functionType ||
-          FUNCTION_TYPES.FRAGMENT_SUB_EFFECT === functionType ||
-          (ADVANCED_SHADER_VARIABLE_EFFECT_CODE[assignedVariableId] &&
-            isSubEffect)
-        ) {
-          return [];
-        }
-        return setUpFunctionInstantiation(
-          assignedVariableId,
-          functionName,
-          inputMap,
-          returnValue,
-          effectId
-        );
-      }
-    );
+        inputMap,
+        effectId
+      );
+    });
 
   const transformation = [...mainFunctionInstantiations].join("\n");
 

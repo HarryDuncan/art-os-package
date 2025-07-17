@@ -53,9 +53,7 @@ export const setUpFunctionInstantiation = (
   assignedVariableId: string,
   functionName: string,
   inputMap: ShaderParameterMap,
-  returnValue: keyof typeof SHADER_PROPERTY_VALUE_TYPES,
-  shaderEffectId: string,
-  declareAsVariable: boolean = false
+  shaderEffectId: string
 ) => {
   const functionParameters = Array.from(inputMap.entries())?.flatMap(
     ([id, parameter]) => {
@@ -84,17 +82,6 @@ export const setUpFunctionInstantiation = (
       return [];
     }
   );
-  if (declareAsVariable) {
-    const uniqueId = shaderSafeGuid(assignedVariableId);
-    return [
-      `${shaderValueTypeInstantiation(
-        returnValue
-      )} ${assignedVariableId} = ${functionName}(${functionParameters.join(
-        ", "
-      )});`,
-      `${getAssignedVariableName(assignedVariableId)} = ${uniqueId};`,
-    ].join("\n");
-  }
 
   const operator = getOperator(assignedVariableId);
   const assignedVariableName = getAssignedVariableName(assignedVariableId);

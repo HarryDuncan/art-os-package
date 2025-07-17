@@ -44,19 +44,17 @@ export const andFunctionTransform = (
   const transformations = functionBasedInputs.flatMap((item) => {
     return transformationConfigFromFunctionParameter(item, parameterMap) ?? [];
   });
+
   const functionDefinitions = transformationToFunction(transformations, {
     id: "effectId",
   } as unknown as ShaderEffectConfig);
-
   const functionInstantiations = functionDefinitions.flatMap(
-    ({ assignedVariableId, functionName, inputMap, returnValue }) => {
+    ({ assignedVariableId, functionName, inputMap }) => {
       return setUpFunctionInstantiation(
         assignedVariableId as string,
         functionName,
         inputMap,
-        returnValue,
-        "effectId",
-        true
+        "effectId"
       );
     }
   );

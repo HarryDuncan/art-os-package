@@ -22,15 +22,19 @@ export const getBuiltShaderMaterials = (
         const { shaderEffectConfigs, effectFunctionConfigs, parameterConfigs } =
           materialConfig;
         if (!shaderEffectConfigs) return [];
-        const { parameterMap, updatedEffectConfigs } =
-          formatParametersAndEffects(
-            parameterConfigs ?? [],
-            shaderEffectConfigs
-          );
+        const {
+          parameterMap,
+          updatedEffectConfigs,
+          updatedEffectFunctionConfigs,
+        } = formatParametersAndEffects(
+          parameterConfigs ?? [],
+          shaderEffectConfigs,
+          effectFunctionConfigs ?? []
+        );
 
         const { vertexShader, fragmentShader } = buildShader(
           updatedEffectConfigs,
-          effectFunctionConfigs ?? [],
+          updatedEffectFunctionConfigs ?? [],
           parameterMap
         );
 

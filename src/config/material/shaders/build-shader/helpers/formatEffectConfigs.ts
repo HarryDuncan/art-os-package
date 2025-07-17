@@ -6,6 +6,7 @@ import {
 import { FragmentEffectConfig } from "../buildShader.types";
 import { SHADER_TYPES } from "../constants";
 import { EFFECT_FUNCTIONS } from "../effect-functions";
+import { getShaderConfigsByType } from "./utils";
 
 const nestSubEffects = <T extends ShaderEffectConfig>(
   effectConfigs: T[]
@@ -49,14 +50,16 @@ export const formatShaderEffects = (
   effectFunctionConfigs: EffectFunctionConfig[]
 ) => {
   const vertexEffectConfigs = nestSubEffects(
-    shaderEffectConfigs.filter(
-      (config) => config.shaderType === SHADER_TYPES.VERTEX
+    getShaderConfigsByType(
+      shaderEffectConfigs,
+      SHADER_TYPES.VERTEX
     ) as VertexEffectConfig[]
   ) as VertexEffectConfig[];
 
   const fragmentEffectConfigs = nestSubEffects(
-    shaderEffectConfigs.filter(
-      (config) => config.shaderType === SHADER_TYPES.FRAGMENT
+    getShaderConfigsByType(
+      shaderEffectConfigs,
+      SHADER_TYPES.FRAGMENT
     ) as FragmentEffectConfig[]
   ) as FragmentEffectConfig[];
 
