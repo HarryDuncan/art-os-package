@@ -1,6 +1,5 @@
 import { ShaderParameterMap } from "../../buildShader.types";
 import { FUNCTION_TYPES, SHADER_VARIABLE_TYPES } from "../../constants";
-import { SHADER_PROPERTY_VALUE_TYPES } from "../../constants/shader.consts";
 import { FRAG_COLOR_NAME } from "../../fragment-effects/fragmentEffects.consts";
 import { VERTEX_POINT_NAME } from "../../vertex-effects/vertexEffects.consts";
 import { shaderValueTypeInstantiation } from "../safeParseValue";

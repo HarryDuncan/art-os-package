@@ -2,7 +2,7 @@
 // @ts-nocheck
 
 import { InteractionConfig } from "../../interaction/interaction.types";
-import { Clock, Scene, Camera } from "three";
+import { Clock, Scene, Camera, Texture } from "three";
 import { AnimationManager } from "../../animation/animation-manager/AnimationManager";
 import { AnimationConfig } from "../../types/animation.types";
 import { THREAD_EVENTS } from "../../thread/thread.consts";
@@ -33,6 +33,7 @@ export class InteractiveScene extends Scene {
   sceneProperties: SceneProperties;
   interactionConfig: InteractionConfig[];
   lights: SceneLight[];
+  background?: Texture | undefined;
 
   constructor(
     sceneFunctions: InteractiveSceneFunctions,

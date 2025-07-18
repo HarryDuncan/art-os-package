@@ -46,5 +46,5 @@ export const TEXTURE_PIXEL_COLOR_EFFECT_CONFIG = {
   parameters: TEXTURE_PIXEL_COLOR_PARAMETERS,
   meshTransformConfig: [],
   transformationConfig: [TEXTURE_PIXEL_COLOR_TRANSFORMATION_CONFIG],
-  outputValueType: SHADER_PROPERTY_VALUE_TYPES.VEC4,
+  assignedVariableId: SHADER_VARIABLE_TYPES.FRAGMENT_COLOR,
 };

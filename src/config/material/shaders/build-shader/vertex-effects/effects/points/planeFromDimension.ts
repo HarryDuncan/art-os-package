@@ -1,7 +1,4 @@
-import {
-  PLANE_MESH_TRANSFORM,
-  QUAD_MESH_TRANSFORM,
-} from "../../../../../../mesh/meshTransforms.consts";
+import { PLANE_MESH_TRANSFORM } from "../../../../../../mesh/meshTransforms.consts";
 import {
   SHADER_PROPERTY_VALUE_TYPES,
   SHADER_VARIABLE_ASSIGNMENT_KEYS,

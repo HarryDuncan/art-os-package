@@ -35,9 +35,9 @@ export const generateShaderTransformData = (
     effect.shaderType
   );
   if (transformationData) {
-    // @ts-ignore
     const { transformationConfig, assignedVariableId, functions } =
       transformationData;
+
     const { transformationFunctions, transformation, advancedShaderVariables } =
       generateTransform(
         transformationConfig as ShaderTransformationSchema[],

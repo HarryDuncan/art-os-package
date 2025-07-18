@@ -17,25 +17,28 @@ import { useThreadWithPostProcessor } from "../../thread/useThreadWithPostProces
 import { ExternalInteractionNode } from "../external-interaction-nodes/ExternalInteractionNode";
 import { StatusToolbar } from "../../components/status-toolbar/StatusToolbar";
 import { useStatusToolbar } from "../../components/status-toolbar/useStatusToolbar";
+import { ErrorBoundary } from "../../components/error-boundary";
 
 export const SceneNode = ({
   sceneConfig,
   externalInteractionConfig,
   loaderComponent,
 }: SceneNodeProps) => (
-  <WindowStateProvider>
-    <SceneProvider>
-      <SceneNodeContent
-        sceneConfig={sceneConfig}
-        loaderComponent={loaderComponent}
-      />
-      {externalInteractionConfig && (
-        <ExternalInteractionNode
-          externalInteractionConfig={externalInteractionConfig}
+  <ErrorBoundary>
+    <WindowStateProvider>
+      <SceneProvider>
+        <SceneNodeContent
+          sceneConfig={sceneConfig}
+          loaderComponent={loaderComponent}
         />
-      )}
-    </SceneProvider>
-  </WindowStateProvider>
+        {externalInteractionConfig && (
+          <ExternalInteractionNode
+            externalInteractionConfig={externalInteractionConfig}
+          />
+        )}
+      </SceneProvider>
+    </WindowStateProvider>
+  </ErrorBoundary>
 );
 
 const SceneNodeContent = ({

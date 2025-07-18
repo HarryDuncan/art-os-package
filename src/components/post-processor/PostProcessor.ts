@@ -1,10 +1,11 @@
 import { Camera, Scene, WebGLRenderer, WebGLRenderTarget } from "three";
 import { PostProcessorCamera } from "./postProcessor.types";
 import { defaultRenderTargetParameters } from "./postProcessor.consts";
+import { InteractiveScene } from "../interactive-scene/InteractiveScene";
 
 export default class PostProcessor {
-  private composer: any;
-  private renderPass: any;
+  private composer: unknown;
+  private renderPass: unknown;
   private camera: PostProcessorCamera;
   private scene: Scene;
   private renderer: WebGLRenderer;
@@ -34,6 +35,7 @@ export default class PostProcessor {
     );
     this.renderPass = new RenderPass(this.scene, this.camera);
     this.composer = new EffectComposer(this.renderer, renderTarget);
+    // @ts-expect-error - three.js types are not correct
     this.composer.addPass(this.renderPass);
     this.initialized = true;
     return this.initialized;
@@ -44,14 +46,17 @@ export default class PostProcessor {
   }
 
   render() {
+    // @ts-expect-error - three.js types are not correct
     this.composer.render();
   }
 
-  vrRender(scene: Scene, camera: Camera) {
+  vrRender(scene: InteractiveScene, camera: Camera) {
+    // @ts-expect-error - three.js types are not correct
     this.composer.render(scene, camera);
   }
 
   resize(width: number, height: number) {
+    // @ts-expect-error - three.js types are not correct
     this.composer.setSize(width, height);
   }
 }

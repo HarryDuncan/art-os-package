@@ -6,9 +6,8 @@ export const setSceneProperties = (
   scene: InteractiveScene
 ) => {
   if (!sceneProperties) return;
-  if (sceneProperties.background !== null) {
-    // @ts-ignore
-    scene.background = sceneProperties?.background ?? null;
+  if (sceneProperties.background) {
+    scene.background = sceneProperties?.background;
   }
   const sceneId = sceneProperties.sceneId ?? "";
   scene.guid = sceneId;

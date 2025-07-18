@@ -46,11 +46,13 @@ export const shaderValueTypeInstantiation = (valueType: string) => {
 
 export const parseRawValueToShader = (
   valueType: string,
-  value: any
+  value: unknown
 ): string => {
   switch (valueType) {
     case SHADER_PROPERTY_VALUE_TYPES.FLOAT:
-      return !value || value === 0 ? "0.0" : parseFloat(value).toFixed(1);
+      return !value || value === 0
+        ? "0.0"
+        : parseFloat(value as string).toFixed(1);
     case SHADER_PROPERTY_VALUE_TYPES.VEC2:
       if (Array.isArray(value)) {
         return `vec2(${value[0]}, ${value[1]})`;
@@ -67,9 +69,11 @@ export const parseRawValueToShader = (
           value[1]
         )}, ${shaderSafeFloat(value[2])}, ${shaderSafeFloat(value[3])})`;
       }
-      return `vec4(${shaderSafeFloat(value)}, ${shaderSafeFloat(
-        value
-      )}, ${shaderSafeFloat(value)}, ${shaderSafeFloat(value)})`;
+      return `vec4(${shaderSafeFloat(value as number)}, ${shaderSafeFloat(
+        value as number
+      )}, ${shaderSafeFloat(value as number)}, ${shaderSafeFloat(
+        value as number
+      )})`;
     default:
       throw new Error(`Unsupported value type: ${valueType}`);
   }

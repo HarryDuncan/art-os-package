@@ -38,6 +38,5 @@ export const DEFAULT_COLOR_EFFECT_CONFIG = {
   meshTransformConfig: [],
   parameters: DEFAULT_COLOR_PARAMETERS,
   transformationConfig: [COLOR_TRANSFORMATION_CONFIG],
-  outputValueType: SHADER_PROPERTY_VALUE_TYPES.VEC4,
   assignedVariableId: SHADER_VARIABLE_TYPES.FRAGMENT_COLOR,
 };

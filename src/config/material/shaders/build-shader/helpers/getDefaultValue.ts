@@ -11,7 +11,7 @@ export const getDefaultValue = (
       if (structConfigs) {
         return structConfigs.properties.reduce((acc, curr) => {
           const key = curr.key as keyof ShaderPropertyConfig;
-          // @ts-expect-error
+          // @ts-expect-error - three.js types are not correct
           acc[key] = curr.value ?? getDefaultValue(curr.valueType);
           return acc;
         }, {} as ShaderPropertyConfig);

@@ -1,10 +1,7 @@
 import { IUniform, Vector2 } from "three";
 import { Asset } from "../../../../types";
 import { mapAssetsToUniforms } from "./mapAssetsToUniform";
-import {
-  DEFAULT_UNIFORM_IDS,
-  SHADER_PROPERTY_TYPES,
-} from "../build-shader/constants/shader.consts";
+import { SHADER_PROPERTY_TYPES } from "../build-shader/constants/shader.consts";
 import {
   UniformObject,
   ShaderParameterMap,

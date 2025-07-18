@@ -19,12 +19,12 @@ export const getSceneComponents = (
   componentConfigs.flatMap(({ id, componentType, componentProps }) => {
     switch (componentType) {
       case SCENE_ELEMENTS.MARCHING_CUBES: {
-        const { resolution, material, position, isolation, scale } =
+        const { resolution, position, isolation, scale } =
           componentProps as MarchingCubesProps;
         return MarchingCubesElement({
           id,
           resolution,
-          material,
+
           position,
           isolation,
           scale,

@@ -90,5 +90,4 @@ export const POINT_LIGHT_EFFECT_CONFIG = {
   parameters: POINT_LIGHT_PARAMETERS,
   transformationConfig: [POINT_LIGHT_TRANSFORMATION_CONFIG],
   assignedVariableId: SHADER_VARIABLE_TYPES.LIGHT,
-  outputValueType: SHADER_PROPERTY_VALUE_TYPES.VEC3,
 };

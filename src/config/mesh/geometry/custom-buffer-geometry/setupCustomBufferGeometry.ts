@@ -36,13 +36,13 @@ const setUpQuad = () => {
 
   // uvs
   const uvs = new BufferAttribute(new Float32Array(4 * 2), 2);
-  // @ts-ignore
+  // @ts-expect-error - three.js types are not correct
   uvs.setXYZ(0, 0.0, 0.0);
-  // @ts-ignore
+  // @ts-expect-error - three.js types are not correct
   uvs.setXYZ(1, 1.0, 0.0);
-  // @ts-ignore
+  // @ts-expect-error - three.js types are not correct
   uvs.setXYZ(2, 0.0, 1.0);
-  // @ts-ignore
+  // @ts-expect-error - three.js types are not correct
   uvs.setXYZ(3, 1.0, 1.0);
   bufferGeometry.setAttribute("uv", uvs);
 
