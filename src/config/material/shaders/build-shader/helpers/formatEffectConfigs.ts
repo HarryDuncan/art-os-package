@@ -1,5 +1,5 @@
 import {
-  EffectFunctionConfig,
+  OperatorConfig,
   ShaderEffectConfig,
   VertexEffectConfig,
 } from "../buildShader.types";
@@ -47,7 +47,7 @@ const DEFAULT_EFFECT_FUNCTION_CONFIG = {
 
 export const formatShaderEffects = (
   shaderEffectConfigs: ShaderEffectConfig[],
-  effectFunctionConfigs: EffectFunctionConfig[]
+  operatorConfigs: OperatorConfig[]
 ) => {
   const vertexEffectConfigs = nestSubEffects(
     getShaderConfigsByType(
@@ -63,19 +63,17 @@ export const formatShaderEffects = (
     ) as FragmentEffectConfig[]
   ) as FragmentEffectConfig[];
 
-  const fragmentEffectFunctionConfigs = effectFunctionConfigs.filter(
-    (config) => {
-      const { outputMapping } = config;
-      const outputIds = Object.values(outputMapping).map(
-        (mapping) => mapping.itemId
-      );
-      return outputIds.some((id) =>
-        fragmentEffectConfigs.some((config) => config.guid === id)
-      );
-    }
-  );
+  const fragmentEffectFunctionConfigs = operatorConfigs.filter((config) => {
+    const { outputMapping } = config;
+    const outputIds = Object.values(outputMapping).map(
+      (mapping) => mapping.itemId
+    );
+    return outputIds.some((id) =>
+      fragmentEffectConfigs.some((config) => config.guid === id)
+    );
+  });
 
-  const vertexEffectFunctionConfigs = effectFunctionConfigs.filter((config) => {
+  const vertexEffectFunctionConfigs = operatorConfigs.filter((config) => {
     const { outputMapping } = config;
     const outputIds = Object.values(outputMapping).map(
       (mapping) => mapping.itemId
@@ -124,7 +122,7 @@ export const formatShaderEffects = (
     }
 
     return acc;
-  }, [] as EffectFunctionConfig[]);
+  }, [] as OperatorConfig[]);
 
   const fragmentEffectFunctions = fragmentEffectConfigs.reduce(
     (acc, effect) => {
@@ -169,7 +167,7 @@ export const formatShaderEffects = (
 
       return acc;
     },
-    [] as EffectFunctionConfig[]
+    [] as OperatorConfig[]
   );
 
   return {

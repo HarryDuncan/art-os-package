@@ -1,6 +1,6 @@
 import { mergeUnique } from "../../../../../../utils/mergeUnique";
 import {
-  EffectFunctionConfig,
+  OperatorConfig,
   ShaderEffectConfig,
   ShaderParameterMap,
   TransformData,
@@ -13,7 +13,7 @@ import { mergeShaderFunctions } from "../../helpers/mergeShaderFunctions";
 
 export const andFunctionTransform = (
   effectTransforms: (TransformData & { id: string })[],
-  effectFunctionTransform: EffectFunctionConfig,
+  effectFunctionTransform: OperatorConfig,
   parameterMap: ShaderParameterMap
 ): TransformData => {
   const transforms = [];

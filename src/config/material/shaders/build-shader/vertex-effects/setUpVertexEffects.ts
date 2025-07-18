@@ -1,11 +1,11 @@
 import { mergeShaderFunctions } from "../helpers/mergeShaderFunctions";
 import { VERTEX_POINT_NAME } from "./vertexEffects.consts";
 import { ShaderFunction, ShaderParameterMap } from "../buildShader.types";
-import { EffectFunctionConfig } from "../buildShader.types";
+import { OperatorConfig } from "../buildShader.types";
 import { transformSetup } from "../helpers/generate-transform/generate";
 
 export const setUpVertexEffects = (
-  vertexEffectFunctions: EffectFunctionConfig[],
+  vertexEffectFunctions: OperatorConfig[],
   parameterMap: ShaderParameterMap
 ) => {
   const { transformations, requiredFunctions } = getVertexTransformations(
@@ -21,7 +21,7 @@ export const setUpVertexEffects = (
 };
 
 const getVertexTransformations = (
-  vertexEffectFunctions: EffectFunctionConfig[],
+  vertexEffectFunctions: OperatorConfig[],
   parameterMap: ShaderParameterMap
 ) => {
   const unmergedTransformations: string[] = [];

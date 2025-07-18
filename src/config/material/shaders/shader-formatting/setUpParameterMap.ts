@@ -5,7 +5,7 @@ import {
   ShaderEffectConfig,
   ShaderParameter,
   OutputInputMapping,
-  EffectFunctionConfig,
+  OperatorConfig,
 } from "../build-shader/buildShader.types";
 import {
   DEFAULT_UNIFORM_CONFIGS,
@@ -27,11 +27,11 @@ import {
 export const formatParametersAndEffects = (
   effectParameters: ParameterConfig[],
   shaderEffectConfigs: ShaderEffectConfig[],
-  effectFunctions: EffectFunctionConfig[]
+  effectFunctions: OperatorConfig[]
 ): {
   parameterMap: ShaderParameterMap;
   updatedEffectConfigs: ShaderEffectConfig[];
-  updatedEffectFunctionConfigs: EffectFunctionConfig[];
+  updatedEffectFunctionConfigs: OperatorConfig[];
 } => {
   const defaultParamsMap = [
     ...DEFAULT_UNIFORM_CONFIGS,
@@ -228,7 +228,7 @@ const convertAttributesToVaryings = (
 const getFunctionBasedVaryings = (
   effectParameters: ParameterConfig[],
   shaderEffectConfigs: ShaderEffectConfig[],
-  effectFunctions: EffectFunctionConfig[]
+  effectFunctions: OperatorConfig[]
 ) => {
   const functionBasedParameters = getFunctionBasedParameters(effectParameters);
   if (functionBasedParameters.length === 0)

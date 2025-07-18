@@ -97,7 +97,7 @@ export type ParameterConfig = ShaderPropertyConfig & {
   shaderVariableConfig?: ShaderVariableConfig;
 };
 
-export type EffectFunctionConfig = {
+export type OperatorConfig = {
   guid: string;
   functionId: string;
   value?: EffectFunctionValueConfig;
@@ -149,7 +149,7 @@ export const SHADER_PROPERTY_TAGS = {
 export type StructConfig = { key: string; properties: ShaderPropertyConfig[] };
 export type BuiltShaderConfig = {
   shaderEffectConfigs: ShaderEffectConfig[];
-  effectFunctionConfigs: EffectFunctionConfig[];
+  operatorConfigs: OperatorConfig[];
   uniformConfigs?: ParameterConfig[];
   varyingConfigs?: ParameterConfig[];
   attributeConfigs?: ParameterConfig[];

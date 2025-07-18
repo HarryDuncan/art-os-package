@@ -1,5 +1,5 @@
 import {
-  EffectFunctionConfig,
+  OperatorConfig,
   ParameterConfig,
   ShaderEffectConfig,
 } from "../buildShader.types";
@@ -20,10 +20,10 @@ export const getFunctionBasedParameters = (
 };
 
 export const getEffectFunctionConfigs = (
-  effectFunctionConfigs: EffectFunctionConfig[],
+  operatorConfigs: OperatorConfig[],
   effectConfigs: ShaderEffectConfig[]
 ) =>
-  effectFunctionConfigs.filter((config) => {
+  operatorConfigs.filter((config) => {
     const { outputMapping } = config;
     const outputIds = Object.values(outputMapping).map(
       (mapping) => mapping.itemId
@@ -34,7 +34,7 @@ export const getEffectFunctionConfigs = (
   });
 
 export const getEffectConfigUsingParameters = (
-  configs: ShaderEffectConfig[] | EffectFunctionConfig[],
+  configs: ShaderEffectConfig[] | OperatorConfig[],
   parameters: ParameterConfig[]
 ) => {
   return configs.filter((config) => {

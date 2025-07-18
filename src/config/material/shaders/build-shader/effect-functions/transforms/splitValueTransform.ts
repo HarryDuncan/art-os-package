@@ -4,11 +4,11 @@ import {
   ShaderParameterMap,
   TransformData,
 } from "../../buildShader.types";
-import { EffectFunctionConfig } from "../../buildShader.types";
+import { OperatorConfig } from "../../buildShader.types";
 
 export const splitValueTransform = (
   effectTransforms: (TransformData & { id: string })[],
-  effectFunctionTransform: EffectFunctionConfig,
+  effectFunctionTransform: OperatorConfig,
   parameterMap: ShaderParameterMap
 ): TransformData => {
   const inputParameters = Array.from(parameterMap.values());

@@ -7,7 +7,7 @@ import { setUpVertexEffects } from "./vertex-effects/setUpVertexEffects";
 // import { buildStruct } from "./shader-properties/structs/buildStructs";
 // import { mergeStructConfigs } from "./shader-properties/structs/mergeStructConfigs";
 import {
-  EffectFunctionConfig,
+  OperatorConfig,
   ShaderEffectConfig,
   ShaderFunction,
   ShaderParameterMap,
@@ -25,7 +25,7 @@ import { mergeShaderFunctions } from "./helpers/mergeShaderFunctions";
 const DEBUG = true;
 export const buildShader = (
   shaderEffectConfigs: ShaderEffectConfig[],
-  effectFunctionConfigs: EffectFunctionConfig[],
+  operatorConfigs: OperatorConfig[],
   parameterMap: ShaderParameterMap
 ) => {
   const attributes = buildAttributes(parameterMap);
@@ -39,10 +39,10 @@ export const buildShader = (
   const constantDeclarations = generateConstantDeclarations(parameterMap);
 
   const { vertexEffectFunctions, fragmentEffectFunctions } =
-    formatShaderEffects(shaderEffectConfigs, effectFunctionConfigs);
+    formatShaderEffects(shaderEffectConfigs, operatorConfigs);
 
   const fragmentEffects = setUpFragmentEffects(
-    fragmentEffectFunctions as EffectFunctionConfig[],
+    fragmentEffectFunctions as OperatorConfig[],
     parameterMap
   );
   const vertexEffects = setUpVertexEffects(vertexEffectFunctions, parameterMap);

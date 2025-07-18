@@ -1,6 +1,6 @@
 import { EFFECT_FUNCTIONS } from ".";
 import {
-  EffectFunctionConfig,
+  OperatorConfig,
   ShaderParameterMap,
   TransformData,
 } from "../buildShader.types";
@@ -8,7 +8,7 @@ import { andFunctionTransform } from "./transforms/andFunction";
 import { splitValueTransform } from "./transforms/splitValueTransform";
 
 export const applyEffectWrapper = (
-  effectFunctionConfig: EffectFunctionConfig,
+  effectFunctionConfig: OperatorConfig,
   effectTransforms: (TransformData & { id: string })[],
   parameterMap: ShaderParameterMap
 ) => {

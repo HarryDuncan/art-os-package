@@ -6,7 +6,7 @@ import {
 import {
   ShaderEffectConfig,
   ParameterConfig,
-  EffectFunctionConfig,
+  OperatorConfig,
 } from "./shaders/build-shader/buildShader.types";
 
 export type MaterialType = keyof typeof MATERIAL_TYPES;
@@ -68,7 +68,7 @@ export interface MaterialConfig {
   materialType: MaterialType;
   materialProps: MaterialConfigProps;
   shaderEffectConfigs?: ShaderEffectConfig[];
-  effectFunctionConfigs?: EffectFunctionConfig[];
+  operatorConfigs?: OperatorConfig[];
   parameterConfigs?: ParameterConfig[];
   assetMapping?: AssetToUniformMappingConfig[];
   blendingConfig?: Record<string, unknown>;

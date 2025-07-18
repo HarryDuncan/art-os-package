@@ -1,7 +1,7 @@
 import { mergeShaderFunctions } from "../helpers/mergeShaderFunctions";
 import {
   AdvancedShaderVariableMap,
-  EffectFunctionConfig,
+  OperatorConfig,
   ShaderFunction,
   ShaderParameterMap,
 } from "../buildShader.types";
@@ -9,7 +9,7 @@ import { FRAG_COLOR_NAME } from "../../../../../consts";
 import { transformSetup } from "../helpers/generate-transform/generate";
 
 export const setUpFragmentEffects = (
-  fragmentEffectFunctions: EffectFunctionConfig[],
+  fragmentEffectFunctions: OperatorConfig[],
   parameterMap: ShaderParameterMap
 ) => {
   const {
@@ -47,7 +47,7 @@ export const setUpFragmentEffects = (
 };
 
 export const getFragmentColors = (
-  fragmentEffectFunctions: EffectFunctionConfig[],
+  fragmentEffectFunctions: OperatorConfig[],
   parameterMap: ShaderParameterMap
 ) => {
   const allRequiredFunctions: ShaderFunction[][] = [];
