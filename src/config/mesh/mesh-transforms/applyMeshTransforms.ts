@@ -1,12 +1,9 @@
 import { BufferAttribute, Vector2 } from "three";
-import {
-  MeshTransformConfig,
-  TransformValueConfig,
-} from "../../../types/config.types";
+import { MeshTransformConfig, TransformValueConfig } from "../../config.types";
 import { FormattedGeometry } from "../../../assets/geometry/geometry.types";
-import { MESH_TRANSFORM_TYPE } from "../mesh.consts";
+import { MESH_TRANSFORM_TYPES } from "../../material/shaders/schema";
 import { formatMeshTransforms } from "./formatMeshTransforms";
-import { Asset } from "../../../types";
+import { Asset } from "../../../assets/types";
 import { setAttributes } from "./setAttributes";
 
 export const applyMeshTransforms = (
@@ -25,16 +22,16 @@ export const applyMeshTransforms = (
     );
     if (transformedMeshes.length) {
       switch (type) {
-        case MESH_TRANSFORM_TYPE.SINGLE_PARAMETERS:
-        case MESH_TRANSFORM_TYPE.CUSTOM_ATTRIBUTES: {
+        case MESH_TRANSFORM_TYPES.SINGLE_PARAMETERS:
+        case MESH_TRANSFORM_TYPES.CUSTOM_ATTRIBUTES: {
           return transformedMeshes.map((formattedGeometry) => {
             const { geometry } = formattedGeometry;
             const setAttributeGeometry = setAttributes(geometry, values ?? {});
             return { ...formattedGeometry, geometry: setAttributeGeometry };
           });
         }
-        case MESH_TRANSFORM_TYPE.SET_UP_PLANE:
-        case MESH_TRANSFORM_TYPE.SET_UP_QUAD: {
+        case MESH_TRANSFORM_TYPES.SET_UP_PLANE:
+        case MESH_TRANSFORM_TYPES.SET_UP_QUAD: {
           const attributesSet = transformedMeshes.map((formattedGeometry) => {
             const { geometry } = formattedGeometry;
 
@@ -110,7 +107,7 @@ export const applyMeshTransforms = (
           return attributesSet;
         }
 
-        case MESH_TRANSFORM_TYPE.DEFAULT:
+        // case MESH_TRANSFORM_TYPES.DEFAULT:
         default: {
           return formattedGeometries;
         }
@@ -139,7 +136,7 @@ const getTransformedMeshes = (
       return indexA - indexB;
     });
 
-// case MESH_TRANSFORM_TYPE.MORPH: {
+// case MESH_TRANSFORM_TYPES.MORPH: {
 //   transformedMeshes.forEach((morphTarget, index) => {
 //     if (index !== 0) {
 //       const { vertices, normals } = getGeometryAttributes(
@@ -172,7 +169,7 @@ const getTransformedMeshes = (
 //   return transformedMeshes;
 // }
 
-// case MESH_TRANSFORM_TYPE.PRE_DEFINED: {
+// case MESH_TRANSFORM_TYPES.PRE_DEFINED: {
 //   const attributesSet = transformedMeshes.flatMap(({ geometry }) => {
 //     attributeConfigs?.forEach((config) => {
 //       if (config.value) {

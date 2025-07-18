@@ -1,5 +1,5 @@
 import { Camera, Object3D } from "three";
-import { AnimationConfig } from "../../types/animation.types";
+import { AnimationConfig } from "../animation.types";
 import { ANIMATION_RUN_STYLES } from "../../consts/animation/animation.constants";
 import { animateAll } from "./run-functions/animateAll";
 import { chainAnimation } from "./run-functions/chainAnimation";

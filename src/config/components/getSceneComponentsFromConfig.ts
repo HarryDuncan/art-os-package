@@ -1,4 +1,4 @@
-import { SceneComponentConfig } from "../../types/config.types";
+import { SceneComponentConfig } from "../config.types";
 import { Cube } from "./Cube";
 import { MarchingCubesElement } from "./marching-cubes/MarchingCubesElement";
 import { Mirror } from "./Mirror";

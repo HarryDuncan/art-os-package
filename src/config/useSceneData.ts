@@ -4,7 +4,7 @@ import { formatSceneComponentConfigs } from "../config/components/formatSceneCom
 import { getLightsFromConfig } from "../config/lights/getLightsFromConfig";
 import { formatSceneMaterials } from "../config/material/formatSceneMaterials";
 import { getMeshesFromConfig } from "../config/mesh/getMeshesFromConfig";
-import { SceneConfig, SceneData } from "../types/config.types";
+import { SceneConfig, SceneData } from "./config.types";
 import { Asset } from "../types";
 import { getScenePropertiesFromConfig } from "./scene-properties/setSceneProperties";
 import { useThreeJsFromConfig } from "./three-js/useThreeJsFromConfig";

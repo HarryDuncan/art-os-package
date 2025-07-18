@@ -1,5 +1,5 @@
 import { Vector3 } from "three";
-import { MeshComponentConfig } from "../../types/config.types";
+import { MeshComponentConfig } from "../../config/config.types";
 import { DEFAULT_POSITION } from "../../consts/threejs";
 import { vector3DegreesToEuler } from "./degreesToEuler";
 

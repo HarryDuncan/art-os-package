@@ -1,5 +1,5 @@
 import { Vector3 } from "three";
-import { SceneConfig } from "../../types/config.types";
+import { SceneConfig } from "../config.types";
 import { setUpLights } from "./setUpLights";
 import { DEFAULT_LIGHTS } from "../../consts/lights/lights";
 import { SceneLight } from "../../types";

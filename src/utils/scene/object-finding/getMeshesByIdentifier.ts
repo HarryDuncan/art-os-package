@@ -1,5 +1,5 @@
 import { Scene } from "three";
-import { ExtendedMesh } from "../../../config/mesh/mesh.types";
+import { ExtendedMesh } from "../../../config/mesh/types";
 
 export const getMeshesByIdentifier = (scene: Scene, identifier: string) => {
   const children = scene.children as ExtendedMesh[];

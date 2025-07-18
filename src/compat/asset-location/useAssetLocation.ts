@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { SceneConfig } from "../../types/config.types";
+import { SceneConfig } from "../../config/config.types";
 
 export const useAssetLocation = (
   configData: SceneConfig | null,

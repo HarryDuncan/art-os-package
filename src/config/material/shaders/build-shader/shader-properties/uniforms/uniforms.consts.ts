@@ -1,5 +1,0 @@
-export const UNIFORM_DECLARATION = "// UNIFORM DECLARATION";
-
-export const SHADER_PROPERTY_TAGS = {
-  COLOR: "COLOR",
-};

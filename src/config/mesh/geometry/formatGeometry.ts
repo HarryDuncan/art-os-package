@@ -1,20 +1,20 @@
 import { BufferGeometry, Vector3 } from "three";
-import { Asset } from "../../../types";
+import { Asset } from "../../../assets/types";
 import {
   AssetGeometry,
   FormattedGeometry,
   GeometryConfig,
 } from "../../../assets/geometry/geometry.types";
-import { DEFAULT_MODEL3D_CONFIG } from "../../../assets/assets.constants";
-import { MeshComponentConfig } from "../../../types/config.types";
+import { DEFAULT_MODEL3D_CONFIG } from "../../../assets/consts";
+import { MeshComponentConfig } from "../../config.types";
 import { getAssetGeometries } from "../../../config/mesh/geometry/getAssetGeometries";
 import {
   formatPositionFromConfig,
   formatRotationFromConfig,
 } from "../../../utils/three-dimension-space/formatFromConfig";
 import { setUpCustomBufferGeometry } from "./custom-buffer-geometry/setupCustomBufferGeometry";
-import { CustomBufferGeometryType, CustomGeometryConfig } from "../mesh.types";
-import { CUSTOM_GEOMETRY_TYPES, MESH_TYPES } from "../mesh.consts";
+import { CustomBufferGeometryType, CustomGeometryConfig } from "../types";
+import { CUSTOM_GEOMETRY_TYPES, MESH_TYPES } from "../consts";
 
 export const formatGeometry = (
   loadedAssets: Asset[],

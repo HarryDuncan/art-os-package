@@ -4,10 +4,10 @@ import {
   InteractiveSceneFunctions,
 } from "./InteractiveScene";
 import { InteractionConfig } from "../../interaction/interaction.types";
-import { AnimationConfig } from "../../types/animation.types";
+import { AnimationConfig } from "../../animation/animation.types";
 import { Camera, Object3D } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
-import { SceneProperties } from "../../types/config.types";
+import { SceneProperties } from "../../config/config.types";
 import { setSceneProperties } from "../../utils/scene/setSceneProperties";
 import { GLTF } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { useSceneContext } from "../../context/context";

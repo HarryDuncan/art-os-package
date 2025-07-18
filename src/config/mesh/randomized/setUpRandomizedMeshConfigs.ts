@@ -1,5 +1,5 @@
 import { generateRandomlySpreadCoordinates } from "../../../utils/three-dimension-space/position/getRandomlySpreadCoordinates";
-import { MeshComponentConfig } from "../../../types/config.types";
+import { MeshComponentConfig } from "../../config.types";
 import { createBoundingBox } from "../../../utils/three-dimension-space/createBoundingBox";
 import { getRandomRotationAsDegrees } from "../../../utils/randomize/getRandomRotation";
 

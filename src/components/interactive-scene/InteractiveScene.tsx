@@ -4,9 +4,9 @@
 import { InteractionConfig } from "../../interaction/interaction.types";
 import { Clock, Scene, Camera, Texture } from "three";
 import { AnimationManager } from "../../animation/animation-manager/AnimationManager";
-import { AnimationConfig } from "../../types/animation.types";
+import { AnimationConfig } from "../../animation/animation.types";
 import { THREAD_EVENTS } from "../../thread/thread.consts";
-import { SceneProperties } from "../../types/config.types";
+import { SceneProperties } from "../../config/config.types";
 import { SceneLight } from "../../config/lights/lights.types";
 import { OrbitControl } from "../../types";
 import { FUNCTION_MAP } from "../../interaction/functions/functionMap";

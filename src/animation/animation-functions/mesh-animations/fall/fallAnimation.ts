@@ -1,5 +1,5 @@
 import { Mesh } from "three";
-import { FallParams } from "../../../../types/animation.types";
+import { FallParams } from "../../../animation.types";
 
 const DEFAULT_FALL_PARAMS = {
   bottom: -15,

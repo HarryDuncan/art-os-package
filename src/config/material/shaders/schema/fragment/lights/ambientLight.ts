@@ -1,0 +1,43 @@
+import {
+  SHADER_PROPERTY_VALUE_TYPES,
+  SHADER_PROPERTY_TYPES,
+  SHADER_PROPERTY_TAGS,
+  SHADER_VARIABLE_TYPES,
+} from "../../consts";
+import { ParameterConfig, ShaderTransformationSchema } from "../../types";
+
+export const AMBIENT_LIGHT_PARAMETERS = [
+  {
+    key: "ambientLightColor",
+    valueType: SHADER_PROPERTY_VALUE_TYPES.VEC4,
+    value: [1, 1, 1, 1],
+    isAssetMapped: false,
+    parameterType: SHADER_PROPERTY_TYPES.UNIFORM,
+    tags: [SHADER_PROPERTY_TAGS.COLOR],
+  },
+  {
+    key: "ambientLightIntensity",
+    valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
+    value: 1.0,
+    isAssetMapped: false,
+    parameterType: SHADER_PROPERTY_TYPES.UNIFORM,
+  },
+] as ParameterConfig[];
+
+const AMBIENT_LIGHT_TRANSFORMATION_CONFIG = {
+  id: "ambientLightFunction",
+  transformCode: [
+    `vec3 lightEffect = {{ambientLightColor}}.rgb * {{ambientLightIntensity}};`,
+    `return lightEffect;`,
+  ],
+  returnValue: SHADER_PROPERTY_VALUE_TYPES.VEC3,
+  assignedVariableId: SHADER_VARIABLE_TYPES.LIGHT,
+} as ShaderTransformationSchema;
+
+export const AMBIENT_LIGHT = {
+  functions: [],
+  meshTransformIds: [],
+  parameters: AMBIENT_LIGHT_PARAMETERS,
+  transformationConfig: [AMBIENT_LIGHT_TRANSFORMATION_CONFIG],
+  assignedVariableId: SHADER_VARIABLE_TYPES.LIGHT,
+};

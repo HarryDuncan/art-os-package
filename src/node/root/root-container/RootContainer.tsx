@@ -1,6 +1,6 @@
 import { MutableRefObject } from "react";
 import { VideoBackground } from "../video-background/VideoBackground";
-import { SceneProperties } from "../../../types/config.types";
+import { SceneProperties } from "../../../config/config.types";
 
 interface IRootContainerProps {
   containerRef: MutableRefObject<HTMLDivElement | null>;

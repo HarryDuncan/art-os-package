@@ -1,9 +1,6 @@
-import { MeshObject } from "../../../config/mesh/mesh.types";
+import { MeshObject } from "../../../config/mesh/types";
 import { Object3D } from "three";
-import {
-  AnimationProperties,
-  AnimationType,
-} from "../../../types/animation.types";
+import { AnimationProperties, AnimationType } from "../../animation.types";
 import { performAnimation } from "../performAnimation";
 import { stepAndWrap } from "../../../utils/maths/maths";
 

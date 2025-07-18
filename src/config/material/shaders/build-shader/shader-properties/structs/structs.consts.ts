@@ -1,1 +1,0 @@
-export const STRUCT_DECLARATION = "// STRUCT DECLARATION";

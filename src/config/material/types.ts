@@ -7,7 +7,7 @@ import {
   ShaderEffectConfig,
   ParameterConfig,
   OperatorConfig,
-} from "./shaders/build-shader/buildShader.types";
+} from "./shaders/schema";
 
 export type MaterialType = keyof typeof MATERIAL_TYPES;
 export type EnvMapType = keyof typeof ENV_MAP_TYPES;

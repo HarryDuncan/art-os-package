@@ -1,18 +1,15 @@
-import { Asset } from "../../../types";
 import { Texture, Vector2 } from "three";
+import { Asset } from "../../../assets/types";
+import { MeshTransformConfig, TransformValueConfig } from "../../config.types";
 import {
   ASSET_MAPPING_RELATIONSHIPS,
-  MESH_TRANSFORM_TYPE,
-} from "../../../consts";
-import {
-  MeshTransformConfig,
-  TransformValueConfig,
-} from "../../../types/config.types";
+  MESH_TRANSFORM_TYPES,
+} from "../../material/shaders/schema";
 
 const TRANSFORM_SORTING = [
-  MESH_TRANSFORM_TYPE.SET_UP_QUAD,
-  MESH_TRANSFORM_TYPE.MORPH,
-  MESH_TRANSFORM_TYPE.CUSTOM_ATTRIBUTES,
+  MESH_TRANSFORM_TYPES.SET_UP_QUAD,
+  MESH_TRANSFORM_TYPES.MORPH,
+  MESH_TRANSFORM_TYPES.CUSTOM_ATTRIBUTES,
 ];
 
 export const formatMeshTransforms = (
@@ -21,8 +18,8 @@ export const formatMeshTransforms = (
 ) => {
   // Sort transforms to ensure SET_UP_QUAD is first, then MORPH, then CUSTOM_ATTRIBUTES
   const sortedTransforms = [...meshTransforms].sort((a, b) => {
-    const indexA = TRANSFORM_SORTING.indexOf(a.type);
-    const indexB = TRANSFORM_SORTING.indexOf(b.type);
+    const indexA = TRANSFORM_SORTING.indexOf(a.type as string);
+    const indexB = TRANSFORM_SORTING.indexOf(b.type as string);
     return indexA - indexB;
   });
 

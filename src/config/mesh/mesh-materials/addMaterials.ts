@@ -3,7 +3,7 @@ import {
   FormattedGeometry,
   MeshConfig,
 } from "../../../assets/geometry/geometry.types";
-import { MeshComponentConfig } from "../../../types/config.types";
+import { MeshComponentConfig } from "../../config.types";
 import { DEFAULT_MATERIAL } from "../../../consts/materials/materials.consts";
 
 export const addMaterials = (

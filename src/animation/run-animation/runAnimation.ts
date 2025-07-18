@@ -2,11 +2,11 @@ import {
   AnimatedScene,
   AnimationConfig,
   ShaderAnimationConfig,
-} from "../../types/animation.types";
+} from "../animation.types";
 import { ANIMATION_RUN_STYLES } from "../../consts/animation/animation.constants";
 import { animateAll } from "./run-functions/animateAll";
 import { chainAnimation } from "./run-functions/chainAnimation";
-import { ShaderMeshObject } from "../../config/mesh/mesh.types";
+import { ShaderMeshObject } from "../../config/mesh/types";
 import { runShaderAnimations } from "../animation-functions/shader-animations/runShaderAnimations";
 import { getSceneElementByName } from "../../utils/scene/getSceneElementByName";
 import { runRiggedAnimation } from "../animation-functions/rigged-animation/runRiggedAnimation";

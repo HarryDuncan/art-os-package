@@ -6,7 +6,7 @@ import {
   DEFAULT_PHONG_PROPS,
   MATERIAL_TYPES,
 } from "./materials/materials.consts";
-import { MESH_TYPES } from "../config/mesh/mesh.consts";
+import { MESH_TYPES } from "../config/mesh/consts";
 import { DEFAULT_LIGHTS } from "./lights/lights";
 import {
   BLENDING_DIST,

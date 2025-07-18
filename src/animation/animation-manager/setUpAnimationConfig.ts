@@ -4,7 +4,7 @@ import {
   AnimationConfig,
   AnimationType,
   TraversalAnimationConfig,
-} from "../../types/animation.types";
+} from "../animation.types";
 import { DEFAULT_ANIMATION_DURATION_MILIS } from "../../consts/animation/animation.defaults";
 import { position3dToVector } from "../../utils/conversion/conversion";
 

@@ -20,8 +20,11 @@ export { useKeyListener };
 export { InteractiveScene };
 export { startSceneElementAnimations };
 export { StatusToolbar, useStatusToolbar } from "./components/status-toolbar";
+
 export * from "./thread";
+export * from "./exports/schema";
+export * from "./exports/consts";
+export * from "./exports/types";
 
 export * from "./types";
 export * from "./consts";
-export * from "./consts/animation/animation.constants";

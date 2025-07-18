@@ -1,4 +1,4 @@
-import { SHADER_PROPERTY_VALUE_TYPES } from "../../config/material/shaders/build-shader/constants/shader.consts";
+import { SHADER_PROPERTY_VALUE_TYPES } from "../../config/material/shaders/schema";
 
 export const EVENT_KEYS = {
   SCROLL: "scroll",

@@ -10,7 +10,7 @@ import {
   SpinAnimationConfig,
   TraversalAnimationConfig,
   TrigonometricAnimationConfig,
-} from "../../types/animation.types";
+} from "../animation.types";
 import {
   ANIMATION_TYPES,
   OBJECT_UPDATE_PROPERTY,
@@ -19,7 +19,7 @@ import { traverseThroughtArray } from "../animation-functions/mesh-animations/tr
 import { rotateMeshAlongAxis } from "../animation-functions/rotation/rotateMeshAlongAxis";
 import { updateObject } from "../animation-functions/mesh-animations/update-object/updateObject";
 import { spinMeshAlongAxis } from "../animation-functions/rotation/spinMeshAlongAxis";
-import { MeshObject } from "../../config/mesh/mesh.types";
+import { MeshObject } from "../../config/mesh/types";
 import { updateTimeStamp } from "../animation-functions/mesh-animations/trigonometric/updateTimestampTrigonometric";
 import { easeOut } from "../../utils/maths/maths";
 import { moveObject } from "../animation-functions/mesh-animations/move/moveObject";

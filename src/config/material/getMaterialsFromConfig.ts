@@ -1,4 +1,4 @@
-import { SceneConfig } from "../../types/config.types";
+import { SceneConfig } from "../config.types";
 import { materialConfigToMaterial } from "./materialConfigToMaterial";
 import { Material } from "three";
 import { ASSET_MAPPED_MATERIALS } from "../../consts/materials/materials.consts";

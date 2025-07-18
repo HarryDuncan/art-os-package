@@ -1,0 +1,48 @@
+import { IUniform, Vector2 } from "three";
+import { Asset } from "../../../../assets/types";
+import { mapAssetsToUniforms } from "./mapAssetsToUniform";
+import { SHADER_PROPERTY_TYPES } from "../schema";
+import { ShaderParameterMap, UniformObject } from "../generator/types";
+
+export const formatBuiltShaderUniforms = (
+  parameterMap: ShaderParameterMap,
+  assets: Asset[]
+): { [uniform: string]: IUniform<unknown> } => {
+  const uniformParameters = Array.from(parameterMap.values()).filter(
+    (uniform) => uniform.parameterType === SHADER_PROPERTY_TYPES.UNIFORM
+  );
+  const assetMapping =
+    uniformParameters.flatMap((uniformConfigs) =>
+      uniformConfigs.isAssetMapped && uniformConfigs.assetMappingConfig
+        ? {
+            ...uniformConfigs.assetMappingConfig,
+            uniformId: `${uniformConfigs.key}_${uniformConfigs.guid}`,
+          }
+        : []
+    ) || [];
+
+  const uniforms = uniformParameters.reduce((acc, uniform) => {
+    if (!uniform.guid) {
+      acc[uniform.key] = { value: uniform.value };
+      return acc;
+    }
+    acc[`${uniform.key}_${uniform.guid}`] = { value: uniform.value };
+    return acc;
+  }, {} as UniformObject);
+  uniforms.uTime = { value: 0 };
+  const mappedUniforms = mapAssetsToUniforms(assetMapping, assets, uniforms);
+  const formattedUniforms = formatDefaultShaderValues(mappedUniforms);
+  return formattedUniforms as { [uniform: string]: IUniform<unknown> };
+};
+
+const formatDefaultShaderValues = (uniforms: UniformObject) => {
+  if (uniforms.uResolution) {
+    uniforms.uResolution = {
+      value: new Vector2(window.innerWidth, window.innerHeight).multiplyScalar(
+        window.devicePixelRatio
+      ),
+    };
+  }
+
+  return uniforms;
+};

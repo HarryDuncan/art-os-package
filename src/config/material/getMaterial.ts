@@ -16,7 +16,7 @@ import {
   PhongMaterialProps,
   StandardMaterialProps,
   VideoMaterialProps,
-} from "../../types";
+} from "./types";
 import { setUpEnvMap } from "./env-map/setUpEnvMap";
 
 export const getMaterial = (

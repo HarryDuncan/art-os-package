@@ -1,4 +1,4 @@
-import { TrigFunctionType } from "../../../../types/animation.types";
+import { TrigFunctionType } from "../../../animation.types";
 import { oscillate } from "./oscilate";
 
 export const updateTimeStamp = (

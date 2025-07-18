@@ -1,5 +1,5 @@
 import { InteractiveScene } from "../../components/interactive-scene/InteractiveScene";
-import { AnimatedScene } from "../../types/animation.types";
+import { AnimatedScene } from "../animation.types";
 
 export const startSceneElementAnimations = (scene: InteractiveScene) => {
   const sceneElementAnimationIds =

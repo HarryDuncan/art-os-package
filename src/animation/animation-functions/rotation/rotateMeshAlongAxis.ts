@@ -1,4 +1,4 @@
-import { MeshObject } from "../../../config/mesh/mesh.types";
+import { MeshObject } from "../../../config/mesh/types";
 import { AXIS, Axis } from "../../../types/position.types";
 
 export const rotateMeshAlongAxis = (

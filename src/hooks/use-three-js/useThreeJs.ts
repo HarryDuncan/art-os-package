@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 import { useInitializeNode } from "../use-initialize-node/useInitializeNode";
 import { useWebGLRenderer } from "./renderer/use-webgl-renderer/useWebGLRenderer";
 import { useOrbitControls } from "./use-orbit-controls/useOrbitControls";
-import { ThreeJsParams } from "../../types/config.types";
+import { ThreeJsParams } from "../../config/config.types";
 import { useProcessStatus } from "../useProcessStatus";
 import { PROCESS_STATUS } from "../../consts/consts";
 import { useSceneContext } from "../../context/context";

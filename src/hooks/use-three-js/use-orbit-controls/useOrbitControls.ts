@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { Camera, MOUSE, WebGLRenderer } from "three";
-import { ControlConfig } from "../../../types/config.types";
+import { ControlConfig } from "../../../config/config.types";
 
 export const useOrbitControls = (
   camera: Camera,
