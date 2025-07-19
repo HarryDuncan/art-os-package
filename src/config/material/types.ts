@@ -1,13 +1,11 @@
 import { Material, Texture } from "three";
-import {
-  ENV_MAP_TYPES,
-  MATERIAL_TYPES,
-} from "../../consts/materials/materials.consts";
+
 import {
   ShaderEffectConfig,
   ParameterConfig,
   OperatorConfig,
 } from "./shaders/schema";
+import { ENV_MAP_TYPES, MATERIAL_TYPES } from "./schema";
 
 export type MaterialType = keyof typeof MATERIAL_TYPES;
 export type EnvMapType = keyof typeof ENV_MAP_TYPES;
@@ -86,5 +84,3 @@ export type AssetToUniformMappingConfig = {
   assetId: string;
   relationship: string;
 };
-
-export type { BlendingConfig } from "./blending-options/blendingOptions.types";

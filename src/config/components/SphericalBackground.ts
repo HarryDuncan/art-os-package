@@ -1,14 +1,22 @@
-import { Material, Mesh, SphereGeometry, Vector3 } from "three";
+import {
+  Material,
+  Mesh,
+  MeshPhongMaterial,
+  SphereGeometry,
+  Vector3,
+} from "three";
 import { SphericalBackgroundProps } from "./threeJsComponents.types";
 import { DEFAULT_ROTATION } from "../../utils/three-dimension-space/threeDSpace.constants";
-import { DEFAULT_MATERIAL } from "../../consts";
 
 export const SphericalBackground = ({
   id,
   position,
   radius,
   rotation = DEFAULT_ROTATION,
-  material = DEFAULT_MATERIAL,
+  material = new MeshPhongMaterial({
+    specular: 0x111111,
+    shininess: 250,
+  }),
 }: SphericalBackgroundProps & { id: string }) => {
   const sphereGeometry = new SphereGeometry(radius, 32, 16);
   const sphere = new Mesh(sphereGeometry, material);

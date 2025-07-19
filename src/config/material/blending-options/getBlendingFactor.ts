@@ -11,7 +11,7 @@ import {
   SrcColorFactor,
   ZeroFactor,
 } from "three";
-import { BLENDING_DIST, BLENDING_SRC } from "./blendingOptions.consts";
+import { BLENDING_DIST, BLENDING_SRC } from "../schema";
 
 export const getBlendingFactor = (blendMode: string) => {
   switch (blendMode) {

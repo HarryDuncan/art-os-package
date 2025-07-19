@@ -7,7 +7,7 @@ import {
   MeshStandardMaterial,
   VideoTexture,
 } from "three";
-import { MATERIAL_TYPES } from "../../consts/materials/materials.consts";
+import { MATERIAL_TYPES } from "./schema/consts";
 import {
   EnvMapMaterialProps,
   MatcapMaterialProps,

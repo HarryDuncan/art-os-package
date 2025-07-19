@@ -1,7 +1,7 @@
 import { SceneConfig } from "../config.types";
 import { materialConfigToMaterial } from "./materialConfigToMaterial";
 import { Material } from "three";
-import { ASSET_MAPPED_MATERIALS } from "../../consts/materials/materials.consts";
+import { ASSET_MAPPED_MATERIALS } from "./schema/consts";
 
 export const getMaterialsFromConfig = (config: SceneConfig): Material[] => {
   const { sceneMaterialConfigs } = config;

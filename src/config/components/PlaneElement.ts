@@ -1,12 +1,14 @@
-import { Mesh, PlaneGeometry } from "three";
+import { Mesh, MeshPhongMaterial, PlaneGeometry } from "three";
 import { PlaneProps } from "./threeJsComponents.types";
-import { DEFAULT_MATERIAL } from "../../consts";
 
 export const PlaneElement = ({
   id,
   size,
   position,
-  material = DEFAULT_MATERIAL,
+  material = new MeshPhongMaterial({
+    specular: 0x111111,
+    shininess: 250,
+  }),
 }: PlaneProps & { id: string }) => {
   const planeGeometry = new PlaneGeometry(size?.x ?? 100, size?.y ?? 60);
   const plane = new Mesh(planeGeometry, material);

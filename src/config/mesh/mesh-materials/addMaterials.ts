@@ -1,10 +1,9 @@
-import { Material } from "three";
+import { Material, MeshPhongMaterial } from "three";
 import {
   FormattedGeometry,
   MeshConfig,
 } from "../../../assets/geometry/geometry.types";
 import { MeshComponentConfig } from "../../config.types";
-import { DEFAULT_MATERIAL } from "../../../consts/materials/materials.consts";
 
 export const addMaterials = (
   formattedGeometries: FormattedGeometry[],
@@ -44,8 +43,14 @@ const setUpMaterial = (
       return selectedMaterial;
     }
     console.warn(`Could not assign ${materialId} material to mesh:${guid}`);
-    return DEFAULT_MATERIAL;
+    return new MeshPhongMaterial({
+      specular: 0x111111,
+      shininess: 250,
+    });
   }
   console.warn(`Could not assign ${materialId} material to mesh:${guid}`);
-  return DEFAULT_MATERIAL;
+  return new MeshPhongMaterial({
+    specular: 0x111111,
+    shininess: 250,
+  });
 };

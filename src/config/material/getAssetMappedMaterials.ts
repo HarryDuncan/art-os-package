@@ -1,6 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-// @ts-nocheck
-
 import { Material, Texture } from "three";
 import {
   EnvMapMaterialProps,
@@ -8,12 +5,9 @@ import {
   MaterialConfig,
   MaterialType,
   VideoMaterialProps,
-} from "../../types";
-import { Asset } from "../../types";
-import {
-  ASSET_MAPPED_MATERIALS,
-  MATERIAL_TYPES,
-} from "../../consts/materials/materials.consts";
+} from "./types";
+import { Asset } from "../../assets/types";
+import { ASSET_MAPPED_MATERIALS, MATERIAL_TYPES } from "./schema/consts";
 import { getMaterial } from "./getMaterial";
 
 export const getAssetMappedMaterials = (
@@ -26,13 +20,13 @@ export const getAssetMappedMaterials = (
     }
 
     const mappedAsset = assets.find(
-      (asset) => asset.id === configItem.materialProps.assetId
+      (asset) => asset.guid === configItem.materialProps.assetId
     );
 
     if (mappedAsset) {
       const material = formatMaterial(configItem, mappedAsset);
       if (material) {
-        material.name = configItem.id;
+        material.name = configItem.guid;
         return material;
       }
       return [];
@@ -81,7 +75,7 @@ const getEnvMapMaterial = (
   materialProps: EnvMapMaterialProps,
   asset: Asset
 ): Material => {
-  materialProps.imageUrl = asset.path;
+  materialProps.imageUrl = asset.path ?? "";
   return getMaterial(
     MATERIAL_TYPES.ENV_MAP as MaterialType,
     materialProps
@@ -92,7 +86,7 @@ const getVideoMaterial = (
   materialProps: VideoMaterialProps,
   asset: Asset
 ): Material => {
-  materialProps.videoId = asset.id;
+  materialProps.videoId = asset.guid;
   return getMaterial(
     MATERIAL_TYPES.VIDEO as MaterialType,
     materialProps

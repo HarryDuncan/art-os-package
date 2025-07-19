@@ -1,12 +1,14 @@
-import { BoxGeometry, Mesh } from "three";
+import { BoxGeometry, Mesh, MeshPhongMaterial } from "three";
 import { CubeProps } from "./threeJsComponents.types";
-import { DEFAULT_MATERIAL } from "../../consts";
 
 export const Cube = ({
   id,
   size,
   position,
-  material = DEFAULT_MATERIAL,
+  material = new MeshPhongMaterial({
+    specular: 0x111111,
+    shininess: 250,
+  }),
 }: CubeProps & { id: string }) => {
   const cubeGeometry = new BoxGeometry(
     size?.x ?? 40,

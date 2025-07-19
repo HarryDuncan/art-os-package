@@ -1,4 +1,4 @@
-import { MATERIAL_TYPES } from "../consts";
+import { MATERIAL_TYPES } from "../config/material/schema/consts";
 import { AnimationClip, BufferGeometry, Group, Object3D, Texture } from "three";
 import { GLTF } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { BoundingBox } from "../types/position.types";

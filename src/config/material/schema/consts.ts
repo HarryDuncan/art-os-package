@@ -1,5 +1,3 @@
-import { MeshPhongMaterial } from "three";
-
 export const MATERIAL_TYPES = {
   BUILT_SHADER: "BUILT_SHADER",
   MATCAP: "MATCAP",
@@ -21,11 +19,6 @@ export const ENV_MAP_TYPES = {
 };
 
 // DEFAULTS
-
-export const DEFAULT_MATERIAL = new MeshPhongMaterial({
-  specular: 0x111111,
-  shininess: 250,
-});
 
 export const DEFAULT_PHONG_PROPS = {
   color: "#111111",

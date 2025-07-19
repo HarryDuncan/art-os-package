@@ -3,7 +3,7 @@ import { SceneConfig } from "../../config.types";
 import { DoubleSide, ShaderMaterial } from "three";
 import { formatBuiltShaderUniforms } from "./post-format/formatBuiltShaderUniforms";
 import { configureBlendingOptions } from "../blending-options/configureBlendingOptions";
-import { MATERIAL_TYPES } from "../../../consts/materials/materials.consts";
+import { MATERIAL_TYPES } from "../schema/consts";
 import { preformat } from "./preformat/preformat";
 import { generateShaders } from "./generator/generateShaders";
 

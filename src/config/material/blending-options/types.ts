@@ -1,8 +1,4 @@
-import {
-  BLENDING_DIST,
-  BLENDING_SRC,
-  BLENDING_TYPES,
-} from "./blendingOptions.consts";
+import { BLENDING_DIST, BLENDING_SRC, BLENDING_TYPES } from "../schema";
 
 export type BlendingType = keyof typeof BLENDING_TYPES;
 export type BlendingSrc = keyof typeof BLENDING_SRC;

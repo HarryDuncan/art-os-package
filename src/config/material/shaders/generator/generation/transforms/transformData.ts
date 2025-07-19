@@ -1,8 +1,4 @@
-import {
-  getEffectSchema,
-  getSchema,
-  ShaderEffectConfig,
-} from "../../../schema";
+import { getEffectSchema, ShaderEffectConfig } from "../../../schema";
 import {
   ADVANCED_SHADER_VARIABLE_EFFECT_CODE,
   FUNCTION_TYPES,

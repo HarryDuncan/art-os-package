@@ -1,5 +1,5 @@
-import { BlendingConfig } from "./blendingOptions.types";
-import { DEFAULT_BLENDING_OPTIONS } from "./blendingOptions.consts";
+import { BlendingConfig } from "./types";
+import { DEFAULT_BLENDING } from "../schema";
 import { getBlendingDstFactor, getBlendingFactor } from "./getBlendingFactor";
 
 export const configureBlendingOptions = (
@@ -21,5 +21,5 @@ export const configureBlendingOptions = (
 const formatBlendingConfig = (
   parsedBlendingConfig: Partial<BlendingConfig>
 ) => {
-  return { ...DEFAULT_BLENDING_OPTIONS, ...parsedBlendingConfig };
+  return { ...DEFAULT_BLENDING, ...parsedBlendingConfig };
 };
