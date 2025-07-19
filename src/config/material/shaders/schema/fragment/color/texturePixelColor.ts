@@ -40,6 +40,6 @@ export const TEXTURE_PIXEL_COLOR = {
   functions: [],
   parameters: TEXTURE_PIXEL_COLOR_PARAMETERS,
   meshTransformIds: [],
-  transformationConfig: [TEXTURE_PIXEL_COLOR_TRANSFORMATION_CONFIG],
+  transformSchema: [TEXTURE_PIXEL_COLOR_TRANSFORMATION_CONFIG],
   assignedVariableId: SHADER_VARIABLE_TYPES.FRAGMENT_COLOR,
 };

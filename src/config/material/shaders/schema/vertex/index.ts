@@ -4,6 +4,7 @@ import { PLANE_FROM_DIMENSION_EFFECT_CONFIG } from "./points/planeFromDimension"
 import { PLANE_FROM_IMAGE_EFFECT_CONFIG } from "./points/planeFromImage";
 import { POINT_SIZE_FROM_TEXTURE } from "./points/pointsizeFromTexture";
 import { ROTATION_EFFECT_CONFIG } from "./rotation";
+import { SHADER_VARIABLE_TYPES } from "../consts";
 
 export const VERTEX_EFFECTS = {
   NONE: "NONE",
@@ -15,6 +16,13 @@ export const VERTEX_EFFECTS = {
   PLANE_FROM_DIMENSION: "PLANE_FROM_DIMENSION",
 };
 
+const DEFAULT_VERTEX_EFFECT = {
+  functions: [],
+  meshTransformIds: [],
+  parameters: [],
+  transformSchema: [],
+  assignedVariableId: SHADER_VARIABLE_TYPES.VERTEX_POINT,
+};
 export const VERTEX_EFFECT_SCHEMA_MAP = {
   [VERTEX_EFFECTS.POINT_SIZE]: POINT_SIZE,
   [VERTEX_EFFECTS.POINT_SIZE_FROM_TEXTURE]: POINT_SIZE_FROM_TEXTURE,
@@ -22,4 +30,5 @@ export const VERTEX_EFFECT_SCHEMA_MAP = {
   [VERTEX_EFFECTS.ROTATION]: ROTATION_EFFECT_CONFIG,
   [VERTEX_EFFECTS.PLANE_FROM_IMAGE]: PLANE_FROM_IMAGE_EFFECT_CONFIG,
   [VERTEX_EFFECTS.PLANE_FROM_DIMENSION]: PLANE_FROM_DIMENSION_EFFECT_CONFIG,
+  DEFAULT: DEFAULT_VERTEX_EFFECT,
 };

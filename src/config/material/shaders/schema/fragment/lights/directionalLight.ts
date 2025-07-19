@@ -62,6 +62,6 @@ export const DIRECTIONAL_LIGHT = {
   functions: [],
   meshTransformIds: [],
   parameters: DIRECTIONAL_LIGHT_PARAMETERS,
-  transformationConfig: [DIRECTIONAL_LIGHT_TRANSFORMATION_CONFIG],
+  transformSchema: [DIRECTIONAL_LIGHT_TRANSFORMATION_CONFIG],
   assignedVariableId: SHADER_VARIABLE_TYPES.LIGHT,
 };

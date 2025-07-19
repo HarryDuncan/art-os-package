@@ -6,6 +6,7 @@ import {
   VARYING_TYPES,
 } from "./consts";
 import { FRAGMENT_EFFECTS } from "./fragment";
+import { MESH_TRANSFORM_TYPES } from "./mesh-transforms";
 import { VERTEX_EFFECTS } from "./vertex";
 
 export type OutputInputMapping = {
@@ -113,6 +114,15 @@ export type ShaderEffectSchema = {
   functions: unknown[];
   meshTransformIds: string[];
   parameters: ParameterConfig[];
-  transformationConfig: ShaderTransformationSchema[];
+  transformSchema: ShaderTransformationSchema[];
   assignedVariableId: keyof typeof SHADER_VARIABLE_TYPES | string;
+};
+
+export type MeshTransformSchema = {
+  key: string;
+  guid: string;
+  type: keyof typeof MESH_TRANSFORM_TYPES;
+  parameters: ParameterConfig[];
+  transformedMeshIds: string[];
+  materialId: string;
 };

@@ -15,6 +15,9 @@ export const getSchema = (schemaType: string, schemaKey?: string) => {
       return getVertexSchema(schemaKey);
     case SHADER_SCHEMA_TYPES.FRAGMENT:
       return getFragmentSchema(schemaKey);
+    case SHADER_SCHEMA_TYPES.MESH_TRANSFORM:
+      return getMeshTransformSchema(schemaKey);
+
     //    case SHADER_SCHEMA_TYPES.VERTEX:
     //     return getVertexSchema(schemaId);
     //    case SHADER_SCHEMA_TYPES.FRAGMENT:
@@ -51,8 +54,9 @@ export const getEffectSchema = (effectType: string, schemaKey?: string) => {
     : getFragmentSchema(schemaKey);
 };
 
-export const getMeshTransformSchema = (transformId?: string) => {
+export const getMeshTransformSchema = (transformKey?: string) => {
   const transformSchema =
-    MESH_TRANSFORM_SCHEMA[transformId || "DEFAULT"] || null;
+    MESH_TRANSFORM_SCHEMA[transformKey as keyof typeof MESH_TRANSFORM_SCHEMA] ||
+    null;
   return transformSchema;
 };

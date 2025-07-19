@@ -22,7 +22,7 @@ export const QUAD_MESH_TRANSFORM = {
   type: MESH_TRANSFORM_TYPES.SET_UP_QUAD,
   transformedMeshIds: [],
   materialId: "",
-  transformParameterConfigs: [QUAD_DIMENSION, POINT_OFFSET],
+  parameters: [QUAD_DIMENSION, POINT_OFFSET],
 };
 
 export const QUAD_DIMENSION_CONSTANT = {
@@ -38,10 +38,10 @@ export const PLANE_MESH_TRANSFORM = {
   type: MESH_TRANSFORM_TYPES.SET_UP_PLANE,
   transformedMeshIds: [],
   materialId: "",
-  transformParameterConfigs: [QUAD_DIMENSION, POINT_OFFSET],
+  parameters: [QUAD_DIMENSION, POINT_OFFSET],
 };
 
 export const MESH_TRANSFORM_SCHEMA = {
-  [MESH_TRANSFORM_TYPES.SET_UP_QUAD]: QUAD_MESH_TRANSFORM,
-  [MESH_TRANSFORM_TYPES.SET_UP_PLANE]: PLANE_MESH_TRANSFORM,
+  [QUAD_MESH_TRANSFORM_ID]: QUAD_MESH_TRANSFORM,
+  [PLANE_MESH_TRANSFORM_ID]: PLANE_MESH_TRANSFORM,
 };

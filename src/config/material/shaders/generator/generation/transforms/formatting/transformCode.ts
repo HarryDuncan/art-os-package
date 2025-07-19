@@ -3,16 +3,16 @@ import { ShaderParameterMap, ShaderTransformationConfig } from "../../../types";
 import { getFunctionInputs } from "../../helpers/parameterMap";
 
 const formatNestedFunction = (
-  transformationConfig: ShaderTransformationConfig,
+  transformSchema: ShaderTransformationConfig,
   shaderEffectId: string
 ) => {
   const functionInputs = getFunctionInputs(
-    transformationConfig.inputMap,
+    transformSchema.inputMap,
     shaderEffectId,
     false
   );
 
-  return `${transformationConfig.functionName}(${functionInputs.join(",")});`;
+  return `${transformSchema.functionName}(${functionInputs.join(",")});`;
 };
 
 export const formatTransformCode = (

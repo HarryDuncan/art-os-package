@@ -85,6 +85,6 @@ export const POINT_LIGHT = {
   functions: [],
   meshTransformIds: [],
   parameters: POINT_LIGHT_PARAMETERS,
-  transformationConfig: [POINT_LIGHT_TRANSFORMATION_CONFIG],
+  transformSchema: [POINT_LIGHT_TRANSFORMATION_CONFIG],
   assignedVariableId: SHADER_VARIABLE_TYPES.LIGHT,
 };

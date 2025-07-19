@@ -52,7 +52,7 @@ export type ShaderEffectSchema = {
   functions: ShaderFunction[];
   meshTransformConfig: MeshTransformConfig[];
   parameters: ParameterConfig[];
-  transformationConfig: ShaderTransformationSchema[];
+  transformSchema: ShaderTransformationSchema[];
 };
 export type TransformData = {
   transformation: string;

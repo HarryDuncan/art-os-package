@@ -67,6 +67,6 @@ export const TEXTURED_POINT = {
   functions: [],
   meshTransformIds: [],
   parameters: TEXTURED_POINT_PARAMETERS,
-  transformationConfig: pointMaterialTransformConfig,
+  transformSchema: pointMaterialTransformConfig,
   assignedVariableId: SHADER_VARIABLE_TYPES.FRAGMENT_COLOR,
 };

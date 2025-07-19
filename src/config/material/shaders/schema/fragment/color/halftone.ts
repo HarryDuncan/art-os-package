@@ -63,6 +63,6 @@ export const HALFTONE = {
   functions: [],
   meshTransformIds: [],
   parameters: HALFTONE_PARAMETERS,
-  transformationConfig: [HALFTONE_TRANSFORMATION_CONFIG],
+  transformSchema: [HALFTONE_TRANSFORMATION_CONFIG],
   assignedVariableId: SHADER_VARIABLE_TYPES.FRAGMENT_COLOR,
 };

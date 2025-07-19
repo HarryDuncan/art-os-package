@@ -38,6 +38,6 @@ export const AMBIENT_LIGHT = {
   functions: [],
   meshTransformIds: [],
   parameters: AMBIENT_LIGHT_PARAMETERS,
-  transformationConfig: [AMBIENT_LIGHT_TRANSFORMATION_CONFIG],
+  transformSchema: [AMBIENT_LIGHT_TRANSFORMATION_CONFIG],
   assignedVariableId: SHADER_VARIABLE_TYPES.LIGHT,
 };

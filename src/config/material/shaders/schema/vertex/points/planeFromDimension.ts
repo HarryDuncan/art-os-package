@@ -19,7 +19,7 @@ export const PLANE_FROM_DIMENSION_EFFECT_CONFIG = {
   functions: [],
   meshTransformIds: [MESH_TRANSFORM_IDS.PLANE],
   parameters: PLANE_FROM_IMAGE_PARAMETERS,
-  transformationConfig: [
+  transformSchema: [
     {
       id: "pointPlane",
       transformCode: [

@@ -20,6 +20,6 @@ export const DEFAULT_COLOR = {
   functions: [],
   meshTransformIds: [],
   parameters: [COLOR],
-  transformationConfig: [COLOR_TRANSFORMATION_CONFIG],
+  transformSchema: [COLOR_TRANSFORMATION_CONFIG],
   assignedVariableId: SHADER_VARIABLE_TYPES.FRAGMENT_COLOR,
 };
