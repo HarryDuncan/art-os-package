@@ -39,7 +39,7 @@ const nestSubEffects = <T extends ShaderEffectConfig>(
 
 const DEFAULT_EFFECT_FUNCTION_CONFIG = {
   id: "DEFAULT_EFFECT_FUNCTION",
-  functionId: OPERATOR_TYPES.DEFAULT,
+  schemaId: OPERATOR_TYPES.DEFAULT,
   effects: [],
   outputMapping: {},
   inputMapping: {},
@@ -157,7 +157,7 @@ export const formatShaderEffects = (
         // Return default effect function
         const defaultEffectFunction = {
           guid: effect.guid,
-          functionId: OPERATOR_TYPES.DEFAULT,
+          schemaId: OPERATOR_TYPES.DEFAULT,
           effects: [effect],
           outputMapping: {},
           inputMapping: {},

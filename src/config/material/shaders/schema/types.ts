@@ -5,9 +5,7 @@ import {
   SHADER_VARIABLE_TYPES,
   VARYING_TYPES,
 } from "./consts";
-import { FRAGMENT_EFFECTS } from "./fragment";
 import { MESH_TRANSFORM_TYPES } from "./mesh-transforms";
-import { VERTEX_EFFECTS } from "./vertex";
 
 export type OutputInputMapping = {
   itemId: string;
@@ -16,7 +14,7 @@ export type OutputInputMapping = {
 };
 
 export type ParameterFunctionConfig = {
-  functionId: string;
+  schemaId: string;
   outputValueType: keyof typeof SHADER_PROPERTY_VALUE_TYPES;
   inputMapping: Record<string, OutputInputMapping>;
 };
@@ -65,6 +63,7 @@ export type ParameterConfig = {
 export interface EffectConfig {
   guid: string;
   name?: string;
+  schemaId: string;
   effectParameters: ParameterConfig[];
   shaderType: string;
   subEffectIds?: string[];
@@ -74,12 +73,10 @@ export interface EffectConfig {
 
 export type VertexEffectConfig = EffectConfig & {
   applyToNormal?: boolean;
-  effectType: keyof typeof VERTEX_EFFECTS;
   subEffects?: VertexEffectConfig[];
 };
 
 export type FragmentEffectConfig = EffectConfig & {
-  effectType: keyof typeof FRAGMENT_EFFECTS;
   subEffects?: FragmentEffectConfig[];
 };
 
@@ -94,7 +91,7 @@ export type EffectFunctionValueConfig = SplitValueEditorConfig | null;
 
 export type OperatorConfig = {
   guid: string;
-  functionId: string;
+  schemaId: string;
   value?: EffectFunctionValueConfig;
   outputMapping: Record<string, OutputInputMapping>;
   inputMapping: Record<string, OutputInputMapping>;

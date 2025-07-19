@@ -9,9 +9,9 @@ export const applyEffectWrapper = (
   effectTransforms: (TransformData & { id: string })[],
   parameterMap: ShaderParameterMap
 ): TransformData | null => {
-  const { functionId } = effectFunctionConfig;
+  const { schemaId } = effectFunctionConfig;
 
-  switch (functionId) {
+  switch (schemaId) {
     case OPERATOR_TYPES.DEFAULT:
       return effectTransforms[0];
     case OPERATOR_TYPES.SPLIT_VALUE:

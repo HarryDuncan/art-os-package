@@ -7,6 +7,8 @@ import {
 
 export const IS_POSITION_AFFECTED = {
   id: "isPositionAffected",
+  name: "Is Position Affected",
+  description: "Check if a position is affected by an interactive source",
   transformCode: [
     `vec2 effectDistanceVector =  vec2({{pointPosition}}.xy) - vec2({{affectedPosition}}.xy);`,
     `float effectDistanceLength = length(effectDistanceVector);`,

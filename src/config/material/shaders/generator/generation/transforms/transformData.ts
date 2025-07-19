@@ -19,8 +19,8 @@ export const generateShaderTransformData = (
   parameterMap: ShaderParameterMap,
   isSubEffect: boolean = false
 ): TransformData | null => {
-  const { effectType } = effect;
-  const effectSchema = getEffectSchema(effect.shaderType, effectType);
+  const { schemaId } = effect;
+  const effectSchema = getEffectSchema(effect.shaderType, schemaId);
   if (effectSchema) {
     const { transformSchema, assignedVariableId, functions } = effectSchema;
 

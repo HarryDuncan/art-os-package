@@ -1,22 +1,23 @@
 import { SHADER_SCHEMA_TYPES, SHADER_TYPES } from "./consts";
-import { FRAGMENT_EFFECT_SCHEMA_MAP } from "./fragment";
-import { FUNCTIONS_SCHEMA_MAP } from "./functions";
+import { FRAGMENT_SCHEMA_MAP } from "./fragment";
+import { FUNCTION_SCHEMA_MAP } from "./functions";
 import { OPERATOR_SCHEMA_MAP } from "./operators";
-import { VERTEX_EFFECT_SCHEMA_MAP } from "./vertex";
+import { VERTEX_SCHEMA_MAP } from "./vertex";
 import { MESH_TRANSFORM_SCHEMA } from "./mesh-transforms";
+import { VERTEX_POINT, TIME } from "./parameters";
 
-export const getSchema = (schemaType: string, schemaKey?: string) => {
+export const getSchema = (schemaType: string, schemaId?: string) => {
   switch (schemaType) {
     case SHADER_SCHEMA_TYPES.OPERATOR:
-      return getOperatorSchema(schemaKey);
+      return getOperatorSchema(schemaId);
     case SHADER_SCHEMA_TYPES.FUNCTION:
-      return getFunctionSchema(schemaKey);
+      return getFunctionSchema(schemaId);
     case SHADER_SCHEMA_TYPES.VERTEX:
-      return getVertexSchema(schemaKey);
+      return getVertexSchema(schemaId);
     case SHADER_SCHEMA_TYPES.FRAGMENT:
-      return getFragmentSchema(schemaKey);
+      return getFragmentSchema(schemaId);
     case SHADER_SCHEMA_TYPES.MESH_TRANSFORM:
-      return getMeshTransformSchema(schemaKey);
+      return getMeshTransformSchema(schemaId);
 
     //    case SHADER_SCHEMA_TYPES.VERTEX:
     //     return getVertexSchema(schemaId);
@@ -27,31 +28,30 @@ export const getSchema = (schemaType: string, schemaKey?: string) => {
   }
 };
 
-export const getOperatorSchema = (operatorId?: string) => {
-  const operatorSchema = OPERATOR_SCHEMA_MAP[operatorId || "DEFAULT"] || null;
+export const getOperatorSchema = (schemaId?: string) => {
+  const operatorSchema = OPERATOR_SCHEMA_MAP[schemaId || "DEFAULT"] || null;
   return operatorSchema;
 };
 
-export const getFunctionSchema = (functionId?: string) => {
-  const functionSchema = FUNCTIONS_SCHEMA_MAP[functionId || "DEFAULT"] || null;
+export const getFunctionSchema = (schemaId?: string) => {
+  const functionSchema = FUNCTION_SCHEMA_MAP[schemaId || "DEFAULT"] || null;
   return functionSchema;
 };
 
-export const getVertexSchema = (schemaKey?: string) => {
-  const vertexSchema = VERTEX_EFFECT_SCHEMA_MAP[schemaKey || "DEFAULT"] || null;
+export const getVertexSchema = (schemaId?: string) => {
+  const vertexSchema = VERTEX_SCHEMA_MAP[schemaId || "DEFAULT"] || null;
   return vertexSchema;
 };
 
-export const getFragmentSchema = (schemaKey?: string) => {
-  const fragmentSchema =
-    FRAGMENT_EFFECT_SCHEMA_MAP[schemaKey || "DEFAULT"] || null;
+export const getFragmentSchema = (schemaId?: string) => {
+  const fragmentSchema = FRAGMENT_SCHEMA_MAP[schemaId || "DEFAULT"] || null;
   return fragmentSchema;
 };
 
-export const getEffectSchema = (effectType: string, schemaKey?: string) => {
+export const getEffectSchema = (effectType: string, schemaId?: string) => {
   return effectType === SHADER_TYPES.VERTEX
-    ? getVertexSchema(schemaKey)
-    : getFragmentSchema(schemaKey);
+    ? getVertexSchema(schemaId)
+    : getFragmentSchema(schemaId);
 };
 
 export const getMeshTransformSchema = (transformKey?: string) => {
@@ -59,4 +59,19 @@ export const getMeshTransformSchema = (transformKey?: string) => {
     MESH_TRANSFORM_SCHEMA[transformKey as keyof typeof MESH_TRANSFORM_SCHEMA] ||
     null;
   return transformSchema;
+};
+
+export const getDefaultSchemaParameters = (schemaType: string) => {
+  switch (schemaType) {
+    // case SHADER_SCHEMA_TYPES.OPERATOR:
+    //   return getOperatorSchema();
+    // case SHADER_SCHEMA_TYPES.FUNCTION:
+    //   return getFunctionSchema();
+    case SHADER_SCHEMA_TYPES.VERTEX:
+      return [TIME, VERTEX_POINT];
+    case SHADER_SCHEMA_TYPES.FRAGMENT:
+      return [TIME];
+    default:
+      return [];
+  }
 };

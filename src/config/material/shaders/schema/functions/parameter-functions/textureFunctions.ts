@@ -7,6 +7,8 @@ import {
 
 export const GET_TEXTURE_POINT_COLOR = {
   id: "getTexturePointColor",
+  name: "Get Texture Point Color",
+  description: "Get the color of a texture at a point",
   transformCode: [
     `vec2 puv = {{pointPosition}}.xy / {{textureSize}};`,
     `vec4 color = texture2D({{convertedTexture}}, puv);`,
