@@ -1,24 +1,26 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-// @ts-nocheck
 import { useEffect, useRef } from "react";
 import { useInitializeNode } from "../use-initialize-node/useInitializeNode";
 import { useWebGLRenderer } from "./renderer/use-webgl-renderer/useWebGLRenderer";
 import { useOrbitControls } from "./use-orbit-controls/useOrbitControls";
-import { ThreeJsParams } from "../../config/config.types";
+import { ControlConfig } from "../../config/config.types";
 import { useProcessStatus } from "../useProcessStatus";
 import { PROCESS_STATUS } from "../../consts/consts";
 import { useSceneContext } from "../../context/context";
+import { Camera } from "three";
 
-export const useThreeJs = (threeJsParams: ThreeJsParams) => {
+export const useThreeJs = (controlConfig: Partial<ControlConfig>) => {
   const { status, setStatus } = useProcessStatus();
   const { camera } = useSceneContext();
-  const { controls } = threeJsParams;
   const container = useRef<HTMLDivElement | null>(null);
   const currentFrameRef = useRef<number>(0);
-  const renderer = useWebGLRenderer(threeJsParams.renderer);
+  const renderer = useWebGLRenderer();
   // const cssRenderer = useCssRenderer(threeJsParams.renderer);
   useInitializeNode(container, renderer);
-  const orbitControls = useOrbitControls(camera, renderer, controls);
+  const orbitControls = useOrbitControls(
+    camera as Camera,
+    renderer,
+    controlConfig
+  );
 
   useEffect(() => {
     if (
@@ -28,6 +30,7 @@ export const useThreeJs = (threeJsParams: ThreeJsParams) => {
       orbitControls &&
       container.current
     ) {
+      // @ts-expect-error - setDomElement is a method of WebGLRenderer
       renderer.setDomElement(container.current);
       setStatus(PROCESS_STATUS.INITIALIZING_SCENE);
     }

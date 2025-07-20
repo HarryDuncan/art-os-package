@@ -1,17 +1,18 @@
 import { useCallback, useEffect, useState } from "react";
 import { Camera, MOUSE, WebGLRenderer } from "three";
 import { ControlConfig } from "../../../config/config.types";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 
 export const useOrbitControls = (
   camera: Camera,
   renderer: WebGLRenderer,
   config?: Partial<ControlConfig>
 ) => {
-  const [orbitControls, setOrbitControls] = useState<any | null>(null);
-  const loadOrbitControls = useCallback(async () => {
-    const { OrbitControls } = await import(
-      "three/examples/jsm/controls/OrbitControls.js"
-    );
+  const [orbitControls, setOrbitControls] = useState<OrbitControls | null>(
+    null
+  );
+  const loadOrbitControls = useCallback(() => {
+    if (!camera) return;
 
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;

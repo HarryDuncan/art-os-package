@@ -27,23 +27,24 @@ const getFunctionDependencies = (
   transformCode: string[],
   shaderParameterMap: ShaderParameterMap
 ) => {
-  const transformIds = transformConfigs.map(({ id }) => id);
+  const transformKeys = transformConfigs.map(({ key }) => key);
   const functionDependencies = transformCode.flatMap((line) => {
     const variables = line
       .match(/{{(\w+)}}/g)
       ?.map((match) => match.replace(/[{}]/g, ""));
     if (
       variables &&
-      variables.some((variable) => transformIds.includes(variable))
+      variables.some((variable) => transformKeys.includes(variable))
     ) {
-      return variables.filter((variable) => transformIds.includes(variable));
+      return variables.filter((variable) => transformKeys.includes(variable));
     }
     return [];
   });
+
   const allParameters = Array.from(shaderParameterMap.values());
   const parameterIds: string[] = [];
-  functionDependencies.forEach((depId) => {
-    const dependentFunction = transformConfigs.find((f) => f.id === depId);
+  functionDependencies.forEach((depKey) => {
+    const dependentFunction = transformConfigs.find((f) => f.key === depKey);
     if (!dependentFunction) return [];
     dependentFunction.transformCode.forEach((line) => {
       const variables = line
@@ -134,7 +135,7 @@ export const transformationConfigFromFunctionParameter = (
   });
 
   return {
-    id: schemaId,
+    key: schemaId,
     transformCode: functionCode,
     functionType: FUNCTION_TYPES.STATIC,
     functionName: schemaId,
@@ -154,7 +155,7 @@ export const setupShaderTransformationConfigs = (
   parameters: ShaderParameterMap
 ): ShaderTransformationConfig[] => {
   const formattedTransformConfigs = transformConfigs.map((config) => {
-    const { id, transformCode, assignedVariableId } = config;
+    const { key, transformCode, assignedVariableId } = config;
 
     const shaderFunctionType = getShaderFunctionType(
       assignedVariableId,
@@ -181,7 +182,6 @@ export const setupShaderTransformationConfigs = (
 
     // Get default ids first, then the rest, both sorted alphabetically
     const sortedInputIds = sortInputIds([...inputIds, ...functionDependencies]);
-
     const inputMap = getShaderInputMap(
       parameters,
       sortedInputIds,
@@ -192,7 +192,7 @@ export const setupShaderTransformationConfigs = (
       ...config,
       transformCode: updatedTransformCode,
       functionType: shaderFunctionType,
-      functionName: `${id}`,
+      functionName: `${key}`,
       inputMap,
     };
   });
@@ -219,47 +219,6 @@ export const setupShaderTransformationConfigs = (
       return [];
     }
   );
-
-  /*
-       if the parameter value is based of a function, check if the function is 
-       already defined in the transform configs. Otherwise add the function to the transform configs
-    */
-  //   const functionBasedParameters = Array.from(
-  //     shaderParameterMap.values()
-  //   ).filter((parameter) => parameter.parameterConfig?.isFunctionBased);
-
-  //   const matchingFunctionConfigs = functionBasedParameters.flatMap(
-  //     ({ parameterConfig, id }) => {
-  //       if (!parameterConfig) {
-  //         return [];
-  //       }
-
-  //       const { functionConfig } = parameterConfig;
-  //       const matchingFunctionConfig = formattedTransformConfigs.find(
-  //         (config) => {
-  //           return config.id === functionConfig?.functionId;
-  //         }
-  //       );
-  //       if (matchingFunctionConfig) {
-  //         const instantiationParameters = getFunctionParameterMapping(
-  //           matchingFunctionConfig as unknown as ShaderTransformationConfig,
-  //           functionConfig
-  //         );
-
-  //         const assignedVariableId = id;
-  //         return {
-  //           ...matchingFunctionConfig,
-  //           functionParameters: instantiationParameters,
-  //           assignedVariableId,
-  //           dontDeclare: true,
-  //         };
-  //       }
-  //       console.warn(
-  //         `No matching config ids found for - ${functionConfig?.functionId}`
-  //       );
-  //       return [];
-  //     }
-  //   );
 
   return [
     ...(formattedTransformConfigs as unknown as ShaderTransformationConfig[]),

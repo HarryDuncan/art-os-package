@@ -6,7 +6,7 @@ import { DEFAULT_ORTHOGRAPHIC, DEFAULT_PERSPECTIVE } from "./camera.consts";
 import { positionConfigToPosition } from "../../../utils/conversion/conversion";
 import { useSceneContext } from "../../../context/context";
 
-export const useSetUpCamera = (config: CameraConfig | undefined) => {
+export const useCamera = (config: Partial<CameraConfig> | undefined) => {
   const { camera, setCamera } = useSceneContext();
   const {
     state: {
@@ -17,7 +17,8 @@ export const useSetUpCamera = (config: CameraConfig | undefined) => {
 
   useEffect(() => {
     if (!camera && config && aspect) {
-      const camera = getCamera(aspect, config);
+      const cameraConfig = config as CameraConfig;
+      const camera = getCamera(aspect, cameraConfig);
       const { x, y, z } = positionConfigToPosition(config?.position ?? {});
       camera.position.set(x, y, z);
       setCamera(camera);

@@ -42,7 +42,7 @@ export const DIRECTIONAL_LIGHT_PARAMETERS = [
 ] as ParameterConfig[];
 
 const DIRECTIONAL_LIGHT_TRANSFORMATION_CONFIG = {
-  id: "directionalLightFunction",
+  key: "directionalLightFunction",
   transformCode: [
     `vec3 lightDirection = normalize({{directionalLightPosition}});`,
     `vec3 lightReflection = reflect(-lightDirection, {{vNormal}});`,

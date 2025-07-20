@@ -1,6 +1,6 @@
 import { AnimationConfig } from "../animation/animation.types";
 import { MaterialConfig } from "./material/types";
-import { InteractionConfig } from "../interaction/interaction.types";
+import { InteractionConfig } from "../interaction/types";
 import { Asset } from "../assets/types";
 import { GeometryConfig } from "../assets/geometry/geometry.types";
 import { CameraConfig } from "./three-js/use-camera/camera.types";
@@ -145,7 +145,8 @@ export type SceneConfig = {
   title?: string;
   assetPath?: string;
   description?: string;
-  threeJsConfig: ThreeJSConfig;
+  cameraConfig?: Partial<CameraConfig>;
+  controlsConfig?: Partial<ControlConfig>;
   assets?: Asset[];
   meshComponentConfigs: MeshComponentConfig[];
   // advancedMeshConfigs?: AdvancedMeshConfig[];
@@ -154,7 +155,7 @@ export type SceneConfig = {
   animationConfig: AnimationConfig[];
   lightConfig: LightConfigs[];
   sceneComponentConfigs?: SceneComponentConfig[];
-  interactionConfig?: InteractionConfig[];
+  interactionConfigs?: InteractionConfig[];
   scenePropertiesConfig: ScenePropertiesConfig;
   screenSizeAdjustments?: ScreenSizeAdjustmentConfig[];
 };
@@ -179,10 +180,10 @@ export type ThreeJsParams = {
 };
 
 export type SceneData = {
-  threeJsParams: ThreeJsParams;
+  controlsConfig: Partial<ControlConfig>;
   animationConfig?: AnimationConfig[];
   meshes: Object3D[] | GLTF[];
-  sceneComponents: Object3D[];
+  // sceneComponents: Object3D[];
   lights: SceneLight[];
   sceneProperties: SceneProperties;
 };

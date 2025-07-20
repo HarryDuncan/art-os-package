@@ -20,6 +20,6 @@ export * from "./lights/lights";
 // export * from "../config/material/shaders/build-shader/shader-properties/parameters/index";
 // export * from "../config/material/shaders/build-shader/shader-properties/effects/getEffectSchema";
 
-export * from "../interaction/interaction.consts";
+export * from "../interaction/consts";
 export * from "../interaction/peripheral-interactions/peripheralInteractions.consts";
 export * from "../interaction/key-point-extraction/keyPointExtraction";

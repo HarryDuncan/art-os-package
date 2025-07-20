@@ -2,16 +2,16 @@ import { DefinedEffectFunction, ShaderFunction } from "../types";
 import { FUNCTION_TYPES } from "../consts";
 
 interface UniqueFunction {
-  [key: string]: Omit<ShaderFunction, "id">;
+  [key: string]: Omit<ShaderFunction, "key">;
 }
 
 const mergeShaderFunctions = (
   parsedFunctions: (ShaderFunction | DefinedEffectFunction)[]
 ): ShaderFunction[] => {
   const uniqueFunctions: UniqueFunction = {};
-  parsedFunctions.forEach(({ id, ...rest }) => {
-    if (!uniqueFunctions[id]) {
-      uniqueFunctions[id] = {
+  parsedFunctions.forEach(({ key, ...rest }) => {
+    if (!uniqueFunctions[key]) {
+      uniqueFunctions[key] = {
         ...rest,
       };
     }
@@ -19,7 +19,7 @@ const mergeShaderFunctions = (
 
   return Object.keys(uniqueFunctions).map((key) => ({
     ...uniqueFunctions[key],
-    id: key,
+    key: key,
   }));
 };
 

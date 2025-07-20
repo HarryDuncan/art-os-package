@@ -91,13 +91,13 @@ export const noise3D = `
     }`;
 
 export const noise3dFunction = {
-  id: "noise3D",
+  key: "noise3D",
   functionDefinition: noise3D,
   functionType: FUNCTION_TYPES.STATIC,
 };
 
 export const virusNoise = {
-  id: "virusNoise",
+  key: "virusNoise",
   functionDefinition: `
     ${hash33}
     float virusNoise(vec3 p) {

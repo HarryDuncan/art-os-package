@@ -6,7 +6,7 @@ import {
 } from "../../parameters";
 
 export const GET_TEXTURE_POINT_COLOR = {
-  id: "getTexturePointColor",
+  key: "getTexturePointColor",
   name: "Get Texture Point Color",
   description: "Get the color of a texture at a point",
   transformCode: [

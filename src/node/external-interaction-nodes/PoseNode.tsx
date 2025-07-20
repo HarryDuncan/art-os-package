@@ -1,5 +1,5 @@
 import { useSceneContext } from "../../context/context";
-import { InteractionConfig } from "../../interaction/interaction.types";
+import { InteractionConfig } from "../../interaction/types";
 import { useEffect, useRef, useState } from "react";
 import { rayTraceCoordinateAsPercentage } from "../../interaction/key-point-extraction/rayTraceCoordinateAsPercentage";
 import { setUniforms } from "../../interaction/utils";

@@ -18,9 +18,6 @@ export const generateFragmentEffect = (
     advancedShaderVariables,
   } = getFragmentColors(fragmentEffectFunctions, parameterMap);
 
-  console.log("assignedVariableIds", assignedVariableIds);
-  console.log("unmergedTransformations", unmergedTransformations);
-  console.log("advancedShaderVariables", fragmentEffectFunctions);
   if (assignedVariableIds.includes("LIGHT")) {
     unmergedTransformations.push(
       `${FRAG_COLOR_NAME} = ${FRAG_COLOR_NAME} * vec4(light, 1.0);`

@@ -1,4 +1,4 @@
-import { getEffectSchema, ShaderEffectConfig } from "../../../schema";
+import { ShaderEffectConfig } from "../../../schema";
 import {
   ADVANCED_SHADER_VARIABLE_EFFECT_CODE,
   FUNCTION_TYPES,
@@ -19,8 +19,7 @@ export const generateShaderTransformData = (
   parameterMap: ShaderParameterMap,
   isSubEffect: boolean = false
 ): TransformData | null => {
-  const { schemaId } = effect;
-  const effectSchema = getEffectSchema(effect.shaderType, schemaId);
+  const { effectSchema } = effect;
   if (effectSchema) {
     const { transformSchema, assignedVariableId, functions } = effectSchema;
 

@@ -14,7 +14,10 @@ export const useAssets = (
   assetPath?: string
 ) => {
   const [areAssetsInitialized, setAreAssetsInitialized] = useState(false);
-  const [initializedAssets, setInitializedAssets] = useState<Asset[]>([]);
+  // initializedAssets is null before loading, then always an array (possibly empty)
+  const [initializedAssets, setInitializedAssets] = useState<Asset[] | null>(
+    null
+  );
 
   async function loadAssetData(asset: Asset) {
     const loadedAsset = await loadAsset(asset);
@@ -23,8 +26,9 @@ export const useAssets = (
     }
     return { ...asset, data: loadedAsset };
   }
+
   const initializeAssets = useCallback(async () => {
-    if (!assets) return;
+    if (!assets) return [];
     const loadedAssets = await Promise.all(
       assets.flatMap(async (asset) => {
         if (!assetPath && !asset.path) {
@@ -42,14 +46,19 @@ export const useAssets = (
   }, [assets, assetPath]);
 
   useEffect(() => {
+    let isMounted = true;
     async function getAssets() {
+      // If assets is null/undefined, treat as empty array
       const loadedAssets = await initializeAssets();
-      if (loadedAssets) {
+      if (isMounted) {
         setAreAssetsInitialized(true);
-        setInitializedAssets(loadedAssets);
+        setInitializedAssets(loadedAssets ?? []);
       }
     }
     getAssets();
+    return () => {
+      isMounted = false;
+    };
   }, [assets, initializeAssets]);
 
   return { initializedAssets, areAssetsInitialized };

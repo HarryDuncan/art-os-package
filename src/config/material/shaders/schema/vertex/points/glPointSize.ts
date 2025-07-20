@@ -32,7 +32,7 @@ export const POINT_SIZE_REQUIRED_FUNCTIONS = [];
 
 const imageToPointsTransformConfig = [
   {
-    id: "getPointSize",
+    key: "getPointSize",
     transformCode: [
       `float currentPointSize = {{pointSize}};`,
       `return currentPointSize;`,

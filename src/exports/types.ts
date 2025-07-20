@@ -7,4 +7,5 @@ export * from "../types/three.types";
 export * from "../node/node.types";
 export * from "../config/mesh/types";
 export * from "../animation/animation.types";
-export * from "../interaction/interaction.types";
+export * from "../interaction/types";
+export * from "../assets/types";

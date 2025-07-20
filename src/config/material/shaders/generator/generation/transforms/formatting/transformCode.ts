@@ -30,7 +30,7 @@ export const formatTransformCode = (
       }
       if (!parameter) {
         const effectFunction = formattedFunctionConfigs.find(
-          (f) => f.id === key
+          (f) => f.key === key
         );
         if (effectFunction) {
           const functionCall = formatNestedFunction(effectFunction, effectId);

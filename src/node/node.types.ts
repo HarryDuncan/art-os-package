@@ -1,11 +1,10 @@
-import { InteractionConfig } from "../interaction/interaction.types";
 import { InteractiveSceneFunctions } from "../components/interactive-scene/InteractiveScene";
 import { SceneConfig, SceneData } from "../config/config.types";
 import { ReactNode } from "react";
 
 export interface SceneNodeProps {
   sceneConfig: SceneConfig;
-  externalInteractionConfig: InteractionConfig[];
+  externalSchemas?: Record<string, string>;
   loaderComponent?: ReactNode;
 }
 
@@ -16,6 +15,5 @@ export interface SceneNodeContentProps {
 }
 export interface NodeProps {
   sceneFunctions?: InteractiveSceneFunctions;
-  interactionConfig: InteractionConfig[];
   sceneData: SceneData;
 }

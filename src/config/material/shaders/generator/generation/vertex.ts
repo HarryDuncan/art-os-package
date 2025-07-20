@@ -27,7 +27,6 @@ const getVertexTransformations = (
   const allRequiredFunctions: ShaderFunction[] = [];
   vertexEffectFunctions.forEach((effect) => {
     const vertexEffectData = transformSetup(effect, parameterMap);
-
     if (vertexEffectData !== null) {
       const { transformation, requiredFunctions } = vertexEffectData ?? {};
       unmergedTransformations.push(transformation ?? "");

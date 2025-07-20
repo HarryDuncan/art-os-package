@@ -6,7 +6,7 @@ import {
 } from "../../parameters";
 
 export const IS_POSITION_AFFECTED = {
-  id: "isPositionAffected",
+  key: "isPositionAffected",
   name: "Is Position Affected",
   description: "Check if a position is affected by an interactive source",
   transformCode: [

@@ -2,7 +2,7 @@
 // @ts-nocheck
 
 import { Scene } from "three";
-import { InteractionConfig } from "../interaction.types";
+import { InteractionConfig } from "../types";
 
 export const mapToUniform = (
   scene: Scene,

@@ -1,12 +1,11 @@
 import { SHADER_VARIABLE_ASSIGNMENT_KEYS } from "../../../generator/consts";
-import { ShaderTransformationSchema } from "../../../generator/types";
 import {
   SHADER_PROPERTY_TYPES,
   SHADER_PROPERTY_VALUE_TYPES,
   SHADER_VARIABLE_TYPES,
 } from "../../consts";
 import { COLOR, NORMAL_VARYING, RESOLUTION } from "../../parameters";
-import { ParameterConfig } from "../../types";
+import { ParameterConfig, ShaderTransformationSchema } from "../../types";
 
 export const HALFTONE_PARAMETERS = [
   NORMAL_VARYING,
@@ -43,7 +42,7 @@ export const HALFTONE_PARAMETERS = [
 ] as ParameterConfig[];
 
 const HALFTONE_TRANSFORMATION_CONFIG = {
-  id: "halftonePoint",
+  key: "halftonePoint",
   transformCode: [
     `float intensity = dot({{vNormal}}, {{lightDirection}});`,
     `intensity = smoothstep({{halftoneLow}}, {{halftoneHigh}}, intensity);`,

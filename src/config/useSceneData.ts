@@ -1,32 +1,30 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-// @ts-nocheck
-import { formatSceneComponentConfigs } from "../config/components/formatSceneComponentConfigs";
+import { useMemo } from "react";
 import { getLightsFromConfig } from "../config/lights/getLightsFromConfig";
 import { formatSceneMaterials } from "../config/material/formatSceneMaterials";
 import { getMeshesFromConfig } from "../config/mesh/getMeshesFromConfig";
 import { SceneConfig, SceneData } from "./config.types";
-import { Asset } from "../types";
 import { getScenePropertiesFromConfig } from "./scene-properties/setSceneProperties";
-import { useThreeJsFromConfig } from "./three-js/useThreeJsFromConfig";
-import { useMemo } from "react";
 import { useScreenSizeProperties } from "./scene-properties/useScreenSizeProperties";
 import { useWindowState } from "../compat/window-state/windowStateProvider";
 import { useInitializeVideos } from "../assets/animated-texture/useInitializeVideos";
+import { Asset } from "../assets/types";
+import { useCamera } from "./three-js/use-camera/useCamera";
+// import { useSetUpMaterials } from "./material/useSetUpMaterials";
 
 export const useSceneData = (
   config: SceneConfig | undefined | null,
-  assets: Asset[],
-  areAssetsInitialized: boolean
+  assets: Asset[]
 ): SceneData | null => {
-  useInitializeVideos(assets, areAssetsInitialized);
-  const setUpThreeJs = useThreeJsFromConfig(config);
+  useInitializeVideos(assets);
+
   const {
     state: { screenType },
   } = useWindowState();
   const formattedConfig = useScreenSizeProperties(config, screenType);
+  useCamera(formattedConfig?.cameraConfig);
+  // const materials = useSetUpMaterials(formattedConfig?.sceneMaterialConfigs);
   return useMemo(() => {
-    if (!areAssetsInitialized || !formattedConfig) return null;
-    const threeJsParams = setUpThreeJs(formattedConfig.threeJsConfig);
+    if (!formattedConfig) return null;
     const materials = formatSceneMaterials(assets, formattedConfig);
     const meshes = getMeshesFromConfig(assets, materials, formattedConfig);
 
@@ -34,22 +32,22 @@ export const useSceneData = (
 
     const lights = getLightsFromConfig(formattedConfig);
 
-    const sceneComponents = formatSceneComponentConfigs(
-      formattedConfig,
-      materials
-    );
+    // const sceneComponents = formatSceneComponentConfigs(
+    //   formattedConfig,
+    //   materials
+    // );
 
     const sceneProperties = getScenePropertiesFromConfig(
       formattedConfig.scenePropertiesConfig
     );
 
     return {
-      threeJsParams,
+      controlsConfig: formattedConfig.controlsConfig ?? {},
       meshes: meshes ?? [],
-      sceneComponents: sceneComponents ?? [],
+      // sceneComponents: sceneComponents ?? [],
       lights: lights ?? [],
       sceneProperties,
       animationConfig,
     };
-  }, [setUpThreeJs, formattedConfig, assets, areAssetsInitialized]);
+  }, [formattedConfig, assets]);
 };

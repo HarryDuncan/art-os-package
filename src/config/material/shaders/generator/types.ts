@@ -22,7 +22,7 @@ export type ShaderTransformationConfig = ShaderTransformationSchema & {
   dontDeclare?: boolean;
 };
 export type DefinedEffectFunction = {
-  id: string;
+  key: string;
   functionType: string;
   functionName: string;
   assignedVariableId: string | undefined;
@@ -32,7 +32,7 @@ export type DefinedEffectFunction = {
   returnValue: keyof typeof SHADER_PROPERTY_VALUE_TYPES;
 };
 export type ShaderFunction = {
-  id: string;
+  key: string;
   functionDefinition: string;
   functionType: string;
   functionName: string;
@@ -42,7 +42,7 @@ export type ShaderFunction = {
 };
 
 export type ShaderTransformationSchema = {
-  id: string;
+  key: string;
   transformCode: string[];
   returnValue: keyof typeof SHADER_PROPERTY_VALUE_TYPES;
   assignedVariableId: keyof typeof SHADER_VARIABLE_TYPES | string;

@@ -27,11 +27,6 @@ export const useScreenSizeProperties = (
       return config;
     }
 
-    const threeJsConfig = mergeThreeJsConfig(
-      config.threeJsConfig,
-      currentAdjustment?.threeJsConfig
-    );
-
     const meshComponentConfigs = mergeMeshConfigs(
       config.meshComponentConfigs,
       currentAdjustment.meshComponentConfigs
@@ -39,18 +34,9 @@ export const useScreenSizeProperties = (
     const updatedConfig = {
       ...config,
       meshComponentConfigs,
-      threeJsConfig,
     };
     return updatedConfig;
   }, [config, currentScreenType]);
-
-const mergeThreeJsConfig = (
-  currentConfig: ThreeJSConfig,
-  adjustedConfig: ThreeJSConfig
-) => {
-  if (!adjustedConfig) return currentConfig;
-  return { ...currentConfig, ...adjustedConfig };
-};
 
 const mergeMeshConfigs = (
   currentMeshConfigs: MeshComponentConfig[] = [],

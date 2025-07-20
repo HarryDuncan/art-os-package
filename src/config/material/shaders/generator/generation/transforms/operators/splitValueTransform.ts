@@ -141,7 +141,6 @@ export const splitValueTransform = (
     effectTransforms.map((t) => t.advancedShaderVariables)
   );
 
-  console.log(updatedTransformation);
   // Compose the merged TransformData
   const merged: TransformData = {
     transformation: updatedTransformation,

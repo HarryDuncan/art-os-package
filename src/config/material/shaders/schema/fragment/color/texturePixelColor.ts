@@ -27,7 +27,7 @@ export const TEXTURE_PIXEL_COLOR_PARAMETERS = [
 ] as unknown as ParameterConfig[];
 
 const TEXTURE_PIXEL_COLOR_TRANSFORMATION_CONFIG = {
-  id: "varyingToValue",
+  key: "varyingToValue",
   transformCode: [
     `{{${SHADER_VARIABLE_ASSIGNMENT_KEYS.FRAGMENT_COLOR}}} = {{texturePixelColor}};`,
     `return {{${SHADER_VARIABLE_ASSIGNMENT_KEYS.FRAGMENT_COLOR}}};`,

@@ -54,7 +54,7 @@ export const POINT_LIGHT_PARAMETERS = [
 ] as ParameterConfig[];
 
 const POINT_LIGHT_TRANSFORMATION_CONFIG = {
-  id: "pointLightFunction",
+  key: "pointLightFunction",
   transformCode: [
     `vec3 lightDelta = {{lightPosition}} - {{vPosition}}.xyz;`,
     `float lightDistance = length(lightDelta);`,

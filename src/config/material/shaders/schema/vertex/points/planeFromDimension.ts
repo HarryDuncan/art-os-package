@@ -21,7 +21,7 @@ export const PLANE_FROM_DIMENSION_EFFECT_CONFIG = {
   parameters: PLANE_FROM_IMAGE_PARAMETERS,
   transformSchema: [
     {
-      id: "pointPlane",
+      key: "pointPlane",
       transformCode: [
         `{{${SHADER_VARIABLE_ASSIGNMENT_KEYS.VERTEX_POINT}}}.xy -= {{planeSize}} * 0.5;`,
         `return {{${SHADER_VARIABLE_ASSIGNMENT_KEYS.VERTEX_POINT}}};`,

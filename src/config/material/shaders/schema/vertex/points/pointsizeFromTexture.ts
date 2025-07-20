@@ -14,7 +14,7 @@ import { ShaderTransformationSchema, ParameterConfig } from "../../types";
 
 export const POINT_SIZE_FROM_TEXTURE_TRANSFORM = [
   {
-    id: "getTexturePointColor",
+    key: "getTexturePointColor",
     transformCode: [
       `vec2 puv = {{pointPosition}}.xy / {{textureSize}};`,
       `vec4 color = texture2D({{convertedTexture}}, puv);`,
@@ -23,7 +23,7 @@ export const POINT_SIZE_FROM_TEXTURE_TRANSFORM = [
     returnValue: SHADER_PROPERTY_VALUE_TYPES.VEC4,
   },
   {
-    id: "pointSizeFromTexture",
+    key: "pointSizeFromTexture",
     returnValue: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
     assignedVariableId: SHADER_VARIABLE_TYPES.GL_POINT_SIZE,
     transformCode: [

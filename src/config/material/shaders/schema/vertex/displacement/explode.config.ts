@@ -49,7 +49,7 @@ export const EXPLODE_PARAMETERS = [
 ] as ParameterConfig[];
 
 const EXPLODE_TRANSFORMATION_CONFIG = {
-  id: "explodeTransformation",
+  key: "explodeTransformation",
   transformCode: [
     `{{${SHADER_VARIABLE_ASSIGNMENT_KEYS.VERTEX_POINT}}}.x +=  cos({{randomAngle}} * uTime) * {{uStrength}} ;`,
     `{{${SHADER_VARIABLE_ASSIGNMENT_KEYS.VERTEX_POINT}}}.y +=  sin({{randomAngle}} * uTime) * {{uStrength}};`,

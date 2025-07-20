@@ -20,7 +20,7 @@ const ROTATION_EFFECT_PARAMETERS = [
 
 const ROTATION_EFFECT_TRANSFORMATION = [
   {
-    id: "rotationTransformation",
+    key: "rotationTransformation",
     transformCode: [
       `float angle = uTime * {{rotationSpeed}};`,
       `float c = cos(angle);`,

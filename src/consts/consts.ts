@@ -22,7 +22,7 @@ export const SCENE_CONFIG_KEYS = {
   ANIMATION_CONFIG: "animationConfig",
   LIGHT_CONFIG: "lightConfig",
   SCENE_COMPONENT_CONFIGS: "sceneComponentConfigs",
-  INTERACTION_CONFIG: "interactionConfig",
+  INTERACTION_CONFIG: "interactionConfigs",
   SCENE_PROPERTIES_CONFIG: "scenePropertiesConfig",
   SCREEN_SIZE_ADJUSTMENTS: "screenSizeAdjustments",
 };

@@ -90,7 +90,7 @@ export const PLANE_FROM_IMAGE_REQUIRED_FUNCTIONS = [
 
 export const PLANE_FROM_IMAGE_TRANSFORM_CONFIG = [
   {
-    id: "getTexturePointColor",
+    key: "getTexturePointColor",
     transformCode: [
       `vec2 puv = {{pointPosition}}.xy / {{textureSize}};`,
       `vec4 color = texture2D({{convertedTexture}}, puv);`,
@@ -99,7 +99,7 @@ export const PLANE_FROM_IMAGE_TRANSFORM_CONFIG = [
     returnValue: SHADER_PROPERTY_VALUE_TYPES.VEC4,
   },
   {
-    id: "textureToPoints",
+    key: "textureToPoints",
     transformCode: [
       // randomise
       //   `{{${SHADER_VARIABLE_ASSIGNMENT_KEYS.VERTEX_POINT}}}.xy += vec2(random({{pointIndex}}) - 0.5, random({{pointIndex}}) - 0.5) ;`,

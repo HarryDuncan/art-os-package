@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 // @ts-nocheck
 
-import { InteractionConfig } from "../../interaction/interaction.types";
+import { InteractionConfig } from "../../interaction/types";
 import { Clock, Scene, Camera, Texture } from "three";
 import { AnimationManager } from "../../animation/animation-manager/AnimationManager";
 import { AnimationConfig } from "../../animation/animation.types";
@@ -31,14 +31,14 @@ export class InteractiveScene extends Scene {
   eventsSet: boolean;
 
   sceneProperties: SceneProperties;
-  interactionConfig: InteractionConfig[];
+  interactionConfigs: InteractionConfig[];
   lights: SceneLight[];
   background?: Texture | undefined;
 
   constructor(
     sceneFunctions: InteractiveSceneFunctions,
     animationConfig: AnimationConfig[],
-    interactionConfig: InteractionConfig[],
+    interactionConfigs: InteractionConfig[],
     sceneProperties: SceneProperties,
     lights: SceneLight[],
     camera: Camera
@@ -53,7 +53,7 @@ export class InteractiveScene extends Scene {
     this.animationManager = new AnimationManager(animationConfig);
     this.eventsSet = false;
     this.sceneProperties = sceneProperties;
-    this.interactionConfig = interactionConfig;
+    this.interactionConfigs = interactionConfigs;
     this.lights = lights;
     this.camera = camera;
     this.rendererHeight = 0;
@@ -144,7 +144,7 @@ export class InteractiveScene extends Scene {
   setStatus(status: "idle" | "active") {
     this.status = status;
     if (status === "active") {
-      this.addInteractionEvents(this.interactionConfig);
+      this.addInteractionEvents(this.interactionConfigs);
     } else {
       this.removeInteractionEvents();
     }

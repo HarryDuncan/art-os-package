@@ -7,6 +7,12 @@ import {
 } from "./consts";
 import { MESH_TRANSFORM_TYPES } from "./mesh-transforms";
 
+export type SchemaData = {
+  id: string;
+  name: string;
+  description: string;
+};
+
 export type OutputInputMapping = {
   itemId: string;
   nodeType: string;
@@ -69,6 +75,7 @@ export interface EffectConfig {
   subEffectIds?: string[];
   inputMapping: Record<string, OutputInputMapping>;
   outputMapping: Record<string, OutputInputMapping>;
+  effectSchema?: ShaderEffectSchema;
 }
 
 export type VertexEffectConfig = EffectConfig & {
@@ -101,7 +108,7 @@ export type OperatorConfig = {
 };
 
 export type ShaderTransformationSchema = {
-  id: string;
+  key: string;
   transformCode: string[];
   returnValue: keyof typeof SHADER_PROPERTY_VALUE_TYPES;
   assignedVariableId: keyof typeof SHADER_VARIABLE_TYPES | string;

@@ -3,7 +3,6 @@ import {
   InteractiveScene,
   InteractiveSceneFunctions,
 } from "./InteractiveScene";
-import { InteractionConfig } from "../../interaction/interaction.types";
 import { AnimationConfig } from "../../animation/animation.types";
 import { Camera, Object3D } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
@@ -19,28 +18,28 @@ export const useInteractiveScene = (
   animationConfig: AnimationConfig[],
   meshes: Object3D[] | GLTF[],
   lights: SceneLight[],
-  sceneComponents: Object3D[],
+  // sceneComponents: Object3D[],
   orbitControls: OrbitControls | null,
-  sceneProperties: SceneProperties,
-  interactionConfig: InteractionConfig[]
+  sceneProperties: SceneProperties
 ) => {
   const {
     dispatch,
     state: { initializedScene, status },
     camera,
+    interactionConfigs,
   } = useSceneContext();
   const setUpSceneObjects = useCallback(
     async (scene: InteractiveScene) => {
       meshes.forEach((mesh) => scene.add(mesh as Object3D));
       lights.forEach((light) => scene.add(light));
-      sceneComponents.forEach((component) => scene.add(component));
+      //    sceneComponents.forEach((component) => scene.add(component));
       setSceneProperties(sceneProperties, scene);
       dispatch({
         type: "INITIALIZE_SCENE",
         payload: { initializedScene: scene },
       });
     },
-    [meshes, lights, sceneComponents, sceneProperties]
+    [meshes, lights, sceneProperties]
   );
 
   useEffect(() => {
@@ -59,7 +58,7 @@ export const useInteractiveScene = (
       const scene = new InteractiveScene(
         sceneFunction,
         animationConfig,
-        interactionConfig,
+        interactionConfigs,
         sceneProperties,
         lights,
         camera as Camera
@@ -79,7 +78,7 @@ export const useInteractiveScene = (
     sceneFunction,
     animationConfig,
     setUpSceneObjects,
-    interactionConfig,
+    interactionConfigs,
     initializedScene,
     camera,
   ]);

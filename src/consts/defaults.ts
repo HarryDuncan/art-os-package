@@ -30,7 +30,7 @@ export const DEFAULT_CONFIG = {
   animationConfig: [],
   lightConfig: DEFAULT_LIGHTS,
   sceneComponentConfigs: [],
-  interactionConfig: [],
+  interactionConfigs: [],
   scenePropertiesConfig: DEFAULT_SCENE_PROPERTIES,
   screenSizeAdjustments: [],
 };

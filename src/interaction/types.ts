@@ -1,4 +1,4 @@
-import { EVENT_BIND_TYPES } from "./interaction.consts";
+import { EVENT_BIND_TYPES } from "./consts";
 import { KEYS } from "./peripheral-interactions/peripheralInteractions.consts";
 
 export type InteractionEventBinding = keyof typeof EVENT_BIND_TYPES;

@@ -1,16 +1,14 @@
-import { INTERACTION_SOURCES } from "../../interaction/interaction.consts";
-import { InteractionConfig } from "../../interaction/interaction.types";
+import { useSceneContext } from "../../context/context";
+import { INTERACTION_SOURCES } from "../../interaction/consts";
+
 import { PoseNode } from "./PoseNode";
 
-interface ExternalInteractionNodeProps {
-  externalInteractionConfig: InteractionConfig[];
-}
-export const ExternalInteractionNode = ({
-  externalInteractionConfig,
-}: ExternalInteractionNodeProps) => {
+export const ExternalInteractionNode = () => {
+  const { interactionConfigs } = useSceneContext();
+
   return (
     <>
-      {externalInteractionConfig.map((config) => {
+      {interactionConfigs.map((config) => {
         switch (config.interactionSource) {
           case INTERACTION_SOURCES.POSE_ESTIMATION:
             return <PoseNode config={config} />;

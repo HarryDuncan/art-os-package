@@ -25,7 +25,7 @@ export const AMBIENT_LIGHT_PARAMETERS = [
 ] as ParameterConfig[];
 
 const AMBIENT_LIGHT_TRANSFORMATION_CONFIG = {
-  id: "ambientLightFunction",
+  key: "ambientLightFunction",
   transformCode: [
     `vec3 lightEffect = {{ambientLightColor}}.rgb * {{ambientLightIntensity}};`,
     `return lightEffect;`,

@@ -38,7 +38,7 @@ const TEXTURED_POINT_PARAMETERS = [
 
 export const pointMaterialTransformConfig = [
   {
-    id: "setUpPointTexture",
+    key: "setUpPointTexture",
     transformCode: [
       `vec4 textureColor = texture2D({{pointTexture}}, gl_PointCoord);`,
       `{{${SHADER_VARIABLE_ASSIGNMENT_KEYS.FRAGMENT_COLOR}}} = vec4({{${SHADER_VARIABLE_ASSIGNMENT_KEYS.FRAGMENT_COLOR}}}.rgb, 1.0) * textureColor;`,
@@ -48,7 +48,7 @@ export const pointMaterialTransformConfig = [
     assignedVariableId: SHADER_VARIABLE_TYPES.FRAGMENT_COLOR,
   },
   {
-    id: "discardPoints",
+    key: "discardPoints",
     transformCode: [
       `if({{pointDisplay}} == 0.0 ){`,
       `return 1.0;`,

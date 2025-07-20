@@ -19,7 +19,7 @@ export const transformFunction = (
       functionName,
       transformCode,
       assignedVariableId,
-      id: functionId,
+      key: functionKey,
       functionType,
     }) => {
       const returnTypeString = shaderValueTypeInstantiation(returnValue);
@@ -37,7 +37,7 @@ export const transformFunction = (
       );
 
       const shaderFunctionConfig = {
-        id: functionId,
+        key: functionKey,
         functionType,
         returnValue,
         functionName: functionName,
