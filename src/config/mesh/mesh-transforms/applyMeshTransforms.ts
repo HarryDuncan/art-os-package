@@ -38,7 +38,6 @@ export const applyMeshTransforms = (
             const quadDimensions = values[
               "quadDimensions" as keyof typeof values
             ] as TransformValueConfig;
-
             if (quadDimensions) {
               let x: number, y: number;
               if (Array.isArray(quadDimensions.value)) {
@@ -58,7 +57,6 @@ export const applyMeshTransforms = (
               }
               const width = x;
               const height = y;
-
               if (width && height) {
                 const vertexesNumber = Number(width) * Number(height);
                 const indices = new Uint16Array(vertexesNumber);
@@ -120,7 +118,6 @@ export const applyMeshTransforms = (
 
     return formattedGeometries;
   });
-
   return formattedGeometries;
 };
 

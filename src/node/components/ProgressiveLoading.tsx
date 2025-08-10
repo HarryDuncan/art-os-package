@@ -19,7 +19,6 @@ export const ProgressiveLoading = ({
     sceneConfig.assets,
     sceneConfig.assetPath
   );
-
   return (
     <>
       <Loader loaderComponent={loaderComponent} />
@@ -41,7 +40,6 @@ const SceneConfigLoader = ({
   assets: Asset[];
 }) => {
   const sceneData = useSceneData(sceneConfig, assets);
-
   if (!sceneData) return null;
   return <SceneDisplay sceneData={sceneData} />;
 };

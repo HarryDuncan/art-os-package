@@ -5,10 +5,6 @@ import {
 import { MESH_TYPES } from "../config/mesh/consts";
 import { DEFAULT_LIGHTS } from "./lights/lights";
 
-const DEFAULT_THREE_JS_CONFIG = {
-  camera: { position: { x: 0, y: 0, z: 450 } },
-};
-
 export const DEFAULT_SCENE_PROPERTIES = {
   viewWidth: "100vw",
   viewHeight: "100vh",
@@ -21,7 +17,7 @@ export const DEFAULT_CONFIG = {
   title: "",
   assetPath: "",
   description: "",
-  threeJsConfig: DEFAULT_THREE_JS_CONFIG,
+  cameraConfig: { position: { x: 0, y: 0, z: 450 } },
   assets: [],
   meshComponentConfigs: [],
   sceneMaterialConfigs: [],

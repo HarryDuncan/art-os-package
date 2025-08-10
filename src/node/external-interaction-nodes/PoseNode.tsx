@@ -63,9 +63,6 @@ export const PoseNode = ({ config }: { config: InteractionConfig }) => {
         console.error("Error starting stream:", error);
       }
     };
-    console.log("initializedScene", initializedScene);
-    console.log("status", status);
-    console.log("isStreaming", isStreaming);
     if (initializedScene && status === PROCESS_STATUS.RUNNING) {
       startStreaming();
     }
