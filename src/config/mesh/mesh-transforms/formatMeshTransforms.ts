@@ -1,10 +1,11 @@
-import { Texture, Vector2 } from "three";
+import { Vector2 } from "three";
 import { Asset } from "../../../assets/types";
 import { MeshTransformConfig, TransformValueConfig } from "../../config.types";
 import {
   ASSET_MAPPING_RELATIONSHIPS,
   MESH_TRANSFORM_TYPES,
 } from "../../material/shaders/schema";
+import { ASSET_TYPES } from "../../../assets/consts";
 
 const TRANSFORM_SORTING = [
   MESH_TRANSFORM_TYPES.SET_UP_QUAD,
@@ -49,6 +50,7 @@ export const getAttributeValuesFromAssets = (
         relationship: string;
       };
       const selectedAsset = assets.find((asset) => asset.guid === assetId);
+      console.log("selectedAsset", selectedAsset);
       if (selectedAsset) {
         switch (relationship) {
           case ASSET_MAPPING_RELATIONSHIPS.DIMENSION: {
@@ -65,7 +67,16 @@ export const getAttributeValuesFromAssets = (
   }, {});
 
 const getDimensionAttributeValues = (asset: Asset) => {
-  const { image } = asset.data as Texture;
-  const { width, height } = image;
-  return new Vector2(width, height);
+  console.log("asset", asset);
+  if (asset.assetType === ASSET_TYPES.VIDEO) {
+    const video = document.getElementById(asset.guid);
+    console.log("video", video);
+    const width = video?.clientWidth;
+    const height = video?.clientHeight;
+    return new Vector2(width, height);
+  } else {
+    // @ts-expect-error
+    const { width, height } = asset.data.image;
+    return new Vector2(width, height);
+  }
 };

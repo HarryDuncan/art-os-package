@@ -27,7 +27,8 @@ export const getShaderInputMap = (
     if (
       parameter.parameterType === SHADER_PROPERTY_TYPES.ATTRIBUTE ||
       parameter.key === "uTime" ||
-      parameter.key === "fragColor"
+      parameter.key === "fragColor" ||
+      parameter.key === "pointPosition"
     ) {
       shaderInputMap.set(parameter.key, parameter);
       return;

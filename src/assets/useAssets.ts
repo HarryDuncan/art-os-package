@@ -78,6 +78,7 @@ const loadAsset = async (asset: Asset) => {
       return advancedScene;
     }
     case ASSET_TYPES.TEXTURE: {
+      console.log("loading texture", path);
       const texture = await loadTexture(path);
       return texture;
     }
@@ -86,6 +87,44 @@ const loadAsset = async (asset: Asset) => {
       return image;
     }
     case ASSET_TYPES.VIDEO: {
+      // Check if a video element with this id already exists before creating/appending
+      let video = document.getElementById(
+        asset.guid
+      ) as HTMLVideoElement | null;
+      if (!video) {
+        video = document.createElement("video");
+        video.src = path;
+        video.id = asset.guid;
+        video.crossOrigin = "anonymous";
+        video.autoplay = true;
+        video.muted = true; // Most browsers require muted for autoplay to work
+        video.loop = true; // keep replaying
+        video.playsInline = true;
+
+        // Append to the element with id 'append-container' if it exists, otherwise fallback to body
+        const appendContainer = document.getElementById("append-container");
+        if (appendContainer) {
+          appendContainer.appendChild(video);
+        } else {
+          document.body.appendChild(video);
+        }
+
+        // Wait for the video to start playing before returning
+        try {
+          await video.play();
+        } catch (e) {
+          // Autoplay might fail, but that's okay
+        }
+      } else {
+        // If the video already exists, ensure it's playing before returning
+        if (video.paused) {
+          try {
+            await video.play();
+          } catch (e) {
+            // Autoplay might fail, but that's okay
+          }
+        }
+      }
       return path;
     }
     case ASSET_TYPES.FONT: {

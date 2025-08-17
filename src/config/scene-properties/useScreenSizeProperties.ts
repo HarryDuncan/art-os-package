@@ -1,18 +1,16 @@
-import { ScreenType } from "../../compat/window-state/types";
-import {
-  MeshComponentConfig,
-  SceneConfig,
-  ThreeJSConfig,
-} from "../config.types";
+import { MeshComponentConfig, SceneConfig } from "../config.types";
 import { useMemo } from "react";
 import { GeometryConfig } from "../../assets/geometry/geometry.types";
+import { useWindowState } from "../../compat/window-state/windowStateProvider";
 
 export const useScreenSizeProperties = (
-  config: SceneConfig | undefined | null,
-  currentScreenType: ScreenType
-): SceneConfig | null | undefined =>
-  useMemo(() => {
-    if (!config || currentScreenType === "DESKTOP") {
+  config: SceneConfig | undefined | null
+): SceneConfig | null | undefined => {
+  const {
+    state: { screenType },
+  } = useWindowState();
+  return useMemo(() => {
+    if (!config || screenType === "DESKTOP") {
       return config;
     }
     const { screenSizeAdjustments } = config;
@@ -21,7 +19,7 @@ export const useScreenSizeProperties = (
       return config;
     }
     const currentAdjustment = screenSizeAdjustments.find(
-      ({ screenType }) => screenType === currentScreenType
+      ({ screenType }) => screenType === screenType
     );
     if (!currentAdjustment) {
       return config;
@@ -36,7 +34,8 @@ export const useScreenSizeProperties = (
       meshComponentConfigs,
     };
     return updatedConfig;
-  }, [config, currentScreenType]);
+  }, [config, screenType]);
+};
 
 const mergeMeshConfigs = (
   currentMeshConfigs: MeshComponentConfig[] = [],

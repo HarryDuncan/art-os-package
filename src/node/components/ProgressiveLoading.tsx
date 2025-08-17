@@ -6,6 +6,8 @@ import { SceneConfig } from "../../config/config.types";
 import { useSceneData } from "../../config/useSceneData";
 import { SceneDisplay } from "./SceneDisplay";
 import { useSetInteractionConfigs } from "../../interaction/hooks/useSetInteractionConfigs";
+import { useScreenSizeProperties } from "../../config/scene-properties/useScreenSizeProperties";
+import { useCamera } from "../../config/three-js/use-camera/useCamera";
 
 export const ProgressiveLoading = ({
   sceneConfig,
@@ -19,10 +21,12 @@ export const ProgressiveLoading = ({
     sceneConfig.assets,
     sceneConfig.assetPath
   );
+  const formattedConfig = useScreenSizeProperties(sceneConfig);
+  useCamera(formattedConfig?.cameraConfig);
   return (
     <>
       <Loader loaderComponent={loaderComponent} />
-      {areAssetsInitialized && !!initializedAssets && (
+      {areAssetsInitialized && !!initializedAssets && formattedConfig && (
         <SceneConfigLoader
           sceneConfig={sceneConfig}
           assets={initializedAssets}

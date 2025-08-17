@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 
+import { ASSET_TYPES } from "../../../../assets/consts";
 import { Asset } from "../../../../assets/types";
 import { AssetToUniformMappingConfig } from "../../types";
 import { UniformObject } from "../generator/types";
@@ -32,11 +33,20 @@ const getMappedAsset = (
   if (mappedAsset && mappedAsset.data) {
     switch (assetMapping.relationship) {
       case ASSET_MAPPING_RELATIONSHIPS.TEXTURE: {
-        const texture = mappedAsset.data;
-        return texture;
+        if (mappedAsset.assetType === ASSET_TYPES.VIDEO) {
+          const video = document.getElementById(mappedAsset.guid);
+          const videoTexture = new VideoTexture(video as HTMLVideoElement);
+          videoTexture.minFilter = LinearFilter;
+          videoTexture.magFilter = LinearFilter;
+          videoTexture.format = RGBFormat;
+          return videoTexture;
+        } else {
+          const texture = mappedAsset.data;
+          return texture;
+        }
       }
       case ASSET_MAPPING_RELATIONSHIPS.VIDEO: {
-        const video = document.getElementById("video");
+        const video = document.getElementById(mappedAsset.guid);
         const videoTexture = new VideoTexture(video as HTMLVideoElement);
         videoTexture.minFilter = LinearFilter;
         videoTexture.magFilter = LinearFilter;
@@ -48,9 +58,19 @@ const getMappedAsset = (
       }
 
       case ASSET_MAPPING_RELATIONSHIPS.DIMENSION: {
-        // @ts-ignore
-        const { width, height } = mappedAsset.data.image;
-        return new Vector2(width, height);
+        if (mappedAsset.assetType === ASSET_TYPES.VIDEO) {
+          const video = document.getElementById(mappedAsset.guid);
+          const width = video?.clientWidth;
+          const height = video?.clientHeight;
+          console.log("width", width);
+          console.log("height", height);
+          console.log("video", video);
+          return new Vector2(width, height);
+        } else {
+          // @ts-ignore
+          const { width, height } = mappedAsset.data.image;
+          return new Vector2(width, height);
+        }
       }
       default:
         console.warn(`No configuration for ${assetMapping.relationship}`);
