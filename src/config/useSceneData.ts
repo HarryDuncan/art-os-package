@@ -15,24 +15,23 @@ export const useSceneData = (
 
   useEffect(() => {
     if (!isInitialized) {
-      if (!config) return null;
-      const materials = formatSceneMaterials(assets, config);
-      const meshes = getMeshesFromConfig(assets, materials, config);
+      if (config) {
+        const materials = formatSceneMaterials(assets, config);
+        const meshes = getMeshesFromConfig(assets, materials, config);
+        const animationConfig = config?.animationConfig ?? [];
+        const sceneProperties = getScenePropertiesFromConfig(
+          config.scenePropertiesConfig
+        );
 
-      const animationConfig = config?.animationConfig ?? [];
-
-      const sceneProperties = getScenePropertiesFromConfig(
-        config.scenePropertiesConfig
-      );
-
-      setSceneData({
-        controlsConfig: config.controlsConfig ?? {},
-        meshes: meshes ?? [],
-        lights: [],
-        sceneProperties,
-        animationConfig,
-      });
-      setIsInitialized(true);
+        setSceneData({
+          controlsConfig: config.controlsConfig ?? {},
+          meshes: meshes ?? [],
+          lights: [],
+          sceneProperties,
+          animationConfig,
+        });
+        setIsInitialized(true);
+      }
     }
   }, [config, assets, isInitialized]);
 

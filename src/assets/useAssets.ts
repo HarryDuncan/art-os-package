@@ -99,8 +99,9 @@ const loadAsset = async (asset: Asset) => {
         video.autoplay = true;
         video.muted = true; // Most browsers require muted for autoplay to work
         video.loop = true; // keep replaying
-        video.playsInline = true;
 
+        video.width = 600;
+        video.height = 600;
         // Append to the element with id 'append-container' if it exists, otherwise fallback to body
         const appendContainer = document.getElementById("append-container");
         if (appendContainer) {

@@ -5,7 +5,14 @@ import { Asset } from "../../../../assets/types";
 import { AssetToUniformMappingConfig } from "../../types";
 import { UniformObject } from "../generator/types";
 import { ASSET_MAPPING_RELATIONSHIPS } from "../schema";
-import { Vector2, VideoTexture, LinearFilter, RGBFormat, Texture } from "three";
+import {
+  Vector2,
+  VideoTexture,
+  LinearFilter,
+  RGBFormat,
+  Texture,
+  MirroredRepeatWrapping,
+} from "three";
 
 export const mapAssetsToUniforms = (
   assetMapping: AssetToUniformMappingConfig[],
@@ -39,6 +46,11 @@ const getMappedAsset = (
           videoTexture.minFilter = LinearFilter;
           videoTexture.magFilter = LinearFilter;
           videoTexture.format = RGBFormat;
+          videoTexture.wrapS = MirroredRepeatWrapping;
+          videoTexture.wrapT = MirroredRepeatWrapping;
+          // ClampToEdgeWrapping
+          videoTexture.repeat.set(1, 1);
+          videoTexture.offset.set(0, 0);
           return videoTexture;
         } else {
           const texture = mappedAsset.data;
