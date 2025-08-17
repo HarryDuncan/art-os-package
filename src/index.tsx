@@ -25,6 +25,7 @@ export * from "./thread";
 export * from "./exports/schema";
 export * from "./exports/consts";
 export * from "./exports/types";
+export * from "./exports/functions";
 
 export * from "./types";
 export * from "./consts";

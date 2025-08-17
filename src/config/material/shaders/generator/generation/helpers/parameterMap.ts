@@ -22,9 +22,13 @@ export const getShaderInputMap = (
 ) => {
   const shaderInputMap = new Map<string, ShaderParameter>();
   const parameters = getParametersByKey(parameterMap, inputIds);
-  const { inputMapping, guid } = shaderEffectConfig;
+  const { inputMapping, guid: effectId } = shaderEffectConfig;
   parameters.forEach((parameter) => {
-    if (parameter.parameterType === SHADER_PROPERTY_TYPES.ATTRIBUTE) {
+    if (
+      parameter.parameterType === SHADER_PROPERTY_TYPES.ATTRIBUTE ||
+      parameter.key === "uTime" ||
+      parameter.key === "fragColor"
+    ) {
       shaderInputMap.set(parameter.key, parameter);
       return;
     }
@@ -34,6 +38,7 @@ export const getShaderInputMap = (
     }
 
     const itemId = inputMapping?.[parameter.key]?.itemId;
+
     if (itemId === parameter.guid) {
       shaderInputMap.set(`${parameter.key}`, parameter);
       return;
@@ -43,7 +48,7 @@ export const getShaderInputMap = (
     ) {
       shaderInputMap.set(parameter.key, {
         ...parameter,
-        shaderParameterId: `${parameter.key}_${guid}`,
+        shaderParameterId: `${parameter.key}_${effectId}`,
       });
       return;
     }

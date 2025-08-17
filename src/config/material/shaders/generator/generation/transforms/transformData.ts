@@ -22,7 +22,6 @@ export const generateShaderTransformData = (
   const { effectSchema } = effect;
   if (effectSchema) {
     const { transformSchema, assignedVariableId, functions } = effectSchema;
-
     const { transformationFunctions, transformation, advancedShaderVariables } =
       generateTransform(
         transformSchema as ShaderTransformationSchema[],

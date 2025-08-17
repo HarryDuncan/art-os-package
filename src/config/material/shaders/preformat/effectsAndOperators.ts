@@ -11,10 +11,13 @@ const DEFAULT_EFFECT_FUNCTION_CONFIG = {
 
 export const formatShaderEffects = (
   shaderEffectConfigs: ShaderEffectConfig[],
-  operatorConfigs: OperatorConfig[]
+  operatorConfigs: OperatorConfig[],
+  schemas: Record<string, Record<string, unknown>>
 ) => {
-  const { vertexEffects, fragmentEffects } =
-    formatEffectsAndSchemas(shaderEffectConfigs);
+  const { vertexEffects, fragmentEffects } = formatEffectsAndSchemas(
+    shaderEffectConfigs,
+    schemas
+  );
 
   const fragmentEffectFunctionConfigs = operatorConfigs.filter((config) => {
     const { outputMapping } = config;

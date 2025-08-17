@@ -25,6 +25,10 @@ export const formatTransformCode = (
     return line.replace(/{{(\w+)}}/g, (match, key) => {
       const parameter = inputMap.get(key);
 
+      if (key === "uTime") {
+        console.log(inputMap);
+        console.log(effectCodeLines);
+      }
       if (key === "SUB_EFFECTS") {
         return "";
       }

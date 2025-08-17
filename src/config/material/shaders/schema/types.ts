@@ -54,6 +54,7 @@ export type ParameterConfig = {
   isFunctionBased?: boolean;
   isAssetMapped?: boolean;
   isTransformInput?: boolean;
+  isDefault?: boolean;
   tags?: string[];
   fromConfig?: boolean;
   assetMappingConfig?: {

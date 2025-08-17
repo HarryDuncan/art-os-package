@@ -42,7 +42,7 @@ export const EXPLODE_PARAMETERS = [
     key: "uStrength",
     name: "Strength",
     description: "The strength of the explode effect",
-    valueType: "FLOAT",
+    valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
     value: 1.5,
   },
   ...EXPLODE_ATTRIBUTES,

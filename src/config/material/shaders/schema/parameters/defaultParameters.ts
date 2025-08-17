@@ -13,11 +13,13 @@ export const VERTEX_POINT = {
   name: "Current Vertex Point",
   description:
     "The current vertex point - can be mapped to the current position or te original position of the mesh",
-  parameterType: SHADER_PROPERTY_TYPES.SHADER_VARIABLE,
+
   valueType: SHADER_PROPERTY_VALUE_TYPES.VEC4,
+  parameterType: SHADER_PROPERTY_TYPES.SHADER_VARIABLE,
   shaderVariableConfig: {
     shaderVariableType: SHADER_VARIABLE_TYPES.VERTEX_POINT,
   },
+  isDefault: true,
 };
 
 export const TIME = {
@@ -28,6 +30,7 @@ export const TIME = {
   value: null,
   isAssetMapped: false,
   parameterType: SHADER_PROPERTY_TYPES.UNIFORM,
+  isDefault: true,
 };
 
 export const RESOLUTION = {
@@ -38,6 +41,7 @@ export const RESOLUTION = {
   value: null,
   isAssetMapped: false,
   parameterType: SHADER_PROPERTY_TYPES.UNIFORM,
+  isDefault: true,
 };
 
 export const UV = {
@@ -51,6 +55,7 @@ export const UV = {
     attributeKey: "uv",
     valueType: SHADER_PROPERTY_VALUE_TYPES.VEC2,
   },
+  isDefault: true,
 };
 
 export const NORMAL_VARYING = {
@@ -62,6 +67,7 @@ export const NORMAL_VARYING = {
   varyingConfig: {
     varyingType: VARYING_TYPES.DEFAULT,
   },
+  isDefault: true,
 };
 
 export const POSITION_VARYING = {
@@ -73,6 +79,7 @@ export const POSITION_VARYING = {
   varyingConfig: {
     varyingType: VARYING_TYPES.DEFAULT,
   },
+  isDefault: true,
 };
 
 export const VIEW_DIRECTION_VARYING = {
@@ -84,6 +91,7 @@ export const VIEW_DIRECTION_VARYING = {
   varyingConfig: {
     varyingType: VARYING_TYPES.DEFAULT,
   },
+  isDefault: true,
 };
 export const COLOR = {
   key: "color",
@@ -92,13 +100,18 @@ export const COLOR = {
   isAssetMapped: false,
   parameterType: SHADER_PROPERTY_TYPES.UNIFORM,
   tags: [SHADER_PROPERTY_TAGS.COLOR],
+  isDefault: true,
 };
 export const FRAGMENT_COLOR = {
   key: "fragColor",
   valueType: SHADER_PROPERTY_VALUE_TYPES.VEC4,
   value: null,
   isAssetMapped: false,
-  parameterType: SHADER_PROPERTY_TYPES.UNIFORM,
+  isDefault: true,
+  parameterType: SHADER_PROPERTY_TYPES.SHADER_VARIABLE,
+  shaderVariableConfig: {
+    shaderVariableType: SHADER_VARIABLE_TYPES.FRAGMENT_COLOR,
+  },
 };
 
 export const QUAD_DIMENSION = {
@@ -111,6 +124,7 @@ export const QUAD_DIMENSION = {
   assetMappingConfig: {
     relationship: ASSET_MAPPING_RELATIONSHIPS.DIMENSION,
   },
+  isDefault: true,
 };
 
 export const POINT_OFFSET = {
@@ -123,4 +137,5 @@ export const POINT_OFFSET = {
     attributeValueType: ATTRIBUTE_VALUE_TYPES.INDEXED,
     assetId: "",
   },
+  isDefault: true,
 };

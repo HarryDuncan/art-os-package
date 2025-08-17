@@ -19,7 +19,8 @@ import { removeDuplicatesByKey } from "../../../../utils/removeDuplicatesByKey";
 export const preformat = (
   effectParameters: ParameterConfig[],
   shaderEffectConfigs: ShaderEffectConfig[],
-  operatorConfigs: OperatorConfig[]
+  operatorConfigs: OperatorConfig[],
+  schemas: Record<string, Record<string, unknown>>
 ): {
   parameterMap: ShaderParameterMap;
   updatedEffectConfigs: ShaderEffectConfig[];
@@ -51,7 +52,14 @@ export const preformat = (
     ...effectParameters,
     ...functionBasedVaryings,
   ].reduce((acc, effectParameter) => {
-    const { key: parameterId, guid } = effectParameter;
+    const { key: parameterId, guid, isDefault } = effectParameter;
+    if (isDefault) {
+      acc.set(parameterId, {
+        ...effectParameter,
+        shaderParameterId: `${parameterId}`,
+      } as ShaderParameter);
+      return acc;
+    }
     if (effectParameter.parameterType === SHADER_PROPERTY_TYPES.ATTRIBUTE) {
       acc.set(parameterId, {
         ...effectParameter,
@@ -134,8 +142,10 @@ export const preformat = (
 
   const { vertexEffects, fragmentEffects } = formatShaderEffects(
     updatedEffectConfigs,
-    updatedOperatorConfigs
+    updatedOperatorConfigs,
+    schemas
   );
+  console.log(parameterMap);
 
   return {
     parameterMap,

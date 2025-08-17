@@ -6,6 +6,7 @@ import { configureBlendingOptions } from "../blending-options/configureBlendingO
 import { MATERIAL_TYPES } from "../schema/consts";
 import { preformat } from "./preformat/preformat";
 import { generateShaders } from "./generator/generateShaders";
+import { MaterialConfig } from "../types";
 
 export const generateShaderMaterials = (
   config: SceneConfig,
@@ -19,22 +20,10 @@ export const generateShaderMaterials = (
   const builtShaderMaterials = sceneMaterialConfigs.flatMap(
     (materialConfig) => {
       if (materialConfig.materialType === MATERIAL_TYPES.BUILT_SHADER) {
-        const { shaderEffectConfigs, operatorConfigs, parameterConfigs } =
-          materialConfig;
-        if (!shaderEffectConfigs) return [];
-
-        const { parameterMap, vertexEffects, fragmentEffects } = preformat(
-          parameterConfigs ?? [],
-          shaderEffectConfigs,
-          operatorConfigs ?? []
+        const { vertexShader, fragmentShader, parameterMap } = generateShader(
+          materialConfig,
+          materialConfig.schemas ?? {}
         );
-
-        const { vertexShader, fragmentShader } = generateShaders(
-          vertexEffects,
-          fragmentEffects,
-          parameterMap
-        );
-
         const formattedUniforms = formatBuiltShaderUniforms(
           parameterMap,
           assets
@@ -52,7 +41,6 @@ export const generateShaderMaterials = (
           side: DoubleSide,
         });
         shaderMaterial.name = materialConfig.guid;
-
         return shaderMaterial;
       }
       return [];
@@ -60,4 +48,26 @@ export const generateShaderMaterials = (
   );
 
   return { builtShaders: builtShaderMaterials };
+};
+
+export const generateShader = (
+  materialConfig: MaterialConfig,
+  schemas: Record<string, Record<string, unknown>>
+) => {
+  const { shaderEffectConfigs, operatorConfigs, parameterConfigs } =
+    materialConfig;
+
+  const { parameterMap, vertexEffects, fragmentEffects } = preformat(
+    parameterConfigs ?? [],
+    shaderEffectConfigs ?? [],
+    operatorConfigs ?? [],
+    schemas
+  );
+
+  const { vertexShader, fragmentShader } = generateShaders(
+    vertexEffects,
+    fragmentEffects,
+    parameterMap
+  );
+  return { vertexShader, fragmentShader, parameterMap };
 };

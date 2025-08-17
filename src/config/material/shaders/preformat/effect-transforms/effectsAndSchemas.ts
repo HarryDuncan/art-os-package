@@ -2,6 +2,7 @@ import {
   FragmentEffectConfig,
   getEffectSchema,
   SHADER_TYPES,
+  SHADER_VARIABLE_TYPES,
   ShaderEffectConfig,
   ShaderEffectSchema,
   VertexEffectConfig,
@@ -68,7 +69,9 @@ const mergeExternalSchema = (
   externalSchemas: Record<string, Record<string, unknown>>
 ) => {
   const { schemaId, shaderType } = config;
+
   const externalSchemaForEffect = externalSchemas[shaderType]?.[schemaId];
+
   if (!externalSchemaForEffect) {
     const effectSchema = getEffectSchema(shaderType, schemaId);
     return {
@@ -76,9 +79,30 @@ const mergeExternalSchema = (
       effectSchema: effectSchema ?? ({} as ShaderEffectSchema),
     };
   } else {
+    const formattedExternalSchema = formatExternalSchema(
+      externalSchemaForEffect,
+      shaderType
+    );
     return {
       ...config,
-      effectSchema: externalSchemaForEffect as ShaderEffectSchema,
+      effectSchema: formattedExternalSchema as ShaderEffectSchema,
     };
   }
+};
+
+/* 
+ TODO - format external schema on the art os side
+*/
+const formatExternalSchema = (externalSchema: unknown, shaderType: string) => {
+  const assignedVariableId =
+    shaderType === SHADER_TYPES.VERTEX
+      ? SHADER_VARIABLE_TYPES.VERTEX_POINT
+      : SHADER_VARIABLE_TYPES.FRAGMENT_COLOR;
+
+  return {
+    ...(externalSchema as ShaderEffectSchema),
+    parameters: (externalSchema as ShaderEffectSchema).parameters,
+    transformSchema: (externalSchema as ShaderEffectSchema).transformSchema,
+    assignedVariableId,
+  };
 };
