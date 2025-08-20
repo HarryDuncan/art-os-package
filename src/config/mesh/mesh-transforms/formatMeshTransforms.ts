@@ -50,7 +50,6 @@ export const getAttributeValuesFromAssets = (
         relationship: string;
       };
       const selectedAsset = assets.find((asset) => asset.guid === assetId);
-      console.log("selectedAsset", selectedAsset);
       if (selectedAsset) {
         switch (relationship) {
           case ASSET_MAPPING_RELATIONSHIPS.DIMENSION: {
@@ -67,12 +66,10 @@ export const getAttributeValuesFromAssets = (
   }, {});
 
 const getDimensionAttributeValues = (asset: Asset) => {
-  console.log("asset", asset);
   if (asset.assetType === ASSET_TYPES.VIDEO) {
-    const video = document.getElementById(asset.guid);
-    console.log("video", video);
-    const width = video?.clientWidth;
-    const height = video?.clientHeight;
+    const video = document.getElementById(asset.guid) as HTMLVideoElement;
+    const width = video?.videoWidth;
+    const height = video?.videoHeight;
     return new Vector2(width, height);
   } else {
     // @ts-expect-error

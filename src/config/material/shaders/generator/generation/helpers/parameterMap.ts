@@ -9,10 +9,29 @@ import { shaderValueTypeInstantiation } from "./shaderValues";
 
 export const getParametersByKey = (
   parameterMap: ShaderParameterMap,
-  key: string[]
+  keys: string[],
+  inputMapping?: Record<string, OutputInputMapping>
 ) => {
-  const parameterArray = Array.from(parameterMap.values());
-  return parameterArray.filter((parameter) => key.includes(parameter.key));
+  console.log("keys", keys);
+  console.log(inputMapping);
+  const parameterArray = Array.from(parameterMap.entries());
+  return parameterArray.flatMap(([key, parameter]) => {
+    const [keyWithoutEffectId, parameterGuid] = key.split("_");
+    console.log("keyWithoutEffectId", keyWithoutEffectId);
+    if (parameterGuid === "varying" && keys.includes(key)) {
+      return parameter;
+    }
+    if (
+      inputMapping?.[keyWithoutEffectId] &&
+      inputMapping?.[keyWithoutEffectId]?.itemId === parameterGuid &&
+      keys.includes(keyWithoutEffectId)
+    ) {
+      return parameter;
+    } else if (keys.includes(keyWithoutEffectId) && !parameterGuid) {
+      return parameter;
+    }
+    return [];
+  });
 };
 
 export const getShaderInputMap = (
@@ -21,8 +40,10 @@ export const getShaderInputMap = (
   shaderEffectConfig: ShaderEffectConfig
 ) => {
   const shaderInputMap = new Map<string, ShaderParameter>();
-  const parameters = getParametersByKey(parameterMap, inputIds);
   const { inputMapping, guid: effectId } = shaderEffectConfig;
+  const parameters = getParametersByKey(parameterMap, inputIds, inputMapping);
+  console.log("inputIds", inputIds);
+  console.log("parameters", parameters);
   parameters.forEach((parameter) => {
     if (
       parameter.parameterType === SHADER_PROPERTY_TYPES.ATTRIBUTE ||
@@ -88,7 +109,7 @@ export const getParametersFromInputMapping = (
   parameterMap: ShaderParameterMap
 ) => {
   const inputIds = Object.keys(inputMapping);
-  const parameters = getParametersByKey(parameterMap, inputIds);
+  const parameters = getParametersByKey(parameterMap, inputIds, inputMapping);
   return parameters.flatMap((parameter) => {
     const itemId = inputMapping?.[parameter.key]?.itemId;
     if (itemId === parameter.guid) {

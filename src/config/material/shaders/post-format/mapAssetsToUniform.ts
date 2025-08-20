@@ -71,12 +71,12 @@ const getMappedAsset = (
 
       case ASSET_MAPPING_RELATIONSHIPS.DIMENSION: {
         if (mappedAsset.assetType === ASSET_TYPES.VIDEO) {
-          const video = document.getElementById(mappedAsset.guid);
-          const width = video?.clientWidth;
-          const height = video?.clientHeight;
-          console.log("width", width);
-          console.log("height", height);
-          console.log("video", video);
+          const video = document.getElementById(
+            mappedAsset.guid
+          ) as HTMLVideoElement;
+          const width = video?.videoWidth;
+          const height = video?.videoHeight;
+
           return new Vector2(width, height);
         } else {
           // @ts-ignore

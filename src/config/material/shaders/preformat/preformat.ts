@@ -68,7 +68,7 @@ export const preformat = (
     } else if (
       effectParameter.parameterType === SHADER_PROPERTY_TYPES.VARYING
     ) {
-      acc.set(`${parameterId}_varying`, {
+      acc.set(`${parameterId}`, {
         ...effectParameter,
         shaderParameterId: `${parameterId}`,
       } as ShaderParameter);

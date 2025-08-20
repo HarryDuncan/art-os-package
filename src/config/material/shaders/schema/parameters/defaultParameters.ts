@@ -139,3 +139,16 @@ export const POINT_OFFSET = {
   },
   isDefault: true,
 };
+
+export const ORIGINAL_POSITION = {
+  key: "position",
+  name: "Original Position",
+  description: "The original position of the point",
+  valueType: SHADER_PROPERTY_VALUE_TYPES.VEC3,
+  parameterType: SHADER_PROPERTY_TYPES.ATTRIBUTE,
+  attributeConfig: {
+    attributeValueType: ATTRIBUTE_VALUE_TYPES.INDEXED,
+    assetId: "",
+  },
+  isDefault: true,
+};

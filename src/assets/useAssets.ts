@@ -91,6 +91,7 @@ const loadAsset = async (asset: Asset) => {
       let video = document.getElementById(
         asset.guid
       ) as HTMLVideoElement | null;
+
       if (!video) {
         video = document.createElement("video");
         video.src = path;
@@ -100,8 +101,6 @@ const loadAsset = async (asset: Asset) => {
         video.muted = true; // Most browsers require muted for autoplay to work
         video.loop = true; // keep replaying
 
-        video.width = 600;
-        video.height = 600;
         // Append to the element with id 'append-container' if it exists, otherwise fallback to body
         const appendContainer = document.getElementById("append-container");
         if (appendContainer) {
@@ -109,23 +108,58 @@ const loadAsset = async (asset: Asset) => {
         } else {
           document.body.appendChild(video);
         }
+      }
 
-        // Wait for the video to start playing before returning
-        try {
-          await video.play();
-        } catch (e) {
-          // Autoplay might fail, but that's okay
+      // Wait until the video is mounted and playing before continuing
+      // We want to ensure the video is in the DOM and has started playing
+      async function waitForVideoToPlay(vid: HTMLVideoElement): Promise<void> {
+        // Wait for the video element to be in the DOM
+        if (!document.body.contains(vid)) {
+          await new Promise<void>((resolve) => {
+            const observer = new MutationObserver(() => {
+              if (document.body.contains(vid)) {
+                observer.disconnect();
+                resolve();
+              }
+            });
+            observer.observe(document.body, { childList: true, subtree: true });
+          });
         }
-      } else {
-        // If the video already exists, ensure it's playing before returning
-        if (video.paused) {
+
+        // Wait for the video to be able to play
+        if (vid.readyState < 2) {
+          await new Promise<void>((resolve) => {
+            const onCanPlay = () => {
+              vid.removeEventListener("canplay", onCanPlay);
+              resolve();
+            };
+            vid.addEventListener("canplay", onCanPlay);
+          });
+        }
+
+        // Try to play the video if not already playing
+        if (vid.paused) {
           try {
-            await video.play();
-          } catch (e) {
+            await vid.play();
+          } catch {
             // Autoplay might fail, but that's okay
           }
         }
+
+        // Wait for the video to actually start playing
+        if (vid.paused) {
+          await new Promise<void>((resolve) => {
+            const onPlaying = () => {
+              vid.removeEventListener("playing", onPlaying);
+              resolve();
+            };
+            vid.addEventListener("playing", onPlaying);
+          });
+        }
       }
+
+      await waitForVideoToPlay(video);
+
       return path;
     }
     case ASSET_TYPES.FONT: {
