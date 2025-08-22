@@ -9,7 +9,7 @@ import { ShaderTransformationSchema } from "../../types";
 const COLOR_TRANSFORMATION_CONFIG = {
   key: "defaultColorFunction",
   transformCode: [
-    `{{${SHADER_VARIABLE_ASSIGNMENT_KEYS.FRAGMENT_COLOR}}} = {{defaultColor}};`,
+    `{{${SHADER_VARIABLE_ASSIGNMENT_KEYS.FRAGMENT_COLOR}}} = {{color}};`,
     `return {{${SHADER_VARIABLE_ASSIGNMENT_KEYS.FRAGMENT_COLOR}}};`,
   ],
   returnValue: SHADER_PROPERTY_VALUE_TYPES.VEC4,

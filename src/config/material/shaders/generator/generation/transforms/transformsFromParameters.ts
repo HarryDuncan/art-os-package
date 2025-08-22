@@ -9,6 +9,7 @@ export const transformsFromParameters = (
   parameterMap: ShaderParameterMap
 ) => {
   const functionParameters = parameters.filter((item) => item.isFunctionBased);
+
   const transformConfigs = functionParameters.flatMap((item) => {
     return transformationConfigFromFunctionParameter(item, parameterMap) ?? [];
   });

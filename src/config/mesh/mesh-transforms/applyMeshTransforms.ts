@@ -117,6 +117,7 @@ export const applyMeshTransforms = (
       );
     }
 
+    console.log(formattedGeometries);
     return formattedGeometries;
   });
 

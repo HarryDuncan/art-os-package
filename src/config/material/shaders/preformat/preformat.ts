@@ -52,8 +52,8 @@ export const preformat = (
     ...effectParameters,
     ...functionBasedVaryings,
   ].reduce((acc, effectParameter) => {
-    const { key: parameterId, guid, isDefault } = effectParameter;
-    if (isDefault) {
+    const { key: parameterId, guid } = effectParameter;
+    if (parameterId === "uTime") {
       acc.set(parameterId, {
         ...effectParameter,
         shaderParameterId: `${parameterId}`,

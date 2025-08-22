@@ -74,13 +74,14 @@ const getDefaultVaryingString = (config: ParameterConfig[]) => {
         break;
       case "vNormal":
         strings.push(
-          `vNormal = (modelMatrix *  vec4(${VERTEX_NORMAL_NAME})).xyz;`
+          `vNormal = normalMatrix *  vec3(${VERTEX_NORMAL_NAME}.xyz);`
         );
         break;
       case "vViewDirection":
         strings.push(
-          `vViewDirection = normalize(vec3(modelViewMatrix * vec4(${VERTEX_POINT_NAME})));`
+          `vec4 viewPos = modelViewMatrix * vec4(${VERTEX_POINT_NAME}.xyz, 1.0);`
         );
+        strings.push(`vViewDirection = normalize(-viewPos.xyz);`);
         break;
       // case "vModelViewMatrix":
       //   strings.push("vModelViewMatrix = modelViewMatrix;");

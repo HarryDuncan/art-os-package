@@ -122,7 +122,7 @@ export const transformationConfigFromFunctionParameter = (
     inputMapping,
     parameters
   );
-
+  console.log("functionParameters", functionParameters);
   const sortedInputIds = sortInputIds([
     ...functionParameters.map((p) => p.key),
   ]);

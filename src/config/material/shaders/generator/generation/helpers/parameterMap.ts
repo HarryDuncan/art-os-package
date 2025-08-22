@@ -10,14 +10,13 @@ import { shaderValueTypeInstantiation } from "./shaderValues";
 export const getParametersByKey = (
   parameterMap: ShaderParameterMap,
   keys: string[],
-  inputMapping?: Record<string, OutputInputMapping>
+  inputMapping?: Record<string, OutputInputMapping>,
+  test: boolean = false
 ) => {
-  console.log("keys", keys);
-  console.log(inputMapping);
   const parameterArray = Array.from(parameterMap.entries());
-  return parameterArray.flatMap(([key, parameter]) => {
+  const parameters = parameterArray.flatMap(([key, parameter]) => {
     const [keyWithoutEffectId, parameterGuid] = key.split("_");
-    console.log("keyWithoutEffectId", keyWithoutEffectId);
+
     if (parameterGuid === "varying" && keys.includes(key)) {
       return parameter;
     }
@@ -32,6 +31,26 @@ export const getParametersByKey = (
     }
     return [];
   });
+  if (test) {
+    console.log("inputMapping", inputMapping);
+    console.log("keys", keys);
+    console.log("testing parameters", parameters);
+  }
+
+  const uniqueParameters = new Map<string, ShaderParameter>();
+  parameters.forEach((parameter) => {
+    const existingParameter = uniqueParameters.get(parameter.key);
+    if (existingParameter) {
+      const splitParameter = parameter.shaderParameterId.split("_");
+      //  console.log("splitParameter", splitParameter);
+      if (splitParameter.length === 2) {
+        uniqueParameters.set(parameter.key, { ...parameter, isDefault: true });
+      }
+    } else {
+      uniqueParameters.set(parameter.key, parameter);
+    }
+  });
+  return Array.from(uniqueParameters.values());
 };
 
 export const getShaderInputMap = (
@@ -42,8 +61,8 @@ export const getShaderInputMap = (
   const shaderInputMap = new Map<string, ShaderParameter>();
   const { inputMapping, guid: effectId } = shaderEffectConfig;
   const parameters = getParametersByKey(parameterMap, inputIds, inputMapping);
-  console.log("inputIds", inputIds);
-  console.log("parameters", parameters);
+  // console.log("inputIds", inputIds);
+  // console.log("parameters", parameters);
   parameters.forEach((parameter) => {
     if (
       parameter.parameterType === SHADER_PROPERTY_TYPES.ATTRIBUTE ||
@@ -109,10 +128,18 @@ export const getParametersFromInputMapping = (
   parameterMap: ShaderParameterMap
 ) => {
   const inputIds = Object.keys(inputMapping);
-  const parameters = getParametersByKey(parameterMap, inputIds, inputMapping);
+  const parameters = getParametersByKey(
+    parameterMap,
+    inputIds,
+    inputMapping,
+    true
+  );
+
   return parameters.flatMap((parameter) => {
     const itemId = inputMapping?.[parameter.key]?.itemId;
     if (itemId === parameter.guid) {
+      return parameter;
+    } else if (DEFAULT_PARAMETER_KEYS.includes(parameter.key)) {
       return parameter;
     }
     return [];

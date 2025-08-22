@@ -46,11 +46,6 @@ const getMappedAsset = (
           videoTexture.minFilter = LinearFilter;
           videoTexture.magFilter = LinearFilter;
           videoTexture.format = RGBFormat;
-          videoTexture.wrapS = MirroredRepeatWrapping;
-          videoTexture.wrapT = MirroredRepeatWrapping;
-          // ClampToEdgeWrapping
-          videoTexture.repeat.set(1, 1);
-          videoTexture.offset.set(0, 0);
           return videoTexture;
         } else {
           const texture = mappedAsset.data;

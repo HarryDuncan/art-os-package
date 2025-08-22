@@ -12,12 +12,25 @@ export const VERTEX_POINT = {
   key: "pointPosition",
   name: "Current Vertex Point",
   description:
-    "The current vertex point - can be mapped to the current position or te original position of the mesh",
+    "The current vertex point - can be mapped to the current position or the original position of the mesh",
 
   valueType: SHADER_PROPERTY_VALUE_TYPES.VEC4,
   parameterType: SHADER_PROPERTY_TYPES.SHADER_VARIABLE,
   shaderVariableConfig: {
     shaderVariableType: SHADER_VARIABLE_TYPES.VERTEX_POINT,
+  },
+  isDefault: true,
+};
+
+export const NORMAL = {
+  key: "normal",
+  name: "Current Vertex Normal",
+  description:
+    "The normal of the vertex - can be mapped to the normal of the mesh",
+  valueType: SHADER_PROPERTY_VALUE_TYPES.VEC4,
+  parameterType: SHADER_PROPERTY_TYPES.SHADER_VARIABLE,
+  shaderVariableConfig: {
+    shaderVariableType: SHADER_VARIABLE_TYPES.NORMAL,
   },
   isDefault: true,
 };
@@ -59,7 +72,7 @@ export const UV = {
 };
 
 export const NORMAL_VARYING = {
-  id: "vNormal",
+  key: "vNormal",
   valueType: SHADER_PROPERTY_VALUE_TYPES.VEC3,
   value: null,
   isAssetMapped: false,
@@ -71,7 +84,7 @@ export const NORMAL_VARYING = {
 };
 
 export const POSITION_VARYING = {
-  id: "vPosition",
+  key: "vPosition",
   valueType: SHADER_PROPERTY_VALUE_TYPES.VEC4,
   value: null,
   isAssetMapped: false,
@@ -83,7 +96,7 @@ export const POSITION_VARYING = {
 };
 
 export const VIEW_DIRECTION_VARYING = {
-  id: "vViewDirection",
+  key: "vViewDirection",
   valueType: SHADER_PROPERTY_VALUE_TYPES.VEC3,
   value: null,
   isAssetMapped: false,

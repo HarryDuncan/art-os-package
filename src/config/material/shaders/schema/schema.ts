@@ -4,7 +4,7 @@ import { FUNCTION_SCHEMA_MAP } from "./functions";
 import { OPERATOR_SCHEMA_MAP } from "./operators";
 import { VERTEX_SCHEMA_MAP } from "./vertex";
 import { MESH_TRANSFORM_SCHEMA } from "./mesh-transforms";
-import { VERTEX_POINT, TIME, FRAGMENT_COLOR } from "./parameters";
+import { VERTEX_POINT, TIME, FRAGMENT_COLOR, NORMAL } from "./parameters";
 
 export const getSchema = (schemaType: string, schemaId?: string) => {
   switch (schemaType) {
@@ -68,7 +68,7 @@ export const getDefaultSchemaParameters = (schemaType: string) => {
     // case SHADER_SCHEMA_TYPES.FUNCTION:
     //   return getFunctionSchema();
     case SHADER_SCHEMA_TYPES.VERTEX:
-      return [TIME, VERTEX_POINT];
+      return [TIME, VERTEX_POINT, NORMAL];
     case SHADER_SCHEMA_TYPES.FRAGMENT:
       return [TIME, FRAGMENT_COLOR];
     default:
