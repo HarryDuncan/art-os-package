@@ -30,7 +30,7 @@ export const VERTEX_POINT_INSTANTIATION = `vec4 ${VERTEX_POINT_NAME} = vec4(posi
 export const VERTEX_NORMAL_INSTANTIATION = `vec4 ${VERTEX_NORMAL_NAME} = vec4(normal.xyz, 0.0);`;
 
 export const FRAG_COLOR_NAME = "currentFragColor";
-export const FRAG_COLOR_INSTANTIATION = `vec4 ${FRAG_COLOR_NAME} = vec4(1.0,0,0,1.0); vec3 light = vec3(0.0);`;
+export const FRAG_COLOR_INSTANTIATION = `vec4 ${FRAG_COLOR_NAME} = vec4(1.0,0,0,1.0); vec3 light = vec3(0.0); vec4 post_effect = vec4(0.0);`;
 
 export const getAssignedVariableName = (
   assignedVariableId: string | undefined

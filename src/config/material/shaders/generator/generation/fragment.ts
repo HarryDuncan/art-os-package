@@ -1,4 +1,4 @@
-import { OperatorConfig } from "../../schema";
+import { OperatorConfig, SHADER_VARIABLE_TYPES } from "../../schema";
 import { FRAG_COLOR_NAME } from "../consts";
 import {
   AdvancedShaderVariableMap,
@@ -19,11 +19,29 @@ export const generateFragmentEffect = (
   } = getFragmentColors(fragmentEffectFunctions, parameterMap);
 
   console.log("assignedVariableIds", assignedVariableIds);
-  if (assignedVariableIds.includes("light")) {
+  if (assignedVariableIds.includes(SHADER_VARIABLE_TYPES.LIGHT)) {
     unmergedTransformations.push(
       `${FRAG_COLOR_NAME} = ${FRAG_COLOR_NAME} * vec4(light, 1.0);`
     );
   }
+
+  const [regularEffects, postEffects] = unmergedTransformations.reduce(
+    (acc, transformation) => {
+      if (transformation.includes(SHADER_VARIABLE_TYPES.POST_EFFECT)) {
+        acc[1].push(transformation);
+      } else {
+        acc[0].push(transformation);
+      }
+      return acc;
+    },
+    [[], []] as [string[], string[]]
+  );
+
+  const postEffectAssignment =
+    postEffects.length > 0
+      ? `${FRAG_COLOR_NAME} = vec4(post_effect.rgb, 1.0);`
+      : "";
+
   const advancedShaderVariablesInstantiation = Array.from(
     advancedShaderVariables.values()
   ).map((variable) => variable.instantiation);
@@ -34,8 +52,10 @@ export const generateFragmentEffect = (
 
   const transformations = [
     ...advancedShaderVariablesInstantiation,
-    ...unmergedTransformations,
+    ...regularEffects,
     ...advancedShaderVariablesAssignment,
+    ...postEffects,
+    postEffectAssignment,
   ].join("\n");
   const fragColor = `gl_FragColor = ${FRAG_COLOR_NAME};`;
   return {
@@ -56,6 +76,7 @@ export const getFragmentColors = (
   const allAdvancedShaderVariables: AdvancedShaderVariableMap = new Map();
   fragmentEffectFunctions.forEach((effect) => {
     const fragmentEffectData = transformSetup(effect, parameterMap);
+    console.log("fragmentEffectData", fragmentEffectData);
     if (fragmentEffectData) {
       unmergedTransformations.push(fragmentEffectData.transformation);
       allRequiredFunctions.push(...fragmentEffectData.requiredFunctions);

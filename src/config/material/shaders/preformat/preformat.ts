@@ -145,7 +145,6 @@ export const preformat = (
     updatedOperatorConfigs,
     schemas
   );
-  console.log(parameterMap);
 
   return {
     parameterMap,

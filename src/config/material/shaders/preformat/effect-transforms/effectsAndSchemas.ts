@@ -90,14 +90,30 @@ const mergeExternalSchema = (
   }
 };
 
+const ALLOWED_ASSIGNED_VARIABLE_IDS = [
+  SHADER_VARIABLE_TYPES.FRAGMENT_COLOR,
+  SHADER_VARIABLE_TYPES.LIGHT,
+  SHADER_VARIABLE_TYPES.POST_EFFECT,
+];
+const getAssignedVariableId = (shaderType: string, externalSchema: unknown) => {
+  if (
+    ALLOWED_ASSIGNED_VARIABLE_IDS.includes(
+      (externalSchema as ShaderEffectSchema).transformSchema[0]
+        .assignedVariableId as string
+    )
+  ) {
+    return (externalSchema as ShaderEffectSchema).transformSchema[0]
+      .assignedVariableId as string;
+  }
+  return shaderType === SHADER_TYPES.VERTEX
+    ? SHADER_VARIABLE_TYPES.VERTEX_POINT
+    : SHADER_VARIABLE_TYPES.FRAGMENT_COLOR;
+};
 /* 
  TODO - format external schema on the art os side
 */
 const formatExternalSchema = (externalSchema: unknown, shaderType: string) => {
-  const assignedVariableId =
-    shaderType === SHADER_TYPES.VERTEX
-      ? SHADER_VARIABLE_TYPES.VERTEX_POINT
-      : SHADER_VARIABLE_TYPES.FRAGMENT_COLOR;
+  const assignedVariableId = getAssignedVariableId(shaderType, externalSchema);
 
   return {
     ...(externalSchema as ShaderEffectSchema),

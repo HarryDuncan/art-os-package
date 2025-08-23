@@ -74,7 +74,7 @@ const getDefaultVaryingString = (config: ParameterConfig[]) => {
         break;
       case "vNormal":
         strings.push(
-          `vNormal = normalMatrix *  vec3(${VERTEX_NORMAL_NAME}.xyz);`
+          `vNormal = normalMatrix *  vec3(${VERTEX_NORMAL_NAME}).xyz;`
         );
         break;
       case "vViewDirection":

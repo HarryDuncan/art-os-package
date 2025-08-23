@@ -9,7 +9,9 @@ export const getShaderConfigsByType = (
   shaderType: string
 ) => {
   return shaderEffectConfigs.filter(
-    (shaderEffectConfig) => shaderEffectConfig.shaderType === shaderType
+    (shaderEffectConfig) =>
+      shaderEffectConfig.shaderType === shaderType &&
+      !shaderEffectConfig.disabled
   );
 };
 

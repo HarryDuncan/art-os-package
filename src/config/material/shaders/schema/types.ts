@@ -77,6 +77,7 @@ export interface EffectConfig {
   inputMapping: Record<string, OutputInputMapping>;
   outputMapping: Record<string, OutputInputMapping>;
   effectSchema?: ShaderEffectSchema;
+  disabled?: boolean;
 }
 
 export type VertexEffectConfig = EffectConfig & {
@@ -106,6 +107,7 @@ export type OperatorConfig = {
   inputMapSchema?: Record<string, string> | null;
   outputMapSchema?: Record<string, string> | null;
   effects?: ShaderEffectConfig[];
+  disabled?: boolean;
 };
 
 export type ShaderTransformationSchema = {
