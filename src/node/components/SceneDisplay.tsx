@@ -6,7 +6,7 @@ import {
 } from "../../components/status-toolbar";
 import { useThreeJs } from "../../hooks/use-three-js/useThreeJs";
 import { useSceneFunctions } from "../../hooks/useSceneFunctions";
-import { useThreadWithPostProcessor } from "../../thread";
+import { useThread } from "../../thread";
 import { ExternalInteractionNode } from "../external-interaction-nodes/ExternalInteractionNode";
 import { NodeProps } from "../node.types";
 import { RootContainer } from "../root/root-container";
@@ -40,7 +40,7 @@ export const SceneDisplay = ({
     sceneProperties
   );
 
-  useThreadWithPostProcessor(currentFrameRef, renderer, postEffects);
+  useThread(currentFrameRef, renderer, postEffects);
 
   const { isVisible } = useStatusToolbar();
 

@@ -1,85 +1,60 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 // @ts-nocheck
-import { MutableRefObject, useEffect, useRef } from "react";
+import { MutableRefObject, useCallback, useEffect } from "react";
 import { WebGLRenderer } from "three";
-import PostProcessor from "../components/post-processor/PostProcessor";
+import { sceneUpdateEvent } from "./threadEvents";
 import { useSceneContext } from "../context/context";
-import { RuntimeType } from "./thread.consts";
-import { useStandardRuntime } from "./runtimes/standard";
-import { useVRRuntime } from "./runtimes/vrRuntime";
 import { PROCESS_STATUS } from "../consts/consts";
+import { PingPongRenderTargetConfig } from "../config/post-effects/findPostEffectTransforms";
 
-export interface UseThreadConfig {
-  currentFrameRef: MutableRefObject<number>;
-  renderer: WebGLRenderer;
-  runtime?: RuntimeType;
-}
-
-export const useThread = ({
-  currentFrameRef,
-  renderer,
-  runtime = "standard",
-}: UseThreadConfig) => {
+export const useThread = (
+  currentFrameRef: MutableRefObject<number>,
+  renderer: WebGLRenderer,
+  postEffects: PingPongRenderTargetConfig[]
+) => {
   const {
     dispatch,
     state: { initializedScene, status },
     camera,
   } = useSceneContext();
 
-  const postProcessor: MutableRefObject<null | PostProcessor> = useRef(null);
+  // No postProcessor, just use renderer/camera/scene directly
 
-  // Initialize post processor
+  const update = useCallback(() => {
+    sceneUpdateEvent();
+    if (initializedScene) {
+      if (initializedScene?.orbitControls) {
+        initializedScene.orbitControls.update();
+      }
+      if (initializedScene?.animationManager.hasCameraAnimations()) {
+        initializedScene.animationManager.startCameraAnimation(camera);
+      }
+      // Render the scene using the renderer and camera directly
+      renderer.render(initializedScene, camera);
+    }
+    currentFrameRef.current = requestAnimationFrame(update);
+  }, [currentFrameRef, camera, initializedScene, renderer]);
+
+  const pause = useCallback(() => {
+    cancelAnimationFrame(currentFrameRef.current);
+  }, [currentFrameRef]);
+
   useEffect(() => {
-    const initPostProcessor = async () => {
-      postProcessor.current = new PostProcessor(
-        camera,
-        initializedScene,
-        renderer
-      );
-      initializedScene?.setRendererDimensions(
+    // Set renderer dimensions and status as before
+    if (initializedScene && camera && renderer) {
+      initializedScene.setRendererDimensions(
         renderer.domElement.clientHeight,
         renderer.domElement.clientWidth
       );
-      initializedScene?.setStatus("active");
-
-      const isInitialized = await postProcessor.current.init();
-
-      if (isInitialized) {
-        dispatch({
-          type: "UPDATE_STATUS",
-          payload: { status: PROCESS_STATUS.READY_TO_RENDER },
-        });
-      }
-    };
-    if (initializedScene && camera && renderer && !postProcessor.current) {
-      initPostProcessor();
+      initializedScene.setStatus("active");
+      // Immediately ready to render, no async postProcessor init
+      dispatch({
+        type: "UPDATE_STATUS",
+        payload: { status: PROCESS_STATUS.READY_TO_RENDER },
+      });
     }
-  }, [initializedScene, camera, renderer, postProcessor, dispatch]);
+  }, [initializedScene, camera, renderer, dispatch]);
 
-  // Set up renderer for VR if needed
-  useEffect(() => {
-    if (runtime === "vr" && renderer) {
-      renderer.xr.enabled = true;
-    }
-  }, [runtime, renderer]);
-
-  // Get the appropriate runtime
-  const standardRuntime = useStandardRuntime({
-    currentFrameRef,
-    renderer,
-    postProcessor,
-  });
-
-  const vrRuntime = useVRRuntime({
-    currentFrameRef,
-    renderer,
-    postProcessor,
-  });
-
-  // Select runtime based on prop
-  const selectedRuntime = runtime === "vr" ? vrRuntime : standardRuntime;
-
-  // Start rendering when ready
   useEffect(() => {
     if (status === PROCESS_STATUS.READY_TO_RENDER) {
       dispatch({
@@ -88,17 +63,13 @@ export const useThread = ({
       });
     }
     if (status === PROCESS_STATUS.RUNNING) {
-      currentFrameRef.current = requestAnimationFrame(selectedRuntime.update);
+      currentFrameRef.current = requestAnimationFrame(update);
     }
 
     return () => {
-      selectedRuntime.pause();
+      pause();
     };
-  }, [selectedRuntime, status, dispatch, currentFrameRef]);
+  }, [update, pause, status, dispatch, currentFrameRef]);
 
-  return {
-    update: selectedRuntime.update,
-    pause: selectedRuntime.pause,
-    ...(runtime === "vr" && { initVR: vrRuntime.initVR }),
-  };
+  return { update, pause };
 };
