@@ -53,7 +53,10 @@ export const preformat = (
     ...functionBasedVaryings,
   ].reduce((acc, effectParameter) => {
     const { key: parameterId, guid } = effectParameter;
-    if (parameterId === "uTime") {
+    if (
+      effectParameter.parameterType === SHADER_PROPERTY_TYPES.UNIFORM &&
+      effectParameter.isDefault
+    ) {
       acc.set(parameterId, {
         ...effectParameter,
         shaderParameterId: `${parameterId}`,
@@ -109,23 +112,6 @@ export const preformat = (
         inputMapping: updatedInputMapping,
       };
     }
-    // const mappingToRemove = fragmentIdsToRemove[config.id];
-    // if (mappingToRemove) {
-    //   const { inputMapping } = config;
-    //   const updatedInputMapping = Object.entries(inputMapping ?? {}).reduce(
-    //     (acc, [key, value]) => {
-    //       if (key !== mappingToRemove) {
-    //         acc[key] = value;
-    //       }
-    //       return acc;
-    //     },
-    //     {} as Record<string, OutputInputMapping>
-    //   );
-    //   return {
-    //     ...config,
-    //     inputMapping: updatedInputMapping,
-    //   };
-    // }
     return config;
   });
 

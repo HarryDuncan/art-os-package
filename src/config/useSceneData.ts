@@ -5,6 +5,7 @@ import { getMeshesFromConfig } from "../config/mesh/getMeshesFromConfig";
 import { SceneConfig, SceneData } from "./config.types";
 import { getScenePropertiesFromConfig } from "./scene-properties/setSceneProperties";
 import { Asset } from "../assets/types";
+import { postEffectsFromConfig } from "./post-effects/postEffectsFromConfig";
 
 export const useSceneData = (
   config: SceneConfig | undefined | null,
@@ -22,6 +23,7 @@ export const useSceneData = (
         const sceneProperties = getScenePropertiesFromConfig(
           config.scenePropertiesConfig
         );
+        const postEffects = postEffectsFromConfig(config);
 
         setSceneData({
           controlsConfig: config.controlsConfig ?? {},
@@ -29,6 +31,7 @@ export const useSceneData = (
           lights: [],
           sceneProperties,
           animationConfig,
+          postEffects,
         });
         setIsInitialized(true);
       }

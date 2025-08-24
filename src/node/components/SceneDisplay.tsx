@@ -20,6 +20,7 @@ export const SceneDisplay = ({
     meshes,
     //sceneComponents,
     sceneProperties,
+    postEffects,
   },
 }: NodeProps) => {
   useSetWindowState();
@@ -39,7 +40,7 @@ export const SceneDisplay = ({
     sceneProperties
   );
 
-  useThreadWithPostProcessor(currentFrameRef, renderer);
+  useThreadWithPostProcessor(currentFrameRef, renderer, postEffects);
 
   const { isVisible } = useStatusToolbar();
 

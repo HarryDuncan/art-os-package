@@ -1,10 +1,9 @@
 import {
   SHADER_PROPERTY_VALUE_TYPES,
-  SHADER_PROPERTY_TYPES,
-  VARYING_TYPES,
   SHADER_VARIABLE_TYPES,
 } from "../../consts";
 import { ShaderTransformationSchema } from "../../types";
+import { UV_VARYING } from "../../parameters";
 
 export const POINT_SIZE_PARAMETERS = [
   {
@@ -14,18 +13,7 @@ export const POINT_SIZE_PARAMETERS = [
     valueType: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
     value: 10,
   },
-  {
-    key: "vUv",
-    name: "UV",
-    valueType: SHADER_PROPERTY_VALUE_TYPES.VEC2,
-    description: "The UV coordinates of the texture",
-    parameterType: SHADER_PROPERTY_TYPES.VARYING,
-    varyingConfig: {
-      varyingType: VARYING_TYPES.DEFAULT,
-      attributeKey: "uv",
-      valueType: SHADER_PROPERTY_VALUE_TYPES.VEC2,
-    },
-  },
+  UV_VARYING,
 ];
 
 export const POINT_SIZE_REQUIRED_FUNCTIONS = [];

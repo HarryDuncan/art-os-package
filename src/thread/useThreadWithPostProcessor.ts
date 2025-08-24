@@ -6,17 +6,20 @@ import PostProcessor from "../components/post-processor/PostProcessor";
 import { sceneUpdateEvent } from "./threadEvents";
 import { useSceneContext } from "../context/context";
 import { PROCESS_STATUS } from "../consts/consts";
+import { framePingPong } from "../post-processing/framePingPong";
+import { PingPongRenderTargetConfig } from "../config/post-effects/findPostEffectTransforms";
 
 export const useThreadWithPostProcessor = (
   currentFrameRef: MutableRefObject<number>,
-  renderer: WebGLRenderer
+  renderer: WebGLRenderer,
+  postEffects: PingPongRenderTargetConfig[]
 ) => {
   const {
     dispatch,
     state: { initializedScene, status },
     camera,
   } = useSceneContext();
-
+  console.log(postEffects);
   const postProcessor: MutableRefObject<null | PostProcessor> = useRef(null);
   const update = useCallback(() => {
     if (postProcessor.current?.isInitialized()) {
@@ -51,7 +54,12 @@ export const useThreadWithPostProcessor = (
         renderer.domElement.clientWidth
       );
       initializedScene?.setStatus("active");
-
+      // const { render, getCurrentTexture, dispose } = framePingPong(
+      //   renderer,
+      //   initializedScene,
+      //   camera,
+      //   "uRenderTarget",
+      // );
       const isInitialized = await postProcessor.current.init();
 
       if (isInitialized) {

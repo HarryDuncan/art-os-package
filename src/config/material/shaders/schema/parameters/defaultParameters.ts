@@ -47,7 +47,7 @@ export const TIME = {
 };
 
 export const RESOLUTION = {
-  id: "uResolution",
+  key: "uResolution",
   name: "Resolution",
   description: "The resolution of the screen",
   valueType: SHADER_PROPERTY_VALUE_TYPES.VEC2,
@@ -71,8 +71,20 @@ export const UV = {
   isDefault: true,
 };
 
+export const RENDER_TARGET = {
+  key: "uRenderTarget",
+  name: "Render Target",
+  description: "The render target of the shader",
+  valueType: SHADER_PROPERTY_VALUE_TYPES.SAMPLER2D,
+  value: null,
+  isAssetMapped: false,
+  parameterType: SHADER_PROPERTY_TYPES.UNIFORM,
+  isDefault: true,
+};
 export const NORMAL_VARYING = {
   key: "vNormal",
+  name: "Normal Varying",
+  description: "will pass the calculated normal to the fragment shader",
   valueType: SHADER_PROPERTY_VALUE_TYPES.VEC3,
   value: null,
   isAssetMapped: false,
@@ -85,6 +97,8 @@ export const NORMAL_VARYING = {
 
 export const POSITION_VARYING = {
   key: "vPosition",
+  name: "Position Varying",
+  description: "will pass the calculated position to the fragment shader",
   valueType: SHADER_PROPERTY_VALUE_TYPES.VEC4,
   value: null,
   isAssetMapped: false,
@@ -97,6 +111,8 @@ export const POSITION_VARYING = {
 
 export const VIEW_DIRECTION_VARYING = {
   key: "vViewDirection",
+  name: "View Direction Varying",
+  description: "will pass the calculated view direction to the fragment shader",
   valueType: SHADER_PROPERTY_VALUE_TYPES.VEC3,
   value: null,
   isAssetMapped: false,
@@ -106,17 +122,10 @@ export const VIEW_DIRECTION_VARYING = {
   },
   isDefault: true,
 };
-export const COLOR = {
-  key: "color",
-  valueType: SHADER_PROPERTY_VALUE_TYPES.VEC4,
-  value: [0, 0, 0, 1],
-  isAssetMapped: false,
-  parameterType: SHADER_PROPERTY_TYPES.UNIFORM,
-  tags: [SHADER_PROPERTY_TAGS.COLOR],
-  isDefault: true,
-};
 export const FRAGMENT_COLOR = {
   key: "fragColor",
+  name: "Fragment Color",
+  description: "The color of the fragment",
   valueType: SHADER_PROPERTY_VALUE_TYPES.VEC4,
   value: null,
   isAssetMapped: false,
@@ -125,6 +134,20 @@ export const FRAGMENT_COLOR = {
   shaderVariableConfig: {
     shaderVariableType: SHADER_VARIABLE_TYPES.FRAGMENT_COLOR,
   },
+};
+
+export const UV_VARYING = {
+  key: "vUv",
+  name: "UV Varying",
+  valueType: SHADER_PROPERTY_VALUE_TYPES.VEC2,
+  description: "will pass the calculated uv to the fragment shader",
+  parameterType: SHADER_PROPERTY_TYPES.VARYING,
+  varyingConfig: {
+    varyingType: VARYING_TYPES.DEFAULT,
+    attributeKey: "uv",
+    valueType: SHADER_PROPERTY_VALUE_TYPES.VEC2,
+  },
+  isDefault: true,
 };
 
 export const QUAD_DIMENSION = {
@@ -137,7 +160,6 @@ export const QUAD_DIMENSION = {
   assetMappingConfig: {
     relationship: ASSET_MAPPING_RELATIONSHIPS.DIMENSION,
   },
-  isDefault: true,
 };
 
 export const POINT_OFFSET = {
@@ -150,7 +172,6 @@ export const POINT_OFFSET = {
     attributeValueType: ATTRIBUTE_VALUE_TYPES.INDEXED,
     assetId: "",
   },
-  isDefault: true,
 };
 
 export const ORIGINAL_POSITION = {
@@ -165,3 +186,14 @@ export const ORIGINAL_POSITION = {
   },
   isDefault: true,
 };
+
+export const DEFAULT_PARAMETERS = [
+  VERTEX_POINT,
+  NORMAL,
+  QUAD_DIMENSION,
+  POINT_OFFSET,
+  ORIGINAL_POSITION,
+  UV_VARYING,
+  RESOLUTION,
+  RENDER_TARGET,
+];

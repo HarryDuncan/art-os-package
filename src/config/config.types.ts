@@ -186,6 +186,7 @@ export type SceneData = {
   // sceneComponents: Object3D[];
   lights: SceneLight[];
   sceneProperties: SceneProperties;
+  postEffects: unknown[];
 };
 
 export type { GeometryConfig };

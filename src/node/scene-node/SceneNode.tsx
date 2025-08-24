@@ -1,15 +1,10 @@
 import { SceneNodeProps } from "../node.types";
 import { SceneProvider } from "../../context/context";
 import { WindowStateProvider } from "../../compat/window-state/windowStateProvider";
-// import { ExternalInteractionNode } from "../external-interaction-nodes/ExternalInteractionNode";
 import { ErrorBoundary } from "../../components/error-boundary";
 import { ProgressiveLoading } from "../components/ProgressiveLoading";
 
-export const SceneNode = ({
-  sceneConfig,
-  //  externalInteractionConfig,
-  loaderComponent,
-}: SceneNodeProps) => (
+export const SceneNode = ({ sceneConfig, loaderComponent }: SceneNodeProps) => (
   <ErrorBoundary>
     <WindowStateProvider>
       <SceneProvider>
@@ -17,11 +12,6 @@ export const SceneNode = ({
           sceneConfig={sceneConfig}
           loaderComponent={loaderComponent}
         />
-        {/* {externalInteractionConfig && (
-          <ExternalInteractionNode
-            externalInteractionConfig={externalInteractionConfig}
-          />
-        )} */}
       </SceneProvider>
     </WindowStateProvider>
   </ErrorBoundary>

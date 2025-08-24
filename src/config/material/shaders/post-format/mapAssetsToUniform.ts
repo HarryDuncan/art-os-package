@@ -5,14 +5,7 @@ import { Asset } from "../../../../assets/types";
 import { AssetToUniformMappingConfig } from "../../types";
 import { UniformObject } from "../generator/types";
 import { ASSET_MAPPING_RELATIONSHIPS } from "../schema";
-import {
-  Vector2,
-  VideoTexture,
-  LinearFilter,
-  RGBFormat,
-  Texture,
-  MirroredRepeatWrapping,
-} from "three";
+import { Vector2, VideoTexture, LinearFilter, RGBFormat, Texture } from "three";
 
 export const mapAssetsToUniforms = (
   assetMapping: AssetToUniformMappingConfig[],
