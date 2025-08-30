@@ -10,6 +10,8 @@ import { useThread } from "../../thread";
 import { ExternalInteractionNode } from "../external-interaction-nodes/ExternalInteractionNode";
 import { NodeProps } from "../node.types";
 import { RootContainer } from "../root/root-container";
+import { PingPongRenderTargetConfig } from "../../config/post-effects/findPostEffectTransforms";
+import { OverlayDisplay } from "../../components/overlays/OverlayDisplay";
 
 export const SceneDisplay = ({
   sceneFunctions,
@@ -21,6 +23,7 @@ export const SceneDisplay = ({
     //sceneComponents,
     sceneProperties,
     postEffects,
+    overlays,
   },
 }: NodeProps) => {
   useSetWindowState();
@@ -40,12 +43,17 @@ export const SceneDisplay = ({
     sceneProperties
   );
 
-  useThread(currentFrameRef, renderer, postEffects);
+  useThread(
+    currentFrameRef,
+    renderer,
+    postEffects as PingPongRenderTargetConfig[]
+  );
 
   const { isVisible } = useStatusToolbar();
 
   return (
     <>
+      <OverlayDisplay overlays={overlays} />
       <RootContainer
         containerRef={container}
         sceneProperties={sceneProperties}

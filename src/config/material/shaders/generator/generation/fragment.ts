@@ -18,7 +18,6 @@ export const generateFragmentEffect = (
     advancedShaderVariables,
   } = getFragmentColors(fragmentEffectFunctions, parameterMap);
 
-  console.log("assignedVariableIds", assignedVariableIds);
   if (assignedVariableIds.includes(SHADER_VARIABLE_TYPES.LIGHT)) {
     unmergedTransformations.push(
       `${FRAG_COLOR_NAME} = ${FRAG_COLOR_NAME} * vec4(light, 1.0);`
@@ -76,7 +75,6 @@ export const getFragmentColors = (
   const allAdvancedShaderVariables: AdvancedShaderVariableMap = new Map();
   fragmentEffectFunctions.forEach((effect) => {
     const fragmentEffectData = transformSetup(effect, parameterMap);
-    console.log("fragmentEffectData", fragmentEffectData);
     if (fragmentEffectData) {
       unmergedTransformations.push(fragmentEffectData.transformation);
       allRequiredFunctions.push(...fragmentEffectData.requiredFunctions);

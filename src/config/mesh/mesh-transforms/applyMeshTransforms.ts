@@ -38,7 +38,6 @@ export const applyMeshTransforms = (
             const quadDimensions = values[
               "quadDimensions" as keyof typeof values
             ] as TransformValueConfig;
-            console.log(quadDimensions);
             if (quadDimensions) {
               let x: number, y: number;
               if (Array.isArray(quadDimensions.value)) {
@@ -116,8 +115,6 @@ export const applyMeshTransforms = (
         `No transformed meshes - check transform config ${transformedMeshIds}`
       );
     }
-
-    console.log(formattedGeometries);
     return formattedGeometries;
   });
 

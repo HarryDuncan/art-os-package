@@ -23,6 +23,7 @@ import { LightConfigs, SceneLight } from "../types/lights";
 import { CustomGeometryConfig } from "./mesh/types";
 import { OutputInputMapping, ParameterConfig } from "./material/shaders/schema";
 import { RaycasterConfig } from "../types/three.types";
+import { OverlayConfig } from "../components/overlays/types";
 
 export type MultipleConfig = {
   instanceCount: number;
@@ -158,6 +159,7 @@ export type SceneConfig = {
   interactionConfigs?: InteractionConfig[];
   scenePropertiesConfig: ScenePropertiesConfig;
   screenSizeAdjustments?: ScreenSizeAdjustmentConfig[];
+  overlayConfig?: OverlayConfig[];
 };
 
 export type SceneProperties = {
@@ -184,6 +186,7 @@ export type SceneData = {
   animationConfig?: AnimationConfig[];
   meshes: Object3D[] | GLTF[];
   // sceneComponents: Object3D[];
+  overlays: Asset[];
   lights: SceneLight[];
   sceneProperties: SceneProperties;
   postEffects: unknown[];

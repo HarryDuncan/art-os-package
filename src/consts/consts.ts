@@ -25,6 +25,7 @@ export const SCENE_CONFIG_KEYS = {
   INTERACTION_CONFIG: "interactionConfigs",
   SCENE_PROPERTIES_CONFIG: "scenePropertiesConfig",
   SCREEN_SIZE_ADJUSTMENTS: "screenSizeAdjustments",
+  OVERLAY_CONFIG: "overlayConfig",
 };
 
 export const BUILT_SHADER_CONFIG_KEYS = {

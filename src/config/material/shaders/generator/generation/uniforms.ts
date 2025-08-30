@@ -13,7 +13,6 @@ export const generateUniformDeclaration = (
     (parameter) => parameter.parameterType === SHADER_PROPERTY_TYPES.UNIFORM
   );
 
-  console.log(uniformConfigs);
   const customStrings = uniformConfigs.map(
     ({ key, valueType, arrayLength, guid, isDefault }) =>
       generateDeclaration(

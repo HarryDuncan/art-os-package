@@ -1,10 +1,4 @@
-import {
-  WebGLRenderTarget,
-  ShaderMaterial,
-  WebGLRenderer,
-  Scene,
-  Camera,
-} from "three";
+import { WebGLRenderTarget, WebGLRenderer, Scene, Camera } from "three";
 import { setUniforms } from "../interaction/utils";
 
 /**
@@ -21,11 +15,7 @@ import { setUniforms } from "../interaction/utils";
  */
 export const framePingPong = (
   renderer: WebGLRenderer,
-  initializedScene: Scene,
-  scene: Scene,
-  camera: Camera,
   materialId: string,
-
   width: number,
   height: number
 ) => {
@@ -37,25 +27,27 @@ export const framePingPong = (
   let writeTarget = rtB;
 
   return {
-    render: () => {
-      // Set the shader uniform to the previous frame's texture
+    render: (scene: Scene, camera: Camera) => {
+      // Set the render target to writeTarget and render the scene
+      renderer.setRenderTarget(writeTarget);
+      renderer.render(scene, camera);
+      const temp = readTarget;
+      readTarget = writeTarget;
+      writeTarget = temp;
+      renderer.clear();
+      renderer.setRenderTarget(null);
 
       setUniforms(
-        initializedScene as Scene,
+        scene as Scene,
         [materialId],
         ["uRenderTarget"],
         { uRenderTarget: readTarget.texture },
         "uRenderTarget"
       );
-      // Render the scene to the write target
-      renderer.setRenderTarget(writeTarget);
+
       renderer.render(scene, camera);
-      renderer.setRenderTarget(null);
 
       // Swap the targets for the next frame
-      const temp = readTarget;
-      readTarget = writeTarget;
-      writeTarget = temp;
     },
     getCurrentTexture: () => readTarget.texture,
     dispose: () => {

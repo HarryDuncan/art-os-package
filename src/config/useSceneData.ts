@@ -6,6 +6,7 @@ import { SceneConfig, SceneData } from "./config.types";
 import { getScenePropertiesFromConfig } from "./scene-properties/setSceneProperties";
 import { Asset } from "../assets/types";
 import { postEffectsFromConfig } from "./post-effects/postEffectsFromConfig";
+import { ASSET_TYPES } from "../assets/consts";
 
 export const useSceneData = (
   config: SceneConfig | undefined | null,
@@ -24,7 +25,10 @@ export const useSceneData = (
           config.scenePropertiesConfig
         );
         const postEffects = postEffectsFromConfig(config);
-
+        const overlays =
+          config.assets?.filter(
+            (asset) => asset.assetType === ASSET_TYPES.OVERLAY
+          ) ?? [];
         setSceneData({
           controlsConfig: config.controlsConfig ?? {},
           meshes: meshes ?? [],
@@ -32,6 +36,7 @@ export const useSceneData = (
           sceneProperties,
           animationConfig,
           postEffects,
+          overlays,
         });
         setIsInitialized(true);
       }

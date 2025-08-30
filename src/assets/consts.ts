@@ -13,4 +13,5 @@ export const ASSET_TYPES = {
   FONT: "FONT",
   SVG: "SVG",
   URL: "URL",
+  OVERLAY: "OVERLAY",
 };

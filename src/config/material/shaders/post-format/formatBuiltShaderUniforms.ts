@@ -22,10 +22,11 @@ export const formatBuiltShaderUniforms = (
     ) || [];
 
   const uniforms = uniformParameters.reduce((acc, uniform) => {
-    if (!uniform.guid) {
+    if (!uniform.guid || uniform.isDefault) {
       acc[uniform.key] = { value: uniform.value };
       return acc;
     }
+
     acc[`${uniform.key}_${uniform.guid}`] = { value: uniform.value };
     return acc;
   }, {} as UniformObject);

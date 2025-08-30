@@ -9,3 +9,4 @@ export * from "../config/mesh/types";
 export * from "../animation/animation.types";
 export * from "../interaction/types";
 export * from "../assets/types";
+export * from "../components/overlays/types";

@@ -78,7 +78,6 @@ const loadAsset = async (asset: Asset) => {
       return advancedScene;
     }
     case ASSET_TYPES.TEXTURE: {
-      console.log("loading texture", path);
       const texture = await loadTexture(path);
       return texture;
     }

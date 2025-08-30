@@ -10,8 +10,7 @@ import { shaderValueTypeInstantiation } from "./shaderValues";
 export const getParametersByKey = (
   parameterMap: ShaderParameterMap,
   keys: string[],
-  inputMapping?: Record<string, OutputInputMapping>,
-  test: boolean = false
+  inputMapping?: Record<string, OutputInputMapping>
 ) => {
   const parameterArray = Array.from(parameterMap.entries());
   const parameters = parameterArray.flatMap(([key, parameter]) => {
@@ -31,11 +30,6 @@ export const getParametersByKey = (
     }
     return [];
   });
-  if (test) {
-    console.log("inputMapping", inputMapping);
-    console.log("keys", keys);
-    console.log("testing parameters", parameters);
-  }
 
   const uniqueParameters = new Map<string, ShaderParameter>();
   parameters.forEach((parameter) => {
@@ -128,12 +122,7 @@ export const getParametersFromInputMapping = (
   parameterMap: ShaderParameterMap
 ) => {
   const inputIds = Object.keys(inputMapping);
-  const parameters = getParametersByKey(
-    parameterMap,
-    inputIds,
-    inputMapping,
-    true
-  );
+  const parameters = getParametersByKey(parameterMap, inputIds, inputMapping);
 
   return parameters.flatMap((parameter) => {
     const itemId = inputMapping?.[parameter.key]?.itemId;

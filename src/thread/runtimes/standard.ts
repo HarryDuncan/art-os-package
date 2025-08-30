@@ -1,18 +1,16 @@
 import { MutableRefObject } from "react";
 import { WebGLRenderer } from "three";
-import PostProcessor from "../../components/post-processor/PostProcessor";
 import { sceneUpdateEvent } from "../threadEvents";
 import { useSceneContext } from "../../context/context";
 
 export interface StandardRuntimeConfig {
   currentFrameRef: MutableRefObject<number>;
   renderer: WebGLRenderer;
-  postProcessor: MutableRefObject<null | PostProcessor>;
 }
 
 export const useStandardRuntime = ({
   currentFrameRef,
-  postProcessor,
+  renderer,
 }: StandardRuntimeConfig) => {
   const {
     state: { initializedScene },
@@ -20,23 +18,18 @@ export const useStandardRuntime = ({
   } = useSceneContext();
 
   const update = () => {
-    if (postProcessor.current?.isInitialized()) {
-      sceneUpdateEvent();
-      if (initializedScene) {
-        if (initializedScene?.orbitControls) {
-          initializedScene.orbitControls.update();
-        }
-        if (
-          initializedScene?.animationManager.hasCameraAnimations() &&
-          camera
-        ) {
-          initializedScene.animationManager.startCameraAnimation(camera);
-        }
+    sceneUpdateEvent();
+    if (initializedScene && camera) {
+      if (initializedScene?.orbitControls) {
+        initializedScene.orbitControls.update();
       }
-
-      postProcessor.current?.render();
-      currentFrameRef.current = requestAnimationFrame(update);
+      if (initializedScene?.animationManager.hasCameraAnimations()) {
+        initializedScene.animationManager.startCameraAnimation(camera);
+      }
+      // Render the scene using the renderer and camera directly
+      renderer.render(initializedScene, camera);
     }
+    currentFrameRef.current = requestAnimationFrame(update);
   };
 
   const pause = () => {

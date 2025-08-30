@@ -1,11 +1,9 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-// @ts-nocheck
-import { MutableRefObject, useCallback, useEffect } from "react";
+import { MutableRefObject, useEffect } from "react";
 import { WebGLRenderer } from "three";
-import { sceneUpdateEvent } from "./threadEvents";
 import { useSceneContext } from "../context/context";
 import { PROCESS_STATUS } from "../consts/consts";
 import { PingPongRenderTargetConfig } from "../config/post-effects/findPostEffectTransforms";
+import { useRuntimeFactory } from "./runtimes/runtimeFactory";
 
 export const useThread = (
   currentFrameRef: MutableRefObject<number>,
@@ -18,26 +16,12 @@ export const useThread = (
     camera,
   } = useSceneContext();
 
-  // No postProcessor, just use renderer/camera/scene directly
-
-  const update = useCallback(() => {
-    sceneUpdateEvent();
-    if (initializedScene) {
-      if (initializedScene?.orbitControls) {
-        initializedScene.orbitControls.update();
-      }
-      if (initializedScene?.animationManager.hasCameraAnimations()) {
-        initializedScene.animationManager.startCameraAnimation(camera);
-      }
-      // Render the scene using the renderer and camera directly
-      renderer.render(initializedScene, camera);
-    }
-    currentFrameRef.current = requestAnimationFrame(update);
-  }, [currentFrameRef, camera, initializedScene, renderer]);
-
-  const pause = useCallback(() => {
-    cancelAnimationFrame(currentFrameRef.current);
-  }, [currentFrameRef]);
+  // Use the runtime factory to get the appropriate runtime
+  const { update, pause } = useRuntimeFactory({
+    currentFrameRef,
+    renderer,
+    postEffects,
+  });
 
   useEffect(() => {
     // Set renderer dimensions and status as before
@@ -68,6 +52,10 @@ export const useThread = (
 
     return () => {
       pause();
+      // Clean up ping-pong instances if they exist
+      // if (cleanup) {
+      //   cleanup();
+      // }
     };
   }, [update, pause, status, dispatch, currentFrameRef]);
 
