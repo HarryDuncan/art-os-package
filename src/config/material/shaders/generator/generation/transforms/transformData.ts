@@ -1,4 +1,4 @@
-import { ShaderEffectConfig } from "../../../schema";
+import { SHADER_VARIABLE_TYPES, ShaderEffectConfig } from "../../../schema";
 import {
   ADVANCED_SHADER_VARIABLE_EFFECT_CODE,
   FUNCTION_TYPES,
@@ -105,7 +105,8 @@ export const generateTransform = (
         FUNCTION_TYPES.VERTEX_SUB_EFFECT === functionType ||
         FUNCTION_TYPES.FRAGMENT_SUB_EFFECT === functionType ||
         (ADVANCED_SHADER_VARIABLE_EFFECT_CODE[assignedVariableId] &&
-          isSubEffect)
+          isSubEffect) ||
+        assignedVariableId === SHADER_VARIABLE_TYPES.SUB_FUNCTION
       ) {
         return [];
       }

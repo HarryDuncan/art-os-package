@@ -156,7 +156,7 @@ export const setupShaderTransformationConfigs = (
 ): ShaderTransformationConfig[] => {
   const formattedTransformConfigs = transformConfigs.map((config) => {
     const { key, transformCode, assignedVariableId } = config;
-    console.log("assignedVariableId", assignedVariableId);
+
     const shaderFunctionType = getShaderFunctionType(
       assignedVariableId,
       isSubEffect

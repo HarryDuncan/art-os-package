@@ -113,7 +113,7 @@ export type OperatorConfig = {
 export type ShaderTransformationSchema = {
   key: string;
   transformCode: string[];
-  returnValue: keyof typeof SHADER_PROPERTY_VALUE_TYPES;
+  returnValue: string;
   assignedVariableId: keyof typeof SHADER_VARIABLE_TYPES | string;
 };
 
