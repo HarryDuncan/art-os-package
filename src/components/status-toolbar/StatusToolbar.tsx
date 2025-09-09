@@ -27,9 +27,7 @@ interface SceneData {
 }
 
 export const StatusToolbar: React.FC<StatusToolbarProps> = ({ isVisible }) => {
-  const {
-    state: { initializedScene },
-  } = useSceneContext();
+  const { initializedScene } = useSceneContext();
 
   const [sceneData, setSceneData] = useState<SceneData>({
     runtime: "00:00:00",
@@ -40,11 +38,12 @@ export const StatusToolbar: React.FC<StatusToolbarProps> = ({ isVisible }) => {
   });
 
   useEffect(() => {
-    if (!initializedScene || !isVisible) return;
+    if (!initializedScene.current || !isVisible) return;
 
     const updateSceneData = () => {
+      if (!initializedScene.current) return;
       // Calculate runtime
-      const elapsed = initializedScene.clock.getElapsedTime();
+      const elapsed = initializedScene.current.clock.getElapsedTime();
       const hours = Math.floor(elapsed / 3600);
       const minutes = Math.floor((elapsed % 3600) / 60);
       const seconds = Math.floor(elapsed % 60);
@@ -62,7 +61,7 @@ export const StatusToolbar: React.FC<StatusToolbarProps> = ({ isVisible }) => {
       }> = [];
       const materialSet = new Set<string>();
 
-      initializedScene.traverse((object) => {
+      initializedScene.current.traverse((object) => {
         if (object.type === "Mesh") {
           const mesh = object as Mesh;
           meshes.push({

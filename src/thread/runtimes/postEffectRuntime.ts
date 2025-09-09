@@ -24,14 +24,15 @@ export const usePostEffectRuntime = ({
   renderer,
   postEffects,
 }: PostEffectRuntimeConfig) => {
-  const {
-    state: { initializedScene },
-    camera,
-  } = useSceneContext();
+  const { initializedScene, camera } = useSceneContext();
 
   // Create ping-pong instances for each post effect
   const createPingPongInstances = useCallback((): PingPongInstance[] => {
-    if (!initializedScene || !camera || postEffects.length === 0) {
+    if (
+      !initializedScene.current ||
+      !camera.current ||
+      postEffects.length === 0
+    ) {
       return [];
     }
 
@@ -65,12 +66,14 @@ export const usePostEffectRuntime = ({
   const update = useCallback(() => {
     sceneUpdateEvent();
 
-    if (initializedScene) {
-      if (initializedScene?.orbitControls) {
-        initializedScene.orbitControls.update();
+    if (initializedScene.current) {
+      if (initializedScene.current?.orbitControls) {
+        initializedScene.current.orbitControls.update();
       }
-      if (initializedScene?.animationManager.hasCameraAnimations()) {
-        initializedScene.animationManager.startCameraAnimation(camera!);
+      if (initializedScene.current?.animationManager.hasCameraAnimations()) {
+        initializedScene.current.animationManager.startCameraAnimation(
+          camera.current!
+        );
       }
 
       // If we have post effects, use the first ping-pong instance for rendering
@@ -79,13 +82,13 @@ export const usePostEffectRuntime = ({
         if (pingPongInstances.length > 0) {
           // Use the first ping-pong instance for rendering
           pingPongInstances[0].render(
-            initializedScene! as Scene,
-            camera! as Camera
+            initializedScene.current! as Scene,
+            camera.current! as Camera
           );
         }
       } else {
         // Fallback to normal rendering
-        renderer.render(initializedScene, camera!);
+        renderer.render(initializedScene.current, camera.current!);
       }
     }
 

@@ -5,29 +5,28 @@ import { useSceneContext } from "../../context/context";
 
 export interface StandardRuntimeConfig {
   currentFrameRef: MutableRefObject<number>;
-  renderer: WebGLRenderer;
+  renderer: WebGLRenderer | null;
 }
 
 export const useStandardRuntime = ({
   currentFrameRef,
   renderer,
 }: StandardRuntimeConfig) => {
-  const {
-    state: { initializedScene },
-    camera,
-  } = useSceneContext();
+  const { initializedScene, camera } = useSceneContext();
 
   const update = () => {
     sceneUpdateEvent();
-    if (initializedScene && camera) {
-      if (initializedScene?.orbitControls) {
-        initializedScene.orbitControls.update();
+    if (initializedScene.current && camera.current && renderer) {
+      if (initializedScene.current?.orbitControls) {
+        initializedScene.current.orbitControls.update();
       }
-      if (initializedScene?.animationManager.hasCameraAnimations()) {
-        initializedScene.animationManager.startCameraAnimation(camera);
+      if (initializedScene.current?.animationManager.hasCameraAnimations()) {
+        initializedScene.current.animationManager.startCameraAnimation(
+          camera.current
+        );
       }
       // Render the scene using the renderer and camera directly
-      renderer.render(initializedScene, camera);
+      renderer.render(initializedScene.current, camera.current);
     }
     currentFrameRef.current = requestAnimationFrame(update);
   };

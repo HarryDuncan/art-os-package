@@ -15,25 +15,24 @@ export const useVRRuntime = ({
   renderer,
   postProcessor,
 }: VRRuntimeConfig) => {
-  const {
-    state: { initializedScene },
-    camera,
-  } = useSceneContext();
+  const { initializedScene, camera } = useSceneContext();
 
   const vrSessionRef = useRef<XRSession | null>(null);
 
   const update = () => {
     if (postProcessor.current?.isInitialized()) {
       sceneUpdateEvent();
-      if (initializedScene) {
-        if (initializedScene?.orbitControls) {
-          initializedScene.orbitControls.update();
+      if (initializedScene.current) {
+        if (initializedScene.current?.orbitControls) {
+          initializedScene.current.orbitControls.update();
         }
         if (
-          initializedScene?.animationManager.hasCameraAnimations() &&
-          camera
+          initializedScene.current?.animationManager.hasCameraAnimations() &&
+          camera.current
         ) {
-          initializedScene.animationManager.startCameraAnimation(camera);
+          initializedScene.current.animationManager.startCameraAnimation(
+            camera.current
+          );
         }
       }
 
@@ -50,19 +49,24 @@ export const useVRRuntime = ({
   const vrRenderLoop = () => {
     if (postProcessor.current?.isInitialized()) {
       sceneUpdateEvent();
-      if (initializedScene) {
-        if (initializedScene?.orbitControls) {
-          initializedScene.orbitControls.update();
+      if (initializedScene.current) {
+        if (initializedScene.current?.orbitControls) {
+          initializedScene.current.orbitControls.update();
         }
         if (
-          initializedScene?.animationManager.hasCameraAnimations() &&
-          camera
+          initializedScene.current?.animationManager.hasCameraAnimations() &&
+          camera.current
         ) {
-          initializedScene.animationManager.startCameraAnimation(camera);
+          initializedScene.current.animationManager.startCameraAnimation(
+            camera.current
+          );
         }
 
-        if (renderer.xr.enabled && camera) {
-          postProcessor.current?.vrRender(initializedScene, camera);
+        if (renderer.xr.enabled && camera.current) {
+          postProcessor.current?.vrRender(
+            initializedScene.current,
+            camera.current
+          );
         }
       }
 

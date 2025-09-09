@@ -11,17 +11,15 @@ export const VideoStreamNode = ({
   meshTargetIdentifier,
   uniformValue,
 }: VideoStreamNodeProps) => {
-  const {
-    state: { initializedScene },
-  } = useSceneContext();
+  const { initializedScene } = useSceneContext();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const textureRef = useRef<Texture | null>(null);
 
   const setFrameAsUniform = useCallback(
     (canvas: HTMLCanvasElement) => {
-      if (initializedScene) {
+      if (initializedScene.current) {
         const animatedObjects = getSceneElementByName(
-          initializedScene,
+          initializedScene.current,
           meshTargetIdentifier
         );
 

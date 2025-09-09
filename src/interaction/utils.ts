@@ -27,3 +27,20 @@ export const setUniforms = (
     }
   });
 };
+
+export const getMeshesByMaterialIds = (scene: Scene, materialIds: string[]) => {
+  return scene?.children.flatMap((child) => {
+    if (child) {
+      return materialIds?.includes(child?.material?.name) ? child : [];
+    }
+    return [];
+  });
+};
+
+export const setMeshUniform = (
+  mesh: Mesh,
+  uniformKey: string,
+  value: unknown
+) => {
+  mesh.material.uniforms[uniformKey].value = value;
+};

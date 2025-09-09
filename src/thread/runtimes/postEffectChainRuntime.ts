@@ -7,7 +7,7 @@ import { PingPongRenderTargetConfig } from "../../config/post-effects/findPostEf
 
 export interface PostEffectChainRuntimeConfig {
   currentFrameRef: MutableRefObject<number>;
-  renderer: WebGLRenderer;
+  renderer: WebGLRenderer | null;
   postEffects: PingPongRenderTargetConfig[];
 }
 
@@ -22,10 +22,7 @@ export const usePostEffectChainRuntime = ({
   renderer,
   postEffects,
 }: PostEffectChainRuntimeConfig) => {
-  const {
-    state: { initializedScene },
-    camera,
-  } = useSceneContext();
+  const { initializedScene, camera } = useSceneContext();
 
   // Store ping-pong instances in a ref to avoid recreating them on every render
   const pingPongInstancesRef = useRef<PingPongInstance[]>([]);
@@ -33,7 +30,12 @@ export const usePostEffectChainRuntime = ({
 
   // Initialize ping-pong instances
   const initializePingPongInstances = useCallback((): PingPongInstance[] => {
-    if (!initializedScene || !camera || postEffects.length === 0) {
+    if (
+      !initializedScene.current ||
+      !camera.current ||
+      postEffects.length === 0 ||
+      !renderer
+    ) {
       return [];
     }
 
@@ -44,8 +46,8 @@ export const usePostEffectChainRuntime = ({
       return {
         render: () => {
           framePingPong(renderer, postEffect.materialId, width, height).render(
-            initializedScene as Scene,
-            camera as Camera
+            initializedScene.current as Scene,
+            camera.current as Camera
           );
         },
         getCurrentTexture: () => {
@@ -70,9 +72,17 @@ export const usePostEffectChainRuntime = ({
 
   // Render function that handles the post effect chain
   const renderWithPostEffects = useCallback(() => {
-    if (postEffects.length === 0 && initializedScene && camera) {
+    if (
+      postEffects.length === 0 &&
+      initializedScene.current &&
+      camera.current &&
+      renderer
+    ) {
       // No post effects, use normal rendering
-      renderer.render(initializedScene as Scene, camera as Camera);
+      renderer.render(
+        initializedScene.current as Scene,
+        camera.current as Camera
+      );
       return;
     }
 
@@ -97,12 +107,14 @@ export const usePostEffectChainRuntime = ({
   const update = useCallback(() => {
     sceneUpdateEvent();
 
-    if (initializedScene) {
-      if (initializedScene?.orbitControls) {
-        initializedScene.orbitControls.update();
+    if (initializedScene.current) {
+      if (initializedScene.current?.orbitControls) {
+        initializedScene.current.orbitControls.update();
       }
-      if (initializedScene?.animationManager.hasCameraAnimations()) {
-        initializedScene.animationManager.startCameraAnimation(camera!);
+      if (initializedScene.current?.animationManager.hasCameraAnimations()) {
+        initializedScene.current.animationManager.startCameraAnimation(
+          camera.current!
+        );
       }
 
       // Use post effect rendering

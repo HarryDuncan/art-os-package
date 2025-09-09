@@ -7,7 +7,6 @@ import {
 import { useThreeJs } from "../../hooks/use-three-js/useThreeJs";
 import { useSceneFunctions } from "../../hooks/useSceneFunctions";
 import { useThread } from "../../thread";
-import { ExternalInteractionNode } from "../external-interaction-nodes/ExternalInteractionNode";
 import { NodeProps } from "../node.types";
 import { RootContainer } from "../root/root-container";
 import { PingPongRenderTargetConfig } from "../../config/post-effects/findPostEffectTransforms";
@@ -25,6 +24,7 @@ export const SceneDisplay = ({
     postEffects,
     overlays,
   },
+  setExternalScene,
 }: NodeProps) => {
   useSetWindowState();
 
@@ -38,7 +38,7 @@ export const SceneDisplay = ({
     animationConfig ?? [],
     meshes,
     lights,
-    //    sceneComponents,
+
     orbitControls,
     sceneProperties
   );
@@ -46,7 +46,8 @@ export const SceneDisplay = ({
   useThread(
     currentFrameRef,
     renderer,
-    postEffects as PingPongRenderTargetConfig[]
+    postEffects as PingPongRenderTargetConfig[],
+    setExternalScene
   );
 
   const { isVisible } = useStatusToolbar();
@@ -59,7 +60,6 @@ export const SceneDisplay = ({
         sceneProperties={sceneProperties}
       />
       <StatusToolbar isVisible={isVisible} />
-      <ExternalInteractionNode />
     </>
   );
 };

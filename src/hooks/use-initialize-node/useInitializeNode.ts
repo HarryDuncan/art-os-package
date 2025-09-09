@@ -1,6 +1,7 @@
 import { JSX, RefObject, useEffect } from "react";
 import { WebGLRenderer } from "three";
 import { useSceneContext } from "../../context/context";
+import { PROCESS_STATUS } from "../../consts/consts";
 
 type ContainerNode =
   | RefObject<Element>
@@ -11,7 +12,7 @@ export const useInitializeNode = (
   containerRef: ContainerNode,
   renderer: WebGLRenderer
 ) => {
-  const { setRendererHeight, setRendererWidth } = useSceneContext();
+  const { setRendererHeight, setRendererWidth, setStatus } = useSceneContext();
   useEffect(() => {
     if (containerRef?.current) {
       const container = containerRef.current as HTMLElement;
@@ -20,6 +21,7 @@ export const useInitializeNode = (
       container.appendChild(renderer.domElement);
       setRendererHeight(container.clientHeight);
       setRendererWidth(container.clientWidth);
+      setStatus(PROCESS_STATUS.INITIALIZING_SCENE);
     }
-  }, [containerRef, renderer, setRendererHeight, setRendererWidth]);
+  }, [containerRef, renderer, setRendererHeight, setRendererWidth, setStatus]);
 };

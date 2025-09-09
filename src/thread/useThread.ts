@@ -1,20 +1,22 @@
 import { MutableRefObject, useEffect } from "react";
-import { WebGLRenderer } from "three";
+import { Camera, WebGLRenderer } from "three";
 import { useSceneContext } from "../context/context";
 import { PROCESS_STATUS } from "../consts/consts";
 import { PingPongRenderTargetConfig } from "../config/post-effects/findPostEffectTransforms";
 import { useRuntimeFactory } from "./runtimes/runtimeFactory";
+import { InteractiveScene } from "../components/interactive-scene/InteractiveScene";
 
 export const useThread = (
   currentFrameRef: MutableRefObject<number>,
   renderer: WebGLRenderer,
-  postEffects: PingPongRenderTargetConfig[]
+  postEffects: PingPongRenderTargetConfig[],
+  setExternalScene?: (
+    scene: InteractiveScene | null,
+    camera: Camera | null
+  ) => void
 ) => {
-  const {
-    dispatch,
-    state: { initializedScene, status },
-    camera,
-  } = useSceneContext();
+  const { setStatus, initializedScene, sceneStatus, camera } =
+    useSceneContext();
 
   // Use the runtime factory to get the appropriate runtime
   const { update, pause } = useRuntimeFactory({
@@ -25,28 +27,25 @@ export const useThread = (
 
   useEffect(() => {
     // Set renderer dimensions and status as before
-    if (initializedScene && camera && renderer) {
-      initializedScene.setRendererDimensions(
+    if (initializedScene.current && camera.current && renderer) {
+      initializedScene.current.setRendererDimensions(
         renderer.domElement.clientHeight,
         renderer.domElement.clientWidth
       );
-      initializedScene.setStatus("active");
+      initializedScene.current.setStatus("active");
+      if (setExternalScene) {
+        setExternalScene(initializedScene.current, camera.current);
+      }
       // Immediately ready to render, no async postProcessor init
-      dispatch({
-        type: "UPDATE_STATUS",
-        payload: { status: PROCESS_STATUS.READY_TO_RENDER },
-      });
+      setStatus(PROCESS_STATUS.READY_TO_RENDER);
     }
-  }, [initializedScene, camera, renderer, dispatch]);
+  }, [initializedScene, camera, renderer, setStatus]);
 
   useEffect(() => {
-    if (status === PROCESS_STATUS.READY_TO_RENDER) {
-      dispatch({
-        type: "UPDATE_STATUS",
-        payload: { status: PROCESS_STATUS.RUNNING },
-      });
+    if (sceneStatus === PROCESS_STATUS.READY_TO_RENDER) {
+      setStatus(PROCESS_STATUS.RUNNING);
     }
-    if (status === PROCESS_STATUS.RUNNING) {
+    if (sceneStatus === PROCESS_STATUS.RUNNING) {
       currentFrameRef.current = requestAnimationFrame(update);
     }
 
@@ -57,7 +56,7 @@ export const useThread = (
       //   cleanup();
       // }
     };
-  }, [update, pause, status, dispatch, currentFrameRef]);
+  }, [update, pause, sceneStatus, setStatus, currentFrameRef]);
 
   return { update, pause };
 };

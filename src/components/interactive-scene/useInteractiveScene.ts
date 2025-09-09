@@ -22,36 +22,24 @@ export const useInteractiveScene = (
   orbitControls: OrbitControls | null,
   sceneProperties: SceneProperties
 ) => {
-  const {
-    dispatch,
-    state: { initializedScene, status },
-    camera,
-    interactionConfigs,
-  } = useSceneContext();
+  const { initializedScene, camera, interactionConfigs, sceneStatus } =
+    useSceneContext();
   const setUpSceneObjects = useCallback(
     async (scene: InteractiveScene) => {
       meshes.forEach((mesh) => scene.add(mesh as Object3D));
       lights.forEach((light) => scene.add(light));
       //    sceneComponents.forEach((component) => scene.add(component));
       setSceneProperties(sceneProperties, scene);
-      dispatch({
-        type: "INITIALIZE_SCENE",
-        payload: { initializedScene: scene },
-      });
+      initializedScene.current = scene;
     },
     [meshes, lights, sceneProperties]
   );
 
   useEffect(() => {
-    if (initializedScene && orbitControls) {
-      initializedScene.orbitControls = orbitControls;
-
-      dispatch({
-        type: "INITIALIZE_SCENE",
-        payload: { initializedScene },
-      });
+    if (initializedScene.current && orbitControls) {
+      initializedScene.current.orbitControls = orbitControls;
     }
-  }, [initializedScene, orbitControls, dispatch]);
+  }, [initializedScene, orbitControls]);
 
   useEffect(() => {
     async function setUpScene() {
@@ -61,20 +49,20 @@ export const useInteractiveScene = (
         interactionConfigs,
         sceneProperties,
         lights,
-        camera as Camera
+        camera.current as Camera
       );
 
       await setUpSceneObjects(scene);
     }
     if (
-      initializedScene === null &&
-      !!camera &&
-      status === PROCESS_STATUS.FORMATTING_THREE
+      initializedScene.current === null &&
+      !!camera.current &&
+      sceneStatus === PROCESS_STATUS.FORMATTING_THREE
     ) {
       setUpScene();
     }
   }, [
-    status,
+    sceneStatus,
     sceneFunction,
     animationConfig,
     setUpSceneObjects,

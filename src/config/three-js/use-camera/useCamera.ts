@@ -7,7 +7,7 @@ import { positionConfigToPosition } from "../../../utils/conversion/conversion";
 import { useSceneContext } from "../../../context/context";
 
 export const useCamera = (config: Partial<CameraConfig> | undefined) => {
-  const { camera, setCamera } = useSceneContext();
+  const { camera } = useSceneContext();
   const {
     state: {
       windowSize: { width, height },
@@ -16,14 +16,14 @@ export const useCamera = (config: Partial<CameraConfig> | undefined) => {
   const aspect = width / height;
 
   useEffect(() => {
-    if (!camera && config && aspect) {
+    if (!camera.current && config && aspect) {
       const cameraConfig = config as CameraConfig;
-      const camera = getCamera(aspect, cameraConfig);
+      const newCamera = getCamera(aspect, cameraConfig);
       const { x, y, z } = positionConfigToPosition(config?.position ?? {});
-      camera.position.set(x, y, z);
-      setCamera(camera);
+      newCamera.position.set(x, y, z);
+      camera.current = newCamera;
     }
-  }, [camera, config, setCamera, aspect]);
+  }, [camera, config, aspect]);
 };
 
 const getCamera = (aspect: number, config?: CameraConfig) => {

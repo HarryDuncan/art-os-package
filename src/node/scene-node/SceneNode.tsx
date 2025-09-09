@@ -4,13 +4,18 @@ import { WindowStateProvider } from "../../compat/window-state/windowStateProvid
 import { ErrorBoundary } from "../../components/error-boundary";
 import { ProgressiveLoading } from "../components/ProgressiveLoading";
 
-export const SceneNode = ({ sceneConfig, loaderComponent }: SceneNodeProps) => (
+export const SceneNode = ({
+  sceneConfig,
+  loaderComponent,
+  setExternalScene,
+}: SceneNodeProps) => (
   <ErrorBoundary>
     <WindowStateProvider>
       <SceneProvider>
         <ProgressiveLoading
           sceneConfig={sceneConfig}
           loaderComponent={loaderComponent}
+          setExternalScene={setExternalScene}
         />
       </SceneProvider>
     </WindowStateProvider>

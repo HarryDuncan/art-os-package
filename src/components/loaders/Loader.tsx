@@ -11,9 +11,7 @@ export const Loader = ({
   loaderComponent,
   loaderMinTime = 1500,
 }: LoaderProps) => {
-  const {
-    state: { status },
-  } = useSceneContext();
+  const { sceneStatus } = useSceneContext();
 
   const startTime = useRef<number>(Date.now());
   const [shouldRender, setShouldRender] = useState<boolean>(true);
@@ -29,7 +27,7 @@ export const Loader = ({
     }
   }, [loaderMinTime]);
 
-  if (status === PROCESS_STATUS.RUNNING) return null;
+  if (sceneStatus === PROCESS_STATUS.RUNNING) return null;
   if (loaderComponent) {
     return <>{loaderComponent}</>;
   }
