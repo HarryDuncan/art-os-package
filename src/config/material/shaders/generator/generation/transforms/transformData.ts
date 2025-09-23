@@ -73,6 +73,8 @@ export const generateTransform = (
     parameterMap
   );
 
+  console.log("transformationConfigs", transformationConfigs);
+
   const effectFunctions = transformFunction(
     transformationConfigs,
     effectConfig

@@ -93,12 +93,30 @@ const loadAsset = async (asset: Asset) => {
 
       if (!video) {
         video = document.createElement("video");
-        video.src = path;
         video.id = asset.guid;
         video.crossOrigin = "anonymous";
         video.autoplay = true;
         video.muted = true; // Most browsers require muted for autoplay to work
         video.loop = true; // keep replaying
+        video.preload = "auto";
+        video.playsInline = true; // Important for mobile devices
+        video.setAttribute("muted", "true"); // Ensure muted attribute is set
+        video.setAttribute("loop", "true"); // Ensure loop attribute is set
+        video.src = path; // Set src after other properties
+
+        // Add event listeners to ensure proper behavior
+        video.addEventListener("ended", () => {
+          if (video) {
+            video.currentTime = 0;
+            video.play().catch(console.warn);
+          }
+        });
+
+        video.addEventListener("volumechange", () => {
+          if (video && !video.muted) {
+            video.muted = true;
+          }
+        });
 
         // Append to the element with id 'append-container' if it exists, otherwise fallback to body
         const appendContainer = document.getElementById("append-container");

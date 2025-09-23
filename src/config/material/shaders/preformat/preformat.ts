@@ -47,6 +47,7 @@ export const preformat = (
       shaderEffectConfigs,
       operatorConfigs
     );
+
   const effectParamsMap = [
     ...convertedAttributes,
     ...effectParameters,

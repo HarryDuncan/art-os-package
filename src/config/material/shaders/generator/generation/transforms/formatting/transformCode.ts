@@ -26,8 +26,8 @@ export const formatTransformCode = (
       const parameter = inputMap.get(key);
 
       if (key === "uTime") {
-        console.log(inputMap);
-        console.log(effectCodeLines);
+        // console.log(inputMap);
+        // console.log(effectCodeLines);
       }
       if (key === "SUB_EFFECTS") {
         return "";

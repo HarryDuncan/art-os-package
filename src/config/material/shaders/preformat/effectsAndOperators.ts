@@ -19,7 +19,7 @@ export const formatShaderEffects = (
     schemas
   );
 
-  const fragmentEffectFunctionConfigs = operatorConfigs.filter((config) => {
+  const fragmentOperatorConfigs = operatorConfigs.filter((config) => {
     const { outputMapping } = config;
     const outputIds = Object.values(outputMapping).map(
       (mapping) => mapping.itemId
@@ -30,21 +30,19 @@ export const formatShaderEffects = (
   });
 
   const fragmentEffectFunctions = fragmentEffects.reduce((acc, effect) => {
-    // Check if there are any fragmentEffectFunctionConfigs that reference this effect
-    const matchingFunctionConfig = fragmentEffectFunctionConfigs.find(
-      (config) => {
-        const { outputMapping } = config;
-        const outputIds = Object.values(outputMapping).map(
-          (mapping) => mapping.itemId
-        );
-        return outputIds.includes(effect.guid);
-      }
-    );
+    // Check if there are any fragmentOperatorConfigs that reference this effect
+    const matchingOperatorConfig = fragmentOperatorConfigs.find((config) => {
+      const { outputMapping } = config;
+      const outputIds = Object.values(outputMapping).map(
+        (mapping) => mapping.itemId
+      );
+      return outputIds.includes(effect.guid);
+    });
 
-    if (matchingFunctionConfig) {
+    if (matchingOperatorConfig) {
       // Check if we already have a function config for this effect
       const existingFunctionIndex = acc.findIndex(
-        (func) => func.guid === matchingFunctionConfig.guid
+        (func) => func.guid === matchingOperatorConfig.guid
       );
 
       if (existingFunctionIndex >= 0 && acc[existingFunctionIndex]) {
@@ -53,7 +51,7 @@ export const formatShaderEffects = (
       } else {
         // Create new function config with this effect
         acc.push({
-          ...matchingFunctionConfig,
+          ...matchingOperatorConfig,
           effects: [effect],
         });
       }
@@ -83,7 +81,7 @@ export const formatShaderEffects = (
   });
 
   const vertexEffectFunctions = vertexEffects.reduce((acc, effect) => {
-    // Check if there are any fragmentEffectFunctionConfigs that reference this effect
+    // Check if there are any fragmentOperatorConfigs that reference this effect
     const matchingFunctionConfig = vertexEffectFunctionConfigs.find(
       (config) => {
         const { outputMapping } = config;

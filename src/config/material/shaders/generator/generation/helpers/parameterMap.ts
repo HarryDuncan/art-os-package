@@ -54,6 +54,7 @@ export const getShaderInputMap = (
 ) => {
   const shaderInputMap = new Map<string, ShaderParameter>();
   const { inputMapping, guid: effectId } = shaderEffectConfig;
+  console.log(shaderEffectConfig);
   const parameters = getParametersByKey(parameterMap, inputIds, inputMapping);
   // console.log("inputIds", inputIds);
   // console.log("parameters", parameters);

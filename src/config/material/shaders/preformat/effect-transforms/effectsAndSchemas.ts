@@ -57,7 +57,6 @@ export const formatEffectsAndSchemas = (
 
   const nestedVertexEffects = nestSubEffects(vertexEffects);
   const nestedFragmentEffects = nestSubEffects(fragmentEffects);
-
   return {
     vertexEffects: nestedVertexEffects,
     fragmentEffects: nestedFragmentEffects,
@@ -117,7 +116,6 @@ const formatExternalSchema = (externalSchema: unknown, shaderType: string) => {
 
   return {
     ...(externalSchema as ShaderEffectSchema),
-    parameters: (externalSchema as ShaderEffectSchema).parameters,
     transformSchema: (externalSchema as ShaderEffectSchema).transformSchema,
     assignedVariableId,
   };

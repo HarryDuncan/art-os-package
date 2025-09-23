@@ -11,7 +11,6 @@ export const transformSetup = (
   const effectTransformationData =
     effects?.flatMap((effect) => {
       const data = generateShaderTransformData(effect, parameterMap);
-      console.log("data", data);
       if (data) {
         return {
           id: effect.guid,
