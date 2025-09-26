@@ -42,6 +42,7 @@ export type ShaderVariableConfig = {
 };
 
 export type ParameterConfig = {
+  // the key - is the variable displayed in the shader code
   key: string;
   guid: string;
   name?: string;
@@ -51,9 +52,8 @@ export type ParameterConfig = {
   arrayLength?: number;
   arrayValue?: unknown[];
   parameterType: keyof typeof SHADER_PROPERTY_TYPES;
-  isFunctionBased?: boolean;
+
   isAssetMapped?: boolean;
-  isTransformInput?: boolean;
   isDefault?: boolean;
   tags?: string[];
   fromConfig?: boolean;
@@ -63,7 +63,10 @@ export type ParameterConfig = {
   };
   attributeConfig?: AttributeConfig;
   varyingConfig?: VaryingConfig;
+
+  isFunctionBased?: boolean;
   functionConfig?: ParameterFunctionConfig;
+
   shaderVariableConfig?: ShaderVariableConfig;
 };
 

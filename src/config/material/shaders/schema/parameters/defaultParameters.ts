@@ -122,6 +122,21 @@ export const VIEW_DIRECTION_VARYING = {
   },
   isDefault: true,
 };
+
+export const CAMERA_VARYING = {
+  key: "vCamera",
+  name: "Camera Varying",
+  description: "will pass the calculated camera to the fragment shader",
+  valueType: SHADER_PROPERTY_VALUE_TYPES.VEC3,
+  value: null,
+  isAssetMapped: false,
+  parameterType: SHADER_PROPERTY_TYPES.VARYING,
+  varyingConfig: {
+    varyingType: VARYING_TYPES.DEFAULT,
+  },
+  isDefault: true,
+};
+
 export const FRAGMENT_COLOR = {
   key: "fragColor",
   name: "Fragment Color",
@@ -196,4 +211,7 @@ export const DEFAULT_PARAMETERS = [
   UV_VARYING,
   RESOLUTION,
   RENDER_TARGET,
+  NORMAL_VARYING,
+  CAMERA_VARYING,
+  POSITION_VARYING,
 ];

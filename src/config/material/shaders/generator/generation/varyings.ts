@@ -97,11 +97,11 @@ const getDefaultVaryingString = (config: ParameterConfig[]) => {
       // case "vGeometryNormal":
       //   strings.push(`vGeometryNormal = ${VERTEX_NORMAL_NAME}.xyz`);
       //   break;
-      // case "vEye":
-      //   strings.push(
-      //     `vEye = normalize(vec3(modelViewMatrix * vec4(${VERTEX_POINT_NAME}.xyz, 1.0)));`
-      //   );
-      //   break;
+      case "vCamera":
+        strings.push(
+          `vCamera = normalize(vec3(modelViewMatrix * vec4(${VERTEX_POINT_NAME}.xyz, 1.0)));`
+        );
+        break;
       default:
         console.warn(`nothing made for default varying ${item.key}`);
     }
