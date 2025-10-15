@@ -98,8 +98,15 @@ export type SplitValueEditorConfig = {
   numSplits: number;
   splitValues: number[];
 };
+export type SequenceEditorConfig = {
+  numSequences: number;
+  sequenceBounds: number[][];
+};
 
-export type EffectFunctionValueConfig = SplitValueEditorConfig | null;
+export type EffectFunctionValueConfig =
+  | SplitValueEditorConfig
+  | SequenceEditorConfig
+  | null;
 
 export type OperatorConfig = {
   guid: string;

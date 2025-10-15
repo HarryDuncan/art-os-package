@@ -104,7 +104,10 @@ export const applyMeshTransforms = (
 
           return attributesSet;
         }
-
+        // case MESH_TRANSFORM_MODEL_VERTEX:
+        //   return transformedMeshes.map((formattedGeometry) => {
+        //     const { geometry } = formattedGeometry;
+        //   });
         // case MESH_TRANSFORM_TYPES.DEFAULT:
         default: {
           return formattedGeometries;
