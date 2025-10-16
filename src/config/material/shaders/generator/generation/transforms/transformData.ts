@@ -46,34 +46,32 @@ export const generateTransform = (
   parameterMap: ShaderParameterMap,
   isSubEffect: boolean
 ): {
-  transformation: string;
+  transformation: string[];
   transformationFunctions: ShaderFunction[];
   mainFunctionInstantiations: string[];
   advancedShaderVariables: AdvancedShaderVariableMap;
 } => {
-  const { subEffects, guid: effectId } = effectConfig;
-  const subEffectDataArray =
-    subEffects?.flatMap((subEffect) => {
-      const subEffectData = generateShaderTransformData(
-        subEffect,
-        parameterMap,
-        true
-      );
-      if (subEffectData) {
-        return subEffectData;
-      }
-      return [];
-    }) ?? [];
+  const { guid: effectId } = effectConfig;
+  // const subEffectDataArray =
+  //   subEffects?.flatMap((subEffect) => {
+  //     const subEffectData = generateShaderTransformData(
+  //       subEffect,
+  //       parameterMap,
+  //       true
+  //     );
+  //     if (subEffectData) {
+  //       return subEffectData;
+  //     }
+  //     return [];
+  //   }) ?? [];
 
   const transformationConfigs = setupShaderTransformationConfigs(
     transformConfig,
     effectConfig,
     isSubEffect,
-    subEffectDataArray,
+    [],
     parameterMap
   );
-
-  console.log("transformationConfigs", transformationConfigs);
 
   const effectFunctions = transformFunction(
     transformationConfigs,
@@ -90,12 +88,17 @@ export const generateTransform = (
       const transformCode =
         ADVANCED_SHADER_VARIABLE_EFFECT_CODE[assignedVariableId];
       if (transformCode) {
-        map.set(assignedVariableId, transformCode);
+        map.set(assignedVariableId, [
+          ...(map.get(assignedVariableId) || []),
+          transformCode,
+        ]);
       }
       return map;
     },
     new Map() as AdvancedShaderVariableMap
   );
+
+  console.log("advancedShaderVariables", advancedShaderVariables);
 
   const mainFunctionInstantiations = effectFunctions
     .sort((a, b) =>
@@ -120,13 +123,13 @@ export const generateTransform = (
       );
     });
 
-  const transformation = [...mainFunctionInstantiations].join("\n");
+  const transformation = [...mainFunctionInstantiations];
 
   const transformationFunctions = [
     ...effectFunctions.filter(({ dontDeclare }) => {
       return !dontDeclare;
     }),
-    ...subEffectDataArray.flatMap(({ requiredFunctions }) => requiredFunctions),
+    // ...subEffectDataArray.flatMap(({ requiredFunctions }) => requiredFunctions),
   ];
   return {
     transformation,

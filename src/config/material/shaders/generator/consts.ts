@@ -60,10 +60,10 @@ const DISCARD_COLOR_EFFECT_CODE = {
   key: SHADER_VARIABLE_TYPES.DISCARD_COLOR,
   instantiation: `float ${getAssignedVariableName(
     SHADER_VARIABLE_TYPES.DISCARD_COLOR
-  )};`,
+  )} = 0.0;`,
   assignment: `if(${getAssignedVariableName(
     SHADER_VARIABLE_TYPES.DISCARD_COLOR
-  )} == 1.0){discard;}`,
+  )} / XXX_DISCARD_FUNCTION_COUNT_XXX < 1.0){discard;}`,
 };
 
 export const ADVANCED_SHADER_VARIABLE_EFFECT_CODE = {

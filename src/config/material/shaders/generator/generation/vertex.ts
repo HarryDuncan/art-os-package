@@ -29,7 +29,7 @@ const getVertexTransformations = (
     const vertexEffectData = transformSetup(effect, parameterMap);
     if (vertexEffectData !== null) {
       const { transformation, requiredFunctions } = vertexEffectData ?? {};
-      unmergedTransformations.push(transformation ?? "");
+      unmergedTransformations.push(...(transformation ?? []));
       allRequiredFunctions.push(...(requiredFunctions ?? []));
     }
   });

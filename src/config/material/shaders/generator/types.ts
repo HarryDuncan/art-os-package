@@ -55,12 +55,12 @@ export type ShaderEffectSchema = {
   transformSchema: ShaderTransformationSchema[];
 };
 export type TransformData = {
-  transformation: string;
+  transformation: string[];
   requiredFunctions: ShaderFunction[];
   assignedVariableId: string | null;
   advancedShaderVariables: AdvancedShaderVariableMap;
 };
-export type AdvancedShaderVariableMap = Map<string, AdvancedShaderVariable>;
+export type AdvancedShaderVariableMap = Map<string, AdvancedShaderVariable[]>;
 export type AdvancedShaderVariable = {
   key: string;
   instantiation: string;

@@ -3,6 +3,8 @@ import { FILE_TYPES } from "../../../consts";
 import { Asset, LoadedGroup, LoadedObjChild } from "../../../assets/types";
 import { getFileTypeFromFilename } from "../../../utils/file/file";
 import { ASSET_TYPES } from "../../../assets/consts";
+import { Texture } from "three";
+import { createPlaneFromTexture } from "./createPlaneFromTexture";
 
 export const getAssetGeometries = (assets: Asset[]): AssetGeometry[] =>
   assets.flatMap((asset) => {
@@ -18,6 +20,17 @@ export const getAssetGeometries = (assets: Asset[]): AssetGeometry[] =>
 export const getAssetGeometry = (asset: Asset) => {
   const { assetType, path: assetPath, data, name } = asset;
   const path = assetPath ?? "";
+  if (assetType === ASSET_TYPES.TEXTURE) {
+    const texture = data as Texture;
+    console.log(asset);
+    const geometry = createPlaneFromTexture(texture);
+    return [
+      {
+        name: asset.name,
+        geometry,
+      },
+    ];
+  }
   if (assetType !== ASSET_TYPES.MODEL3D || !data) {
     return null;
   }

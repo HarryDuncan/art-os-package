@@ -5,6 +5,7 @@ import {
   ShaderFunction,
   ShaderParameterMap,
 } from "../types";
+import { shaderSafeFloat } from "./helpers/shaderValues";
 import { transformSetup } from "./transforms/transformWithOperator";
 
 export const generateFragmentEffect = (
@@ -24,35 +25,57 @@ export const generateFragmentEffect = (
     );
   }
 
-  const [regularEffects, postEffects] = unmergedTransformations.reduce(
-    (acc, transformation) => {
-      if (transformation.includes(SHADER_VARIABLE_TYPES.POST_EFFECT)) {
-        acc[1].push(transformation);
-      } else {
-        acc[0].push(transformation);
-      }
-      return acc;
-    },
-    [[], []] as [string[], string[]]
-  );
+  console.log("unmergedTransformations", unmergedTransformations);
+  const [regularEffects, postEffects, discardEffects] =
+    unmergedTransformations.reduce(
+      (acc, transformation) => {
+        if (transformation.includes(SHADER_VARIABLE_TYPES.POST_EFFECT)) {
+          acc[1].push(transformation);
+        } else if (transformation.includes("discardColor")) {
+          acc[2].push(transformation);
+        } else {
+          acc[0].push(transformation);
+        }
+        return acc;
+      },
+      [[], [], []] as [string[], string[], string[]]
+    );
 
+  console.log("discardEffects", discardEffects);
   const postEffectAssignment =
     postEffects.length > 0
       ? `${FRAG_COLOR_NAME} = vec4(post_effect.rgb, 1.0);`
       : "";
 
+  const {
+    discardColorInstantiation,
+    discardColorAssignment,
+    discardColorTransformations,
+  } = getDiscardColor(discardEffects, advancedShaderVariables);
   const advancedShaderVariablesInstantiation = Array.from(
-    advancedShaderVariables.values()
-  ).map((variable) => variable.instantiation);
+    advancedShaderVariables.entries()
+  ).flatMap(([key, variable]) =>
+    key !== SHADER_VARIABLE_TYPES.DISCARD_COLOR
+      ? variable.map((v) => v.instantiation)
+      : []
+  );
 
   const advancedShaderVariablesAssignment = Array.from(
-    advancedShaderVariables.values()
-  ).map((variable) => variable.assignment);
+    advancedShaderVariables.entries()
+  ).flatMap(([key, variable]) =>
+    key !== SHADER_VARIABLE_TYPES.DISCARD_COLOR
+      ? variable.map((v) => v.assignment)
+      : []
+  );
 
+  console.log(discardColorTransformations);
   const transformations = [
+    discardColorInstantiation,
     ...advancedShaderVariablesInstantiation,
     ...regularEffects,
     ...advancedShaderVariablesAssignment,
+    discardColorTransformations,
+    discardColorAssignment,
     ...postEffects,
     postEffectAssignment,
   ].join("\n");
@@ -76,14 +99,17 @@ export const getFragmentColors = (
   fragmentEffectFunctions.forEach((effect) => {
     const fragmentEffectData = transformSetup(effect, parameterMap);
     if (fragmentEffectData) {
-      unmergedTransformations.push(fragmentEffectData.transformation);
+      unmergedTransformations.push(...fragmentEffectData.transformation);
       allRequiredFunctions.push(...fragmentEffectData.requiredFunctions);
       assignedVariableIds.push(fragmentEffectData.assignedVariableId ?? "");
       if (fragmentEffectData.advancedShaderVariables) {
         Array.from(
           fragmentEffectData.advancedShaderVariables.entries()
         ).forEach(([key, variable]) => {
-          allAdvancedShaderVariables.set(key, variable);
+          allAdvancedShaderVariables.set(key, [
+            ...(allAdvancedShaderVariables.get(key) || []),
+            ...variable,
+          ]);
         });
       }
     }
@@ -94,5 +120,35 @@ export const getFragmentColors = (
     requiredFunctions: allRequiredFunctions,
     assignedVariableIds: Array.from(new Set(assignedVariableIds)),
     advancedShaderVariables: allAdvancedShaderVariables,
+  };
+};
+
+const getDiscardColor = (
+  discardEffects: string[],
+  advancedShaderVariables: AdvancedShaderVariableMap
+) => {
+  if (discardEffects.length === 0) {
+    return {
+      discardColorInstantiation: "",
+      discardColorAssignment: "",
+      discardColorTransformations: [],
+    };
+  }
+  const discardColorInstantiation = advancedShaderVariables
+    .get(SHADER_VARIABLE_TYPES.DISCARD_COLOR)
+    ?.map((v) => v.instantiation)[0];
+  const discardColorAssignment = advancedShaderVariables
+    .get(SHADER_VARIABLE_TYPES.DISCARD_COLOR)
+    ?.map((v) => v.assignment)[0];
+
+  return {
+    discardColorInstantiation: discardColorInstantiation ?? "",
+    discardColorTransformations: discardEffects.join("\n") ?? "",
+    discardColorAssignment: discardColorAssignment
+      ? discardColorAssignment.replace(
+          "XXX_DISCARD_FUNCTION_COUNT_XXX",
+          shaderSafeFloat(discardEffects.length)
+        )
+      : "",
   };
 };

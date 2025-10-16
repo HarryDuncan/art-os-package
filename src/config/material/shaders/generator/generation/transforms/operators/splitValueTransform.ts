@@ -143,7 +143,7 @@ export const splitValueTransform = (
 
   // Compose the merged TransformData
   const merged: TransformData = {
-    transformation: updatedTransformation,
+    transformation: [updatedTransformation],
     requiredFunctions,
     assignedVariableId:
       mergedAssignedVariableIds.length > 0

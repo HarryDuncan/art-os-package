@@ -89,6 +89,7 @@ const getGeometryForMeshConfig = (
   const meshGeometry = geometries.find(
     (geometry) => geometry.assetId === assetId
   );
+  console.log(meshGeometry);
 
   if (!meshGeometry) {
     console.warn(

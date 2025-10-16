@@ -42,6 +42,7 @@ export const functionInstantiation = (
   const getOperator = (assignedVariableId: string) => {
     switch (assignedVariableId) {
       case SHADER_VARIABLE_TYPES.LIGHT:
+      case SHADER_VARIABLE_TYPES.DISCARD_COLOR:
         return "+=";
       default:
         return "=";
