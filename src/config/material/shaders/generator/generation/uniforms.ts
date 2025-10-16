@@ -19,6 +19,7 @@ export const generateUniformDeclaration = (
         SHADER_PROPERTY_TYPES.UNIFORM as keyof typeof SHADER_PROPERTY_TYPES,
         valueType as keyof typeof SHADER_PROPERTY_VALUE_TYPES,
         isDefault ? key : `${key}_${guid || ""}`,
+        { flat: false },
         arrayLength
       )
   );

@@ -30,7 +30,8 @@ const createDeclarationStrings = (config: ParameterConfig[]) => {
       generateDeclaration(
         SHADER_PROPERTY_TYPES.ATTRIBUTE as keyof typeof SHADER_PROPERTY_TYPES,
         valueType as keyof typeof SHADER_PROPERTY_VALUE_TYPES,
-        key
+        key,
+        { flat: false }
       )
     )
     .join(" \n ");
