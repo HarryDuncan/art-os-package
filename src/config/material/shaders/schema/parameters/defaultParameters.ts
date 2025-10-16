@@ -203,6 +203,7 @@ export const ORIGINAL_POSITION = {
 };
 
 export const DEFAULT_PARAMETERS = [
+  TIME,
   VERTEX_POINT,
   NORMAL,
   QUAD_DIMENSION,

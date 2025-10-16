@@ -1,6 +1,9 @@
 import { BufferAttribute, BufferGeometry } from "three";
 import { getVerticesCount } from "./attribute.functions";
-import { ATTRIBUTE_VALUE_TYPES } from "../../material/shaders/schema";
+import {
+  ASSET_MAPPING_RELATIONSHIPS,
+  ATTRIBUTE_VALUE_TYPES,
+} from "../../material/shaders/schema";
 import { TransformValueConfig } from "../../config.types";
 
 export const setAttributes = (
@@ -9,26 +12,37 @@ export const setAttributes = (
 ) => {
   const vertexCount = getVerticesCount(bufferGeometry);
 
-  Object.entries(transformValues).forEach(([key, { value, type }]) => {
-    if (type) {
-      switch (type) {
-        case ATTRIBUTE_VALUE_TYPES.INDEXED:
-          setIndexValues(key, vertexCount, bufferGeometry);
-          break;
-        case ATTRIBUTE_VALUE_TYPES.RANDOM_VALUE:
-          setRandomValues(key, vertexCount, bufferGeometry);
-          break;
-        case ATTRIBUTE_VALUE_TYPES.RANDOMIZED_BINARY:
-          setRandomizedPercentage(
-            key,
-            vertexCount,
-            bufferGeometry,
-            value as number
-          );
-          break;
+  Object.entries(transformValues).forEach(
+    ([key, { value, type, relationship }]) => {
+      if (type) {
+        switch (type) {
+          case ATTRIBUTE_VALUE_TYPES.INDEXED:
+            setIndexValues(key, vertexCount, bufferGeometry);
+            break;
+          case ATTRIBUTE_VALUE_TYPES.RANDOM_VALUE:
+            setRandomValues(key, vertexCount, bufferGeometry);
+            break;
+          case ATTRIBUTE_VALUE_TYPES.SINGLE_VALUE:
+            setSingleValue(
+              key,
+              vertexCount,
+              bufferGeometry,
+              value as string,
+              relationship
+            );
+            break;
+          case ATTRIBUTE_VALUE_TYPES.RANDOMIZED_BINARY:
+            setRandomizedPercentage(
+              key,
+              vertexCount,
+              bufferGeometry,
+              value as number
+            );
+            break;
+        }
       }
     }
-  });
+  );
 
   return bufferGeometry;
 };
@@ -44,6 +58,7 @@ const setIndexValues = (
   });
   bufferGeometry.setAttribute(attributeId, new BufferAttribute(pointIds, 1));
 };
+
 const setRandomValues = (
   attributeId: string,
   vertexCount: number,
@@ -68,4 +83,23 @@ const setRandomizedPercentage = (
   });
 
   bufferGeometry.setAttribute(attributeId, new BufferAttribute(randomBool, 1));
+};
+
+const setSingleValue = (
+  attributeId: string,
+  vertexCount: number,
+  bufferGeometry: BufferGeometry,
+  value: any,
+  relationship?: string
+) => {
+  if (relationship === ASSET_MAPPING_RELATIONSHIPS.VERTEX_POINT) {
+    bufferGeometry.setAttribute(attributeId, new BufferAttribute(value, 3));
+  } else if (relationship === ASSET_MAPPING_RELATIONSHIPS.NORMAL) {
+    bufferGeometry.setAttribute(attributeId, new BufferAttribute(value, 3));
+  } else {
+    const array = new Float32Array(vertexCount);
+    array.fill(value);
+    bufferGeometry.setAttribute(attributeId, new BufferAttribute(array, 1));
+  }
+  // bufferGeometry.setAttribute(attributeId, value);
 };

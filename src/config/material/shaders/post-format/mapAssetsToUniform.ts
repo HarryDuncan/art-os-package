@@ -30,6 +30,7 @@ const getMappedAsset = (
   const mappedAsset = assets.find(
     (asset) => asset.guid === assetMapping.assetId
   );
+
   if (mappedAsset && mappedAsset.data) {
     switch (assetMapping.relationship) {
       case ASSET_MAPPING_RELATIONSHIPS.TEXTURE: {
@@ -72,6 +73,7 @@ const getMappedAsset = (
           return new Vector2(width, height);
         }
       }
+
       default:
         console.warn(`No configuration for ${assetMapping.relationship}`);
         return null;

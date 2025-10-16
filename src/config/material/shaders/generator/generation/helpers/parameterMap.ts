@@ -36,7 +36,6 @@ export const getParametersByKey = (
     const existingParameter = uniqueParameters.get(parameter.key);
     if (existingParameter) {
       const splitParameter = parameter.shaderParameterId.split("_");
-      //  console.log("splitParameter", splitParameter);
       if (splitParameter.length === 2) {
         uniqueParameters.set(parameter.key, { ...parameter, isDefault: true });
       }
@@ -54,10 +53,7 @@ export const getShaderInputMap = (
 ) => {
   const shaderInputMap = new Map<string, ShaderParameter>();
   const { inputMapping, guid: effectId } = shaderEffectConfig;
-  console.log(shaderEffectConfig);
   const parameters = getParametersByKey(parameterMap, inputIds, inputMapping);
-  // console.log("inputIds", inputIds);
-  // console.log("parameters", parameters);
   parameters.forEach((parameter) => {
     if (
       parameter.parameterType === SHADER_PROPERTY_TYPES.ATTRIBUTE ||

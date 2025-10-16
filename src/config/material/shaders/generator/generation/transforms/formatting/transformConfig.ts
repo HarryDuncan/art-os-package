@@ -174,7 +174,7 @@ export const setupShaderTransformationConfigs = (
       shaderEffectConfig.shaderType === SHADER_TYPES.FRAGMENT
     );
 
-    console.log("inputIds", inputIds);
+    // console.log("inputIds", inputIds);
 
     const functionDependencies = getFunctionDependencies(
       transformConfigs,

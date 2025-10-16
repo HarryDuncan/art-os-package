@@ -6,6 +6,8 @@ import {
   MESH_TRANSFORM_TYPES,
 } from "../../material/shaders/schema";
 import { ASSET_TYPES } from "../../../assets/consts";
+import { getAssetGeometry } from "../geometry/getAssetGeometries";
+import { getNormals, getVertices } from "./attribute.functions";
 
 const TRANSFORM_SORTING = [
   MESH_TRANSFORM_TYPES.SET_UP_QUAD,
@@ -54,11 +56,32 @@ export const getAttributeValuesFromAssets = (
         switch (relationship) {
           case ASSET_MAPPING_RELATIONSHIPS.DIMENSION: {
             const value = getDimensionAttributeValues(selectedAsset);
-            return { ...acc, [key]: { value, type } };
+            return { ...acc, [key]: { value, type, relationship } };
           }
-          default:
+          case ASSET_MAPPING_RELATIONSHIPS.NORMAL: {
+            const assetGeometry = getAssetGeometry(selectedAsset);
+            if (assetGeometry) {
+              const normals = getNormals(assetGeometry[0].geometry);
+              return { ...acc, [key]: { value: normals, type, relationship } };
+            }
+            break;
+          }
+          case ASSET_MAPPING_RELATIONSHIPS.VERTEX_POINT: {
+            const assetGeometry = getAssetGeometry(selectedAsset);
+            if (assetGeometry) {
+              const positions = getVertices(assetGeometry[0].geometry);
+              console.log(positions);
+              return {
+                ...acc,
+                [key]: { value: positions, type, relationship },
+              };
+            }
+            break;
+          }
+          default: {
             console.warn(`No configuration for ${relationship}`);
-            return { ...acc, [key]: { value, type } };
+            return { ...acc, [key]: { value, type, relationship } };
+          }
         }
       }
     }

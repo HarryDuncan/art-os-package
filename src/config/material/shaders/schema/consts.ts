@@ -38,6 +38,8 @@ export const ASSET_MAPPING_RELATIONSHIPS = {
   CENTER3D: "center3d",
   VIDEO: "video",
   VIDEO_STREAM: "video_stream",
+  NORMAL: "normal",
+  VERTEX_POINT: "vertex_point",
 };
 
 export const ATTRIBUTE_VALUE_TYPES = {

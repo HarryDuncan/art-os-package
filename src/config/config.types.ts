@@ -121,6 +121,7 @@ export type MeshTransformType = keyof typeof MESH_TRANSFORM_TYPES;
 export type TransformValueConfig = {
   value: unknown;
   type: string;
+  relationship?: string;
 };
 
 export type MeshTransformConfig = {
