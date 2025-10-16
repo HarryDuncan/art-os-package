@@ -74,7 +74,6 @@ export interface EffectConfig {
   guid: string;
   name?: string;
   schemaId: string;
-  effectParameters: ParameterConfig[];
   shaderType: string;
   subEffectIds?: string[];
   inputMapping: Record<string, OutputInputMapping>;
