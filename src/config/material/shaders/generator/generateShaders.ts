@@ -9,7 +9,7 @@ import { generateVaryings } from "./generation/varyings";
 import { generateFragmentEffect } from "./generation/fragment";
 import { generateVertexEffect } from "./generation/vertex";
 import { OperatorConfig } from "../schema";
-import { generateConstantDeclarations } from "./generation/constants";
+import { generateConstants } from "./generation/constants";
 import { functionDeclarations } from "./generation/functions";
 import {
   FRAG_COLOR_INSTANTIATION,
@@ -33,7 +33,11 @@ export const generateShaders = (
     varyingInstantiation,
     varyingFunctionDeclarations,
   } = generateVaryings(parameterMap);
-  const constantDeclarations = generateConstantDeclarations(parameterMap);
+  const {
+    constantDeclaration,
+    constantInstantiation,
+    constantFunctionDeclarations,
+  } = generateConstants(parameterMap);
 
   const fragmentEffects = generateFragmentEffect(
     fragmentEffectsConfigs,
@@ -51,6 +55,7 @@ export const generateShaders = (
   const vertexEffectFunctions = [
     ...vertexEffects.requiredFunctions,
     ...varyingFunctionDeclarations,
+    ...constantFunctionDeclarations,
   ];
 
   const vertexShader = formatVertexShader(
@@ -58,7 +63,8 @@ export const generateShaders = (
     attributes,
     uniformDeclaration,
     varyingDeclaration,
-    constantDeclarations,
+    constantDeclaration,
+    constantInstantiation,
     varyingInstantiation,
     vertexEffectFunctions,
     vertexEffects.transformations,
@@ -69,7 +75,7 @@ export const generateShaders = (
     //  structDeclaration,
     uniformDeclaration,
     varyingDeclaration,
-    constantDeclarations,
+    constantDeclaration,
     fragmentEffects.requiredFunctions,
     fragmentEffects.transformations,
     fragmentEffects.fragColor
@@ -91,6 +97,7 @@ const formatVertexShader = (
   uniformDeclarations: string,
   varyingDeclarations: string[],
   constantDeclarations: string,
+  constantInstantiations: string[],
   varyingInstantiations: string[],
   vertexFunctions: (ShaderFunction | DefinedEffectFunction)[],
   vertexTransformations: string,
@@ -107,6 +114,7 @@ const formatVertexShader = (
     MAIN_START,
     VERTEX_POINT_INSTANTIATION,
     VERTEX_NORMAL_INSTANTIATION,
+    constantInstantiations.join("\n"),
     vertexTransformations,
     viewMatrix,
     varyingInstantiations.join("\n"),

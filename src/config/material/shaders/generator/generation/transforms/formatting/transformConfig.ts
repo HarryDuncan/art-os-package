@@ -114,9 +114,11 @@ export const transformationConfigFromFunctionParameter = (
   parameters: ShaderParameterMap
   // transformConfigs: ShaderTransformationSchema[]
 ): ShaderTransformationConfig | null => {
-  const { inputMapping, schemaId } = functionParameter.functionConfig ?? {};
-  if (!inputMapping || !schemaId) return null;
-  const functionCode = getFunctionSchema(schemaId)?.transformCode;
+  const { inputMapping, schemaId, transformSchema } =
+    functionParameter.functionConfig ?? {};
+
+  if (!inputMapping || !transformSchema) return null;
+  const functionCode = transformSchema[0]?.transformCode;
   if (!functionCode) return null;
   const functionParameters = getParametersFromInputMapping(
     inputMapping,
@@ -135,10 +137,10 @@ export const transformationConfigFromFunctionParameter = (
   });
 
   return {
-    key: schemaId,
+    key: schemaId || "function",
     transformCode: functionCode,
     functionType: FUNCTION_TYPES.STATIC,
-    functionName: schemaId,
+    functionName: transformSchema[0]?.key,
     inputMap,
     returnValue: functionParameter.valueType,
     assignedVariableId: functionParameter.key,

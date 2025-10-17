@@ -63,7 +63,7 @@ const DISCARD_COLOR_EFFECT_CODE = {
   )} = 0.0;`,
   assignment: `if(${getAssignedVariableName(
     SHADER_VARIABLE_TYPES.DISCARD_COLOR
-  )} < 2.0){discard;}`,
+  )} < XXX_DISCARD_FUNCTION_COUNT_XXX ){discard;}`,
 };
 
 export const ADVANCED_SHADER_VARIABLE_EFFECT_CODE = {

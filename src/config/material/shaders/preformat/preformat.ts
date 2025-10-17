@@ -3,6 +3,7 @@ import {
   OutputInputMapping,
   OperatorConfig,
   ShaderEffectConfig,
+  ShaderTransformationSchema,
 } from "../schema/types";
 import { ShaderParameter, ShaderParameterMap } from "../generator/types";
 import { FRAGMENT_COLOR, TIME, VERTEX_POINT } from "../schema/parameters";
@@ -45,7 +46,8 @@ export const preformat = (
     getFunctionBasedVaryings(
       effectParameters,
       shaderEffectConfigs,
-      operatorConfigs
+      operatorConfigs,
+      schemas.function
     );
 
   const effectParamsMap = [
@@ -77,8 +79,21 @@ export const preformat = (
         shaderParameterId: `${parameterId}`,
       } as ShaderParameter);
     } else if (effectParameter.isFunctionBased) {
+      const transformSchema = schemas.function[
+        effectParameter.functionConfig?.schemaId
+      ].transformSchema as ShaderTransformationSchema[];
+      if (!transformSchema) {
+        console.warn(
+          `Transform schema not found for function ${effectParameter.functionConfig?.schemaId}`
+        );
+        return acc;
+      }
       acc.set(`${parameterId}`, {
         ...effectParameter,
+        functionConfig: {
+          ...effectParameter.functionConfig,
+          transformSchema: transformSchema,
+        },
         shaderParameterId: `${parameterId}`,
       } as ShaderParameter);
     } else {
@@ -229,7 +244,8 @@ const convertAttributesToVaryings = (
 const getFunctionBasedVaryings = (
   effectParameters: ParameterConfig[],
   shaderEffectConfigs: ShaderEffectConfig[],
-  operatorConfigs: OperatorConfig[]
+  operatorConfigs: OperatorConfig[],
+  functionSchemas: Record<string, ShaderTransformationSchema[]>
 ) => {
   const functionBasedParameters = getFunctionBasedParameters(effectParameters);
   if (functionBasedParameters.length === 0)
@@ -276,6 +292,22 @@ const getFunctionBasedVaryings = (
     return parameters;
   });
   const functionBasedVaryings = constantToVarying(requireConversion);
-
-  return { functionBasedVaryings, updatedEffectInputMapping };
+  const withSchemas = functionBasedVaryings.map((parameter) => {
+    const transformSchema =
+      functionSchemas[parameter.functionConfig?.schemaId].transformSchema;
+    if (!transformSchema) {
+      console.warn(
+        `Transform schema not found for function ${parameter.functionConfig?.schemaId}`
+      );
+    }
+    if (!transformSchema) return parameter;
+    return {
+      ...parameter,
+      functionConfig: {
+        ...parameter.functionConfig,
+        transformSchema,
+      },
+    };
+  });
+  return { functionBasedVaryings: withSchemas, updatedEffectInputMapping };
 };

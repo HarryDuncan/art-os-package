@@ -46,8 +46,8 @@ export const splitValueTransform = (
   }
 
   // Build the if-else if structure for all split values
-  const buildSplitValueCondition = (): string => {
-    let result = "";
+  const buildSplitValueCondition = (): string[] => {
+    let result = [] as string[];
 
     // Build if-else if statements for each split value
     for (let i = 0; i < splitValues.length; i++) {
@@ -85,13 +85,13 @@ export const splitValueTransform = (
 
       // Add if or else if statement
       if (i === 0) {
-        result += `if(${condition}) {
-      ${effectTransform.transformation}
-    }`;
+        result.push(`if(${condition}) {`);
+        result.push(...effectTransform.transformation);
+        result.push(`}`);
       } else {
-        result += ` else if(${condition}) {
-      ${effectTransform.transformation}
-    }`;
+        result.push(` else if(${condition}) { `);
+        result.push(...effectTransform.transformation);
+        result.push(`}`);
       }
     }
 
@@ -105,9 +105,9 @@ export const splitValueTransform = (
         (transform) => transform.id === lastOutputMapping.itemId
       );
       if (lastEffectTransform) {
-        result += ` else {
-      ${lastEffectTransform.transformation}
-    }`;
+        result.push(` else {`);
+        result.push(...lastEffectTransform.transformation);
+        result.push(`}`);
       }
     }
 
@@ -143,7 +143,7 @@ export const splitValueTransform = (
 
   // Compose the merged TransformData
   const merged: TransformData = {
-    transformation: [updatedTransformation],
+    transformation: updatedTransformation,
     requiredFunctions,
     assignedVariableId:
       mergedAssignedVariableIds.length > 0

@@ -1,9 +1,7 @@
 import { HALFTONE } from "./color/halftone";
-import { TEXTURE_PIXEL_COLOR } from "./color/texturePixelColor";
 import { AMBIENT_LIGHT } from "./lights/ambientLight";
 import { DIRECTIONAL_LIGHT } from "./lights/directionalLight";
 import { POINT_LIGHT } from "./lights/pointLight";
-// import { TEXTURED_POINT } from "./points/texturedPoint";
 
 export const FRAGMENT_EFFECTS = {
   NONE: "NONE",
@@ -12,7 +10,6 @@ export const FRAGMENT_EFFECTS = {
   DIRECTIONAL_LIGHT: "DIRECTIONAL_LIGHT",
   AMBIENT_LIGHT: "AMBIENT_LIGHT",
   HALFTONE: "HALFTONE",
-  TEXTURED_POINT: "TEXTURED_POINT",
 };
 
 const DEFAULT_FRAGMENT_EFFECT = {
@@ -23,11 +20,9 @@ const DEFAULT_FRAGMENT_EFFECT = {
   assignedVariableId: "fragColor",
 };
 export const FRAGMENT_SCHEMA_MAP = {
-  [FRAGMENT_EFFECTS.TEXTURE_PIXEL_COLOR]: TEXTURE_PIXEL_COLOR,
   [FRAGMENT_EFFECTS.POINT_LIGHT]: POINT_LIGHT,
   [FRAGMENT_EFFECTS.DIRECTIONAL_LIGHT]: DIRECTIONAL_LIGHT,
   [FRAGMENT_EFFECTS.AMBIENT_LIGHT]: AMBIENT_LIGHT,
   [FRAGMENT_EFFECTS.HALFTONE]: HALFTONE,
-  // [FRAGMENT_EFFECTS.TEXTURED_POINT]: TEXTURED_POINT,
   DEFAULT: DEFAULT_FRAGMENT_EFFECT,
 };

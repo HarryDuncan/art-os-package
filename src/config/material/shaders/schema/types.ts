@@ -23,6 +23,7 @@ export type ParameterFunctionConfig = {
   schemaId: string;
   outputValueType: keyof typeof SHADER_PROPERTY_VALUE_TYPES;
   inputMapping: Record<string, OutputInputMapping>;
+  transformSchema?: ShaderTransformationSchema[];
 };
 
 export type AttributeConfig = {

@@ -1,20 +1,37 @@
 import { SHADER_PROPERTY_TYPES } from "../../schema";
 import { shaderValueTypeInstantiation } from "./helpers/shaderValues";
 import { valueToShader } from "./helpers/shaderValues";
-import { ShaderParameterMap } from "../types";
+import { DefinedEffectFunction, ShaderParameterMap } from "../types";
+import { transformsFromParameters } from "./transforms/transformsFromParameters";
 
-export const generateConstantDeclarations = (
+export const generateConstants = (
   shaderParameterMap: ShaderParameterMap
-): string => {
-  const constantDeclarations = Array.from(shaderParameterMap.values())
-    .filter(
-      ({ parameterType }) => parameterType === SHADER_PROPERTY_TYPES.CONSTANT
-    )
-    .map(({ shaderParameterId, valueType, value }) => {
+): {
+  constantDeclaration: string;
+  constantInstantiation: string[];
+  constantFunctionDeclarations: DefinedEffectFunction[];
+} => {
+  const constantParameters = Array.from(shaderParameterMap.values()).filter(
+    ({ parameterType }) => parameterType === SHADER_PROPERTY_TYPES.CONSTANT
+  );
+  const constantDeclaration = [
+    "// CONSTANT DECLARATIONS",
+    ...constantParameters.map(({ shaderParameterId, valueType, value }) => {
       return `${shaderValueTypeInstantiation(
         valueType
       )} ${shaderParameterId} = ${valueToShader(valueType, value ?? "")};`;
-    });
+    }),
+  ].join("\n");
 
-  return ["// CONSTANT DECLARATIONS", ...constantDeclarations].join("\n");
+  const functionBasedConstants = constantParameters.filter(
+    (parameter) => parameter.isFunctionBased
+  );
+  const { functionInstantiations, transformFunctions } =
+    transformsFromParameters(functionBasedConstants, shaderParameterMap);
+
+  return {
+    constantDeclaration,
+    constantInstantiation: functionInstantiations,
+    constantFunctionDeclarations: transformFunctions,
+  };
 };
