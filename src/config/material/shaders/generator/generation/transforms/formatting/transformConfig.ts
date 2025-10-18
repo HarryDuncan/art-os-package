@@ -4,9 +4,7 @@ import {
   SHADER_TYPES,
   SHADER_VARIABLE_TYPES,
   ShaderEffectConfig,
-  getFunctionSchema,
 } from "../../../../schema";
-import {} from "../../../../schema/schema";
 import { FUNCTION_TYPES, ROOT_FUNCTION_TYPES } from "../../../consts";
 import {
   ShaderFunction,

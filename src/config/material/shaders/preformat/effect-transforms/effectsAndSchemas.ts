@@ -72,7 +72,7 @@ const mergeExternalSchema = (
   const externalSchemaForEffect = externalSchemas[shaderType]?.[schemaId];
 
   if (!externalSchemaForEffect) {
-    const effectSchema = getEffectSchema(shaderType, schemaId);
+    const effectSchema = getEffectSchema(shaderType);
     return {
       ...config,
       effectSchema: effectSchema ?? ({} as ShaderEffectSchema),

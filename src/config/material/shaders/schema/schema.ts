@@ -1,6 +1,6 @@
 import { SHADER_SCHEMA_TYPES, SHADER_TYPES } from "./consts";
 import { FRAGMENT_SCHEMA_MAP } from "./fragment";
-import { FUNCTION_SCHEMA_MAP } from "./functions";
+
 import { OPERATOR_SCHEMA_MAP } from "./operators";
 import { VERTEX_SCHEMA_MAP } from "./vertex";
 import { MESH_TRANSFORM_SCHEMA } from "./mesh-transforms";
@@ -10,12 +10,11 @@ export const getSchema = (schemaType: string, schemaId?: string) => {
   switch (schemaType) {
     case SHADER_SCHEMA_TYPES.OPERATOR:
       return getOperatorSchema(schemaId);
-    case SHADER_SCHEMA_TYPES.FUNCTION:
-      return getFunctionSchema(schemaId);
+
     case SHADER_SCHEMA_TYPES.VERTEX:
-      return getVertexSchema(schemaId);
+      return getVertexSchema();
     case SHADER_SCHEMA_TYPES.FRAGMENT:
-      return getFragmentSchema(schemaId);
+      return getFragmentSchema();
     case SHADER_SCHEMA_TYPES.MESH_TRANSFORM:
       return getMeshTransformSchema(schemaId);
 
@@ -33,25 +32,20 @@ export const getOperatorSchema = (schemaId?: string) => {
   return operatorSchema;
 };
 
-export const getFunctionSchema = (schemaId?: string) => {
-  const functionSchema = FUNCTION_SCHEMA_MAP[schemaId || "DEFAULT"] || null;
-  return functionSchema;
-};
-
-export const getVertexSchema = (schemaId?: string) => {
-  const vertexSchema = VERTEX_SCHEMA_MAP[schemaId || "DEFAULT"] || null;
+export const getVertexSchema = () => {
+  const vertexSchema = VERTEX_SCHEMA_MAP["DEFAULT"] || null;
   return vertexSchema;
 };
 
-export const getFragmentSchema = (schemaId?: string) => {
-  const fragmentSchema = FRAGMENT_SCHEMA_MAP[schemaId || "DEFAULT"] || null;
+export const getFragmentSchema = () => {
+  const fragmentSchema = FRAGMENT_SCHEMA_MAP["DEFAULT"] || null;
   return fragmentSchema;
 };
 
-export const getEffectSchema = (effectType: string, schemaId?: string) => {
+export const getEffectSchema = (effectType: string) => {
   return effectType === SHADER_TYPES.VERTEX
-    ? getVertexSchema(schemaId)
-    : getFragmentSchema(schemaId);
+    ? getVertexSchema()
+    : getFragmentSchema();
 };
 
 export const getMeshTransformSchema = (transformKey?: string) => {
