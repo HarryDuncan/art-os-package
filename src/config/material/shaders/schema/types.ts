@@ -124,7 +124,8 @@ export type ShaderTransformationSchema = {
   key: string;
   transformCode: string[];
   returnValue: string;
-  assignedVariableId: keyof typeof SHADER_VARIABLE_TYPES | string;
+  assignedVariableIds?: (keyof typeof SHADER_VARIABLE_TYPES | string)[];
+  assignedVariableId?: keyof typeof SHADER_VARIABLE_TYPES | string;
 };
 
 export type ShaderEffectSchema = {

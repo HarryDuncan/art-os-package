@@ -176,11 +176,11 @@ const constantToVarying = (constantConfigs: ParameterConfig[]) => {
   return constantConfigs.map((constantConfig) => {
     return {
       ...constantConfig,
-      guid: `${constantConfig?.guid}_varying`,
-      key: `${constantConfig?.key ?? ""}_varying`,
+      guid: `${constantConfig?.guid}`,
+      key: `${constantConfig?.key ?? ""}`,
       parameterType: SHADER_PROPERTY_TYPES.VARYING,
       value: constantConfig.key,
-      isFunctionBased: false,
+      isFunctionBased: true,
       varyingConfig: {
         varyingType: VARYING_TYPES.CUSTOM,
       },
@@ -250,48 +250,17 @@ const getFunctionBasedVaryings = (
   const functionBasedParameters = getFunctionBasedParameters(effectParameters);
   if (functionBasedParameters.length === 0)
     return { functionBasedVaryings: [], updatedEffectInputMapping: {} };
-  const fragmentShaders = getShaderConfigsByType(
-    shaderEffectConfigs,
-    SHADER_TYPES.FRAGMENT
-  );
-  const fragmentEffectFunctionConfigs = getEffectFunctionConfigs(
-    operatorConfigs,
-    fragmentShaders
-  );
-  const filteredShaders = getEffectConfigUsingParameters(
-    fragmentEffectFunctionConfigs,
-    functionBasedParameters
-  );
 
   const updatedEffectInputMapping: Record<
     string,
     Record<string, OutputInputMapping>
   > = {};
 
-  const requireConversion = filteredShaders.flatMap((shader) => {
-    const { inputMapping } = shader;
-    const inputIds = Object.values(inputMapping).map(
-      (mapping) => mapping.itemId
-    );
-    const parameters = functionBasedParameters.flatMap((parameter) =>
-      inputIds.includes(parameter.guid) ? parameter : []
-    );
-    if (parameters.length > 0) {
-      updatedEffectInputMapping[shader.guid] = Object.entries(
-        inputMapping
-      ).reduce((acc, [key, value]) => {
-        if (parameters.some((parameter) => parameter.guid === value.itemId)) {
-          acc[key] = {
-            ...value,
-            itemId: `${value.itemId}_varying`,
-          };
-        }
-        return acc;
-      }, {} as Record<string, OutputInputMapping>);
-    }
-    return parameters;
-  });
+  const requireConversion = functionBasedParameters.filter(
+    (parameter) => parameter.parameterType === SHADER_PROPERTY_TYPES.VARYING
+  );
   const functionBasedVaryings = constantToVarying(requireConversion);
+
   const withSchemas = functionBasedVaryings.map((parameter) => {
     const transformSchema =
       functionSchemas[parameter.functionConfig?.schemaId].transformSchema;
@@ -309,5 +278,6 @@ const getFunctionBasedVaryings = (
       },
     };
   });
+
   return { functionBasedVaryings: withSchemas, updatedEffectInputMapping };
 };

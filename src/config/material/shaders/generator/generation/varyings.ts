@@ -35,17 +35,21 @@ export const generateVaryings = (parameterMap: ShaderParameterMap) => {
 };
 
 const varyingDeclarations = (config: ParameterConfig[]) => {
-  const declarationStrings = config.map(({ key, valueType, varyingConfig }) => {
-    const options = {
-      flat: varyingConfig?.varyingType === VARYING_TYPES.ATTRIBUTE,
-    };
-    return generateDeclaration(
-      SHADER_PROPERTY_TYPES.VARYING as keyof typeof SHADER_PROPERTY_TYPES,
-      valueType as keyof typeof SHADER_PROPERTY_VALUE_TYPES,
-      key,
-      options
-    );
-  });
+  const declarationStrings = config.map(
+    ({ key, valueType, varyingConfig, isFunctionBased }) => {
+      const options = {
+        flat:
+          varyingConfig?.varyingType === VARYING_TYPES.ATTRIBUTE ||
+          isFunctionBased,
+      };
+      return generateDeclaration(
+        SHADER_PROPERTY_TYPES.VARYING as keyof typeof SHADER_PROPERTY_TYPES,
+        valueType as keyof typeof SHADER_PROPERTY_VALUE_TYPES,
+        key,
+        options
+      );
+    }
+  );
   const declaration = [V_DECLARATION, ...declarationStrings];
   return declaration;
 };
