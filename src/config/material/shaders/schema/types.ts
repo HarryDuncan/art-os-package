@@ -125,15 +125,14 @@ export type ShaderTransformationSchema = {
   transformCode: string[];
   returnValue: string;
   assignedVariableIds?: (keyof typeof SHADER_VARIABLE_TYPES | string)[];
-  assignedVariableId?: keyof typeof SHADER_VARIABLE_TYPES | string;
 };
 
 export type ShaderEffectSchema = {
   functions: unknown[];
-  meshTransformIds: string[];
   parameters: ParameterConfig[];
   transformSchema: ShaderTransformationSchema[];
-  assignedVariableId: keyof typeof SHADER_VARIABLE_TYPES | string;
+  assignedVariableIds: (keyof typeof SHADER_VARIABLE_TYPES | string)[];
+  shaderTransformKey: string;
 };
 
 export type MeshTransformSchema = {
@@ -143,4 +142,13 @@ export type MeshTransformSchema = {
   parameters: ParameterConfig[];
   transformedMeshIds: string[];
   materialId: string;
+};
+
+export type StructVariableConfig = {
+  key: string;
+  valueType: keyof typeof SHADER_PROPERTY_VALUE_TYPES;
+};
+export type StructConfig = {
+  key: string;
+  variables: StructVariableConfig[];
 };

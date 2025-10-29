@@ -12,10 +12,10 @@ export const formatRotationFromConfig = (config: MeshComponentConfig) => {
   return eulerRotation;
 };
 export const formatPositionFromConfig = (config: MeshComponentConfig) => {
-  if (config.isCustomGeometry) {
-    console.log("isCustomGeometry");
-    console.log(config);
-  }
+  // if (config.isCustomGeometry) {
+  //   console.log("isCustomGeometry");
+  //   console.log(config);
+  // }
   const position = { ...DEFAULT_POSITION };
   position.x = config?.position?.x ?? 0;
   position.y = config?.position?.y ?? 0;

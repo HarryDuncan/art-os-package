@@ -21,7 +21,12 @@ export const generateShaderTransformData = (
 ): TransformData | null => {
   const { effectSchema } = effect;
   if (effectSchema) {
-    const { transformSchema, assignedVariableId, functions } = effectSchema;
+    const {
+      transformSchema,
+      assignedVariableId,
+      functions,
+      assignedVariableIds,
+    } = effectSchema;
     const { transformationFunctions, transformation, advancedShaderVariables } =
       generateTransform(
         transformSchema as ShaderTransformationSchema[],
@@ -97,8 +102,6 @@ export const generateTransform = (
     },
     new Map() as AdvancedShaderVariableMap
   );
-
-  console.log("advancedShaderVariables", advancedShaderVariables);
 
   const mainFunctionInstantiations = effectFunctions
     .sort((a, b) =>

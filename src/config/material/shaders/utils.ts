@@ -1,4 +1,8 @@
 import {
+  SHADER_PROPERTY_VALUE_TYPES,
+  SHADER_VARIABLE_ASSIGNMENT_MAPS,
+} from "./schema";
+import {
   OperatorConfig,
   ParameterConfig,
   ShaderEffectConfig,
@@ -46,4 +50,18 @@ export const getEffectConfigUsingParameters = (
     );
     return parameters.some((parameter) => inputIds.includes(parameter.guid));
   });
+};
+
+export const getDefaultShaderVariableValueType = (
+  key: string
+): keyof typeof SHADER_PROPERTY_VALUE_TYPES => {
+  const parameters = Object.values(SHADER_VARIABLE_ASSIGNMENT_MAPS).flatMap(
+    (assignmentMap) =>
+      Object.entries(assignmentMap).map(([assignmentKey, valueType]) => ({
+        key: assignmentKey,
+        valueType: valueType as keyof typeof SHADER_PROPERTY_VALUE_TYPES,
+      }))
+  );
+  return parameters.find((parameter) => parameter.key === key)
+    ?.valueType as keyof typeof SHADER_PROPERTY_VALUE_TYPES;
 };

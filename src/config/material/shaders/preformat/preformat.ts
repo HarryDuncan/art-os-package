@@ -4,18 +4,15 @@ import {
   OperatorConfig,
   ShaderEffectConfig,
   ShaderTransformationSchema,
+  StructConfig,
 } from "../schema/types";
 import { ShaderParameter, ShaderParameterMap } from "../generator/types";
 import { FRAGMENT_COLOR, TIME, VERTEX_POINT } from "../schema/parameters";
 import { SHADER_PROPERTY_TYPES, SHADER_TYPES, VARYING_TYPES } from "../schema";
 import { formatShaderEffects } from "./effectsAndOperators";
-import {
-  getEffectConfigUsingParameters,
-  getEffectFunctionConfigs,
-  getFunctionBasedParameters,
-  getShaderConfigsByType,
-} from "../utils";
+import { getFunctionBasedParameters, getShaderConfigsByType } from "../utils";
 import { removeDuplicatesByKey } from "../../../../utils/removeDuplicatesByKey";
+import { getStructsConfigsFromEffects } from "./structs/getStructsConfigsFromEffects";
 
 export const preformat = (
   effectParameters: ParameterConfig[],
@@ -28,6 +25,7 @@ export const preformat = (
   updatedOperatorConfigs: OperatorConfig[];
   vertexEffects: OperatorConfig[];
   fragmentEffects: OperatorConfig[];
+  structsConfigs: StructConfig[];
 } => {
   const defaultParamsMap = [TIME, VERTEX_POINT, FRAGMENT_COLOR].reduce(
     (acc, effect) => {
@@ -148,12 +146,18 @@ export const preformat = (
     schemas
   );
 
+  const structsConfigs = getStructsConfigsFromEffects(
+    vertexEffects,
+    fragmentEffects
+  );
+
   return {
     parameterMap,
     updatedEffectConfigs,
     updatedOperatorConfigs,
     vertexEffects,
     fragmentEffects,
+    structsConfigs,
   };
 };
 

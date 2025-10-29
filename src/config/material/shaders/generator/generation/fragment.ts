@@ -25,7 +25,6 @@ export const generateFragmentEffect = (
     );
   }
 
-  console.log("unmergedTransformations", unmergedTransformations);
   const [regularEffects, postEffects, discardEffects] =
     unmergedTransformations.reduce(
       (acc, transformation) => {
@@ -41,7 +40,6 @@ export const generateFragmentEffect = (
       [[], [], []] as [string[], string[], string[]]
     );
 
-  console.log("discardEffects", discardEffects);
   const postEffectAssignment =
     postEffects.length > 0
       ? `${FRAG_COLOR_NAME} = vec4(post_effect.rgb, 1.0);`
@@ -68,7 +66,6 @@ export const generateFragmentEffect = (
       : []
   );
 
-  console.log(discardColorTransformations);
   const transformations = [
     discardColorInstantiation,
     ...advancedShaderVariablesInstantiation,

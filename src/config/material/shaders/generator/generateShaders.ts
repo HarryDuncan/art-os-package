@@ -8,7 +8,7 @@ import { generateUniformDeclaration } from "./generation/uniforms";
 import { generateVaryings } from "./generation/varyings";
 import { generateFragmentEffect } from "./generation/fragment";
 import { generateVertexEffect } from "./generation/vertex";
-import { OperatorConfig } from "../schema";
+import { OperatorConfig, StructConfig } from "../schema";
 import { generateConstants } from "./generation/constants";
 import { functionDeclarations } from "./generation/functions";
 import {
@@ -18,16 +18,18 @@ import {
   VERTEX_NORMAL_INSTANTIATION,
   VERTEX_POINT_INSTANTIATION,
 } from "./consts";
+import { generateStructs } from "./generation/structs";
 
 const DEBUG = true;
 export const generateShaders = (
   vertexEffectsConfigs: OperatorConfig[],
   fragmentEffectsConfigs: OperatorConfig[],
-  parameterMap: ShaderParameterMap
+  parameterMap: ShaderParameterMap,
+  structsConfigs: StructConfig[]
 ) => {
   const attributes = generateAttributes(parameterMap);
   const uniformDeclaration = generateUniformDeclaration(parameterMap);
-
+  const structDeclaration = generateStructs(structsConfigs);
   const {
     varyingDeclaration,
     varyingInstantiation,
@@ -59,7 +61,7 @@ export const generateShaders = (
   ];
 
   const vertexShader = formatVertexShader(
-    // structDeclaration,
+    structDeclaration,
     attributes,
     uniformDeclaration,
     varyingDeclaration,
@@ -92,7 +94,7 @@ export const generateShaders = (
 };
 
 const formatVertexShader = (
-  //  structDeclaration: string,
+  structDeclaration: string,
   attributes: string,
   uniformDeclarations: string,
   varyingDeclarations: string[],
@@ -105,7 +107,7 @@ const formatVertexShader = (
 ) => {
   const vertexFunctionDeclarations = functionDeclarations(vertexFunctions);
   return [
-    //   structDeclaration,
+    structDeclaration,
     attributes,
     uniformDeclarations,
     varyingDeclarations.join("\n"),

@@ -57,17 +57,19 @@ export const generateShader = (
   const { shaderEffectConfigs, operatorConfigs, parameterConfigs } =
     materialConfig;
 
-  const { parameterMap, vertexEffects, fragmentEffects } = preformat(
-    parameterConfigs ?? [],
-    shaderEffectConfigs ?? [],
-    operatorConfigs ?? [],
-    schemas
-  );
+  const { parameterMap, vertexEffects, fragmentEffects, structsConfigs } =
+    preformat(
+      parameterConfigs ?? [],
+      shaderEffectConfigs ?? [],
+      operatorConfigs ?? [],
+      schemas
+    );
 
   const { vertexShader, fragmentShader } = generateShaders(
     vertexEffects,
     fragmentEffects,
-    parameterMap
+    parameterMap,
+    structsConfigs
   );
   return { vertexShader, fragmentShader, parameterMap };
 };
