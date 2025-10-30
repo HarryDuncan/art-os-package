@@ -14,18 +14,18 @@ export const transformFunction = (
   const { guid: shaderEffectId } = shaderEffectConfig;
   return transformationConfigs.map(
     ({
-      returnValue,
+      // outputConfig,
       inputMap,
       functionName,
       transformCode,
-      assignedVariableId,
+      // assignedVariableId,
       key: functionKey,
       functionType,
     }) => {
-      const returnTypeString = shaderValueTypeInstantiation(returnValue);
+      //const returnTypeString = shaderValueTypeInstantiation(returnValue);
       const functionInputs = getFunctionInputs(inputMap, shaderEffectId);
-
-      const functionDeclaration = `${returnTypeString} ${functionName}(${[
+      // TODO - handle output config
+      const functionDeclaration = `vec4 ${functionName}(${[
         ...functionInputs,
       ].join(", ")}){`;
 
@@ -39,10 +39,11 @@ export const transformFunction = (
       const shaderFunctionConfig = {
         key: functionKey,
         functionType,
-        returnValue,
+        // returnValue,
         functionName: functionName,
-        assignedVariableId,
+        // assignedVariableId,
         inputMap,
+        // TODO - handle output config
         functionDefinition: [
           functionDeclaration,
           ...formattedFunctionContent,

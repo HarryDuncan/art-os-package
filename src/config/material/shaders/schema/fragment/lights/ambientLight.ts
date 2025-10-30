@@ -32,7 +32,7 @@ const AMBIENT_LIGHT_TRANSFORMATION_CONFIG = {
   ],
   returnValue: SHADER_PROPERTY_VALUE_TYPES.VEC3,
   assignedVariableId: SHADER_VARIABLE_TYPES.LIGHT,
-} as ShaderTransformationSchema;
+} as unknown as ShaderTransformationSchema;
 
 export const AMBIENT_LIGHT = {
   functions: [],

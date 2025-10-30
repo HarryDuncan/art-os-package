@@ -41,12 +41,7 @@ export const preformat = (
     convertAttributesToVaryings(effectParameters, shaderEffectConfigs);
 
   const { functionBasedVaryings, updatedEffectInputMapping } =
-    getFunctionBasedVaryings(
-      effectParameters,
-      shaderEffectConfigs,
-      operatorConfigs,
-      schemas.function
-    );
+    getFunctionBasedVaryings(effectParameters, schemas.function);
 
   const effectParamsMap = [
     ...convertedAttributes,
@@ -77,9 +72,10 @@ export const preformat = (
         shaderParameterId: `${parameterId}`,
       } as ShaderParameter);
     } else if (effectParameter.isFunctionBased) {
-      const transformSchema = schemas.function[
-        effectParameter.functionConfig?.schemaId
-      ].transformSchema as ShaderTransformationSchema[];
+      const schemaId = effectParameter.functionConfig?.schemaId;
+      if (!schemaId) return acc;
+      const transformSchema = schemas.function[schemaId]
+        .transformSchema as ShaderTransformationSchema[];
       if (!transformSchema) {
         console.warn(
           `Transform schema not found for function ${effectParameter.functionConfig?.schemaId}`
@@ -247,8 +243,6 @@ const convertAttributesToVaryings = (
 
 const getFunctionBasedVaryings = (
   effectParameters: ParameterConfig[],
-  shaderEffectConfigs: ShaderEffectConfig[],
-  operatorConfigs: OperatorConfig[],
   functionSchemas: Record<string, ShaderTransformationSchema[]>
 ) => {
   const functionBasedParameters = getFunctionBasedParameters(effectParameters);
@@ -266,12 +260,11 @@ const getFunctionBasedVaryings = (
   const functionBasedVaryings = constantToVarying(requireConversion);
 
   const withSchemas = functionBasedVaryings.map((parameter) => {
-    const transformSchema =
-      functionSchemas[parameter.functionConfig?.schemaId].transformSchema;
+    const schemaId = parameter.functionConfig?.schemaId;
+    if (!schemaId) return parameter;
+    const transformSchema = functionSchemas[schemaId].transformSchema;
     if (!transformSchema) {
-      console.warn(
-        `Transform schema not found for function ${parameter.functionConfig?.schemaId}`
-      );
+      console.warn(`Transform schema not found for function ${schemaId}`);
     }
     if (!transformSchema) return parameter;
     return {

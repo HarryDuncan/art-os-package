@@ -109,7 +109,7 @@ export const andFunctionTransform = (
   ];
   const mergedAssignedVariableIds = mergeUnique(
     effectTransforms.map((t) =>
-      t.assignedVariableId ? [t.assignedVariableId] : []
+      t.assignedVariableIds ? t.assignedVariableIds : []
     )
   );
 
@@ -123,12 +123,9 @@ export const andFunctionTransform = (
 
   // Compose the merged TransformData
   const merged: TransformData = {
-    transformation: updatedTransformation,
+    transformation: [updatedTransformation],
     requiredFunctions,
-    assignedVariableId:
-      mergedAssignedVariableIds.length > 0
-        ? mergedAssignedVariableIds[0]
-        : null,
+    assignedVariableIds: mergedAssignedVariableIds,
     advancedShaderVariables: mergedAdvancedShaderVariables,
   };
 

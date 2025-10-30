@@ -98,7 +98,9 @@ export const getFragmentColors = (
     if (fragmentEffectData) {
       unmergedTransformations.push(...fragmentEffectData.transformation);
       allRequiredFunctions.push(...fragmentEffectData.requiredFunctions);
-      assignedVariableIds.push(fragmentEffectData.assignedVariableId ?? "");
+      // fragmentEffectData.assignedVariableId ?? ""
+      // TODO - update to output config
+      // assignedVariableIds.push();
       if (fragmentEffectData.advancedShaderVariables) {
         Array.from(
           fragmentEffectData.advancedShaderVariables.entries()

@@ -16,29 +16,22 @@ import { transformFunction } from "./formatting/transformFunction";
 
 export const generateShaderTransformData = (
   effect: ShaderEffectConfig,
-  parameterMap: ShaderParameterMap,
-  isSubEffect: boolean = false
+  parameterMap: ShaderParameterMap
 ): TransformData | null => {
   const { effectSchema } = effect;
   if (effectSchema) {
-    const {
-      transformSchema,
-      assignedVariableId,
-      functions,
-      assignedVariableIds,
-    } = effectSchema;
+    const { transformSchema, functions, assignedVariableIds } = effectSchema;
     const { transformationFunctions, transformation, advancedShaderVariables } =
       generateTransform(
-        transformSchema as ShaderTransformationSchema[],
+        transformSchema as unknown as ShaderTransformationSchema[],
         effect,
-        parameterMap,
-        isSubEffect
+        parameterMap
       );
 
     return {
       transformation,
       requiredFunctions: [...(functions || []), ...transformationFunctions],
-      assignedVariableId,
+      assignedVariableIds,
       advancedShaderVariables,
     } as TransformData;
   }
@@ -48,8 +41,7 @@ export const generateShaderTransformData = (
 export const generateTransform = (
   transformConfig: ShaderTransformationSchema[],
   effectConfig: ShaderEffectConfig,
-  parameterMap: ShaderParameterMap,
-  isSubEffect: boolean
+  parameterMap: ShaderParameterMap
 ): {
   transformation: string[];
   transformationFunctions: ShaderFunction[];
@@ -73,8 +65,7 @@ export const generateTransform = (
   const transformationConfigs = setupShaderTransformationConfigs(
     transformConfig,
     effectConfig,
-    isSubEffect,
-    [],
+
     parameterMap
   );
 
@@ -83,11 +74,13 @@ export const generateTransform = (
     effectConfig
   );
 
-  const shaderVariableTypes = transformationConfigs.flatMap(
-    ({ assignedVariableId }) => {
-      return assignedVariableId ?? [];
-    }
-  );
+  // todo - handle output config
+  const shaderVariableTypes: string[] = [];
+  // transformationConfigs.flatMap(
+  //   ({ assignedVariableIds }) => {
+  //     return assignedVariableIds ?? [];
+  //   }
+  // );
   const advancedShaderVariables = shaderVariableTypes.reduce(
     (map, assignedVariableId) => {
       const transformCode =

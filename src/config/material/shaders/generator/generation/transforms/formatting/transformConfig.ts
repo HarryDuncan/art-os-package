@@ -1,16 +1,17 @@
 import {
   ParameterConfig,
   SHADER_PROPERTY_TYPES,
+  // SHADER_PROPERTY_VALUE_TYPES,
   SHADER_TYPES,
-  SHADER_VARIABLE_TYPES,
+  // SHADER_VARIABLE_TYPES,
   ShaderEffectConfig,
+  ShaderTransformationSchema,
 } from "../../../../schema";
-import { FUNCTION_TYPES, ROOT_FUNCTION_TYPES } from "../../../consts";
+import { FUNCTION_TYPES } from "../../../consts";
 import {
-  ShaderFunction,
+  // ShaderFunction,
   ShaderParameterMap,
   ShaderTransformationConfig,
-  ShaderTransformationSchema,
 } from "../../../types";
 import {
   getInputIds,
@@ -65,47 +66,39 @@ const getFunctionDependencies = (
   });
   return parameterIds;
 };
-const parseSubEffectIntoTransformCode = (
-  transformCode: string[],
-  subEffectData: {
-    requiredFunctions: ShaderFunction[];
-    transformation: string;
-  }[]
-) => {
-  if (subEffectData.length === 0) {
-    return transformCode;
-  }
+// const parseSubEffectIntoTransformCode = (
+//   transformCode: string[]
+// ) => {
+//   return transformCode.flatMap((line) => {
+//     if (line.includes("{{SUB_EFFECTS}}")) {
+//       return (
+//         subEffectData
+//           // write subeffect transformations and function instantiations using the function parameter keys
+//           .flatMap((subEffect) => {
+//             const { requiredFunctions, transformation } = subEffect;
+//             const selectedFunction = requiredFunctions[0];
+//             const subEffectAssignedVariableId =
+//               selectedFunction.assignedVariableId ===
+//               SHADER_VARIABLE_TYPES.VERTEX_POINT
+//                 ? "pointPosition"
+//                 : "fragColor";
 
-  return transformCode.flatMap((line) => {
-    if (line.includes("{{SUB_EFFECTS}}")) {
-      return (
-        subEffectData
-          // write subeffect transformations and function instantiations using the function parameter keys
-          .flatMap((subEffect) => {
-            const { requiredFunctions, transformation } = subEffect;
-            const selectedFunction = requiredFunctions[0];
-            const subEffectAssignedVariableId =
-              selectedFunction.assignedVariableId ===
-              SHADER_VARIABLE_TYPES.VERTEX_POINT
-                ? "pointPosition"
-                : "fragColor";
-
-            const functionParameters = Array.from(
-              selectedFunction.functionParameters?.values() ?? []
-            )
-              .map((value) => {
-                return `{{${value.key}}}`;
-              })
-              .join(",");
-            const functionInstantiation = `{{${subEffectAssignedVariableId}}} = ${selectedFunction.functionName}(${functionParameters});`;
-            return [transformation, functionInstantiation];
-          })
-          .join("\n")
-      );
-    }
-    return line;
-  });
-};
+//             const functionParameters = Array.from(
+//               selectedFunction.functionParameters?.values() ?? []
+//             )
+//               .map((value) => {
+//                 return `{{${value.key}}}`;
+//               })
+//               .join(",");
+//             const functionInstantiation = `{{${subEffectAssignedVariableId}}} = ${selectedFunction.functionName}(${functionParameters});`;
+//             return [transformation, functionInstantiation];
+//           })
+//           .join("\n")
+//       );
+//     }
+//     return line;
+//   });
+// };
 
 export const transformationConfigFromFunctionParameter = (
   functionParameter: ParameterConfig,
@@ -140,35 +133,30 @@ export const transformationConfigFromFunctionParameter = (
     functionType: FUNCTION_TYPES.STATIC,
     functionName: transformSchema[0]?.key,
     inputMap,
-    returnValue: functionParameter.valueType,
-    assignedVariableId: functionParameter.key,
+    isRoot: false,
+    // todo - handle output config
+    // @ts-ignore
+    outputConfig: [],
   };
 };
 export const setupShaderTransformationConfigs = (
   transformConfigs: ShaderTransformationSchema[],
   shaderEffectConfig: ShaderEffectConfig,
-  isSubEffect: boolean,
-  subEffectData: {
-    requiredFunctions: ShaderFunction[];
-    transformation: string;
-  }[],
   parameters: ShaderParameterMap
 ): ShaderTransformationConfig[] => {
   const formattedTransformConfigs = transformConfigs.map((config) => {
-    const { key, transformCode, assignedVariableId, assignedVariableIds } =
-      config;
-    console.log("assignedVariableIds", assignedVariableIds);
-    // TODO - handle assignedVariableIds allowing for multiple assignedVariableIds as a stuct
-    const shaderFunctionType = getShaderFunctionType(
-      assignedVariableId,
-      isSubEffect
-    );
+    // TODO - handle output config
+    const { key, transformCode } = config;
 
-    const updatedTransformCode = ROOT_FUNCTION_TYPES.includes(
-      shaderFunctionType
-    )
-      ? parseSubEffectIntoTransformCode(transformCode, subEffectData)
-      : transformCode;
+    // TODO - handle assignedVariableIds allowing for multiple assignedVariableIds as a stuct
+    const shaderFunctionType = getShaderFunctionType("");
+
+    const updatedTransformCode = transformCode;
+    // ROOT_FUNCTION_TYPES.includes(
+    //   shaderFunctionType
+    // )
+    //   ? parseSubEffectIntoTransformCode(transformCode)
+    //   :
 
     const inputIds = getInputIds(
       updatedTransformCode,

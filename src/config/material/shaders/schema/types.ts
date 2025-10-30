@@ -120,11 +120,15 @@ export type OperatorConfig = {
   disabled?: boolean;
 };
 
+export type ShaderTransformationOutputConfig = {
+  key: string;
+  valueType: keyof typeof SHADER_PROPERTY_VALUE_TYPES;
+};
 export type ShaderTransformationSchema = {
   key: string;
   transformCode: string[];
-  returnValue: string;
-  assignedVariableIds?: (keyof typeof SHADER_VARIABLE_TYPES | string)[];
+  isRoot: boolean;
+  outputConfig: ShaderTransformationOutputConfig[];
 };
 
 export type ShaderEffectSchema = {

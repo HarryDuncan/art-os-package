@@ -91,12 +91,6 @@ const mergeExternalSchema = (
 const getAssignedVariableIds = (externalSchema: unknown) => {
   const assignedVariableIds = (externalSchema as ShaderEffectSchema)
     .transformSchema[0].assignedVariableIds as string[];
-  if (!assignedVariableIds) {
-    return [
-      (externalSchema as ShaderEffectSchema).transformSchema[0]
-        .assignedVariableId as string,
-    ];
-  }
   return assignedVariableIds;
 };
 /* 

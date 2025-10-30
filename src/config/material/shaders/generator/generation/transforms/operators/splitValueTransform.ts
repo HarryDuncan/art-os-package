@@ -128,7 +128,7 @@ export const splitValueTransform = (
 
   const mergedAssignedVariableIds = mergeUnique(
     effectTransforms.map((t) =>
-      t.assignedVariableId ? [t.assignedVariableId] : []
+      t.assignedVariableIds ? t.assignedVariableIds : []
     )
   );
 
@@ -145,10 +145,8 @@ export const splitValueTransform = (
   const merged: TransformData = {
     transformation: updatedTransformation,
     requiredFunctions,
-    assignedVariableId:
-      mergedAssignedVariableIds.length > 0
-        ? mergedAssignedVariableIds[0]
-        : null,
+    assignedVariableIds:
+      mergedAssignedVariableIds.length > 0 ? mergedAssignedVariableIds : [],
     advancedShaderVariables: mergedAdvancedShaderVariables,
   };
 
