@@ -1,8 +1,10 @@
+import { ExternalSchema } from "../../../types";
 import {
   FragmentEffectConfig,
   SHADER_TYPES,
   ShaderEffectConfig,
   ShaderEffectSchema,
+  ShaderTransformationSchema,
   VertexEffectConfig,
 } from "../../schema";
 import { getShaderConfigsByType } from "../../utils";
@@ -38,7 +40,7 @@ import { getShaderConfigsByType } from "../../utils";
 
 export const formatEffectsAndSchemas = (
   shaderEffectConfigs: ShaderEffectConfig[],
-  externalSchemas: Record<string, Record<string, unknown>> = {}
+  externalSchemas: ExternalSchema
 ) => {
   const effectsWithSchemas = shaderEffectConfigs
     .map((config) => mergeExternalSchema(config, externalSchemas))
@@ -64,7 +66,7 @@ export const formatEffectsAndSchemas = (
 
 const mergeExternalSchema = (
   config: ShaderEffectConfig,
-  externalSchemas: Record<string, Record<string, unknown>>
+  externalSchemas: ExternalSchema
 ) => {
   const { schemaId, shaderType } = config;
 
@@ -75,34 +77,9 @@ const mergeExternalSchema = (
       `External schema not found for effect ${config.guid} ${shaderType} ${schemaId}`
     );
     return null;
-    // const effectSchema = getEffectSchema(shaderType);
-    // return {
-    //   ...config,
-    //   effectSchema: effectSchema ?? ({} as ShaderEffectSchema),
-    // };
   }
-  const formattedExternalSchema = formatExternalSchema(externalSchemaForEffect);
   return {
     ...config,
-    effectSchema: formattedExternalSchema as ShaderEffectSchema,
-  };
-};
-
-const getAssignedVariableIds = (externalSchema: unknown) => {
-  const assignedVariableIds = (externalSchema as ShaderEffectSchema)
-    .transformSchema[0].assignedVariableIds as string[];
-  return assignedVariableIds;
-};
-/* 
- TODO - format external schema on the art os side
-*/
-const formatExternalSchema = (externalSchema: unknown) => {
-  const assignedVariableIds = getAssignedVariableIds(externalSchema);
-  return {
-    ...(externalSchema as ShaderEffectSchema),
-    transformSchema: (externalSchema as ShaderEffectSchema).transformSchema,
-    assignedVariableIds,
-    shaderTransformKey: (externalSchema as ShaderEffectSchema)
-      .transformSchema[0].key,
+    effectSchemas: externalSchemaForEffect,
   };
 };

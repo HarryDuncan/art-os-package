@@ -6,7 +6,7 @@ import { configureBlendingOptions } from "../blending-options/configureBlendingO
 import { MATERIAL_TYPES } from "../schema/consts";
 import { preformat } from "./preformat/preformat";
 import { generateShaders } from "./generator/generateShaders";
-import { MaterialConfig } from "../types";
+import { ExternalSchema, MaterialConfig } from "../types";
 
 export const generateShaderMaterials = (
   config: SceneConfig,
@@ -52,7 +52,7 @@ export const generateShaderMaterials = (
 
 export const generateShader = (
   materialConfig: MaterialConfig,
-  schemas: Record<string, Record<string, unknown>>
+  schemas: ExternalSchema
 ) => {
   const { shaderEffectConfigs, operatorConfigs, parameterConfigs } =
     materialConfig;
@@ -64,6 +64,10 @@ export const generateShader = (
       operatorConfigs ?? [],
       schemas
     );
+
+  console.log("parameterMap", parameterMap);
+  console.log(vertexEffects);
+  console.log(fragmentEffects);
 
   const { vertexShader, fragmentShader } = generateShaders(
     vertexEffects,

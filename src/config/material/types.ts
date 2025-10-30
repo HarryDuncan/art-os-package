@@ -4,6 +4,7 @@ import {
   ShaderEffectConfig,
   ParameterConfig,
   OperatorConfig,
+  ShaderTransformationSchema,
 } from "./shaders/schema";
 import { ENV_MAP_TYPES, MATERIAL_TYPES } from "./schema";
 
@@ -60,6 +61,12 @@ export type MaterialConfigProps =
   | EnvMapMaterialProps
   | PhongMaterialProps;
 
+export type ExternalSchema = {
+  function: Record<string, ShaderTransformationSchema[]>;
+  fragment: Record<string, ShaderTransformationSchema[]>;
+  vertex: Record<string, ShaderTransformationSchema[]>;
+};
+
 export interface MaterialConfig {
   guid: string;
   name: string;
@@ -70,7 +77,7 @@ export interface MaterialConfig {
   parameterConfigs?: ParameterConfig[];
   assetMapping?: AssetToUniformMappingConfig[];
   blendingConfig?: Record<string, unknown>;
-  schemas?: Record<string, Record<string, unknown>>;
+  schemas?: Record<string, Record<string, ShaderTransformationSchema>>;
 }
 
 export type ShaderMaterial = Material & {

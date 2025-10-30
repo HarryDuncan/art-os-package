@@ -76,21 +76,15 @@ export interface EffectConfig {
   name?: string;
   schemaId: string;
   shaderType: string;
-  subEffectIds?: string[];
   inputMapping: Record<string, OutputInputMapping>;
   outputMapping: Record<string, OutputInputMapping>;
-  effectSchema?: ShaderEffectSchema;
+  effectSchemas?: ShaderTransformationSchema[];
   disabled?: boolean;
 }
 
-export type VertexEffectConfig = EffectConfig & {
-  applyToNormal?: boolean;
-  subEffects?: VertexEffectConfig[];
-};
+export type VertexEffectConfig = EffectConfig;
 
-export type FragmentEffectConfig = EffectConfig & {
-  subEffects?: FragmentEffectConfig[];
-};
+export type FragmentEffectConfig = EffectConfig;
 
 export type ShaderEffectConfig = FragmentEffectConfig | VertexEffectConfig;
 
@@ -129,14 +123,6 @@ export type ShaderTransformationSchema = {
   transformCode: string[];
   isRoot: boolean;
   outputConfig: ShaderTransformationOutputConfig[];
-};
-
-export type ShaderEffectSchema = {
-  functions: unknown[];
-  parameters: ParameterConfig[];
-  transformSchema: ShaderTransformationSchema[];
-  assignedVariableIds: (keyof typeof SHADER_VARIABLE_TYPES | string)[];
-  shaderTransformKey: string;
 };
 
 export type MeshTransformSchema = {

@@ -13,12 +13,13 @@ import { formatShaderEffects } from "./effectsAndOperators";
 import { getFunctionBasedParameters, getShaderConfigsByType } from "../utils";
 import { removeDuplicatesByKey } from "../../../../utils/removeDuplicatesByKey";
 import { getStructsConfigsFromEffects } from "./structs/getStructsConfigsFromEffects";
+import { ExternalSchema } from "../../types";
 
 export const preformat = (
   effectParameters: ParameterConfig[],
   shaderEffectConfigs: ShaderEffectConfig[],
   operatorConfigs: OperatorConfig[],
-  schemas: Record<string, Record<string, unknown>>
+  schemas: ExternalSchema
 ): {
   parameterMap: ShaderParameterMap;
   updatedEffectConfigs: ShaderEffectConfig[];
@@ -74,14 +75,7 @@ export const preformat = (
     } else if (effectParameter.isFunctionBased) {
       const schemaId = effectParameter.functionConfig?.schemaId;
       if (!schemaId) return acc;
-      const transformSchema = schemas.function[schemaId]
-        .transformSchema as ShaderTransformationSchema[];
-      if (!transformSchema) {
-        console.warn(
-          `Transform schema not found for function ${effectParameter.functionConfig?.schemaId}`
-        );
-        return acc;
-      }
+      const transformSchema = schemas.function[schemaId];
       acc.set(`${parameterId}`, {
         ...effectParameter,
         functionConfig: {
@@ -262,7 +256,7 @@ const getFunctionBasedVaryings = (
   const withSchemas = functionBasedVaryings.map((parameter) => {
     const schemaId = parameter.functionConfig?.schemaId;
     if (!schemaId) return parameter;
-    const transformSchema = functionSchemas[schemaId].transformSchema;
+    const transformSchema = functionSchemas[schemaId];
     if (!transformSchema) {
       console.warn(`Transform schema not found for function ${schemaId}`);
     }

@@ -145,27 +145,19 @@ export const setupShaderTransformationConfigs = (
   parameters: ShaderParameterMap
 ): ShaderTransformationConfig[] => {
   const formattedTransformConfigs = transformConfigs.map((config) => {
-    // TODO - handle output config
-    const { key, transformCode } = config;
+    const { key, transformCode, isRoot } = config;
 
     // TODO - handle assignedVariableIds allowing for multiple assignedVariableIds as a stuct
-    const shaderFunctionType = getShaderFunctionType("");
-
+    const shaderFunctionType = getShaderFunctionType(
+      isRoot,
+      shaderEffectConfig.shaderType
+    );
     const updatedTransformCode = transformCode;
-    // ROOT_FUNCTION_TYPES.includes(
-    //   shaderFunctionType
-    // )
-    //   ? parseSubEffectIntoTransformCode(transformCode)
-    //   :
-
     const inputIds = getInputIds(
       updatedTransformCode,
       shaderEffectConfig.inputMapping ?? {},
       shaderEffectConfig.shaderType === SHADER_TYPES.FRAGMENT
     );
-
-    // console.log("inputIds", inputIds);
-
     const functionDependencies = getFunctionDependencies(
       transformConfigs,
       updatedTransformCode,
@@ -179,7 +171,6 @@ export const setupShaderTransformationConfigs = (
       sortedInputIds,
       shaderEffectConfig
     );
-
     return {
       ...config,
       transformCode: updatedTransformCode,
@@ -198,7 +189,7 @@ export const setupShaderTransformationConfigs = (
       );
     }
   );
-
+  console.log("functionBasedParameters", functionBasedParameters);
   const transformations = functionBasedParameters.flatMap(
     (functionParameter) => {
       const transformation = transformationConfigFromFunctionParameter(

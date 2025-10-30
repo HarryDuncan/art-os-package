@@ -1,10 +1,13 @@
-import { FragmentEffectConfig, VertexEffectConfig } from "../../../../schema";
+import {
+  FragmentEffectConfig,
+  ShaderTransformationOutputConfig,
+  VertexEffectConfig,
+} from "../../../../schema";
 import {
   DefinedEffectFunction,
   ShaderTransformationConfig,
 } from "../../../types";
 import { getFunctionInputs } from "../../helpers/parameterMap";
-import { shaderValueTypeInstantiation } from "../../helpers/shaderValues";
 import { formatTransformCode } from "./transformCode";
 
 export const transformFunction = (
@@ -14,7 +17,8 @@ export const transformFunction = (
   const { guid: shaderEffectId } = shaderEffectConfig;
   return transformationConfigs.map(
     ({
-      // outputConfig,
+      isRoot,
+      outputConfig,
       inputMap,
       functionName,
       transformCode,
@@ -25,9 +29,11 @@ export const transformFunction = (
       //const returnTypeString = shaderValueTypeInstantiation(returnValue);
       const functionInputs = getFunctionInputs(inputMap, shaderEffectId);
       // TODO - handle output config
-      const functionDeclaration = `vec4 ${functionName}(${[
-        ...functionInputs,
-      ].join(", ")}){`;
+      const functionDeclaration = createFunctionDeclaration(
+        functionName,
+        functionInputs,
+        outputConfig
+      );
 
       const formattedFunctionContent = formatTransformCode(
         transformCode,
@@ -37,6 +43,8 @@ export const transformFunction = (
       );
 
       const shaderFunctionConfig = {
+        isRoot,
+        outputConfig,
         key: functionKey,
         functionType,
         // returnValue,
@@ -53,4 +61,20 @@ export const transformFunction = (
       return shaderFunctionConfig as DefinedEffectFunction;
     }
   );
+};
+
+const createFunctionDeclaration = (
+  functionName: string,
+  functionInputs: string[],
+  outputConfig: ShaderTransformationOutputConfig[]
+) => {
+  const isStruct = outputConfig.length > 1;
+  if (isStruct) {
+    // return `struct ${functionName} {
+    //   ${outputConfig.map((output) => `${output.key}: ${output.valueType}`).join(", ")};
+    // }`;
+    //todo - return a struct declaration
+  }
+  const { valueType } = outputConfig[0];
+  return `${valueType} ${functionName}(${functionInputs.join(", ")}){`;
 };

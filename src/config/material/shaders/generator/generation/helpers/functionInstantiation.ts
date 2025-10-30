@@ -1,13 +1,14 @@
-import { SHADER_VARIABLE_TYPES } from "../../../schema";
+import { ShaderTransformationOutputConfig } from "../../../schema";
+import { isStruct } from "../../../utils";
 import {
   DEFAULT_SHADER_VARIABLE_KEYS,
-  getAssignedVariableName,
   GLOBAL_PARAMETER_TYPES,
+  SHADER_VARIABLE_NAME_MAPS,
 } from "../../consts";
 import { ShaderParameterMap } from "../../types";
 
 export const functionInstantiation = (
-  assignedVariableId: string,
+  outputConfig: ShaderTransformationOutputConfig[],
   functionName: string,
   inputMap: ShaderParameterMap,
   shaderEffectId: string
@@ -39,18 +40,38 @@ export const functionInstantiation = (
       return [];
     }
   );
-  const getOperator = (assignedVariableId: string) => {
-    switch (assignedVariableId) {
-      case SHADER_VARIABLE_TYPES.LIGHT:
-      case SHADER_VARIABLE_TYPES.DISCARD_COLOR:
-        return "+=";
-      default:
-        return "=";
-    }
+  const getOperator = (_outputConfig: ShaderTransformationOutputConfig[]) => {
+    // switch (assignedVariableId) {
+    //   case SHADER_VARIABLE_TYPES.LIGHT:
+    //   case SHADER_VARIABLE_TYPES.DISCARD_COLOR:
+    //     return "+=";
+    //   default:
+    //     return "=";
+    // }
+    return "=";
   };
 
-  const operator = getOperator(assignedVariableId);
-  const assignedVariableName = getAssignedVariableName(assignedVariableId);
+  const getAssignedVariableName = (
+    outputConfig: ShaderTransformationOutputConfig[]
+  ) => {
+    if (isStruct(outputConfig)) {
+      // return outputConfig.map((output) => output.key).join(", ");
+      return "test";
+      //todo - return a struct declaration
+    }
+    const { key } = outputConfig[0];
+    if (
+      SHADER_VARIABLE_NAME_MAPS[key as keyof typeof SHADER_VARIABLE_NAME_MAPS]
+    ) {
+      return SHADER_VARIABLE_NAME_MAPS[
+        key as keyof typeof SHADER_VARIABLE_NAME_MAPS
+      ];
+    }
+    return key;
+  };
+
+  const operator = getOperator(outputConfig);
+  const assignedVariableName = getAssignedVariableName(outputConfig);
   return `${assignedVariableName} ${operator} ${functionName}(${functionParameters.join(
     ", "
   )});`;

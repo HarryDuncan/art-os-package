@@ -1,13 +1,12 @@
-import { SHADER_VARIABLE_TYPES, ShaderEffectConfig } from "../../../schema";
 import {
-  ADVANCED_SHADER_VARIABLE_EFFECT_CODE,
-  FUNCTION_TYPES,
-} from "../../consts";
+  ShaderEffectConfig,
+  ShaderTransformationSchema,
+} from "../../../schema";
+import { ADVANCED_SHADER_VARIABLE_EFFECT_CODE } from "../../consts";
 import {
   AdvancedShaderVariableMap,
   ShaderFunction,
   ShaderParameterMap,
-  ShaderTransformationSchema,
   TransformData,
 } from "../../types";
 import { functionInstantiation } from "../helpers/functionInstantiation";
@@ -18,20 +17,17 @@ export const generateShaderTransformData = (
   effect: ShaderEffectConfig,
   parameterMap: ShaderParameterMap
 ): TransformData | null => {
-  const { effectSchema } = effect;
-  if (effectSchema) {
-    const { transformSchema, functions, assignedVariableIds } = effectSchema;
+  const { effectSchemas } = effect;
+  if (effectSchemas) {
     const { transformationFunctions, transformation, advancedShaderVariables } =
-      generateTransform(
-        transformSchema as unknown as ShaderTransformationSchema[],
-        effect,
-        parameterMap
-      );
+      generateTransform(effectSchemas, effect, parameterMap);
 
     return {
       transformation,
-      requiredFunctions: [...(functions || []), ...transformationFunctions],
-      assignedVariableIds,
+      requiredFunctions: [
+        ...(transformationFunctions || []),
+        ...transformationFunctions,
+      ],
       advancedShaderVariables,
     } as TransformData;
   }
@@ -49,38 +45,23 @@ export const generateTransform = (
   advancedShaderVariables: AdvancedShaderVariableMap;
 } => {
   const { guid: effectId } = effectConfig;
-  // const subEffectDataArray =
-  //   subEffects?.flatMap((subEffect) => {
-  //     const subEffectData = generateShaderTransformData(
-  //       subEffect,
-  //       parameterMap,
-  //       true
-  //     );
-  //     if (subEffectData) {
-  //       return subEffectData;
-  //     }
-  //     return [];
-  //   }) ?? [];
 
   const transformationConfigs = setupShaderTransformationConfigs(
     transformConfig,
     effectConfig,
-
     parameterMap
   );
 
+  console.log("transformationConfigs", transformationConfigs);
   const effectFunctions = transformFunction(
     transformationConfigs,
     effectConfig
   );
+  console.log("effectFunctions", effectFunctions);
 
   // todo - handle output config
   const shaderVariableTypes: string[] = [];
-  // transformationConfigs.flatMap(
-  //   ({ assignedVariableIds }) => {
-  //     return assignedVariableIds ?? [];
-  //   }
-  // );
+
   const advancedShaderVariables = shaderVariableTypes.reduce(
     (map, assignedVariableId) => {
       const transformCode =
@@ -100,19 +81,12 @@ export const generateTransform = (
     .sort((a, b) =>
       a.dontDeclare === b.dontDeclare ? 0 : a.dontDeclare ? -1 : 1
     )
-    .flatMap(({ inputMap, assignedVariableId, functionName, functionType }) => {
-      if (
-        !assignedVariableId ||
-        FUNCTION_TYPES.VERTEX_SUB_EFFECT === functionType ||
-        FUNCTION_TYPES.FRAGMENT_SUB_EFFECT === functionType ||
-        (ADVANCED_SHADER_VARIABLE_EFFECT_CODE[assignedVariableId] &&
-          isSubEffect) ||
-        assignedVariableId === SHADER_VARIABLE_TYPES.SUB_FUNCTION
-      ) {
+    .flatMap(({ inputMap, functionName, outputConfig, isRoot }) => {
+      if (!isRoot) {
         return [];
       }
       return functionInstantiation(
-        assignedVariableId,
+        outputConfig,
         functionName,
         inputMap,
         effectId

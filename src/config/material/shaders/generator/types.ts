@@ -2,6 +2,7 @@ import {
   SHADER_PROPERTY_VALUE_TYPES,
   ParameterConfig,
   ShaderTransformationSchema,
+  ShaderTransformationOutputConfig,
 } from "../schema";
 import { MeshTransformConfig } from "../../../config.types";
 
@@ -22,14 +23,14 @@ export type ShaderTransformationConfig = ShaderTransformationSchema & {
   dontDeclare?: boolean;
 };
 export type DefinedEffectFunction = {
+  isRoot: boolean;
   key: string;
   functionType: string;
   functionName: string;
-  assignedVariableId: string | undefined;
+  outputConfig: ShaderTransformationOutputConfig[];
   inputMap: ShaderParameterMap;
   functionDefinition: string;
   dontDeclare?: boolean;
-  returnValue: keyof typeof SHADER_PROPERTY_VALUE_TYPES;
 };
 export type ShaderFunction = {
   key: string;
@@ -50,7 +51,6 @@ export type ShaderEffectSchema = {
 export type TransformData = {
   transformation: string[];
   requiredFunctions: ShaderFunction[];
-  assignedVariableIds: string[] | null;
   advancedShaderVariables: AdvancedShaderVariableMap;
 };
 export type AdvancedShaderVariableMap = Map<string, AdvancedShaderVariable[]>;

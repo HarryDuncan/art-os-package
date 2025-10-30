@@ -6,6 +6,7 @@ import {
   OperatorConfig,
   ParameterConfig,
   ShaderEffectConfig,
+  ShaderTransformationOutputConfig,
 } from "./schema/types";
 
 export const getShaderConfigsByType = (
@@ -64,4 +65,8 @@ export const getDefaultShaderVariableValueType = (
   );
   return parameters.find((parameter) => parameter.key === key)
     ?.valueType as keyof typeof SHADER_PROPERTY_VALUE_TYPES;
+};
+
+export const isStruct = (outputConfig: ShaderTransformationOutputConfig[]) => {
+  return outputConfig.length > 1;
 };
