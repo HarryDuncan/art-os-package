@@ -3,6 +3,8 @@ import {
   ShaderTransformationOutputConfig,
   VertexEffectConfig,
 } from "../../../../schema";
+import { isStruct } from "../../../../utils";
+import { getStructConfigFromOutputConfig } from "../../../../utils/struct";
 import {
   DefinedEffectFunction,
   ShaderTransformationConfig,
@@ -34,6 +36,7 @@ export const transformFunction = (
         functionInputs,
         outputConfig
       );
+      const functionSetups = createFunctionSetups(functionName, outputConfig);
 
       const formattedFunctionContent = formatTransformCode(
         transformCode,
@@ -54,6 +57,7 @@ export const transformFunction = (
         // TODO - handle output config
         functionDefinition: [
           functionDeclaration,
+          functionSetups,
           ...formattedFunctionContent,
           `}`,
         ].join("\n"),
@@ -68,14 +72,19 @@ const createFunctionDeclaration = (
   functionInputs: string[],
   outputConfig: ShaderTransformationOutputConfig[]
 ) => {
-  const isStruct = outputConfig.length > 1;
-  if (isStruct) {
-    // return `struct ${functionName} {
-    //   ${outputConfig.map((output) => `${output.key}: ${output.valueType}`).join(", ")};
-    // }`;
-    //todo - return a struct declaration
-  }
-
-  const { valueType } = outputConfig[0];
+  const valueType =
+    outputConfig.length > 1
+      ? `${functionName}_result`
+      : outputConfig[0].valueType;
   return `${valueType} ${functionName}(${functionInputs.join(", ")}){`;
+};
+
+const createFunctionSetups = (
+  functionName: string,
+  outputConfig: ShaderTransformationOutputConfig[]
+) => {
+  if (isStruct(outputConfig)) {
+    return `${functionName}_result result;`;
+  }
+  return "";
 };

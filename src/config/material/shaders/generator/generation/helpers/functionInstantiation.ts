@@ -52,9 +52,7 @@ export const functionInstantiation = (
     //     return "=";
     // }
     if (isStruct(outputConfig)) {
-      // return outputConfig.map((output) => output.key).join(", ");
-      return "test";
-      //todo - return a struct declaration
+      return `=`;
     } else {
       const { key } = outputConfig[0] ?? {};
       switch (key) {
@@ -67,29 +65,58 @@ export const functionInstantiation = (
       }
     }
   };
+  const getValueDeclaration = (
+    outputConfig: ShaderTransformationOutputConfig[]
+  ) => {
+    if (isStruct(outputConfig)) {
+      return `${functionName}_result`;
+    }
+    return "";
+  };
 
   const getAssignedVariableName = (
     outputConfig: ShaderTransformationOutputConfig[]
   ) => {
     if (isStruct(outputConfig)) {
-      // return outputConfig.map((output) => output.key).join(", ");
-      return "test";
-      //todo - return a struct declaration
+      return `${functionName}_result_struct`;
     }
-    const { key } = outputConfig[0];
-    if (
-      SHADER_VARIABLE_NAME_MAPS[key as keyof typeof SHADER_VARIABLE_NAME_MAPS]
-    ) {
-      return SHADER_VARIABLE_NAME_MAPS[
-        key as keyof typeof SHADER_VARIABLE_NAME_MAPS
-      ];
-    }
+    const key = getKey(outputConfig[0]);
     return key;
   };
 
   const operator = getOperator(outputConfig);
   const assignedVariableName = getAssignedVariableName(outputConfig);
-  return `${assignedVariableName} ${operator} ${functionName}(${functionParameters.join(
+  return `${getValueDeclaration(
+    outputConfig
+  )} ${assignedVariableName} ${operator} ${functionName}(${functionParameters.join(
     ", "
-  )});`;
+  )});${postFunctionAssignment(functionName, outputConfig)}`;
+};
+
+const postFunctionAssignment = (
+  functionName: string,
+  outputConfig: ShaderTransformationOutputConfig[]
+) => {
+  if (isStruct(outputConfig)) {
+    return outputConfig
+      .map((output) => {
+        return `${getKey(output)} = ${functionName}_result_struct.${
+          output.key
+        };`;
+      })
+      .join("\n");
+  }
+  return "";
+};
+
+const getKey = (outputConfigItem: ShaderTransformationOutputConfig) => {
+  const { key } = outputConfigItem;
+  if (
+    SHADER_VARIABLE_NAME_MAPS[key as keyof typeof SHADER_VARIABLE_NAME_MAPS]
+  ) {
+    return SHADER_VARIABLE_NAME_MAPS[
+      key as keyof typeof SHADER_VARIABLE_NAME_MAPS
+    ];
+  }
+  return key;
 };

@@ -62,7 +62,7 @@ export const SHADER_VARIABLE_TYPES = {
   VERTEX_POINT: "vertex_point",
   FRAGMENT_COLOR: "fragment_color",
   DISCARD_COLOR: "discard_color",
-  GL_POINT_SIZE: "gl_point_size",
+  GL_POINT_SIZE: "point_size",
   POSITION: "position",
   NORMAL: "normal",
   LIGHT: "light",
