@@ -49,13 +49,7 @@ export type ShaderEffectSchema = {
   transformSchema: ShaderTransformationSchema[];
 };
 export type TransformData = {
+  outputConfigs: ShaderTransformationOutputConfig[];
   transformation: string[];
   requiredFunctions: ShaderFunction[];
-  advancedShaderVariables: AdvancedShaderVariableMap;
-};
-export type AdvancedShaderVariableMap = Map<string, AdvancedShaderVariable[]>;
-export type AdvancedShaderVariable = {
-  key: string;
-  instantiation: string;
-  assignment: string;
 };

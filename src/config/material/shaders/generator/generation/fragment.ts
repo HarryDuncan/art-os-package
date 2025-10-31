@@ -1,10 +1,10 @@
-import { OperatorConfig, SHADER_VARIABLE_TYPES } from "../../schema";
-import { FRAG_COLOR_NAME } from "../consts";
 import {
-  AdvancedShaderVariableMap,
-  ShaderFunction,
-  ShaderParameterMap,
-} from "../types";
+  OperatorConfig,
+  SHADER_VARIABLE_TYPES,
+  ShaderTransformationOutputConfig,
+} from "../../schema";
+import { FRAG_COLOR_NAME } from "../consts";
+import { ShaderFunction, ShaderParameterMap } from "../types";
 import { shaderSafeFloat } from "./helpers/shaderValues";
 import { transformSetup } from "./transforms/transformWithOperator";
 
@@ -12,14 +12,12 @@ export const generateFragmentEffect = (
   fragmentEffectFunctions: OperatorConfig[],
   parameterMap: ShaderParameterMap
 ) => {
-  const {
-    unmergedTransformations,
-    requiredFunctions,
-    assignedVariableIds,
-    advancedShaderVariables,
-  } = getFragmentColors(fragmentEffectFunctions, parameterMap);
+  const { unmergedTransformations, requiredFunctions, outputConfigs } =
+    getFragmentColors(fragmentEffectFunctions, parameterMap);
 
-  if (assignedVariableIds.includes(SHADER_VARIABLE_TYPES.LIGHT)) {
+  if (
+    outputConfigs.some((config) => config.key === SHADER_VARIABLE_TYPES.LIGHT)
+  ) {
     unmergedTransformations.push(
       `${FRAG_COLOR_NAME} = ${FRAG_COLOR_NAME} * vec4(light, 1.0);`
     );
@@ -49,28 +47,29 @@ export const generateFragmentEffect = (
     discardColorInstantiation,
     discardColorAssignment,
     discardColorTransformations,
-  } = getDiscardColor(discardEffects, advancedShaderVariables);
-  const advancedShaderVariablesInstantiation = Array.from(
-    advancedShaderVariables.entries()
-  ).flatMap(([key, variable]) =>
-    key !== SHADER_VARIABLE_TYPES.DISCARD_COLOR
-      ? variable.map((v) => v.instantiation)
-      : []
-  );
+  } = getDiscardColor(discardEffects);
 
-  const advancedShaderVariablesAssignment = Array.from(
-    advancedShaderVariables.entries()
-  ).flatMap(([key, variable]) =>
-    key !== SHADER_VARIABLE_TYPES.DISCARD_COLOR
-      ? variable.map((v) => v.assignment)
-      : []
-  );
+  // const advancedShaderVariablesInstantiation = Array.from(
+  //   advancedShaderVariables.entries()
+  // ).flatMap(([key, variable]) =>
+  //   key !== SHADER_VARIABLE_TYPES.DISCARD_COLOR
+  //     ? variable.map((v) => v.instantiation)
+  //     : []
+  // );
+
+  // const advancedShaderVariablesAssignment = Array.from(
+  //   advancedShaderVariables.entries()
+  // ).flatMap(([key, variable]) =>
+  //   key !== SHADER_VARIABLE_TYPES.DISCARD_COLOR
+  //     ? variable.map((v) => v.assignment)
+  //     : []
+  // );
 
   const transformations = [
     discardColorInstantiation,
-    ...advancedShaderVariablesInstantiation,
+    //  ...advancedShaderVariablesInstantiation,
     ...regularEffects,
-    ...advancedShaderVariablesAssignment,
+    //  ...advancedShaderVariablesAssignment,
     discardColorTransformations,
     discardColorAssignment,
     ...postEffects,
@@ -81,7 +80,6 @@ export const generateFragmentEffect = (
     fragColor,
     transformations,
     requiredFunctions,
-    assignedVariableIds,
   };
 };
 
@@ -91,41 +89,25 @@ export const getFragmentColors = (
 ) => {
   const allRequiredFunctions: ShaderFunction[] = [];
   const unmergedTransformations: string[] = [];
-  const assignedVariableIds: string[] = [];
-  const allAdvancedShaderVariables: AdvancedShaderVariableMap = new Map();
+  const outputConfigs: ShaderTransformationOutputConfig[] = [];
+
   fragmentEffectFunctions.forEach((effect) => {
     const fragmentEffectData = transformSetup(effect, parameterMap);
     if (fragmentEffectData) {
       unmergedTransformations.push(...fragmentEffectData.transformation);
       allRequiredFunctions.push(...fragmentEffectData.requiredFunctions);
-      // fragmentEffectData.assignedVariableId ?? ""
-      // TODO - update to output config
-      // assignedVariableIds.push();
-      if (fragmentEffectData.advancedShaderVariables) {
-        Array.from(
-          fragmentEffectData.advancedShaderVariables.entries()
-        ).forEach(([key, variable]) => {
-          allAdvancedShaderVariables.set(key, [
-            ...(allAdvancedShaderVariables.get(key) || []),
-            ...variable,
-          ]);
-        });
-      }
+      outputConfigs.push(...fragmentEffectData.outputConfigs);
     }
   });
 
   return {
     unmergedTransformations,
     requiredFunctions: allRequiredFunctions,
-    assignedVariableIds: Array.from(new Set(assignedVariableIds)),
-    advancedShaderVariables: allAdvancedShaderVariables,
+    outputConfigs,
   };
 };
 
-const getDiscardColor = (
-  discardEffects: string[],
-  advancedShaderVariables: AdvancedShaderVariableMap
-) => {
+const getDiscardColor = (discardEffects: string[]) => {
   if (discardEffects.length === 0) {
     return {
       discardColorInstantiation: "",
@@ -133,21 +115,14 @@ const getDiscardColor = (
       discardColorTransformations: [],
     };
   }
-  const discardColorInstantiation = advancedShaderVariables
-    .get(SHADER_VARIABLE_TYPES.DISCARD_COLOR)
-    ?.map((v) => v.instantiation)[0];
-  const discardColorAssignment = advancedShaderVariables
-    .get(SHADER_VARIABLE_TYPES.DISCARD_COLOR)
-    ?.map((v) => v.assignment)[0];
+  const discardColorInstantiation = "float discardColor = 0.0;";
+  const discardColorAssignment = `if(discardColor < ${shaderSafeFloat(
+    discardEffects.length
+  )}){discard;}`;
 
   return {
     discardColorInstantiation: discardColorInstantiation ?? "",
     discardColorTransformations: discardEffects.join("\n") ?? "",
-    discardColorAssignment: discardColorAssignment
-      ? discardColorAssignment.replace(
-          "XXX_DISCARD_FUNCTION_COUNT_XXX",
-          shaderSafeFloat(discardEffects.length)
-        )
-      : "",
+    discardColorAssignment: discardColorAssignment,
   };
 };

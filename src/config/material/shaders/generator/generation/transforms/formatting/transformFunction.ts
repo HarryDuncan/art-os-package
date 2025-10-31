@@ -75,6 +75,7 @@ const createFunctionDeclaration = (
     // }`;
     //todo - return a struct declaration
   }
+
   const { valueType } = outputConfig[0];
   return `${valueType} ${functionName}(${functionInputs.join(", ")}){`;
 };

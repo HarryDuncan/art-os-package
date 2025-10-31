@@ -134,9 +134,12 @@ export const transformationConfigFromFunctionParameter = (
     functionName: transformSchema[0]?.key,
     inputMap,
     isRoot: false,
-    // todo - handle output config
-    // @ts-ignore
-    outputConfig: [],
+    outputConfig: [
+      {
+        ...transformSchema[0]?.outputConfig?.[0],
+        key: functionParameter.shaderParameterId || "function",
+      },
+    ],
   };
 };
 export const setupShaderTransformationConfigs = (
@@ -189,7 +192,6 @@ export const setupShaderTransformationConfigs = (
       );
     }
   );
-  console.log("functionBasedParameters", functionBasedParameters);
   const transformations = functionBasedParameters.flatMap(
     (functionParameter) => {
       const transformation = transformationConfigFromFunctionParameter(

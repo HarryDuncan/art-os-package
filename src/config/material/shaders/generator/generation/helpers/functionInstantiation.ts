@@ -1,4 +1,7 @@
-import { ShaderTransformationOutputConfig } from "../../../schema";
+import {
+  SHADER_VARIABLE_TYPES,
+  ShaderTransformationOutputConfig,
+} from "../../../schema";
 import { isStruct } from "../../../utils";
 import {
   DEFAULT_SHADER_VARIABLE_KEYS,
@@ -40,7 +43,7 @@ export const functionInstantiation = (
       return [];
     }
   );
-  const getOperator = (_outputConfig: ShaderTransformationOutputConfig[]) => {
+  const getOperator = (outputConfig: ShaderTransformationOutputConfig[]) => {
     // switch (assignedVariableId) {
     //   case SHADER_VARIABLE_TYPES.LIGHT:
     //   case SHADER_VARIABLE_TYPES.DISCARD_COLOR:
@@ -48,7 +51,21 @@ export const functionInstantiation = (
     //   default:
     //     return "=";
     // }
-    return "=";
+    if (isStruct(outputConfig)) {
+      // return outputConfig.map((output) => output.key).join(", ");
+      return "test";
+      //todo - return a struct declaration
+    } else {
+      const { key } = outputConfig[0] ?? {};
+      switch (key) {
+        case SHADER_VARIABLE_TYPES.LIGHT:
+          return "+=";
+        case SHADER_VARIABLE_TYPES.DISCARD_COLOR:
+          return "+=";
+        default:
+          return "=";
+      }
+    }
   };
 
   const getAssignedVariableName = (

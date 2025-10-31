@@ -1,62 +1,55 @@
 import {
-  DEFAULT_PARAMETERS,
   OperatorConfig,
   SHADER_PROPERTY_VALUE_TYPES,
-  SHADER_VARIABLE_TYPES,
+  ShaderTransformationOutputConfig,
   StructConfig,
 } from "../../schema";
-import { getDefaultShaderVariableValueType } from "../../utils";
 
 export const getStructsConfigsFromEffects = (
   vertexEffects: OperatorConfig[],
   fragmentEffects: OperatorConfig[]
 ): StructConfig[] => {
-  const structsConfigs = vertexEffects.flatMap(({ effects }) => {
-    return (
-      effects?.flatMap(({ effectSchema }) => {
-        if (
-          effectSchema?.assignedVariableIds?.length &&
-          effectSchema?.assignedVariableIds?.length > 1
-        ) {
-          return getStructConfigFromAssignedVariableIds(
-            effectSchema.shaderTransformKey,
-            effectSchema?.assignedVariableIds
-          );
-        }
-        return [];
-      }) || []
-    );
-  });
-  const fragmentStructsConfigs = fragmentEffects.flatMap(({ effects }) => {
-    return (
-      effects?.flatMap(({ effectSchema }) => {
-        if (
-          effectSchema?.assignedVariableIds?.length &&
-          effectSchema?.assignedVariableIds?.length > 1
-        ) {
-          return getStructConfigFromAssignedVariableIds(
-            effectSchema.shaderTransformKey,
-            effectSchema?.assignedVariableIds
-          );
-        }
-        return [];
-      }) || []
-    );
-  });
+  const structsConfigs = vertexEffects.flatMap(
+    ({ effects }) =>
+      effects?.flatMap(
+        ({ effectSchemas }) =>
+          effectSchemas?.flatMap((schema) => {
+            return schema.outputConfig.length > 1
+              ? getStructConfigFromOutputConfig(
+                  schema.key,
+                  schema?.outputConfig
+                )
+              : [];
+          }) || []
+      ) || []
+  );
+  const fragmentStructsConfigs = fragmentEffects.flatMap(
+    ({ effects }) =>
+      effects?.flatMap(
+        ({ effectSchemas }) =>
+          effectSchemas?.flatMap((schema) => {
+            return schema.outputConfig.length > 1
+              ? getStructConfigFromOutputConfig(
+                  schema.key,
+                  schema?.outputConfig
+                )
+              : [];
+          }) || []
+      ) || []
+  );
   return [...structsConfigs, ...fragmentStructsConfigs];
 };
 
-const getStructConfigFromAssignedVariableIds = (
+const getStructConfigFromOutputConfig = (
   shaderTransformKey: string,
-  assignedVariableIds: (keyof typeof SHADER_VARIABLE_TYPES | string)[]
+  outputConfig: ShaderTransformationOutputConfig[]
 ) => {
   const structConfig: StructConfig = {
     key: `${shaderTransformKey}_result`,
-    variables: assignedVariableIds.map((id) => {
-      const valueType = getDefaultShaderVariableValueType(id as string);
+    variables: outputConfig.map((output) => {
       return {
-        key: id,
-        valueType,
+        key: output.key,
+        valueType: output.valueType as keyof typeof SHADER_PROPERTY_VALUE_TYPES,
       };
     }),
   };

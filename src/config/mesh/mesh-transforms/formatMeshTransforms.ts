@@ -70,7 +70,6 @@ export const getAttributeValuesFromAssets = (
             const assetGeometry = getAssetGeometry(selectedAsset);
             if (assetGeometry) {
               const positions = getVertices(assetGeometry[0].geometry);
-              console.log(positions);
               return {
                 ...acc,
                 [key]: { value: positions, type, relationship },

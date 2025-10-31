@@ -21,7 +21,6 @@ export const formatGeometry = (
   meshComponentConfigs: MeshComponentConfig[]
 ): FormattedGeometry[] => {
   const geometries = getAssetGeometries(loadedAssets);
-  console.log(geometries);
   return meshComponentConfigs.flatMap((meshConfig) => {
     const geometry = getGeometryForMeshConfig(
       geometries,

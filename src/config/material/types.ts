@@ -77,7 +77,7 @@ export interface MaterialConfig {
   parameterConfigs?: ParameterConfig[];
   assetMapping?: AssetToUniformMappingConfig[];
   blendingConfig?: Record<string, unknown>;
-  schemas?: Record<string, Record<string, ShaderTransformationSchema>>;
+  schemas?: ExternalSchema;
 }
 
 export type ShaderMaterial = Material & {

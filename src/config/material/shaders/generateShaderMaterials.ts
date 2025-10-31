@@ -19,10 +19,13 @@ export const generateShaderMaterials = (
     };
   const builtShaderMaterials = sceneMaterialConfigs.flatMap(
     (materialConfig) => {
-      if (materialConfig.materialType === MATERIAL_TYPES.BUILT_SHADER) {
+      if (
+        materialConfig.materialType === MATERIAL_TYPES.BUILT_SHADER &&
+        materialConfig.schemas
+      ) {
         const { vertexShader, fragmentShader, parameterMap } = generateShader(
           materialConfig,
-          materialConfig.schemas ?? {}
+          materialConfig.schemas
         );
         const formattedUniforms = formatBuiltShaderUniforms(
           parameterMap,
@@ -64,10 +67,6 @@ export const generateShader = (
       operatorConfigs ?? [],
       schemas
     );
-
-  console.log("parameterMap", parameterMap);
-  console.log(vertexEffects);
-  console.log(fragmentEffects);
 
   const { vertexShader, fragmentShader } = generateShaders(
     vertexEffects,

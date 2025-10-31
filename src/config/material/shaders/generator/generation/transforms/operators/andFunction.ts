@@ -1,7 +1,5 @@
-import { mergeUnique } from "../../../../../../../utils/mergeUnique";
 import { OperatorConfig, ShaderEffectConfig } from "../../../../schema";
 import { ShaderParameterMap, TransformData } from "../../../types";
-import { mergeAdvancedShaderVariableMaps } from "../../helpers/mergeAdvancedShaderVariable";
 import { transformationConfigFromFunctionParameter } from "../formatting/transformConfig";
 import { transformFunction } from "../formatting/transformFunction";
 import { functionInstantiation } from "../../helpers/functionInstantiation";
@@ -44,9 +42,9 @@ export const andFunctionTransform = (
     id: "effectId",
   } as unknown as ShaderEffectConfig);
   const functionInstantiations = functionDefinitions.flatMap(
-    ({ assignedVariableId, functionName, inputMap }) => {
+    ({ outputConfig, functionName, inputMap }) => {
       return functionInstantiation(
-        assignedVariableId as string,
+        outputConfig,
         functionName,
         inputMap,
         "effectId"
@@ -107,26 +105,19 @@ export const andFunctionTransform = (
     ...effectTransforms.flatMap((t) => t.requiredFunctions),
     ...functionDefinitions,
   ];
-  const mergedAssignedVariableIds = mergeUnique(
-    effectTransforms.map((t) =>
-      t.assignedVariableIds ? t.assignedVariableIds : []
-    )
-  );
-
-  const mergedAdvancedShaderVariables = mergeAdvancedShaderVariableMaps(
-    effectTransforms.map((t) => t.advancedShaderVariables)
-  );
 
   // Compose the merged transformation: function instantiations + conditional code
   const updatedTransformation =
     transforms.join("\n") + (conditionalCode ? "\n" + conditionalCode : "");
 
+  const outputConfigs = functionDefinitions.flatMap(
+    ({ outputConfig }) => outputConfig
+  );
   // Compose the merged TransformData
   const merged: TransformData = {
     transformation: [updatedTransformation],
     requiredFunctions,
-    assignedVariableIds: mergedAssignedVariableIds,
-    advancedShaderVariables: mergedAdvancedShaderVariables,
+    outputConfigs,
   };
 
   return merged;

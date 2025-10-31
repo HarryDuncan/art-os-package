@@ -13,14 +13,16 @@ export const transformsFromParameters = (
   const transformConfigs = functionParameters.flatMap((item) => {
     return transformationConfigFromFunctionParameter(item, parameterMap) ?? [];
   });
+  console.log("transformConfigs", transformConfigs);
   const transformFunctions = transformFunction(transformConfigs, {
     id: "effectId",
   } as unknown as ShaderEffectConfig);
 
+  console.log("transformFunctions", transformFunctions);
   const functionInstantiations = transformFunctions.flatMap(
-    ({ assignedVariableId, functionName, inputMap }) => {
+    ({ outputConfig, functionName, inputMap }) => {
       return functionInstantiation(
-        assignedVariableId as string,
+        outputConfig,
         functionName,
         inputMap,
         "effectId"

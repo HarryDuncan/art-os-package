@@ -1,7 +1,5 @@
-import { mergeUnique } from "../../../../../../../utils/mergeUnique";
 import { OperatorConfig } from "../../../../schema";
 import { ShaderParameterMap, TransformData } from "../../../types";
-import { mergeAdvancedShaderVariableMaps } from "../../helpers/mergeAdvancedShaderVariable";
 
 export const splitValueTransform = (
   effectTransforms: (TransformData & { id: string })[],
@@ -126,28 +124,16 @@ export const splitValueTransform = (
     throw new Error("No effect transforms provided for split value transform");
   }
 
-  const mergedAssignedVariableIds = mergeUnique(
-    effectTransforms.map((t) =>
-      t.assignedVariableIds ? t.assignedVariableIds : []
-    )
-  );
-
   // Merge all fields except transformation
   const requiredFunctions = [
     ...effectTransforms.flatMap((t) => t.requiredFunctions),
   ];
 
-  const mergedAdvancedShaderVariables = mergeAdvancedShaderVariableMaps(
-    effectTransforms.map((t) => t.advancedShaderVariables)
-  );
-
   // Compose the merged TransformData
   const merged: TransformData = {
     transformation: updatedTransformation,
     requiredFunctions,
-    assignedVariableIds:
-      mergedAssignedVariableIds.length > 0 ? mergedAssignedVariableIds : [],
-    advancedShaderVariables: mergedAdvancedShaderVariables,
+    outputConfigs: effectTransforms.flatMap((t) => t.outputConfigs),
   };
 
   return merged;
