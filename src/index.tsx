@@ -21,6 +21,9 @@ export { InteractiveScene };
 export { startSceneElementAnimations };
 export { StatusToolbar, useStatusToolbar } from "./components/status-toolbar";
 
+export { log, logWarn, logError, logInfo, logDebug, logger } from "./utils/logger";
+export type { LogEntry, LogLevel } from "./utils/logger";
+
 export * from "./thread";
 export * from "./exports/schema";
 export * from "./exports/consts";

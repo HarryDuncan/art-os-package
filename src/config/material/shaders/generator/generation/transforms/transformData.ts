@@ -56,8 +56,8 @@ export const generateTransform = (
     .sort((a, b) =>
       a.dontDeclare === b.dontDeclare ? 0 : a.dontDeclare ? -1 : 1
     )
-    .flatMap(({ inputMap, functionName, outputConfig, isRoot }) => {
-      if (!isRoot) {
+    .flatMap(({ inputMap, functionName, outputConfig, isSubFunction }) => {
+      if (isSubFunction) {
         return [];
       }
       return functionInstantiation(

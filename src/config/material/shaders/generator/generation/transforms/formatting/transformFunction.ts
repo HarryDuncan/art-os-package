@@ -4,7 +4,6 @@ import {
   VertexEffectConfig,
 } from "../../../../schema";
 import { isStruct } from "../../../../utils";
-import { getStructConfigFromOutputConfig } from "../../../../utils/struct";
 import {
   DefinedEffectFunction,
   ShaderTransformationConfig,
@@ -17,18 +16,17 @@ export const transformFunction = (
   shaderEffectConfig: FragmentEffectConfig | VertexEffectConfig
 ): DefinedEffectFunction[] => {
   const { guid: shaderEffectId } = shaderEffectConfig;
+
   return transformationConfigs.map(
     ({
-      isRoot,
+      isSubFunction,
       outputConfig,
       inputMap,
       functionName,
       transformCode,
-      // assignedVariableId,
       key: functionKey,
       functionType,
     }) => {
-      //const returnTypeString = shaderValueTypeInstantiation(returnValue);
       const functionInputs = getFunctionInputs(inputMap, shaderEffectId);
       // TODO - handle output config
       const functionDeclaration = createFunctionDeclaration(
@@ -46,7 +44,7 @@ export const transformFunction = (
       );
 
       const shaderFunctionConfig = {
-        isRoot,
+        isSubFunction,
         outputConfig,
         key: functionKey,
         functionType,

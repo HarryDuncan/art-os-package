@@ -104,43 +104,52 @@ export const transformationConfigFromFunctionParameter = (
   functionParameter: ParameterConfig,
   parameters: ShaderParameterMap
   // transformConfigs: ShaderTransformationSchema[]
-): ShaderTransformationConfig | null => {
+): ShaderTransformationConfig[] | null => {
   const { inputMapping, schemaId, transformSchema } =
     functionParameter.functionConfig ?? {};
-
   if (!inputMapping || !transformSchema) return null;
-  const functionCode = transformSchema[0]?.transformCode;
-  if (!functionCode) return null;
-  const functionParameters = getParametersFromInputMapping(
-    inputMapping,
-    parameters
+
+  return transformSchema.flatMap(
+    ({ key, transformCode, outputConfig, isSubFunction }) => {
+      if (!transformCode) return [];
+
+      const functionParameters = getParametersFromInputMapping(
+        inputMapping,
+        parameters
+      );
+      const sortedInputIds = sortInputIds([
+        ...functionParameters.map((p) => p.key),
+      ]);
+      const sortedFunctionParameters = sortedInputIds.map((id) => {
+        return functionParameters.find((p) => p.key === id);
+      }) as ParameterConfig[];
+
+      const inputMap = new Map();
+      sortedFunctionParameters.forEach((parameter) => {
+        inputMap.set(parameter.key, parameter);
+      });
+
+      let newOutputConfig = outputConfig;
+      if (!isSubFunction && outputConfig.length === 1) {
+        newOutputConfig = [
+          {
+            ...outputConfig[0],
+            key: functionParameter.shaderParameterId || "function",
+          },
+        ];
+      }
+
+      return {
+        key: schemaId || "function",
+        transformCode,
+        functionType: FUNCTION_TYPES.STATIC,
+        functionName: key,
+        inputMap,
+        isSubFunction,
+        outputConfig: newOutputConfig,
+      };
+    }
   );
-
-  const sortedInputIds = sortInputIds([
-    ...functionParameters.map((p) => p.key),
-  ]);
-  const sortedFunctionParameters = sortedInputIds.map((id) => {
-    return functionParameters.find((p) => p.key === id);
-  }) as ParameterConfig[];
-  const inputMap = new Map();
-  sortedFunctionParameters.forEach((parameter) => {
-    inputMap.set(parameter.key, parameter);
-  });
-
-  return {
-    key: schemaId || "function",
-    transformCode: functionCode,
-    functionType: FUNCTION_TYPES.STATIC,
-    functionName: transformSchema[0]?.key,
-    inputMap,
-    isRoot: false,
-    outputConfig: [
-      {
-        ...transformSchema[0]?.outputConfig?.[0],
-        key: functionParameter.shaderParameterId || "function",
-      },
-    ],
-  };
 };
 export const setupShaderTransformationConfigs = (
   transformConfigs: ShaderTransformationSchema[],
@@ -148,11 +157,11 @@ export const setupShaderTransformationConfigs = (
   parameters: ShaderParameterMap
 ): ShaderTransformationConfig[] => {
   const formattedTransformConfigs = transformConfigs.map((config) => {
-    const { key, transformCode, isRoot } = config;
+    const { key, transformCode, isSubFunction } = config;
 
     // TODO - handle assignedVariableIds allowing for multiple assignedVariableIds as a stuct
     const shaderFunctionType = getShaderFunctionType(
-      isRoot,
+      isSubFunction,
       shaderEffectConfig.shaderType
     );
     const updatedTransformCode = transformCode;
@@ -192,6 +201,7 @@ export const setupShaderTransformationConfigs = (
       );
     }
   );
+
   const transformations = functionBasedParameters.flatMap(
     (functionParameter) => {
       const transformation = transformationConfigFromFunctionParameter(
@@ -199,7 +209,7 @@ export const setupShaderTransformationConfigs = (
         parameters
       );
       if (transformation) {
-        return [transformation];
+        return transformation;
       }
       return [];
     }

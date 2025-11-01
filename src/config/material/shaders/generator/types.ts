@@ -23,7 +23,7 @@ export type ShaderTransformationConfig = ShaderTransformationSchema & {
   dontDeclare?: boolean;
 };
 export type DefinedEffectFunction = {
-  isRoot: boolean;
+  isSubFunction: boolean;
   key: string;
   functionType: string;
   functionName: string;

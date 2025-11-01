@@ -9,7 +9,7 @@ export const transformsFromParameters = (
   parameterMap: ShaderParameterMap
 ) => {
   const functionParameters = parameters.filter((item) => item.isFunctionBased);
-
+  console.log("functionParameters", functionParameters);
   const transformConfigs = functionParameters.flatMap((item) => {
     return transformationConfigFromFunctionParameter(item, parameterMap) ?? [];
   });
@@ -17,8 +17,8 @@ export const transformsFromParameters = (
   const transformFunctions = transformFunction(transformConfigs, {
     id: "effectId",
   } as unknown as ShaderEffectConfig);
-
   console.log("transformFunctions", transformFunctions);
+
   const functionInstantiations = transformFunctions.flatMap(
     ({ outputConfig, functionName, inputMap }) => {
       return functionInstantiation(

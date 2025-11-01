@@ -74,16 +74,24 @@ export const preformat = (
       } as ShaderParameter);
     } else if (effectParameter.isFunctionBased) {
       const schemaId = effectParameter.functionConfig?.schemaId;
-      if (!schemaId) return acc;
-      const transformSchema = schemas.function[schemaId];
-      acc.set(`${parameterId}`, {
-        ...effectParameter,
-        functionConfig: {
-          ...effectParameter.functionConfig,
-          transformSchema: transformSchema,
-        },
-        shaderParameterId: `${parameterId}`,
-      } as ShaderParameter);
+      if (!schemaId) {
+        console.warn(`Function schema not found for function ${schemaId}`);
+        acc.set(`${parameterId}`, {
+          ...effectParameter,
+          isFunctionBased: false,
+          shaderParameterId: `${parameterId}`,
+        } as ShaderParameter);
+      } else {
+        const transformSchema = schemas.function[schemaId];
+        acc.set(`${parameterId}`, {
+          ...effectParameter,
+          functionConfig: {
+            ...effectParameter.functionConfig,
+            transformSchema: transformSchema,
+          },
+          shaderParameterId: `${parameterId}`,
+        } as ShaderParameter);
+      }
     } else {
       acc.set(`${parameterId}_${guid}`, {
         ...effectParameter,

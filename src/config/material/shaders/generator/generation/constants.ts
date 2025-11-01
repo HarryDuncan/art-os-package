@@ -29,6 +29,8 @@ export const generateConstants = (
   const { functionInstantiations, transformFunctions } =
     transformsFromParameters(functionBasedConstants, shaderParameterMap);
 
+  console.log("functionInstantiations", functionInstantiations);
+  console.log("transformFunctions", transformFunctions);
   return {
     constantDeclaration,
     constantInstantiation: functionInstantiations,

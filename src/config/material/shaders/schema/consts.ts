@@ -67,8 +67,7 @@ export const SHADER_VARIABLE_TYPES = {
   NORMAL: "normal",
   LIGHT: "light",
   POST_EFFECT: "post_effect",
-  SUB_FUNCTION: "sub_function",
-  FUNCTION: "function",
+  VARIABLE: "variable",
 };
 
 export const SHADER_PROPERTY_TAGS = {
@@ -103,7 +102,6 @@ export const SHADER_VARIABLE_ASSIGNMENT_MAPS = {
     [SHADER_VARIABLE_TYPES.POST_EFFECT]: SHADER_PROPERTY_VALUE_TYPES.VEC4,
   },
   [SHADER_SCHEMA_TYPES.FUNCTION]: {
-    [SHADER_VARIABLE_TYPES.FUNCTION]: null,
-    [SHADER_VARIABLE_TYPES.SUB_FUNCTION]: null,
+    [SHADER_VARIABLE_TYPES.VARIABLE]: null,
   },
 };

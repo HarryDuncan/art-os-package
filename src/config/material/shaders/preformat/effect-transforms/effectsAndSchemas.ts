@@ -3,8 +3,6 @@ import {
   FragmentEffectConfig,
   SHADER_TYPES,
   ShaderEffectConfig,
-  ShaderEffectSchema,
-  ShaderTransformationSchema,
   VertexEffectConfig,
 } from "../../schema";
 import { getShaderConfigsByType } from "../../utils";

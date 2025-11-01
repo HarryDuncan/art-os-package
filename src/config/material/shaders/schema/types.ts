@@ -116,12 +116,17 @@ export type OperatorConfig = {
 
 export type ShaderTransformationOutputConfig = {
   key: string;
-  valueType: keyof typeof SHADER_PROPERTY_VALUE_TYPES;
+  valueType: string;
+};
+export type ShaderTransformationParameterConfig = {
+  key: string;
+  valueType: string;
 };
 export type ShaderTransformationSchema = {
   key: string;
   transformCode: string[];
-  isRoot: boolean;
+  isSubFunction: boolean;
+  parameters: ShaderTransformationParameterConfig[];
   outputConfig: ShaderTransformationOutputConfig[];
 };
 

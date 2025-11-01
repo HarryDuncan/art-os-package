@@ -5,7 +5,6 @@ export const createPlaneFromTexture = (texture: Texture) => {
   const width = texture.image?.width || 1;
   const height = texture.image?.height || 1;
 
-  console.log(width, height);
   // Create a plane geometry with the texture dimensions
   const geometry = new BufferGeometry();
 

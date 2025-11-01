@@ -121,7 +121,6 @@ export const applyMeshTransforms = (
     return formattedGeometries;
   });
 
-  console.log(formattedGeometries);
   return formattedGeometries;
 };
 

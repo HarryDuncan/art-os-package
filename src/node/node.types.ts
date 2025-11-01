@@ -5,6 +5,7 @@ import {
 import { SceneConfig, SceneData } from "../config/config.types";
 import { ReactNode } from "react";
 import { Camera } from "three";
+import { LogEntry } from "../utils/logger";
 
 export interface SceneNodeProps {
   sceneConfig: SceneConfig;
@@ -14,6 +15,7 @@ export interface SceneNodeProps {
     scene: InteractiveScene | null,
     camera: Camera | null
   ) => void;
+  onLog?: (entry: LogEntry) => void;
 }
 
 export interface SceneNodeContentProps {
