@@ -9,9 +9,15 @@ const mergeShaderFunctions = (
   parsedFunctions: (ShaderFunction | DefinedEffectFunction)[]
 ): ShaderFunction[] => {
   const uniqueFunctions: UniqueFunction = {};
-  parsedFunctions.forEach(({ key, ...rest }) => {
-    if (!uniqueFunctions[key]) {
+  parsedFunctions.forEach(({ key, isSubFunction, functionName, ...rest }) => {
+    if (!uniqueFunctions[key] && !isSubFunction) {
       uniqueFunctions[key] = {
+        ...rest,
+      };
+    }
+    if (isSubFunction) {
+      uniqueFunctions[functionName] = {
+        functionType: FUNCTION_TYPES.STATIC,
         ...rest,
       };
     }
@@ -29,13 +35,14 @@ export const functionDeclarations = (functions: ShaderFunction[]) => {
     const typeOrder = {
       [FUNCTION_TYPES.STATIC]: 0,
       [FUNCTION_TYPES.CONFIGURED_STATIC]: 1,
-      [FUNCTION_TYPES.VERTEX_SUB_EFFECT]: 2,
-      [FUNCTION_TYPES.FRAGMENT_SUB_EFFECT]: 3,
       [FUNCTION_TYPES.FRAGMENT_ROOT]: 4,
       [FUNCTION_TYPES.VERTEX_ROOT]: 5,
     };
     return typeOrder[a.functionType] - typeOrder[b.functionType];
   });
+
+  console.log("orderedFunctions", orderedFunctions);
+
   return orderedFunctions
     .map(({ functionDefinition }) => functionDefinition)
     .join("\n");

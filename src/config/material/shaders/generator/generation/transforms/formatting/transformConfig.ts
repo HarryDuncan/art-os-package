@@ -102,7 +102,7 @@ const getFunctionDependencies = (
 
 export const transformationConfigFromFunctionParameter = (
   functionParameter: ParameterConfig,
-  parameters: ShaderParameterMap
+  parameterMap: ShaderParameterMap
   // transformConfigs: ShaderTransformationSchema[]
 ): ShaderTransformationConfig[] | null => {
   const { inputMapping, schemaId, transformSchema } =
@@ -110,12 +110,12 @@ export const transformationConfigFromFunctionParameter = (
   if (!inputMapping || !transformSchema) return null;
 
   return transformSchema.flatMap(
-    ({ key, transformCode, outputConfig, isSubFunction }) => {
+    ({ key, transformCode, outputConfig, isSubFunction, parameters }) => {
       if (!transformCode) return [];
 
       const functionParameters = getParametersFromInputMapping(
         inputMapping,
-        parameters
+        parameterMap
       );
       const sortedInputIds = sortInputIds([
         ...functionParameters.map((p) => p.key),
@@ -142,11 +142,14 @@ export const transformationConfigFromFunctionParameter = (
       return {
         key: schemaId || "function",
         transformCode,
-        functionType: FUNCTION_TYPES.STATIC,
+        functionType: isSubFunction
+          ? FUNCTION_TYPES.STATIC
+          : FUNCTION_TYPES.CONFIGURED_STATIC,
         functionName: key,
         inputMap,
         isSubFunction,
         outputConfig: newOutputConfig,
+        parameters: parameters || [],
       };
     }
   );
@@ -154,12 +157,10 @@ export const transformationConfigFromFunctionParameter = (
 export const setupShaderTransformationConfigs = (
   transformConfigs: ShaderTransformationSchema[],
   shaderEffectConfig: ShaderEffectConfig,
-  parameters: ShaderParameterMap
+  parameterMap: ShaderParameterMap
 ): ShaderTransformationConfig[] => {
   const formattedTransformConfigs = transformConfigs.map((config) => {
     const { key, transformCode, isSubFunction } = config;
-
-    // TODO - handle assignedVariableIds allowing for multiple assignedVariableIds as a stuct
     const shaderFunctionType = getShaderFunctionType(
       isSubFunction,
       shaderEffectConfig.shaderType
@@ -170,16 +171,17 @@ export const setupShaderTransformationConfigs = (
       shaderEffectConfig.inputMapping ?? {},
       shaderEffectConfig.shaderType === SHADER_TYPES.FRAGMENT
     );
+
     const functionDependencies = getFunctionDependencies(
       transformConfigs,
       updatedTransformCode,
-      parameters
+      parameterMap
     );
 
     // Get default ids first, then the rest, both sorted alphabetically
     const sortedInputIds = sortInputIds([...inputIds, ...functionDependencies]);
     const inputMap = getShaderInputMap(
-      parameters,
+      parameterMap,
       sortedInputIds,
       shaderEffectConfig
     );
@@ -206,7 +208,7 @@ export const setupShaderTransformationConfigs = (
     (functionParameter) => {
       const transformation = transformationConfigFromFunctionParameter(
         functionParameter,
-        parameters
+        parameterMap
       );
       if (transformation) {
         return transformation;

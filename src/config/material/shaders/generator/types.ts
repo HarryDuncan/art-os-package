@@ -1,5 +1,4 @@
 import {
-  SHADER_PROPERTY_VALUE_TYPES,
   ParameterConfig,
   ShaderTransformationSchema,
   ShaderTransformationOutputConfig,

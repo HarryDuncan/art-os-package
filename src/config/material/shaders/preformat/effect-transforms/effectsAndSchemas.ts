@@ -7,35 +7,6 @@ import {
 } from "../../schema";
 import { getShaderConfigsByType } from "../../utils";
 
-// const nestSubEffects = <T extends ShaderEffectConfig>(
-//   effectConfigs: T[]
-// ): T[] =>
-//   effectConfigs.reduce((acc: T[], effect: T) => {
-//     if (effect.subEffectIds && effect.subEffectIds.length > 0) {
-//       const effectsReferencingThis = effectConfigs.filter((subEffect) =>
-//         effect.subEffectIds?.includes(subEffect.guid)
-//       );
-//       if (effectsReferencingThis.length > 0) {
-//         acc.push({
-//           ...effect,
-//           subEffects: effectsReferencingThis,
-//         } as T);
-//       } else {
-//         acc.push(effect);
-//       }
-//       return acc;
-//     }
-//     const isSubEffect = acc.some((ef) =>
-//       ef.subEffectIds?.includes(effect.guid)
-//     );
-//     if (isSubEffect) {
-//       return acc;
-//     } else {
-//       acc.push(effect);
-//     }
-//     return acc;
-//   }, [] as T[]);
-
 export const formatEffectsAndSchemas = (
   shaderEffectConfigs: ShaderEffectConfig[],
   externalSchemas: ExternalSchema

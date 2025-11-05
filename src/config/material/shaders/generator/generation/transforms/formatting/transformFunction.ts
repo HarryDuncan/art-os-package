@@ -1,11 +1,13 @@
 import {
   FragmentEffectConfig,
   ShaderTransformationOutputConfig,
+  ShaderTransformationParameterConfig,
   VertexEffectConfig,
 } from "../../../../schema";
 import { isStruct } from "../../../../utils";
 import {
   DefinedEffectFunction,
+  ShaderParameterMap,
   ShaderTransformationConfig,
 } from "../../../types";
 import { getFunctionInputs } from "../../helpers/parameterMap";
@@ -26,8 +28,11 @@ export const transformFunction = (
       transformCode,
       key: functionKey,
       functionType,
+      parameters,
     }) => {
-      const functionInputs = getFunctionInputs(inputMap, shaderEffectId);
+      const functionInputs = isSubFunction
+        ? getSubFunctionInputs(parameters)
+        : getFunctionInputs(inputMap, shaderEffectId);
       // TODO - handle output config
       const functionDeclaration = createFunctionDeclaration(
         functionName,
@@ -70,11 +75,14 @@ const createFunctionDeclaration = (
   functionInputs: string[],
   outputConfig: ShaderTransformationOutputConfig[]
 ) => {
-  const valueType =
-    outputConfig.length > 1
-      ? `${functionName}_result`
-      : outputConfig[0].valueType;
-  return `${valueType} ${functionName}(${functionInputs.join(", ")}){`;
+  if (isStruct(outputConfig)) {
+    return `${functionName}_result ${functionName}(${functionInputs.join(
+      ", "
+    )}){`;
+  }
+  return `${outputConfig[0].valueType} ${functionName}(${functionInputs.join(
+    ", "
+  )}){`;
 };
 
 const createFunctionSetups = (
@@ -85,4 +93,13 @@ const createFunctionSetups = (
     return `${functionName}_result result;`;
   }
   return "";
+};
+
+const getSubFunctionInputs = (
+  parameters: ShaderTransformationParameterConfig[]
+) => {
+  console.log("parameters", parameters);
+  return parameters.map(
+    (parameter) => `${parameter.valueType} ${parameter.key}`
+  );
 };

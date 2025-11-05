@@ -22,8 +22,6 @@ export const preformat = (
   schemas: ExternalSchema
 ): {
   parameterMap: ShaderParameterMap;
-  updatedEffectConfigs: ShaderEffectConfig[];
-  updatedOperatorConfigs: OperatorConfig[];
   vertexEffects: OperatorConfig[];
   fragmentEffects: OperatorConfig[];
   structsConfigs: StructConfig[];
@@ -41,8 +39,12 @@ export const preformat = (
   const { convertedAttributes, updatedFragShaderInputMapping } =
     convertAttributesToVaryings(effectParameters, shaderEffectConfigs);
 
-  const { functionBasedVaryings, updatedEffectInputMapping } =
-    getFunctionBasedVaryings(effectParameters, schemas.function);
+  const { functionBasedVaryings } = getFunctionBasedVaryings(
+    effectParameters,
+    schemas.function
+  );
+
+  // TODO - structs to varyings
 
   const effectParamsMap = [
     ...convertedAttributes,
@@ -103,6 +105,8 @@ export const preformat = (
   }, new Map() as ShaderParameterMap);
 
   const parameterMap = new Map([...defaultParamsMap, ...effectParamsMap]);
+
+  // update fragment effects input mapping with new varyings
   const updatedEffectConfigs = shaderEffectConfigs.map((config) => {
     const mappingUpdates = updatedFragShaderInputMapping[config.guid];
     if (mappingUpdates) {
@@ -127,20 +131,9 @@ export const preformat = (
     return config;
   });
 
-  const updatedOperatorConfigs = operatorConfigs.map((config) => {
-    const mappingUpdates = updatedEffectInputMapping[config.guid];
-    if (mappingUpdates) {
-      return {
-        ...config,
-        inputMapping: mappingUpdates,
-      };
-    }
-    return config;
-  });
-
   const { vertexEffects, fragmentEffects } = formatShaderEffects(
     updatedEffectConfigs,
-    updatedOperatorConfigs,
+    operatorConfigs,
     schemas
   );
 
@@ -151,8 +144,6 @@ export const preformat = (
 
   return {
     parameterMap,
-    updatedEffectConfigs,
-    updatedOperatorConfigs,
     vertexEffects,
     fragmentEffects,
     structsConfigs,
@@ -249,12 +240,7 @@ const getFunctionBasedVaryings = (
 ) => {
   const functionBasedParameters = getFunctionBasedParameters(effectParameters);
   if (functionBasedParameters.length === 0)
-    return { functionBasedVaryings: [], updatedEffectInputMapping: {} };
-
-  const updatedEffectInputMapping: Record<
-    string,
-    Record<string, OutputInputMapping>
-  > = {};
+    return { functionBasedVaryings: [] };
 
   const requireConversion = functionBasedParameters.filter(
     (parameter) => parameter.parameterType === SHADER_PROPERTY_TYPES.VARYING
@@ -278,5 +264,5 @@ const getFunctionBasedVaryings = (
     };
   });
 
-  return { functionBasedVaryings: withSchemas, updatedEffectInputMapping };
+  return { functionBasedVaryings: withSchemas };
 };

@@ -3,12 +3,14 @@ import { ShaderParameterMap, TransformData } from "../../../types";
 
 export const splitValueTransform = (
   effectTransforms: (TransformData & { id: string })[],
-  effectFunctionTransform: OperatorConfig,
+  operatorTransform: OperatorConfig,
   parameterMap: ShaderParameterMap
 ): TransformData => {
+  console.log("effectTransforms", effectTransforms);
+  console.log("operatorTransform", operatorTransform);
   const inputParameters = Array.from(parameterMap.values());
   const inputMappingData = Object.entries(
-    effectFunctionTransform.inputMapping || {}
+    operatorTransform.inputMapping || {}
   ).map(([key, value]) => {
     const inputParameter = inputParameters.find(
       (parameter) => parameter.guid === value.itemId
@@ -21,7 +23,7 @@ export const splitValueTransform = (
       inputParameter,
     };
   });
-  const { value } = effectFunctionTransform;
+  const { value } = operatorTransform;
 
   // Check if we have the required data
   if (!inputMappingData || inputMappingData.length === 0) {
@@ -51,7 +53,7 @@ export const splitValueTransform = (
     for (let i = 0; i < splitValues.length; i++) {
       const currentCumulativeValue = cumulativeSplitValues[i];
       const outputKey = i.toString();
-      const outputMapping = effectFunctionTransform.outputMapping[outputKey];
+      const outputMapping = operatorTransform.outputMapping[outputKey];
 
       if (!outputMapping) {
         throw new Error(`No output mapping found for key ${outputKey}`);
@@ -95,8 +97,7 @@ export const splitValueTransform = (
 
     // Add the final else case for values >= the last cumulative split value
     const lastOutputKey = splitValues.length.toString();
-    const lastOutputMapping =
-      effectFunctionTransform.outputMapping[lastOutputKey];
+    const lastOutputMapping = operatorTransform.outputMapping[lastOutputKey];
 
     if (lastOutputMapping) {
       const lastEffectTransform = effectTransforms.find(

@@ -8,6 +8,7 @@ import { functionInstantiation } from "../helpers/functionInstantiation";
 import { setupShaderTransformationConfigs } from "./formatting/transformConfig";
 import { transformFunction } from "./formatting/transformFunction";
 
+// TODO - this is redundant
 export const generateShaderTransformData = (
   effect: ShaderEffectConfig,
   parameterMap: ShaderParameterMap
@@ -16,13 +17,9 @@ export const generateShaderTransformData = (
   if (effectSchemas) {
     const { transformationFunctions, transformation, outputConfigs } =
       generateTransform(effectSchemas, effect, parameterMap);
-
     return {
       transformation,
-      requiredFunctions: [
-        ...(transformationFunctions || []),
-        ...transformationFunctions,
-      ],
+      requiredFunctions: [...(transformationFunctions || [])],
       outputConfigs,
     };
   }
@@ -46,6 +43,8 @@ export const generateTransform = (
     effectConfig,
     parameterMap
   );
+
+  // Join the below together
 
   const effectFunctions = transformFunction(
     transformationConfigs,

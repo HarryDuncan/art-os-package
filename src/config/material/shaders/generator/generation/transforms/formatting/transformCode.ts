@@ -21,6 +21,7 @@ export const formatTransformCode = (
   formattedFunctionConfigs: ShaderTransformationConfig[],
   effectId: string
 ) => {
+  const subFunctions = formattedFunctionConfigs.filter((f) => f.isSubFunction);
   return effectCodeLines.map((line) => {
     return line.replace(/{{(\w+)}}/g, (match, key) => {
       const parameter = inputMap.get(key);
@@ -29,8 +30,9 @@ export const formatTransformCode = (
         // console.log(inputMap);
         // console.log(effectCodeLines);
       }
-      if (key === "SUB_EFFECTS") {
-        return "";
+      // todo - perhaps add a unique identifier
+      if (subFunctions.some((f) => f.functionName === key)) {
+        return key;
       }
       if (!parameter) {
         const effectFunction = formattedFunctionConfigs.find(
