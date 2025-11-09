@@ -1,7 +1,6 @@
 import {
   ASSET_MAPPING_RELATIONSHIPS,
   ATTRIBUTE_VALUE_TYPES,
-  SHADER_PROPERTY_TAGS,
   SHADER_PROPERTY_TYPES,
   SHADER_PROPERTY_VALUE_TYPES,
   SHADER_VARIABLE_TYPES,
@@ -9,29 +8,23 @@ import {
 } from "../consts";
 
 export const VERTEX_POINT = {
-  key: "pointPosition",
+  key: SHADER_VARIABLE_TYPES.VERTEX_POINT,
   name: "Current Vertex Point",
   description:
     "The current vertex point - can be mapped to the current position or the original position of the mesh",
 
   valueType: SHADER_PROPERTY_VALUE_TYPES.VEC4,
   parameterType: SHADER_PROPERTY_TYPES.SHADER_VARIABLE,
-  shaderVariableConfig: {
-    shaderVariableType: SHADER_VARIABLE_TYPES.VERTEX_POINT,
-  },
   isDefault: true,
 };
 
 export const NORMAL = {
-  key: "normal",
+  key: SHADER_VARIABLE_TYPES.NORMAL,
   name: "Current Vertex Normal",
   description:
     "The normal of the vertex - can be mapped to the normal of the mesh",
   valueType: SHADER_PROPERTY_VALUE_TYPES.VEC4,
   parameterType: SHADER_PROPERTY_TYPES.SHADER_VARIABLE,
-  shaderVariableConfig: {
-    shaderVariableType: SHADER_VARIABLE_TYPES.NORMAL,
-  },
   isDefault: true,
 };
 
@@ -138,7 +131,7 @@ export const CAMERA_VARYING = {
 };
 
 export const FRAGMENT_COLOR = {
-  key: "fragColor",
+  key: SHADER_VARIABLE_TYPES.FRAGMENT_COLOR,
   name: "Fragment Color",
   description: "The color of the fragment",
   valueType: SHADER_PROPERTY_VALUE_TYPES.VEC4,
@@ -146,9 +139,6 @@ export const FRAGMENT_COLOR = {
   isAssetMapped: false,
   isDefault: true,
   parameterType: SHADER_PROPERTY_TYPES.SHADER_VARIABLE,
-  shaderVariableConfig: {
-    shaderVariableType: SHADER_VARIABLE_TYPES.FRAGMENT_COLOR,
-  },
 };
 
 export const UV_VARYING = {

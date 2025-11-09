@@ -47,9 +47,6 @@ export const functionInstantiation = (
       if (!parameter) return [];
 
       if (!GLOBAL_PARAMETER_TYPES.includes(parameter.parameterType)) {
-        if (parameter.shaderVariableConfig?.mappedVariableId) {
-          return parameter.shaderVariableConfig.mappedVariableId;
-        }
         if (
           DEFAULT_SHADER_VARIABLE_KEYS[
             id as keyof typeof DEFAULT_SHADER_VARIABLE_KEYS

@@ -1,10 +1,5 @@
 import { ExternalSchema } from "../../../types";
-import {
-  FragmentEffectConfig,
-  SHADER_TYPES,
-  ShaderEffectConfig,
-  VertexEffectConfig,
-} from "../../schema";
+import { SHADER_TYPES, ShaderEffectConfig } from "../../schema";
 import { getShaderConfigsByType } from "../../utils";
 
 export const formatEffectsAndSchemas = (
@@ -16,17 +11,15 @@ export const formatEffectsAndSchemas = (
     .filter((config) => config !== null);
 
   const vertexEffects = getShaderConfigsByType(
-    effectsWithSchemas as ShaderEffectConfig[],
+    effectsWithSchemas,
     SHADER_TYPES.VERTEX
-  ) as VertexEffectConfig[];
+  );
 
   const fragmentEffects = getShaderConfigsByType(
-    effectsWithSchemas as ShaderEffectConfig[],
+    effectsWithSchemas,
     SHADER_TYPES.FRAGMENT
-  ) as FragmentEffectConfig[];
+  );
 
-  // const nestedVertexEffects = nestSubEffects(vertexEffects);
-  // const nestedFragmentEffects = nestSubEffects(fragmentEffects);
   return {
     vertexEffects,
     fragmentEffects,

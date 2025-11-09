@@ -1,13 +1,11 @@
 import {
-  FragmentEffectConfig,
+  ShaderEffectConfig,
   ShaderTransformationOutputConfig,
   ShaderTransformationParameterConfig,
-  VertexEffectConfig,
 } from "../../../../schema";
 import { isStruct } from "../../../../utils";
 import {
   DefinedEffectFunction,
-  ShaderParameterMap,
   ShaderTransformationConfig,
 } from "../../../types";
 import { getFunctionInputs } from "../../helpers/parameterMap";
@@ -15,7 +13,7 @@ import { formatTransformCode } from "./transformCode";
 
 export const transformFunction = (
   transformationConfigs: ShaderTransformationConfig[],
-  shaderEffectConfig: FragmentEffectConfig | VertexEffectConfig
+  shaderEffectConfig: ShaderEffectConfig
 ): DefinedEffectFunction[] => {
   const { guid: shaderEffectId } = shaderEffectConfig;
 

@@ -2,16 +2,9 @@ import {
   ATTRIBUTE_VALUE_TYPES,
   SHADER_PROPERTY_TYPES,
   SHADER_PROPERTY_VALUE_TYPES,
-  SHADER_VARIABLE_TYPES,
   VARYING_TYPES,
 } from "./consts";
 import { MESH_TRANSFORM_TYPES } from "./mesh-transforms";
-
-export type SchemaData = {
-  id: string;
-  name: string;
-  description: string;
-};
 
 export type OutputInputMapping = {
   itemId: string;
@@ -19,10 +12,13 @@ export type OutputInputMapping = {
   type?: string;
 };
 
-export type ParameterFunctionConfig = {
+export type FunctionConfig = {
+  guid: string;
+  name?: string;
   schemaId: string;
   outputValueType: keyof typeof SHADER_PROPERTY_VALUE_TYPES;
   inputMapping: Record<string, OutputInputMapping>;
+  outputMapping: Record<string, OutputInputMapping>;
   transformSchema?: ShaderTransformationSchema[];
 };
 
@@ -36,10 +32,6 @@ export type VaryingConfig = {
   activeValue?: string;
   inactiveValue?: string;
   isAttributeReference?: boolean;
-};
-export type ShaderVariableConfig = {
-  shaderVariableType: keyof typeof SHADER_VARIABLE_TYPES;
-  mappedVariableId?: string;
 };
 
 export type ParameterConfig = {
@@ -65,13 +57,12 @@ export type ParameterConfig = {
   attributeConfig?: AttributeConfig;
   varyingConfig?: VaryingConfig;
 
+  // TODO - update this and remove function config
   isFunctionBased?: boolean;
-  functionConfig?: ParameterFunctionConfig;
-
-  shaderVariableConfig?: ShaderVariableConfig;
+  functionConfig?: FunctionConfig;
 };
 
-export interface EffectConfig {
+export interface ShaderEffectConfig {
   guid: string;
   name?: string;
   schemaId: string;
@@ -82,12 +73,6 @@ export interface EffectConfig {
   disabled?: boolean;
 }
 
-export type VertexEffectConfig = EffectConfig;
-
-export type FragmentEffectConfig = EffectConfig;
-
-export type ShaderEffectConfig = FragmentEffectConfig | VertexEffectConfig;
-
 export type SplitValueEditorConfig = {
   numSplits: number;
   splitValues: number[];
@@ -97,7 +82,7 @@ export type SequenceEditorConfig = {
   sequenceBounds: number[][];
 };
 
-export type EffectFunctionValueConfig =
+export type OperatorValueConfig =
   | SplitValueEditorConfig
   | SequenceEditorConfig
   | null;
@@ -105,7 +90,7 @@ export type EffectFunctionValueConfig =
 export type OperatorConfig = {
   guid: string;
   schemaId: string;
-  value?: EffectFunctionValueConfig;
+  value?: OperatorValueConfig;
   outputMapping: Record<string, OutputInputMapping>;
   inputMapping: Record<string, OutputInputMapping>;
   inputMapSchema?: Record<string, string> | null;
