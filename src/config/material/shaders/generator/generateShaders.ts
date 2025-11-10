@@ -1,9 +1,4 @@
-import {
-  DefinedEffectFunction,
-  ShaderFunction,
-  ShaderParameterMap,
-  TransformDefinition,
-} from "./types";
+import { ShaderParameterMap, TransformDefinition } from "./types";
 import { generateAttributes } from "./generation/attributes";
 import { generateUniformDeclaration } from "./generation/uniforms";
 import { generateVaryings } from "./generation/varyings";

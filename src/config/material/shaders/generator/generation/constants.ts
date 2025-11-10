@@ -1,14 +1,13 @@
 import { SHADER_PROPERTY_TYPES } from "../../schema";
 import { shaderValueTypeInstantiation } from "./helpers/shaderValues";
 import { valueToShader } from "./helpers/shaderValues";
-import { DefinedEffectFunction, ShaderParameterMap } from "../types";
+import { ShaderParameterMap } from "../types";
 
 export const generateConstants = (
   shaderParameterMap: ShaderParameterMap
 ): {
   constantDeclaration: string;
   constantInstantiation: string[];
-  constantFunctionDeclarations: DefinedEffectFunction[];
 } => {
   const constantParameters = Array.from(shaderParameterMap.values()).filter(
     ({ parameterType }) => parameterType === SHADER_PROPERTY_TYPES.CONSTANT
@@ -33,6 +32,5 @@ export const generateConstants = (
   return {
     constantDeclaration,
     constantInstantiation: [],
-    constantFunctionDeclarations: [],
   };
 };

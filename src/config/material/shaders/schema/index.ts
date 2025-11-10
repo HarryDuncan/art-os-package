@@ -1,7 +1,5 @@
 export * from "./consts";
 export * from "./types";
-export * from "./vertex";
-export * from "./fragment";
 export * from "./operators";
 export * from "./parameters";
 export * from "./schema";

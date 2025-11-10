@@ -16,7 +16,7 @@ export const formatBuiltShaderUniforms = (
       uniformConfigs.isAssetMapped && uniformConfigs.assetMappingConfig
         ? {
             ...uniformConfigs.assetMappingConfig,
-            uniformId: `${uniformConfigs.key}_${uniformConfigs.guid}`,
+            uniformId: `${uniformConfigs.key}`,
           }
         : []
     ) || [];
@@ -29,7 +29,7 @@ export const formatBuiltShaderUniforms = (
       return acc;
     }
 
-    acc[`${uniform.key}_${uniform.guid}`] = { value: formattedValue };
+    acc[`${uniform.key}`] = { value: formattedValue };
     return acc;
   }, {} as UniformObject);
   uniforms.uTime = { value: 0 };
