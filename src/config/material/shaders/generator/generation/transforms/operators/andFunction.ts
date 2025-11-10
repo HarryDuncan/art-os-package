@@ -1,4 +1,4 @@
-import { OperatorConfig, ShaderEffectConfig } from "../../../../schema";
+import { OperatorConfig, EffectConfig } from "../../../../schema";
 import { ShaderParameterMap, TransformData } from "../../../types";
 import { transformationConfigFromFunctionParameter } from "../formatting/transformConfig";
 import { transformFunction } from "../formatting/transformFunction";
@@ -40,7 +40,7 @@ export const andFunctionTransform = (
 
   const functionDefinitions = transformFunction(transformations, {
     id: "effectId",
-  } as unknown as ShaderEffectConfig);
+  } as unknown as EffectConfig);
   const functionInstantiations = functionDefinitions.flatMap(
     ({ outputConfig, functionName, inputMap }) => {
       return functionInstantiation(

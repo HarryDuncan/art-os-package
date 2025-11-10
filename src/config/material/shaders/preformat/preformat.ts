@@ -2,7 +2,7 @@ import {
   ParameterConfig,
   OutputInputMapping,
   OperatorConfig,
-  ShaderEffectConfig,
+  EffectConfig,
   ShaderTransformationSchema,
   StructConfig,
   EffectConfig,
@@ -18,7 +18,7 @@ import { ExternalSchema } from "../../types";
 
 export const preformat = (
   effectParameters: ParameterConfig[],
-  shaderEffectConfigs: ShaderEffectConfig[],
+  shaderEffectConfigs: EffectConfig[],
   operatorConfigs: OperatorConfig[],
   functionConfigs: EffectConfig[],
   schemas: ExternalSchema
@@ -56,27 +56,17 @@ export const preformat = (
   ].reduce((acc, effectParameter) => {
     const { key: parameterId, guid } = effectParameter;
     if (
-      effectParameter.parameterType === SHADER_PROPERTY_TYPES.UNIFORM &&
-      effectParameter.isDefault
+      (effectParameter.parameterType === SHADER_PROPERTY_TYPES.UNIFORM &&
+        effectParameter.isDefault) ||
+      effectParameter.parameterType === SHADER_PROPERTY_TYPES.ATTRIBUTE ||
+      effectParameter.parameterType === SHADER_PROPERTY_TYPES.VARYING
     ) {
       acc.set(parameterId, {
         ...effectParameter,
         shaderParameterId: `${parameterId}`,
       } as ShaderParameter);
       return acc;
-    }
-    if (effectParameter.parameterType === SHADER_PROPERTY_TYPES.ATTRIBUTE) {
-      acc.set(parameterId, {
-        ...effectParameter,
-        shaderParameterId: `${parameterId}`,
-      } as ShaderParameter);
-    } else if (
-      effectParameter.parameterType === SHADER_PROPERTY_TYPES.VARYING
-    ) {
-      acc.set(`${parameterId}`, {
-        ...effectParameter,
-        shaderParameterId: `${parameterId}`,
-      } as ShaderParameter);
+      // TODO - I think I can get rid of this pattern - as now all keys are unique
     } else {
       acc.set(`${parameterId}_${guid}`, {
         ...effectParameter,
@@ -85,28 +75,6 @@ export const preformat = (
     }
     return acc;
   }, new Map() as ShaderParameterMap);
-
-  // else if (effectParameter.isFunctionBased) {
-  //   const schemaId = effectParameter.functionConfig?.schemaId;
-  //   if (!schemaId) {
-  //     console.warn(`Function schema not found for function ${schemaId}`);
-  //     acc.set(`${parameterId}`, {
-  //       ...effectParameter,
-  //       isFunctionBased: false,
-  //       shaderParameterId: `${parameterId}`,
-  //     } as ShaderParameter);
-  //   } else {
-  //     const transformSchema = schemas.function[schemaId];
-  //     acc.set(`${parameterId}`, {
-  //       ...effectParameter,
-  //       functionConfig: {
-  //         ...effectParameter.functionConfig,
-  //         transformSchema: transformSchema,
-  //       },
-  //       shaderParameterId: `${parameterId}`,
-  //     } as ShaderParameter);
-  //   }
-  // } else
 
   const parameterMap = new Map([...defaultParamsMap, ...effectParamsMap]);
 
@@ -190,7 +158,7 @@ const constantToVarying = (constantConfigs: ParameterConfig[]) => {
 
 const convertAttributesToVaryings = (
   parameterConfigs: ParameterConfig[],
-  shaderEffectConfigs: ShaderEffectConfig[]
+  shaderEffectConfigs: EffectConfig[]
 ) => {
   const fragmentShaders = getShaderConfigsByType(
     shaderEffectConfigs,

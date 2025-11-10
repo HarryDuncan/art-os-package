@@ -1,5 +1,5 @@
 import {
-  ShaderEffectConfig,
+  EffectConfig,
   ShaderTransformationOutputConfig,
   ShaderTransformationParameterConfig,
 } from "../../../../schema";
@@ -13,7 +13,7 @@ import { formatTransformCode } from "./transformCode";
 
 export const transformFunction = (
   transformationConfigs: ShaderTransformationConfig[],
-  shaderEffectConfig: ShaderEffectConfig
+  shaderEffectConfig: EffectConfig
 ): DefinedEffectFunction[] => {
   const { guid: shaderEffectId } = shaderEffectConfig;
 

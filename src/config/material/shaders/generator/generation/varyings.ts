@@ -15,7 +15,7 @@ import {
 import { ShaderParameterMap } from "../types";
 import { generateDeclaration } from "./helpers/generateDeclaration";
 import { getDefaultValueAsString } from "./helpers/shaderValues";
-import { transformsFromParameters } from "./transforms/transformsFromParameters";
+import { getTransformsMappedToParameters } from "./transforms/getTransfomsMappedToParameters";
 
 export const generateVaryings = (
   parameterMap: ShaderParameterMap,
@@ -27,15 +27,15 @@ export const generateVaryings = (
 
   const declaration = varyingDeclarations(varyingConfigs);
   const instantiation = varyingInstantiation(varyingConfigs);
-  const { functionInstantiations, varyingFunctions } = getFunctionVarying(
+  const { transformDefinitions, transformAssignments } = getFunctionVarying(
     varyingConfigs,
     parameterMap,
     functionConfigs
   );
   return {
     varyingDeclaration: declaration,
-    varyingInstantiation: [...instantiation, ...functionInstantiations],
-    varyingFunctionDeclarations: varyingFunctions,
+    varyingInstantiation: [...instantiation, ...transformAssignments],
+    varyingTransformDefinitions: transformDefinitions,
   };
 };
 
@@ -150,11 +150,20 @@ const getAttributeVaryingStrings = (config: ParameterConfig[]) =>
   });
 
 const getFunctionVarying = (
-  config: ParameterConfig[],
+  assignedParameters: ParameterConfig[],
   parameterMap: ShaderParameterMap,
   functionConfigs: EffectConfig[]
 ) => {
-  const { functionInstantiations, transformFunctions } =
-    transformsFromParameters(config, parameterMap, functionConfigs);
-  return { functionInstantiations, varyingFunctions: transformFunctions };
+  const configuredTransforms = getTransformsMappedToParameters(
+    assignedParameters,
+    parameterMap,
+    functionConfigs
+  );
+  const transformDefinitions = configuredTransforms.flatMap(
+    (transform) => transform.transformDefinitions
+  );
+  const transformAssignments = configuredTransforms.flatMap(
+    ({ transformAssignments }) => transformAssignments
+  );
+  return { transformDefinitions, transformAssignments };
 };

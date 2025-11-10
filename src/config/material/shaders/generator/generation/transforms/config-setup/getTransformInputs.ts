@@ -34,6 +34,8 @@ export const getTransformInputs = (
     sortedInputKeys,
     effectConfig
   );
+  console.log(inputKeys);
+  console.log("inputParameterMap", inputParameterMap);
 
   const transformInputs = isSubFunction
     ? getSubFunctionInputs(parameters)
@@ -67,13 +69,13 @@ export const getParametersByKey = (
   const parameterArray = Array.from(parameterMap.entries());
   const parameters = parameterArray.flatMap(([key, parameter]) => {
     const [keyWithoutEffectId, parameterGuid] = key.split("_");
-    if (isDefaultParameter(keyWithoutEffectId)) {
+    if (
+      keys.includes(keyWithoutEffectId) &&
+      isDefaultParameter(keyWithoutEffectId)
+    ) {
       return parameter;
     }
 
-    if (parameterGuid === "varying" && keys.includes(key)) {
-      return parameter;
-    }
     if (
       inputMapping?.[keyWithoutEffectId] &&
       inputMapping?.[keyWithoutEffectId]?.itemId === parameterGuid &&

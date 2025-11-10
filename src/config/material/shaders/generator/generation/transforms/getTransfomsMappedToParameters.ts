@@ -1,67 +1,44 @@
-import { EffectConfig, ShaderEffectConfig } from "../../../schema";
-import { getTransformConfigForFunctionMappedParameter } from "./formatting/transformConfig";
-import { functionInstantiation } from "../helpers/functionInstantiation";
+import { EffectConfig, ParameterConfig } from "../../../schema";
 import {
+  ConfiguredTransform,
   ShaderParameter,
   ShaderParameterMap,
-  ShaderTransformationConfig,
 } from "../../types";
-import { transformFunction } from "./formatting/transformFunction";
+import { configureTransform } from "./config-setup/configureTransform";
 
 export const getTransformsMappedToParameters = (
+  assignedParameters: ParameterConfig[],
   parameterMap: ShaderParameterMap,
   functionConfigs: EffectConfig[]
-) => {
-  const applicableParameters = functionConfigs.reduce((acc, config) => {
+): ConfiguredTransform[] => {
+  const assignmentConfigs = functionConfigs.reduce((acc, config) => {
     const { outputMapping, guid } = config;
     Object.keys(outputMapping).forEach((key) => {
       const parameter = parameterMap.get(key);
-      if (parameter) {
+      const assignedParameter = assignedParameters.find(
+        (p) => p.guid === parameter?.guid
+      );
+      if (assignedParameter && parameter) {
         acc[guid] = parameter;
       }
     });
     return acc;
   }, {} as Record<string, ShaderParameter>);
 
-  const transformConfigs = Object.entries(applicableParameters).reduce(
-    (acc, [guid, shaderParameter]) => {
-      const functionConfig = functionConfigs.find(
-        (config) => config.guid === guid
-      );
-      if (functionConfig) {
-        const transformConfigs = getTransformConfigForFunctionMappedParameter(
-          shaderParameter,
-          functionConfig,
-          parameterMap
-        );
-        console.log("transformConfigs", transformConfigs);
-        if (transformConfigs) {
-          acc.push(...transformConfigs);
-        }
-      }
-      return acc;
-    },
-    [] as ShaderTransformationConfig[]
-  );
+  const configuredTransforms: ConfiguredTransform[] = Object.entries(
+    assignmentConfigs
+  ).flatMap(([guid, assignmentConfig]) => {
+    const selectedEffect = functionConfigs.find(
+      (config) => config.guid === guid
+    );
 
-  // TODO - fix up the way the ids are set - they are currently undefined because i'm setting a single guid
+    console.log("selectedEffect", selectedEffect);
 
-  const transformFunctions = transformFunction(transformConfigs, {
-    guid: "effectId",
-  } as unknown as ShaderEffectConfig);
+    return selectedEffect
+      ? configureTransform(selectedEffect, parameterMap)
+      : [];
+  });
+  console.log("configuredTransforms", configuredTransforms);
 
-  const transformInstantiations = transformFunctions.flatMap(
-    ({ outputConfig, functionName, inputMap, isSubFunction }) => {
-      return !isSubFunction
-        ? functionInstantiation(
-            outputConfig,
-            functionName,
-            inputMap,
-            "effectId"
-          )
-        : [];
-    }
-  );
-
-  return { transformInstantiations, transformFunctions };
+  return configuredTransforms;
 };

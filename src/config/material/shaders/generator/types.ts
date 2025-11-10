@@ -63,3 +63,8 @@ export type ConfiguredTransform = {
   outputConfigs: ShaderTransformationOutputConfig[];
   transformDefinitions: TransformDefinition[];
 };
+
+export type AssignmentConfig = {
+  parameterKey: string;
+  assignmentValue?: string;
+};

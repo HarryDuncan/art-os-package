@@ -56,7 +56,7 @@ export const getTransformCode = (
     transformName,
     outputConfig
   );
-  return [internalStructDeclaration, ...formattedEffectCodeLines];
+  return [internalStructDeclaration, ...formattedEffectCodeLines, "}"];
 };
 
 const createInternalStructDeclaration = (

@@ -1,10 +1,10 @@
 import { ExternalSchema } from "../../../types";
-import { EffectConfig, SHADER_TYPES, ShaderEffectConfig } from "../../schema";
+import { EffectConfig, SHADER_TYPES, EffectConfig } from "../../schema";
 import { getShaderConfigsByType } from "../../utils";
 import { SHADER_SCHEMA_TYPES } from "../../schema/consts";
 
 export const formatEffectsAndSchemas = (
-  shaderEffectConfigs: ShaderEffectConfig[],
+  shaderEffectConfigs: EffectConfig[],
   functionConfigs: EffectConfig[],
   externalSchemas: ExternalSchema
 ) => {
@@ -36,7 +36,7 @@ export const formatEffectsAndSchemas = (
 };
 
 const mergeExternalSchema = (
-  config: ShaderEffectConfig | EffectConfig,
+  config: EffectConfig | EffectConfig,
   schemaType: string,
   externalSchemas: ExternalSchema
 ) => {

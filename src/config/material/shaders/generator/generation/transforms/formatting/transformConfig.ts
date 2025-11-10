@@ -5,7 +5,7 @@ import {
   // SHADER_PROPERTY_VALUE_TYPES,
   SHADER_TYPES,
   // SHADER_VARIABLE_TYPES,
-  ShaderEffectConfig,
+  EffectConfig,
   ShaderTransformationSchema,
 } from "../../../../schema";
 import { FUNCTION_TYPES } from "../../../consts";
@@ -212,7 +212,7 @@ export const getTransformConfigForFunctionMappedParameter = (
 
 export const setupShaderTransformationConfigs = (
   transformConfigs: ShaderTransformationSchema[],
-  shaderEffectConfig: ShaderEffectConfig,
+  shaderEffectConfig: EffectConfig,
   parameterMap: ShaderParameterMap
 ): ShaderTransformationConfig[] => {
   const formattedTransformConfigs = transformConfigs.map((config) => {

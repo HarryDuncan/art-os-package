@@ -5,12 +5,12 @@ import {
 import {
   OperatorConfig,
   ParameterConfig,
-  ShaderEffectConfig,
+  EffectConfig,
   ShaderTransformationOutputConfig,
 } from "./schema/types";
 
 export const getShaderConfigsByType = (
-  shaderEffectConfigs: ShaderEffectConfig[],
+  shaderEffectConfigs: EffectConfig[],
   shaderType: string
 ) => {
   return shaderEffectConfigs.filter(
@@ -28,7 +28,7 @@ export const getFunctionBasedParameters = (
 
 export const getEffectFunctionConfigs = (
   operatorConfigs: OperatorConfig[],
-  effectConfigs: ShaderEffectConfig[]
+  effectConfigs: EffectConfig[]
 ) =>
   operatorConfigs.filter((config) => {
     const { outputMapping } = config;
@@ -41,7 +41,7 @@ export const getEffectFunctionConfigs = (
   });
 
 export const getEffectConfigUsingParameters = (
-  configs: ShaderEffectConfig[] | OperatorConfig[],
+  configs: EffectConfig[] | OperatorConfig[],
   parameters: ParameterConfig[]
 ) => {
   return configs.filter((config) => {

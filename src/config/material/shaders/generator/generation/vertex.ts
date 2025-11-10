@@ -8,14 +8,14 @@ export const generateVertexEffect = (
   vertexEffectFunctions: OperatorConfig[],
   parameterMap: ShaderParameterMap
 ) => {
-  const { transformations, requiredFunctions } = getVertexTransformations(
+  const { transformations, transformDefinitions } = getVertexTransformations(
     vertexEffectFunctions,
     parameterMap
   );
   const viewMatrix = `gl_Position = projectionMatrix * modelViewMatrix * vec4(${VERTEX_POINT_NAME}.xyz, 1.0);`;
   return {
     transformations,
-    requiredFunctions,
+    transformDefinitions,
     viewMatrix,
   };
 };
@@ -25,7 +25,7 @@ const getVertexTransformations = (
   parameterMap: ShaderParameterMap
 ) => {
   const unmergedTransformations: string[] = [];
-  const allRequiredFunctions: TransformDefinition[] = [];
+  const allTransformDefinitions: TransformDefinition[] = [];
   vertexEffectFunctions.forEach((operator) => {
     const { effects } = operator;
     const configuredTransforms =
@@ -39,13 +39,13 @@ const getVertexTransformations = (
     );
     if (transformData) {
       unmergedTransformations.push(...transformData.transformAssignments);
-      allRequiredFunctions.push(...transformData.transformDefinitions);
+      allTransformDefinitions.push(...transformData.transformDefinitions);
     }
   });
 
   const transformations = unmergedTransformations.join("");
   return {
     transformations,
-    requiredFunctions: allRequiredFunctions,
+    transformDefinitions: allTransformDefinitions,
   };
 };

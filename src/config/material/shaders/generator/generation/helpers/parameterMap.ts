@@ -1,7 +1,7 @@
 import {
   OutputInputMapping,
   SHADER_PROPERTY_TYPES,
-  ShaderEffectConfig,
+  EffectConfig,
 } from "../../../schema";
 import { DEFAULT_PARAMETER_KEYS, GLOBAL_PARAMETER_TYPES } from "../../consts";
 import { ShaderParameter, ShaderParameterMap } from "../../types";
@@ -54,7 +54,7 @@ export const getParametersByKey = (
 export const getShaderInputMap = (
   parameterMap: ShaderParameterMap,
   inputIds: string[],
-  shaderEffectConfig: ShaderEffectConfig
+  shaderEffectConfig: EffectConfig
 ) => {
   const shaderInputMap = new Map<string, ShaderParameter>();
   const { inputMapping, guid: effectId } = shaderEffectConfig;

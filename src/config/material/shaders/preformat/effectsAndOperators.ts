@@ -1,5 +1,5 @@
 import {
-  ShaderEffectConfig,
+  EffectConfig,
   OperatorConfig,
   OPERATOR_TYPES,
   EffectConfig,
@@ -15,7 +15,7 @@ const DEFAULT_EFFECT_FUNCTION_CONFIG = {
 };
 
 export const formatShaderEffects = (
-  shaderEffectConfigs: ShaderEffectConfig[],
+  shaderEffectConfigs: EffectConfig[],
   operatorConfigs: OperatorConfig[],
   functionConfigs: EffectConfig[],
   schemas: Record<string, Record<string, unknown>>

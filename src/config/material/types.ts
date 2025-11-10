@@ -1,7 +1,7 @@
 import { Material, Texture } from "three";
 
 import {
-  ShaderEffectConfig,
+  EffectConfig,
   ParameterConfig,
   OperatorConfig,
   ShaderTransformationSchema,
@@ -73,7 +73,7 @@ export interface MaterialConfig {
   name: string;
   materialType: MaterialType;
   materialProps: MaterialConfigProps;
-  shaderEffectConfigs?: ShaderEffectConfig[];
+  shaderEffectConfigs?: EffectConfig[];
   operatorConfigs?: OperatorConfig[];
   parameterConfigs?: ParameterConfig[];
   functionConfigs?: EffectConfig[];

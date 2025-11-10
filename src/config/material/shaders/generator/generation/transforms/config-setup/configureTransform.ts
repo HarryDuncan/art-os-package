@@ -8,6 +8,7 @@ import {
 import { getTransformCode } from "./getTransformCode";
 import { getTransformInputs } from "./getTransformInputs";
 import { getTransformInstantiation } from "./getTransformInstantiation";
+import { getTransformOutputConfig } from "./getTransformOutputConfig";
 
 export const configureTransform = (
   effectConfig: EffectConfig,
@@ -25,6 +26,8 @@ export const configureTransform = (
     parameterMap,
     effectConfig
   );
+
+  const mainOutputConfig = getTransformOutputConfig(mainEffect, effectConfig);
   const transformCode = getTransformCode(
     mainEffect,
     transformName,
@@ -35,7 +38,7 @@ export const configureTransform = (
   );
 
   const transformAssignment = getTransformInstantiation(
-    mainEffect.outputConfig,
+    mainOutputConfig,
     transformName,
     inputParameterMap,
     effectConfig.guid

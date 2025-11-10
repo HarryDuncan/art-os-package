@@ -37,12 +37,13 @@ export const generateShaders = (
   const {
     varyingDeclaration,
     varyingInstantiation,
-    varyingFunctionDeclarations,
+    varyingTransformDefinitions,
+    //  varyingFunctionDeclarations,
   } = generateVaryings(parameterMap, functionConfigs);
   const {
     constantDeclaration,
     constantInstantiation,
-    constantFunctionDeclarations,
+    //  constantFunctionDeclarations,
   } = generateConstants(parameterMap);
 
   const fragmentEffects = generateFragmentEffect(
@@ -54,14 +55,11 @@ export const generateShaders = (
     parameterMap
   );
 
-  // const shaderStructConfigs = [structConfigs ?? []];
-  // const mergedStructConfig = mergeStructConfigs(shaderStructConfigs);
-  // const structDeclaration = buildStruct(mergedStructConfig);
-  // @ ts-ignore
   const vertexTransformDefinitions = [
-    ...vertexEffects.requiredFunctions,
-    ...varyingFunctionDeclarations,
-    ...constantFunctionDeclarations,
+    ...vertexEffects.transformDefinitions,
+    ...varyingTransformDefinitions,
+    // ...varyingFunctionDeclarations,
+    // ...constantFunctionDeclarations,
   ];
 
   const vertexShader = formatVertexShader(

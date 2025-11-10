@@ -18,6 +18,7 @@ export type OutputInputMapping = {
 export type EffectConfig = {
   guid: string;
   name?: string;
+  type: string;
   schemaId: string;
   outputValueType: keyof typeof SHADER_PROPERTY_VALUE_TYPES;
   inputMapping: Record<string, OutputInputMapping>;
@@ -65,10 +66,6 @@ export type ParameterConfig = {
   isFunctionBased?: boolean;
   functionConfig?: EffectConfig;
 };
-
-export interface ShaderEffectConfig extends EffectConfig {
-  shaderType: string;
-}
 
 export type SplitValueEditorConfig = {
   numSplits: number;

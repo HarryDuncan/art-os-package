@@ -6,6 +6,7 @@ import { isStruct } from "../../../../utils";
 import {
   DEFAULT_SHADER_VARIABLE_KEYS,
   GLOBAL_PARAMETER_TYPES,
+  SHADER_VARIABLE_NAME_MAPS,
 } from "../../../consts";
 import { ShaderParameterMap } from "../../../types";
 
@@ -14,6 +15,8 @@ export const getTransformInstantiation = (
   functionName: string,
   inputMap: ShaderParameterMap,
   shaderEffectId: string
+
+  // todo - assignment config
 ) => {
   const functionParameters = Array.from(inputMap.entries())?.flatMap(
     ([id, parameter]) => {
@@ -103,6 +106,8 @@ const postFunctionAssignment = (
 
 const getKey = (outputConfigItem: ShaderTransformationOutputConfig) => {
   const { key } = outputConfigItem;
+
+  // TODO - remove this we have proper names now
   if (
     SHADER_VARIABLE_NAME_MAPS[key as keyof typeof SHADER_VARIABLE_NAME_MAPS]
   ) {
