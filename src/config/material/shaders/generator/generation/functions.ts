@@ -1,49 +1,40 @@
-import { DefinedEffectFunction, ShaderFunction } from "../types";
+import { TransformDefinition } from "../types";
 import { FUNCTION_TYPES } from "../consts";
 
 interface UniqueFunction {
-  [key: string]: Omit<ShaderFunction, "key">;
+  [key: string]: Omit<TransformDefinition, "key">;
 }
 
 const mergeShaderFunctions = (
-  parsedFunctions: (ShaderFunction | DefinedEffectFunction)[]
-): ShaderFunction[] => {
+  parsedFunctions: TransformDefinition[]
+): TransformDefinition[] => {
   const uniqueFunctions: UniqueFunction = {};
-  parsedFunctions.forEach(({ key, isSubFunction, functionName, ...rest }) => {
-    if (!uniqueFunctions[key] && !isSubFunction) {
-      uniqueFunctions[key] = {
-        ...rest,
-      };
-    }
-    if (isSubFunction) {
-      uniqueFunctions[functionName] = {
-        functionType: FUNCTION_TYPES.STATIC,
-        ...rest,
-      };
+  parsedFunctions.forEach((transformDefinition) => {
+    if (!uniqueFunctions[transformDefinition.id]) {
+      uniqueFunctions[transformDefinition.id] = transformDefinition;
     }
   });
 
-  return Object.keys(uniqueFunctions).map((key) => ({
-    ...uniqueFunctions[key],
-    key: key,
-  }));
+  return Object.values(uniqueFunctions);
 };
 
-export const functionDeclarations = (functions: ShaderFunction[]) => {
-  const uniqueFunctions = mergeShaderFunctions(functions);
+export const functionDeclarations = (
+  transformDefinitions: TransformDefinition[]
+) => {
+  const uniqueFunctions = mergeShaderFunctions(transformDefinitions);
   const orderedFunctions = uniqueFunctions.sort((a, b) => {
     const typeOrder = {
       [FUNCTION_TYPES.STATIC]: 0,
+      [FUNCTION_TYPES.SUB_TRANSFORM]: 1,
       [FUNCTION_TYPES.CONFIGURED_STATIC]: 1,
       [FUNCTION_TYPES.FRAGMENT_ROOT]: 4,
       [FUNCTION_TYPES.VERTEX_ROOT]: 5,
+      [FUNCTION_TYPES.TRANSFORM]: 6,
     };
-    return typeOrder[a.functionType] - typeOrder[b.functionType];
+    return typeOrder[a.transformType] - typeOrder[b.transformType];
   });
 
-  console.log("orderedFunctions", orderedFunctions);
-
   return orderedFunctions
-    .map(({ functionDefinition }) => functionDefinition)
+    .map(({ definitionCode }) => definitionCode.join("\n"))
     .join("\n");
 };

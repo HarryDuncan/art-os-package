@@ -51,3 +51,15 @@ export type TransformData = {
   transformation: string[];
   requiredFunctions: ShaderFunction[];
 };
+
+export type TransformDefinition = {
+  id: string;
+  functionName: string;
+  definitionCode: string[];
+  transformType: string;
+};
+export type ConfiguredTransform = {
+  transformAssignments: string[];
+  outputConfigs: ShaderTransformationOutputConfig[];
+  transformDefinitions: TransformDefinition[];
+};

@@ -1,7 +1,8 @@
 import { OperatorConfig } from "../../schema";
 import { VERTEX_POINT_NAME } from "../consts";
-import { ShaderFunction, ShaderParameterMap } from "../types";
-import { transformSetup } from "./transforms/transformWithOperator";
+import { ShaderParameterMap, TransformDefinition } from "../types";
+import { configureTransform } from "./transforms/config-setup/configureTransform";
+import { applyEffectWrapper } from "./transforms/operators/applyOperator";
 
 export const generateVertexEffect = (
   vertexEffectFunctions: OperatorConfig[],
@@ -24,13 +25,21 @@ const getVertexTransformations = (
   parameterMap: ShaderParameterMap
 ) => {
   const unmergedTransformations: string[] = [];
-  const allRequiredFunctions: ShaderFunction[] = [];
-  vertexEffectFunctions.forEach((effect) => {
-    const vertexEffectData = transformSetup(effect, parameterMap);
-    if (vertexEffectData !== null) {
-      const { transformation, requiredFunctions } = vertexEffectData ?? {};
-      unmergedTransformations.push(...(transformation ?? []));
-      allRequiredFunctions.push(...(requiredFunctions ?? []));
+  const allRequiredFunctions: TransformDefinition[] = [];
+  vertexEffectFunctions.forEach((operator) => {
+    const { effects } = operator;
+    const configuredTransforms =
+      effects?.map((effect) => {
+        return configureTransform(effect, parameterMap);
+      }) || [];
+    const transformData = applyEffectWrapper(
+      operator,
+      configuredTransforms,
+      parameterMap
+    );
+    if (transformData) {
+      unmergedTransformations.push(...transformData.transformAssignments);
+      allRequiredFunctions.push(...transformData.transformDefinitions);
     }
   });
 

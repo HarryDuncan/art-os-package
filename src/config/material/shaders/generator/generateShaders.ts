@@ -2,6 +2,7 @@ import {
   DefinedEffectFunction,
   ShaderFunction,
   ShaderParameterMap,
+  TransformDefinition,
 } from "./types";
 import { generateAttributes } from "./generation/attributes";
 import { generateUniformDeclaration } from "./generation/uniforms";
@@ -57,13 +58,11 @@ export const generateShaders = (
   // const mergedStructConfig = mergeStructConfigs(shaderStructConfigs);
   // const structDeclaration = buildStruct(mergedStructConfig);
   // @ ts-ignore
-  const vertexEffectFunctions = [
+  const vertexTransformDefinitions = [
     ...vertexEffects.requiredFunctions,
     ...varyingFunctionDeclarations,
     ...constantFunctionDeclarations,
   ];
-
-  console.log(vertexEffectFunctions);
 
   const vertexShader = formatVertexShader(
     structDeclaration,
@@ -74,7 +73,7 @@ export const generateShaders = (
     constantInstantiation,
     structInstantiation,
     varyingInstantiation,
-    vertexEffectFunctions,
+    vertexTransformDefinitions,
     vertexEffects.transformations,
     vertexEffects.viewMatrix
   );
@@ -85,7 +84,7 @@ export const generateShaders = (
     varyingDeclaration,
     constantDeclaration,
     structInstantiation,
-    fragmentEffects.requiredFunctions,
+    fragmentEffects.transformDefinitions,
     fragmentEffects.transformations,
     fragmentEffects.fragColor
   );
@@ -109,11 +108,13 @@ const formatVertexShader = (
   constantInstantiations: string[],
   structInstantiation: string,
   varyingInstantiations: string[],
-  vertexFunctions: (ShaderFunction | DefinedEffectFunction)[],
+  vertexTransformDefinitions: TransformDefinition[],
   vertexTransformations: string,
   viewMatrix: string
 ) => {
-  const vertexFunctionDeclarations = functionDeclarations(vertexFunctions);
+  const vertexFunctionDeclarations = functionDeclarations(
+    vertexTransformDefinitions
+  );
   return [
     structDeclaration,
     attributes,
@@ -139,11 +140,13 @@ export const formatFragmentShader = (
   varyingDeclarations: string[],
   constantDeclarations: string,
   structInstantiation: string,
-  fragmentFunctions: ShaderFunction[],
+  fragmentTransformDefinitions: TransformDefinition[],
   fragmentTransformations: string,
   fragColor: string
 ) => {
-  const fragmentFunctionDeclarations = functionDeclarations(fragmentFunctions);
+  const fragmentFunctionDeclarations = functionDeclarations(
+    fragmentTransformDefinitions
+  );
   const shaderCodeArray: string[] = [
     structDeclaration,
     uniformDeclaration,

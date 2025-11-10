@@ -4,30 +4,31 @@ import {
   ShaderTransformationOutputConfig,
 } from "../../schema";
 import { FRAG_COLOR_NAME } from "../consts";
-import { ShaderFunction, ShaderParameterMap } from "../types";
-import { transformSetup } from "./transforms/transformWithOperator";
+import { ShaderParameterMap, TransformDefinition } from "../types";
+import { configureTransform } from "./transforms/config-setup/configureTransform";
+import { applyEffectWrapper } from "./transforms/operators/applyOperator";
 
 export const generateFragmentEffect = (
   fragmentEffectFunctions: OperatorConfig[],
   parameterMap: ShaderParameterMap
 ) => {
-  const { unmergedTransformations, requiredFunctions, outputConfigs } =
+  const { unmergedTransformAssignments, transformDefinitions, outputConfigs } =
     getFragmentColors(fragmentEffectFunctions, parameterMap);
 
   if (
     outputConfigs.some((config) => config.key === SHADER_VARIABLE_TYPES.LIGHT)
   ) {
-    unmergedTransformations.push(
+    unmergedTransformAssignments.push(
       `${FRAG_COLOR_NAME} = ${FRAG_COLOR_NAME} * vec4(light, 1.0);`
     );
   }
 
-  const [regularEffects, postEffects] = unmergedTransformations.reduce(
-    (acc, transformation) => {
-      if (transformation.includes(SHADER_VARIABLE_TYPES.POST_EFFECT)) {
-        acc[1].push(transformation);
+  const [regularEffects, postEffects] = unmergedTransformAssignments.reduce(
+    (acc, transformAssignment) => {
+      if (transformAssignment.includes(SHADER_VARIABLE_TYPES.POST_EFFECT)) {
+        acc[1].push(transformAssignment);
       } else {
-        acc[0].push(transformation);
+        acc[0].push(transformAssignment);
       }
       return acc;
     },
@@ -40,31 +41,12 @@ export const generateFragmentEffect = (
       : "";
 
   const { discardColorInstantiation, discardColorAssignment } = getDiscardColor(
-    unmergedTransformations
+    unmergedTransformAssignments
   );
-
-  // const advancedShaderVariablesInstantiation = Array.from(
-  //   advancedShaderVariables.entries()
-  // ).flatMap(([key, variable]) =>
-  //   key !== SHADER_VARIABLE_TYPES.DISCARD_COLOR
-  //     ? variable.map((v) => v.instantiation)
-  //     : []
-  // );
-
-  // const advancedShaderVariablesAssignment = Array.from(
-  //   advancedShaderVariables.entries()
-  // ).flatMap(([key, variable]) =>
-  //   key !== SHADER_VARIABLE_TYPES.DISCARD_COLOR
-  //     ? variable.map((v) => v.assignment)
-  //     : []
-  // );
 
   const transformations = [
     discardColorInstantiation,
-    //  ...advancedShaderVariablesInstantiation,
     ...regularEffects,
-    //  ...advancedShaderVariablesAssignment,
-
     discardColorAssignment,
     ...postEffects,
     postEffectAssignment,
@@ -73,7 +55,7 @@ export const generateFragmentEffect = (
   return {
     fragColor,
     transformations,
-    requiredFunctions,
+    transformDefinitions,
   };
 };
 
@@ -81,22 +63,31 @@ export const getFragmentColors = (
   fragmentOperations: OperatorConfig[],
   parameterMap: ShaderParameterMap
 ) => {
-  const allRequiredFunctions: ShaderFunction[] = [];
-  const unmergedTransformations: string[] = [];
+  const allTransformDefinitions: TransformDefinition[] = [];
+  const unmergedTransformAssignments: string[] = [];
   const outputConfigs: ShaderTransformationOutputConfig[] = [];
 
   fragmentOperations.forEach((operation) => {
-    const fragmentEffectData = transformSetup(operation, parameterMap);
-    if (fragmentEffectData) {
-      unmergedTransformations.push(...fragmentEffectData.transformation);
-      allRequiredFunctions.push(...fragmentEffectData.requiredFunctions);
-      outputConfigs.push(...fragmentEffectData.outputConfigs);
+    const { effects } = operation;
+    const effectTransforms =
+      effects?.map((effect) => {
+        return configureTransform(effect, parameterMap);
+      }) || [];
+    const transformData = applyEffectWrapper(
+      operation,
+      effectTransforms,
+      parameterMap
+    );
+    if (transformData) {
+      unmergedTransformAssignments.push(...transformData.transformAssignments);
+      allTransformDefinitions.push(...transformData.transformDefinitions);
+      outputConfigs.push(...transformData.outputConfigs);
     }
   });
 
   return {
-    unmergedTransformations,
-    requiredFunctions: allRequiredFunctions,
+    unmergedTransformAssignments,
+    transformDefinitions: allTransformDefinitions,
     outputConfigs,
   };
 };
