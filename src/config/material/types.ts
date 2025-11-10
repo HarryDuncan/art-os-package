@@ -5,7 +5,7 @@ import {
   ParameterConfig,
   OperatorConfig,
   ShaderTransformationSchema,
-  FunctionConfig,
+  EffectConfig,
 } from "./shaders/schema";
 import { ENV_MAP_TYPES, MATERIAL_TYPES } from "./schema";
 
@@ -76,7 +76,7 @@ export interface MaterialConfig {
   shaderEffectConfigs?: ShaderEffectConfig[];
   operatorConfigs?: OperatorConfig[];
   parameterConfigs?: ParameterConfig[];
-  functionConfigs?: FunctionConfig[];
+  functionConfigs?: EffectConfig[];
   assetMapping?: AssetToUniformMappingConfig[];
   blendingConfig?: Record<string, unknown>;
   schemas?: ExternalSchema;

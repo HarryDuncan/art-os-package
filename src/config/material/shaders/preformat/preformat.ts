@@ -5,6 +5,7 @@ import {
   ShaderEffectConfig,
   ShaderTransformationSchema,
   StructConfig,
+  EffectConfig,
 } from "../schema/types";
 import { ShaderParameter, ShaderParameterMap } from "../generator/types";
 import { FRAGMENT_COLOR, TIME, VERTEX_POINT } from "../schema/parameters";
@@ -19,11 +20,13 @@ export const preformat = (
   effectParameters: ParameterConfig[],
   shaderEffectConfigs: ShaderEffectConfig[],
   operatorConfigs: OperatorConfig[],
+  functionConfigs: EffectConfig[],
   schemas: ExternalSchema
 ): {
   parameterMap: ShaderParameterMap;
   vertexEffects: OperatorConfig[];
   fragmentEffects: OperatorConfig[];
+  functionConfigs: EffectConfig[];
   structsConfigs: StructConfig[];
 } => {
   const defaultParamsMap = [TIME, VERTEX_POINT, FRAGMENT_COLOR].reduce(
@@ -74,35 +77,36 @@ export const preformat = (
         ...effectParameter,
         shaderParameterId: `${parameterId}`,
       } as ShaderParameter);
-    } else if (effectParameter.isFunctionBased) {
-      const schemaId = effectParameter.functionConfig?.schemaId;
-      if (!schemaId) {
-        console.warn(`Function schema not found for function ${schemaId}`);
-        acc.set(`${parameterId}`, {
-          ...effectParameter,
-          isFunctionBased: false,
-          shaderParameterId: `${parameterId}`,
-        } as ShaderParameter);
-      } else {
-        const transformSchema = schemas.function[schemaId];
-        acc.set(`${parameterId}`, {
-          ...effectParameter,
-          functionConfig: {
-            ...effectParameter.functionConfig,
-            transformSchema: transformSchema,
-          },
-          shaderParameterId: `${parameterId}`,
-        } as ShaderParameter);
-      }
     } else {
       acc.set(`${parameterId}_${guid}`, {
         ...effectParameter,
         shaderParameterId: `${parameterId}_${guid}`,
       } as ShaderParameter);
     }
-
     return acc;
   }, new Map() as ShaderParameterMap);
+
+  // else if (effectParameter.isFunctionBased) {
+  //   const schemaId = effectParameter.functionConfig?.schemaId;
+  //   if (!schemaId) {
+  //     console.warn(`Function schema not found for function ${schemaId}`);
+  //     acc.set(`${parameterId}`, {
+  //       ...effectParameter,
+  //       isFunctionBased: false,
+  //       shaderParameterId: `${parameterId}`,
+  //     } as ShaderParameter);
+  //   } else {
+  //     const transformSchema = schemas.function[schemaId];
+  //     acc.set(`${parameterId}`, {
+  //       ...effectParameter,
+  //       functionConfig: {
+  //         ...effectParameter.functionConfig,
+  //         transformSchema: transformSchema,
+  //       },
+  //       shaderParameterId: `${parameterId}`,
+  //     } as ShaderParameter);
+  //   }
+  // } else
 
   const parameterMap = new Map([...defaultParamsMap, ...effectParamsMap]);
 
@@ -131,11 +135,13 @@ export const preformat = (
     return config;
   });
 
-  const { vertexEffects, fragmentEffects } = formatShaderEffects(
-    updatedEffectConfigs,
-    operatorConfigs,
-    schemas
-  );
+  const { vertexEffects, fragmentEffects, functionConfigsWithSchemas } =
+    formatShaderEffects(
+      updatedEffectConfigs,
+      operatorConfigs,
+      functionConfigs,
+      schemas
+    );
 
   const structsConfigs = getStructsConfigsFromEffects(
     vertexEffects,
@@ -146,6 +152,7 @@ export const preformat = (
     parameterMap,
     vertexEffects,
     fragmentEffects,
+    functionConfigs: functionConfigsWithSchemas,
     structsConfigs,
   };
 };

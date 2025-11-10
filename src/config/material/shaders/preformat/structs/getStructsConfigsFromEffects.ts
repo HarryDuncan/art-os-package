@@ -12,8 +12,8 @@ export const getStructsConfigsFromEffects = (
   const structsConfigs = vertexEffects.flatMap(
     ({ effects }) =>
       effects?.flatMap(
-        ({ effectSchemas }) =>
-          effectSchemas?.flatMap((schema) => {
+        ({ transformSchema }) =>
+          transformSchema?.flatMap((schema) => {
             return schema.outputConfig.length > 1
               ? getStructConfigFromOutputConfig(
                   schema.key,
@@ -26,8 +26,8 @@ export const getStructsConfigsFromEffects = (
   const fragmentStructsConfigs = fragmentEffects.flatMap(
     ({ effects }) =>
       effects?.flatMap(
-        ({ effectSchemas }) =>
-          effectSchemas?.flatMap((schema) => {
+        ({ transformSchema }) =>
+          transformSchema?.flatMap((schema) => {
             return schema.outputConfig.length > 1
               ? getStructConfigFromOutputConfig(
                   schema.key,

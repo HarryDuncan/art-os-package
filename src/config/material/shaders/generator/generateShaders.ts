@@ -8,7 +8,7 @@ import { generateUniformDeclaration } from "./generation/uniforms";
 import { generateVaryings } from "./generation/varyings";
 import { generateFragmentEffect } from "./generation/fragment";
 import { generateVertexEffect } from "./generation/vertex";
-import { OperatorConfig, StructConfig } from "../schema";
+import { EffectConfig, OperatorConfig, StructConfig } from "../schema";
 import { generateConstants } from "./generation/constants";
 import { functionDeclarations } from "./generation/functions";
 import {
@@ -24,9 +24,11 @@ const DEBUG = true;
 export const generateShaders = (
   vertexEffectsConfigs: OperatorConfig[],
   fragmentEffectsConfigs: OperatorConfig[],
+  functionConfigs: EffectConfig[],
   parameterMap: ShaderParameterMap,
   structsConfigs: StructConfig[]
 ) => {
+  console.log(parameterMap);
   const attributes = generateAttributes(parameterMap);
   const uniformDeclaration = generateUniformDeclaration(parameterMap);
   const { structDeclaration, structInstantiation } =
@@ -35,7 +37,7 @@ export const generateShaders = (
     varyingDeclaration,
     varyingInstantiation,
     varyingFunctionDeclarations,
-  } = generateVaryings(parameterMap);
+  } = generateVaryings(parameterMap, functionConfigs);
   const {
     constantDeclaration,
     constantInstantiation,

@@ -12,9 +12,8 @@ export type UniformObject = {
 export type ShaderParameterMap = Map<string, ShaderParameter>;
 export type ShaderParameter = ParameterConfig & {
   shaderParameterId: string;
-  default?: boolean;
-  mappedParameterKey?: string;
 };
+
 export type ShaderTransformationConfig = ShaderTransformationSchema & {
   inputMap: ShaderParameterMap;
   functionName: string;

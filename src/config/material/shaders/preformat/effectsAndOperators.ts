@@ -1,4 +1,9 @@
-import { ShaderEffectConfig, OperatorConfig, OPERATOR_TYPES } from "../schema";
+import {
+  ShaderEffectConfig,
+  OperatorConfig,
+  OPERATOR_TYPES,
+  EffectConfig,
+} from "../schema";
 import { formatEffectsAndSchemas } from "./effect-transforms/effectsAndSchemas";
 
 const DEFAULT_EFFECT_FUNCTION_CONFIG = {
@@ -12,12 +17,11 @@ const DEFAULT_EFFECT_FUNCTION_CONFIG = {
 export const formatShaderEffects = (
   shaderEffectConfigs: ShaderEffectConfig[],
   operatorConfigs: OperatorConfig[],
+  functionConfigs: EffectConfig[],
   schemas: Record<string, Record<string, unknown>>
 ) => {
-  const { vertexEffects, fragmentEffects } = formatEffectsAndSchemas(
-    shaderEffectConfigs,
-    schemas
-  );
+  const { vertexEffects, fragmentEffects, functionConfigsWithSchemas } =
+    formatEffectsAndSchemas(shaderEffectConfigs, functionConfigs, schemas);
 
   const fragmentOperatorConfigs = operatorConfigs.filter((config) => {
     const { outputMapping } = config;
@@ -124,5 +128,6 @@ export const formatShaderEffects = (
   return {
     vertexEffects: vertexEffectFunctions,
     fragmentEffects: fragmentEffectFunctions,
+    functionConfigsWithSchemas,
   };
 };

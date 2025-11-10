@@ -13,10 +13,10 @@ export const generateShaderTransformData = (
   effect: ShaderEffectConfig,
   parameterMap: ShaderParameterMap
 ): TransformData | null => {
-  const { effectSchemas } = effect;
-  if (effectSchemas) {
+  const { transformSchema } = effect;
+  if (transformSchema) {
     const { transformationFunctions, transformation, outputConfigs } =
-      generateTransform(effectSchemas, effect, parameterMap);
+      generateTransform(transformSchema, effect, parameterMap);
     return {
       transformation,
       requiredFunctions: [...(transformationFunctions || [])],

@@ -10,9 +10,12 @@ export type OutputInputMapping = {
   itemId: string;
   nodeType: string;
   type?: string;
+  // Mainly used for graph re-mapping
+  parentId: string;
+  parentType: string;
 };
 
-export type FunctionConfig = {
+export type EffectConfig = {
   guid: string;
   name?: string;
   schemaId: string;
@@ -20,6 +23,7 @@ export type FunctionConfig = {
   inputMapping: Record<string, OutputInputMapping>;
   outputMapping: Record<string, OutputInputMapping>;
   transformSchema?: ShaderTransformationSchema[];
+  disabled?: boolean;
 };
 
 export type AttributeConfig = {
@@ -59,18 +63,11 @@ export type ParameterConfig = {
 
   // TODO - update this and remove function config
   isFunctionBased?: boolean;
-  functionConfig?: FunctionConfig;
+  functionConfig?: EffectConfig;
 };
 
-export interface ShaderEffectConfig {
-  guid: string;
-  name?: string;
-  schemaId: string;
+export interface ShaderEffectConfig extends EffectConfig {
   shaderType: string;
-  inputMapping: Record<string, OutputInputMapping>;
-  outputMapping: Record<string, OutputInputMapping>;
-  effectSchemas?: ShaderTransformationSchema[];
-  disabled?: boolean;
 }
 
 export type SplitValueEditorConfig = {

@@ -1,4 +1,5 @@
 import {
+  EffectConfig,
   ParameterConfig,
   SHADER_PROPERTY_TYPES,
   // SHADER_PROPERTY_VALUE_TYPES,
@@ -9,6 +10,7 @@ import {
 } from "../../../../schema";
 import { FUNCTION_TYPES } from "../../../consts";
 import {
+  ShaderParameter,
   // ShaderFunction,
   ShaderParameterMap,
   ShaderTransformationConfig,
@@ -154,6 +156,60 @@ export const transformationConfigFromFunctionParameter = (
     }
   );
 };
+
+export const getTransformConfigForFunctionMappedParameter = (
+  mappedParameter: ShaderParameter,
+  functionConfig: EffectConfig,
+  parameterMap: ShaderParameterMap
+) => {
+  const { inputMapping, schemaId, transformSchema } = functionConfig;
+  if (!inputMapping || !transformSchema) return null;
+  return transformSchema.flatMap(
+    ({ key, transformCode, outputConfig, isSubFunction, parameters }) => {
+      if (!transformCode) return [];
+
+      const functionParameters = getParametersFromInputMapping(
+        inputMapping,
+        parameterMap
+      );
+      const sortedInputIds = sortInputIds([
+        ...functionParameters.map((p) => p.key),
+      ]);
+      const sortedFunctionParameters = sortedInputIds.map((id) => {
+        return functionParameters.find((p) => p.key === id);
+      }) as ParameterConfig[];
+
+      const inputMap = new Map();
+      sortedFunctionParameters.forEach((parameter) => {
+        inputMap.set(parameter.key, parameter);
+      });
+
+      let newOutputConfig = outputConfig;
+      if (!isSubFunction && outputConfig.length === 1) {
+        newOutputConfig = [
+          {
+            ...outputConfig[0],
+            key: mappedParameter.shaderParameterId || "function",
+          },
+        ];
+      }
+
+      return {
+        key: schemaId || "function",
+        transformCode,
+        functionType: isSubFunction
+          ? FUNCTION_TYPES.STATIC
+          : FUNCTION_TYPES.CONFIGURED_STATIC,
+        functionName: key,
+        inputMap,
+        isSubFunction,
+        outputConfig: newOutputConfig,
+        parameters: parameters || [],
+      };
+    }
+  );
+};
+
 export const setupShaderTransformationConfigs = (
   transformConfigs: ShaderTransformationSchema[],
   shaderEffectConfig: ShaderEffectConfig,
@@ -185,6 +241,7 @@ export const setupShaderTransformationConfigs = (
       sortedInputIds,
       shaderEffectConfig
     );
+    console.log("inputMap", inputMap);
     return {
       ...config,
       transformCode: updatedTransformCode,

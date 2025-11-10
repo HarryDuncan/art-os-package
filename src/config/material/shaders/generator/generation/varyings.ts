@@ -1,4 +1,5 @@
 import {
+  EffectConfig,
   ParameterConfig,
   SHADER_PROPERTY_TYPES,
   SHADER_PROPERTY_VALUE_TYPES,
@@ -16,7 +17,10 @@ import { generateDeclaration } from "./helpers/generateDeclaration";
 import { getDefaultValueAsString } from "./helpers/shaderValues";
 import { transformsFromParameters } from "./transforms/transformsFromParameters";
 
-export const generateVaryings = (parameterMap: ShaderParameterMap) => {
+export const generateVaryings = (
+  parameterMap: ShaderParameterMap,
+  functionConfigs: EffectConfig[]
+) => {
   const varyingConfigs = Array.from(parameterMap.values()).filter(
     (parameter) => parameter.parameterType === SHADER_PROPERTY_TYPES.VARYING
   );
@@ -25,7 +29,8 @@ export const generateVaryings = (parameterMap: ShaderParameterMap) => {
   const instantiation = varyingInstantiation(varyingConfigs);
   const { functionInstantiations, varyingFunctions } = getFunctionVarying(
     varyingConfigs,
-    parameterMap
+    parameterMap,
+    functionConfigs
   );
   return {
     varyingDeclaration: declaration,
@@ -146,9 +151,10 @@ const getAttributeVaryingStrings = (config: ParameterConfig[]) =>
 
 const getFunctionVarying = (
   config: ParameterConfig[],
-  parameterMap: ShaderParameterMap
+  parameterMap: ShaderParameterMap,
+  functionConfigs: EffectConfig[]
 ) => {
   const { functionInstantiations, transformFunctions } =
-    transformsFromParameters(config, parameterMap);
+    transformsFromParameters(config, parameterMap, functionConfigs);
   return { functionInstantiations, varyingFunctions: transformFunctions };
 };

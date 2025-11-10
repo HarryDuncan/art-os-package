@@ -1,8 +1,4 @@
-import {
-  EffectConfig,
-  ParameterConfig,
-  ShaderEffectConfig,
-} from "../../../schema";
+import { EffectConfig, ShaderEffectConfig } from "../../../schema";
 import { getTransformConfigForFunctionMappedParameter } from "./formatting/transformConfig";
 import { functionInstantiation } from "../helpers/functionInstantiation";
 import {
@@ -12,8 +8,7 @@ import {
 } from "../../types";
 import { transformFunction } from "./formatting/transformFunction";
 
-export const transformsFromParameters = (
-  selectedParameters: ParameterConfig[],
+export const getTransformsMappedToParameters = (
   parameterMap: ShaderParameterMap,
   functionConfigs: EffectConfig[]
 ) => {
@@ -21,10 +16,7 @@ export const transformsFromParameters = (
     const { outputMapping, guid } = config;
     Object.keys(outputMapping).forEach((key) => {
       const parameter = parameterMap.get(key);
-      if (
-        parameter &&
-        selectedParameters.some((p) => p.guid === parameter.guid)
-      ) {
+      if (parameter) {
         acc[guid] = parameter;
       }
     });
@@ -52,13 +44,13 @@ export const transformsFromParameters = (
     [] as ShaderTransformationConfig[]
   );
 
-  console.log("transformConfigs", transformConfigs);
+  // TODO - fix up the way the ids are set - they are currently undefined because i'm setting a single guid
 
   const transformFunctions = transformFunction(transformConfigs, {
-    id: "effectId",
+    guid: "effectId",
   } as unknown as ShaderEffectConfig);
 
-  const functionInstantiations = transformFunctions.flatMap(
+  const transformInstantiations = transformFunctions.flatMap(
     ({ outputConfig, functionName, inputMap, isSubFunction }) => {
       return !isSubFunction
         ? functionInstantiation(
@@ -70,8 +62,6 @@ export const transformsFromParameters = (
         : [];
     }
   );
-  console.log("functionInstantiations", functionInstantiations);
-  console.log("transformFunctions", transformFunctions);
 
-  return { functionInstantiations, transformFunctions };
+  return { transformInstantiations, transformFunctions };
 };

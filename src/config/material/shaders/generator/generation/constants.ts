@@ -23,17 +23,17 @@ export const generateConstants = (
     }),
   ].join("\n");
 
-  const functionBasedConstants = constantParameters.filter(
-    (parameter) => parameter.isFunctionBased
-  );
-  const { functionInstantiations, transformFunctions } =
-    transformsFromParameters(functionBasedConstants, shaderParameterMap);
+  // const functionBasedConstants = constantParameters.filter(
+  //   (parameter) => parameter.isFunctionBased
+  // );
+  // const { functionInstantiations, transformFunctions } =
+  //   transformsFromParameters(functionBasedConstants, shaderParameterMap);
 
-  console.log("functionInstantiations", functionInstantiations);
-  console.log("transformFunctions", transformFunctions);
+  // console.log("functionInstantiations", functionInstantiations);
+  // console.log("transformFunctions", transformFunctions);
   return {
     constantDeclaration,
-    constantInstantiation: functionInstantiations,
-    constantFunctionDeclarations: transformFunctions,
+    constantInstantiation: [],
+    constantFunctionDeclarations: [],
   };
 };

@@ -6,15 +6,20 @@ import {
 import { DEFAULT_PARAMETER_KEYS, GLOBAL_PARAMETER_TYPES } from "../../consts";
 import { ShaderParameter, ShaderParameterMap } from "../../types";
 import { shaderValueTypeInstantiation } from "./shaderValues";
+import { isDefaultParameter } from "./parameterUtils";
 
 export const getParametersByKey = (
   parameterMap: ShaderParameterMap,
   keys: string[],
   inputMapping?: Record<string, OutputInputMapping>
 ) => {
+  //   const hast = keys.includes(SHADER_VARIABLE_TYPES.FRAGMENT_COLOR);
   const parameterArray = Array.from(parameterMap.entries());
   const parameters = parameterArray.flatMap(([key, parameter]) => {
     const [keyWithoutEffectId, parameterGuid] = key.split("_");
+    if (isDefaultParameter(keyWithoutEffectId)) {
+      return parameter;
+    }
 
     if (parameterGuid === "varying" && keys.includes(key)) {
       return parameter;
@@ -54,12 +59,11 @@ export const getShaderInputMap = (
   const shaderInputMap = new Map<string, ShaderParameter>();
   const { inputMapping, guid: effectId } = shaderEffectConfig;
   const parameters = getParametersByKey(parameterMap, inputIds, inputMapping);
+
   parameters.forEach((parameter) => {
     if (
       parameter.parameterType === SHADER_PROPERTY_TYPES.ATTRIBUTE ||
-      parameter.key === "uTime" ||
-      parameter.key === "fragColor" ||
-      parameter.key === "pointPosition"
+      parameter.key === "uTime"
     ) {
       shaderInputMap.set(parameter.key, parameter);
       return;
@@ -78,6 +82,7 @@ export const getShaderInputMap = (
       DEFAULT_PARAMETER_KEYS.includes(parameter.key) &&
       !parameter.guid
     ) {
+      console.log("setting default parameter", parameter.key);
       shaderInputMap.set(parameter.key, {
         ...parameter,
         shaderParameterId: `${parameter.key}_${effectId}`,
