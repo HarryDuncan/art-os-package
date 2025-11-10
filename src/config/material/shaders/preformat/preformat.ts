@@ -5,9 +5,8 @@ import {
   EffectConfig,
   ShaderTransformationSchema,
   StructConfig,
-  EffectConfig,
 } from "../schema/types";
-import { ShaderParameter, ShaderParameterMap } from "../generator/types";
+import { ShaderParameterMap } from "../generator/types";
 import { FRAGMENT_COLOR, TIME, VERTEX_POINT } from "../schema/parameters";
 import { SHADER_PROPERTY_TYPES, SHADER_TYPES, VARYING_TYPES } from "../schema";
 import { formatShaderEffects } from "./effectsAndOperators";
@@ -54,25 +53,11 @@ export const preformat = (
     ...effectParameters,
     ...functionBasedVaryings,
   ].reduce((acc, effectParameter) => {
-    const { key: parameterId, guid } = effectParameter;
-    if (
-      (effectParameter.parameterType === SHADER_PROPERTY_TYPES.UNIFORM &&
-        effectParameter.isDefault) ||
-      effectParameter.parameterType === SHADER_PROPERTY_TYPES.ATTRIBUTE ||
-      effectParameter.parameterType === SHADER_PROPERTY_TYPES.VARYING
-    ) {
-      acc.set(parameterId, {
-        ...effectParameter,
-        shaderParameterId: `${parameterId}`,
-      } as ShaderParameter);
-      return acc;
-      // TODO - I think I can get rid of this pattern - as now all keys are unique
-    } else {
-      acc.set(`${parameterId}_${guid}`, {
-        ...effectParameter,
-        shaderParameterId: `${parameterId}_${guid}`,
-      } as ShaderParameter);
-    }
+    const { key } = effectParameter;
+
+    acc.set(key, {
+      ...effectParameter,
+    } as ParameterConfig);
     return acc;
   }, new Map() as ShaderParameterMap);
 

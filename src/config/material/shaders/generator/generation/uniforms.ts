@@ -13,15 +13,14 @@ export const generateUniformDeclaration = (
     (parameter) => parameter.parameterType === SHADER_PROPERTY_TYPES.UNIFORM
   );
 
-  const customStrings = uniformConfigs.map(
-    ({ key, valueType, arrayLength, guid, isDefault }) =>
-      generateDeclaration(
-        SHADER_PROPERTY_TYPES.UNIFORM as keyof typeof SHADER_PROPERTY_TYPES,
-        valueType as keyof typeof SHADER_PROPERTY_VALUE_TYPES,
-        isDefault ? key : `${key}_${guid || ""}`,
-        { flat: false },
-        arrayLength
-      )
+  const customStrings = uniformConfigs.map(({ key, valueType, arrayLength }) =>
+    generateDeclaration(
+      SHADER_PROPERTY_TYPES.UNIFORM as keyof typeof SHADER_PROPERTY_TYPES,
+      valueType as keyof typeof SHADER_PROPERTY_VALUE_TYPES,
+      `${key}`,
+      { flat: false },
+      arrayLength
+    )
   );
 
   const uniformDeclaration = [UNIFORM_DECLARATION, ...customStrings].join(

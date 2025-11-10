@@ -35,20 +35,20 @@ export const getTransformCode = (
         //   }
 
         return match;
-      }
+      } else {
+        if (
+          parameter.parameterType === SHADER_PROPERTY_TYPES.ATTRIBUTE ||
+          parameter.parameterType === SHADER_PROPERTY_TYPES.VARYING ||
+          parameter.parameterType === SHADER_PROPERTY_TYPES.CONSTANT
+        ) {
+          return `${parameter.key}`;
+        }
 
-      if (
-        parameter.parameterType === SHADER_PROPERTY_TYPES.ATTRIBUTE ||
-        parameter.parameterType === SHADER_PROPERTY_TYPES.VARYING ||
-        parameter.parameterType === SHADER_PROPERTY_TYPES.CONSTANT
-      ) {
-        return `${parameter.shaderParameterId}`;
+        if (inputMap.has(key)) {
+          return `${parameter.key}_${guid}`;
+        }
+        return match;
       }
-
-      if (inputMap.has(key)) {
-        return `${parameter.key}_${guid}`;
-      }
-      return match;
     });
   });
 

@@ -32,10 +32,8 @@ export const getTransformInstantiation = (
             id as keyof typeof DEFAULT_SHADER_VARIABLE_KEYS
           ];
         }
-        const parameterKey =
-          parameter.shaderParameterId ?? `${id}_${shaderEffectId}`;
 
-        return parameterKey;
+        return parameter.key;
       }
       return [];
     }

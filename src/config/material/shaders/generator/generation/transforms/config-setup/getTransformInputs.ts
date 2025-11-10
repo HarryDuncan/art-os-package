@@ -1,7 +1,8 @@
-import { ShaderParameter, ShaderParameterMap } from "../../../types";
+import { ShaderParameterMap } from "../../../types";
 import {
   EffectConfig,
   OutputInputMapping,
+  ParameterConfig,
   SHADER_PROPERTY_TYPES,
   ShaderTransformationOutputConfig,
   ShaderTransformationParameterConfig,
@@ -29,13 +30,7 @@ export const getTransformInputs = (
   const { inputMapping, guid } = effectConfig;
   const inputKeys = Object.keys(inputMapping ?? {});
   const sortedInputKeys = sortInputKeys(inputKeys);
-  const inputParameterMap = getShaderInputMap(
-    parameterMap,
-    sortedInputKeys,
-    effectConfig
-  );
-  console.log(inputKeys);
-  console.log("inputParameterMap", inputParameterMap);
+  const inputParameterMap = getShaderInputMap(parameterMap, sortedInputKeys);
 
   const transformInputs = isSubFunction
     ? getSubFunctionInputs(parameters)
@@ -63,84 +58,29 @@ const sortInputKeys = (inputKeys: string[]) => {
 
 export const getParametersByKey = (
   parameterMap: ShaderParameterMap,
-  keys: string[],
-  inputMapping?: Record<string, OutputInputMapping>
+  keys: string[]
 ) => {
   const parameterArray = Array.from(parameterMap.entries());
   const parameters = parameterArray.flatMap(([key, parameter]) => {
-    const [keyWithoutEffectId, parameterGuid] = key.split("_");
-    if (
-      keys.includes(keyWithoutEffectId) &&
-      isDefaultParameter(keyWithoutEffectId)
-    ) {
-      return parameter;
-    }
-
-    if (
-      inputMapping?.[keyWithoutEffectId] &&
-      inputMapping?.[keyWithoutEffectId]?.itemId === parameterGuid &&
-      keys.includes(keyWithoutEffectId)
-    ) {
-      return parameter;
-    } else if (keys.includes(keyWithoutEffectId) && !parameterGuid) {
+    if (keys.includes(key)) {
       return parameter;
     }
     return [];
   });
-
-  const uniqueParameters = new Map<string, ShaderParameter>();
-  parameters.forEach((parameter) => {
-    const existingParameter = uniqueParameters.get(parameter.key);
-    if (existingParameter) {
-      const splitParameter = parameter.shaderParameterId.split("_");
-      if (splitParameter.length === 2) {
-        uniqueParameters.set(parameter.key, { ...parameter, isDefault: true });
-      }
-    } else {
-      uniqueParameters.set(parameter.key, parameter);
-    }
-  });
-  return Array.from(uniqueParameters.values());
+  return parameters;
 };
 
 export const getShaderInputMap = (
   parameterMap: ShaderParameterMap,
-  inputKeys: string[],
-  shaderEffectConfig: EffectConfig
+  inputKeys: string[]
 ) => {
-  const shaderInputMap = new Map<string, ShaderParameter>();
-  const { inputMapping, guid: effectId } = shaderEffectConfig;
-  const parameters = getParametersByKey(parameterMap, inputKeys, inputMapping);
+  const shaderInputMap = new Map<string, ParameterConfig>();
+
+  const parameters = getParametersByKey(parameterMap, inputKeys);
 
   parameters.forEach((parameter) => {
-    if (
-      parameter.parameterType === SHADER_PROPERTY_TYPES.ATTRIBUTE ||
-      parameter.key === "uTime"
-    ) {
-      shaderInputMap.set(parameter.key, parameter);
-      return;
-    }
-    if (parameter.parameterType === SHADER_PROPERTY_TYPES.VARYING) {
-      shaderInputMap.set(`${parameter.key.replace("_varying", "")}`, parameter);
-      return;
-    }
-
-    const itemId = inputMapping?.[parameter.key]?.itemId;
-
-    if (itemId === parameter.guid) {
-      shaderInputMap.set(`${parameter.key}`, parameter);
-      return;
-    } else if (
-      DEFAULT_PARAMETER_KEYS.includes(parameter.key) &&
-      !parameter.guid
-    ) {
-      console.log("setting default parameter", parameter.key);
-      shaderInputMap.set(parameter.key, {
-        ...parameter,
-        shaderParameterId: `${parameter.key}_${effectId}`,
-      });
-      return;
-    }
+    shaderInputMap.set(parameter.key, parameter);
+    return;
   });
   return shaderInputMap;
 };

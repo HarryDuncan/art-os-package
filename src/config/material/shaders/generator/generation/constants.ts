@@ -2,7 +2,6 @@ import { SHADER_PROPERTY_TYPES } from "../../schema";
 import { shaderValueTypeInstantiation } from "./helpers/shaderValues";
 import { valueToShader } from "./helpers/shaderValues";
 import { DefinedEffectFunction, ShaderParameterMap } from "../types";
-import { transformsFromParameters } from "./transforms/transformsFromParameters";
 
 export const generateConstants = (
   shaderParameterMap: ShaderParameterMap
@@ -16,10 +15,10 @@ export const generateConstants = (
   );
   const constantDeclaration = [
     "// CONSTANT DECLARATIONS",
-    ...constantParameters.map(({ shaderParameterId, valueType, value }) => {
+    ...constantParameters.map(({ key, valueType, value }) => {
       return `${shaderValueTypeInstantiation(
         valueType
-      )} ${shaderParameterId} = ${valueToShader(valueType, value ?? "")};`;
+      )} ${key} = ${valueToShader(valueType, value ?? "")};`;
     }),
   ].join("\n");
 

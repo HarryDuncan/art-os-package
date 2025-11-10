@@ -1,9 +1,5 @@
 import { EffectConfig, ParameterConfig } from "../../../schema";
-import {
-  ConfiguredTransform,
-  ShaderParameter,
-  ShaderParameterMap,
-} from "../../types";
+import { ConfiguredTransform, ShaderParameterMap } from "../../types";
 import { configureTransform } from "./config-setup/configureTransform";
 
 export const getTransformsMappedToParameters = (
@@ -23,7 +19,7 @@ export const getTransformsMappedToParameters = (
       }
     });
     return acc;
-  }, {} as Record<string, ShaderParameter>);
+  }, {} as Record<string, ParameterConfig>);
 
   const configuredTransforms: ConfiguredTransform[] = Object.entries(
     assignmentConfigs
@@ -32,13 +28,10 @@ export const getTransformsMappedToParameters = (
       (config) => config.guid === guid
     );
 
-    console.log("selectedEffect", selectedEffect);
-
     return selectedEffect
       ? configureTransform(selectedEffect, parameterMap)
       : [];
   });
-  console.log("configuredTransforms", configuredTransforms);
 
   return configuredTransforms;
 };

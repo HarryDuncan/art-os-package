@@ -1,7 +1,6 @@
 import { ExternalSchema } from "../../../types";
-import { EffectConfig, SHADER_TYPES, EffectConfig } from "../../schema";
+import { EffectConfig, SHADER_TYPES } from "../../schema";
 import { getShaderConfigsByType } from "../../utils";
-import { SHADER_SCHEMA_TYPES } from "../../schema/consts";
 
 export const formatEffectsAndSchemas = (
   shaderEffectConfigs: EffectConfig[],
@@ -9,13 +8,11 @@ export const formatEffectsAndSchemas = (
   externalSchemas: ExternalSchema
 ) => {
   const effectsWithSchemas = shaderEffectConfigs
-    .map((config) =>
-      mergeExternalSchema(config, config.shaderType, externalSchemas)
-    )
+    .map((config) => mergeExternalSchema(config, externalSchemas))
     .filter((config) => config !== null);
 
   const functionConfigsWithSchemas = functionConfigs.map((config) =>
-    mergeExternalSchema(config, SHADER_SCHEMA_TYPES.FUNCTION, externalSchemas)
+    mergeExternalSchema(config, externalSchemas)
   );
 
   const vertexEffects = getShaderConfigsByType(
@@ -36,18 +33,17 @@ export const formatEffectsAndSchemas = (
 };
 
 const mergeExternalSchema = (
-  config: EffectConfig | EffectConfig,
-  schemaType: string,
+  config: EffectConfig,
   externalSchemas: ExternalSchema
 ) => {
   const { schemaId } = config;
 
   const externalSchemaForEffect =
-    externalSchemas[schemaType as keyof ExternalSchema]?.[schemaId];
+    externalSchemas[config.type as keyof ExternalSchema]?.[schemaId];
 
   if (!externalSchemaForEffect) {
     console.warn(
-      `External schema not found for effect ${config.guid} ${schemaType} ${schemaId}`
+      `External schema not found for effect ${config.guid} ${config.type} ${schemaId}`
     );
     return null;
   }

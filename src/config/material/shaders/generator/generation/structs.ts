@@ -1,5 +1,4 @@
 import { StructConfig } from "../../schema";
-import { getDefaultValueAsString } from "./helpers/shaderValues";
 
 export const generateStructs = (structsConfigs: StructConfig[] = []) => {
   if (structsConfigs.length === 0) {

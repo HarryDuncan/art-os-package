@@ -29,7 +29,6 @@ export const generateShaders = (
   parameterMap: ShaderParameterMap,
   structsConfigs: StructConfig[]
 ) => {
-  console.log(parameterMap);
   const attributes = generateAttributes(parameterMap);
   const uniformDeclaration = generateUniformDeclaration(parameterMap);
   const { structDeclaration, structInstantiation } =
@@ -113,6 +112,7 @@ const formatVertexShader = (
   const vertexFunctionDeclarations = functionDeclarations(
     vertexTransformDefinitions
   );
+  console.log(vertexTransformations);
   return [
     structDeclaration,
     attributes,

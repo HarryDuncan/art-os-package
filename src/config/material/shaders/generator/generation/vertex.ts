@@ -32,11 +32,13 @@ const getVertexTransformations = (
       effects?.map((effect) => {
         return configureTransform(effect, parameterMap);
       }) || [];
+    console.log("configuredTransforms", configuredTransforms);
     const transformData = applyEffectWrapper(
       operator,
       configuredTransforms,
       parameterMap
     );
+    console.log("transformData", transformData);
     if (transformData) {
       unmergedTransformations.push(...transformData.transformAssignments);
       allTransformDefinitions.push(...transformData.transformDefinitions);
@@ -44,6 +46,7 @@ const getVertexTransformations = (
   });
 
   const transformations = unmergedTransformations.join("");
+  console.log("transformations", transformations);
   return {
     transformations,
     transformDefinitions: allTransformDefinitions,

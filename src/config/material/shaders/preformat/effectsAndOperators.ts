@@ -1,9 +1,4 @@
-import {
-  EffectConfig,
-  OperatorConfig,
-  OPERATOR_TYPES,
-  EffectConfig,
-} from "../schema";
+import { EffectConfig, OperatorConfig, OPERATOR_TYPES } from "../schema";
 import { formatEffectsAndSchemas } from "./effect-transforms/effectsAndSchemas";
 
 const DEFAULT_EFFECT_FUNCTION_CONFIG = {
