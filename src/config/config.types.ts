@@ -4,7 +4,6 @@ import { InteractionConfig } from "../interaction/types";
 import { Asset } from "../assets/types";
 import { GeometryConfig } from "../assets/geometry/geometry.types";
 import { CameraConfig } from "./three-js/use-camera/camera.types";
-import { MESH_TRANSFORM_TYPES } from "./material/shaders/schema";
 import { ScreenType } from "../compat/window-state/types";
 import {
   Object3D,
@@ -116,7 +115,6 @@ export type ScenePropertiesConfig = {
   backgroundUrl?: string;
   position?: string;
 };
-export type MeshTransformType = keyof typeof MESH_TRANSFORM_TYPES;
 
 export type TransformValueConfig = {
   value: unknown;
@@ -127,7 +125,6 @@ export type TransformValueConfig = {
 export type MeshTransformConfig = {
   id: string;
   guid: string;
-  type: MeshTransformType;
   transformedMeshIds: string[];
   materialId?: string;
   transformParameterConfigs?: ParameterConfig[];

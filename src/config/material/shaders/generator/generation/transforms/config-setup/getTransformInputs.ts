@@ -1,17 +1,12 @@
 import { ShaderParameterMap } from "../../../types";
 import {
   EffectConfig,
-  OutputInputMapping,
   ParameterConfig,
-  SHADER_PROPERTY_TYPES,
   ShaderTransformationOutputConfig,
   ShaderTransformationParameterConfig,
   ShaderTransformationSchema,
 } from "../../../../schema";
-import {
-  DEFAULT_PARAMETER_KEYS,
-  GLOBAL_PARAMETER_TYPES,
-} from "../../../consts";
+import { GLOBAL_PARAMETER_TYPES } from "../../../consts";
 import { isDefaultParameter } from "../../helpers/parameterUtils";
 import { shaderValueTypeInstantiation } from "../../helpers/shaderValues";
 import { isStruct } from "../../../../utils";
@@ -30,6 +25,8 @@ export const getTransformInputs = (
   const { inputMapping, guid } = effectConfig;
   const inputKeys = Object.keys(inputMapping ?? {});
   const sortedInputKeys = sortInputKeys(inputKeys);
+  console.log("inputKeys", inputKeys);
+  console.log("sortedInputKeys", sortedInputKeys);
   const inputParameterMap = getShaderInputMap(parameterMap, sortedInputKeys);
 
   const transformInputs = isSubFunction
@@ -47,10 +44,10 @@ export const getTransformInputs = (
 const sortInputKeys = (inputKeys: string[]) => {
   const allInputKeys = Array.from(new Set([...inputKeys]));
   const defaultInputKeys = allInputKeys
-    .filter((key) => DEFAULT_PARAMETER_KEYS.includes(key))
+    .filter((key) => isDefaultParameter(key))
     .sort((a, b) => a.localeCompare(b));
   const nonDefaultInputKeys = allInputKeys
-    .filter((key) => !DEFAULT_PARAMETER_KEYS.includes(key))
+    .filter((key) => !isDefaultParameter(key))
     .sort((a, b) => a.localeCompare(b));
   const sortedInputKeys = [...defaultInputKeys, ...nonDefaultInputKeys];
   return sortedInputKeys;

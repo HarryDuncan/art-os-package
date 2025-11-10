@@ -12,17 +12,17 @@ export const FRAGMENT_EFFECTS = {
   HALFTONE: "HALFTONE",
 };
 
-const DEFAULT_FRAGMENT_EFFECT = {
-  functions: [],
-  meshTransformIds: [],
-  parameters: [],
-  transformSchema: [],
-  assignedVariableId: "fragColor",
-};
+// const DEFAULT_FRAGMENT_EFFECT = {
+//   functions: [],
+//   meshTransformIds: [],
+//   parameters: [],
+//   transformSchema: [],
+//   assignedVariableId: "fragColor",
+// };
 export const FRAGMENT_SCHEMA_MAP = {
   // [FRAGMENT_EFFECTS.POINT_LIGHT]: POINT_LIGHT,
   // [FRAGMENT_EFFECTS.DIRECTIONAL_LIGHT]: DIRECTIONAL_LIGHT,
   // [FRAGMENT_EFFECTS.AMBIENT_LIGHT]: AMBIENT_LIGHT,
   // [FRAGMENT_EFFECTS.HALFTONE]: HALFTONE,
-  DEFAULT: DEFAULT_FRAGMENT_EFFECT,
+  // DEFAULT: DEFAULT_FRAGMENT_EFFECT,
 };

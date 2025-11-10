@@ -4,7 +4,6 @@ import {
   SHADER_PROPERTY_VALUE_TYPES,
   VARYING_TYPES,
 } from "./consts";
-import { MESH_TRANSFORM_TYPES } from "./mesh-transforms";
 
 export type OutputInputMapping = {
   itemId: string;
@@ -89,7 +88,7 @@ export type OperatorConfig = {
   inputMapping: Record<string, OutputInputMapping>;
   inputMapSchema?: Record<string, string> | null;
   outputMapSchema?: Record<string, string> | null;
-  effects?: ShaderEffectConfig[];
+  effects?: EffectConfig[];
   disabled?: boolean;
 };
 
@@ -112,7 +111,6 @@ export type ShaderTransformationSchema = {
 export type MeshTransformSchema = {
   key: string;
   guid: string;
-  type: keyof typeof MESH_TRANSFORM_TYPES;
   parameters: ParameterConfig[];
   transformedMeshIds: string[];
   materialId: string;

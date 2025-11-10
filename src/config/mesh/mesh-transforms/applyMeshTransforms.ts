@@ -1,7 +1,5 @@
-import { BufferAttribute, Vector2 } from "three";
-import { MeshTransformConfig, TransformValueConfig } from "../../config.types";
+import { MeshTransformConfig } from "../../config.types";
 import { FormattedGeometry } from "../../../assets/geometry/geometry.types";
-import { MESH_TRANSFORM_TYPES } from "../../material/shaders/schema";
 import { formatMeshTransforms } from "./formatMeshTransforms";
 import { Asset } from "../../../assets/types";
 import { setAttributes } from "./setAttributes";
@@ -15,104 +13,17 @@ export const applyMeshTransforms = (
 
   const formattedMeshTransforms = formatMeshTransforms(meshTransforms, assets);
 
-  formattedMeshTransforms.forEach(({ type, values, transformedMeshIds }) => {
+  formattedMeshTransforms.forEach(({ values, transformedMeshIds }) => {
     const transformedMeshes = getTransformedMeshes(
       formattedGeometries,
       transformedMeshIds
     );
     if (transformedMeshes.length) {
-      switch (type) {
-        case MESH_TRANSFORM_TYPES.SINGLE_PARAMETERS:
-        case MESH_TRANSFORM_TYPES.CUSTOM_ATTRIBUTES: {
-          return transformedMeshes.map((formattedGeometry) => {
-            const { geometry } = formattedGeometry;
-            const setAttributeGeometry = setAttributes(geometry, values ?? {});
-            return { ...formattedGeometry, geometry: setAttributeGeometry };
-          });
-        }
-        case MESH_TRANSFORM_TYPES.SET_UP_PLANE:
-        case MESH_TRANSFORM_TYPES.SET_UP_QUAD: {
-          const attributesSet = transformedMeshes.map((formattedGeometry) => {
-            const { geometry } = formattedGeometry;
-
-            const quadDimensions = values[
-              "quadDimensions" as keyof typeof values
-            ] as TransformValueConfig;
-            if (quadDimensions) {
-              let x: number, y: number;
-              if (Array.isArray(quadDimensions.value)) {
-                [x, y] = quadDimensions.value;
-              } else if (
-                quadDimensions.value &&
-                typeof quadDimensions.value === "object" &&
-                "x" in quadDimensions.value &&
-                "y" in quadDimensions.value
-              ) {
-                x = (quadDimensions.value as Vector2).x;
-                y = (quadDimensions.value as Vector2).y;
-              } else {
-                throw new Error(
-                  "quadDimensions.value must be a Vector2 or [x, y] array"
-                );
-              }
-              const width = x;
-              const height = y;
-              if (width && height) {
-                const vertexesNumber = Number(width) * Number(height);
-                const indices = new Uint16Array(vertexesNumber);
-                const offsets = new Float32Array(vertexesNumber * 3);
-                const normals = new Float32Array(vertexesNumber * 3);
-
-                for (let i = 0; i < vertexesNumber; i++) {
-                  const x = i % Number(width);
-                  const y = Math.floor(i / Number(width));
-
-                  // Set vertex positions directly
-                  offsets[i * 3 + 0] = x; // x coordinate
-                  offsets[i * 3 + 1] = y; // y coordinate
-                  offsets[i * 3 + 2] = 0; // z: flat plane
-
-                  indices[i] = i;
-
-                  // Set normals pointing up
-                  normals[i * 3 + 0] = 0; // nx
-                  normals[i * 3 + 1] = 0; // ny
-                  normals[i * 3 + 2] = 1; // nz
-                }
-
-                const positions = new BufferAttribute(offsets, 3);
-                const pointOffset = new BufferAttribute(offsets, 3);
-                const indexes = new BufferAttribute(indices, 1);
-                const normalAttributes = new BufferAttribute(normals, 3);
-
-                geometry.setAttribute("position", positions);
-                geometry.setAttribute("pointIndex", indexes);
-                geometry.setAttribute("normal", normalAttributes);
-                geometry.setAttribute("pointOffset", pointOffset);
-                geometry.setIndex(null);
-
-                return {
-                  ...formattedGeometry,
-                  geometry,
-                };
-              } else {
-                console.warn("No width and height configured");
-              }
-            }
-            return geometry;
-          });
-
-          return attributesSet;
-        }
-        // case MESH_TRANSFORM_MODEL_VERTEX:
-        //   return transformedMeshes.map((formattedGeometry) => {
-        //     const { geometry } = formattedGeometry;
-        //   });
-        // case MESH_TRANSFORM_TYPES.DEFAULT:
-        default: {
-          return formattedGeometries;
-        }
-      }
+      return transformedMeshes.map((formattedGeometry) => {
+        const { geometry } = formattedGeometry;
+        const setAttributeGeometry = setAttributes(geometry, values ?? {});
+        return { ...formattedGeometry, geometry: setAttributeGeometry };
+      });
     } else {
       console.warn(
         `No transformed meshes - check transform config ${transformedMeshIds}`

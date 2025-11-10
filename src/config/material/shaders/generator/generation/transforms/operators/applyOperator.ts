@@ -1,16 +1,31 @@
 import { OperatorConfig } from "../../../../schema";
 import { ShaderParameterMap, ConfiguredTransform } from "../../../types";
-import { andFunctionTransform } from "./andFunction";
-import { splitValueTransform } from "./splitValueTransform";
+// import { andFunctionTransform } from "./andFunction";
+// import { splitValueTransform } from "./splitValueTransform";
 import { OPERATOR_TYPES } from "../../../../schema/operators";
 
 export const applyEffectWrapper = (
   effectFunctionConfig: OperatorConfig,
   effectTransforms: ConfiguredTransform[],
-  parameterMap: ShaderParameterMap
+  _parameterMap: ShaderParameterMap
 ): ConfiguredTransform | null => {
   const { schemaId } = effectFunctionConfig;
   switch (schemaId) {
+    case OPERATOR_TYPES.SPLIT_VALUE:
+      // return splitValueTransform(
+      //   effectTransforms,
+      //   effectFunctionConfig,
+      //   parameterMap
+      // );
+      return null;
+    case OPERATOR_TYPES.AND:
+      // return andFunctionTransform(
+      //   effectTransforms,
+      //   effectFunctionConfig,
+      //   parameterMap
+      // );
+      return null;
+    default:
     case OPERATOR_TYPES.DEFAULT:
       return {
         outputConfigs: effectTransforms.flatMap(
@@ -23,19 +38,5 @@ export const applyEffectWrapper = (
           (transform) => transform.transformDefinitions
         ),
       };
-    case OPERATOR_TYPES.SPLIT_VALUE:
-      return splitValueTransform(
-        effectTransforms,
-        effectFunctionConfig,
-        parameterMap
-      );
-    case OPERATOR_TYPES.AND:
-      return andFunctionTransform(
-        effectTransforms,
-        effectFunctionConfig,
-        parameterMap
-      );
-    default:
-      return null;
   }
 };

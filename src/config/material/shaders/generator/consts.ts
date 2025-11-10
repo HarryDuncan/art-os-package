@@ -11,12 +11,6 @@ export const FUNCTION_TYPES = {
   STATIC: "STATIC",
 };
 
-export const SHADER_VARIABLE_ASSIGNMENT_KEYS = {
-  VERTEX_POINT: "pointPosition",
-  FRAGMENT_COLOR: "fragColor",
-  LIGHT: "light",
-};
-
 // Shader Code Constants
 export const MAIN_START = `void main() { `;
 export const MAIN_END = "}";
@@ -26,13 +20,9 @@ export const V_ATTRIBUTE_INSTANTIATION = "// ATTRIBUTE AS VARYING";
 export const V_CUSTOM_INSTANTIATION = "// CUSTOM VARYING";
 export const UNIFORM_DECLARATION = "// UNIFORM DECLARATION";
 
-export const VERTEX_POINT_NAME = "currentVertexPoint";
-export const VERTEX_NORMAL_NAME = "currentVertexNormal";
-export const VERTEX_POINT_INSTANTIATION = `vec4 ${VERTEX_POINT_NAME} = vec4(position.xyz, 1.0);`;
-export const VERTEX_NORMAL_INSTANTIATION = `vec4 ${VERTEX_NORMAL_NAME} = vec4(normal.xyz, 0.0);`;
-
-export const FRAG_COLOR_NAME = "currentFragColor";
-export const FRAG_COLOR_INSTANTIATION = `vec4 ${FRAG_COLOR_NAME} = vec4(1.0,0,0,1.0); vec3 light = vec3(0.0); vec4 post_effect = vec4(0.0);`;
+export const VERTEX_POINT_INSTANTIATION = `vec4 ${SHADER_VARIABLE_TYPES.VERTEX_POINT} = vec4(position.xyz, 1.0);`;
+export const VERTEX_NORMAL_INSTANTIATION = `vec4 ${SHADER_VARIABLE_TYPES.NORMAL} = vec4(normal.xyz, 0.0);`;
+export const FRAG_COLOR_INSTANTIATION = `vec4 ${SHADER_VARIABLE_TYPES.FRAGMENT_COLOR} = vec4(1.0,0,0,1.0); vec3 light = vec3(0.0); vec4 post_effect = vec4(0.0);`;
 
 export const getAssignedVariableName = (
   assignedVariableId: string | undefined
@@ -41,18 +31,12 @@ export const getAssignedVariableName = (
     return null;
   }
   switch (assignedVariableId) {
-    case SHADER_VARIABLE_TYPES.VERTEX_POINT:
-      return VERTEX_POINT_NAME;
     case SHADER_VARIABLE_TYPES.GL_POINT_SIZE:
       return "gl_PointSize";
-    case SHADER_VARIABLE_TYPES.FRAGMENT_COLOR:
-      return FRAG_COLOR_NAME;
     case SHADER_VARIABLE_TYPES.DISCARD_COLOR:
       return "discardColor";
     case SHADER_VARIABLE_TYPES.LIGHT:
       return "light";
-    case SHADER_VARIABLE_TYPES.NORMAL:
-      return VERTEX_NORMAL_NAME;
     default:
       return assignedVariableId;
   }
@@ -73,10 +57,7 @@ export const ADVANCED_SHADER_VARIABLE_EFFECT_CODE = {
 };
 
 export const DEFAULT_SHADER_VARIABLE_KEYS = {
-  pointPosition: VERTEX_POINT_NAME,
-  fragColor: FRAG_COLOR_NAME,
   POSITION: "vec4(position.xyz, 1.0)",
-  normal: VERTEX_NORMAL_NAME,
 };
 
 export const ROOT_FUNCTION_TYPES = [
@@ -85,23 +66,11 @@ export const ROOT_FUNCTION_TYPES = [
 ];
 
 export const DEFAULT_PARAMETER_KEY_MAP = {
-  [SHADER_VARIABLE_ASSIGNMENT_KEYS.VERTEX_POINT]: VERTEX_POINT_NAME,
-  [SHADER_VARIABLE_ASSIGNMENT_KEYS.FRAGMENT_COLOR]: FRAG_COLOR_NAME,
   [SHADER_VARIABLE_TYPES.POSITION]: "vec4(position.xyz, 1.0)",
-  [SHADER_VARIABLE_TYPES.NORMAL]: VERTEX_NORMAL_NAME,
+
   // [SHADER_VARIABLE_ASSIGNMENT_KEYS.DISCARD_COLOR]: DISCARD_COLOR_EFFECT_CODE,
   // [SHADER_VARIABLE_ASSIGNMENT_KEYS.GL_POINT_SIZE]: "gl_PointSize",
 };
-
-export const DEFAULT_PARAMETER_KEYS = [
-  SHADER_VARIABLE_ASSIGNMENT_KEYS.VERTEX_POINT,
-  SHADER_VARIABLE_ASSIGNMENT_KEYS.FRAGMENT_COLOR,
-  SHADER_VARIABLE_TYPES.POSITION,
-  SHADER_VARIABLE_TYPES.NORMAL,
-  SHADER_VARIABLE_TYPES.FRAGMENT_COLOR,
-  SHADER_VARIABLE_TYPES.VERTEX_POINT,
-  "uTime",
-];
 
 export const ROOT_ASSIGNED_VARIABLES = [
   SHADER_VARIABLE_TYPES.GL_POINT_SIZE,
@@ -114,12 +83,9 @@ export const GLOBAL_PARAMETER_TYPES = [
 ];
 
 export const SHADER_VARIABLE_NAME_MAPS = {
-  [SHADER_VARIABLE_TYPES.VERTEX_POINT]: VERTEX_POINT_NAME,
   [SHADER_VARIABLE_TYPES.GL_POINT_SIZE]: "gl_PointSize",
-  [SHADER_VARIABLE_TYPES.FRAGMENT_COLOR]: FRAG_COLOR_NAME,
   [SHADER_VARIABLE_TYPES.DISCARD_COLOR]: "discardColor",
   [SHADER_VARIABLE_TYPES.LIGHT]: "light",
-  [SHADER_VARIABLE_TYPES.NORMAL]: VERTEX_NORMAL_NAME,
   [SHADER_VARIABLE_TYPES.POST_EFFECT]: "postEffect",
   [SHADER_VARIABLE_TYPES.POSITION]: "position",
 };

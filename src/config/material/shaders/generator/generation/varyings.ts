@@ -3,14 +3,13 @@ import {
   ParameterConfig,
   SHADER_PROPERTY_TYPES,
   SHADER_PROPERTY_VALUE_TYPES,
+  SHADER_VARIABLE_TYPES,
   VARYING_TYPES,
 } from "../../schema";
 import {
   V_CUSTOM_INSTANTIATION,
   V_DEFAULT_INSTANTIATION,
   V_DECLARATION,
-  VERTEX_NORMAL_NAME,
-  VERTEX_POINT_NAME,
 } from "../consts";
 import { ShaderParameterMap } from "../types";
 import { generateDeclaration } from "./helpers/generateDeclaration";
@@ -83,16 +82,16 @@ const getDefaultVaryingString = (config: ParameterConfig[]) => {
         strings.push("vUv = uv;");
         break;
       case "vPosition":
-        strings.push(`vPosition = ${VERTEX_POINT_NAME};`);
+        strings.push(`vPosition = ${SHADER_VARIABLE_TYPES.VERTEX_POINT};`);
         break;
       case "vNormal":
         strings.push(
-          `vNormal = normalMatrix *  vec3(${VERTEX_NORMAL_NAME}).xyz;`
+          `vNormal = normalMatrix *  vec3(${SHADER_VARIABLE_TYPES.NORMAL}).xyz;`
         );
         break;
       case "vViewDirection":
         strings.push(
-          `vec4 viewPos = modelViewMatrix * vec4(${VERTEX_POINT_NAME}.xyz, 1.0);`
+          `vec4 viewPos = modelViewMatrix * vec4(${SHADER_VARIABLE_TYPES.VERTEX_POINT}.xyz, 1.0);`
         );
         strings.push(`vViewDirection = normalize(-viewPos.xyz);`);
         break;
@@ -112,7 +111,7 @@ const getDefaultVaryingString = (config: ParameterConfig[]) => {
       //   break;
       case "vCamera":
         strings.push(
-          `vCamera = normalize(vec3(modelViewMatrix * vec4(${VERTEX_POINT_NAME}.xyz, 1.0)));`
+          `vCamera = normalize(vec3(modelViewMatrix * vec4(${SHADER_VARIABLE_TYPES.VERTEX_POINT}.xyz, 1.0)));`
         );
         break;
       default:

@@ -4,6 +4,4 @@ export * from "./vertex";
 export * from "./fragment";
 export * from "./operators";
 export * from "./parameters";
-export * from "./functions";
 export * from "./schema";
-export * from "./mesh-transforms";

@@ -5,7 +5,6 @@ import {
   ParameterConfig,
   OperatorConfig,
   ShaderTransformationSchema,
-  EffectConfig,
 } from "./shaders/schema";
 import { ENV_MAP_TYPES, MATERIAL_TYPES } from "./schema";
 

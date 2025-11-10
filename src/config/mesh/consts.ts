@@ -17,3 +17,9 @@ export const MESH_TYPES = {
   POINTS: "POINTS",
   NONE: "NONE",
 };
+
+export const MESH_TRANSFORM_TYPES = {
+  SET_UP_QUAD: "SET_UP_QUAD",
+  MORPH: "MORPH",
+  CUSTOM_ATTRIBUTES: "CUSTOM_ATTRIBUTES",
+};

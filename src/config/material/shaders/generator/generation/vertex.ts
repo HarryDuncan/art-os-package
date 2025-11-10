@@ -1,5 +1,4 @@
-import { OperatorConfig } from "../../schema";
-import { VERTEX_POINT_NAME } from "../consts";
+import { OperatorConfig, SHADER_VARIABLE_TYPES } from "../../schema";
 import { ShaderParameterMap, TransformDefinition } from "../types";
 import { configureTransform } from "./transforms/config-setup/configureTransform";
 import { applyEffectWrapper } from "./transforms/operators/applyOperator";
@@ -12,7 +11,7 @@ export const generateVertexEffect = (
     vertexEffectFunctions,
     parameterMap
   );
-  const viewMatrix = `gl_Position = projectionMatrix * modelViewMatrix * vec4(${VERTEX_POINT_NAME}.xyz, 1.0);`;
+  const viewMatrix = `gl_Position = projectionMatrix * modelViewMatrix * vec4(${SHADER_VARIABLE_TYPES.VERTEX_POINT}.xyz, 1.0);`;
   return {
     transformations,
     transformDefinitions,
@@ -32,13 +31,13 @@ const getVertexTransformations = (
       effects?.map((effect) => {
         return configureTransform(effect, parameterMap);
       }) || [];
-    console.log("configuredTransforms", configuredTransforms);
+
     const transformData = applyEffectWrapper(
       operator,
       configuredTransforms,
       parameterMap
     );
-    console.log("transformData", transformData);
+
     if (transformData) {
       unmergedTransformations.push(...transformData.transformAssignments);
       allTransformDefinitions.push(...transformData.transformDefinitions);
@@ -46,7 +45,7 @@ const getVertexTransformations = (
   });
 
   const transformations = unmergedTransformations.join("");
-  console.log("transformations", transformations);
+
   return {
     transformations,
     transformDefinitions: allTransformDefinitions,

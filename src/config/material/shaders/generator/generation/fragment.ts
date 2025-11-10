@@ -3,7 +3,6 @@ import {
   SHADER_VARIABLE_TYPES,
   ShaderTransformationOutputConfig,
 } from "../../schema";
-import { FRAG_COLOR_NAME } from "../consts";
 import { ShaderParameterMap, TransformDefinition } from "../types";
 import { configureTransform } from "./transforms/config-setup/configureTransform";
 import { applyEffectWrapper } from "./transforms/operators/applyOperator";
@@ -12,6 +11,7 @@ export const generateFragmentEffect = (
   fragmentEffectFunctions: OperatorConfig[],
   parameterMap: ShaderParameterMap
 ) => {
+  console.log(parameterMap);
   const { unmergedTransformAssignments, transformDefinitions, outputConfigs } =
     getFragmentColors(fragmentEffectFunctions, parameterMap);
 
@@ -19,7 +19,7 @@ export const generateFragmentEffect = (
     outputConfigs.some((config) => config.key === SHADER_VARIABLE_TYPES.LIGHT)
   ) {
     unmergedTransformAssignments.push(
-      `${FRAG_COLOR_NAME} = ${FRAG_COLOR_NAME} * vec4(light, 1.0);`
+      `${SHADER_VARIABLE_TYPES.FRAGMENT_COLOR} = ${SHADER_VARIABLE_TYPES.FRAGMENT_COLOR} * vec4(light, 1.0);`
     );
   }
 
@@ -37,7 +37,7 @@ export const generateFragmentEffect = (
 
   const postEffectAssignment =
     postEffects.length > 0
-      ? `${FRAG_COLOR_NAME} = vec4(post_effect.rgb, 1.0);`
+      ? `${SHADER_VARIABLE_TYPES.FRAGMENT_COLOR} = vec4(post_effect.rgb, 1.0);`
       : "";
 
   const { discardColorInstantiation, discardColorAssignment } = getDiscardColor(
@@ -51,7 +51,7 @@ export const generateFragmentEffect = (
     ...postEffects,
     postEffectAssignment,
   ].join("\n");
-  const fragColor = `gl_FragColor = ${FRAG_COLOR_NAME};`;
+  const fragColor = `gl_FragColor = ${SHADER_VARIABLE_TYPES.FRAGMENT_COLOR};`;
   return {
     fragColor,
     transformations,

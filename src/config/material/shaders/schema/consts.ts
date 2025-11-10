@@ -59,14 +59,14 @@ export const VARYING_TYPES = {
 };
 
 export const SHADER_VARIABLE_TYPES = {
-  VERTEX_POINT: "vertex_point",
-  FRAGMENT_COLOR: "fragment_color",
-  DISCARD_COLOR: "discard_color",
-  GL_POINT_SIZE: "point_size",
+  VERTEX_POINT: "vertexPoint",
+  FRAGMENT_COLOR: "fragmentColor",
+  DISCARD_COLOR: "discardColor",
+  GL_POINT_SIZE: "pointSize",
   POSITION: "position",
   NORMAL: "normal",
   LIGHT: "light",
-  POST_EFFECT: "post_effect",
+  POST_EFFECT: "postEffect",
   VARIABLE: "variable",
 };
 
@@ -82,8 +82,6 @@ export const SHADER_TYPES = {
 };
 
 export const SHADER_VARIABLE_ASSIGNMENT_KEYS = {
-  VERTEX_POINT: "pointPosition",
-  FRAGMENT_COLOR: "fragColor",
   LIGHT: "light",
   NORMAL: "normal",
   POST_EFFECT: "postEffect",
