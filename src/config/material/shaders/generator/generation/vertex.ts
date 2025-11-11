@@ -1,17 +1,25 @@
-import { OperatorConfig, SHADER_VARIABLE_TYPES } from "../../schema";
+import {
+  OperatorConfig,
+  SHADER_TYPES,
+  SHADER_VARIABLE_TYPES,
+} from "../../schema";
 import { ShaderParameterMap, TransformDefinition } from "../types";
 import { configureTransform } from "./transforms/config-setup/configureTransform";
 import { applyEffectWrapper } from "./transforms/operators/applyOperator";
 
 export const generateVertexEffect = (
-  vertexEffectFunctions: OperatorConfig[],
+  operatorConfigs: OperatorConfig[],
   parameterMap: ShaderParameterMap
 ) => {
+  const vertexOperatorConfigs = operatorConfigs.filter(
+    (config) => config.type === SHADER_TYPES.VERTEX
+  );
   const { transformations, transformDefinitions } = getVertexTransformations(
-    vertexEffectFunctions,
+    vertexOperatorConfigs,
     parameterMap
   );
   const viewMatrix = `gl_Position = projectionMatrix * modelViewMatrix * vec4(${SHADER_VARIABLE_TYPES.VERTEX_POINT}.xyz, 1.0);`;
+
   return {
     transformations,
     transformDefinitions,

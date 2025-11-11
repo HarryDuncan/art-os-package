@@ -56,7 +56,7 @@ export const splitValueTransform = (
         (transform) => transform.transformAssignments
       )
     );
-    if (!next) {
+    {
       transformAssignment.push("}");
     }
   });

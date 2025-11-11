@@ -10,7 +10,7 @@ import {
 } from "./schema/types";
 
 export const getShaderConfigsByType = (
-  shaderEffectConfigs: EffectConfig[],
+  shaderEffectConfigs: (EffectConfig | OperatorConfig)[],
   shaderType: string
 ) => {
   return shaderEffectConfigs.filter(

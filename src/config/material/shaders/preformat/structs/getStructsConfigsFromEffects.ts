@@ -1,43 +1,22 @@
 import {
-  OperatorConfig,
+  EffectConfig,
   SHADER_PROPERTY_VALUE_TYPES,
   ShaderTransformationOutputConfig,
   StructConfig,
 } from "../../schema";
 
 export const getStructsConfigsFromEffects = (
-  vertexEffects: OperatorConfig[],
-  fragmentEffects: OperatorConfig[]
+  effectsWithSchemas: EffectConfig[]
 ): StructConfig[] => {
-  const structsConfigs = vertexEffects.flatMap(
-    ({ effects }) =>
-      effects?.flatMap(
-        ({ transformSchema }) =>
-          transformSchema?.flatMap((schema) => {
-            return schema.outputConfig.length > 1
-              ? getStructConfigFromOutputConfig(
-                  schema.key,
-                  schema?.outputConfig
-                )
-              : [];
-          }) || []
-      ) || []
+  const structsConfigs = effectsWithSchemas.flatMap(
+    ({ transformSchema }) =>
+      transformSchema?.flatMap((schema) => {
+        return schema.outputConfig.length > 1
+          ? getStructConfigFromOutputConfig(schema.key, schema?.outputConfig)
+          : [];
+      }) || []
   );
-  const fragmentStructsConfigs = fragmentEffects.flatMap(
-    ({ effects }) =>
-      effects?.flatMap(
-        ({ transformSchema }) =>
-          transformSchema?.flatMap((schema) => {
-            return schema.outputConfig.length > 1
-              ? getStructConfigFromOutputConfig(
-                  schema.key,
-                  schema?.outputConfig
-                )
-              : [];
-          }) || []
-      ) || []
-  );
-  return [...structsConfigs, ...fragmentStructsConfigs];
+  return structsConfigs;
 };
 
 const getStructConfigFromOutputConfig = (

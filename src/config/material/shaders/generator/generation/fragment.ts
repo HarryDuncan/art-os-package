@@ -1,5 +1,6 @@
 import {
   OperatorConfig,
+  SHADER_TYPES,
   SHADER_VARIABLE_TYPES,
   ShaderTransformationOutputConfig,
 } from "../../schema";
@@ -8,12 +9,14 @@ import { configureTransform } from "./transforms/config-setup/configureTransform
 import { applyEffectWrapper } from "./transforms/operators/applyOperator";
 
 export const generateFragmentEffect = (
-  fragmentEffectFunctions: OperatorConfig[],
+  operatorConfigs: OperatorConfig[],
   parameterMap: ShaderParameterMap
 ) => {
-  console.log(parameterMap);
+  const fragmentOperatorConfigs = operatorConfigs.filter(
+    (config) => config.type === SHADER_TYPES.FRAGMENT
+  );
   const { unmergedTransformAssignments, transformDefinitions, outputConfigs } =
-    getFragmentColors(fragmentEffectFunctions, parameterMap);
+    getFragmentColors(fragmentOperatorConfigs, parameterMap);
 
   if (
     outputConfigs.some((config) => config.key === SHADER_VARIABLE_TYPES.LIGHT)

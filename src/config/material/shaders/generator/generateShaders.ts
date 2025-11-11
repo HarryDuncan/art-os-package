@@ -18,8 +18,7 @@ import { generateStructs } from "./generation/structs";
 
 const DEBUG = true;
 export const generateShaders = (
-  vertexEffectsConfigs: OperatorConfig[],
-  fragmentEffectsConfigs: OperatorConfig[],
+  operatorConfigs: OperatorConfig[],
   functionConfigs: EffectConfig[],
   parameterMap: ShaderParameterMap,
   structsConfigs: StructConfig[]
@@ -40,14 +39,8 @@ export const generateShaders = (
     //  constantFunctionDeclarations,
   } = generateConstants(parameterMap);
 
-  const fragmentEffects = generateFragmentEffect(
-    fragmentEffectsConfigs,
-    parameterMap
-  );
-  const vertexEffects = generateVertexEffect(
-    vertexEffectsConfigs,
-    parameterMap
-  );
+  const fragmentEffects = generateFragmentEffect(operatorConfigs, parameterMap);
+  const vertexEffects = generateVertexEffect(operatorConfigs, parameterMap);
 
   const vertexTransformDefinitions = [
     ...vertexEffects.transformDefinitions,

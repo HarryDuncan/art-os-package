@@ -1,6 +1,5 @@
 import { ExternalSchema } from "../../../types";
-import { EffectConfig, SHADER_TYPES } from "../../schema";
-import { getShaderConfigsByType } from "../../utils";
+import { EffectConfig } from "../../schema";
 
 export const formatEffectsAndSchemas = (
   shaderEffectConfigs: EffectConfig[],
@@ -8,26 +7,17 @@ export const formatEffectsAndSchemas = (
   externalSchemas: ExternalSchema
 ) => {
   const effectsWithSchemas = shaderEffectConfigs
+    .filter((config) => !config.disabled)
     .map((config) => mergeExternalSchema(config, externalSchemas))
     .filter((config) => config !== null);
 
-  const functionConfigsWithSchemas = functionConfigs.map((config) =>
-    mergeExternalSchema(config, externalSchemas)
-  );
-
-  const vertexEffects = getShaderConfigsByType(
-    effectsWithSchemas,
-    SHADER_TYPES.VERTEX
-  );
-
-  const fragmentEffects = getShaderConfigsByType(
-    effectsWithSchemas,
-    SHADER_TYPES.FRAGMENT
-  );
+  const functionConfigsWithSchemas = functionConfigs
+    .filter((config) => !config.disabled)
+    .map((config) => mergeExternalSchema(config, externalSchemas))
+    .filter((config) => config !== null);
 
   return {
-    vertexEffects,
-    fragmentEffects,
+    effectsWithSchemas,
     functionConfigsWithSchemas,
   };
 };

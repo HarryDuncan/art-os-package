@@ -27,6 +27,7 @@ export const configureTransform = (
     effectConfig
   );
 
+  console.log("inputParameterMap", inputParameterMap);
   const mainOutputConfig = getTransformOutputConfig(mainEffect, effectConfig);
   const transformCode = getTransformCode(
     mainEffect,
