@@ -10,8 +10,8 @@ const mergeShaderFunctions = (
 ): TransformDefinition[] => {
   const uniqueFunctions: UniqueFunction = {};
   parsedFunctions.forEach((transformDefinition) => {
-    if (!uniqueFunctions[transformDefinition.id]) {
-      uniqueFunctions[transformDefinition.id] = transformDefinition;
+    if (!uniqueFunctions[transformDefinition.functionName]) {
+      uniqueFunctions[transformDefinition.functionName] = transformDefinition;
     }
   });
 

@@ -80,26 +80,23 @@ export type ParameterConfig = {
 
 export type SplitValueEditorConfig = {
   numSplits: number;
-  splitValues: { key: string; value: number }[];
 };
-export type SequenceEditorConfig = {
-  numSequences: number;
-  sequenceBounds: { key: string; lowerBound: number; upperBound: number }[];
-};
+export type SplitValue = Record<string, number>;
 
-export type OperatorValueConfig =
-  | SplitValueEditorConfig
-  | SequenceEditorConfig
-  | null;
+export type Sequence = Record<string, [number, number]>;
+export type OperatorValueConfig = SplitValueEditorConfig;
 
+export type OperatorValue = SplitValue;
 export type OperatorConfig = {
   guid: string;
   schemaId: string;
-  value?: OperatorValueConfig;
+  valueConfig: OperatorValueConfig;
+  value: OperatorValueConfig;
   outputMapping: Record<string, OutputMap>;
   inputMapping: Record<string, InputMap>;
-  inputMapSchema?: Record<string, string> | null;
-  outputMapSchema?: Record<string, string> | null;
+  inputMapSchema: Record<string, string>;
+  outputMapSchema: Record<string, string>;
+  type: string;
   effects?: EffectConfig[];
   disabled?: boolean;
 };

@@ -13,6 +13,7 @@ export type TransformDefinition = {
   transformType: string;
 };
 export type ConfiguredTransform = {
+  guid: string;
   transformAssignments: string[];
   outputConfigs: ShaderTransformationOutputConfig[];
   transformDefinitions: TransformDefinition[];

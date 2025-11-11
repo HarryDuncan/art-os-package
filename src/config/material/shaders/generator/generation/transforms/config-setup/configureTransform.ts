@@ -52,6 +52,7 @@ export const configureTransform = (
   };
 
   return {
+    guid: effectConfig.guid,
     transformAssignments: [transformAssignment],
     transformDefinitions: [mainTransformDefinition],
     outputConfigs: mainEffect.outputConfig ?? [],

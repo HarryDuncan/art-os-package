@@ -25,8 +25,6 @@ export const getTransformInputs = (
   const { inputMapping, guid } = effectConfig;
   const inputKeys = Object.keys(inputMapping ?? {});
   const sortedInputKeys = sortInputKeys(inputKeys);
-  console.log("inputKeys", inputKeys);
-  console.log("sortedInputKeys", sortedInputKeys);
   const inputParameterMap = getShaderInputMap(parameterMap, sortedInputKeys);
 
   const transformInputs = isSubFunction
