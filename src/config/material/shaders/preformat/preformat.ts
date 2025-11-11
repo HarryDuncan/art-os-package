@@ -1,6 +1,6 @@
 import {
   ParameterConfig,
-  OutputInputMapping,
+  InterNodeMap,
   OperatorConfig,
   EffectConfig,
   ShaderTransformationSchema,
@@ -32,10 +32,10 @@ export const preformat = (
     (acc, effect) => {
       acc.set(effect.key!, {
         ...effect,
-      } as ShaderParameter);
+      } as ParameterConfig);
       return acc;
     },
-    new Map() as ShaderParameterMap
+    new Map()
   );
 
   const { convertedAttributes, updatedFragShaderInputMapping } =
@@ -78,7 +78,7 @@ export const preformat = (
           acc[key] = value;
           return acc;
         },
-        {} as Record<string, OutputInputMapping>
+        {} as Record<string, InterNodeMap>
       );
       return {
         ...config,

@@ -2,7 +2,10 @@ import { SHADER_PROPERTY_VALUE_TYPES } from "../consts";
 
 export const DEFAULT_SEQUENCE_CONFIG = {
   numSequences: 2,
-  sequenceBounds: [[0, 1]],
+  sequenceBounds: [
+    { key: "value1", lowerBound: 0, upperBound: 1 },
+    { key: "value2", lowerBound: 0, upperBound: 1 },
+  ],
   outputAsPercentage: false,
 };
 

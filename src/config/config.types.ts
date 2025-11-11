@@ -20,7 +20,7 @@ import {
 } from "./components/threeJsComponents.types";
 import { LightConfigs, SceneLight } from "../types/lights";
 import { CustomGeometryConfig } from "./mesh/types";
-import { OutputInputMapping, ParameterConfig } from "./material/shaders/schema";
+import { InterNodeMap, ParameterConfig } from "./material/shaders/schema";
 import { RaycasterConfig } from "../types/three.types";
 import { OverlayConfig } from "../components/overlays/types";
 
@@ -129,8 +129,8 @@ export type MeshTransformConfig = {
   materialId?: string;
   transformParameterConfigs?: ParameterConfig[];
   values: Record<string, TransformValueConfig>;
-  outputMapping: Record<string, OutputInputMapping>;
-  inputMapping: Record<string, OutputInputMapping>;
+  outputMapping: Record<string, InterNodeMap>;
+  inputMapping: Record<string, InterNodeMap>;
 };
 
 export type ScreenSizeAdjustmentConfig = {

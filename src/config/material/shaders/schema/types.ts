@@ -5,7 +5,7 @@ import {
   VARYING_TYPES,
 } from "./consts";
 
-export type OutputInputMapping = {
+export type InterNodeMap = {
   itemId: string;
   nodeType: string;
   type?: string;
@@ -14,14 +14,26 @@ export type OutputInputMapping = {
   parentType: string;
 };
 
+export interface OutputMap extends InterNodeMap {
+  sourceType: string;
+  sourceKey: string;
+  sourceId: string;
+}
+
+export interface InputMap extends InterNodeMap {
+  targetType: string;
+  targetKey: string;
+  targetId: string;
+}
+
 export type EffectConfig = {
   guid: string;
   name?: string;
   type: string;
   schemaId: string;
   outputValueType: keyof typeof SHADER_PROPERTY_VALUE_TYPES;
-  inputMapping: Record<string, OutputInputMapping>;
-  outputMapping: Record<string, OutputInputMapping>;
+  inputMapping: Record<string, InputMap>;
+  outputMapping: Record<string, OutputMap>;
   transformSchema?: ShaderTransformationSchema[];
   disabled?: boolean;
 };
@@ -68,11 +80,11 @@ export type ParameterConfig = {
 
 export type SplitValueEditorConfig = {
   numSplits: number;
-  splitValues: number[];
+  splitValues: { key: string; value: number }[];
 };
 export type SequenceEditorConfig = {
   numSequences: number;
-  sequenceBounds: number[][];
+  sequenceBounds: { key: string; lowerBound: number; upperBound: number }[];
 };
 
 export type OperatorValueConfig =
@@ -84,8 +96,8 @@ export type OperatorConfig = {
   guid: string;
   schemaId: string;
   value?: OperatorValueConfig;
-  outputMapping: Record<string, OutputInputMapping>;
-  inputMapping: Record<string, OutputInputMapping>;
+  outputMapping: Record<string, OutputMap>;
+  inputMapping: Record<string, InputMap>;
   inputMapSchema?: Record<string, string> | null;
   outputMapSchema?: Record<string, string> | null;
   effects?: EffectConfig[];
@@ -106,14 +118,6 @@ export type ShaderTransformationSchema = {
   isSubFunction: boolean;
   parameters: ShaderTransformationParameterConfig[];
   outputConfig: ShaderTransformationOutputConfig[];
-};
-
-export type MeshTransformSchema = {
-  key: string;
-  guid: string;
-  parameters: ParameterConfig[];
-  transformedMeshIds: string[];
-  materialId: string;
 };
 
 export type StructVariableConfig = {
