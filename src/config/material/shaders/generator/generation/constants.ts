@@ -9,8 +9,14 @@ export const generateConstants = (
   constantDeclaration: string;
   constantInstantiation: string[];
 } => {
-  const constantParameters = Array.from(shaderParameterMap.values()).filter(
-    ({ parameterType }) => parameterType === SHADER_PROPERTY_TYPES.CONSTANT
+  const constantParameters = Array.from(shaderParameterMap.entries()).flatMap(
+    ([key, parameter]) => {
+      if (parameter.parameterType === SHADER_PROPERTY_TYPES.CONSTANT) {
+        return { ...parameter, key };
+      } else {
+        return [];
+      }
+    }
   );
   const constantDeclaration = [
     "// CONSTANT DECLARATIONS",

@@ -6,11 +6,6 @@ export const splitValueTransform = (
   operatorTransform: OperatorConfig,
   parameterMap: ShaderParameterMap
 ): ConfiguredTransform => {
-  console.log("SPLIT VALUE TRANSFORM");
-  console.log("effectTransforms", effectTransforms);
-  console.log("operatorTransform", operatorTransform);
-  console.log("parameterMap", parameterMap);
-
   const { inputMapping, outputMapping, outputMapSchema, value } =
     operatorTransform;
   // format input condition
@@ -27,8 +22,6 @@ export const splitValueTransform = (
     acc.push({ outputEffectIds, value: value[key as keyof typeof value] });
     return acc;
   }, [] as { outputEffectIds: string[]; value: number }[]);
-
-  console.log("outputEffects", outputEffects);
 
   const allTransformDefinitions = [
     ...effectTransforms.flatMap((transform) => transform.transformDefinitions),

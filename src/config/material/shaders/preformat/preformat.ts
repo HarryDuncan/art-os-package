@@ -8,13 +8,19 @@ import {
 } from "../schema/types";
 import { ShaderParameterMap } from "../generator/types";
 import { FRAGMENT_COLOR, TIME, VERTEX_POINT } from "../schema/parameters";
-import { SHADER_PROPERTY_TYPES, SHADER_TYPES, VARYING_TYPES } from "../schema";
+import {
+  SHADER_PARAMETER_TYPE_KEY_MAP,
+  SHADER_PROPERTY_TYPES,
+  SHADER_TYPES,
+  VARYING_TYPES,
+} from "../schema";
 import { getFunctionBasedParameters, getShaderConfigsByType } from "../utils";
 import { removeDuplicatesByKey } from "../../../../utils/removeDuplicatesByKey";
 import { getStructsConfigsFromEffects } from "./structs/getStructsConfigsFromEffects";
 import { ExternalSchema } from "../../types";
 import { formatEffectsAndSchemas } from "./effect-transforms/effectsAndSchemas";
 import { formatOperatorConfigs } from "./formatOperatorConfigs";
+import { isDefaultParameter } from "../generator/generation/helpers/parameterUtils";
 
 export const preformat = (
   effectParameters: ParameterConfig[],
@@ -53,9 +59,15 @@ export const preformat = (
     ...effectParameters,
     ...functionBasedVaryings,
   ].reduce((acc, effectParameter) => {
-    const { key } = effectParameter;
-
-    acc.set(key, {
+    const { key, guid, parameterType } = effectParameter;
+    if (isDefaultParameter(key)) {
+      acc.set(key, {
+        ...effectParameter,
+      } as ParameterConfig);
+      return acc;
+    }
+    const uniqueKey = `${SHADER_PARAMETER_TYPE_KEY_MAP[parameterType]}_${key}_${guid}`;
+    acc.set(uniqueKey, {
       ...effectParameter,
     } as ParameterConfig);
     return acc;

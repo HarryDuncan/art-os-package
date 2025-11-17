@@ -9,8 +9,14 @@ import { generateDeclaration } from "./helpers/generateDeclaration";
 export const generateUniformDeclaration = (
   parameterMap: ShaderParameterMap
 ) => {
-  const uniformConfigs = Array.from(parameterMap.values()).filter(
-    (parameter) => parameter.parameterType === SHADER_PROPERTY_TYPES.UNIFORM
+  const uniformConfigs = Array.from(parameterMap.entries()).flatMap(
+    ([key, parameter]) => {
+      if (parameter.parameterType === SHADER_PROPERTY_TYPES.UNIFORM) {
+        return { ...parameter, key };
+      } else {
+        return [];
+      }
+    }
   );
 
   const customStrings = uniformConfigs.map(({ key, valueType, arrayLength }) =>

@@ -6,7 +6,36 @@ import {
 } from "../../../../schema";
 import { isStruct } from "../../../../utils";
 import { ShaderParameterMap } from "../../../types";
+import { isDefaultParameter } from "../../helpers/parameterUtils";
 
+const getParameterFromSchemaKey = (
+  schemaKey: string,
+  guid: string,
+  inputMap: ShaderParameterMap
+) => {
+  let parameterKey = schemaKey;
+  console.log("inputMap", inputMap);
+  console.log("schemaKey", schemaKey);
+  console.log("guid", guid);
+  Array.from(inputMap.keys()).forEach((key) => {
+    console.log("key", key);
+    const [parameterType, inputParameterName, inputParameterSchemaGuid] =
+      key.split("_");
+    const [parameterName, schemaGuid] = schemaKey.split("_");
+    if (
+      inputParameterName === parameterName &&
+      inputParameterSchemaGuid === schemaGuid
+    ) {
+      if (parameterType === "a" || parameterType === "c") {
+        console.log("returning contstant" + key);
+        parameterKey = key;
+      } else {
+        parameterKey = `${parameterType}_${inputParameterName}_${inputParameterSchemaGuid}_${guid}`;
+      }
+    }
+  });
+  return parameterKey;
+};
 export const getTransformCode = (
   transformSchema: ShaderTransformationSchema,
   transformName: string,
@@ -16,39 +45,13 @@ export const getTransformCode = (
 ) => {
   const { transformCode, outputConfig } = transformSchema;
   const { guid } = effectConfig;
-
   const formattedEffectCodeLines = transformCode.map((line) => {
     return line.replace(/{{(\w+)}}/g, (match, key) => {
-      const parameter = inputMap.get(key);
-
-      // todo - perhaps add a unique identifier
-      if (subEffectsKeys.includes(key)) {
-        return key;
+      if (isDefaultParameter(key)) {
+        return `${key}_${guid}`;
       }
-      if (!parameter) {
-        //   const effectFunction = formattedFunctionConfigs.find(
-        //     (f) => f.key === key
-        //   );
-        //   if (effectFunction) {
-        //     const functionCall = formatNestedFunction(effectFunction, effectId);
-        //     return `${functionCall}`;
-        //   }
-
-        return match;
-      } else {
-        if (
-          parameter.parameterType === SHADER_PROPERTY_TYPES.ATTRIBUTE ||
-          parameter.parameterType === SHADER_PROPERTY_TYPES.VARYING ||
-          parameter.parameterType === SHADER_PROPERTY_TYPES.CONSTANT
-        ) {
-          return `${parameter.key}`;
-        }
-
-        if (inputMap.has(key)) {
-          return `${parameter.key}_${guid}`;
-        }
-        return match;
-      }
+      const parameterKey = getParameterFromSchemaKey(key, guid, inputMap);
+      return parameterKey;
     });
   });
 

@@ -1,6 +1,7 @@
 import { ShaderParameterMap } from "../../../types";
 import {
   EffectConfig,
+  InputMap,
   ParameterConfig,
   ShaderTransformationOutputConfig,
   ShaderTransformationParameterConfig,
@@ -23,14 +24,11 @@ export const getTransformInputs = (
     outputConfig,
   } = transformConfig;
   const { inputMapping, guid } = effectConfig;
-  const inputKeys = Object.keys(inputMapping ?? {});
-  const sortedInputKeys = sortInputKeys(inputKeys);
-  const inputParameterMap = getShaderInputMap(parameterMap, sortedInputKeys);
 
+  const inputParameterMap = getShaderInputMap(parameterMap, inputMapping);
   const transformInputs = isSubFunction
     ? getSubFunctionInputs(parameters)
     : getFunctionInputs(inputParameterMap, guid);
-
   const transformDeclaration = createTransformDeclaration(
     functionName,
     transformInputs,
@@ -51,32 +49,34 @@ const sortInputKeys = (inputKeys: string[]) => {
   return sortedInputKeys;
 };
 
-export const getParametersByKey = (
-  parameterMap: ShaderParameterMap,
-  keys: string[]
-) => {
-  const parameterArray = Array.from(parameterMap.entries());
-  const parameters = parameterArray.flatMap(([key, parameter]) => {
-    if (keys.includes(key)) {
-      return parameter;
-    }
-    return [];
-  });
-  return parameters;
-};
-
 export const getShaderInputMap = (
   parameterMap: ShaderParameterMap,
-  inputKeys: string[]
+  inputMapping: Record<string, InputMap>
 ) => {
+  const inputKeys = sortInputKeys(Object.keys(inputMapping ?? {}));
+  const sortedInputKeys = sortInputKeys(inputKeys);
   const shaderInputMap = new Map<string, ParameterConfig>();
-
-  const parameters = getParametersByKey(parameterMap, inputKeys);
-
-  parameters.forEach((parameter) => {
-    shaderInputMap.set(parameter.key, parameter);
-    return;
+  const parameterArray = Array.from(parameterMap.entries());
+  parameterArray.forEach(([key, parameter]) => {
+    if (isDefaultParameter(key) && sortedInputKeys.includes(key)) {
+      return shaderInputMap.set(key, parameter);
+    } else {
+      console.log("key", key);
+      const [_parameterType, parameterName, schemaGuid, parameterGuid] =
+        key.split("_");
+      if (
+        sortedInputKeys.includes(`${parameterName}_${schemaGuid}`) &&
+        inputMapping[`${parameterName}_${schemaGuid}`].itemId === parameterGuid
+      ) {
+        shaderInputMap.set(key, parameter);
+      } else {
+        console.warn(
+          `Input key ${parameterName}_${schemaGuid} not found in inputKeys`
+        );
+      }
+    }
   });
+
   return shaderInputMap;
 };
 
@@ -84,18 +84,25 @@ export const getFunctionInputs = (
   inputMap: ShaderParameterMap,
   shaderEffectId: string
 ) => {
-  const defaultInputs =
+  console.log(inputMap);
+  const functionInputs =
     Array.from(inputMap.entries())?.flatMap(([id, parameter]) => {
       if (!parameter) return [];
-      if (!GLOBAL_PARAMETER_TYPES.includes(parameter.parameterType)) {
+      if (isDefaultParameter(id)) {
         return `${shaderValueTypeInstantiation(
           parameter.valueType
         )} ${id}_${shaderEffectId}`;
       }
+      if (!GLOBAL_PARAMETER_TYPES.includes(parameter.parameterType)) {
+        const [parameterType, parameterName, schemaGuid] = id.split("_");
+        return `${shaderValueTypeInstantiation(
+          parameter.valueType
+        )} ${parameterType}_${parameterName}_${schemaGuid}_${shaderEffectId}`;
+      }
       return [];
     }) ?? [];
 
-  return defaultInputs;
+  return functionInputs;
 };
 
 const getSubFunctionInputs = (

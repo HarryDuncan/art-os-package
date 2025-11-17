@@ -3,41 +3,28 @@ import {
   ShaderTransformationOutputConfig,
 } from "../../../../schema";
 import { isStruct } from "../../../../utils";
-import {
-  DEFAULT_SHADER_VARIABLE_KEYS,
-  GLOBAL_PARAMETER_TYPES,
-  SHADER_VARIABLE_NAME_MAPS,
-} from "../../../consts";
+import { SHADER_VARIABLE_NAME_MAPS } from "../../../consts";
 import { ShaderParameterMap } from "../../../types";
+import { isDefaultParameter } from "../../helpers/parameterUtils";
 
 export const getTransformInstantiation = (
   outputConfig: ShaderTransformationOutputConfig[],
   functionName: string,
-  inputMap: ShaderParameterMap,
-  shaderEffectId: string
+  inputMap: ShaderParameterMap
 
   // todo - assignment config
 ) => {
-  const functionParameters = Array.from(inputMap.entries())?.flatMap(
-    ([id, parameter]) => {
-      if (!parameter) return [];
-
-      if (!GLOBAL_PARAMETER_TYPES.includes(parameter.parameterType)) {
-        if (
-          DEFAULT_SHADER_VARIABLE_KEYS[
-            id as keyof typeof DEFAULT_SHADER_VARIABLE_KEYS
-          ]
-        ) {
-          return DEFAULT_SHADER_VARIABLE_KEYS[
-            id as keyof typeof DEFAULT_SHADER_VARIABLE_KEYS
-          ];
-        }
-
-        return parameter.key;
+  const transformParameters =
+    (Array.from(inputMap.keys()) ?? []).flatMap((key) => {
+      if (isDefaultParameter(key)) {
+        return key;
       }
-      return [];
-    }
-  );
+      const [parameterType] = key.split("_");
+      if (parameterType === "a" || parameterType === "c") {
+        return [];
+      }
+      return key;
+    }) ?? [];
 
   const getValueDeclaration = () => {
     return "";
@@ -60,7 +47,7 @@ export const getTransformInstantiation = (
     outputConfig,
     isStructResult
   );
-  return `${getValueDeclaration()} ${assignedVariableName} ${operator} ${functionName}(${functionParameters.join(
+  return `${getValueDeclaration()} ${assignedVariableName} ${operator} ${functionName}(${transformParameters.join(
     ", "
   )});${postFunctionAssignment(functionName, outputConfig, isStructResult)}`;
 };
