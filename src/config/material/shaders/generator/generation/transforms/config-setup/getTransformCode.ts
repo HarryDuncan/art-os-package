@@ -14,11 +14,7 @@ const getParameterFromSchemaKey = (
   inputMap: ShaderParameterMap
 ) => {
   let parameterKey = schemaKey;
-  console.log("inputMap", inputMap);
-  console.log("schemaKey", schemaKey);
-  console.log("guid", guid);
   Array.from(inputMap.keys()).forEach((key) => {
-    console.log("key", key);
     const [parameterType, inputParameterName, inputParameterSchemaGuid] =
       key.split("_");
     const [parameterName, schemaGuid] = schemaKey.split("_");
@@ -27,7 +23,6 @@ const getParameterFromSchemaKey = (
       inputParameterSchemaGuid === schemaGuid
     ) {
       if (parameterType === "a" || parameterType === "c") {
-        console.log("returning contstant" + key);
         parameterKey = key;
       } else {
         parameterKey = `${parameterType}_${inputParameterName}_${inputParameterSchemaGuid}_${guid}`;

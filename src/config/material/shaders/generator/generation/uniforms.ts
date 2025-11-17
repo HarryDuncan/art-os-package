@@ -2,6 +2,7 @@ import {
   SHADER_PROPERTY_TYPES,
   SHADER_PROPERTY_VALUE_TYPES,
 } from "../../schema";
+import { filterParametersByType } from "../../utils";
 import { UNIFORM_DECLARATION } from "../consts";
 import { ShaderParameterMap } from "../types";
 import { generateDeclaration } from "./helpers/generateDeclaration";
@@ -9,14 +10,9 @@ import { generateDeclaration } from "./helpers/generateDeclaration";
 export const generateUniformDeclaration = (
   parameterMap: ShaderParameterMap
 ) => {
-  const uniformConfigs = Array.from(parameterMap.entries()).flatMap(
-    ([key, parameter]) => {
-      if (parameter.parameterType === SHADER_PROPERTY_TYPES.UNIFORM) {
-        return { ...parameter, key };
-      } else {
-        return [];
-      }
-    }
+  const uniformConfigs = filterParametersByType(
+    parameterMap,
+    SHADER_PROPERTY_TYPES.UNIFORM
   );
 
   const customStrings = uniformConfigs.map(({ key, valueType, arrayLength }) =>

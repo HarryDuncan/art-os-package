@@ -2,6 +2,7 @@ import { SHADER_PROPERTY_TYPES } from "../../schema";
 import { shaderValueTypeInstantiation } from "./helpers/shaderValues";
 import { valueToShader } from "./helpers/shaderValues";
 import { ShaderParameterMap } from "../types";
+import { filterParametersByType } from "../../utils";
 
 export const generateConstants = (
   shaderParameterMap: ShaderParameterMap
@@ -9,14 +10,9 @@ export const generateConstants = (
   constantDeclaration: string;
   constantInstantiation: string[];
 } => {
-  const constantParameters = Array.from(shaderParameterMap.entries()).flatMap(
-    ([key, parameter]) => {
-      if (parameter.parameterType === SHADER_PROPERTY_TYPES.CONSTANT) {
-        return { ...parameter, key };
-      } else {
-        return [];
-      }
-    }
+  const constantParameters = filterParametersByType(
+    shaderParameterMap,
+    SHADER_PROPERTY_TYPES.CONSTANT
   );
   const constantDeclaration = [
     "// CONSTANT DECLARATIONS",
@@ -27,14 +23,6 @@ export const generateConstants = (
     }),
   ].join("\n");
 
-  // const functionBasedConstants = constantParameters.filter(
-  //   (parameter) => parameter.isFunctionBased
-  // );
-  // const { functionInstantiations, transformFunctions } =
-  //   transformsFromParameters(functionBasedConstants, shaderParameterMap);
-
-  // console.log("functionInstantiations", functionInstantiations);
-  // console.log("transformFunctions", transformFunctions);
   return {
     constantDeclaration,
     constantInstantiation: [],

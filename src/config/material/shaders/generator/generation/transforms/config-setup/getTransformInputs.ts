@@ -61,7 +61,6 @@ export const getShaderInputMap = (
     if (isDefaultParameter(key) && sortedInputKeys.includes(key)) {
       return shaderInputMap.set(key, parameter);
     } else {
-      console.log("key", key);
       const [_parameterType, parameterName, schemaGuid, parameterGuid] =
         key.split("_");
       if (
@@ -84,7 +83,6 @@ export const getFunctionInputs = (
   inputMap: ShaderParameterMap,
   shaderEffectId: string
 ) => {
-  console.log(inputMap);
   const functionInputs =
     Array.from(inputMap.entries())?.flatMap(([id, parameter]) => {
       if (!parameter) return [];

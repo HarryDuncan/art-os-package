@@ -6,6 +6,7 @@ import {
   SHADER_VARIABLE_TYPES,
   VARYING_TYPES,
 } from "../../schema";
+import { filterParametersByType } from "../../utils";
 import {
   V_CUSTOM_INSTANTIATION,
   V_DEFAULT_INSTANTIATION,
@@ -20,8 +21,9 @@ export const generateVaryings = (
   parameterMap: ShaderParameterMap,
   functionConfigs: EffectConfig[]
 ) => {
-  const varyingConfigs = Array.from(parameterMap.values()).filter(
-    (parameter) => parameter.parameterType === SHADER_PROPERTY_TYPES.VARYING
+  const varyingConfigs = filterParametersByType(
+    parameterMap,
+    SHADER_PROPERTY_TYPES.VARYING
   );
 
   const declaration = varyingDeclarations(varyingConfigs);

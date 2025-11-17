@@ -3,14 +3,17 @@ import { Asset } from "../../../../assets/types";
 import { mapAssetsToUniforms } from "./mapAssetsToUniform";
 import { SHADER_PROPERTY_TYPES, SHADER_PROPERTY_VALUE_TYPES } from "../schema";
 import { ShaderParameterMap, UniformObject } from "../generator/types";
+import { filterParametersByType } from "../utils";
 
 export const formatBuiltShaderUniforms = (
   parameterMap: ShaderParameterMap,
   assets: Asset[]
 ): { [uniform: string]: IUniform<unknown> } => {
-  const uniformParameters = Array.from(parameterMap.values()).filter(
-    (uniform) => uniform.parameterType === SHADER_PROPERTY_TYPES.UNIFORM
+  const uniformParameters = filterParametersByType(
+    parameterMap,
+    SHADER_PROPERTY_TYPES.UNIFORM
   );
+
   const assetMapping =
     uniformParameters.flatMap((uniformConfigs) =>
       uniformConfigs.isAssetMapped && uniformConfigs.assetMappingConfig

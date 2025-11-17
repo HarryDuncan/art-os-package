@@ -1,4 +1,6 @@
+import { ShaderParameterMap } from "./generator/types";
 import {
+  SHADER_PROPERTY_TYPES,
   SHADER_PROPERTY_VALUE_TYPES,
   SHADER_VARIABLE_ASSIGNMENT_MAPS,
 } from "./schema";
@@ -68,4 +70,34 @@ export const getDefaultShaderVariableValueType = (
 
 export const isStruct = (outputConfig: ShaderTransformationOutputConfig[]) => {
   return outputConfig.length > 1;
+};
+
+export const filterParametersByType = (
+  parameterMap: ShaderParameterMap,
+  type: string
+) =>
+  Array.from(parameterMap.entries()).flatMap(([key, parameter]) => {
+    if (parameter.parameterType === type) {
+      return { ...parameter, key };
+    } else {
+      return [];
+    }
+  });
+
+export const findKeyMatch = (
+  keyToMatch: string,
+  parameterMap: ShaderParameterMap
+) => {
+  for (const key of Array.from(parameterMap.keys())) {
+    const [_parameterType, inputParameterName, inputParameterSchemaGuid] =
+      key.split("_");
+    const [parameterName, schemaGuid] = keyToMatch.split("_");
+    if (
+      inputParameterName === parameterName &&
+      inputParameterSchemaGuid === schemaGuid
+    ) {
+      return key;
+    }
+  }
+  return null;
 };

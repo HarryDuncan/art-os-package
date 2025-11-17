@@ -5,10 +5,12 @@ import {
 } from "../../schema";
 import { ShaderParameterMap } from "../types";
 import { generateDeclaration } from "./helpers/generateDeclaration";
+import { filterParametersByType } from "../../utils";
 
 export const generateAttributes = (parameterMap: ShaderParameterMap) => {
-  const attributeConfigs = Array.from(parameterMap.values()).filter(
-    (parameter) => parameter.parameterType === SHADER_PROPERTY_TYPES.ATTRIBUTE
+  const attributeConfigs = filterParametersByType(
+    parameterMap,
+    SHADER_PROPERTY_TYPES.ATTRIBUTE
   );
   const declarationString = createDeclarationStrings(attributeConfigs);
   return declarationString;

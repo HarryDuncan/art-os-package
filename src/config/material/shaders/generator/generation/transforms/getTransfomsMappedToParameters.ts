@@ -1,37 +1,30 @@
 import { EffectConfig, ParameterConfig } from "../../../schema";
 import { ConfiguredTransform, ShaderParameterMap } from "../../types";
 import { configureTransform } from "./config-setup/configureTransform";
+import { findKeyMatch } from "../../../utils";
 
 export const getTransformsMappedToParameters = (
   assignedParameters: ParameterConfig[],
   parameterMap: ShaderParameterMap,
   functionConfigs: EffectConfig[]
 ): ConfiguredTransform[] => {
-  const assignmentConfigs = functionConfigs.reduce((acc, config) => {
-    const { outputMapping, guid } = config;
+  const selectedFunctions = functionConfigs.flatMap((config) => {
+    const { outputMapping } = config;
+    const matches: EffectConfig[] = [];
     Object.keys(outputMapping).forEach((key) => {
-      const parameter = parameterMap.get(key);
+      const parameterKey = findKeyMatch(key, parameterMap);
       const assignedParameter = assignedParameters.find(
-        (p) => p.guid === parameter?.guid
+        (p) => p.key === parameterKey
       );
-      if (assignedParameter && parameter) {
-        acc[guid] = parameter;
+      if (assignedParameter) {
+        matches.push(config);
       }
     });
-    return acc;
-  }, {} as Record<string, ParameterConfig>);
-
-  const configuredTransforms: ConfiguredTransform[] = Object.entries(
-    assignmentConfigs
-  ).flatMap(([guid, assignmentConfig]) => {
-    const selectedEffect = functionConfigs.find(
-      (config) => config.guid === guid
-    );
-
-    return selectedEffect
-      ? configureTransform(selectedEffect, parameterMap)
-      : [];
+    return matches;
   });
 
+  const configuredTransforms: ConfiguredTransform[] = selectedFunctions.flatMap(
+    (functionConfig) => configureTransform(functionConfig, parameterMap)
+  );
   return configuredTransforms;
 };
