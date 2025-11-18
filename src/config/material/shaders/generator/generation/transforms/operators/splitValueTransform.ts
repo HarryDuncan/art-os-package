@@ -1,4 +1,5 @@
 import { OperatorConfig } from "../../../../schema";
+import { findKeyMatch } from "../../../../utils";
 import { ConfiguredTransform, ShaderParameterMap } from "../../../types";
 
 export const splitValueTransform = (
@@ -10,11 +11,11 @@ export const splitValueTransform = (
     operatorTransform;
   // format input condition
   // get input parameter
-  const inputParameterKeys = Object.keys(inputMapping);
-  if (!inputParameterKeys || inputParameterKeys.length === 0) {
-    throw new Error("No input parameters found for split value transform");
-  }
-
+  const inputParameterKeys = Object.keys(inputMapping).map((key) =>
+    findKeyMatch(key, parameterMap)
+  );
+  console.log(inputParameterKeys);
+  console.log(inputMapping);
   const outputEffects = Object.keys(outputMapSchema).reduce((acc, key) => {
     const outputEffectIds = Object.values(outputMapping).flatMap((mapping) =>
       mapping.sourceKey === key ? mapping.itemId : []

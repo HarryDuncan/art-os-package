@@ -88,6 +88,7 @@ export const findKeyMatch = (
   keyToMatch: string,
   parameterMap: ShaderParameterMap
 ) => {
+  let keyMatch = null;
   for (const key of Array.from(parameterMap.keys())) {
     const [_parameterType, inputParameterName, inputParameterSchemaGuid] =
       key.split("_");
@@ -96,8 +97,8 @@ export const findKeyMatch = (
       inputParameterName === parameterName &&
       inputParameterSchemaGuid === schemaGuid
     ) {
-      return key;
+      keyMatch = key;
     }
   }
-  return null;
+  return keyMatch;
 };

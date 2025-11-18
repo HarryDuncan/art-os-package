@@ -117,6 +117,7 @@ export type ScenePropertiesConfig = {
 };
 
 export type TransformValueConfig = {
+  guid: string;
   value: unknown;
   type: string;
   relationship?: string;

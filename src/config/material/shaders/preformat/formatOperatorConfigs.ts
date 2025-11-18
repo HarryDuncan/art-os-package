@@ -7,6 +7,7 @@ import {
   SHADER_TYPES,
 } from "../schema";
 import { ShaderParameterMap } from "../generator/types";
+import { findKeyMatch } from "../utils";
 
 export const formatOperatorConfigs = (
   shaderEffectsConfigs: EffectConfig[],
@@ -67,16 +68,18 @@ export const formatOperatorConfigs = (
     }, [] as OperatorConfig[])
     .map((config) => {
       if (config.type === SHADER_TYPES.FRAGMENT) {
+        // TODO - attribute to varying conversion with new parameter keys
         const updatedInputMapping = Object.entries(config.inputMapping).reduce(
           (acc, [key, value]) => {
             if (value.nodeType === "parameter") {
-              const attribute = parameterMap.get(key);
-              if (
-                attribute?.parameterType === SHADER_PROPERTY_TYPES.ATTRIBUTE
-              ) {
-                acc[`${key}_varying`] = value;
+              const parameterKey = findKeyMatch(key, parameterMap);
+              console.log(parameterKey);
+              const [parameterType, parameterName, parameterSchemaGuid] =
+                parameterKey?.split("_");
+              if (parameterType === "a") {
+                acc[`v_${parameterName}_${parameterSchemaGuid}`] = value;
               } else {
-                acc[key] = value;
+                acc[`${key}`] = value;
               }
             }
             return acc;

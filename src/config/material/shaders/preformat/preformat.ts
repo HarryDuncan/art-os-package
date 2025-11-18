@@ -55,7 +55,6 @@ export const preformat = (
   // TODO - structs to varyings
 
   const effectParamsMap = [
-    ...convertedAttributes,
     ...effectParameters,
     ...functionBasedVaryings,
   ].reduce((acc, effectParameter) => {
@@ -73,8 +72,13 @@ export const preformat = (
     return acc;
   }, new Map() as ShaderParameterMap);
 
+  convertedAttributes.forEach((attribute) => {
+    effectParamsMap.set(attribute.key, attribute);
+  });
+
   const parameterMap = new Map([...defaultParamsMap, ...effectParamsMap]);
 
+  console.log(parameterMap);
   // update fragment effects input mapping with new varyings
   const updatedEffectConfigs = shaderEffectConfigs.map((config) => {
     const mappingUpdates = updatedFragShaderInputMapping[config.guid];
@@ -124,11 +128,13 @@ const attributeToVarying = (attributeConfigs: ParameterConfig[]) =>
     return {
       ...attributeConfig,
       guid: `${attributeConfig?.guid}`,
-      key: `${attributeConfig?.key ?? ""}_varying`,
+      key: `v_${attributeConfig?.key ?? ""}_${attributeConfig?.guid}`,
       parameterType: SHADER_PROPERTY_TYPES.VARYING,
       varyingConfig: {
         varyingType: VARYING_TYPES.ATTRIBUTE,
-        attributeKey: attributeConfig?.key ?? "",
+        attributeKey: `a_${attributeConfig?.key ?? ""}_${
+          attributeConfig?.guid
+        }`,
         isAttributeReference: true,
       },
     };
@@ -181,7 +187,9 @@ const convertAttributesToVaryings = (
     if (attributeConfigs.length > 0) {
       updatedFragShaderInputMapping[shaderEffectConfig.guid] =
         attributeConfigs.reduce((acc, attributeConfig) => {
-          acc[attributeConfig.key] = `${attributeConfig.key}_varying`;
+          acc[
+            attributeConfig.key
+          ] = `v_${attributeConfig.key}_${attributeConfig.guid}`;
           return acc;
         }, {} as Record<string, string>);
     }

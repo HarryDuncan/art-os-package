@@ -11,20 +11,20 @@ export const setAttributes = (
   transformValues: Record<string, TransformValueConfig>
 ) => {
   const vertexCount = getVerticesCount(bufferGeometry);
-
   Object.entries(transformValues).forEach(
-    ([key, { value, type, relationship }]) => {
+    ([key, { type, value, relationship }]) => {
+      const attributeKey = `a_${key}`;
       if (type) {
         switch (type) {
           case ATTRIBUTE_VALUE_TYPES.INDEXED:
-            setIndexValues(key, vertexCount, bufferGeometry);
+            setIndexValues(attributeKey, vertexCount, bufferGeometry);
             break;
           case ATTRIBUTE_VALUE_TYPES.RANDOM_VALUE:
-            setRandomValues(key, vertexCount, bufferGeometry);
+            setRandomValues(attributeKey, vertexCount, bufferGeometry);
             break;
           case ATTRIBUTE_VALUE_TYPES.SINGLE_VALUE:
             setSingleValue(
-              key,
+              attributeKey,
               vertexCount,
               bufferGeometry,
               value as string,
@@ -33,7 +33,7 @@ export const setAttributes = (
             break;
           case ATTRIBUTE_VALUE_TYPES.RANDOMIZED_BINARY:
             setRandomizedPercentage(
-              key,
+              attributeKey,
               vertexCount,
               bufferGeometry,
               value as number
