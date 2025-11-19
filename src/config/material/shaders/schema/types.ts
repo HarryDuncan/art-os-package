@@ -1,30 +1,10 @@
+import { InputMap, OutputMap } from "../../../../types";
 import {
   ATTRIBUTE_VALUE_TYPES,
   SHADER_PROPERTY_TYPES,
   SHADER_PROPERTY_VALUE_TYPES,
   VARYING_TYPES,
 } from "./consts";
-
-export type InterNodeMap = {
-  itemId: string;
-  nodeType: string;
-  type?: string;
-  // Mainly used for graph re-mapping
-  parentId: string;
-  parentType: string;
-};
-
-export interface OutputMap extends InterNodeMap {
-  sourceType: string;
-  sourceKey: string;
-  sourceId: string;
-}
-
-export interface InputMap extends InterNodeMap {
-  targetType: string;
-  targetKey: string;
-  targetId: string;
-}
 
 export type EffectConfig = {
   guid: string;

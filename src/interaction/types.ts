@@ -1,19 +1,16 @@
+import { InputMap, OutputMap } from "../types";
 import { EVENT_BIND_TYPES } from "./consts";
 import { KEYS } from "./peripheral-interactions/peripheralInteractions.consts";
 
 export type InteractionEventBinding = keyof typeof EVENT_BIND_TYPES;
-export type InteractionConnectionMapping = {
-  parameterId: string;
-  parameterKey: string;
-  targetId?: string;
-};
+
 export type PeripheralSourceConfig = {
   eventKey: string;
   keypointId: string;
 };
 export type PoseEstimationConfig = {
   keypointId: string;
-  mappingTo: Record<string, InteractionConnectionMapping>;
+  mappingTo: Record<string, OutputMap>;
 };
 
 export type SourceConfig = PeripheralSourceConfig;
@@ -25,8 +22,8 @@ export type InteractionConfig = {
   sourceConfig: SourceConfig;
   materialIds?: string[];
   functionType?: string;
-  inputMapping: Record<string, InteractionConnectionMapping>;
-  outputMapping: Record<string, InteractionConnectionMapping>;
+  inputMapping: Record<string, InputMap>;
+  outputMapping: Record<string, OutputMap>;
 };
 
 export type ExternalInteractionConfig = InteractionConfig & {

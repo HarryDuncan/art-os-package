@@ -1,8 +1,11 @@
 import { SHADER_PROPERTY_VALUE_TYPES } from "../consts";
 
-const AND_FUNCTION_CONFIG = {};
 export const AND_OPERATOR_SCHEMA = {
-  valueConfig: AND_FUNCTION_CONFIG,
+  valueConfig: {},
+  value: {
+    trueValue: 1,
+    falseValue: 0,
+  },
   inputMapSchema: {
     evaluatedValue: SHADER_PROPERTY_VALUE_TYPES.FLOAT,
   },

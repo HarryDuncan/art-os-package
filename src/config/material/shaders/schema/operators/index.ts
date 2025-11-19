@@ -1,4 +1,4 @@
-// import { AND_OPERATOR_SCHEMA } from "./andFunction";
+import { AND_OPERATOR_SCHEMA } from "./andFunction";
 import { SPLIT_VALUE_OPERATOR_SCHEMA } from "./splitValue";
 // import { SEQUENCE_OPERATOR_SCHEMA } from "./sequence";
 
@@ -10,7 +10,7 @@ export const OPERATOR_TYPES = {
 };
 
 export const OPERATOR_SCHEMA_MAP = {
-  // [OPERATOR_TYPES.AND]: AND_OPERATOR_SCHEMA,
+  [OPERATOR_TYPES.AND]: AND_OPERATOR_SCHEMA,
   [OPERATOR_TYPES.SPLIT_VALUE]: SPLIT_VALUE_OPERATOR_SCHEMA,
   // [OPERATOR_TYPES.SEQUENCE]: SEQUENCE_OPERATOR_SCHEMA,
 };
