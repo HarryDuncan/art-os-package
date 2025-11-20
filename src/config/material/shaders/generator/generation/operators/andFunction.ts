@@ -1,28 +1,65 @@
-import { OperatorConfig } from "../../../../schema";
-import { findKeyMatch } from "../../../../utils";
-import { ShaderParameterMap, ConfiguredTransform } from "../../../types";
-// import { ShaderParameterMap, TransformData, ConfiguredTransform } from "../../../types";
+import { OperatorConfig } from "../../../schema";
+import { findKeyMatch } from "../../../utils";
+import { ShaderParameterMap, ConfiguredTransform } from "../../types";
 
 export const andFunctionTransform = (
   effectTransforms: ConfiguredTransform[],
   operatorTransform: OperatorConfig,
   parameterMap: ShaderParameterMap
 ): ConfiguredTransform => {
-  const { inputMapping, outputMapping, outputMapSchema, value } =
-    operatorTransform;
+  const { inputMapping, outputMapping, outputMapSchema } = operatorTransform;
   const inputParameterKeys = Object.keys(inputMapping).map((key) =>
     findKeyMatch(key, parameterMap)
   );
-  console.log(inputMapping);
-  console.log(inputParameterKeys);
-  console.log(outputMapping);
-  console.log(outputMapSchema);
-  console.log(value);
+
+  const outputEffects = Object.keys(outputMapSchema).reduce((acc, key) => {
+    const outputEffectIds = Object.values(outputMapping).flatMap((mapping) =>
+      mapping.sourceKey === key ? mapping.itemId : []
+    );
+    acc.push({ outputEffectIds, key });
+    return acc;
+  }, [] as { outputEffectIds: string[]; key: string }[]);
+
+  const allTransformDefinitions = [
+    ...effectTransforms.flatMap((transform) => transform.transformDefinitions),
+  ];
+  const condition = inputParameterKeys
+    .map((key) => {
+      return `(${key} == 1.0)`;
+    })
+    .join(" && ");
+
+  const transformAssignment: string[] = [];
+  const trueOutput = outputEffects.flatMap(({ outputEffectIds, key }) => {
+    if (key === "trueValue") {
+      return effectTransforms
+        .filter((transform) => outputEffectIds.includes(transform.guid))
+        .flatMap((transform) => transform.transformAssignments);
+    }
+    return [];
+  });
+  const falseOutput = outputEffects.flatMap(({ outputEffectIds, key }) => {
+    if (key === "falseValue") {
+      return effectTransforms
+        .filter((transform) => outputEffectIds.includes(transform.guid))
+        .flatMap((transform) => transform.transformAssignments);
+    }
+    return [];
+  });
+
+  transformAssignment.push(`if(${condition}) {`);
+  transformAssignment.push(...trueOutput);
+  transformAssignment.push("}");
+  transformAssignment.push(`else {`);
+  transformAssignment.push(...falseOutput);
+  transformAssignment.push("}");
+
+  console.log(transformAssignment);
   return {
     guid: operatorTransform.guid,
+    transformAssignments: transformAssignment,
     outputConfigs: [],
-    transformAssignments: [],
-    transformDefinitions: [],
+    transformDefinitions: allTransformDefinitions,
   };
 };
 // const transforms = [];

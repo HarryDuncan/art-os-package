@@ -6,7 +6,7 @@ import {
 } from "../../schema";
 import { ShaderParameterMap, TransformDefinition } from "../types";
 import { configureTransform } from "./transforms/config-setup/configureTransform";
-import { applyEffectWrapper } from "./transforms/operators/applyOperator";
+import { applyEffectWrapper } from "./operators/applyOperator";
 
 export const generateFragmentEffect = (
   operatorConfigs: OperatorConfig[],

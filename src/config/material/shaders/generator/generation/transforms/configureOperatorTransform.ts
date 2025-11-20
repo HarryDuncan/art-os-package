@@ -1,10 +1,8 @@
-import { OperatorConfig } from "../../../../schema";
-import { ShaderParameterMap, ConfiguredTransform } from "../../../types";
-// import { andFunctionTransform } from "./andFunction";
-// import { splitValueTransform } from "./splitValueTransform";
-import { OPERATOR_TYPES } from "../../../../schema/operators";
-import { splitValueTransform } from "./splitValueTransform";
-import { andFunctionTransform } from "./andFunction";
+import { OperatorConfig } from "../../../schema";
+import { ShaderParameterMap, ConfiguredTransform } from "../../types";
+import { OPERATOR_TYPES } from "../../../schema/operators";
+import { splitValueTransform } from "../operators/splitValueTransform";
+import { andFunctionTransform } from "../operators/andFunction";
 
 export const applyEffectWrapper = (
   effectFunctionConfig: OperatorConfig,

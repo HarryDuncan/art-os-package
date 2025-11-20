@@ -1,6 +1,6 @@
-import { OperatorConfig } from "../../../../schema";
-import { findKeyMatch } from "../../../../utils";
-import { ConfiguredTransform, ShaderParameterMap } from "../../../types";
+import { OperatorConfig } from "../../../schema";
+import { findKeyMatch } from "../../../utils";
+import { ConfiguredTransform, ShaderParameterMap } from "../../types";
 
 export const splitValueTransform = (
   effectTransforms: ConfiguredTransform[],
