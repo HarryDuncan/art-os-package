@@ -36,8 +36,9 @@ export const generateShaders = (
   const {
     constantDeclaration,
     constantInstantiation,
+    constantTransformDefinitions,
     //  constantFunctionDeclarations,
-  } = generateConstants(parameterMap);
+  } = generateConstants(parameterMap, functionConfigs);
 
   const fragmentEffects = generateFragmentEffect(operatorConfigs, parameterMap);
   const vertexEffects = generateVertexEffect(operatorConfigs, parameterMap);
@@ -45,6 +46,7 @@ export const generateShaders = (
   const vertexTransformDefinitions = [
     ...vertexEffects.transformDefinitions,
     ...varyingTransformDefinitions,
+    ...constantTransformDefinitions,
     // ...varyingFunctionDeclarations,
     // ...constantFunctionDeclarations,
   ];

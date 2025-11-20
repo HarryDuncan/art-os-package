@@ -20,9 +20,10 @@ import {
 } from "./components/threeJsComponents.types";
 import { LightConfigs, SceneLight } from "../types/lights";
 import { CustomGeometryConfig } from "./mesh/types";
-import { InterNodeMap, ParameterConfig } from "./material/shaders/schema";
+import { ParameterConfig } from "./material/shaders/schema";
 import { RaycasterConfig } from "../types/three.types";
 import { OverlayConfig } from "../components/overlays/types";
+import { InterNodeMap } from "../types";
 
 export type MultipleConfig = {
   instanceCount: number;

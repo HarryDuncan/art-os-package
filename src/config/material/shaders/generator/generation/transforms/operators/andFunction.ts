@@ -1,14 +1,30 @@
-// import { OperatorConfig, EffectConfig } from "../../../../schema";
+import { OperatorConfig } from "../../../../schema";
+import { findKeyMatch } from "../../../../utils";
+import { ShaderParameterMap, ConfiguredTransform } from "../../../types";
 // import { ShaderParameterMap, TransformData, ConfiguredTransform } from "../../../types";
 
-export const t = () => {
-  return null;
+export const andFunctionTransform = (
+  effectTransforms: ConfiguredTransform[],
+  operatorTransform: OperatorConfig,
+  parameterMap: ShaderParameterMap
+): ConfiguredTransform => {
+  const { inputMapping, outputMapping, outputMapSchema, value } =
+    operatorTransform;
+  const inputParameterKeys = Object.keys(inputMapping).map((key) =>
+    findKeyMatch(key, parameterMap)
+  );
+  console.log(inputMapping);
+  console.log(inputParameterKeys);
+  console.log(outputMapping);
+  console.log(outputMapSchema);
+  console.log(value);
+  return {
+    guid: operatorTransform.guid,
+    outputConfigs: [],
+    transformAssignments: [],
+    transformDefinitions: [],
+  };
 };
-// export const andFunctionTransform = (
-//   effectTransforms: ConfiguredTransform[],
-//   effectFunctionTransform: OperatorConfig,
-//   parameterMap: ShaderParameterMap
-// ): TransformData => {
 // const transforms = [];
 // const inputParameters = Array.from(parameterMap.values());
 

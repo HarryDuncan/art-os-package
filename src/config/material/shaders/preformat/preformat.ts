@@ -1,6 +1,5 @@
 import {
   ParameterConfig,
-  InterNodeMap,
   OperatorConfig,
   EffectConfig,
   ShaderTransformationSchema,
@@ -21,6 +20,7 @@ import { ExternalSchema } from "../../types";
 import { formatEffectsAndSchemas } from "./effect-transforms/effectsAndSchemas";
 import { formatOperatorConfigs } from "./formatOperatorConfigs";
 import { isDefaultParameter } from "../generator/generation/helpers/parameterUtils";
+import { InterNodeMap } from "../../../../types";
 
 export const preformat = (
   effectParameters: ParameterConfig[],
@@ -73,12 +73,10 @@ export const preformat = (
   }, new Map() as ShaderParameterMap);
 
   convertedAttributes.forEach((attribute) => {
-    effectParamsMap.set(attribute.key, attribute);
+    effectParamsMap.set(attribute.key, attribute as ParameterConfig);
   });
 
   const parameterMap = new Map([...defaultParamsMap, ...effectParamsMap]);
-
-  console.log(parameterMap);
   // update fragment effects input mapping with new varyings
   const updatedEffectConfigs = shaderEffectConfigs.map((config) => {
     const mappingUpdates = updatedFragShaderInputMapping[config.guid];
@@ -105,7 +103,11 @@ export const preformat = (
   });
 
   const { effectsWithSchemas, functionConfigsWithSchemas } =
-    formatEffectsAndSchemas(updatedEffectConfigs, functionConfigs, schemas);
+    formatEffectsAndSchemas(
+      updatedEffectConfigs as EffectConfig[],
+      functionConfigs,
+      schemas
+    );
 
   const structsConfigs = getStructsConfigsFromEffects(effectsWithSchemas);
 

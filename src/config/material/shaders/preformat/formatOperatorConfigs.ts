@@ -1,13 +1,12 @@
 import {
   EffectConfig,
-  InputMap,
   OPERATOR_TYPES,
   OperatorConfig,
-  SHADER_PROPERTY_TYPES,
   SHADER_TYPES,
 } from "../schema";
 import { ShaderParameterMap } from "../generator/types";
 import { findKeyMatch } from "../utils";
+import { InputMap } from "../../../../types";
 
 export const formatOperatorConfigs = (
   shaderEffectsConfigs: EffectConfig[],
@@ -73,9 +72,11 @@ export const formatOperatorConfigs = (
           (acc, [key, value]) => {
             if (value.nodeType === "parameter") {
               const parameterKey = findKeyMatch(key, parameterMap);
-              console.log(parameterKey);
+              if (!parameterKey) {
+                return acc;
+              }
               const [parameterType, parameterName, parameterSchemaGuid] =
-                parameterKey?.split("_");
+                parameterKey.split("_");
               if (parameterType === "a") {
                 acc[`v_${parameterName}_${parameterSchemaGuid}`] = value;
               } else {

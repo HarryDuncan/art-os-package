@@ -44,8 +44,7 @@ export const configureTransform = (
   const transformAssignment = getTransformInstantiation(
     mainOutputConfig,
     transformName,
-    inputParameterMap,
-    effectConfig.guid
+    inputParameterMap
   );
 
   const mainTransformDefinition: TransformDefinition = {

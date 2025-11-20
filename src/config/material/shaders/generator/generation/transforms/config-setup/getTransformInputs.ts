@@ -1,7 +1,6 @@
 import { ShaderParameterMap } from "../../../types";
 import {
   EffectConfig,
-  InputMap,
   ParameterConfig,
   ShaderTransformationOutputConfig,
   ShaderTransformationParameterConfig,
@@ -11,6 +10,7 @@ import { GLOBAL_PARAMETER_TYPES } from "../../../consts";
 import { isDefaultParameter } from "../../helpers/parameterUtils";
 import { shaderValueTypeInstantiation } from "../../helpers/shaderValues";
 import { isStruct } from "../../../../utils";
+import { InputMap } from "../../../../../../../types";
 
 export const getTransformInputs = (
   transformConfig: ShaderTransformationSchema,
