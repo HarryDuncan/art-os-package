@@ -26,6 +26,41 @@ export const configureTransform = (
     parameterMap,
     effectConfig
   );
+  console.log(mainEffect);
+  console.log(inputParameterMap);
+  console.log(transformDeclaration);
+
+  const subEffectDefinitions: TransformDefinition[] = subEffects.map(
+    (effect) => {
+      const { inputParameterMap, transformDeclaration } = getTransformInputs(
+        effect,
+        parameterMap,
+        effectConfig
+      );
+      const subEffectOutputConfig = getTransformOutputConfig(
+        effect,
+        effectConfig,
+        parameterMap
+      );
+      const transformCode = getTransformCode(
+        effect,
+        transformName,
+        // TODO - fix up sub effects
+        subEffects.map((subEffect) => subEffect.key),
+        inputParameterMap,
+        effectConfig
+      );
+      return {
+        id: effectConfig.guid,
+        functionName: effect.key,
+        definitionCode: [transformDeclaration, ...transformCode],
+        transformType: FUNCTION_TYPES.SUB_TRANSFORM,
+        outputConfig: subEffectOutputConfig,
+      };
+    }
+  );
+
+  console.log(subEffectDefinitions);
 
   const mainOutputConfig = getTransformOutputConfig(
     mainEffect,
@@ -57,7 +92,7 @@ export const configureTransform = (
   return {
     guid: effectConfig.guid,
     transformAssignments: [transformAssignment],
-    transformDefinitions: [mainTransformDefinition],
+    transformDefinitions: [mainTransformDefinition, ...subEffectDefinitions],
     outputConfigs: mainEffect.outputConfig ?? [],
   };
 };

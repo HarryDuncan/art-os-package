@@ -102,7 +102,7 @@ const formatVertexShader = (
   const vertexFunctionDeclarations = functionDeclarations(
     vertexTransformDefinitions
   );
-  console.log(vertexTransformations);
+
   return [
     structDeclaration,
     attributes,

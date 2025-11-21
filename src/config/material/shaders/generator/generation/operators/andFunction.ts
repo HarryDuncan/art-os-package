@@ -54,7 +54,6 @@ export const andFunctionTransform = (
   transformAssignment.push(...falseOutput);
   transformAssignment.push("}");
 
-  console.log(transformAssignment);
   return {
     guid: operatorTransform.guid,
     transformAssignments: transformAssignment,

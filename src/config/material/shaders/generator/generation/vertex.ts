@@ -5,7 +5,7 @@ import {
 } from "../../schema";
 import { ShaderParameterMap, TransformDefinition } from "../types";
 import { configureTransform } from "./transforms/config-setup/configureTransform";
-import { applyEffectWrapper } from "./operators/applyOperator";
+import { applyEffectWrapper } from "./transforms/configureOperatorTransform";
 
 export const generateVertexEffect = (
   operatorConfigs: OperatorConfig[],

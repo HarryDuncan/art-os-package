@@ -60,10 +60,15 @@ export const valueToShader = (valueType: string, value: unknown): string => {
       }
       return `vec2(${value}, ${value})`;
     case SHADER_PROPERTY_VALUE_TYPES.VEC3:
-      if (Array.isArray(value)) {
-        return `vec3(${value[0]}, ${value[1]}, ${value[2]})`;
+      if (!value) {
+        return `vec3(0.0, 0.0, 0.0)`;
       }
-      return `vec3(${value}, ${value}, ${value})`;
+      if (Array.isArray(value)) {
+        return `vec3(${value[0] ?? 0.0}, ${value[1] ?? 0.0}, ${
+          value[2] ?? 0.0
+        })`;
+      }
+      return `vec3(${value ?? 0.0}, ${value ?? 0.0}, ${value ?? 0.0})`;
     case SHADER_PROPERTY_VALUE_TYPES.VEC4:
       if (Array.isArray(value)) {
         return `vec4(${shaderSafeFloat(value[0])}, ${shaderSafeFloat(

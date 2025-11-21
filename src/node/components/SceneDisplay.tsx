@@ -38,7 +38,6 @@ export const SceneDisplay = ({
     animationConfig ?? [],
     meshes,
     lights,
-
     orbitControls,
     sceneProperties
   );

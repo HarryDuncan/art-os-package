@@ -125,11 +125,8 @@ export type TransformValueConfig = {
 };
 
 export type MeshTransformConfig = {
-  id: string;
   guid: string;
   transformedMeshIds: string[];
-  materialId?: string;
-  transformParameterConfigs?: ParameterConfig[];
   values: Record<string, TransformValueConfig>;
   outputMapping: Record<string, InterNodeMap>;
   inputMapping: Record<string, InterNodeMap>;

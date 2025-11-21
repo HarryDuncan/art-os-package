@@ -33,7 +33,7 @@ export const functionDeclarations = (
     };
     return typeOrder[a.transformType] - typeOrder[b.transformType];
   });
-  console.log("orderedFunctions", orderedFunctions);
+
   return orderedFunctions
     .map(({ definitionCode }) => definitionCode.join("\n"))
     .join("\n");

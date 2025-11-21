@@ -37,6 +37,7 @@ export const mouseMoveKeyPoints = (
   const worldPoint = ray.origin
     .clone()
     .add(ray.direction.clone().multiplyScalar(distance));
+
   return {
     x: worldPoint.x,
     y: worldPoint.y,

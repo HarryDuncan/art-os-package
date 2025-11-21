@@ -18,6 +18,10 @@ export const VERTEX_POINT = {
   isDefault: true,
 };
 
+export const MODEL_MATRIX_INVERSE = {
+  key: "uModelMatrixInverse",
+};
+
 export const NORMAL = {
   key: SHADER_VARIABLE_TYPES.NORMAL,
   name: "Current Vertex Normal",

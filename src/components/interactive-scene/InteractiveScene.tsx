@@ -85,7 +85,7 @@ export class InteractiveScene extends Scene {
     interactionConfigs.forEach((interactionConfig) => {
       const eventFunction = FUNCTION_MAP[interactionConfig.functionType];
       const keyPointExtractor =
-        KEY_POINT_EXTRACTORS[interactionConfig.sourceConfig.eventKey];
+        KEY_POINT_EXTRACTORS[interactionConfig.modelConfig.eventKey];
 
       if (!eventFunction) {
         console.warn(
@@ -104,10 +104,10 @@ export class InteractiveScene extends Scene {
         };
         const formattedInteractionConfig = {
           materialIds: interactionConfig.materialIds,
-          uniformKeys: Object.values(interactionConfig.outputMapping).flatMap(
-            (mapping) => `${mapping.parameterKey}_${mapping.parameterId}`
+          uniformKeys: Object.entries(interactionConfig.outputMapping).flatMap(
+            ([key, mapping]) => `u_${key}_${mapping.itemId}`
           ),
-          keyPointId: interactionConfig.sourceConfig.keypointId,
+          keyPointId: interactionConfig.outputConfig[0].rawDataPoints[0],
         };
 
         const eventHandler = (e: Event) => {
@@ -119,10 +119,10 @@ export class InteractiveScene extends Scene {
           );
         };
 
-        this.eventListeners[interactionConfig.sourceConfig.eventKey] =
+        this.eventListeners[interactionConfig.modelConfig.eventKey] =
           eventHandler;
         document.addEventListener(
-          interactionConfig.sourceConfig.eventKey,
+          interactionConfig.modelConfig.eventKey,
           eventHandler
         );
       }

@@ -64,7 +64,7 @@ export const SHADER_VARIABLE_TYPES = {
   DISCARD_COLOR: "discardColor",
   GL_POINT_SIZE: "pointSize",
   POSITION: "position",
-  NORMAL: "normal",
+  NORMAL: "vertexNormal",
   LIGHT: "light",
   POST_EFFECT: "postEffect",
   VARIABLE: "variable",
