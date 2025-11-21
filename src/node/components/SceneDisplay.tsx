@@ -26,8 +26,6 @@ export const SceneDisplay = ({
   },
   setExternalScene,
 }: NodeProps) => {
-  useSetWindowState();
-
   const { container, renderer, currentFrameRef, orbitControls } =
     useThreeJs(controlsConfig);
 

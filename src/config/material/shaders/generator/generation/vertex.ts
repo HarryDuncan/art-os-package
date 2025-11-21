@@ -52,7 +52,7 @@ const getVertexTransformations = (
     }
   });
 
-  const transformations = unmergedTransformations.join("");
+  const transformations = unmergedTransformations.join("\n");
 
   return {
     transformations,

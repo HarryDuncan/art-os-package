@@ -15,3 +15,10 @@ export const ASSET_TYPES = {
   URL: "URL",
   OVERLAY: "OVERLAY",
 };
+
+export const FALLBACK_REASONS = {
+  NOT_FOUND: "NOT_FOUND",
+  TABLET: "TABLET",
+  MOBILE: "MOBILE",
+  DESKTOP: "DESKTOP",
+};

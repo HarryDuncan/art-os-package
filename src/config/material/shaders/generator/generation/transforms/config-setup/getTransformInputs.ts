@@ -6,7 +6,6 @@ import {
   ShaderTransformationParameterConfig,
   ShaderTransformationSchema,
 } from "../../../../schema";
-import { GLOBAL_PARAMETER_TYPES } from "../../../consts";
 import { isDefaultParameter } from "../../helpers/parameterUtils";
 import { shaderValueTypeInstantiation } from "../../helpers/shaderValues";
 import { isStruct } from "../../../../utils";
@@ -91,13 +90,11 @@ export const getFunctionInputs = (
           parameter.valueType
         )} ${id}_${shaderEffectId}`;
       }
-      if (!GLOBAL_PARAMETER_TYPES.includes(parameter.parameterType)) {
-        const [parameterType, parameterName, schemaGuid] = id.split("_");
-        return `${shaderValueTypeInstantiation(
-          parameter.valueType
-        )} ${parameterType}_${parameterName}_${schemaGuid}_${shaderEffectId}`;
-      }
-      return [];
+
+      const [parameterType, parameterName, schemaGuid] = id.split("_");
+      return `${shaderValueTypeInstantiation(
+        parameter.valueType
+      )} ${parameterType}_${parameterName}_${schemaGuid}_${shaderEffectId}`;
     }) ?? [];
 
   return functionInputs;

@@ -39,7 +39,7 @@ export const StatusToolbar: React.FC<StatusToolbarProps> = ({ isVisible }) => {
 
   useEffect(() => {
     if (!initializedScene.current || !isVisible) return;
-    console.log("StatusToolbar initializedScene", initializedScene.current);
+    //  console.log("StatusToolbar initializedScene", initializedScene.current);
     const updateSceneData = () => {
       if (!initializedScene.current) return;
       // Calculate runtime

@@ -19,10 +19,6 @@ export const getTransformInstantiation = (
       if (isDefaultParameter(key)) {
         return key;
       }
-      const [parameterType] = key.split("_");
-      if (parameterType === "a" || parameterType === "c") {
-        return [];
-      }
       return key;
     }) ?? [];
 

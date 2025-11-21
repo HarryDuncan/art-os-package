@@ -26,9 +26,6 @@ export const configureTransform = (
     parameterMap,
     effectConfig
   );
-  console.log(mainEffect);
-  console.log(inputParameterMap);
-  console.log(transformDeclaration);
 
   const subEffectDefinitions: TransformDefinition[] = subEffects.map(
     (effect) => {
@@ -59,8 +56,6 @@ export const configureTransform = (
       };
     }
   );
-
-  console.log(subEffectDefinitions);
 
   const mainOutputConfig = getTransformOutputConfig(
     mainEffect,

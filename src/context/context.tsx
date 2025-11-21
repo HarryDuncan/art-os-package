@@ -5,7 +5,6 @@ import React, {
   FC,
   useState,
   useRef,
-  MutableRefObject,
 } from "react";
 import { PROCESS_STATUS } from "../consts/consts";
 import { Camera } from "three";

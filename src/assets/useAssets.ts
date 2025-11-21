@@ -31,7 +31,7 @@ export const useAssets = (
     if (!assets) return [];
     const loadedAssets = await Promise.all(
       assets.flatMap(async (asset) => {
-        if (!assetPath && !asset.path) {
+        if (!asset || !asset.path) {
           console.warn(
             `asset ${asset.guid} not properly loaded no assetPath or path found`
           );

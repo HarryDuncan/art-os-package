@@ -2,8 +2,11 @@ import { MeshComponentConfig, SceneConfig } from "../config.types";
 import { useMemo } from "react";
 import { GeometryConfig } from "../../assets/geometry/geometry.types";
 import { useWindowState } from "../../compat/window-state/windowStateProvider";
+import { Asset } from "../../assets/types";
+import { SCREEN_TYPE } from "../../compat/window-state/windowState.consts";
+import { FALLBACK_REASONS } from "../../assets/consts";
 
-export const useScreenSizeProperties = (
+export const formatConfigForScreen = (
   config: SceneConfig | undefined | null
 ): SceneConfig | null | undefined => {
   const {
@@ -13,25 +16,14 @@ export const useScreenSizeProperties = (
     if (!config || screenType === "DESKTOP") {
       return config;
     }
-    const { screenSizeAdjustments } = config;
 
-    if (!screenSizeAdjustments || !screenSizeAdjustments.length) {
-      return config;
-    }
-    const currentAdjustment = screenSizeAdjustments.find(
-      ({ screenType }) => screenType === screenType
+    const updatedAssets = config.assets?.map((asset) =>
+      getFallback(asset, config.assets ?? [], screenType)
     );
-    if (!currentAdjustment) {
-      return config;
-    }
 
-    const meshComponentConfigs = mergeMeshConfigs(
-      config.meshComponentConfigs,
-      currentAdjustment.meshComponentConfigs
-    );
     const updatedConfig = {
       ...config,
-      meshComponentConfigs,
+      assets: updatedAssets,
     };
     return updatedConfig;
   }, [config, screenType]);
@@ -84,4 +76,34 @@ const mergeMeshConfigs = (
     }
   });
   return mergedMeshConfigs;
+};
+
+const getFallback = (asset: Asset, allAssets: Asset[], screenType: string) => {
+  let fallback = null;
+  if (!asset.fallbacks?.length) {
+    return asset;
+  }
+  if (screenType === SCREEN_TYPE.TABLET) {
+    fallback = asset.fallbacks.find(
+      (fallback) => fallback.reason === FALLBACK_REASONS.TABLET
+    );
+  } else if (screenType === SCREEN_TYPE.MOBILE) {
+    fallback = asset.fallbacks.find(
+      (fallback) => fallback.reason === FALLBACK_REASONS.MOBILE
+    );
+  } else if (screenType === SCREEN_TYPE.DESKTOP) {
+    fallback = asset.fallbacks.find(
+      (fallback) => fallback.reason === FALLBACK_REASONS.DESKTOP
+    );
+  }
+  if (fallback) {
+    const updatedAsset =
+      allAssets.find((a) => a.guid === fallback.assetId) ?? asset;
+    return {
+      ...asset,
+      path: updatedAsset.path,
+      fileName: updatedAsset.fileName,
+    };
+  }
+  return asset;
 };

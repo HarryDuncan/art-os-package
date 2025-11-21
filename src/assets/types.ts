@@ -26,6 +26,12 @@ export interface AssetMetaData {
   boundingBox: BoundingBox;
 }
 export type AssetTag = keyof typeof ASSET_TAG;
+
+export type FallbackData = {
+  assetId: string;
+  reason: string;
+};
+
 export type Asset = {
   guid: string;
   name: string;
@@ -35,4 +41,5 @@ export type Asset = {
   assetTag?: AssetTag[];
   metaData?: AssetMetaData;
   fileName?: string;
+  fallbacks: FallbackData[];
 };

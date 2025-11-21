@@ -6,10 +6,12 @@ import { SceneConfig } from "../../config/config.types";
 import { useSceneData } from "../../config/useSceneData";
 import { SceneDisplay } from "./SceneDisplay";
 import { useSetInteractionConfigs } from "../../interaction/hooks/useSetInteractionConfigs";
-import { useScreenSizeProperties } from "../../config/scene-properties/useScreenSizeProperties";
+import { formatConfigForScreen } from "../../config/scene-properties/formatConfigForScreen";
 import { useCamera } from "../../config/three-js/use-camera/useCamera";
 import { InteractiveScene } from "../../components/interactive-scene/InteractiveScene";
 import { Camera } from "three";
+import { useSetWindowState } from "../../compat/window-state/useSetWindowState";
+import { useWindowState } from "../../compat/window-state/windowStateProvider";
 
 export const ProgressiveLoading = ({
   sceneConfig,
@@ -23,17 +25,71 @@ export const ProgressiveLoading = ({
     camera: Camera | null
   ) => void;
 }) => {
+  useSetWindowState();
+  const {
+    state: { windowSize },
+  } = useWindowState();
+
+  return (
+    <>
+      <Loader loaderComponent={loaderComponent} />
+      {windowSize.width !== 0 && windowSize.height !== 0 && (
+        <PostWindowSizeLoader
+          loaderComponent={loaderComponent}
+          sceneConfig={sceneConfig}
+          setExternalScene={setExternalScene}
+        />
+      )}
+    </>
+  );
+};
+
+const PostWindowSizeLoader = ({
+  loaderComponent,
+  sceneConfig,
+  setExternalScene,
+}: {
+  loaderComponent: ReactNode;
+  sceneConfig: SceneConfig;
+  setExternalScene?: (
+    scene: InteractiveScene | null,
+    camera: Camera | null
+  ) => void;
+}) => {
   useSetInteractionConfigs(sceneConfig.interactionConfigs ?? []);
+  const formattedConfig = formatConfigForScreen(sceneConfig);
+  return (
+    <>
+      <Loader loaderComponent={loaderComponent} />
+      {formattedConfig && (
+        <SceneLoader
+          sceneConfig={formattedConfig}
+          setExternalScene={setExternalScene}
+        />
+      )}
+    </>
+  );
+};
+
+const SceneLoader = ({
+  sceneConfig,
+  setExternalScene,
+}: {
+  sceneConfig: SceneConfig;
+  setExternalScene?: (
+    scene: InteractiveScene | null,
+    camera: Camera | null
+  ) => void;
+}) => {
   const { areAssetsInitialized, initializedAssets } = useAssets(
     sceneConfig.assets,
     sceneConfig.assetPath
   );
-  const formattedConfig = useScreenSizeProperties(sceneConfig);
-  useCamera(formattedConfig?.cameraConfig);
+
+  useCamera(sceneConfig.cameraConfig);
   return (
     <>
-      <Loader loaderComponent={loaderComponent} />
-      {areAssetsInitialized && !!initializedAssets && formattedConfig && (
+      {areAssetsInitialized && !!initializedAssets && sceneConfig && (
         <SceneConfigLoader
           sceneConfig={sceneConfig}
           assets={initializedAssets}
