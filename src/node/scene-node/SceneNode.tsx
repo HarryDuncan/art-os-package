@@ -12,7 +12,6 @@ export const SceneNode = ({
   onLog,
 }: SceneNodeProps) => {
   useLoggerHandler(onLog);
-  console.log("sceneConfig", sceneConfig);
   return (
     <ErrorBoundary>
       <WindowStateProvider>

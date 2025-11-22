@@ -63,6 +63,6 @@ const getCameraAspect = (
   viewportHeight: number
 ) => {
   const sceneWidth = getSceneWidth(sceneProperties, viewportWidth);
-  const sceneHeight = getSceneHeight(sceneProperties, viewportHeight);
+  const sceneHeight = viewportHeight;
   return sceneWidth / sceneHeight;
 };

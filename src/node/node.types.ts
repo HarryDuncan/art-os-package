@@ -8,6 +8,7 @@ import { Camera } from "three";
 import { LogEntry } from "../utils/logger";
 
 export interface SceneNodeProps {
+  isSandboxMode?: boolean;
   sceneConfig: SceneConfig;
   externalSchemas?: Record<string, string>;
   loaderComponent?: ReactNode;
