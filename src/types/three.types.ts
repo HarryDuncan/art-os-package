@@ -1,4 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+
+import { PositionConfig } from "./position.types";
+
 // We declare some types as any here - because we have to use lazy loading for some types.
 export type RaycasterConfig = {
   enabled: boolean;
@@ -41,3 +44,7 @@ export interface OrbitControlConfig {
     TWO: number;
   };
 }
+
+export type CameraScreenAdjustmentConfig = {
+  position: PositionConfig;
+};

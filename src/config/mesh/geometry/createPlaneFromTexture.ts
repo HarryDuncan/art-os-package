@@ -52,7 +52,7 @@ export const createPlaneFromTexture = (texture: Texture) => {
 
   // Set index to null for point rendering
   geometry.setIndex(null);
-
+  console.log("geometry", geometry);
   return geometry;
 };
 

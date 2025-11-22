@@ -12,28 +12,41 @@ export const RootContainer = ({
   sceneProperties,
 }: IRootContainerProps) => {
   return (
-    <div
-      style={{
-        height: sceneProperties.viewHeight,
-        width: sceneProperties.viewWidth,
-        overflow: "hidden",
-        margin: "0 auto",
-        cursor: sceneProperties.cursor ?? "pointer",
-        position: sceneProperties.position as
-          | "relative"
-          | "absolute"
-          | "fixed"
-          | "sticky"
-          | undefined,
-        backgroundColor: sceneProperties.backgroundColor ?? "transparent",
-        backgroundImage: sceneProperties.backgroundUrl
-          ? `url(${sceneProperties.backgroundUrl})`
-          : "none",
-        backgroundSize: "cover",
-      }}
-      ref={containerRef}
-    >
-      <VideoBackground videoSrc={sceneProperties.videoBackground} />
-    </div>
+    <>
+      <div
+        style={{
+          height: sceneProperties.viewHeight,
+          width: sceneProperties.viewWidth,
+          overflow: "hidden",
+          margin: "0 auto",
+          cursor: sceneProperties.cursor ?? "pointer",
+          position: sceneProperties.position as
+            | "relative"
+            | "absolute"
+            | "fixed"
+            | "sticky"
+            | undefined,
+          backgroundColor: sceneProperties.backgroundColor ?? "transparent",
+          backgroundImage: sceneProperties.backgroundUrl
+            ? `url(${sceneProperties.backgroundUrl})`
+            : "none",
+          backgroundSize: "cover",
+        }}
+        ref={containerRef}
+      >
+        <VideoBackground videoSrc={sceneProperties.videoBackground} />
+      </div>
+      <div
+        id="append-container"
+        style={{
+          zIndex: -1,
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+        }}
+      />
+    </>
   );
 };

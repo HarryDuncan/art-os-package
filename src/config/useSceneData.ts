@@ -20,10 +20,7 @@ export const useSceneData = (
       if (config) {
         const materials = formatSceneMaterials(assets, config);
         const meshes = getMeshesFromConfig(assets, materials, config);
-        const animationConfig = config?.animationConfig ?? [];
-        const sceneProperties = getScenePropertiesFromConfig(
-          config.scenePropertiesConfig
-        );
+        const { animationConfig, sceneProperties } = config;
         const postEffects = postEffectsFromConfig(config);
         const overlays =
           config.assets?.filter(

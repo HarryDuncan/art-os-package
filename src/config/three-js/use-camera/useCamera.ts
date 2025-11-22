@@ -5,15 +5,21 @@ import { useWindowState } from "../../../compat/window-state/windowStateProvider
 import { DEFAULT_ORTHOGRAPHIC, DEFAULT_PERSPECTIVE } from "./camera.consts";
 import { positionConfigToPosition } from "../../../utils/conversion/conversion";
 import { useSceneContext } from "../../../context/context";
+import { SceneProperties } from "../../config.types";
+import { getSceneHeight, getSceneWidth } from "../../../utils/scene-properties";
 
-export const useCamera = (config: Partial<CameraConfig> | undefined) => {
+export const useCamera = (
+  config: Partial<CameraConfig> | undefined,
+  sceneProperties: SceneProperties
+) => {
+  console.log("sceneProperties", sceneProperties);
   const { camera } = useSceneContext();
   const {
     state: {
       windowSize: { width, height },
     },
   } = useWindowState();
-  const aspect = width / height;
+  const aspect = getCameraAspect(sceneProperties, width, height);
 
   useEffect(() => {
     if (!camera.current && config && aspect) {
@@ -49,4 +55,14 @@ const getCamera = (aspect: number, config?: CameraConfig) => {
       return camera;
     }
   }
+};
+
+const getCameraAspect = (
+  sceneProperties: SceneProperties,
+  viewportWidth: number,
+  viewportHeight: number
+) => {
+  const sceneWidth = getSceneWidth(sceneProperties, viewportWidth);
+  const sceneHeight = getSceneHeight(sceneProperties, viewportHeight);
+  return sceneWidth / sceneHeight;
 };

@@ -27,7 +27,7 @@ export const DEFAULT_CONFIG = {
   lightConfig: DEFAULT_LIGHTS,
   sceneComponentConfigs: [],
   interactionConfigs: [],
-  scenePropertiesConfig: DEFAULT_SCENE_PROPERTIES,
+  sceneProperties: DEFAULT_SCENE_PROPERTIES,
   screenSizeAdjustments: [],
 };
 

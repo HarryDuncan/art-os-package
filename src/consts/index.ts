@@ -23,3 +23,5 @@ export * from "./lights/lights";
 export * from "../interaction/consts";
 export * from "../interaction/peripheral-interactions/peripheralInteractions.consts";
 export * from "../interaction/key-point-extraction/keyPointExtraction";
+
+export * from "../compat/window-state/windowState.consts";

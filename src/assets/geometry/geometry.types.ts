@@ -28,6 +28,7 @@ export type AssetGeometry = {
   geometry: BufferGeometry;
   name: string;
   assetId: string;
+  positionOffset?: Position3d;
 };
 
 export type GeometryConfig = {

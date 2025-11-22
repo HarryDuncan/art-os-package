@@ -3,8 +3,14 @@ import { SRGBColorSpace, WebGLRenderer } from "three";
 import { useRendererSize } from "../hooks/useRendererSize";
 import { DEFAULT_RENDERER_PARAMS } from "../rendererConstants";
 import { RendererParams } from "../renderer.types";
+import { SceneProperties } from "../../../..";
+import {
+  getSceneHeight,
+  getSceneWidth,
+} from "../../../../utils/scene-properties";
 
 export const useWebGLRenderer = (
+  sceneProperties: SceneProperties,
   rendererParams: RendererParams = DEFAULT_RENDERER_PARAMS as RendererParams
 ) => {
   const { width, height, devicePixelRatio, screenType } =
@@ -25,10 +31,12 @@ export const useWebGLRenderer = (
   // Update size when dimensions change
   useEffect(() => {
     if (renderer) {
+      const rendererWidth = getSceneWidth(sceneProperties, width);
+      const rendererHeight = getSceneHeight(sceneProperties, height);
       renderer.setPixelRatio(devicePixelRatio ?? 1);
-      renderer.setSize(width, height);
+      renderer.setSize(rendererWidth, rendererHeight);
     }
-  }, [renderer, width, height, devicePixelRatio]);
+  }, [renderer, width, height, devicePixelRatio, sceneProperties]);
 
   // Cleanup renderer on unmount to prevent WebGL context leaks
   useEffect(() => {

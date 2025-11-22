@@ -41,5 +41,5 @@ export type Asset = {
   assetTag?: AssetTag[];
   metaData?: AssetMetaData;
   fileName?: string;
-  fallbacks: FallbackData[];
+  fallbacks?: FallbackData[];
 };

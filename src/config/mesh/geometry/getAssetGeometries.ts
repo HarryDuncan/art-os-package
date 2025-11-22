@@ -30,22 +30,36 @@ export const getAssetGeometry = (asset: Asset) => {
     const width = (video as HTMLVideoElement)?.videoWidth;
     const height = (video as HTMLVideoElement)?.videoHeight;
     const geometry = createPlaneFromDimensions(width ?? 1, height ?? 1);
+    const positionOffset = {
+      x: width !== 0 ? -(width / 2) : 0,
+      y: height !== 0 ? -(height / 2) : 0,
+      z: 0,
+    };
     return [
       {
         name: asset.name,
         geometry,
         isCustomGeometry: true,
+        positionOffset,
       },
     ];
   }
   if (assetType === ASSET_TYPES.TEXTURE) {
     const texture = data as Texture;
     const geometry = createPlaneFromTexture(texture);
+    const width = texture.image?.width ?? 0;
+    const height = texture.image?.height ?? 0;
+    const positionOffset = {
+      x: width !== 0 ? width / 2 : 0,
+      y: height !== 0 ? height / 2 : 0,
+      z: 0,
+    };
     return [
       {
         name: asset.name,
         geometry,
         isCustomGeometry: true,
+        positionOffset,
       },
     ];
   }

@@ -1,3 +1,4 @@
+import { ScreenType } from "../../../../compat/window-state/types";
 import { InputMap, OutputMap } from "../../../../types";
 import {
   ATTRIBUTE_VALUE_TYPES,
@@ -52,6 +53,8 @@ export type ParameterConfig = {
   };
   attributeConfig?: AttributeConfig;
   varyingConfig?: VaryingConfig;
+
+  screenSizeAdjustment?: Record<ScreenType, unknown>;
 
   // TODO - update this and remove function config
   isFunctionBased?: boolean;

@@ -20,7 +20,6 @@ import {
 } from "./components/threeJsComponents.types";
 import { LightConfigs, SceneLight } from "../types/lights";
 import { CustomGeometryConfig } from "./mesh/types";
-import { ParameterConfig } from "./material/shaders/schema";
 import { RaycasterConfig } from "../types/three.types";
 import { OverlayConfig } from "../components/overlays/types";
 import { InterNodeMap } from "../types";
@@ -60,9 +59,16 @@ export type MeshConfig = {
   customGeometryConfig?: CustomGeometryConfig;
 };
 
+interface MeshGeometryConfig {
+  rotation?: Partial<Position3d>;
+  position?: Partial<Position3d>;
+  scale: number;
+}
+export type MeshScreenAdjustmentConfig = Record<ScreenType, MeshGeometryConfig>;
 export type MeshComponentConfig = MeshConfig & {
   geometryType?: string;
   assetId?: string;
+  screenSizeAdjustment?: MeshScreenAdjustmentConfig;
 };
 
 export type ControlConfig = {
@@ -143,7 +149,7 @@ export type SceneConfig = {
   title?: string;
   assetPath?: string;
   description?: string;
-  cameraConfig?: Partial<CameraConfig>;
+  cameraConfig?: CameraConfig;
   controlsConfig?: Partial<ControlConfig>;
   assets?: Asset[];
   meshComponentConfigs: MeshComponentConfig[];
@@ -154,7 +160,7 @@ export type SceneConfig = {
   lightConfig: LightConfigs[];
   sceneComponentConfigs?: SceneComponentConfig[];
   interactionConfigs?: InteractionConfig[];
-  scenePropertiesConfig: ScenePropertiesConfig;
+  sceneProperties: SceneProperties;
   screenSizeAdjustments?: ScreenSizeAdjustmentConfig[];
   overlayConfig?: OverlayConfig[];
 };

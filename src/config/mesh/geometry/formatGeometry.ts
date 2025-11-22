@@ -38,14 +38,14 @@ export const formatGeometry = (
       geometry.geometry,
       meshConfig.geometryConfig
     );
-
+    console.log("geometry", geometry);
     return {
       meshId: meshConfig.guid,
       materialId: meshConfig.materialId,
       geometry: configuredGeometry,
       assetId: meshConfig.assetId,
       meshType: meshConfig.meshType ?? MESH_TYPES.MESH,
-      position,
+      position: geometry?.positionOffset ? geometry?.positionOffset : position,
       rotation,
       groupId: meshConfig.groupId,
     } as FormattedGeometry;
@@ -81,7 +81,7 @@ const getGeometryForMeshConfig = (
         geometryType as CustomBufferGeometryType,
         customGeometryConfig
       );
-      return { geometry: customGeometry };
+      return { geometry: customGeometry, positionOffset: undefined };
     }
   }
 
@@ -98,5 +98,6 @@ const getGeometryForMeshConfig = (
   return {
     ...meshGeometry,
     geometry: meshGeometry?.geometry.clone(),
+    positionOffset: meshGeometry?.positionOffset,
   };
 };

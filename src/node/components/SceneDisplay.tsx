@@ -26,8 +26,10 @@ export const SceneDisplay = ({
   },
   setExternalScene,
 }: NodeProps) => {
-  const { container, renderer, currentFrameRef, orbitControls } =
-    useThreeJs(controlsConfig);
+  const { container, renderer, currentFrameRef, orbitControls } = useThreeJs(
+    controlsConfig,
+    sceneProperties
+  );
 
   const formattedSceneFunctions = useSceneFunctions(sceneFunctions);
 

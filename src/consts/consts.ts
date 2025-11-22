@@ -23,7 +23,7 @@ export const SCENE_CONFIG_KEYS = {
   LIGHT_CONFIG: "lightConfig",
   SCENE_COMPONENT_CONFIGS: "sceneComponentConfigs",
   INTERACTION_CONFIG: "interactionConfigs",
-  SCENE_PROPERTIES_CONFIG: "scenePropertiesConfig",
+  SCENE_PROPERTIES: "sceneProperties",
   SCREEN_SIZE_ADJUSTMENTS: "screenSizeAdjustments",
   OVERLAY_CONFIG: "overlayConfig",
 };

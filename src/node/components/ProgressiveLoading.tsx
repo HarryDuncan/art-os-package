@@ -86,7 +86,7 @@ const SceneLoader = ({
     sceneConfig.assetPath
   );
 
-  useCamera(sceneConfig.cameraConfig);
+  useCamera(sceneConfig.cameraConfig, sceneConfig.sceneProperties ?? {});
   return (
     <>
       {areAssetsInitialized && !!initializedAssets && sceneConfig && (

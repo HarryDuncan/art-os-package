@@ -1,3 +1,5 @@
+import { ScreenType } from "../../../compat/window-state/types";
+import { CameraScreenAdjustmentConfig } from "../../../types";
 import { PositionConfig } from "../../../types/position.types";
 
 export const CAMERA_TYPES = {
@@ -11,6 +13,7 @@ export interface CameraConfig {
   position: PositionConfig;
   perspectiveCameraConfig?: PerspectiveCameraConfig;
   orthographicCameraConfig?: OrthographicCameraConfig;
+  screenSizeAdjustment?: Record<ScreenType, CameraScreenAdjustmentConfig>;
 }
 
 export interface OrthographicCameraConfig {
