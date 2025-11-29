@@ -11,13 +11,13 @@ import { setSceneProperties } from "../../utils/scene/setSceneProperties";
 import { GLTF } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { useSceneContext } from "../../context/context";
 import { PROCESS_STATUS } from "../../consts/consts";
-import { SceneLight } from "../../types";
+// import { SceneLight } from "../../types";
 
 export const useInteractiveScene = (
   sceneFunction: InteractiveSceneFunctions,
   animationConfig: AnimationConfig[],
   meshes: Object3D[] | GLTF[],
-  lights: SceneLight[],
+  // lights: SceneLight[],
   // sceneComponents: Object3D[],
   orbitControls: OrbitControls | null,
   sceneProperties: SceneProperties
@@ -28,16 +28,18 @@ export const useInteractiveScene = (
   const setUpSceneObjects = useCallback(
     async (scene: InteractiveScene) => {
       meshes.forEach((mesh) => scene.add(mesh as Object3D));
-      lights.forEach((light) => scene.add(light));
+      // lights.forEach((light) => scene.add(light));
       //    sceneComponents.forEach((component) => scene.add(component));
       setSceneProperties(sceneProperties, scene);
       initializedScene.current = scene;
     },
-    [meshes, lights, sceneProperties]
+    [meshes, sceneProperties]
   );
 
   useEffect(() => {
     if (initializedScene.current && orbitControls) {
+      console.log("adding orbit controls");
+      console.log("orbitControls", orbitControls);
       initializedScene.current.orbitControls = orbitControls;
     }
   }, [initializedScene, orbitControls]);
@@ -49,7 +51,6 @@ export const useInteractiveScene = (
         animationConfig,
         interactionConfigs,
         sceneProperties,
-        lights,
         camera.current as Camera
       );
 

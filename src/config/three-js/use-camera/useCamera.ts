@@ -12,7 +12,6 @@ export const useCamera = (
   config: Partial<CameraConfig> | undefined,
   sceneProperties: SceneProperties
 ) => {
-  console.log("sceneProperties", sceneProperties);
   const { camera } = useSceneContext();
   const {
     state: {
@@ -63,6 +62,6 @@ const getCameraAspect = (
   viewportHeight: number
 ) => {
   const sceneWidth = getSceneWidth(sceneProperties, viewportWidth);
-  const sceneHeight = viewportHeight;
+  const sceneHeight = getSceneHeight(sceneProperties, viewportHeight);
   return sceneWidth / sceneHeight;
 };

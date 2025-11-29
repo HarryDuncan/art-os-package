@@ -2,6 +2,7 @@ import { Vector3 } from "three";
 import { MeshComponentConfig } from "../../config/config.types";
 import { DEFAULT_POSITION } from "../../consts/threejs";
 import { vector3DegreesToEuler } from "./degreesToEuler";
+import { Position3d } from "../../types";
 
 export const formatRotationFromConfig = (config: MeshComponentConfig) => {
   const rotation = new Vector3(0, 0, 0);
@@ -11,14 +12,13 @@ export const formatRotationFromConfig = (config: MeshComponentConfig) => {
   const eulerRotation = vector3DegreesToEuler(rotation);
   return eulerRotation;
 };
-export const formatPositionFromConfig = (config: MeshComponentConfig) => {
-  // if (config.isCustomGeometry) {
-  //   console.log("isCustomGeometry");
-  //   console.log(config);
-  // }
+export const formatPositionFromConfig = (
+  config: MeshComponentConfig,
+  positionOffset?: Position3d
+) => {
   const position = { ...DEFAULT_POSITION };
-  position.x = config?.position?.x ?? 0;
-  position.y = config?.position?.y ?? 0;
-  position.z = config?.position?.z ?? 0;
+  position.x = (config?.position?.x ?? 0) + (positionOffset?.x ?? 0);
+  position.y = (config?.position?.y ?? 0) + (positionOffset?.y ?? 0);
+  position.z = (config?.position?.z ?? 0) + (positionOffset?.z ?? 0);
   return new Vector3(position.x, position.y, position.z);
 };

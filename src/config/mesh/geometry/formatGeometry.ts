@@ -32,7 +32,10 @@ export const formatGeometry = (
       return [];
     }
 
-    const position = formatPositionFromConfig(meshConfig);
+    const position = formatPositionFromConfig(
+      meshConfig,
+      geometry?.positionOffset
+    );
     const rotation = formatRotationFromConfig(meshConfig);
     const configuredGeometry = configureGeometry(
       geometry.geometry,
@@ -45,7 +48,7 @@ export const formatGeometry = (
       geometry: configuredGeometry,
       assetId: meshConfig.assetId,
       meshType: meshConfig.meshType ?? MESH_TYPES.MESH,
-      position: geometry?.positionOffset ? geometry?.positionOffset : position,
+      position: position,
       rotation,
       groupId: meshConfig.groupId,
     } as FormattedGeometry;

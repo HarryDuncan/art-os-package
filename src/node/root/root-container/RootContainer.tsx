@@ -6,6 +6,8 @@ interface IRootContainerProps {
   containerRef: MutableRefObject<HTMLDivElement | null>;
   sceneProperties: SceneProperties;
 }
+// @ TODO - make a component that can overlay on top of the scene,
+// and I can have components in there - but pointer events pass through so orbit controls ect still work
 
 export const RootContainer = ({
   containerRef,
@@ -31,6 +33,7 @@ export const RootContainer = ({
             ? `url(${sceneProperties.backgroundUrl})`
             : "none",
           backgroundSize: "cover",
+          zIndex: "9999",
         }}
         ref={containerRef}
       >

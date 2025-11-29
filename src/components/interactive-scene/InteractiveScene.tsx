@@ -1,17 +1,16 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-// @ts-nocheck
-
 import { InteractionConfig } from "../../interaction/types";
-import { Clock, Scene, Camera, Texture } from "three";
+import { Clock, Scene, Camera } from "three";
 import { AnimationManager } from "../../animation/animation-manager/AnimationManager";
 import { AnimationConfig } from "../../animation/animation.types";
 import { THREAD_EVENTS } from "../../thread/thread.consts";
 import { SceneProperties } from "../../config/config.types";
-import { SceneLight } from "../../config/lights/lights.types";
 import { OrbitControl } from "../../types";
 import { FUNCTION_MAP } from "../../interaction/functions/functionMap";
-import { KEY_POINT_EXTRACTORS } from "../../interaction/key-point-extraction/keyPointExtraction";
+// import { KEY_POINT_EXTRACTORS } from "../../interaction/key-point-extraction/keyPointExtraction";
 
+/*
+  TODO - fix the interaction event initialization with the v2 interaction configs
+*/
 export type InteractiveSceneFunctions = {
   onTimeUpdate?: (scene: InteractiveScene) => void;
   onTriggeredUpdate?: (scene: InteractiveScene) => void;
@@ -31,20 +30,26 @@ export class InteractiveScene extends Scene {
   eventsSet: boolean;
 
   sceneProperties: SceneProperties;
+
   interactionConfigs: InteractionConfig[];
-  lights: SceneLight[];
-  background?: Texture | undefined;
+
+  sceneStatus: string;
+
+  camera: Camera;
+
+  rendererHeight: number;
+
+  rendererWidth: number;
 
   constructor(
     sceneFunctions: InteractiveSceneFunctions,
     animationConfig: AnimationConfig[],
     interactionConfigs: InteractionConfig[],
     sceneProperties: SceneProperties,
-    lights: SceneLight[],
     camera: Camera
   ) {
     super();
-    this.status = "idle";
+    this.sceneStatus = "idle";
     this.guid = "";
     this.sceneFunctions = sceneFunctions;
     this.clock = new Clock();
@@ -54,7 +59,6 @@ export class InteractiveScene extends Scene {
     this.eventsSet = false;
     this.sceneProperties = sceneProperties;
     this.interactionConfigs = interactionConfigs;
-    this.lights = lights;
     this.camera = camera;
     this.rendererHeight = 0;
     this.rendererWidth = 0;
@@ -72,9 +76,9 @@ export class InteractiveScene extends Scene {
         onTriggeredUpdate(this)
       );
     }
-    // @ts-ignore
-    document.addEventListener(THREAD_EVENTS.MESH_ADDED, ({ detail }) => {
-      // @ts-ignore
+
+    document.addEventListener(THREAD_EVENTS.MESH_ADDED, (event: Event) => {
+      const detail = (event as CustomEvent).detail;
       this.add(detail);
     });
   }
@@ -83,49 +87,50 @@ export class InteractiveScene extends Scene {
 
   addInteractionEvents(interactionConfigs: InteractionConfig[]) {
     interactionConfigs.forEach((interactionConfig) => {
-      const eventFunction = FUNCTION_MAP[interactionConfig.functionType];
-      const keyPointExtractor =
-        KEY_POINT_EXTRACTORS[interactionConfig.modelConfig.eventKey];
+      const { output } = interactionConfig;
+      const eventFunction = FUNCTION_MAP[output?.functionType];
+      // const keyPointExtractor =
+      //   KEY_POINT_EXTRACTORS[interactionConfig.modelConfig.eventKey];
 
-      if (!eventFunction) {
-        console.warn(
-          `Event function ${
-            interactionConfig.functionType
-          } not found for interaction config ${
-            interactionConfig.name ?? interactionConfig.id
-          }`
-        );
-      } else {
-        const params = {
-          camera: this.camera,
-          rendererHeight: this.rendererHeight,
-          rendererWidth: this.rendererWidth,
-          zTarget: 0,
-        };
-        const formattedInteractionConfig = {
-          materialIds: interactionConfig.materialIds,
-          uniformKeys: Object.entries(interactionConfig.outputMapping).flatMap(
-            ([key, mapping]) => `u_${key}_${mapping.itemId}`
-          ),
-          keyPointId: interactionConfig.outputConfig[0].rawDataPoints[0],
-        };
+      // if (!eventFunction) {
+      //   console.warn(
+      //     `Event function ${
+      //       interactionConfig.functionType
+      //     } not found for interaction config ${
+      //       interactionConfig.name ?? interactionConfig.id
+      //     }`
+      //   );
+      // } else {
+      //   const params = {
+      //     camera: this.camera,
+      //     rendererHeight: this.rendererHeight,
+      //     rendererWidth: this.rendererWidth,
+      //     zTarget: 0,
+      //   };
+      //   const formattedInteractionConfig = {
+      //     materialIds: interactionConfig.materialIds,
+      //     uniformKeys: Object.entries(interactionConfig.outputMapping).flatMap(
+      //       ([key, mapping]) => `u_${key}_${mapping.itemId}`
+      //     ),
+      //     keyPointId: interactionConfig.outputConfig[0].rawDataPoints[0],
+      //   };
 
-        const eventHandler = (e: Event) => {
-          const eventData = keyPointExtractor(e, params);
-          eventFunction(
-            this as InteractiveScene,
-            eventData,
-            formattedInteractionConfig
-          );
-        };
+      //   const eventHandler = (e: Event) => {
+      //     const eventData = keyPointExtractor(e, params);
+      //     eventFunction(
+      //       this as InteractiveScene,
+      //       eventData,
+      //       formattedInteractionConfig
+      //     );
+      //   };
 
-        this.eventListeners[interactionConfig.modelConfig.eventKey] =
-          eventHandler;
-        document.addEventListener(
-          interactionConfig.modelConfig.eventKey,
-          eventHandler
-        );
-      }
+      //   this.eventListeners[interactionConfig.modelConfig.eventKey] =
+      //     eventHandler;
+      //   document.addEventListener(
+      //     interactionConfig.modelConfig.eventKey,
+      //     eventHandler
+      //   );
+      // }
     });
   }
 
@@ -142,7 +147,7 @@ export class InteractiveScene extends Scene {
   }
 
   setStatus(status: "idle" | "active") {
-    this.status = status;
+    this.sceneStatus = status;
     if (status === "active") {
       this.addInteractionEvents(this.interactionConfigs);
     } else {

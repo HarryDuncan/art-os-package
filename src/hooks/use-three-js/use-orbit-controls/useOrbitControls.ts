@@ -13,7 +13,7 @@ export const useOrbitControls = (
   );
   const loadOrbitControls = useCallback(() => {
     if (!camera.current || !renderer) return;
-
+    console.log("redoing orbit controls");
     const controls = new OrbitControls(camera.current, renderer.domElement);
     controls.enableDamping = true;
     controls.dampingFactor = 0.05;

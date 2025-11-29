@@ -17,7 +17,7 @@ export const SceneDisplay = ({
   sceneData: {
     controlsConfig,
     animationConfig,
-    lights,
+    // lights,
     meshes,
     //sceneComponents,
     sceneProperties,
@@ -37,7 +37,7 @@ export const SceneDisplay = ({
     formattedSceneFunctions,
     animationConfig ?? [],
     meshes,
-    lights,
+    // lights,
     orbitControls,
     sceneProperties
   );
