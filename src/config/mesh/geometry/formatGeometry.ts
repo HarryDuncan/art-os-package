@@ -1,47 +1,39 @@
 import { BufferGeometry, Vector3 } from "three";
 import { Asset } from "../../../assets/types";
 import {
-  AssetGeometry,
   FormattedGeometry,
   GeometryConfig,
 } from "../../../assets/geometry/geometry.types";
 import { DEFAULT_MODEL3D_CONFIG } from "../../../assets/consts";
 import { MeshComponentConfig } from "../../config.types";
-import { getAssetGeometries } from "../../../config/mesh/geometry/getAssetGeometries";
+import { getAssetGeometry } from "../../../config/mesh/geometry/getAssetGeometries";
 import {
   formatPositionFromConfig,
   formatRotationFromConfig,
 } from "../../../utils/three-dimension-space/formatFromConfig";
 import { setUpCustomBufferGeometry } from "./custom-buffer-geometry/setupCustomBufferGeometry";
-import { CustomBufferGeometryType, CustomGeometryConfig } from "../types";
+import { CustomBufferGeometryType } from "../types";
 import { CUSTOM_GEOMETRY_TYPES, MESH_TYPES } from "../consts";
+import { MeshType } from "../../../assets/geometry/geometry.types";
 
 export const formatGeometry = (
   loadedAssets: Asset[],
   meshComponentConfigs: MeshComponentConfig[]
 ): FormattedGeometry[] => {
-  const geometries = getAssetGeometries(loadedAssets);
   return meshComponentConfigs.flatMap((meshConfig) => {
-    const geometry = getGeometryForMeshConfig(
-      geometries,
-      meshConfig.geometryType,
-      meshConfig.assetId,
-      meshConfig.customGeometryConfig
-    );
-    if (!geometry?.geometry) {
+    const formattedConfig = getGeometryForMeshConfig(meshConfig, loadedAssets);
+    if (!formattedConfig) {
       return [];
     }
-
     const position = formatPositionFromConfig(
       meshConfig,
-      geometry?.positionOffset
+      formattedConfig?.positionOffset
     );
     const rotation = formatRotationFromConfig(meshConfig);
     const configuredGeometry = configureGeometry(
-      geometry.geometry,
+      formattedConfig.geometry,
       meshConfig.geometryConfig
     );
-    console.log("geometry", geometry);
     return {
       meshId: meshConfig.guid,
       materialId: meshConfig.materialId,
@@ -73,34 +65,40 @@ export const configureGeometry = (
 };
 
 const getGeometryForMeshConfig = (
-  geometries: AssetGeometry[],
-  geometryType?: string,
-  assetId?: string,
-  customGeometryConfig?: CustomGeometryConfig
+  meshComponentConfig: MeshComponentConfig,
+  loadedAssets: Asset[]
 ) => {
+  const {
+    geometryType,
+    assetId,
+    customGeometryConfig,
+    meshType,
+    geometryConfig,
+  } = meshComponentConfig;
   if (geometryType) {
     if (CUSTOM_GEOMETRY_TYPES.includes(geometryType)) {
-      const customGeometry = setUpCustomBufferGeometry(
+      return setUpCustomBufferGeometry(
         geometryType as CustomBufferGeometryType,
-        customGeometryConfig
+        customGeometryConfig ?? {},
+        geometryConfig?.scale ?? 1,
+        meshType as MeshType
       );
-      return { geometry: customGeometry, positionOffset: undefined };
     }
   }
-
-  const meshGeometry = geometries.find(
-    (geometry) => geometry.assetId === assetId
-  );
-
-  if (!meshGeometry) {
+  const asset = loadedAssets.find((asset) => asset.guid === assetId);
+  if (!asset) {
+    console.warn(
+      `no asset found for ${assetId} this mesh will not be rendered`
+    );
+    return null;
+  }
+  const geometry = getAssetGeometry(asset, meshComponentConfig);
+  console.log("geometry", geometry);
+  if (!geometry) {
     console.warn(
       `no geometry found for ${assetId} this mesh will not be rendered`
     );
+    return null;
   }
-
-  return {
-    ...meshGeometry,
-    geometry: meshGeometry?.geometry.clone(),
-    positionOffset: meshGeometry?.positionOffset,
-  };
+  return geometry[0];
 };

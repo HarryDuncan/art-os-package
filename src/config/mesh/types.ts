@@ -5,11 +5,11 @@ import { CUSTOM_BUFFER_GEOMETRY_TYPES } from "./consts";
 export type CustomBufferGeometryType =
   keyof typeof CUSTOM_BUFFER_GEOMETRY_TYPES;
 
-export type FullQuadConfig = {
+export type DetailedPlaneConfig = {
   height: number;
   width: number;
 };
-export type CustomGeometryConfig = FullQuadConfig | unknown;
+export type CustomGeometryConfig = DetailedPlaneConfig | unknown;
 export type MeshObject = Mesh<BufferGeometry, Material | Material[]>;
 export type ShaderMeshObject = Mesh<BufferGeometry, ShaderMaterial>;
 export type ExtendedMesh = MeshObject & { groupId?: string };

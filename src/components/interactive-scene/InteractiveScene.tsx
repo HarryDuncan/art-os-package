@@ -143,7 +143,13 @@ export class InteractiveScene extends Scene {
 
   dispose() {
     this.removeInteractionEvents();
-    super.dispose();
+    if (this.orbitControls) {
+      this.orbitControls.dispose();
+    }
+    // Remove all children from the scene
+    while (this.children.length > 0) {
+      this.remove(this.children[0]);
+    }
   }
 
   setStatus(status: "idle" | "active") {

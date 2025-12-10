@@ -1,4 +1,4 @@
-import { MeshTransformConfig } from "../../config.types";
+import { MeshComponentConfig, MeshTransformConfig } from "../../config.types";
 import { FormattedGeometry } from "../../../assets/geometry/geometry.types";
 import { formatMeshTransforms } from "./formatMeshTransforms";
 import { Asset } from "../../../assets/types";
@@ -7,11 +7,16 @@ import { setAttributes } from "./setAttributes";
 export const applyMeshTransforms = (
   meshTransforms: MeshTransformConfig[] | undefined,
   formattedGeometries: FormattedGeometry[],
-  assets: Asset[]
+  assets: Asset[],
+  meshComponentConfigs: MeshComponentConfig[]
 ): FormattedGeometry[] => {
   if (!meshTransforms || !meshTransforms.length) return formattedGeometries;
 
-  const formattedMeshTransforms = formatMeshTransforms(meshTransforms, assets);
+  const formattedMeshTransforms = formatMeshTransforms(
+    meshTransforms,
+    assets,
+    meshComponentConfigs
+  );
 
   formattedMeshTransforms.forEach(({ values, transformedMeshIds }) => {
     const transformedMeshes = getTransformedMeshes(

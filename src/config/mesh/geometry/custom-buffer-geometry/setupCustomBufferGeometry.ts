@@ -1,22 +1,28 @@
-import { BufferAttribute, BufferGeometry } from "three";
+import { BufferGeometry } from "three";
 import {
   CustomGeometryConfig,
   CustomBufferGeometryType,
-  FullQuadConfig,
+  DetailedPlaneConfig,
 } from "../../types";
 import { CUSTOM_BUFFER_GEOMETRY_TYPES } from "../../consts";
+import { createPlaneFromDimensions } from "../createPlaneFromTexture";
+import { MeshType } from "../../../../assets/geometry/geometry.types";
 
 export const setUpCustomBufferGeometry = (
   bufferGeometryType: CustomBufferGeometryType,
-  bufferGeometryConfig: CustomGeometryConfig
+  bufferGeometryConfig: CustomGeometryConfig,
+  scale: number,
+  meshType: MeshType
 ) => {
   switch (bufferGeometryType) {
-    case CUSTOM_BUFFER_GEOMETRY_TYPES.QUAD:
-      return setUpQuad();
     case CUSTOM_BUFFER_GEOMETRY_TYPES.EMPTY:
       return emptyBuffer();
-    case CUSTOM_BUFFER_GEOMETRY_TYPES.FULL_QUAD:
-      return setUpFullQuad(bufferGeometryConfig as FullQuadConfig);
+    case CUSTOM_BUFFER_GEOMETRY_TYPES.DETAILED_PLANE:
+      return setUpDetailedPlane(
+        bufferGeometryConfig as DetailedPlaneConfig,
+        scale,
+        meshType as MeshType
+      );
     default:
       console.warn(
         `No custom buffer geometry has been set for ${bufferGeometryType}`
@@ -24,92 +30,30 @@ export const setUpCustomBufferGeometry = (
   }
 };
 
-const setUpQuad = () => {
-  const bufferGeometry = new BufferGeometry();
-  // positions
-  const positions = new BufferAttribute(new Float32Array(4 * 3), 3);
-  positions.setXYZ(0, -1, 1, 0.0);
-  positions.setXYZ(1, 1, 1, 0.0);
-  positions.setXYZ(2, -1, -1, 0.0);
-  positions.setXYZ(3, 1, -1, 0.0);
-  bufferGeometry.setAttribute("position", positions);
-
-  // uvs
-  const uvs = new BufferAttribute(new Float32Array(4 * 2), 2);
-  // @ts-expect-error - three.js types are not correct
-  uvs.setXYZ(0, 0.0, 0.0);
-  // @ts-expect-error - three.js types are not correct
-  uvs.setXYZ(1, 1.0, 0.0);
-  // @ts-expect-error - three.js types are not correct
-  uvs.setXYZ(2, 0.0, 1.0);
-  // @ts-expect-error - three.js types are not correct
-  uvs.setXYZ(3, 1.0, 1.0);
-  bufferGeometry.setAttribute("uv", uvs);
-
-  // index
-  bufferGeometry.setIndex(
-    new BufferAttribute(new Uint16Array([0, 2, 1, 2, 3, 1]), 1)
-  );
-  return bufferGeometry;
-};
-
-const DEFAULT_FULL_QUAD_CONFIG = {
-  height: 1000,
-  width: 1000,
-};
-
-const setUpFullQuad = (
-  bufferGeometryConfig: FullQuadConfig = DEFAULT_FULL_QUAD_CONFIG
+const setUpDetailedPlane = (
+  bufferGeometryConfig: DetailedPlaneConfig,
+  scale: number,
+  meshType: MeshType
 ) => {
   const { height, width } = bufferGeometryConfig;
-  const bufferGeometry = new BufferGeometry();
-
-  const vertices = [];
-  const uvs = [];
-  const indices = [];
-
-  const meshHeight = height;
-  const meshWidth = width;
-  for (let i = 0; i <= meshHeight; i++) {
-    const y = ((i / meshHeight) * meshHeight - meshHeight / 2) * 0.2;
-    for (let j = 0; j <= meshWidth; j++) {
-      const x = ((j / meshWidth) * meshWidth - meshWidth / 2) * 0.2;
-
-      // Add vertex position
-      vertices.push(x, -y, 0);
-
-      // Add UV coordinates
-      uvs.push(j / meshWidth, i / meshHeight);
-    }
-  }
-
-  for (let i = 0; i < meshHeight; i++) {
-    for (let j = 0; j < meshWidth; j++) {
-      const a = i * (meshWidth + 1) + j;
-      const b = i * (meshWidth + 1) + j + 1;
-      const c = (i + 1) * (meshWidth + 1) + j;
-      const d = (i + 1) * (meshWidth + 1) + j + 1;
-
-      // Create two triangles (a, b, c) and (b, d, c)
-      indices.push(a, c, b);
-      indices.push(b, c, d);
-    }
-  }
-
-  bufferGeometry.setAttribute(
-    "position",
-    new BufferAttribute(new Float32Array(vertices), 3)
-  );
-  bufferGeometry.setAttribute(
-    "uv",
-    new BufferAttribute(new Float32Array(uvs), 2)
-  );
-  bufferGeometry.setIndex(indices);
-
-  return bufferGeometry;
+  const positionOffset = {
+    x: width !== 0 ? -(width / 2) * scale : 0,
+    y: height !== 0 ? -(height / 2) * scale : 0,
+    z: 0,
+  };
+  return {
+    geometry: createPlaneFromDimensions(
+      width ?? 1,
+      height ?? 1,
+      scale,
+      meshType as MeshType
+    ),
+    positionOffset,
+  };
 };
+
 const emptyBuffer = () => {
   const bufferGeometry = new BufferGeometry();
 
-  return bufferGeometry;
+  return { geometry: bufferGeometry, positionOffset: { x: 0, y: 0, z: 0 } };
 };

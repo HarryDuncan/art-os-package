@@ -1,6 +1,10 @@
 import { Vector2 } from "three";
 import { Asset } from "../../../assets/types";
-import { MeshTransformConfig, TransformValueConfig } from "../../config.types";
+import {
+  MeshComponentConfig,
+  MeshTransformConfig,
+  TransformValueConfig,
+} from "../../config.types";
 import { ASSET_MAPPING_RELATIONSHIPS } from "../../material/shaders/schema";
 import { ASSET_TYPES } from "../../../assets/consts";
 import { getAssetGeometry } from "../geometry/getAssetGeometries";
@@ -8,11 +12,25 @@ import { getNormals, getVertices } from "./attribute.functions";
 
 export const formatMeshTransforms = (
   meshTransforms: MeshTransformConfig[],
-  assets: Asset[]
+  assets: Asset[],
+  meshComponentConfigs: MeshComponentConfig[]
 ) => {
-  return meshTransforms.map((transform) => {
+  return meshTransforms.flatMap((transform) => {
     const { values } = transform;
-    const attributeValues = getAttributeValuesFromAssets(values ?? {}, assets);
+    const meshComponentConfig = meshComponentConfigs.find((meshConfig) =>
+      transform.transformedMeshIds.includes(meshConfig.guid)
+    );
+    if (!meshComponentConfig) {
+      console.warn(
+        `No mesh component config found for transform ${transform.guid}`
+      );
+      return [];
+    }
+    const attributeValues = getAttributeValuesFromAssets(
+      values ?? {},
+      assets,
+      meshComponentConfig
+    );
     return {
       ...transform,
       values: attributeValues,
@@ -22,7 +40,8 @@ export const formatMeshTransforms = (
 
 export const getAttributeValuesFromAssets = (
   values: Record<string, TransformValueConfig>,
-  assets: Asset[]
+  assets: Asset[],
+  meshComponentConfig: MeshComponentConfig
 ) =>
   Object.entries(values).reduce((acc, [key, { value, type }]) => {
     if (
@@ -43,7 +62,10 @@ export const getAttributeValuesFromAssets = (
             return { ...acc, [key]: { value, type, relationship } };
           }
           case ASSET_MAPPING_RELATIONSHIPS.NORMAL: {
-            const assetGeometry = getAssetGeometry(selectedAsset);
+            const assetGeometry = getAssetGeometry(
+              selectedAsset,
+              meshComponentConfig
+            );
             if (assetGeometry) {
               const normals = getNormals(assetGeometry[0].geometry);
               return { ...acc, [key]: { value: normals, type, relationship } };
@@ -51,7 +73,10 @@ export const getAttributeValuesFromAssets = (
             break;
           }
           case ASSET_MAPPING_RELATIONSHIPS.VERTEX_POINT: {
-            const assetGeometry = getAssetGeometry(selectedAsset);
+            const assetGeometry = getAssetGeometry(
+              selectedAsset,
+              meshComponentConfig
+            );
             if (assetGeometry) {
               const positions = getVertices(assetGeometry[0].geometry);
               return {

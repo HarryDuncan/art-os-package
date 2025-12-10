@@ -5,7 +5,14 @@ import { Asset } from "../../../../assets/types";
 import { AssetToUniformMappingConfig } from "../../types";
 import { UniformObject } from "../generator/types";
 import { ASSET_MAPPING_RELATIONSHIPS } from "../schema";
-import { Vector2, VideoTexture, LinearFilter, RGBFormat, Texture } from "three";
+import {
+  Vector2,
+  VideoTexture,
+  LinearFilter,
+  RGBFormat,
+  Texture,
+  CanvasTexture,
+} from "three";
 
 export const mapAssetsToUniforms = (
   assetMapping: AssetToUniformMappingConfig[],
@@ -23,6 +30,9 @@ export const mapAssetsToUniforms = (
   return uniforms;
 };
 
+export const STREAM_TEXTURE_CONFIG_ID = "stream-texture-config";
+export const STREAM_TEXTURE_DIMENSION_ID = "stream-texture-dimension";
+
 const getMappedAsset = (
   assetMapping: AssetToUniformMappingConfig,
   assets: Asset[]
@@ -30,6 +40,37 @@ const getMappedAsset = (
   const mappedAsset = assets.find(
     (asset) => asset.guid === assetMapping.assetId
   );
+
+  if (assetMapping.assetId === STREAM_TEXTURE_CONFIG_ID) {
+    const canvas = document.getElementById(
+      "test-stream-canvas"
+    ) as HTMLCanvasElement;
+    if (!canvas) {
+      console.warn("Stream canvas not found, creating placeholder texture");
+      return new Texture(); // Return empty texture if canvas not ready
+    }
+
+    // VideoTexture works with canvas elements too and auto-updates!
+    const canvasTexture = new CanvasTexture(canvas);
+    canvasTexture.minFilter = LinearFilter;
+    canvasTexture.magFilter = LinearFilter;
+    canvasTexture.format = RGBFormat;
+    console.log("adding video texture from canvas");
+    return canvasTexture;
+  }
+
+  if (assetMapping.assetId === STREAM_TEXTURE_DIMENSION_ID) {
+    const canvas = document.getElementById(
+      "test-stream-canvas"
+    ) as HTMLCanvasElement;
+    if (!canvas) {
+      return new Vector2(320, 180); // Default dimensions
+    }
+    const width = canvas.width / 2;
+    const height = canvas.height / 2;
+
+    return new Vector2(width, height);
+  }
 
   if (mappedAsset && mappedAsset.data) {
     switch (assetMapping.relationship) {

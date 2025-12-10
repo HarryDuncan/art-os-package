@@ -6,6 +6,7 @@ export const useSetInteractionConfigs = (
   interactionConfigs: InteractionConfig[]
 ) => {
   const { setInteractionConfigs } = useSceneContext();
+
   useEffect(() => {
     setInteractionConfigs(interactionConfigs);
   }, [interactionConfigs, setInteractionConfigs]);

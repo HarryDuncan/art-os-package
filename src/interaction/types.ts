@@ -16,20 +16,21 @@ export type InteractionOutputSchema = {
   outputType: string;
   keypointIds: string[];
   title: string;
-  mappedParameterId?: string;
+  parameterKeys?: string[];
 };
 
+export type InteractionOutput = {
+  functionType: string;
+  bindingType: InteractionEventBinding;
+  outputSchema: InteractionOutputSchema[];
+};
 export type InteractionSchema = {
   guid: string;
   name?: string;
   description?: string;
   modelConfig: ModelConfig;
   input?: unknown;
-  output: {
-    functionType: string;
-    bindingType: InteractionEventBinding;
-    outputSchema: InteractionOutputSchema[];
-  };
+  output: InteractionOutput;
 };
 export type InteractionEventBinding = keyof typeof EVENT_BIND_TYPES;
 

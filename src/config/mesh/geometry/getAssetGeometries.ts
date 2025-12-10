@@ -1,4 +1,3 @@
-import { AssetGeometry } from "../../../assets/geometry/geometry.types";
 import { FILE_TYPES } from "../../../consts";
 import { Asset, LoadedGroup, LoadedObjChild } from "../../../assets/types";
 import { getFileTypeFromFilename } from "../../../utils/file/file";
@@ -8,19 +7,14 @@ import {
   createPlaneFromDimensions,
   createPlaneFromTexture,
 } from "./createPlaneFromTexture";
+import { MeshComponentConfig } from "../../config.types";
+import { MeshType } from "../../../assets/geometry/geometry.types";
 
-export const getAssetGeometries = (assets: Asset[]): AssetGeometry[] =>
-  assets.flatMap((asset) => {
-    const geometry = getAssetGeometry(asset);
-    return geometry && geometry.length
-      ? geometry?.map((geometryItem) => ({
-          ...geometryItem,
-          assetId: asset.guid,
-        }))
-      : [];
-  });
-
-export const getAssetGeometry = (asset: Asset) => {
+export const getAssetGeometry = (
+  asset: Asset,
+  meshComponentConfig: MeshComponentConfig
+) => {
+  const { meshType, geometryConfig } = meshComponentConfig;
   const { assetType, path: assetPath, data, name } = asset;
   const path = assetPath ?? "";
   if (assetType === ASSET_TYPES.VIDEO) {
@@ -29,7 +23,12 @@ export const getAssetGeometry = (asset: Asset) => {
     ) as HTMLVideoElement | null;
     const width = (video as HTMLVideoElement)?.videoWidth;
     const height = (video as HTMLVideoElement)?.videoHeight;
-    const geometry = createPlaneFromDimensions(width ?? 1, height ?? 1);
+    const geometry = createPlaneFromDimensions(
+      width ?? 1,
+      height ?? 1,
+      geometryConfig?.scale ?? 1,
+      meshType as MeshType
+    );
     const positionOffset = {
       x: width !== 0 ? -(width / 2) : 0,
       y: height !== 0 ? -(height / 2) : 0,
@@ -46,7 +45,7 @@ export const getAssetGeometry = (asset: Asset) => {
   }
   if (assetType === ASSET_TYPES.TEXTURE) {
     const texture = data as Texture;
-    const geometry = createPlaneFromTexture(texture);
+    const geometry = createPlaneFromTexture(texture, meshType as MeshType);
     const width = texture.image?.width ?? 0;
     const height = texture.image?.height ?? 0;
     const positionOffset = {
@@ -91,10 +90,10 @@ export const getObjectGeometries = (data: LoadedGroup, name: string) => {
   return [];
 };
 
-export const getAssetBufferGeometry = (asset: Asset) => {
-  const assetGeometry = getAssetGeometry(asset);
-  if (assetGeometry) {
-    return assetGeometry[0].geometry;
-  }
-  console.warn(`no buffer geometry found for ${asset.name}`);
-};
+// export const getAssetBufferGeometry = (asset: Asset) => {
+//   const assetGeometry = getAssetGeometry(asset);
+//   if (assetGeometry) {
+//     return assetGeometry[0].geometry;
+//   }
+//   console.warn(`no buffer geometry found for ${asset.name}`);
+// };

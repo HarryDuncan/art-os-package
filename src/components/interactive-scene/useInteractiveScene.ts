@@ -38,8 +38,6 @@ export const useInteractiveScene = (
 
   useEffect(() => {
     if (initializedScene.current && orbitControls) {
-      console.log("adding orbit controls");
-      console.log("orbitControls", orbitControls);
       initializedScene.current.orbitControls = orbitControls;
     }
   }, [initializedScene, orbitControls]);

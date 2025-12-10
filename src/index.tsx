@@ -4,7 +4,6 @@ import { useSceneData } from "./config/useSceneData";
 import { useKeyListener } from "./interaction/hooks/useKeyListener";
 import { dispatchInteractionEvent } from "./interaction/interactionEvents";
 import SceneNode from "./node/scene-node/SceneNode";
-import { AppendedNodes } from "./node/appended-nodes/AppendedNodes";
 import { InteractiveScene } from "./components/interactive-scene/InteractiveScene";
 import { startSceneElementAnimations } from "./animation/animation-manager/startSceneElementAnimations";
 import { useSceneFunctions } from "./hooks/useSceneFunctions";
@@ -15,13 +14,19 @@ export { useSceneData };
 export { useSceneFunctions };
 export { SceneNode };
 export { dispatchInteractionEvent };
-export { AppendedNodes };
 export { useKeyListener };
 export { InteractiveScene };
 export { startSceneElementAnimations };
 export { StatusToolbar, useStatusToolbar } from "./components/status-toolbar";
 
-export { log, logWarn, logError, logInfo, logDebug, logger } from "./utils/logger";
+export {
+  log,
+  logWarn,
+  logError,
+  logInfo,
+  logDebug,
+  logger,
+} from "./utils/logger";
 export type { LogEntry, LogLevel } from "./utils/logger";
 
 export * from "./thread";

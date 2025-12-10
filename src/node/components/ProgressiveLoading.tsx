@@ -12,6 +12,7 @@ import { InteractiveScene } from "../../components/interactive-scene/Interactive
 import { Camera } from "three";
 import { useSetWindowState } from "../../compat/window-state/useSetWindowState";
 import { useWindowState } from "../../compat/window-state/windowStateProvider";
+import { VideoStreamNode } from "./video-stream/VideoStreamNode";
 
 export const ProgressiveLoading = ({
   sceneConfig,
@@ -67,6 +68,7 @@ const PostWindowSizeLoader = ({
           setExternalScene={setExternalScene}
         />
       )}
+      <VideoStreamNode />
     </>
   );
 };

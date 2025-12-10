@@ -16,7 +16,7 @@ import {
 } from "./consts";
 import { generateStructs } from "./generation/structs";
 
-const DEBUG = false;
+const DEBUG = true;
 export const generateShaders = (
   operatorConfigs: OperatorConfig[],
   functionConfigs: EffectConfig[],
