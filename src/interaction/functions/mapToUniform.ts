@@ -21,7 +21,7 @@ export const mapToUniform = (
 
   meshes.forEach((mesh) => {
     const uniforms = mesh?.material.uniforms;
-    console.log("uniforms", uniforms);
+
     if (uniforms) {
       uniformKeys.forEach((uniformKey) => {
         if (uniforms[uniformKey]) {

@@ -2,8 +2,9 @@ import { MeshComponentConfig } from "../../config.types";
 import { createBoundingBox } from "../../../utils/three-dimension-space/createBoundingBox";
 import { getEquidistantCoordinates } from "../../../utils/three-dimension-space/position/getEquidistantCoordinates";
 import { AXIS, Axis } from "../../../types/position.types";
+import { getRandomRotationAsDegrees } from "../../../utils/getRandomRotation";
 
-export const multipleMeshes = (
+export const setUpInstancedMeshes = (
   meshComponentConfigs: MeshComponentConfig[]
 ): MeshComponentConfig[] => {
   if (!meshComponentConfigs) {
@@ -11,7 +12,7 @@ export const multipleMeshes = (
   }
 
   const multiMeshes = meshComponentConfigs.flatMap((meshConfig) => {
-    return meshConfig.multipleConfig ? meshConfig : [];
+    return meshConfig.multipleInstanceConfig ? meshConfig : [];
   });
 
   return multiMeshes.flatMap((meshConfig) => {
@@ -20,11 +21,11 @@ export const multipleMeshes = (
 };
 
 const setUpMulti = (meshConfig: MeshComponentConfig) => {
-  const { multipleConfig } = meshConfig;
-  if (!multipleConfig) {
+  const { multipleInstanceConfig } = meshConfig;
+  if (!multipleInstanceConfig) {
     return [];
   }
-  const { instanceCount, boundingBoxConfig } = multipleConfig;
+  const { instanceCount, boundingBoxConfig } = multipleInstanceConfig;
   const boundingBox = createBoundingBox(boundingBoxConfig);
   const spreadCoordinates = getEquidistantCoordinates(
     instanceCount,
@@ -32,10 +33,14 @@ const setUpMulti = (meshConfig: MeshComponentConfig) => {
     AXIS.Y as Axis
   );
   const formattedMeshConfig = spreadCoordinates.map((coordinate, index) => {
+    const meshRotation = multipleInstanceConfig?.randomRotation
+      ? getRandomRotationAsDegrees()
+      : meshConfig.rotation;
     return {
       ...meshConfig,
       id: `${meshConfig.guid}-${index}`,
       position: coordinate,
+      rotation: meshRotation,
     };
   });
   return formattedMeshConfig;

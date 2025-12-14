@@ -12,6 +12,7 @@ export const setUpCustomBufferGeometry = (
   bufferGeometryType: CustomBufferGeometryType,
   bufferGeometryConfig: CustomGeometryConfig,
   scale: number,
+  centerGeometryToOrigin: boolean,
   meshType: MeshType
 ) => {
   switch (bufferGeometryType) {
@@ -21,6 +22,7 @@ export const setUpCustomBufferGeometry = (
       return setUpDetailedPlane(
         bufferGeometryConfig as DetailedPlaneConfig,
         scale,
+        centerGeometryToOrigin,
         meshType as MeshType
       );
     default:
@@ -33,14 +35,20 @@ export const setUpCustomBufferGeometry = (
 const setUpDetailedPlane = (
   bufferGeometryConfig: DetailedPlaneConfig,
   scale: number,
+  centerGeometryToOrigin: boolean,
   meshType: MeshType
 ) => {
   const { height, width } = bufferGeometryConfig;
   const positionOffset = {
-    x: width !== 0 ? -(width / 2) * scale : 0,
-    y: height !== 0 ? -(height / 2) * scale : 0,
+    x: 0,
+    y: 0,
     z: 0,
   };
+
+  if (centerGeometryToOrigin) {
+    positionOffset.x = -(width / 2) * scale;
+    positionOffset.y = -(height / 2) * scale;
+  }
   return {
     geometry: createPlaneFromDimensions(
       width ?? 1,

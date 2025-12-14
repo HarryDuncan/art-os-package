@@ -27,11 +27,13 @@ export const preformat = (
   shaderEffectConfigs: EffectConfig[],
   operatorConfigs: OperatorConfig[],
   functionConfigs: EffectConfig[],
+  animationLoopConfigs: EffectConfig[],
   schemas: ExternalSchema
 ): {
   parameterMap: ShaderParameterMap;
   operatorConfigs: OperatorConfig[];
   functionConfigs: EffectConfig[];
+
   structsConfigs: StructConfig[];
 } => {
   const defaultParamsMap = [TIME, VERTEX_POINT, FRAGMENT_COLOR].reduce(
@@ -49,8 +51,9 @@ export const preformat = (
 
   const { functionBasedVaryings } = getFunctionBasedVaryings(
     effectParameters,
-    schemas.function
+    schemas.shaderFunction
   );
+  // TODO - add animation loop varyings
 
   // TODO - structs to varyings
 
@@ -101,11 +104,11 @@ export const preformat = (
     }
     return config;
   });
-
   const { effectsWithSchemas, functionConfigsWithSchemas } =
     formatEffectsAndSchemas(
       updatedEffectConfigs as EffectConfig[],
       functionConfigs,
+      animationLoopConfigs,
       schemas
     );
 

@@ -2,11 +2,10 @@ import { Material, Object3D } from "three";
 import { formatGeometry } from "./geometry/formatGeometry";
 import { addMaterials } from "./mesh-materials/addMaterials";
 import { setUpMeshes } from "./mesh-setup/setUpMeshes";
-import { setUpRandomizedMeshConfigs } from "./randomized/setUpRandomizedMeshConfigs";
 import { Asset } from "../../assets/types";
 import { SceneConfig } from "../config.types";
 import { applyMeshTransforms } from "./mesh-transforms/applyMeshTransforms";
-import { multipleMeshes } from "./multiple-meshes/multipleMeshes";
+import { setUpInstancedMeshes } from "./mesh-intancing/setUpInstancedMeshes";
 // import { setUpAdvancedMeshes } from "./advanced-mesh/setUpAdvancedMeshes";
 import { GLTF } from "three/examples/jsm/loaders/GLTFLoader.js";
 
@@ -18,13 +17,13 @@ export const getMeshesFromConfig = (
   const { meshComponentConfigs, meshTransforms } = config; //advancedMeshConfigs,
   const meshConfigs =
     meshComponentConfigs?.filter(
-      (meshConfig) => !meshConfig.randomizationConfig
+      (meshConfig) => !meshConfig.multipleInstanceConfig
     ) ?? [];
-  const randomizedMeshes = setUpRandomizedMeshConfigs(meshComponentConfigs);
-  const multipleMeshConfigs = multipleMeshes(meshComponentConfigs);
+  // const randomizedMeshes = setUpRandomizedMeshConfigs(meshComponentConfigs);
+  const multipleMeshConfigs = setUpInstancedMeshes(meshComponentConfigs);
   const allMeshes = [
     ...meshConfigs,
-    ...randomizedMeshes,
+    //   ...randomizedMeshes,
     ...multipleMeshConfigs,
   ];
   const formattedGeometry = formatGeometry(assets, allMeshes);

@@ -62,6 +62,7 @@ export const generateShader = (
     operatorConfigs,
     parameterConfigs,
     functionConfigs,
+    animationLoopConfigs,
   } = materialConfig;
 
   const {
@@ -74,12 +75,15 @@ export const generateShader = (
     shaderEffectConfigs ?? [],
     operatorConfigs ?? [],
     functionConfigs ?? [],
+    animationLoopConfigs ?? [],
     schemas
   );
+
   // console.log(parameterMap);
   const { vertexShader, fragmentShader } = generateShaders(
     formattedOperatorConfigs,
     preformattedFunctionConfigs,
+
     parameterMap,
     structsConfigs
   );

@@ -17,6 +17,7 @@ export type EffectConfig = {
   outputMapping: Record<string, OutputMap>;
   transformSchema?: ShaderTransformationSchema[];
   disabled?: boolean;
+  tags?: string[];
 };
 
 export type AttributeConfig = {

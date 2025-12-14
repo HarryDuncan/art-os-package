@@ -48,6 +48,7 @@ const getFunctionConstants = (
   parameterMap: ShaderParameterMap,
   functionConfigs: EffectConfig[]
 ) => {
+  console.log("functionConfigs", functionConfigs);
   const configuredTransforms = getTransformsMappedToParameters(
     constantParameters,
     parameterMap,

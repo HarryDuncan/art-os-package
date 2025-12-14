@@ -55,7 +55,7 @@ const getMappedAsset = (
     canvasTexture.minFilter = LinearFilter;
     canvasTexture.magFilter = LinearFilter;
     canvasTexture.format = RGBFormat;
-    console.log("adding video texture from canvas");
+
     return canvasTexture;
   }
 

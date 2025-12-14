@@ -62,23 +62,34 @@ export type MaterialConfigProps =
   | PhongMaterialProps;
 
 export type ExternalSchema = {
-  function: Record<string, ShaderTransformationSchema[]>;
+  shaderFunction: Record<string, ShaderTransformationSchema[]>;
   fragment: Record<string, ShaderTransformationSchema[]>;
   vertex: Record<string, ShaderTransformationSchema[]>;
+  animationLoop: Record<string, ShaderTransformationSchema[]>;
 };
 
 export interface MaterialConfig {
   guid: string;
   name: string;
+
   materialType: MaterialType;
   materialProps: MaterialConfigProps;
-  shaderEffectConfigs?: EffectConfig[];
+
   operatorConfigs?: OperatorConfig[];
   parameterConfigs?: ParameterConfig[];
+  shaderEffectConfigs?: EffectConfig[];
   functionConfigs?: EffectConfig[];
+  animationLoopConfigs?: EffectConfig[];
+
   assetMapping?: AssetToUniformMappingConfig[];
   blendingConfig?: Record<string, unknown>;
   schemas?: ExternalSchema;
+
+  // ART-OS stuff
+  meshType?: string;
+  description?: string;
+  tags?: string[];
+  isTemplate?: boolean;
 }
 
 export type ShaderMaterial = Material & {

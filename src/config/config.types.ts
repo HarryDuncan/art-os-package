@@ -24,7 +24,7 @@ import { RaycasterConfig } from "../types/three.types";
 import { OverlayConfig } from "../components/overlays/types";
 import { InterNodeMap } from "../types";
 
-export type MultipleConfig = {
+export type MultipleInstanceConfig = {
   instanceCount: number;
   boundingBoxConfig: {
     width: number;
@@ -32,8 +32,6 @@ export type MultipleConfig = {
     depth: number;
     center: Partial<Position3d>;
   };
-};
-export type RandomizationConfig = MultipleConfig & {
   randomRotation?: boolean;
 };
 
@@ -52,8 +50,7 @@ export type MeshConfig = {
   materialId?: string;
   rotation?: Partial<Position3d>;
   position?: Partial<Position3d>;
-  multipleConfig?: MultipleConfig;
-  randomizationConfig?: RandomizationConfig;
+  multipleInstanceConfig?: MultipleInstanceConfig;
   geometryConfig?: GeometryConfig;
   groupId?: string;
   customGeometryConfig?: CustomGeometryConfig;
@@ -69,6 +66,7 @@ export type MeshComponentConfig = MeshConfig & {
   geometryType?: string;
   assetId?: string;
   screenSizeAdjustment?: MeshScreenAdjustmentConfig;
+  centerGeometryToOrigin?: boolean;
 };
 
 export type ControlConfig = {

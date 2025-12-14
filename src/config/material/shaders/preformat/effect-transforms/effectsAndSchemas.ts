@@ -4,6 +4,7 @@ import { EffectConfig } from "../../schema";
 export const formatEffectsAndSchemas = (
   shaderEffectConfigs: EffectConfig[],
   functionConfigs: EffectConfig[],
+  animationLoopConfigs: EffectConfig[],
   externalSchemas: ExternalSchema
 ) => {
   const effectsWithSchemas = shaderEffectConfigs
@@ -16,9 +17,17 @@ export const formatEffectsAndSchemas = (
     .map((config) => mergeExternalSchema(config, externalSchemas))
     .filter((config) => config !== null);
 
+  const animationLoopConfigsWithSchemas = animationLoopConfigs
+    .filter((config) => !config.disabled)
+    .map((config) => mergeExternalSchema(config, externalSchemas))
+    .filter((config) => config !== null);
+
   return {
     effectsWithSchemas,
-    functionConfigsWithSchemas,
+    functionConfigsWithSchemas: [
+      ...functionConfigsWithSchemas,
+      ...animationLoopConfigsWithSchemas,
+    ],
   };
 };
 

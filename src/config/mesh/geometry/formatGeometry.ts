@@ -27,6 +27,7 @@ export const formatGeometry = (
     }
     const position = formatPositionFromConfig(
       meshConfig,
+      // @ts-ignore
       formattedConfig?.positionOffset
     );
     const rotation = formatRotationFromConfig(meshConfig);
@@ -74,6 +75,7 @@ const getGeometryForMeshConfig = (
     customGeometryConfig,
     meshType,
     geometryConfig,
+    centerGeometryToOrigin,
   } = meshComponentConfig;
   if (geometryType) {
     if (CUSTOM_GEOMETRY_TYPES.includes(geometryType)) {
@@ -81,6 +83,7 @@ const getGeometryForMeshConfig = (
         geometryType as CustomBufferGeometryType,
         customGeometryConfig ?? {},
         geometryConfig?.scale ?? 1,
+        centerGeometryToOrigin ?? false,
         meshType as MeshType
       );
     }
@@ -93,7 +96,7 @@ const getGeometryForMeshConfig = (
     return null;
   }
   const geometry = getAssetGeometry(asset, meshComponentConfig);
-  console.log("geometry", geometry);
+
   if (!geometry) {
     console.warn(
       `no geometry found for ${assetId} this mesh will not be rendered`

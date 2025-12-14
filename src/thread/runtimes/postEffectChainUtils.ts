@@ -24,7 +24,6 @@ export const chainPostEffects = (instances: PingPongInstance[]): void => {
   // 4. Render the final result to the screen
 
   instances.forEach((instance, index) => {
-    console.log(`Rendering post effect ${index + 1}/${instances.length}`);
     instance.render();
   });
 };
