@@ -1,10 +1,13 @@
 import {
   EffectConfig,
+  MATCAP_UV,
+  NORMAL,
   ParameterConfig,
   SHADER_PROPERTY_TYPES,
   SHADER_PROPERTY_VALUE_TYPES,
   SHADER_VARIABLE_TYPES,
   VARYING_TYPES,
+  VERTEX_POINT,
 } from "../../schema";
 import { filterParametersByType } from "../../utils";
 import {
@@ -96,6 +99,16 @@ const getDefaultVaryingString = (config: ParameterConfig[]) => {
           `vec4 viewPos = modelViewMatrix * vec4(${SHADER_VARIABLE_TYPES.VERTEX_POINT}.xyz, 1.0);`
         );
         strings.push(`vViewDirection = normalize(-viewPos.xyz);`);
+        break;
+      case MATCAP_UV.key:
+        strings.push(`vec4 p = vec4(${VERTEX_POINT.key}.xyz, 1.0);`);
+        strings.push(`vec3 e = normalize(vec3(modelViewMatrix * p));`);
+        strings.push(`vec3 n = normalize(normalMatrix * ${NORMAL.key}.xyz);`);
+        strings.push(`vec3 r = reflect(e, n);`);
+        strings.push(
+          `float m = 2.0 * sqrt(pow(r.x, 2.0) + pow(r.y, 2.0) + pow(r.z + 1.0, 2.0));`
+        );
+        strings.push(`${MATCAP_UV.key} = (r.xy + 1.0) / m;`);
         break;
       // case "vModelViewMatrix":
       //   strings.push("vModelViewMatrix = modelViewMatrix;");

@@ -22,6 +22,9 @@ export const setAttributes = (
           case ATTRIBUTE_VALUE_TYPES.RANDOM_VALUE:
             setRandomValues(attributeKey, vertexCount, bufferGeometry);
             break;
+          case ATTRIBUTE_VALUE_TYPES.SINGLE_RANDOM_VALUE:
+            setSingleRandomValue(attributeKey, vertexCount, bufferGeometry);
+            break;
           case ATTRIBUTE_VALUE_TYPES.SINGLE_VALUE:
             setSingleValue(
               attributeKey,
@@ -57,6 +60,20 @@ const setIndexValues = (
     pointIds[index] = Number(index.toFixed(1));
   });
   bufferGeometry.setAttribute(attributeId, new BufferAttribute(pointIds, 1));
+};
+
+const setSingleRandomValue = (
+  attributeId: string,
+  vertexCount: number,
+  bufferGeometry: BufferGeometry
+) => {
+  const randomValueArray = new Float32Array(vertexCount);
+  const randomValue = Math.random();
+  randomValueArray.fill(randomValue);
+  bufferGeometry.setAttribute(
+    attributeId,
+    new BufferAttribute(randomValueArray, 1)
+  );
 };
 
 const setRandomValues = (

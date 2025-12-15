@@ -32,6 +32,7 @@ export type MultipleInstanceConfig = {
     depth: number;
     center: Partial<Position3d>;
   };
+
   randomRotation?: boolean;
 };
 

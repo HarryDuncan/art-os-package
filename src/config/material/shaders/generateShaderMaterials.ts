@@ -8,6 +8,43 @@ import { preformat } from "./preformat/preformat";
 import { generateShaders } from "./generator/generateShaders";
 import { ExternalSchema, MaterialConfig } from "../types";
 
+export const generateShader = (
+  materialConfig: MaterialConfig,
+  schemas: ExternalSchema
+) => {
+  const {
+    shaderEffectConfigs,
+    operatorConfigs,
+    parameterConfigs,
+    functionConfigs,
+    animationLoopConfigs,
+  } = materialConfig;
+
+  const {
+    parameterMap,
+    operatorConfigs: formattedOperatorConfigs,
+    structsConfigs,
+    functionConfigs: preformattedFunctionConfigs,
+  } = preformat(
+    parameterConfigs ?? [],
+    shaderEffectConfigs ?? [],
+    operatorConfigs ?? [],
+    functionConfigs ?? [],
+    animationLoopConfigs ?? [],
+    schemas
+  );
+
+  // console.log(parameterMap);
+  const { vertexShader, fragmentShader } = generateShaders(
+    formattedOperatorConfigs,
+    preformattedFunctionConfigs,
+
+    parameterMap,
+    structsConfigs
+  );
+  return { vertexShader, fragmentShader, parameterMap };
+};
+
 export const generateShaderMaterials = (
   config: SceneConfig,
   assets: Asset[]
@@ -51,41 +88,4 @@ export const generateShaderMaterials = (
   );
 
   return { builtShaders: builtShaderMaterials };
-};
-
-export const generateShader = (
-  materialConfig: MaterialConfig,
-  schemas: ExternalSchema
-) => {
-  const {
-    shaderEffectConfigs,
-    operatorConfigs,
-    parameterConfigs,
-    functionConfigs,
-    animationLoopConfigs,
-  } = materialConfig;
-
-  const {
-    parameterMap,
-    operatorConfigs: formattedOperatorConfigs,
-    structsConfigs,
-    functionConfigs: preformattedFunctionConfigs,
-  } = preformat(
-    parameterConfigs ?? [],
-    shaderEffectConfigs ?? [],
-    operatorConfigs ?? [],
-    functionConfigs ?? [],
-    animationLoopConfigs ?? [],
-    schemas
-  );
-
-  // console.log(parameterMap);
-  const { vertexShader, fragmentShader } = generateShaders(
-    formattedOperatorConfigs,
-    preformattedFunctionConfigs,
-
-    parameterMap,
-    structsConfigs
-  );
-  return { vertexShader, fragmentShader, parameterMap };
 };

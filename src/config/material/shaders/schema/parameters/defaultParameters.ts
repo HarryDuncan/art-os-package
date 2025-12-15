@@ -196,6 +196,18 @@ export const ORIGINAL_POSITION = {
   isDefault: true,
 };
 
+export const MATCAP_UV = {
+  key: "vMatcapUV",
+  name: "Matcap UV",
+  valueType: SHADER_PROPERTY_VALUE_TYPES.VEC2,
+  description: "The UV coordinates of the matcap texture",
+  parameterType: SHADER_PROPERTY_TYPES.VARYING,
+  varyingConfig: {
+    varyingType: VARYING_TYPES.DEFAULT,
+  },
+  isDefault: true,
+};
+
 export const DEFAULT_PARAMETERS = [
   TIME,
   VERTEX_POINT,
@@ -210,4 +222,5 @@ export const DEFAULT_PARAMETERS = [
   CAMERA_VARYING,
   POSITION_VARYING,
   FRAGMENT_COLOR,
+  MATCAP_UV,
 ];

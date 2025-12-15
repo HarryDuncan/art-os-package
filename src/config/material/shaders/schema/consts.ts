@@ -45,6 +45,7 @@ export const ASSET_MAPPING_RELATIONSHIPS = {
 
 export const ATTRIBUTE_VALUE_TYPES = {
   SINGLE_VALUE: "single_value",
+  SINGLE_RANDOM_VALUE: "single_random_value",
   INDEXED: "indexed",
   RANDOM_VALUE: "random_value",
   RANDOMIZED_BINARY: "randomized_binary",

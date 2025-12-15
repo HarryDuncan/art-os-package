@@ -27,15 +27,18 @@ const setUpMulti = (meshConfig: MeshComponentConfig) => {
   }
   const { instanceCount, boundingBoxConfig } = multipleInstanceConfig;
   const boundingBox = createBoundingBox(boundingBoxConfig);
+
+  // todo - add bounding box axies and make them configurable
   const spreadCoordinates = getEquidistantCoordinates(
     instanceCount,
     boundingBox,
-    AXIS.Y as Axis
+    AXIS.X as Axis
   );
   const formattedMeshConfig = spreadCoordinates.map((coordinate, index) => {
     const meshRotation = multipleInstanceConfig?.randomRotation
       ? getRandomRotationAsDegrees()
       : meshConfig.rotation;
+
     return {
       ...meshConfig,
       id: `${meshConfig.guid}-${index}`,
