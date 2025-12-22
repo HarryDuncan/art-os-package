@@ -3,10 +3,10 @@ import { useEffect, useState } from "react";
 import { formatSceneMaterials } from "../config/material/formatSceneMaterials";
 import { getMeshesFromConfig } from "../config/mesh/getMeshesFromConfig";
 import { SceneConfig, SceneData } from "./config.types";
-import { getScenePropertiesFromConfig } from "./scene-properties/setSceneProperties";
 import { Asset } from "../assets/types";
 import { postEffectsFromConfig } from "./post-effects/postEffectsFromConfig";
 import { ASSET_TYPES } from "../assets/consts";
+import { formatSceneProperties } from "./scene-properties/formatSceneProperties";
 
 export const useSceneData = (
   config: SceneConfig | undefined | null,
@@ -20,12 +20,17 @@ export const useSceneData = (
       if (config) {
         const materials = formatSceneMaterials(assets, config);
         const meshes = getMeshesFromConfig(assets, materials, config);
-        const { animationConfig, sceneProperties } = config;
+        const { animationConfig } = config;
         const postEffects = postEffectsFromConfig(config);
         const overlays =
           config.assets?.filter(
             (asset) => asset.assetType === ASSET_TYPES.OVERLAY
           ) ?? [];
+
+        const sceneProperties = formatSceneProperties(
+          config.sceneProperties,
+          assets
+        );
         setSceneData({
           controlsConfig: config.controlsConfig ?? {},
           meshes: meshes ?? [],

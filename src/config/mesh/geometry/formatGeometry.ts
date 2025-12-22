@@ -43,6 +43,7 @@ export const formatGeometry = (
       meshType: meshConfig.meshType ?? MESH_TYPES.MESH,
       position: position,
       rotation,
+      frustrumCulled: false,
       groupId: meshConfig.groupId,
     } as FormattedGeometry;
   }) as FormattedGeometry[];

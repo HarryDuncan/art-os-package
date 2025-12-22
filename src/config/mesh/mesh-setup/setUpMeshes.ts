@@ -50,4 +50,6 @@ const formatMesh = (
     const { x, y, z } = rotation;
     mesh.rotation.set(x, y, z);
   }
+  // TODO - make this configurable
+  mesh.frustumCulled = false;
 };

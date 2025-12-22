@@ -10,12 +10,13 @@ export const SceneNode = ({
   loaderComponent,
   setExternalScene,
   onLog,
+  onStatusChange,
 }: SceneNodeProps) => {
   useLoggerHandler(onLog);
   return (
     <ErrorBoundary>
       <WindowStateProvider>
-        <SceneProvider>
+        <SceneProvider onStatusChange={onStatusChange}>
           <ProgressiveLoading
             sceneConfig={sceneConfig}
             loaderComponent={loaderComponent}

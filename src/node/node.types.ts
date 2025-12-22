@@ -17,6 +17,7 @@ export interface SceneNodeProps {
     camera: Camera | null
   ) => void;
   onLog?: (entry: LogEntry) => void;
+  onStatusChange?: (status: string) => void;
 }
 
 export interface SceneNodeContentProps {

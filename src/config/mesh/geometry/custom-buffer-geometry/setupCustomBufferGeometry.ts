@@ -5,7 +5,10 @@ import {
   DetailedPlaneConfig,
 } from "../../types";
 import { CUSTOM_BUFFER_GEOMETRY_TYPES } from "../../consts";
-import { createPlaneFromDimensions } from "../createPlaneFromTexture";
+import {
+  createPlaneFromDimensions,
+  createSimplePlane,
+} from "../createPlaneFromTexture";
 import { MeshType } from "../../../../assets/geometry/geometry.types";
 
 export const setUpCustomBufferGeometry = (
@@ -24,6 +27,12 @@ export const setUpCustomBufferGeometry = (
         scale,
         centerGeometryToOrigin,
         meshType as MeshType
+      );
+    case CUSTOM_BUFFER_GEOMETRY_TYPES.SIMPLE_PLANE:
+      return setUpSimplePlane(
+        bufferGeometryConfig as DetailedPlaneConfig,
+        scale,
+        centerGeometryToOrigin
       );
     default:
       console.warn(
@@ -56,6 +65,28 @@ const setUpDetailedPlane = (
       scale,
       meshType as MeshType
     ),
+    positionOffset,
+  };
+};
+
+export const setUpSimplePlane = (
+  bufferGeometryConfig: DetailedPlaneConfig,
+  scale: number,
+  centerGeometryToOrigin: boolean
+) => {
+  const { height, width } = bufferGeometryConfig;
+  const positionOffset = {
+    x: 0,
+    y: 0,
+    z: 0,
+  };
+
+  if (centerGeometryToOrigin) {
+    positionOffset.x = -(width / 2) * scale;
+    positionOffset.y = -(height / 2) * scale;
+  }
+  return {
+    geometry: createSimplePlane(width, height),
     positionOffset,
   };
 };

@@ -18,6 +18,7 @@ export const ProgressiveLoading = ({
   sceneConfig,
   loaderComponent,
   setExternalScene,
+  onStatusChange,
 }: {
   sceneConfig: SceneConfig;
   loaderComponent: ReactNode;
@@ -25,6 +26,7 @@ export const ProgressiveLoading = ({
     scene: InteractiveScene | null,
     camera: Camera | null
   ) => void;
+  onStatusChange?: (status: string) => void;
 }) => {
   useSetWindowState();
   const {

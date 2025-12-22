@@ -180,3 +180,63 @@ export const createPlaneFromDimensions = (
 
   return geometry;
 };
+
+export const createSimplePlane = (
+  width: number = 1,
+  height: number = 1
+): BufferGeometry => {
+  const geometry = new BufferGeometry();
+
+  // 4 vertices for a simple quad
+  const positions = new Float32Array([
+    // Bottom-left
+    -width / 2,
+    -height / 2,
+    0,
+    // Bottom-right
+    width / 2,
+    -height / 2,
+    0,
+    // Top-left
+    -width / 2,
+    height / 2,
+    0,
+    // Top-right
+    width / 2,
+    height / 2,
+    0,
+  ]);
+
+  // Normals pointing up (positive Z)
+  const normals = new Float32Array([0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1]);
+
+  // UV coordinates for full texture coverage
+  const uvs = new Float32Array([
+    // Bottom-left
+    0, 0,
+    // Bottom-right
+    1, 0,
+    // Top-left
+    0, 1,
+    // Top-right
+    1, 1,
+  ]);
+
+  // Indices for 2 triangles (quad)
+  const indices = new Uint16Array([
+    0,
+    1,
+    2, // First triangle: bottom-left, bottom-right, top-left
+    1,
+    3,
+    2, // Second triangle: bottom-right, top-right, top-left
+  ]);
+
+  // Create and set attributes
+  geometry.setAttribute("position", new BufferAttribute(positions, 3));
+  geometry.setAttribute("normal", new BufferAttribute(normals, 3));
+  geometry.setAttribute("uv", new BufferAttribute(uvs, 2));
+  geometry.setIndex(new BufferAttribute(indices, 1));
+
+  return geometry;
+};

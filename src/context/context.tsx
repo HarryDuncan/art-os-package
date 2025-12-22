@@ -5,6 +5,7 @@ import React, {
   FC,
   useState,
   useRef,
+  useEffect,
 } from "react";
 import { PROCESS_STATUS } from "../consts/consts";
 import { Camera } from "three";
@@ -30,9 +31,13 @@ export const SceneContext = createContext<SceneContextType | undefined>(
 
 interface SceneProviderProps {
   children: ReactNode;
+  onStatusChange?: (status: string) => void;
 }
 
-const SceneProvider: FC<SceneProviderProps> = ({ children }) => {
+const SceneProvider: FC<SceneProviderProps> = ({
+  children,
+  onStatusChange,
+}) => {
   const initializedScene = useRef<InteractiveScene | null>(null);
   const camera = useRef<Camera | null>(null);
 
@@ -45,6 +50,13 @@ const SceneProvider: FC<SceneProviderProps> = ({ children }) => {
   >([]);
   const [rendererHeight, setRendererHeight] = useState<number>(0);
   const [rendererWidth, setRendererWidth] = useState<number>(0);
+
+  // Call onStatusChange whenever sceneStatus updates
+  useEffect(() => {
+    if (onStatusChange) {
+      onStatusChange(sceneStatus);
+    }
+  }, [sceneStatus, onStatusChange]);
 
   return (
     <SceneContext.Provider
