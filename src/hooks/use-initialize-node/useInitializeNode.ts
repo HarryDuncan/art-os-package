@@ -10,11 +10,11 @@ type ContainerNode =
 
 export const useInitializeNode = (
   containerRef: ContainerNode,
-  renderer: WebGLRenderer
+  renderer: WebGLRenderer | null
 ) => {
   const { setRendererHeight, setRendererWidth, setStatus } = useSceneContext();
   useEffect(() => {
-    if (containerRef?.current) {
+    if (containerRef?.current && renderer) {
       const container = containerRef.current as HTMLElement;
       const existingCanvas = container.querySelector("canvas");
       existingCanvas?.remove();

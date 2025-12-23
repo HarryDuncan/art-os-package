@@ -18,6 +18,7 @@ export interface SceneNodeProps {
   ) => void;
   onLog?: (entry: LogEntry) => void;
   onStatusChange?: (status: string) => void;
+  onCleanup?: (data: unknown) => void;
 }
 
 export interface SceneNodeContentProps {

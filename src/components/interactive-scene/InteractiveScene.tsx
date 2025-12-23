@@ -1,11 +1,10 @@
 import { InteractionConfig } from "../../interaction/types";
 import { Clock, Scene, Camera } from "three";
-import { AnimationManager } from "../../animation/animation-manager/AnimationManager";
-import { AnimationConfig } from "../../animation/animation.types";
 import { THREAD_EVENTS } from "../../thread/thread.consts";
 import { SceneProperties } from "../../config/config.types";
 import { OrbitControl } from "../../types";
 import { FUNCTION_MAP } from "../../interaction/functions/functionMap";
+import { disposeObject3D } from "../../utils/cleanup/disposeAssets";
 // import { KEY_POINT_EXTRACTORS } from "../../interaction/key-point-extraction/keyPointExtraction";
 
 /*
@@ -17,11 +16,9 @@ export type InteractiveSceneFunctions = {
 };
 
 export class InteractiveScene extends Scene {
-  clock: Clock;
+  clock: Clock | null;
 
   sceneFunctions: InteractiveSceneFunctions;
-
-  animationManager: AnimationManager;
 
   orbitControls: OrbitControl | null;
 
@@ -41,9 +38,15 @@ export class InteractiveScene extends Scene {
 
   rendererWidth: number;
 
+  private boundEventHandlers: {
+    updateScene?: () => void;
+    triggered?: () => void;
+    meshAdded?: (event: Event) => void;
+  } = {};
+
   constructor(
     sceneFunctions: InteractiveSceneFunctions,
-    animationConfig: AnimationConfig[],
+
     interactionConfigs: InteractionConfig[],
     sceneProperties: SceneProperties,
     camera: Camera
@@ -55,7 +58,7 @@ export class InteractiveScene extends Scene {
     this.clock = new Clock();
     this.bindExecutionFunctions();
     this.orbitControls = null;
-    this.animationManager = new AnimationManager(animationConfig);
+
     this.eventsSet = false;
     this.sceneProperties = sceneProperties;
     this.interactionConfigs = interactionConfigs;
@@ -66,20 +69,36 @@ export class InteractiveScene extends Scene {
 
   bindExecutionFunctions() {
     const { onTimeUpdate, onTriggeredUpdate } = this.sceneFunctions;
+
+    // Store handlers so we can remove them later
     if (onTimeUpdate) {
-      document.addEventListener(THREAD_EVENTS.UPDATE_SCENE, () =>
-        onTimeUpdate(this)
+      this.boundEventHandlers.updateScene = () => onTimeUpdate(this);
+      document.addEventListener(
+        THREAD_EVENTS.UPDATE_SCENE,
+        this.boundEventHandlers.updateScene
       );
     }
     if (onTriggeredUpdate) {
-      document.addEventListener(THREAD_EVENTS.TRIGGERED, () =>
-        onTriggeredUpdate(this)
+      this.boundEventHandlers.triggered = () => onTriggeredUpdate(this);
+      document.addEventListener(
+        THREAD_EVENTS.TRIGGERED,
+        this.boundEventHandlers.triggered
       );
     }
 
-    document.addEventListener(THREAD_EVENTS.MESH_ADDED, (event: Event) => {
+    this.boundEventHandlers.meshAdded = (event: Event) => {
       const detail = (event as CustomEvent).detail;
       this.add(detail);
+    };
+    document.addEventListener(
+      THREAD_EVENTS.MESH_ADDED,
+      this.boundEventHandlers.meshAdded
+    );
+  }
+
+  removeExecutionFunctions() {
+    Object.entries(this.boundEventHandlers).forEach(([key, handler]) => {
+      document.removeEventListener(key, handler);
     });
   }
 
@@ -143,13 +162,39 @@ export class InteractiveScene extends Scene {
 
   dispose() {
     this.removeInteractionEvents();
+
+    // Remove event listeners added in bindExecutionFunctions
+    if (this.boundEventHandlers.updateScene) {
+      document.removeEventListener(
+        THREAD_EVENTS.UPDATE_SCENE,
+        this.boundEventHandlers.updateScene
+      );
+    }
+    if (this.boundEventHandlers.triggered) {
+      document.removeEventListener(
+        THREAD_EVENTS.TRIGGERED,
+        this.boundEventHandlers.triggered
+      );
+    }
+    if (this.boundEventHandlers.meshAdded) {
+      document.removeEventListener(
+        THREAD_EVENTS.MESH_ADDED,
+        this.boundEventHandlers.meshAdded
+      );
+    }
+
     if (this.orbitControls) {
       this.orbitControls.dispose();
     }
-    // Remove all children from the scene
+
+    // Dispose of all children (meshes, geometries, materials)
     while (this.children.length > 0) {
-      this.remove(this.children[0]);
+      const child = this.children[0];
+      disposeObject3D(child);
+      this.remove(child);
     }
+    this.clock?.stop();
+    this.clock = null;
   }
 
   setStatus(status: "idle" | "active") {
@@ -159,10 +204,6 @@ export class InteractiveScene extends Scene {
     } else {
       this.removeInteractionEvents();
     }
-  }
-
-  addAnimations(animations: AnimationConfig[]) {
-    this.animationManager.initializeAnimations(animations);
   }
 
   setRendererDimensions(rendererHeight: number, rendererWidth: number) {

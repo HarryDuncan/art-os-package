@@ -1,9 +1,9 @@
 import { useMemo } from "react";
-import { startSceneElementAnimations } from "../animation/animation-manager/startSceneElementAnimations";
 import {
   InteractiveScene,
   InteractiveSceneFunctions,
 } from "../components/interactive-scene/InteractiveScene";
+import { updateUTime } from "../animation/updateUTime";
 
 export const useSceneFunctions = (
   sceneFunctions: InteractiveSceneFunctions | undefined
@@ -11,7 +11,7 @@ export const useSceneFunctions = (
   useMemo(() => {
     const defaultSceneFunctions = {
       onTimeUpdate: (scene: InteractiveScene) => {
-        startSceneElementAnimations(scene);
+        updateUTime(scene);
       },
     };
     if (sceneFunctions) {

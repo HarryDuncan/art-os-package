@@ -11,6 +11,7 @@ export const SceneNode = ({
   setExternalScene,
   onLog,
   onStatusChange,
+  onCleanup,
 }: SceneNodeProps) => {
   useLoggerHandler(onLog);
   return (

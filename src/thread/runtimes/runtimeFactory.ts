@@ -1,20 +1,18 @@
-import { MutableRefObject } from "react";
-import { WebGLRenderer } from "three";
 import { useStandardRuntime, StandardRuntimeConfig } from "./standard";
 import {
   usePostEffectChainRuntime,
   PostEffectChainRuntimeConfig,
 } from "./postEffectChainRuntime";
 import { PingPongRenderTargetConfig } from "../../config/post-effects/findPostEffectTransforms";
+import { useSceneContext } from "../../context/context";
 
 export interface RuntimeFactoryConfig {
-  currentFrameRef: MutableRefObject<number>;
-  renderer: WebGLRenderer;
   postEffects: PingPongRenderTargetConfig[];
 }
 
 export const useRuntimeFactory = (config: RuntimeFactoryConfig) => {
-  const { currentFrameRef, renderer, postEffects } = config;
+  const { renderer, currentFrameRef } = useSceneContext();
+  const { postEffects } = config;
 
   // If we have post effects, use the post effect runtime
   if (postEffects.length > 0) {

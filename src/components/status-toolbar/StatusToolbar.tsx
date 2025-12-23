@@ -43,7 +43,7 @@ export const StatusToolbar: React.FC<StatusToolbarProps> = ({ isVisible }) => {
     const updateSceneData = () => {
       if (!initializedScene.current) return;
       // Calculate runtime
-      const elapsed = initializedScene.current.clock.getElapsedTime();
+      const elapsed = initializedScene.current.clock?.getElapsedTime() ?? 0;
       const hours = Math.floor(elapsed / 3600);
       const minutes = Math.floor((elapsed % 3600) / 60);
       const seconds = Math.floor(elapsed % 60);

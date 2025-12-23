@@ -26,14 +26,14 @@ export const useVRRuntime = ({
         if (initializedScene.current?.orbitControls) {
           initializedScene.current.orbitControls.update();
         }
-        if (
-          initializedScene.current?.animationManager.hasCameraAnimations() &&
-          camera.current
-        ) {
-          initializedScene.current.animationManager.startCameraAnimation(
-            camera.current
-          );
-        }
+        // if (
+        //   initializedScene.current?.animationManager.hasCameraAnimations() &&
+        //   camera.current
+        // ) {
+        //   initializedScene.current.animationManager.startCameraAnimation(
+        //     camera.current
+        //   );
+        // }
       }
 
       postProcessor.current?.render();
@@ -53,14 +53,14 @@ export const useVRRuntime = ({
         if (initializedScene.current?.orbitControls) {
           initializedScene.current.orbitControls.update();
         }
-        if (
-          initializedScene.current?.animationManager.hasCameraAnimations() &&
-          camera.current
-        ) {
-          initializedScene.current.animationManager.startCameraAnimation(
-            camera.current
-          );
-        }
+        // if (
+        //   initializedScene.current?.animationManager.hasCameraAnimations() &&
+        //   camera.current
+        // ) {
+        //   initializedScene.current.animationManager.startCameraAnimation(
+        //     camera.current
+        //   );
+        // }
 
         if (renderer.xr.enabled && camera.current) {
           postProcessor.current?.vrRender(

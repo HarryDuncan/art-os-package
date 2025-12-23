@@ -2,25 +2,24 @@ import { useEffect, useState } from "react";
 // import { getLightsFromConfig } from "../config/lights/getLightsFromConfig";
 import { formatSceneMaterials } from "../config/material/formatSceneMaterials";
 import { getMeshesFromConfig } from "../config/mesh/getMeshesFromConfig";
-import { SceneConfig, SceneData } from "./config.types";
+import { SceneConfig } from "./config.types";
 import { Asset } from "../assets/types";
 import { postEffectsFromConfig } from "./post-effects/postEffectsFromConfig";
 import { ASSET_TYPES } from "../assets/consts";
 import { formatSceneProperties } from "./scene-properties/formatSceneProperties";
+import { useSceneContext } from "../context/context";
 
 export const useSceneData = (
   config: SceneConfig | undefined | null,
   assets: Asset[]
-): SceneData | null => {
-  const [sceneData, setSceneData] = useState<SceneData | null>(null);
+) => {
+  const { setSceneData } = useSceneContext();
   const [isInitialized, setIsInitialized] = useState(false);
-
   useEffect(() => {
     if (!isInitialized) {
       if (config) {
         const materials = formatSceneMaterials(assets, config);
         const meshes = getMeshesFromConfig(assets, materials, config);
-        const { animationConfig } = config;
         const postEffects = postEffectsFromConfig(config);
         const overlays =
           config.assets?.filter(
@@ -36,7 +35,6 @@ export const useSceneData = (
           meshes: meshes ?? [],
           lights: [],
           sceneProperties,
-          animationConfig,
           postEffects,
           overlays,
         });
@@ -44,6 +42,4 @@ export const useSceneData = (
       }
     }
   }, [config, assets, isInitialized]);
-
-  return sceneData;
 };

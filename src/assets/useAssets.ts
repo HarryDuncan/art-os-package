@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect } from "react";
 import { Asset } from "./types";
 import { getFileTypeFromFilename } from "../utils/file/file";
 import { loadFont } from "./fonts/loadFont";
@@ -8,16 +8,13 @@ import { loadTexture } from "./texture/load-texture/loadTexture";
 import { loadModel } from "./geometry/load-model/LoadModel";
 import { loadAdvancedScene } from "./advanced-scene/loadAdvancedScene";
 import { ASSET_TYPES } from "./consts";
+import { useSceneContext } from "../context/context";
 
 export const useAssets = (
   assets: Asset[] | undefined | null,
   assetPath?: string
 ) => {
-  const [areAssetsInitialized, setAreAssetsInitialized] = useState(false);
-  // initializedAssets is null before loading, then always an array (possibly empty)
-  const [initializedAssets, setInitializedAssets] = useState<Asset[] | null>(
-    null
-  );
+  const { setAreAssetsInitialized, setInitializedAssets } = useSceneContext();
 
   async function loadAssetData(asset: Asset) {
     const loadedAsset = await loadAsset(asset);
@@ -47,6 +44,7 @@ export const useAssets = (
 
   useEffect(() => {
     let isMounted = true;
+
     async function getAssets() {
       // If assets is null/undefined, treat as empty array
       const loadedAssets = await initializeAssets();
@@ -56,12 +54,7 @@ export const useAssets = (
       }
     }
     getAssets();
-    return () => {
-      isMounted = false;
-    };
   }, [assets, initializeAssets]);
-
-  return { initializedAssets, areAssetsInitialized };
 };
 
 const loadAsset = async (asset: Asset) => {

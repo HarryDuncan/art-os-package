@@ -70,11 +70,6 @@ export const usePostEffectRuntime = ({
       if (initializedScene.current?.orbitControls) {
         initializedScene.current.orbitControls.update();
       }
-      if (initializedScene.current?.animationManager.hasCameraAnimations()) {
-        initializedScene.current.animationManager.startCameraAnimation(
-          camera.current!
-        );
-      }
 
       // If we have post effects, use the first ping-pong instance for rendering
       if (postEffects.length > 0) {

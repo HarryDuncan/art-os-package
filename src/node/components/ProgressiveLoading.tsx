@@ -13,6 +13,7 @@ import { Camera } from "three";
 import { useSetWindowState } from "../../compat/window-state/useSetWindowState";
 import { useWindowState } from "../../compat/window-state/windowStateProvider";
 import { VideoStreamNode } from "./video-stream/VideoStreamNode";
+import { useSceneContext } from "../../context/context";
 
 export const ProgressiveLoading = ({
   sceneConfig,
@@ -85,18 +86,16 @@ const SceneLoader = ({
     camera: Camera | null
   ) => void;
 }) => {
-  const { areAssetsInitialized, initializedAssets } = useAssets(
-    sceneConfig.assets,
-    sceneConfig.assetPath
-  );
+  const { areAssetsInitialized, assetsRef } = useSceneContext();
+  useAssets(sceneConfig.assets, sceneConfig.assetPath);
 
   useCamera(sceneConfig.cameraConfig, sceneConfig.sceneProperties ?? {});
   return (
     <>
-      {areAssetsInitialized && !!initializedAssets && sceneConfig && (
+      {areAssetsInitialized && !!assetsRef.current && sceneConfig && (
         <SceneConfigLoader
           sceneConfig={sceneConfig}
-          assets={initializedAssets}
+          assets={assetsRef.current}
           setExternalScene={setExternalScene}
         />
       )}
@@ -116,9 +115,13 @@ const SceneConfigLoader = ({
     camera: Camera | null
   ) => void;
 }) => {
-  const sceneData = useSceneData(sceneConfig, assets);
-  if (!sceneData) return null;
+  const { sceneDataRef } = useSceneContext();
+  useSceneData(sceneConfig, assets);
+  if (!sceneDataRef.current) return null;
   return (
-    <SceneDisplay sceneData={sceneData} setExternalScene={setExternalScene} />
+    <SceneDisplay
+      sceneData={sceneDataRef.current}
+      setExternalScene={setExternalScene}
+    />
   );
 };

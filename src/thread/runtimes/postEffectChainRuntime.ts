@@ -111,11 +111,6 @@ export const usePostEffectChainRuntime = ({
       if (initializedScene.current?.orbitControls) {
         initializedScene.current.orbitControls.update();
       }
-      if (initializedScene.current?.animationManager.hasCameraAnimations()) {
-        initializedScene.current.animationManager.startCameraAnimation(
-          camera.current!
-        );
-      }
 
       // Use post effect rendering
       renderWithPostEffects();

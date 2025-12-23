@@ -20,11 +20,11 @@ export const useStandardRuntime = ({
       if (initializedScene.current?.orbitControls) {
         initializedScene.current.orbitControls.update();
       }
-      if (initializedScene.current?.animationManager.hasCameraAnimations()) {
-        initializedScene.current.animationManager.startCameraAnimation(
-          camera.current
-        );
-      }
+      // if (initializedScene.current?.animationManager.hasCameraAnimations()) {
+      //   initializedScene.current.animationManager.startCameraAnimation(
+      //     camera.current
+      //   );
+      // }
       // Render the scene using the renderer and camera directly
       renderer.render(initializedScene.current, camera.current);
     }

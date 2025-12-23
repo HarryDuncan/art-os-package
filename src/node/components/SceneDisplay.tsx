@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useSetWindowState } from "../../compat/window-state/useSetWindowState";
 import { useInteractiveScene } from "../../components/interactive-scene/useInteractiveScene";
 import {
@@ -16,7 +17,7 @@ export const SceneDisplay = ({
   sceneFunctions,
   sceneData: {
     controlsConfig,
-    animationConfig,
+
     // lights,
     meshes,
     //sceneComponents,
@@ -26,7 +27,7 @@ export const SceneDisplay = ({
   },
   setExternalScene,
 }: NodeProps) => {
-  const { container, renderer, currentFrameRef, orbitControls } = useThreeJs(
+  const { container, currentFrameRef, orbitControls } = useThreeJs(
     controlsConfig,
     sceneProperties
   );
@@ -35,7 +36,6 @@ export const SceneDisplay = ({
 
   useInteractiveScene(
     formattedSceneFunctions,
-    animationConfig ?? [],
     meshes,
     // lights,
     orbitControls,
@@ -44,10 +44,21 @@ export const SceneDisplay = ({
 
   useThread(
     currentFrameRef,
-    renderer,
+
     postEffects as PingPongRenderTargetConfig[],
     setExternalScene
   );
+
+  // // Cleanup on unmount
+  // useEffect(() => {
+  //   return () => {
+  //     // Dispose of the scene
+  //     if (initializedScene.current) {
+  //       initializedScene.current.dispose();
+  //       initializedScene.current = null;
+  //     }
+  //   };
+  // }, [initializedScene]);
 
   const { isVisible } = useStatusToolbar();
 

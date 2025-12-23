@@ -8,20 +8,18 @@ import { InteractiveScene } from "../components/interactive-scene/InteractiveSce
 
 export const useThread = (
   currentFrameRef: MutableRefObject<number>,
-  renderer: WebGLRenderer,
+
   postEffects: PingPongRenderTargetConfig[],
   setExternalScene?: (
     scene: InteractiveScene | null,
     camera: Camera | null
   ) => void
 ) => {
-  const { setStatus, initializedScene, sceneStatus, camera } =
+  const { setStatus, initializedScene, sceneStatus, camera, renderer } =
     useSceneContext();
 
   // Use the runtime factory to get the appropriate runtime
   const { update, pause } = useRuntimeFactory({
-    currentFrameRef,
-    renderer,
     postEffects,
   });
 

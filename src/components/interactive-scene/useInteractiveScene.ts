@@ -3,7 +3,6 @@ import {
   InteractiveScene,
   InteractiveSceneFunctions,
 } from "./InteractiveScene";
-import { AnimationConfig } from "../../animation/animation.types";
 import { Camera, Object3D } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { SceneProperties } from "../../config/config.types";
@@ -15,7 +14,6 @@ import { PROCESS_STATUS } from "../../consts/consts";
 
 export const useInteractiveScene = (
   sceneFunction: InteractiveSceneFunctions,
-  animationConfig: AnimationConfig[],
   meshes: Object3D[] | GLTF[],
   // lights: SceneLight[],
   // sceneComponents: Object3D[],
@@ -46,7 +44,6 @@ export const useInteractiveScene = (
     async function setUpScene() {
       const scene = new InteractiveScene(
         sceneFunction,
-        animationConfig,
         interactionConfigs,
         sceneProperties,
         camera.current as Camera
@@ -64,7 +61,6 @@ export const useInteractiveScene = (
   }, [
     sceneStatus,
     sceneFunction,
-    animationConfig,
     setUpSceneObjects,
     interactionConfigs,
     initializedScene,

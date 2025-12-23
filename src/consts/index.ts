@@ -4,8 +4,6 @@ export * from "../config/mesh/consts";
 // export * from "../config/mesh/meshTransforms.consts";
 export * from "./consts";
 export * from "./config.constants";
-export * from "./animation/animation.constants";
-export * from "./animation/animation.defaults";
 export * from "./defaults";
 export * from "./lights/lights";
 // export * from "../config/material/shaders/build-shader/vertex-effects/vertexEffects.consts";

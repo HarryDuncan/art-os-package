@@ -9,11 +9,11 @@ export const useThreeJs = (
   controlConfig: Partial<ControlConfig>,
   sceneProperties: SceneProperties
 ) => {
-  const { camera } = useSceneContext();
+  const { camera, renderer, currentFrameRef } = useSceneContext();
 
   const container = useRef<HTMLDivElement | null>(null);
-  const currentFrameRef = useRef<number>(0);
-  const renderer = useWebGLRenderer(sceneProperties);
+
+  useWebGLRenderer(sceneProperties);
 
   useInitializeNode(container, renderer);
   const orbitControls = useOrbitControls(camera, renderer, controlConfig);

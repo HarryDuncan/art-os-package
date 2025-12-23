@@ -35,6 +35,7 @@ export const formatGeometry = (
       formattedConfig.geometry,
       meshConfig.geometryConfig
     );
+    formattedConfig.geometry.dispose();
     return {
       meshId: meshConfig.guid,
       materialId: meshConfig.materialId,

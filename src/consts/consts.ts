@@ -10,6 +10,7 @@ export const PROCESS_STATUS = {
   PAUSED: "Paused",
   STOPPED: "Stopped",
   ERROR: "Error",
+  CLEANING_UP: "Cleaning up",
 };
 
 export const SCENE_CONFIG_KEYS = {

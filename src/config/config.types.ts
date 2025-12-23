@@ -1,4 +1,3 @@
-import { AnimationConfig } from "../animation/animation.types";
 import { MaterialConfig } from "./material/types";
 import { InteractionConfig } from "../interaction/types";
 import { Asset } from "../assets/types";
@@ -155,7 +154,6 @@ export type SceneConfig = {
   // advancedMeshConfigs?: AdvancedMeshConfig[];
   meshTransforms?: MeshTransformConfig[];
   sceneMaterialConfigs: MaterialConfig[];
-  animationConfig: AnimationConfig[];
   lightConfig: LightConfigs[];
   sceneComponentConfigs?: SceneComponentConfig[];
   interactionConfigs?: InteractionConfig[];
@@ -185,7 +183,6 @@ export type ThreeJsParams = {
 
 export type SceneData = {
   controlsConfig: Partial<ControlConfig>;
-  animationConfig?: AnimationConfig[];
   meshes: Object3D[] | GLTF[];
   // sceneComponents: Object3D[];
   overlays: Asset[];
