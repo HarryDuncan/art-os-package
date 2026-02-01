@@ -5,21 +5,25 @@ import { ConfiguredTransform, ShaderParameterMap } from "../../types";
 export const splitValueTransform = (
   effectTransforms: ConfiguredTransform[],
   operatorTransform: OperatorConfig,
-  parameterMap: ShaderParameterMap
+  parameterMap: ShaderParameterMap,
 ): ConfiguredTransform => {
+  console.log("splitValueTransform", operatorTransform);
   const { inputMapping, outputMapping, outputMapSchema, value } =
     operatorTransform;
   const inputParameterKeys = Object.keys(inputMapping).map((key) =>
-    findKeyMatch(key, parameterMap)
+    findKeyMatch(key, parameterMap),
   );
 
-  const outputEffects = Object.keys(outputMapSchema).reduce((acc, key) => {
-    const outputEffectIds = Object.values(outputMapping).flatMap((mapping) =>
-      mapping.sourceKey === key ? mapping.itemId : []
-    );
-    acc.push({ outputEffectIds, value: value[key as keyof typeof value] });
-    return acc;
-  }, [] as { outputEffectIds: string[]; value: number }[]);
+  const outputEffects = Object.keys(outputMapSchema).reduce(
+    (acc, key) => {
+      const outputEffectIds = Object.values(outputMapping).flatMap((mapping) =>
+        mapping.sourceKey === key ? mapping.itemId : [],
+      );
+      acc.push({ outputEffectIds, value: value[key as keyof typeof value] });
+      return acc;
+    },
+    [] as { outputEffectIds: string[]; value: number }[],
+  );
 
   const allTransformDefinitions = [
     ...effectTransforms.flatMap((transform) => transform.transformDefinitions),
@@ -39,13 +43,13 @@ export const splitValueTransform = (
     } ) {`;
     transformAssignment.push(condition);
     const outputEffectTransforms = effectTransforms.filter((transform) =>
-      outputEffectIds.includes(transform.guid)
+      outputEffectIds.includes(transform.guid),
     );
 
     transformAssignment.push(
       ...outputEffectTransforms.flatMap(
-        (transform) => transform.transformAssignments
-      )
+        (transform) => transform.transformAssignments,
+      ),
     );
     {
       transformAssignment.push("}");

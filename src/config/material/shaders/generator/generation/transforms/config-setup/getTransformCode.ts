@@ -1,6 +1,5 @@
 import {
   EffectConfig,
-  SHADER_PROPERTY_TYPES,
   ShaderTransformationOutputConfig,
   ShaderTransformationSchema,
 } from "../../../../schema";
@@ -11,7 +10,7 @@ import { isDefaultParameter } from "../../helpers/parameterUtils";
 const getParameterFromSchemaKey = (
   schemaKey: string,
   guid: string,
-  inputMap: ShaderParameterMap
+  inputMap: ShaderParameterMap,
 ) => {
   let parameterKey = schemaKey;
   Array.from(inputMap.keys()).forEach((key) => {
@@ -36,7 +35,7 @@ export const getTransformCode = (
   transformName: string,
   subEffectsKeys: string[],
   inputMap: ShaderParameterMap,
-  effectConfig: EffectConfig
+  effectConfig: EffectConfig,
 ) => {
   const { transformCode, outputConfig } = transformSchema;
   const { guid } = effectConfig;
@@ -52,14 +51,14 @@ export const getTransformCode = (
 
   const internalStructDeclaration = createInternalStructDeclaration(
     transformName,
-    outputConfig
+    outputConfig,
   );
   return [internalStructDeclaration, ...formattedEffectCodeLines, "}"];
 };
 
 const createInternalStructDeclaration = (
   transformName: string,
-  outputConfig: ShaderTransformationOutputConfig[]
+  outputConfig: ShaderTransformationOutputConfig[],
 ) => {
   if (isStruct(outputConfig)) {
     return `${transformName}_result result;`;

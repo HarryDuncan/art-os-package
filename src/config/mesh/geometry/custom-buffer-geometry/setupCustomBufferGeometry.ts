@@ -18,6 +18,7 @@ export const setUpCustomBufferGeometry = (
   centerGeometryToOrigin: boolean,
   meshType: MeshType
 ) => {
+  console.log("bufferGeometryType", bufferGeometryType);
   switch (bufferGeometryType) {
     case CUSTOM_BUFFER_GEOMETRY_TYPES.EMPTY:
       return emptyBuffer();
@@ -47,6 +48,7 @@ const setUpDetailedPlane = (
   centerGeometryToOrigin: boolean,
   meshType: MeshType
 ) => {
+  console.log("bufferGeometryConfig", bufferGeometryConfig);
   const { height, width } = bufferGeometryConfig;
   const positionOffset = {
     x: 0,
@@ -81,10 +83,14 @@ export const setUpSimplePlane = (
     z: 0,
   };
 
+  console.log("width", width);
+  console.log("height", height);
+
   if (centerGeometryToOrigin) {
     positionOffset.x = -(width / 2) * scale;
     positionOffset.y = -(height / 2) * scale;
   }
+  console.log("positionOffset", positionOffset);
   return {
     geometry: createSimplePlane(width, height),
     positionOffset,

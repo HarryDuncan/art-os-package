@@ -3,10 +3,10 @@ import { SPLIT_VALUE_OPERATOR_SCHEMA } from "./splitValue";
 // import { SEQUENCE_OPERATOR_SCHEMA } from "./sequence";
 
 export const OPERATOR_TYPES = {
-  AND: "AND",
-  SPLIT_VALUE: "SPLIT_VALUE",
-  DEFAULT: "DEFAULT",
-  SEQUENCE: "SEQUENCE",
+  AND: "and-operator",
+  SPLIT_VALUE: "split-value-operator",
+  DEFAULT: "default-operator",
+  SEQUENCE: "sequence-operator",
 };
 
 export const OPERATOR_SCHEMA_MAP = {

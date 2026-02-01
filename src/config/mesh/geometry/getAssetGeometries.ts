@@ -29,11 +29,13 @@ export const getAssetGeometry = (
       geometryConfig?.scale ?? 1,
       meshType as MeshType
     );
+
     const positionOffset = {
       x: width !== 0 ? -(width / 2) : 0,
       y: height !== 0 ? -(height / 2) : 0,
       z: 0,
     };
+    console.log("positionOffset", positionOffset);
     return [
       {
         name: asset.name,
