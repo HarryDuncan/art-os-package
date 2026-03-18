@@ -18,10 +18,9 @@ import { MeshType } from "../../../assets/geometry/geometry.types";
 
 export const formatGeometry = (
   loadedAssets: Asset[],
-  meshComponentConfigs: MeshComponentConfig[]
+  meshComponentConfigs: MeshComponentConfig[],
 ): FormattedGeometry[] => {
   return meshComponentConfigs.flatMap((meshConfig) => {
-    console.log("meshConfig", meshConfig);
     const formattedConfig = getGeometryForMeshConfig(meshConfig, loadedAssets);
     if (!formattedConfig) {
       return [];
@@ -29,12 +28,12 @@ export const formatGeometry = (
     const position = formatPositionFromConfig(
       meshConfig,
       // @ts-ignore
-      formattedConfig?.positionOffset
+      formattedConfig?.positionOffset,
     );
     const rotation = formatRotationFromConfig(meshConfig);
     const configuredGeometry = configureGeometry(
       formattedConfig.geometry,
-      meshConfig.geometryConfig
+      meshConfig.geometryConfig,
     );
     formattedConfig.geometry.dispose();
     return {
@@ -53,7 +52,7 @@ export const formatGeometry = (
 
 export const configureGeometry = (
   geometry: BufferGeometry,
-  geometryConfig: GeometryConfig = DEFAULT_MODEL3D_CONFIG
+  geometryConfig: GeometryConfig = DEFAULT_MODEL3D_CONFIG,
 ) => {
   const formattedGeometry = geometry.clone();
   const { scale, centerMesh } = geometryConfig;
@@ -70,7 +69,7 @@ export const configureGeometry = (
 
 const getGeometryForMeshConfig = (
   meshComponentConfig: MeshComponentConfig,
-  loadedAssets: Asset[]
+  loadedAssets: Asset[],
 ) => {
   const {
     geometryType,
@@ -87,14 +86,14 @@ const getGeometryForMeshConfig = (
         customGeometryConfig ?? {},
         geometryConfig?.scale ?? 1,
         centerGeometryToOrigin ?? false,
-        meshType as MeshType
+        meshType as MeshType,
       );
     }
   }
   const asset = loadedAssets.find((asset) => asset.guid === assetId);
   if (!asset) {
     console.warn(
-      `no asset found for ${assetId} this mesh will not be rendered`
+      `no asset found for ${assetId} this mesh will not be rendered`,
     );
     return null;
   }
@@ -102,7 +101,7 @@ const getGeometryForMeshConfig = (
 
   if (!geometry) {
     console.warn(
-      `no geometry found for ${assetId} this mesh will not be rendered`
+      `no geometry found for ${assetId} this mesh will not be rendered`,
     );
     return null;
   }

@@ -7,11 +7,12 @@ import { InteractionConfig } from "../../../interaction/types";
 export const VideoStreamNode = () => {
   const { interactionConfigs } = useSceneContext();
 
+  console.log("interactionConfigs", interactionConfigs);
   const selectedInteractionConfig = interactionConfigs.find(
     (interactionConfig) =>
       interactionConfig.output?.outputSchema.some(
-        (outputSchema) => outputSchema.id === "stream-texture-config"
-      )
+        (outputSchema) => outputSchema.id === "stream-texture-config",
+      ),
   );
 
   if (!selectedInteractionConfig) {
@@ -28,14 +29,14 @@ const Content = ({
   const { initializedScene } = useSceneContext();
   const { output } = interactionConfig;
   const schemaData = output?.outputSchema.find(
-    (schema) => schema.id === "stream-texture-config"
+    (schema) => schema.id === "stream-texture-config",
   );
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   // get the mesh
 
   const selectedMesh = initializedScene?.current?.children.find(
-    (mesh) => schemaData?.meshId === mesh.name
+    (mesh) => schemaData?.meshId === mesh.name,
   );
 
   const setFrameAsUniform = useCallback(
@@ -60,7 +61,7 @@ const Content = ({
         }
       }
     },
-    [selectedMesh, schemaData]
+    [selectedMesh, schemaData],
   );
 
   useEffect(() => {

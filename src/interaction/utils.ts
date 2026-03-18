@@ -7,7 +7,7 @@ export const setUniforms = (
   materialIds: string[],
   uniformKeys: string[],
   eventData: Record<string, unknown>,
-  keyPointId: string
+  keyPointId: string,
 ) => {
   const meshes = scene?.children.flatMap((child) => {
     if (child) {
@@ -40,7 +40,11 @@ export const getMeshesByMaterialIds = (scene: Scene, materialIds: string[]) => {
 export const setMeshUniform = (
   mesh: Mesh,
   uniformKey: string,
-  value: unknown
+  value: unknown,
 ) => {
-  mesh.material.uniforms[uniformKey].value = value;
+  try {
+    mesh.material.uniforms[uniformKey].value = value;
+  } catch (error) {
+    console.error(error);
+  }
 };

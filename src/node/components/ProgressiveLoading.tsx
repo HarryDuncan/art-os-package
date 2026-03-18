@@ -25,7 +25,7 @@ export const ProgressiveLoading = ({
   loaderComponent: ReactNode;
   setExternalScene?: (
     scene: InteractiveScene | null,
-    camera: Camera | null
+    camera: Camera | null,
   ) => void;
   onStatusChange?: (status: string) => void;
 }) => {
@@ -57,7 +57,7 @@ const PostWindowSizeLoader = ({
   sceneConfig: SceneConfig;
   setExternalScene?: (
     scene: InteractiveScene | null,
-    camera: Camera | null
+    camera: Camera | null,
   ) => void;
 }) => {
   useSetInteractionConfigs(sceneConfig.interactionConfigs ?? []);
@@ -83,7 +83,7 @@ const SceneLoader = ({
   sceneConfig: SceneConfig;
   setExternalScene?: (
     scene: InteractiveScene | null,
-    camera: Camera | null
+    camera: Camera | null,
   ) => void;
 }) => {
   const { areAssetsInitialized, assetsRef } = useSceneContext();
@@ -112,7 +112,7 @@ const SceneConfigLoader = ({
   assets: Asset[];
   setExternalScene?: (
     scene: InteractiveScene | null,
-    camera: Camera | null
+    camera: Camera | null,
   ) => void;
 }) => {
   const { sceneDataRef } = useSceneContext();

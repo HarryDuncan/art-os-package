@@ -23,8 +23,9 @@ export const getTransformInputs = (
     outputConfig,
   } = transformConfig;
   const { inputMapping, guid } = effectConfig;
-
+  console.log("inputMapping", inputMapping);
   const inputParameterMap = getShaderInputMap(parameterMap, inputMapping);
+  console.log("inputParameterMap", inputParameterMap);
   const transformInputs = isSubFunction
     ? getSubFunctionInputs(parameters)
     : getFunctionInputs(inputParameterMap, guid);
@@ -60,8 +61,21 @@ export const getShaderInputMap = (
     if (isDefaultParameter(key) && sortedInputKeys.includes(key)) {
       return shaderInputMap.set(key, parameter);
     } else {
-      const [_parameterType, parameterName, schemaGuid, parameterGuid] =
+      const [parameterType, parameterName, schemaGuid, parameterGuid] =
         key.split("_");
+
+      /* Because varying parameters can be configured in the preformat step
+      need a case to include it in the transform input map
+
+      */
+      if (
+        parameterType === "v" &&
+        sortedInputKeys.includes(
+          `${parameterType}_${parameterName}_${schemaGuid}_${parameterGuid}`
+        )
+      ) {
+        shaderInputMap.set(key, parameter);
+      }
       if (
         sortedInputKeys.includes(`${parameterName}_${schemaGuid}`) &&
         inputMapping[`${parameterName}_${schemaGuid}`].itemId === parameterGuid

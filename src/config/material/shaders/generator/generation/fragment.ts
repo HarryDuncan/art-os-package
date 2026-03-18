@@ -10,10 +10,10 @@ import { applyEffectWrapper } from "./transforms/configureOperatorTransform";
 
 export const generateFragmentEffect = (
   operatorConfigs: OperatorConfig[],
-  parameterMap: ShaderParameterMap
+  parameterMap: ShaderParameterMap,
 ) => {
   const fragmentOperatorConfigs = operatorConfigs.filter(
-    (config) => config.type === SHADER_TYPES.FRAGMENT
+    (config) => config.type === SHADER_TYPES.FRAGMENT,
   );
   const { unmergedTransformAssignments, transformDefinitions, outputConfigs } =
     getFragmentColors(fragmentOperatorConfigs, parameterMap);
@@ -22,7 +22,7 @@ export const generateFragmentEffect = (
     outputConfigs.some((config) => config.key === SHADER_VARIABLE_TYPES.LIGHT)
   ) {
     unmergedTransformAssignments.push(
-      `${SHADER_VARIABLE_TYPES.FRAGMENT_COLOR} = ${SHADER_VARIABLE_TYPES.FRAGMENT_COLOR} * vec4(light, 1.0);`
+      `${SHADER_VARIABLE_TYPES.FRAGMENT_COLOR} = ${SHADER_VARIABLE_TYPES.FRAGMENT_COLOR} * vec4(light, 1.0);`,
     );
   }
 
@@ -35,7 +35,7 @@ export const generateFragmentEffect = (
       }
       return acc;
     },
-    [[], []] as [string[], string[]]
+    [[], []] as [string[], string[]],
   );
 
   const postEffectAssignment =
@@ -44,7 +44,7 @@ export const generateFragmentEffect = (
       : "";
 
   const { discardColorInstantiation, discardColorAssignment } = getDiscardColor(
-    unmergedTransformAssignments
+    unmergedTransformAssignments,
   );
 
   const transformations = [
@@ -64,7 +64,7 @@ export const generateFragmentEffect = (
 
 export const getFragmentColors = (
   fragmentOperations: OperatorConfig[],
-  parameterMap: ShaderParameterMap
+  parameterMap: ShaderParameterMap,
 ) => {
   const allTransformDefinitions: TransformDefinition[] = [];
   const unmergedTransformAssignments: string[] = [];
@@ -79,7 +79,7 @@ export const getFragmentColors = (
     const transformData = applyEffectWrapper(
       operation,
       effectTransforms,
-      parameterMap
+      parameterMap,
     );
     if (transformData) {
       unmergedTransformAssignments.push(...transformData.transformAssignments);
@@ -97,7 +97,7 @@ export const getFragmentColors = (
 
 const getDiscardColor = (unmergedTransformations: string[]) => {
   const hasDiscardColor = unmergedTransformations.some((transformation) =>
-    transformation.includes("discardColor")
+    transformation.includes("discardColor"),
   );
   if (hasDiscardColor) {
     return {
