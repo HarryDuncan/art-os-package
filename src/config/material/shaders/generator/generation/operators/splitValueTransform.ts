@@ -7,7 +7,6 @@ export const splitValueTransform = (
   operatorTransform: OperatorConfig,
   parameterMap: ShaderParameterMap,
 ): ConfiguredTransform => {
-  console.log("splitValueTransform", operatorTransform);
   const { inputMapping, outputMapping, outputMapSchema, value } =
     operatorTransform;
   const inputParameterKeys = Object.keys(inputMapping).map((key) =>

@@ -7,11 +7,11 @@ import { filterParametersByType } from "../utils";
 
 export const formatBuiltShaderUniforms = (
   parameterMap: ShaderParameterMap,
-  assets: Asset[]
+  assets: Asset[],
 ): { [uniform: string]: IUniform<unknown> } => {
   const uniformParameters = filterParametersByType(
     parameterMap,
-    SHADER_PROPERTY_TYPES.UNIFORM
+    SHADER_PROPERTY_TYPES.UNIFORM,
   );
 
   const assetMapping =
@@ -21,11 +21,16 @@ export const formatBuiltShaderUniforms = (
             ...uniformConfigs.assetMappingConfig,
             uniformId: `${uniformConfigs.key}`,
           }
-        : []
+        : [],
     ) || [];
 
   const uniforms = uniformParameters.reduce((acc, uniform) => {
-    const formattedValue = formatUniformValue(uniform.value, uniform.valueType);
+    const formattedValue = formatUniformValue(
+      uniform.value,
+      uniform.valueType,
+      uniform.isArray ?? false,
+      uniform.arrayLength ?? 0,
+    );
 
     if (!uniform.guid || uniform.isDefault) {
       acc[uniform.key] = { value: formattedValue };
@@ -44,8 +49,20 @@ export const formatBuiltShaderUniforms = (
 
 export const formatUniformValue = (
   value: unknown,
-  valueType: string
+  valueType: keyof typeof SHADER_PROPERTY_VALUE_TYPES,
+  isArray: boolean,
+  arrayLength: number,
 ): unknown => {
+  if (isArray) {
+    return new Array(arrayLength).fill(0).map(() => getValue(value, valueType));
+  }
+  return getValue(value, valueType);
+};
+
+const getValue = (
+  value: unknown,
+  valueType: keyof typeof SHADER_PROPERTY_VALUE_TYPES,
+) => {
   try {
     switch (valueType) {
       case SHADER_PROPERTY_VALUE_TYPES.FLOAT:
@@ -75,7 +92,7 @@ export const formatUniformValue = (
   } catch (error) {
     console.warn(
       `Error formatting uniform value for type ${valueType}:`,
-      error
+      error,
     );
 
     // Return default values based on type
@@ -98,7 +115,7 @@ const formatDefaultShaderValues = (uniforms: UniformObject) => {
   if (uniforms.uResolution) {
     uniforms.uResolution = {
       value: new Vector2(window.innerWidth, window.innerHeight).multiplyScalar(
-        window.devicePixelRatio
+        window.devicePixelRatio,
       ),
     };
   }

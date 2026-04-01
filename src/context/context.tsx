@@ -14,7 +14,7 @@ import { InteractionConfig } from "../interaction/types";
 import { InteractiveScene } from "../components/interactive-scene/InteractiveScene";
 import { Asset } from "../assets/types";
 import { disposeAssets } from "../utils/cleanup/disposeAssets";
-import { SceneData } from "../config/config.types";
+import { PeripheralConfig, SceneData } from "../config/config.types";
 
 type SceneContextType = {
   initializedScene: React.MutableRefObject<InteractiveScene | null>;
@@ -28,6 +28,8 @@ type SceneContextType = {
   setRendererHeight: (rendererHeight: number) => void;
   rendererWidth: number;
   setRendererWidth: (rendererWidth: number) => void;
+  peripheralConfigs: PeripheralConfig[];
+  setPeripheralConfigs: (peripheralConfigs: PeripheralConfig[]) => void;
   interactionConfigs: InteractionConfig[];
   setInteractionConfigs: (interactionConfigs: InteractionConfig[]) => void;
   areAssetsInitialized: boolean;
@@ -40,7 +42,7 @@ type SceneContextType = {
 };
 
 export const SceneContext = createContext<SceneContextType | undefined>(
-  undefined
+  undefined,
 );
 
 interface SceneProviderProps {
@@ -63,10 +65,13 @@ const SceneProvider: FC<SceneProviderProps> = ({
 
   // --- STATE (For UI Reactivity) ---
   const [sceneStatus, setStatus] = useState<string>(
-    PROCESS_STATUS.FORMATTING_THREE
+    PROCESS_STATUS.FORMATTING_THREE,
   );
   const [interactionConfigs, setInteractionConfigs] = useState<
     InteractionConfig[]
+  >([]);
+  const [peripheralConfigs, setPeripheralConfigs] = useState<
+    PeripheralConfig[]
   >([]);
   const [rendererHeight, setRendererHeight] = useState<number>(0);
   const [rendererWidth, setRendererWidth] = useState<number>(0);
@@ -96,8 +101,6 @@ const SceneProvider: FC<SceneProviderProps> = ({
 
   // --- THE CLEANUP LOGIC ---
   const performCleanup = useCallback(() => {
-    console.log("♻️ Starting Cleanup...");
-
     // 1. Stop the loop
     if (currentFrameRef.current) {
       cancelAnimationFrame(currentFrameRef.current);
@@ -140,8 +143,6 @@ const SceneProvider: FC<SceneProviderProps> = ({
 
     setSceneData(null);
     sceneDataRef.current = null;
-
-    console.log("✅ Cleanup Complete");
   }, []);
 
   // --- MOUNT / UNMOUNT EFFECT ---
@@ -178,6 +179,8 @@ const SceneProvider: FC<SceneProviderProps> = ({
         manualCleanup: performCleanup,
         sceneDataRef,
         setSceneData,
+        peripheralConfigs,
+        setPeripheralConfigs,
       }}
     >
       {children}

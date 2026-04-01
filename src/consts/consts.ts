@@ -19,6 +19,7 @@ export const SCENE_CONFIG_KEYS = {
   MESH_COMPONENT_CONFIGS: "meshComponentConfigs",
   SCENE_MATERIAL_CONFIGS: "sceneMaterialConfigs",
   ADVANCED_MESH_CONFIGS: "advancedMeshConfigs",
+  PERIPHERAL_INTERACTIONS: "peripheralInteractions",
   MESH_TRANSFORMS: "meshTransforms",
   ANIMATION_CONFIG: "animationConfig",
   LIGHT_CONFIG: "lightConfig",

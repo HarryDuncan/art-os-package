@@ -12,14 +12,14 @@ import { MeshType } from "../../../assets/geometry/geometry.types";
 
 export const getAssetGeometry = (
   asset: Asset,
-  meshComponentConfig: MeshComponentConfig
+  meshComponentConfig: MeshComponentConfig,
 ) => {
   const { meshType, geometryConfig } = meshComponentConfig;
   const { assetType, path: assetPath, data, name } = asset;
   const path = assetPath ?? "";
   if (assetType === ASSET_TYPES.VIDEO) {
     const video = document.getElementById(
-      asset.guid
+      asset.guid,
     ) as HTMLVideoElement | null;
     const width = (video as HTMLVideoElement)?.videoWidth;
     const height = (video as HTMLVideoElement)?.videoHeight;
@@ -27,7 +27,7 @@ export const getAssetGeometry = (
       width ?? 1,
       height ?? 1,
       geometryConfig?.scale ?? 1,
-      meshType as MeshType
+      meshType as MeshType,
     );
 
     const positionOffset = {
@@ -35,7 +35,6 @@ export const getAssetGeometry = (
       y: height !== 0 ? -(height / 2) : 0,
       z: 0,
     };
-    console.log("positionOffset", positionOffset);
     return [
       {
         name: asset.name,

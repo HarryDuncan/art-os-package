@@ -40,8 +40,8 @@ export type ParameterConfig = {
   description?: string;
   valueType: keyof typeof SHADER_PROPERTY_VALUE_TYPES;
   value?: unknown;
+  isArray?: boolean;
   arrayLength?: number;
-  arrayValue?: unknown[];
   parameterType: keyof typeof SHADER_PROPERTY_TYPES;
 
   isAssetMapped?: boolean;

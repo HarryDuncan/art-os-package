@@ -16,12 +16,12 @@ import {
 } from "./consts";
 import { generateStructs } from "./generation/structs";
 
-const DEBUG = true;
+const DEBUG = false;
 export const generateShaders = (
   operatorConfigs: OperatorConfig[],
   functionConfigs: EffectConfig[],
   parameterMap: ShaderParameterMap,
-  structsConfigs: StructConfig[]
+  structsConfigs: StructConfig[],
 ) => {
   const attributes = generateAttributes(parameterMap);
   const uniformDeclaration = generateUniformDeclaration(parameterMap);
@@ -62,7 +62,7 @@ export const generateShaders = (
     varyingInstantiation,
     vertexTransformDefinitions,
     vertexEffects.transformations,
-    vertexEffects.viewMatrix
+    vertexEffects.viewMatrix,
   );
 
   const fragmentShader = formatFragmentShader(
@@ -73,7 +73,7 @@ export const generateShaders = (
     structInstantiation,
     fragmentEffects.transformDefinitions,
     fragmentEffects.transformations,
-    fragmentEffects.fragColor
+    fragmentEffects.fragColor,
   );
   if (DEBUG) {
     console.log("Vertex Shader: ", vertexShader);
@@ -97,10 +97,10 @@ const formatVertexShader = (
   varyingInstantiations: string[],
   vertexTransformDefinitions: TransformDefinition[],
   vertexTransformations: string,
-  viewMatrix: string
+  viewMatrix: string,
 ) => {
   const vertexFunctionDeclarations = functionDeclarations(
-    vertexTransformDefinitions
+    vertexTransformDefinitions,
   );
 
   return [
@@ -130,10 +130,10 @@ export const formatFragmentShader = (
   structInstantiation: string,
   fragmentTransformDefinitions: TransformDefinition[],
   fragmentTransformations: string,
-  fragColor: string
+  fragColor: string,
 ) => {
   const fragmentFunctionDeclarations = functionDeclarations(
-    fragmentTransformDefinitions
+    fragmentTransformDefinitions,
   );
   const shaderCodeArray: string[] = [
     structDeclaration,

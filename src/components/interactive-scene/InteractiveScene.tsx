@@ -1,15 +1,11 @@
-import { InteractionConfig } from "../../interaction/types";
 import { Clock, Scene, Camera } from "three";
 import { THREAD_EVENTS } from "../../thread/thread.consts";
-import { SceneProperties } from "../../config/config.types";
+import { PeripheralConfig, SceneProperties } from "../../config/config.types";
 import { OrbitControl } from "../../types";
 import { FUNCTION_MAP } from "../../interaction/functions/functionMap";
 import { disposeObject3D } from "../../utils/cleanup/disposeAssets";
-// import { KEY_POINT_EXTRACTORS } from "../../interaction/key-point-extraction/keyPointExtraction";
+import { MATERIAL_FUNCTIONS } from "../../consts";
 
-/*
-  TODO - fix the interaction event initialization with the v2 interaction configs
-*/
 export type InteractiveSceneFunctions = {
   onTimeUpdate?: (scene: InteractiveScene) => void;
   onTriggeredUpdate?: (scene: InteractiveScene) => void;
@@ -28,7 +24,7 @@ export class InteractiveScene extends Scene {
 
   sceneProperties: SceneProperties;
 
-  interactionConfigs: InteractionConfig[];
+  peripheralConfigs: PeripheralConfig[];
 
   sceneStatus: string;
 
@@ -46,10 +42,9 @@ export class InteractiveScene extends Scene {
 
   constructor(
     sceneFunctions: InteractiveSceneFunctions,
-
-    interactionConfigs: InteractionConfig[],
+    peripheralConfigs: PeripheralConfig[],
     sceneProperties: SceneProperties,
-    camera: Camera
+    camera: Camera,
   ) {
     super();
     this.sceneStatus = "idle";
@@ -61,7 +56,7 @@ export class InteractiveScene extends Scene {
 
     this.eventsSet = false;
     this.sceneProperties = sceneProperties;
-    this.interactionConfigs = interactionConfigs;
+    this.peripheralConfigs = peripheralConfigs;
     this.camera = camera;
     this.rendererHeight = 0;
     this.rendererWidth = 0;
@@ -75,14 +70,14 @@ export class InteractiveScene extends Scene {
       this.boundEventHandlers.updateScene = () => onTimeUpdate(this);
       document.addEventListener(
         THREAD_EVENTS.UPDATE_SCENE,
-        this.boundEventHandlers.updateScene
+        this.boundEventHandlers.updateScene,
       );
     }
     if (onTriggeredUpdate) {
       this.boundEventHandlers.triggered = () => onTriggeredUpdate(this);
       document.addEventListener(
         THREAD_EVENTS.TRIGGERED,
-        this.boundEventHandlers.triggered
+        this.boundEventHandlers.triggered,
       );
     }
 
@@ -92,7 +87,7 @@ export class InteractiveScene extends Scene {
     };
     document.addEventListener(
       THREAD_EVENTS.MESH_ADDED,
-      this.boundEventHandlers.meshAdded
+      this.boundEventHandlers.meshAdded,
     );
   }
 
@@ -104,56 +99,71 @@ export class InteractiveScene extends Scene {
 
   private eventListeners: { [key: string]: (e: Event) => void } = {};
 
-  addInteractionEvents(interactionConfigs: InteractionConfig[]) {
-    interactionConfigs.forEach((interactionConfig) => {
-      const { output } = interactionConfig;
-      const eventFunction = FUNCTION_MAP[output?.functionType];
-      // const keyPointExtractor =
-      //   KEY_POINT_EXTRACTORS[interactionConfig.modelConfig.eventKey];
-
-      // if (!eventFunction) {
-      //   console.warn(
-      //     `Event function ${
-      //       interactionConfig.functionType
-      //     } not found for interaction config ${
-      //       interactionConfig.name ?? interactionConfig.id
-      //     }`
-      //   );
-      // } else {
-      //   const params = {
-      //     camera: this.camera,
-      //     rendererHeight: this.rendererHeight,
-      //     rendererWidth: this.rendererWidth,
-      //     zTarget: 0,
-      //   };
-      //   const formattedInteractionConfig = {
-      //     materialIds: interactionConfig.materialIds,
-      //     uniformKeys: Object.entries(interactionConfig.outputMapping).flatMap(
-      //       ([key, mapping]) => `u_${key}_${mapping.itemId}`
-      //     ),
-      //     keyPointId: interactionConfig.outputConfig[0].rawDataPoints[0],
-      //   };
-
-      //   const eventHandler = (e: Event) => {
-      //     const eventData = keyPointExtractor(e, params);
-      //     eventFunction(
-      //       this as InteractiveScene,
-      //       eventData,
-      //       formattedInteractionConfig
-      //     );
-      //   };
-
-      //   this.eventListeners[interactionConfig.modelConfig.eventKey] =
-      //     eventHandler;
-      //   document.addEventListener(
-      //     interactionConfig.modelConfig.eventKey,
-      //     eventHandler
-      //   );
-      // }
+  initializePeripheralInteractions(peripheralInteractions: PeripheralConfig[]) {
+    peripheralInteractions.forEach((peripheralConfig) => {
+      const { interactions } = peripheralConfig;
+      interactions.forEach((interaction) => {
+        const { output } = interaction;
+        const eventFunction = FUNCTION_MAP[MATERIAL_FUNCTIONS.MAP_TO_UNIFORM];
+        if (eventFunction) {
+          console.log(eventFunction);
+          console.log(interaction);
+          console.log(output);
+        }
+      });
     });
   }
 
-  removeInteractionEvents() {
+  // addInteractionEvents(interactionConfigs: InteractionConfig[]) {
+  //   interactionConfigs.forEach((interactionConfig) => {
+  //     const { output } = interactionConfig;
+  //     const eventFunction = FUNCTION_MAP[output?.functionType];
+  //     // const keyPointExtractor =
+  //     //   KEY_POINT_EXTRACTORS[interactionConfig.modelConfig.eventKey];
+
+  //     // if (!eventFunction) {
+  //     //   console.warn(
+  //     //     `Event function ${
+  //     //       interactionConfig.functionType
+  //     //     } not found for interaction config ${
+  //     //       interactionConfig.name ?? interactionConfig.id
+  //     //     }`
+  //     //   );
+  //     // } else {
+  //     //   const params = {
+  //     //     camera: this.camera,
+  //     //     rendererHeight: this.rendererHeight,
+  //     //     rendererWidth: this.rendererWidth,
+  //     //     zTarget: 0,
+  //     //   };
+  //     //   const formattedInteractionConfig = {
+  //     //     materialIds: interactionConfig.materialIds,
+  //     //     uniformKeys: Object.entries(interactionConfig.outputMapping).flatMap(
+  //     //       ([key, mapping]) => `u_${key}_${mapping.itemId}`
+  //     //     ),
+  //     //     keyPointId: interactionConfig.outputConfig[0].rawDataPoints[0],
+  //     //   };
+
+  //     //   const eventHandler = (e: Event) => {
+  //     //     const eventData = keyPointExtractor(e, params);
+  //     //     eventFunction(
+  //     //       this as InteractiveScene,
+  //     //       eventData,
+  //     //       formattedInteractionConfig
+  //     //     );
+  //     //   };
+
+  //     //   this.eventListeners[interactionConfig.modelConfig.eventKey] =
+  //     //     eventHandler;
+  //     //   document.addEventListener(
+  //     //     interactionConfig.modelConfig.eventKey,
+  //     //     eventHandler
+  //     //   );
+  //     // }
+  //   });
+  // }
+
+  removePeripheralInteractions() {
     Object.entries(this.eventListeners).forEach(([eventKey, handler]) => {
       document.removeEventListener(eventKey, handler);
     });
@@ -161,25 +171,25 @@ export class InteractiveScene extends Scene {
   }
 
   dispose() {
-    this.removeInteractionEvents();
+    this.removePeripheralInteractions();
 
     // Remove event listeners added in bindExecutionFunctions
     if (this.boundEventHandlers.updateScene) {
       document.removeEventListener(
         THREAD_EVENTS.UPDATE_SCENE,
-        this.boundEventHandlers.updateScene
+        this.boundEventHandlers.updateScene,
       );
     }
     if (this.boundEventHandlers.triggered) {
       document.removeEventListener(
         THREAD_EVENTS.TRIGGERED,
-        this.boundEventHandlers.triggered
+        this.boundEventHandlers.triggered,
       );
     }
     if (this.boundEventHandlers.meshAdded) {
       document.removeEventListener(
         THREAD_EVENTS.MESH_ADDED,
-        this.boundEventHandlers.meshAdded
+        this.boundEventHandlers.meshAdded,
       );
     }
 
@@ -200,9 +210,9 @@ export class InteractiveScene extends Scene {
   setStatus(status: "idle" | "active") {
     this.sceneStatus = status;
     if (status === "active") {
-      this.addInteractionEvents(this.interactionConfigs);
+      this.initializePeripheralInteractions(this.peripheralConfigs);
     } else {
-      this.removeInteractionEvents();
+      this.removePeripheralInteractions();
     }
   }
 

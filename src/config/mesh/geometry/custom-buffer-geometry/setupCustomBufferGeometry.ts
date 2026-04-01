@@ -16,9 +16,8 @@ export const setUpCustomBufferGeometry = (
   bufferGeometryConfig: CustomGeometryConfig,
   scale: number,
   centerGeometryToOrigin: boolean,
-  meshType: MeshType
+  meshType: MeshType,
 ) => {
-  console.log("bufferGeometryType", bufferGeometryType);
   switch (bufferGeometryType) {
     case CUSTOM_BUFFER_GEOMETRY_TYPES.EMPTY:
       return emptyBuffer();
@@ -27,17 +26,17 @@ export const setUpCustomBufferGeometry = (
         bufferGeometryConfig as DetailedPlaneConfig,
         scale,
         centerGeometryToOrigin,
-        meshType as MeshType
+        meshType as MeshType,
       );
     case CUSTOM_BUFFER_GEOMETRY_TYPES.SIMPLE_PLANE:
       return setUpSimplePlane(
         bufferGeometryConfig as DetailedPlaneConfig,
         scale,
-        centerGeometryToOrigin
+        centerGeometryToOrigin,
       );
     default:
       console.warn(
-        `No custom buffer geometry has been set for ${bufferGeometryType}`
+        `No custom buffer geometry has been set for ${bufferGeometryType}`,
       );
   }
 };
@@ -46,9 +45,8 @@ const setUpDetailedPlane = (
   bufferGeometryConfig: DetailedPlaneConfig,
   scale: number,
   centerGeometryToOrigin: boolean,
-  meshType: MeshType
+  meshType: MeshType,
 ) => {
-  console.log("bufferGeometryConfig", bufferGeometryConfig);
   const { height, width } = bufferGeometryConfig;
   const positionOffset = {
     x: 0,
@@ -65,7 +63,7 @@ const setUpDetailedPlane = (
       width ?? 1,
       height ?? 1,
       scale,
-      meshType as MeshType
+      meshType as MeshType,
     ),
     positionOffset,
   };
@@ -74,7 +72,7 @@ const setUpDetailedPlane = (
 export const setUpSimplePlane = (
   bufferGeometryConfig: DetailedPlaneConfig,
   scale: number,
-  centerGeometryToOrigin: boolean
+  centerGeometryToOrigin: boolean,
 ) => {
   const { height, width } = bufferGeometryConfig;
   const positionOffset = {
@@ -82,9 +80,6 @@ export const setUpSimplePlane = (
     y: 0,
     z: 0,
   };
-
-  console.log("width", width);
-  console.log("height", height);
 
   if (centerGeometryToOrigin) {
     positionOffset.x = -(width / 2) * scale;

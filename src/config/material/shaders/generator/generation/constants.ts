@@ -11,7 +11,7 @@ import { getTransformsMappedToParameters } from "./transforms/getTransfomsMapped
 
 export const generateConstants = (
   shaderParameterMap: ShaderParameterMap,
-  functionConfigs: EffectConfig[]
+  functionConfigs: EffectConfig[],
 ): {
   constantDeclaration: string;
   constantInstantiation: string[];
@@ -19,13 +19,13 @@ export const generateConstants = (
 } => {
   const constantParameters = filterParametersByType(
     shaderParameterMap,
-    SHADER_PROPERTY_TYPES.CONSTANT
+    SHADER_PROPERTY_TYPES.CONSTANT,
   );
   const constantDeclaration = [
     "// CONSTANT DECLARATIONS",
     ...constantParameters.map(({ key, valueType, value }) => {
       return `${shaderValueTypeInstantiation(
-        valueType
+        valueType,
       )} ${key} = ${valueToShader(valueType, value ?? "")};`;
     }),
   ].join("\n");
@@ -33,7 +33,7 @@ export const generateConstants = (
   const { transformDefinitions, transformAssignments } = getFunctionConstants(
     constantParameters,
     shaderParameterMap,
-    functionConfigs
+    functionConfigs,
   );
 
   return {
@@ -46,19 +46,18 @@ export const generateConstants = (
 const getFunctionConstants = (
   constantParameters: ParameterConfig[],
   parameterMap: ShaderParameterMap,
-  functionConfigs: EffectConfig[]
+  functionConfigs: EffectConfig[],
 ) => {
-  console.log("functionConfigs", functionConfigs);
   const configuredTransforms = getTransformsMappedToParameters(
     constantParameters,
     parameterMap,
-    functionConfigs
+    functionConfigs,
   );
   const transformDefinitions = configuredTransforms.flatMap(
-    (transform) => transform.transformDefinitions
+    (transform) => transform.transformDefinitions,
   );
   const transformAssignments = configuredTransforms.flatMap(
-    ({ transformAssignments }) => transformAssignments
+    ({ transformAssignments }) => transformAssignments,
   );
   return { transformDefinitions, transformAssignments };
 };

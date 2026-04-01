@@ -22,6 +22,19 @@ import { CustomGeometryConfig } from "./mesh/types";
 import { RaycasterConfig } from "../types/three.types";
 import { OverlayConfig } from "../components/overlays/types";
 import { InterNodeMap } from "../types";
+import { PeripheralInteraction } from "../peripheral/types";
+
+export type BaseConfig = {
+  guid: string;
+  title: string;
+  description?: string;
+  createdAt?: string;
+  updatedAt?: string;
+};
+
+export type PeripheralConfig = BaseConfig & {
+  interactions: PeripheralInteraction[];
+};
 
 export type MultipleInstanceConfig = {
   instanceCount: number;
@@ -151,6 +164,7 @@ export type SceneConfig = {
   controlsConfig?: Partial<ControlConfig>;
   assets?: Asset[];
   meshComponentConfigs: MeshComponentConfig[];
+  peripheralInteractions: PeripheralConfig[];
   // advancedMeshConfigs?: AdvancedMeshConfig[];
   meshTransforms?: MeshTransformConfig[];
   sceneMaterialConfigs: MaterialConfig[];

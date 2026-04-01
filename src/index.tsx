@@ -35,3 +35,5 @@ export * from "./exports/functions";
 
 export * from "./types";
 export * from "./consts";
+export * from "./peripheral/types";
+export * from "./peripheral/consts";

@@ -15,12 +15,10 @@ import { PROCESS_STATUS } from "../../consts/consts";
 export const useInteractiveScene = (
   sceneFunction: InteractiveSceneFunctions,
   meshes: Object3D[] | GLTF[],
-  // lights: SceneLight[],
-  // sceneComponents: Object3D[],
   orbitControls: OrbitControls | null,
-  sceneProperties: SceneProperties
+  sceneProperties: SceneProperties,
 ) => {
-  const { initializedScene, camera, interactionConfigs, sceneStatus } =
+  const { initializedScene, camera, peripheralConfigs, sceneStatus } =
     useSceneContext();
 
   const setUpSceneObjects = useCallback(
@@ -31,7 +29,7 @@ export const useInteractiveScene = (
       setSceneProperties(sceneProperties, scene);
       initializedScene.current = scene;
     },
-    [meshes, sceneProperties]
+    [meshes, sceneProperties],
   );
 
   useEffect(() => {
@@ -44,9 +42,9 @@ export const useInteractiveScene = (
     async function setUpScene() {
       const scene = new InteractiveScene(
         sceneFunction,
-        interactionConfigs,
+        peripheralConfigs,
         sceneProperties,
-        camera.current as Camera
+        camera.current as Camera,
       );
 
       await setUpSceneObjects(scene);
@@ -62,7 +60,7 @@ export const useInteractiveScene = (
     sceneStatus,
     sceneFunction,
     setUpSceneObjects,
-    interactionConfigs,
+    peripheralConfigs,
     initializedScene,
     camera,
   ]);
