@@ -1,4 +1,5 @@
 import { mousePositionHandler } from "./handlers/mouseMoveHandler";
+import { mouseClickHandler } from "./handlers/mouseClickHandler";
 
 export const COORDINATE_SPACE_OPTIONS = [
   { value: "normalized", label: "Normalized (0..1)" },
@@ -56,4 +57,5 @@ export const EVENT_KEY_MAP = {
 
 export const EVENT_HANDLER_MAP = {
   [PERIPHERAL_INTERACTION_KEYS.MOUSE_POSITION]: mousePositionHandler,
+  [PERIPHERAL_INTERACTION_KEYS.MOUSE_CLICK]: mouseClickHandler,
 };

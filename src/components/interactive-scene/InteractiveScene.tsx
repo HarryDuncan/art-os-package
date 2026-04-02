@@ -3,7 +3,11 @@ import { THREAD_EVENTS } from "../../thread/thread.consts";
 import { PeripheralConfig, SceneProperties } from "../../config/config.types";
 import { OrbitControl } from "../../types";
 import { disposeObject3D } from "../../utils/cleanup/disposeAssets";
-import { EVENT_HANDLER_MAP, EVENT_KEY_MAP } from "../../peripheral/consts";
+import {
+  EVENT_HANDLER_MAP,
+  EVENT_KEY_MAP,
+  PERIPHERAL_INTERACTION_KEYS,
+} from "../../peripheral/consts";
 import { setUniforms } from "../../peripheral/helpers/setUniforms";
 import { getUniformsForOutput } from "../../utils/getUniformsForOutput";
 
@@ -129,11 +133,14 @@ export class InteractiveScene extends Scene {
       const formattedOutputForMaterials =
         getUniformsForOutput(outputForMaterials);
 
+      const clickTargets = Object.values(meshTargets).flat();
+
       const params = {
         camera: this.camera,
         rendererHeight: this.rendererHeight,
         rendererWidth: this.rendererWidth,
         zTarget: 0,
+        clickTargets,
       };
 
       interactions.forEach((interaction) => {
@@ -141,9 +148,17 @@ export class InteractiveScene extends Scene {
         const eventKey = EVENT_KEY_MAP[interaction.type];
 
         const eventHandler = (e: Event) => {
-          const value = interactionHandler(e as MouseEvent, params);
+          const result = interactionHandler(e as MouseEvent, params);
 
-          setUniforms(meshTargets, formattedOutputForMaterials, value);
+          if (interaction.type === PERIPHERAL_INTERACTION_KEYS.MOUSE_CLICK) {
+            if (result) {
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              const mesh = result as any;
+              console.log("clicked:", mesh.material?.name, mesh.name);
+            }
+          } else {
+            setUniforms(meshTargets, formattedOutputForMaterials, result);
+          }
         };
 
         this.eventListeners[eventKey] = eventHandler;

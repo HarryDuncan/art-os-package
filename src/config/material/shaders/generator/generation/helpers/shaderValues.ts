@@ -1,7 +1,7 @@
 import { SHADER_PROPERTY_VALUE_TYPES } from "../../../schema";
 
 export const getDefaultValueAsString = (
-  valueType: keyof typeof SHADER_PROPERTY_VALUE_TYPES
+  valueType: keyof typeof SHADER_PROPERTY_VALUE_TYPES,
 ): string => {
   switch (valueType) {
     case SHADER_PROPERTY_VALUE_TYPES.FLOAT:
@@ -72,13 +72,13 @@ export const valueToShader = (valueType: string, value: unknown): string => {
     case SHADER_PROPERTY_VALUE_TYPES.VEC4:
       if (Array.isArray(value)) {
         return `vec4(${shaderSafeFloat(value[0])}, ${shaderSafeFloat(
-          value[1]
+          value[1],
         )}, ${shaderSafeFloat(value[2])}, ${shaderSafeFloat(value[3])})`;
       }
       return `vec4(${shaderSafeFloat(value as number)}, ${shaderSafeFloat(
-        value as number
+        value as number,
       )}, ${shaderSafeFloat(value as number)}, ${shaderSafeFloat(
-        value as number
+        value as number,
       )})`;
     default:
       throw new Error(`Unsupported value type: ${valueType}`);
@@ -86,5 +86,5 @@ export const valueToShader = (valueType: string, value: unknown): string => {
 };
 
 export const shaderSafeFloat = (value: number) => {
-  return value.toFixed(2);
+  return value ? value.toFixed(2) : "0.00";
 };
