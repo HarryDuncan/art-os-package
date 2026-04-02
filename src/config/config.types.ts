@@ -22,7 +22,7 @@ import { CustomGeometryConfig } from "./mesh/types";
 import { RaycasterConfig } from "../types/three.types";
 import { OverlayConfig } from "../components/overlays/types";
 import { InterNodeMap } from "../types";
-import { PeripheralInteraction } from "../peripheral/types";
+import { PeripheralInteraction, PeripheralOutput } from "../peripheral/types";
 
 export type BaseConfig = {
   guid: string;
@@ -34,6 +34,7 @@ export type BaseConfig = {
 
 export type PeripheralConfig = BaseConfig & {
   interactions: PeripheralInteraction[];
+  outputForMaterials?: Record<string, PeripheralOutput>;
 };
 
 export type MultipleInstanceConfig = {

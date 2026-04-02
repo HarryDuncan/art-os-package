@@ -1,10 +1,11 @@
-import { Clock, Scene, Camera } from "three";
+import { Clock, Scene, Camera, Object3D } from "three";
 import { THREAD_EVENTS } from "../../thread/thread.consts";
 import { PeripheralConfig, SceneProperties } from "../../config/config.types";
 import { OrbitControl } from "../../types";
-import { FUNCTION_MAP } from "../../interaction/functions/functionMap";
 import { disposeObject3D } from "../../utils/cleanup/disposeAssets";
-import { MATERIAL_FUNCTIONS } from "../../consts";
+import { EVENT_HANDLER_MAP, EVENT_KEY_MAP } from "../../peripheral/consts";
+import { setUniforms } from "../../peripheral/helpers/setUniforms";
+import { getUniformsForOutput } from "../../utils/getUniformsForOutput";
 
 export type InteractiveSceneFunctions = {
   onTimeUpdate?: (scene: InteractiveScene) => void;
@@ -99,21 +100,57 @@ export class InteractiveScene extends Scene {
 
   private eventListeners: { [key: string]: (e: Event) => void } = {};
 
-  initializePeripheralInteractions(peripheralInteractions: PeripheralConfig[]) {
-    peripheralInteractions.forEach((peripheralConfig) => {
-      const { interactions } = peripheralConfig;
-      interactions.forEach((interaction) => {
-        const { output } = interaction;
-        const eventFunction = FUNCTION_MAP[MATERIAL_FUNCTIONS.MAP_TO_UNIFORM];
-        if (eventFunction) {
-          console.log(eventFunction);
-          console.log(interaction);
-          console.log(output);
+  private buildMaterialMeshMap(): Record<string, Object3D[]> {
+    const map: Record<string, Object3D[]> = {};
+    this.children.forEach((child) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const materialName = (child as any).material?.name as string | undefined;
+      if (materialName) {
+        if (!map[materialName]) {
+          map[materialName] = [];
         }
+        map[materialName].push(child);
+      }
+    });
+    return map;
+  }
+
+  initializePeripheralInteractions(peripheralInteractions: PeripheralConfig[]) {
+    const materialMeshMap = this.buildMaterialMeshMap();
+
+    peripheralInteractions.forEach((peripheralConfig) => {
+      const { interactions, outputForMaterials = {} } = peripheralConfig;
+
+      const meshTargets: Record<string, Object3D[]> = {};
+      for (const materialId of Object.keys(outputForMaterials)) {
+        meshTargets[materialId] = materialMeshMap[materialId] ?? [];
+      }
+
+      const formattedOutputForMaterials =
+        getUniformsForOutput(outputForMaterials);
+
+      const params = {
+        camera: this.camera,
+        rendererHeight: this.rendererHeight,
+        rendererWidth: this.rendererWidth,
+        zTarget: 0,
+      };
+
+      interactions.forEach((interaction) => {
+        const interactionHandler = EVENT_HANDLER_MAP[interaction.type];
+        const eventKey = EVENT_KEY_MAP[interaction.type];
+
+        const eventHandler = (e: Event) => {
+          const value = interactionHandler(e as MouseEvent, params);
+
+          setUniforms(meshTargets, formattedOutputForMaterials, value);
+        };
+
+        this.eventListeners[eventKey] = eventHandler;
+        document.addEventListener(eventKey, eventHandler);
       });
     });
   }
-
   // addInteractionEvents(interactionConfigs: InteractionConfig[]) {
   //   interactionConfigs.forEach((interactionConfig) => {
   //     const { output } = interactionConfig;

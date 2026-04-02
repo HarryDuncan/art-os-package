@@ -5,20 +5,23 @@ import { ShaderParameterMap, ConfiguredTransform } from "../../types";
 export const andFunctionTransform = (
   effectTransforms: ConfiguredTransform[],
   operatorTransform: OperatorConfig,
-  parameterMap: ShaderParameterMap
+  parameterMap: ShaderParameterMap,
 ): ConfiguredTransform => {
   const { inputMapping, outputMapping, outputMapSchema } = operatorTransform;
   const inputParameterKeys = Object.keys(inputMapping).map((key) =>
-    findKeyMatch(key, parameterMap)
+    findKeyMatch(key, parameterMap),
   );
 
-  const outputEffects = Object.keys(outputMapSchema).reduce((acc, key) => {
-    const outputEffectIds = Object.values(outputMapping).flatMap((mapping) =>
-      mapping.sourceKey === key ? mapping.itemId : []
-    );
-    acc.push({ outputEffectIds, key });
-    return acc;
-  }, [] as { outputEffectIds: string[]; key: string }[]);
+  const outputEffects = Object.keys(outputMapSchema).reduce(
+    (acc, key) => {
+      const outputEffectIds = Object.values(outputMapping).flatMap((mapping) =>
+        mapping.sourceKey === key ? mapping.itemId : [],
+      );
+      acc.push({ outputEffectIds, key });
+      return acc;
+    },
+    [] as { outputEffectIds: string[]; key: string }[],
+  );
 
   const allTransformDefinitions = [
     ...effectTransforms.flatMap((transform) => transform.transformDefinitions),

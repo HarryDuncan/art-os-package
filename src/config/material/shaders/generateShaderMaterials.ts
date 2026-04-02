@@ -8,9 +8,11 @@ import { preformat } from "./preformat/preformat";
 import { generateShaders } from "./generator/generateShaders";
 import { ExternalSchema, MaterialConfig } from "../types";
 
+const DEBUG = true;
+
 export const generateShader = (
   materialConfig: MaterialConfig,
-  schemas: ExternalSchema
+  schemas: ExternalSchema,
 ) => {
   const {
     shaderEffectConfigs,
@@ -31,7 +33,7 @@ export const generateShader = (
     operatorConfigs ?? [],
     functionConfigs ?? [],
     animationLoopConfigs ?? [],
-    schemas
+    schemas,
   );
 
   // console.log(parameterMap);
@@ -40,14 +42,14 @@ export const generateShader = (
     preformattedFunctionConfigs,
 
     parameterMap,
-    structsConfigs
+    structsConfigs,
   );
   return { vertexShader, fragmentShader, parameterMap };
 };
 
 export const generateShaderMaterials = (
   config: SceneConfig,
-  assets: Asset[]
+  assets: Asset[],
 ) => {
   const { sceneMaterialConfigs } = config;
   if (!sceneMaterialConfigs)
@@ -62,15 +64,20 @@ export const generateShaderMaterials = (
       ) {
         const { vertexShader, fragmentShader, parameterMap } = generateShader(
           materialConfig,
-          materialConfig.schemas
+          materialConfig.schemas,
         );
+        if (DEBUG) {
+          console.log("Vertex Shader: ", vertexShader);
+          console.log("Fragment Shader: ", fragmentShader);
+          console.log("Parameter Map: ", parameterMap);
+        }
         const formattedUniforms = formatBuiltShaderUniforms(
           parameterMap,
-          assets
+          assets,
         );
 
         const blendingOptions = configureBlendingOptions(
-          materialConfig.blendingConfig
+          materialConfig.blendingConfig,
         );
 
         const shaderMaterial = new ShaderMaterial({
@@ -84,7 +91,7 @@ export const generateShaderMaterials = (
         return shaderMaterial;
       }
       return [];
-    }
+    },
   );
 
   return { builtShaders: builtShaderMaterials };

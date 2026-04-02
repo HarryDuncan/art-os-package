@@ -1,28 +1,7 @@
 import { SHADER_PROPERTY_VALUE_TYPES } from "../../config/material/shaders/schema";
+import { EVENT_KEYS } from "../../peripheral/consts";
 
-export const EVENT_KEYS = {
-  SCROLL: "scroll",
-  MOUSE_MOVE: "mousemove",
-  MOUSE_DOWN: "mousedown",
-  MOUSE_UP: "mouseup",
-  MOUSE_ENTER: "mouseenter",
-  MOUSE_LEAVE: "mouseleave",
-  MOUSE_WHEEL: "mousewheel",
-  MOUSE_OVER: "mouseover",
-  MOUSE_OUT: "mouseout",
-  MOUSE_CLICK: "click",
-  MOUSE_DBL_CLICK: "dblclick",
-  KEY_DOWN: "keydown",
-  KEY_UP: "keyup",
-  KEY_PRESS: "keypress",
-  TOUCH_START: "touchstart",
-  TOUCH_MOVE: "touchmove",
-  TOUCH_END: "touchend",
-  TOUCH_CANCEL: "touchcancel",
-  RESIZE: "resize",
-  WHEEL: "wheel",
-};
-
+// TODO - remove all of this
 export const PERIPHERAL_KEY_POINT_VALUES = {
   [EVENT_KEYS.MOUSE_MOVE]: {
     x: {

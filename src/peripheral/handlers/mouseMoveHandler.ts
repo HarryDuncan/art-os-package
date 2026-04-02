@@ -1,7 +1,6 @@
 import { Vector2, Camera, Vector3, Ray } from "three";
-import { EVENT_KEYS } from "../../peripheral/consts";
 
-export const mouseMoveKeyPoints = (
+export const mousePositionHandler = (
   event: MouseEvent,
   params: {
     camera: Camera;
@@ -13,13 +12,9 @@ export const mouseMoveKeyPoints = (
   const { camera, rendererHeight, rendererWidth, zTarget } = params;
   if (!camera || !rendererHeight || !rendererWidth) {
     console.warn(
-      "Camera, rendererHeight, rendererWidth are required for mouseMoveKeyPoints",
+      "Camera, rendererHeight, rendererWidth are required for mousePositionHandler",
     );
-    return {
-      x: event.clientX,
-      y: event.clientY,
-      position: new Vector2(0, 0),
-    };
+    return new Vector2(0, 0);
   }
   const normalizedDeviceCoordinates = new Vector3(
     (event.clientX / rendererWidth) * 2 - 1,
@@ -38,13 +33,5 @@ export const mouseMoveKeyPoints = (
     .clone()
     .add(ray.direction.clone().multiplyScalar(distance));
 
-  return {
-    x: worldPoint.x,
-    y: worldPoint.y,
-    position: new Vector2(worldPoint.x, worldPoint.y),
-  };
-};
-
-export const KEY_POINT_EXTRACTORS = {
-  [EVENT_KEYS.MOUSE_MOVE]: mouseMoveKeyPoints,
+  return new Vector2(worldPoint.x, worldPoint.y);
 };
