@@ -9,7 +9,12 @@ import {
   PERIPHERAL_INTERACTION_KEYS,
 } from "../../peripheral/consts";
 import { setUniforms } from "../../peripheral/helpers/setUniforms";
+import { buildMaterialMeshMap } from "../../peripheral/helpers/buildMaterialMeshMap";
 import { getUniformsForOutput } from "../../utils/getUniformsForOutput";
+import {
+  registerPeripheralContext,
+  deregisterPeripheralContext,
+} from "../../peripheral/onPeripheralTrigger";
 
 export type InteractiveSceneFunctions = {
   onTimeUpdate?: (scene: InteractiveScene) => void;
@@ -104,23 +109,9 @@ export class InteractiveScene extends Scene {
 
   private eventListeners: { [key: string]: (e: Event) => void } = {};
 
-  private buildMaterialMeshMap(): Record<string, Object3D[]> {
-    const map: Record<string, Object3D[]> = {};
-    this.children.forEach((child) => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const materialName = (child as any).material?.name as string | undefined;
-      if (materialName) {
-        if (!map[materialName]) {
-          map[materialName] = [];
-        }
-        map[materialName].push(child);
-      }
-    });
-    return map;
-  }
-
   initializePeripheralInteractions(peripheralInteractions: PeripheralConfig[]) {
-    const materialMeshMap = this.buildMaterialMeshMap();
+    registerPeripheralContext(this, peripheralInteractions);
+    const materialMeshMap = buildMaterialMeshMap(this);
 
     peripheralInteractions.forEach((peripheralConfig) => {
       const { interactions, outputForMaterials = {} } = peripheralConfig;
@@ -220,6 +211,7 @@ export class InteractiveScene extends Scene {
       document.removeEventListener(eventKey, handler);
     });
     this.eventListeners = {};
+    deregisterPeripheralContext();
   }
 
   dispose() {
