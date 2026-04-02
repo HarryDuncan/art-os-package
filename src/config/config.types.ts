@@ -37,6 +37,11 @@ export type PeripheralConfig = BaseConfig & {
   outputForMaterials?: Record<string, PeripheralOutput>;
 };
 
+/** Saved audio-interaction preset; graph edges populate outputForMaterials per material. */
+export type AudioInteractionConfig = BaseConfig & {
+  outputForMaterials?: Record<string, Record<string, InterNodeMap>>;
+};
+
 export type MultipleInstanceConfig = {
   instanceCount: number;
   boundingBoxConfig: {
@@ -166,6 +171,8 @@ export type SceneConfig = {
   assets?: Asset[];
   meshComponentConfigs: MeshComponentConfig[];
   peripheralInteractions: PeripheralConfig[];
+  /** Optional; material graph audio-interaction nodes persist here. */
+  audioInteractionConfigs?: AudioInteractionConfig[];
   // advancedMeshConfigs?: AdvancedMeshConfig[];
   meshTransforms?: MeshTransformConfig[];
   sceneMaterialConfigs: MaterialConfig[];

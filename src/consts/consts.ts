@@ -20,6 +20,7 @@ export const SCENE_CONFIG_KEYS = {
   SCENE_MATERIAL_CONFIGS: "sceneMaterialConfigs",
   ADVANCED_MESH_CONFIGS: "advancedMeshConfigs",
   PERIPHERAL_INTERACTIONS: "peripheralInteractions",
+  AUDIO_INTERACTION_CONFIGS: "audioInteractionConfigs",
   MESH_TRANSFORMS: "meshTransforms",
   ANIMATION_CONFIG: "animationConfig",
   LIGHT_CONFIG: "lightConfig",
