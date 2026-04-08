@@ -36,7 +36,6 @@ export const generateShader = (
     schemas,
   );
 
-  // console.log(parameterMap);
   const { vertexShader, fragmentShader } = generateShaders(
     formattedOperatorConfigs,
     preformattedFunctionConfigs,

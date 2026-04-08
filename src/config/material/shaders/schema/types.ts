@@ -7,18 +7,20 @@ import {
   VARYING_TYPES,
 } from "./consts";
 
-export type EffectConfig = {
+export interface BaseShaderElementConfig {
   guid: string;
   name?: string;
   type: string;
+  disabled?: boolean;
+}
+export interface EffectConfig extends BaseShaderElementConfig {
   schemaId: string;
   outputValueType: keyof typeof SHADER_PROPERTY_VALUE_TYPES;
   inputMapping: Record<string, InputMap>;
   outputMapping: Record<string, OutputMap>;
   transformSchema?: ShaderTransformationSchema[];
-  disabled?: boolean;
   tags?: string[];
-};
+}
 
 export type AttributeConfig = {
   attributeValueType: keyof typeof ATTRIBUTE_VALUE_TYPES;
@@ -32,18 +34,15 @@ export type VaryingConfig = {
   isAttributeReference?: boolean;
 };
 
-export type ParameterConfig = {
+export interface ParameterConfig extends BaseShaderElementConfig {
   // the key - is the variable displayed in the shader code
   key: string;
-  guid: string;
-  name?: string;
   description?: string;
   valueType: keyof typeof SHADER_PROPERTY_VALUE_TYPES;
   value?: unknown;
   isArray?: boolean;
   arrayLength?: number;
   parameterType: keyof typeof SHADER_PROPERTY_TYPES;
-
   isAssetMapped?: boolean;
   isDefault?: boolean;
   tags?: string[];
@@ -54,13 +53,11 @@ export type ParameterConfig = {
   };
   attributeConfig?: AttributeConfig;
   varyingConfig?: VaryingConfig;
-
   screenSizeAdjustment?: Record<ScreenType, unknown>;
-
   // TODO - update this and remove function config
   isFunctionBased?: boolean;
   functionConfig?: EffectConfig;
-};
+}
 
 export type SplitValueEditorConfig = {
   numSplits: number;

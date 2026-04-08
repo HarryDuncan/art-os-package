@@ -60,8 +60,7 @@ const PostWindowSizeLoader = ({
     camera: Camera | null,
   ) => void;
 }) => {
-  useSetInteractionConfigs(sceneConfig.interactionConfigs ?? []);
-  useSetPeripheralConfigs(sceneConfig.peripheralInteractions ?? []);
+  useSetPeripheralConfigs(sceneConfig.peripheralInteractions);
   const formattedConfig = formatConfigForScreen(sceneConfig);
   return (
     <>

@@ -9,17 +9,18 @@ import { applyEffectWrapper } from "./transforms/configureOperatorTransform";
 
 export const generateVertexEffect = (
   operatorConfigs: OperatorConfig[],
-  parameterMap: ShaderParameterMap
+  parameterMap: ShaderParameterMap,
 ) => {
   const vertexOperatorConfigs = operatorConfigs.filter(
-    (config) => config.type === SHADER_TYPES.VERTEX
+    (config) =>
+      config.type === SHADER_TYPES.VERTEX ||
+      config.type === SHADER_TYPES.SHADER_FUNCTION_VERTEX,
   );
   const { transformations, transformDefinitions } = getVertexTransformations(
     vertexOperatorConfigs,
-    parameterMap
+    parameterMap,
   );
   const viewMatrix = `gl_Position = projectionMatrix * modelViewMatrix * vec4(${SHADER_VARIABLE_TYPES.VERTEX_POINT}.xyz, 1.0);`;
-
   return {
     transformations,
     transformDefinitions,
@@ -29,7 +30,7 @@ export const generateVertexEffect = (
 
 const getVertexTransformations = (
   vertexEffectFunctions: OperatorConfig[],
-  parameterMap: ShaderParameterMap
+  parameterMap: ShaderParameterMap,
 ) => {
   const unmergedTransformations: string[] = [];
   const allTransformDefinitions: TransformDefinition[] = [];
@@ -39,13 +40,11 @@ const getVertexTransformations = (
       effects?.map((effect) => {
         return configureTransform(effect, parameterMap);
       }) || [];
-
     const transformData = applyEffectWrapper(
       operator,
       configuredTransforms,
-      parameterMap
+      parameterMap,
     );
-
     if (transformData) {
       unmergedTransformations.push(...transformData.transformAssignments);
       allTransformDefinitions.push(...transformData.transformDefinitions);

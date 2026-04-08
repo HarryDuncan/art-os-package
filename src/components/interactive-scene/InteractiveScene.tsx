@@ -140,16 +140,7 @@ export class InteractiveScene extends Scene {
 
         const eventHandler = (e: Event) => {
           const result = interactionHandler(e as MouseEvent, params);
-
-          if (interaction.type === PERIPHERAL_INTERACTION_KEYS.MOUSE_CLICK) {
-            if (result) {
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              const mesh = result as any;
-              console.log("clicked:", mesh.material?.name, mesh.name);
-            }
-          } else {
-            setUniforms(meshTargets, formattedOutputForMaterials, result);
-          }
+          setUniforms(meshTargets, formattedOutputForMaterials, result);
         };
 
         this.eventListeners[eventKey] = eventHandler;

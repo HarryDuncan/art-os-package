@@ -12,7 +12,7 @@ import { getTransformOutputConfig } from "./getTransformOutputConfig";
 
 export const configureTransform = (
   effectConfig: EffectConfig,
-  parameterMap: ShaderParameterMap
+  parameterMap: ShaderParameterMap,
 ): ConfiguredTransform => {
   const { transformSchema } = effectConfig;
   const { subEffects, mainEffect } = separateTransformSchema(transformSchema);
@@ -24,7 +24,7 @@ export const configureTransform = (
   const { inputParameterMap, transformDeclaration } = getTransformInputs(
     mainEffect,
     parameterMap,
-    effectConfig
+    effectConfig,
   );
 
   const subEffectDefinitions: TransformDefinition[] = subEffects.map(
@@ -32,12 +32,12 @@ export const configureTransform = (
       const { inputParameterMap, transformDeclaration } = getTransformInputs(
         effect,
         parameterMap,
-        effectConfig
+        effectConfig,
       );
       const subEffectOutputConfig = getTransformOutputConfig(
         effect,
         effectConfig,
-        parameterMap
+        parameterMap,
       );
       const transformCode = getTransformCode(
         effect,
@@ -45,7 +45,7 @@ export const configureTransform = (
         // TODO - fix up sub effects
         subEffects.map((subEffect) => subEffect.key),
         inputParameterMap,
-        effectConfig
+        effectConfig,
       );
       return {
         id: effectConfig.guid,
@@ -54,13 +54,13 @@ export const configureTransform = (
         transformType: FUNCTION_TYPES.SUB_TRANSFORM,
         outputConfig: subEffectOutputConfig,
       };
-    }
+    },
   );
 
   const mainOutputConfig = getTransformOutputConfig(
     mainEffect,
     effectConfig,
-    parameterMap
+    parameterMap,
   );
   const transformCode = getTransformCode(
     mainEffect,
@@ -68,13 +68,17 @@ export const configureTransform = (
     // TODO - fix up sub effects
     subEffects.map((effect) => effect.key),
     inputParameterMap,
-    effectConfig
+    effectConfig,
   );
 
-  const transformAssignment = getTransformInstantiation(
+  const {
+    transformInstantiation,
+    assignedVariableName,
+    transformFunctionCall,
+  } = getTransformInstantiation(
     mainOutputConfig,
     transformName,
-    inputParameterMap
+    inputParameterMap,
   );
 
   const mainTransformDefinition: TransformDefinition = {
@@ -86,14 +90,16 @@ export const configureTransform = (
 
   return {
     guid: effectConfig.guid,
-    transformAssignments: [transformAssignment],
+    assignedVariableName,
+    transformFunctionCall,
+    transformAssignments: [transformInstantiation],
     transformDefinitions: [mainTransformDefinition, ...subEffectDefinitions],
     outputConfigs: mainEffect.outputConfig ?? [],
   };
 };
 
 const separateTransformSchema = (
-  transformSchema: ShaderTransformationSchema[] | undefined
+  transformSchema: ShaderTransformationSchema[] | undefined,
 ) => {
   if (!transformSchema)
     return { subEffects: [], mainEffect: null } as {
@@ -112,6 +118,6 @@ const separateTransformSchema = (
     { subEffects: [], mainEffect: null } as {
       subEffects: ShaderTransformationSchema[];
       mainEffect: ShaderTransformationSchema | null;
-    }
+    },
   );
 };

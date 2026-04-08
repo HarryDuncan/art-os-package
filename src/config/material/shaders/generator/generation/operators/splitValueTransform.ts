@@ -2,6 +2,9 @@ import { OperatorConfig } from "../../../schema";
 import { findKeyMatch } from "../../../utils";
 import { ConfiguredTransform, ShaderParameterMap } from "../../types";
 
+const floorToFixed = (value: number, decimals: number): string =>
+  (Math.floor(value * 10 ** decimals) / 10 ** decimals).toFixed(decimals);
+
 export const splitValueTransform = (
   effectTransforms: ConfiguredTransform[],
   operatorTransform: OperatorConfig,
@@ -18,10 +21,16 @@ export const splitValueTransform = (
       const outputEffectIds = Object.values(outputMapping).flatMap((mapping) =>
         mapping.sourceKey === key ? mapping.itemId : [],
       );
-      acc.push({ outputEffectIds, value: value[key as keyof typeof value] });
+      const rangeMin = acc.length > 0 ? acc[acc.length - 1].rangeMax : 0.0;
+      const rangeMax = rangeMin + value[key as keyof typeof value];
+      acc.push({
+        outputEffectIds,
+        rangeMin,
+        rangeMax,
+      });
       return acc;
     },
-    [] as { outputEffectIds: string[]; value: number }[],
+    [] as { outputEffectIds: string[]; rangeMin: number; rangeMax: number }[],
   );
 
   const allTransformDefinitions = [
@@ -29,16 +38,12 @@ export const splitValueTransform = (
   ];
 
   const transformAssignment: string[] = [];
-  outputEffects.forEach(({ outputEffectIds, value }, index) => {
-    const next =
-      index + 1 < outputEffects.length ? outputEffects[index + 1] : null;
-    const isFirst = index === 0;
-    const condition = `if(${inputParameterKeys[0]} ${
-      isFirst ? "<" : ">"
-    } ${value.toFixed(6)} ${
-      next && !isFirst
-        ? `&& (${inputParameterKeys[0]} >= ${next.value.toFixed(6)}`
-        : ""
+  outputEffects.forEach(({ outputEffectIds, rangeMin, rangeMax }) => {
+    const isLast =
+      rangeMax === outputEffects[outputEffects.length - 1].rangeMax;
+    const condition = `if(${inputParameterKeys[0]} >= ${floorToFixed(rangeMin, 6)} ${
+      rangeMax &&
+      `&& (${inputParameterKeys[0]} ${isLast ? "<=" : "<"} ${floorToFixed(rangeMax, 6)})`
     } ) {`;
     transformAssignment.push(condition);
     const outputEffectTransforms = effectTransforms.filter((transform) =>

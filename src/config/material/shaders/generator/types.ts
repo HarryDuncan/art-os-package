@@ -14,6 +14,8 @@ export type TransformDefinition = {
 };
 export type ConfiguredTransform = {
   guid: string;
+  assignedVariableName: string;
+  transformFunctionCall: string;
   transformAssignments: string[];
   outputConfigs: ShaderTransformationOutputConfig[];
   transformDefinitions: TransformDefinition[];

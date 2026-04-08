@@ -10,10 +10,12 @@ import { findKeyMatch } from "../../../../utils";
 export const getTransformOutputConfig = (
   transformConfig: ShaderTransformationSchema,
   effectConfig: EffectConfig,
-  parameterMap: ShaderParameterMap
+  parameterMap: ShaderParameterMap,
 ) => {
   if (
-    effectConfig.type === SHADER_TYPES.SHADER_FUNCTION ||
+    effectConfig.type === SHADER_SCHEMA_TYPES.SHADER_FUNCTION_VERTEX ||
+    effectConfig.type === SHADER_SCHEMA_TYPES.SHADER_FUNCTION_FRAGMENT ||
+    effectConfig.type === SHADER_SCHEMA_TYPES.SHADER_FUNCTION ||
     effectConfig.type === SHADER_SCHEMA_TYPES.ANIMATION_LOOP
   ) {
     const { outputMapping } = effectConfig;

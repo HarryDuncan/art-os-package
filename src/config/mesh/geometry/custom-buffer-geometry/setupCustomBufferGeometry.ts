@@ -85,7 +85,6 @@ export const setUpSimplePlane = (
     positionOffset.x = -(width / 2) * scale;
     positionOffset.y = -(height / 2) * scale;
   }
-  console.log("positionOffset", positionOffset);
   return {
     geometry: createSimplePlane(width, height),
     positionOffset,

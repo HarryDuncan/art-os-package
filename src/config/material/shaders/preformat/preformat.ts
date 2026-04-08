@@ -11,6 +11,7 @@ import {
   SHADER_PARAMETER_TYPE_KEY_MAP,
   SHADER_PROPERTY_TYPES,
   SHADER_TYPES,
+  SHADER_VARIABLE_ASSIGNMENT_MAPS,
   VARYING_TYPES,
 } from "../schema";
 import { getFunctionBasedParameters, getShaderConfigsByType } from "../utils";
@@ -28,7 +29,7 @@ export const preformat = (
   operatorConfigs: OperatorConfig[],
   functionConfigs: EffectConfig[],
   animationLoopConfigs: EffectConfig[],
-  schemas: ExternalSchema
+  schemas: ExternalSchema,
 ): {
   parameterMap: ShaderParameterMap;
   operatorConfigs: OperatorConfig[];
@@ -43,7 +44,7 @@ export const preformat = (
       } as ParameterConfig);
       return acc;
     },
-    new Map()
+    new Map(),
   );
 
   const { convertedAttributes, updatedFragShaderInputMapping } =
@@ -51,7 +52,7 @@ export const preformat = (
 
   const { functionBasedVaryings } = getFunctionBasedVaryings(
     effectParameters,
-    schemas.shaderFunction
+    schemas.shaderFunction,
   );
   // TODO - add animation loop varyings
 
@@ -95,7 +96,7 @@ export const preformat = (
           acc[key] = value;
           return acc;
         },
-        {} as Record<string, InterNodeMap>
+        {} as Record<string, InterNodeMap>,
       );
       return {
         ...config,
@@ -109,21 +110,25 @@ export const preformat = (
       updatedEffectConfigs as EffectConfig[],
       functionConfigs,
       animationLoopConfigs,
-      schemas
+      schemas,
     );
 
+  const determinedFunctions = determineFunctions(functionConfigsWithSchemas);
   const structsConfigs = getStructsConfigsFromEffects(effectsWithSchemas);
 
-  const formattedOperatorConfigs = formatOperatorConfigs(
-    effectsWithSchemas,
-    operatorConfigs,
-    parameterMap
-  );
+  const { operatorConfigs: formattedOperatorConfigs, includedFunctionConfigs } =
+    formatOperatorConfigs(
+      effectsWithSchemas,
+      determinedFunctions,
+      operatorConfigs,
+    );
 
   return {
     parameterMap,
     operatorConfigs: formattedOperatorConfigs,
-    functionConfigs: functionConfigsWithSchemas,
+    functionConfigs: functionConfigsWithSchemas.filter(
+      (functionConfig) => !includedFunctionConfigs.has(functionConfig.guid),
+    ),
     structsConfigs,
   };
 };
@@ -163,11 +168,11 @@ const constantToVarying = (constantConfigs: ParameterConfig[]) => {
 
 const convertAttributesToVaryings = (
   parameterConfigs: ParameterConfig[],
-  shaderEffectConfigs: EffectConfig[]
+  shaderEffectConfigs: EffectConfig[],
 ) => {
   const fragmentShaders = getShaderConfigsByType(
     shaderEffectConfigs,
-    SHADER_TYPES.FRAGMENT
+    SHADER_TYPES.FRAGMENT,
   );
   const updatedFragShaderInputMapping: Record<
     string,
@@ -176,13 +181,13 @@ const convertAttributesToVaryings = (
 
   let attributeConfigs = fragmentShaders.flatMap((shaderEffectConfig) => {
     const parameterIds = Object.values(
-      shaderEffectConfig.inputMapping ?? {}
+      shaderEffectConfig.inputMapping ?? {},
     ).flatMap((input) => (input.nodeType === "parameter" ? input.itemId : []));
 
     const attributeConfigs =
       parameterIds.flatMap((parameterId) => {
         const parameterConfig = parameterConfigs.find(
-          (parameterConfig) => parameterConfig.guid === parameterId
+          (parameterConfig) => parameterConfig.guid === parameterId,
         );
         return parameterConfig?.parameterType ===
           SHADER_PROPERTY_TYPES.ATTRIBUTE
@@ -191,12 +196,14 @@ const convertAttributesToVaryings = (
       }) ?? [];
     if (attributeConfigs.length > 0) {
       updatedFragShaderInputMapping[shaderEffectConfig.guid] =
-        attributeConfigs.reduce((acc, attributeConfig) => {
-          acc[
-            attributeConfig.key
-          ] = `v_${attributeConfig.key}_${attributeConfig.guid}`;
-          return acc;
-        }, {} as Record<string, string>);
+        attributeConfigs.reduce(
+          (acc, attributeConfig) => {
+            acc[attributeConfig.key] =
+              `v_${attributeConfig.key}_${attributeConfig.guid}`;
+            return acc;
+          },
+          {} as Record<string, string>,
+        );
     }
     return attributeConfigs;
   });
@@ -204,13 +211,13 @@ const convertAttributesToVaryings = (
   const functionWrapperAttributes = parameterConfigs.filter(
     (parameterConfig) =>
       parameterConfig.parameterType === SHADER_PROPERTY_TYPES.ATTRIBUTE &&
-      !parameterConfig.fromConfig
+      !parameterConfig.fromConfig,
   );
 
   // Make attributeConfigs unique on id
   const uniqueAttributeConfigs = removeDuplicatesByKey(
     [...attributeConfigs, ...functionWrapperAttributes],
-    "key"
+    "key",
   );
   const convertedAttributes = attributeToVarying(uniqueAttributeConfigs);
   return { convertedAttributes, updatedFragShaderInputMapping };
@@ -218,14 +225,14 @@ const convertAttributesToVaryings = (
 
 const getFunctionBasedVaryings = (
   effectParameters: ParameterConfig[],
-  functionSchemas: Record<string, ShaderTransformationSchema[]>
+  functionSchemas: Record<string, ShaderTransformationSchema[]>,
 ) => {
   const functionBasedParameters = getFunctionBasedParameters(effectParameters);
   if (functionBasedParameters.length === 0)
     return { functionBasedVaryings: [] };
 
   const requireConversion = functionBasedParameters.filter(
-    (parameter) => parameter.parameterType === SHADER_PROPERTY_TYPES.VARYING
+    (parameter) => parameter.parameterType === SHADER_PROPERTY_TYPES.VARYING,
   );
   const functionBasedVaryings = constantToVarying(requireConversion);
 
@@ -247,4 +254,37 @@ const getFunctionBasedVaryings = (
   });
 
   return { functionBasedVaryings: withSchemas };
+};
+
+const determineFunctions = (
+  functionConfigs: EffectConfig[],
+  // parameterMap: ShaderParameterMap,
+  // shaderEffectConfigs: EffectConfig[],
+) => {
+  const defaultVertexParameterIds = Object.keys(
+    SHADER_VARIABLE_ASSIGNMENT_MAPS[SHADER_TYPES.VERTEX],
+  );
+  const defaultFragmentParameterIds = Object.keys(
+    SHADER_VARIABLE_ASSIGNMENT_MAPS[SHADER_TYPES.FRAGMENT],
+  );
+  const determinedFunctions = functionConfigs.map((functionConfig) => {
+    const { inputMapping } = functionConfig;
+    // check to see if the input parameters are default vertex of fragment parameters
+    const inputIds = Object.keys(inputMapping).map((input) => input);
+    const isVertex = inputIds.some((inputId) =>
+      defaultVertexParameterIds.includes(inputId),
+    );
+    const isFragment = inputIds.some((inputId) =>
+      defaultFragmentParameterIds.includes(inputId),
+    );
+    if (isVertex) {
+      return { ...functionConfig, type: SHADER_TYPES.SHADER_FUNCTION_VERTEX };
+    }
+    if (isFragment) {
+      return { ...functionConfig, type: SHADER_TYPES.SHADER_FUNCTION_FRAGMENT };
+    }
+    // TODO: if not is fragment or vertex, check to see if the input parameters are in the parameter map
+    return functionConfig;
+  });
+  return determinedFunctions;
 };

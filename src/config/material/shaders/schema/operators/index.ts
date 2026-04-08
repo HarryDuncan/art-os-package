@@ -7,6 +7,7 @@ export const OPERATOR_TYPES = {
   SPLIT_VALUE: "split-value-operator",
   DEFAULT: "default-operator",
   SEQUENCE: "sequence-operator",
+  SMOOTH_STEP: "smooth-step-operator",
 };
 
 export const OPERATOR_SCHEMA_MAP = {

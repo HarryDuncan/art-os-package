@@ -10,7 +10,7 @@ import { isDefaultParameter } from "../../helpers/parameterUtils";
 export const getTransformInstantiation = (
   outputConfig: ShaderTransformationOutputConfig[],
   functionName: string,
-  inputMap: ShaderParameterMap
+  inputMap: ShaderParameterMap,
 
   // todo - assignment config
 ) => {
@@ -28,7 +28,7 @@ export const getTransformInstantiation = (
 
   const getAssignedVariableName = (
     outputConfig: ShaderTransformationOutputConfig[],
-    isStructResult: boolean
+    isStructResult: boolean,
   ) => {
     if (isStructResult) {
       return `${functionName}_result_struct`;
@@ -41,16 +41,22 @@ export const getTransformInstantiation = (
   const operator = getOperator(outputConfig, isStructResult);
   const assignedVariableName = getAssignedVariableName(
     outputConfig,
-    isStructResult
+    isStructResult,
   );
-  return `${getValueDeclaration()} ${assignedVariableName} ${operator} ${functionName}(${transformParameters.join(
-    ", "
-  )});${postFunctionAssignment(functionName, outputConfig, isStructResult)}`;
+
+  const transformFunctionCall = `${functionName}(${transformParameters.join(", ")})`;
+  const transformInstantiation = `${getValueDeclaration()} ${assignedVariableName} ${operator} ${transformFunctionCall};${postFunctionAssignment(functionName, outputConfig, isStructResult)}`;
+
+  return {
+    transformInstantiation,
+    assignedVariableName,
+    transformFunctionCall,
+  };
 };
 
 const getOperator = (
   outputConfig: ShaderTransformationOutputConfig[],
-  isStruct: boolean
+  isStruct: boolean,
 ) => {
   if (isStruct) {
     return `=`;
@@ -70,14 +76,14 @@ const getOperator = (
 const postFunctionAssignment = (
   functionName: string,
   outputConfig: ShaderTransformationOutputConfig[],
-  isStructResult: boolean
+  isStructResult: boolean,
 ) => {
   if (isStructResult) {
     return outputConfig
       .map((output) => {
         return `${getKey(output)} ${getOperator(
           [output],
-          false
+          false,
         )} ${functionName}_result_struct.${output.key};`;
       })
       .join("\n");

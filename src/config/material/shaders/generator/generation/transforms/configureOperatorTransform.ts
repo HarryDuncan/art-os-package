@@ -3,11 +3,12 @@ import { ShaderParameterMap, ConfiguredTransform } from "../../types";
 import { OPERATOR_TYPES } from "../../../schema/operators";
 import { splitValueTransform } from "../operators/splitValueTransform";
 import { andFunctionTransform } from "../operators/andFunction";
+import { smoothStep } from "../operators/smoothStep";
 
 export const applyEffectWrapper = (
   effectFunctionConfig: OperatorConfig,
   effectTransforms: ConfiguredTransform[],
-  parameterMap: ShaderParameterMap
+  parameterMap: ShaderParameterMap,
 ): ConfiguredTransform | null => {
   const { schemaId } = effectFunctionConfig;
   switch (schemaId) {
@@ -15,26 +16,28 @@ export const applyEffectWrapper = (
       return splitValueTransform(
         effectTransforms,
         effectFunctionConfig,
-        parameterMap
+        parameterMap,
       );
+    case OPERATOR_TYPES.SMOOTH_STEP:
+      return smoothStep(effectTransforms, effectFunctionConfig, parameterMap);
 
     case OPERATOR_TYPES.AND:
       return andFunctionTransform(
         effectTransforms,
         effectFunctionConfig,
-        parameterMap
+        parameterMap,
       );
     case OPERATOR_TYPES.DEFAULT:
       return {
         guid: effectFunctionConfig.guid,
         outputConfigs: effectTransforms.flatMap(
-          (transform) => transform.outputConfigs
+          (transform) => transform.outputConfigs,
         ),
         transformAssignments: effectTransforms.flatMap(
-          (transform) => transform.transformAssignments
+          (transform) => transform.transformAssignments,
         ),
         transformDefinitions: effectTransforms.flatMap(
-          (transform) => transform.transformDefinitions
+          (transform) => transform.transformDefinitions,
         ),
       };
     default:

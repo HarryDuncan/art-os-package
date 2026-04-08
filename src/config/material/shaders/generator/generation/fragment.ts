@@ -17,9 +17,8 @@ export const generateFragmentEffect = (
   );
   const { unmergedTransformAssignments, transformDefinitions, outputConfigs } =
     getFragmentColors(fragmentOperatorConfigs, parameterMap);
-
   if (
-    outputConfigs.some((config) => config.key === SHADER_VARIABLE_TYPES.LIGHT)
+    outputConfigs.some((config) => config?.key === SHADER_VARIABLE_TYPES.LIGHT)
   ) {
     unmergedTransformAssignments.push(
       `${SHADER_VARIABLE_TYPES.FRAGMENT_COLOR} = ${SHADER_VARIABLE_TYPES.FRAGMENT_COLOR} * vec4(light, 1.0);`,

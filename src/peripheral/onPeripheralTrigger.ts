@@ -47,21 +47,12 @@ export const onPeripheralTrigger = (
     );
     return;
   }
-
-  const actionType = matchedInteraction.type;
   const { outputForMaterials = {} } = matchedConfig;
   const materialMeshMap = buildMaterialMeshMap(registeredScene);
-
   const meshTargets: Record<string, Object3D[]> = {};
   for (const materialId of Object.keys(outputForMaterials)) {
     meshTargets[materialId] = materialMeshMap[materialId] ?? [];
   }
-
-  if (actionType === "mouseClick") {
-    console.log("triggered click:", interactionId, eventData);
-  } else {
-    const formattedOutputForMaterials =
-      getUniformsForOutput(outputForMaterials);
-    setUniforms(meshTargets, formattedOutputForMaterials, eventData);
-  }
+  const formattedOutputForMaterials = getUniformsForOutput(outputForMaterials);
+  setUniforms(meshTargets, formattedOutputForMaterials, eventData);
 };
