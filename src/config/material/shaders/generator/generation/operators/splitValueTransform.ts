@@ -61,6 +61,8 @@ export const splitValueTransform = (
   });
 
   return {
+    assignedVariableName: "",
+    transformFunctionCall: "",
     guid: operatorTransform.guid,
     transformAssignments: transformAssignment,
     outputConfigs: [],

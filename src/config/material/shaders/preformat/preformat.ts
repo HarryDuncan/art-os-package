@@ -125,7 +125,7 @@ export const preformat = (
 
   return {
     parameterMap,
-    operatorConfigs: formattedOperatorConfigs,
+    operatorConfigs: formattedOperatorConfigs as OperatorConfig[],
     functionConfigs: functionConfigsWithSchemas.filter(
       (functionConfig) => !includedFunctionConfigs.has(functionConfig.guid),
     ),
@@ -216,9 +216,12 @@ const convertAttributesToVaryings = (
 
   // Make attributeConfigs unique on id
   const uniqueAttributeConfigs = removeDuplicatesByKey(
-    [...attributeConfigs, ...functionWrapperAttributes],
+    [...attributeConfigs, ...functionWrapperAttributes] as unknown as Record<
+      string,
+      unknown
+    >[],
     "key",
-  );
+  ) as unknown as ParameterConfig[];
   const convertedAttributes = attributeToVarying(uniqueAttributeConfigs);
   return { convertedAttributes, updatedFragShaderInputMapping };
 };

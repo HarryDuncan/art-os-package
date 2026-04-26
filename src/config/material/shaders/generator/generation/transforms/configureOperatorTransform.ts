@@ -29,6 +29,8 @@ export const applyEffectWrapper = (
       );
     case OPERATOR_TYPES.DEFAULT:
       return {
+        assignedVariableName: "",
+        transformFunctionCall: "",
         guid: effectFunctionConfig.guid,
         outputConfigs: effectTransforms.flatMap(
           (transform) => transform.outputConfigs,

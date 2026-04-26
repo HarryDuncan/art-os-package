@@ -58,6 +58,8 @@ export const andFunctionTransform = (
   transformAssignment.push("}");
 
   return {
+    assignedVariableName: "",
+    transformFunctionCall: "",
     guid: operatorTransform.guid,
     transformAssignments: transformAssignment,
     outputConfigs: [],

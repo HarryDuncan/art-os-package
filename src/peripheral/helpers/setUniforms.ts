@@ -9,11 +9,12 @@ export const setUniforms = (
     const output = formattedOutputForMaterials[materialId];
     if (!output) continue;
     for (const mesh of meshes) {
-      // TODO - add support for multiple uniforms
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const uniform = (mesh as any).material?.uniforms?.[output[0]];
-      if (uniform) {
-        uniform.value = value;
+      for (const uniformKey of output) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const uniform = (mesh as any).material?.uniforms?.[uniformKey];
+        if (uniform) {
+          uniform.value = value;
+        }
       }
     }
   }

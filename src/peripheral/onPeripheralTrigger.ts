@@ -21,6 +21,8 @@ export const deregisterPeripheralContext = () => {
   registeredConfigs = [];
 };
 
+export const getRegisteredScene = () => registeredScene;
+
 export const onPeripheralTrigger = (
   interactionId: string,
   eventData: unknown,

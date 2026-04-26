@@ -33,7 +33,7 @@ export const RootContainer = ({
             ? `url(${sceneProperties.backgroundUrl})`
             : "none",
           backgroundSize: "cover",
-          zIndex: "9999",
+          zIndex: "999",
         }}
         ref={containerRef}
       >

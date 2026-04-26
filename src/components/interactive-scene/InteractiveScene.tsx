@@ -137,7 +137,18 @@ export class InteractiveScene extends Scene {
       interactions.forEach((interaction) => {
         const interactionHandler = EVENT_HANDLER_MAP[interaction.type];
         const eventKey = EVENT_KEY_MAP[interaction.type];
-
+        if (!eventKey) {
+          console.warn(
+            `Event key not found for interaction type ${interaction.type}`,
+          );
+          return;
+        }
+        if (!interactionHandler) {
+          console.warn(
+            `Interaction handler not found for interaction type ${interaction.type}`,
+          );
+          return;
+        }
         const eventHandler = (e: Event) => {
           const result = interactionHandler(e as MouseEvent, params);
           setUniforms(meshTargets, formattedOutputForMaterials, result);

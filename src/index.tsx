@@ -42,3 +42,5 @@ export {
   registerPeripheralContext,
   deregisterPeripheralContext,
 } from "./peripheral/onPeripheralTrigger";
+
+export { externalUpdate } from "./peripheral/externalUpdate";
