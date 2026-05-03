@@ -43,4 +43,10 @@ export {
   deregisterPeripheralContext,
 } from "./peripheral/onPeripheralTrigger";
 
+export {
+  onCameraPeripheralTrigger,
+  registerCameraPeripheralContext,
+  deregisterCameraPeripheralContext,
+} from "./peripheral/onCameraPeripheralTrigger";
+
 export { externalUpdate } from "./peripheral/externalUpdate";

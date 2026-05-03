@@ -35,6 +35,7 @@ export type BaseConfig = {
 export type PeripheralConfig = BaseConfig & {
   interactions: PeripheralInteraction[];
   outputForMaterials?: Record<string, PeripheralOutput>;
+  outputForCamera?: unknown;
 };
 
 /** Saved audio-interaction preset; graph edges populate outputForMaterials per material. */

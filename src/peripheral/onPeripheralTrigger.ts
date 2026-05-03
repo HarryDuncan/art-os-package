@@ -49,12 +49,15 @@ export const onPeripheralTrigger = (
     );
     return;
   }
-  const { outputForMaterials = {} } = matchedConfig;
-  const materialMeshMap = buildMaterialMeshMap(registeredScene);
-  const meshTargets: Record<string, Object3D[]> = {};
-  for (const materialId of Object.keys(outputForMaterials)) {
-    meshTargets[materialId] = materialMeshMap[materialId] ?? [];
+  if (matchedConfig.outputForMaterials) {
+    const { outputForMaterials = {} } = matchedConfig;
+    const materialMeshMap = buildMaterialMeshMap(registeredScene);
+    const meshTargets: Record<string, Object3D[]> = {};
+    for (const materialId of Object.keys(outputForMaterials)) {
+      meshTargets[materialId] = materialMeshMap[materialId] ?? [];
+    }
+    const formattedOutputForMaterials =
+      getUniformsForOutput(outputForMaterials);
+    setUniforms(meshTargets, formattedOutputForMaterials, eventData);
   }
-  const formattedOutputForMaterials = getUniformsForOutput(outputForMaterials);
-  setUniforms(meshTargets, formattedOutputForMaterials, eventData);
 };

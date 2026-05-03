@@ -15,6 +15,10 @@ import {
   registerPeripheralContext,
   deregisterPeripheralContext,
 } from "../../peripheral/onPeripheralTrigger";
+import {
+  registerCameraPeripheralContext,
+  deregisterCameraPeripheralContext,
+} from "../../peripheral/onCameraPeripheralTrigger";
 
 export type InteractiveSceneFunctions = {
   onTimeUpdate?: (scene: InteractiveScene) => void;
@@ -110,10 +114,19 @@ export class InteractiveScene extends Scene {
   private eventListeners: { [key: string]: (e: Event) => void } = {};
 
   initializePeripheralInteractions(peripheralInteractions: PeripheralConfig[]) {
-    registerPeripheralContext(this, peripheralInteractions);
+    const materialPeripheralConfigs = peripheralInteractions.filter(
+      (config) => config.outputForMaterials,
+    );
+    const cameraPeripheralConfigs = peripheralInteractions.filter(
+      (config) => config.outputForCamera,
+    );
+
+    registerPeripheralContext(this, materialPeripheralConfigs);
+    registerCameraPeripheralContext(this.camera, cameraPeripheralConfigs);
+
     const materialMeshMap = buildMaterialMeshMap(this);
 
-    peripheralInteractions.forEach((peripheralConfig) => {
+    materialPeripheralConfigs.forEach((peripheralConfig) => {
       const { interactions, outputForMaterials = {} } = peripheralConfig;
 
       const meshTargets: Record<string, Object3D[]> = {};
@@ -214,6 +227,7 @@ export class InteractiveScene extends Scene {
     });
     this.eventListeners = {};
     deregisterPeripheralContext();
+    deregisterCameraPeripheralContext();
   }
 
   dispose() {
