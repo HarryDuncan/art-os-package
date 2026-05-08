@@ -8,7 +8,7 @@ import { preformat } from "./preformat/preformat";
 import { generateShaders } from "./generator/generateShaders";
 import { ExternalSchema, MaterialConfig } from "../types";
 
-const DEBUG = true;
+const DEBUG = false;
 
 export const generateShader = (
   materialConfig: MaterialConfig,

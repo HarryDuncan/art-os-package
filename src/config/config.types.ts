@@ -196,6 +196,7 @@ export type SceneProperties = {
   videoBackground?: string;
   fixed?: boolean;
   cursor?: string;
+  zIndex?: number;
 };
 
 export type ThreeJsParams = {

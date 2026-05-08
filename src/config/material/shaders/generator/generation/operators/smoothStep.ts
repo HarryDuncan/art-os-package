@@ -10,9 +10,6 @@ export const smoothStep = (
   operatorTransform: OperatorConfig,
   parameterMap: ShaderParameterMap,
 ): ConfiguredTransform => {
-  console.log("effectTransforms:", effectTransforms);
-  console.log("operatorTransform:", operatorTransform);
-  console.log("parameterMap:", parameterMap);
   const { inputMapping, outputMapping, outputMapSchema, value, guid } =
     operatorTransform;
   const inputParameterKeys = Object.keys(inputMapping).map((key) =>

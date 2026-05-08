@@ -49,10 +49,10 @@ export const onCameraPeripheralTrigger = (
     return;
   }
 
-  console.log("onCameraPeripheralTrigger: camera update", {
-    interactionId,
-    eventData,
-    outputForCamera: matchedConfig.outputForCamera,
-    camera: registeredCamera,
-  });
+  // console.log("onCameraPeripheralTrigger: camera update", {
+  //   interactionId,
+  //   eventData,
+  //   outputForCamera: matchedConfig.outputForCamera,
+  //   camera: registeredCamera,
+  // });
 };
