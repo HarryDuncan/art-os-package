@@ -164,6 +164,7 @@ export type ScreenSizeAdjustmentConfig = {
 
 export type SceneConfig = {
   id: string;
+  engine?: string;
   title?: string;
   assetPath?: string;
   description?: string;

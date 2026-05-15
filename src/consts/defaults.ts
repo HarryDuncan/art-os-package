@@ -1,5 +1,6 @@
 import { MESH_TYPES } from "../config/mesh/consts";
 import { DEFAULT_LIGHTS } from "./lights/lights";
+import { ENGINE } from "./consts";
 
 export const DEFAULT_SCENE_PROPERTIES = {
   viewWidth: "100vw",
@@ -13,6 +14,7 @@ export const DEFAULT_CONFIG = {
   title: "",
   assetPath: "",
   description: "",
+  engine: ENGINE.THREE,
   cameraConfig: { position: { x: 0, y: 0, z: 450 } },
   assets: [],
   meshComponentConfigs: [],

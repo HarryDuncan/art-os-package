@@ -37,3 +37,8 @@ export const BUILT_SHADER_CONFIG_KEYS = {
   UNIFORM_CONFIG: "uniformConfigs",
   ATTRIBUTE_CONFIG: "attributeConfigs",
 };
+
+export const ENGINE = {
+  THREE: "three",
+  WEBGL: "webgl",
+};

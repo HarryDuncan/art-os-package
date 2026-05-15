@@ -14,6 +14,8 @@ import { useSetWindowState } from "../../compat/window-state/useSetWindowState";
 import { useWindowState } from "../../compat/window-state/windowStateProvider";
 import { useSceneContext } from "../../context/context";
 import { useSetPeripheralConfigs } from "../../interaction/hooks/useSetPeripheralConfigs";
+import { ENGINE } from "../../consts/consts";
+import { RawWebglLoader } from "./RawWebglLoader";
 
 export const ProgressiveLoading = ({
   sceneConfig,
@@ -62,20 +64,25 @@ const PostWindowSizeLoader = ({
 }) => {
   useSetPeripheralConfigs(sceneConfig.peripheralInteractions);
   const formattedConfig = formatConfigForScreen(sceneConfig);
+  // Default to the three.js engine when none is specified on the scene config.
+  const engine = formattedConfig?.engine ?? ENGINE.THREE;
   return (
     <>
       <Loader loaderComponent={loaderComponent} />
-      {formattedConfig && (
-        <SceneLoader
+      {formattedConfig && engine === ENGINE.THREE && (
+        <ThreeJsLoader
           sceneConfig={formattedConfig}
           setExternalScene={setExternalScene}
         />
+      )}
+      {formattedConfig && engine === ENGINE.WEBGL && (
+        <RawWebglLoader sceneConfig={formattedConfig} />
       )}
     </>
   );
 };
 
-const SceneLoader = ({
+const ThreeJsLoader = ({
   sceneConfig,
   setExternalScene,
 }: {
@@ -87,7 +94,6 @@ const SceneLoader = ({
 }) => {
   const { areAssetsInitialized, assetsRef } = useSceneContext();
   useAssets(sceneConfig.assets, sceneConfig.assetPath);
-
   useCamera(sceneConfig.cameraConfig, sceneConfig.sceneProperties ?? {});
   return (
     <>
