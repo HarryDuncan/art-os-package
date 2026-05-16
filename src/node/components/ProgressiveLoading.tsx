@@ -66,9 +66,9 @@ const PostWindowSizeLoader = ({
   const formattedConfig = formatConfigForScreen(sceneConfig);
   // Default to the three.js engine when none is specified on the scene config.
   const engine = formattedConfig?.engine ?? ENGINE.THREE;
+
   return (
     <>
-      <Loader loaderComponent={loaderComponent} />
       {formattedConfig && engine === ENGINE.THREE && (
         <ThreeJsLoader
           sceneConfig={formattedConfig}

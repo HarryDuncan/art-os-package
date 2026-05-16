@@ -1,37 +1,36 @@
-import { SceneConfig } from "../../config/config.types";
+import { useRef } from "react";
+import { Asset } from "../../assets/types";
+import { RawWebglShaderMaterial } from "../../config/material/shaders/raw-webgl/types";
+import { useRawWebglRenderer } from "./raw-webgl/useRawWebglRenderer";
 
-// TODO: Skeleton "scene node" for the `webgl` engine, parallel to
-// `SceneDisplay` for the three.js engine. Renders raw WebGL output
-// directly rather than going through three.js.
+// Scene node for the `webgl` engine, parallel to `SceneDisplay` for the
+// three.js engine. Renders a fullscreen <canvas> and drives the raw-WebGL
+// render loop via `useRawWebglRenderer`.
 export const RawWebglSceneNode = ({
-  sceneConfig,
+  shaderMaterial,
+  assets,
 }: {
-  sceneConfig: SceneConfig;
+  shaderMaterial: RawWebglShaderMaterial;
+  assets: Asset[];
 }) => {
-  // TODO: Acquire a render surface. Per spec, raw WebGL is expected to be
-  //       rendered through a video component (likely a <video> element fed
-  //       by a WebGL-driven MediaStream / captureStream, similar to
-  //       `VideoBackground.tsx`). Until that is wired up, this is a no-op.
-
-  // TODO: Create and own the WebGLRenderingContext / WebGL2RenderingContext
-  //       (or pull it from a shared scene context) and manage its lifecycle
-  //       (creation, resize on window changes, dispose on unmount).
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  useRawWebglRenderer(canvasRef, shaderMaterial, assets);
 
   // TODO: Apply scene properties (viewWidth, viewHeight, backgroundColor,
-  //       videoBackground, position, zIndex, etc.) to the render surface,
-  //       mirroring `RootContainer.tsx`.
+  //       videoBackground, position, zIndex, etc.) - mirroring
+  //       `RootContainer.tsx`. Currently the canvas is fullscreen.
 
-  // TODO: Compile / link shader programs derived from `sceneConfig` and
-  //       upload geometry + textures to the GL context.
-
-  // TODO: Drive the render loop (requestAnimationFrame) and integrate with
-  //       the existing thread/runtime layer where appropriate.
-
-  // TODO: Surface lifecycle status updates via `useSceneContext` →
-  //       `setProcessStatus`, matching the three.js code path.
-
-  // TODO: Use `sceneConfig` once the raw WebGL pipeline is implemented.
-  void sceneConfig;
-
-  return null;
+  return (
+    <canvas
+      ref={canvasRef}
+      style={{
+        position: "absolute",
+        top: 0,
+        left: 0,
+        width: "100vw",
+        height: "100vh",
+        display: "block",
+      }}
+    />
+  );
 };
