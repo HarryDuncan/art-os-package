@@ -1,10 +1,17 @@
 import { RefObject, useEffect } from "react";
 import { Asset } from "../../../assets/types";
+import { MeshTransformConfig } from "../../../config/config.types";
 import { PROCESS_STATUS } from "../../../consts/consts";
 import { RawWebglShaderMaterial } from "../../../config/material/shaders/raw-webgl/types";
 import { useSceneContext } from "../../../context/context";
 import { buildRawWebglProgram } from "./compileRawWebglProgram";
 import { createPlaneGeometry } from "./createPlaneGeometry";
+import { buildRawWebglAttributes } from "./mesh-transforms/buildRawWebglAttributes";
+import {
+  bindRawWebglAttributes,
+  deleteRawWebglAttributes,
+  uploadRawWebglAttributes,
+} from "./mesh-transforms/uploadRawWebglAttributes";
 import {
   bindRawWebglSamplerUniforms,
   setRawWebglNumericUniforms,
@@ -34,12 +41,15 @@ const PER_FRAME_UNIFORMS = new Set([
 // plane as a solid surface via the index buffer) and expose POINTS as the
 // alternative used by point-cloud-style shaders.
 type DrawMode = "TRIANGLES" | "POINTS";
-const DRAW_MODE: DrawMode = "TRIANGLES";
+// `as DrawMode` widens the literal so TS doesn't flag the if/else below as a
+// "no overlap" comparison; the value is still constrained to the union.
+const DRAW_MODE = "POINTS" as DrawMode;
 
 export const useRawWebglRenderer = (
   canvasRef: RefObject<HTMLCanvasElement>,
   shaderMaterial: RawWebglShaderMaterial,
   assets: Asset[],
+  meshTransforms?: MeshTransformConfig[],
 ) => {
   const { setStatus } = useSceneContext();
   useEffect(() => {
@@ -98,10 +108,27 @@ export const useRawWebglRenderer = (
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
     gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, geometry.indices, gl.STATIC_DRAW);
 
+    // Mesh transforms -> per-vertex GL attributes. The three.js path runs
+    // these via getMeshesFromConfig -> applyMeshTransforms -> setAttributes;
+    // here we build them directly against the plane's vertex count and bind
+    // them under the same `a_<key>` names the shader generator already
+    // expects. Mismatched/unused attributes are skipped with a warning.
+    const extraAttributes = buildRawWebglAttributes(
+      meshTransforms,
+      geometry.vertexCount,
+      assets,
+    );
+
     const textures = uploadRawWebglTextures(
       gl,
       shaderMaterial.textureBindings,
       assets,
+    );
+
+    const extraAttributeBindings = uploadRawWebglAttributes(
+      gl,
+      program,
+      extraAttributes,
     );
 
     const { blending } = shaderMaterial;
@@ -158,6 +185,8 @@ export const useRawWebglRenderer = (
         gl.vertexAttribPointer(attribs.uv, 2, gl.FLOAT, false, 0, 0);
       }
 
+      bindRawWebglAttributes(gl, extraAttributeBindings);
+
       setRawWebglNumericUniforms(
         gl,
         shaderMaterial.uniforms,
@@ -188,12 +217,7 @@ export const useRawWebglRenderer = (
 
       if (DRAW_MODE === "TRIANGLES") {
         gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
-        gl.drawElements(
-          gl.TRIANGLES,
-          geometry.indexCount,
-          gl.UNSIGNED_INT,
-          0,
-        );
+        gl.drawElements(gl.TRIANGLES, geometry.indexCount, gl.UNSIGNED_INT, 0);
       } else {
         gl.drawArrays(gl.POINTS, 0, geometry.vertexCount);
       }
@@ -211,6 +235,7 @@ export const useRawWebglRenderer = (
       cancelAnimationFrame(rafId);
       window.removeEventListener("resize", resize);
       textures.forEach(({ texture }) => gl.deleteTexture(texture));
+      deleteRawWebglAttributes(gl, extraAttributeBindings);
       gl.deleteBuffer(positionBuffer);
       gl.deleteBuffer(normalBuffer);
       gl.deleteBuffer(uvBuffer);
@@ -219,5 +244,5 @@ export const useRawWebglRenderer = (
       gl.deleteShader(vertexShader);
       gl.deleteShader(fragmentShader);
     };
-  }, [canvasRef, shaderMaterial, assets, setStatus]);
+  }, [canvasRef, shaderMaterial, assets, meshTransforms, setStatus]);
 };

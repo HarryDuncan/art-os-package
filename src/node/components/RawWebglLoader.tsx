@@ -48,5 +48,11 @@ export const RawWebglLoader = ({
     return null;
   }
 
-  return <RawWebglSceneNode shaderMaterial={shaderMaterial} assets={assets} />;
+  return (
+    <RawWebglSceneNode
+      shaderMaterial={shaderMaterial}
+      assets={assets}
+      meshTransforms={sceneConfig.meshTransforms}
+    />
+  );
 };
