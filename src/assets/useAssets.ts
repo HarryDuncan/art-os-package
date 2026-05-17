@@ -12,7 +12,7 @@ import { useSceneContext } from "../context/context";
 
 export const useAssets = (
   assets: Asset[] | undefined | null,
-  assetPath?: string
+  assetPath?: string,
 ) => {
   const { setAreAssetsInitialized, setInitializedAssets } = useSceneContext();
 
@@ -30,14 +30,14 @@ export const useAssets = (
       assets.flatMap(async (asset) => {
         if (!asset || !asset.path) {
           console.warn(
-            `asset ${asset.guid} not properly loaded no assetPath or path found`
+            `asset ${asset.guid} not properly loaded no assetPath or path found`,
           );
         }
         const formattedAsset = assetPath
           ? { ...asset, path: `${assetPath}/${asset.fileName}` }
           : asset;
         return loadAssetData(formattedAsset);
-      })
+      }),
     );
     return loadedAssets as Asset[];
   }, [assets, assetPath]);
@@ -81,7 +81,7 @@ const loadAsset = async (asset: Asset) => {
     case ASSET_TYPES.VIDEO: {
       // Check if a video element with this id already exists before creating/appending
       let video = document.getElementById(
-        asset.guid
+        asset.guid,
       ) as HTMLVideoElement | null;
 
       if (!video) {
