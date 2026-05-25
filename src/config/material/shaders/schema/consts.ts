@@ -129,3 +129,19 @@ export const SHADER_PARAMETER_TYPE_KEY_MAP = {
 export const SHADER_PARAMETER_TAGS = {
   ANIMATION: "animation",
 };
+
+/*
+  Keys to set custom values editors - e.g vec4 is color - the parameter will be displayed as a color picker
+*/
+export const VALUE_EDITOR_KEYS = {
+  COLOR: "color",
+};
+export const PARAMETER_EDITOR_TYPES = [
+  {
+    editorKey: VALUE_EDITOR_KEYS.COLOR,
+    allowedValueTypes: [
+      SHADER_PROPERTY_VALUE_TYPES.VEC4,
+      SHADER_PROPERTY_VALUE_TYPES.VEC3,
+    ],
+  },
+];

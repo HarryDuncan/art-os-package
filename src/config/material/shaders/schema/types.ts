@@ -42,6 +42,7 @@ export interface ParameterConfig extends BaseShaderElementConfig {
   value?: unknown;
   isArray?: boolean;
   arrayLength?: number;
+  valueEditorType?: string;
   parameterType: keyof typeof SHADER_PROPERTY_TYPES;
   isAssetMapped?: boolean;
   isDefault?: boolean;
