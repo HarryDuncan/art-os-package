@@ -14,6 +14,7 @@ import {
 } from "./mesh-transforms/uploadRawWebglAttributes";
 import { setRawWebglUniform } from "./setRawWebglUniforms";
 import { uploadRawWebglTextures } from "./uploadRawWebglTextures";
+import { getJsModelCanvasRegistry } from "../../../consts/jsModelCanvasRegistry";
 
 // Identity matrices used to satisfy the three.js-shaped builtins the shader
 // generator emits. They never change at runtime, so we upload them once at
@@ -264,6 +265,20 @@ export const useRawWebglRenderer = (
     resize();
     window.addEventListener("resize", resize);
 
+    // ---------------------------------------------------------------------
+    // Live canvas textures (JS-class model outputs, e.g. person mask).
+    // The registry is populated asynchronously (after MediaPipe warms up),
+    // so we lazily allocate a WebGLTexture the first time each canvas
+    // appears and then re-upload its pixels every frame with texSubImage2D.
+    // ---------------------------------------------------------------------
+    type LiveCanvasTex = {
+      canvas: HTMLCanvasElement;
+      texture: WebGLTexture;
+      unitIndex: number;
+    };
+    const liveCanvasByUniform = new Map<string, LiveCanvasTex>();
+    let nextCanvasUnit = textures.length; // static textures occupy units 0..N-1
+
     // Bind the VAO once; nothing else in this renderer ever switches it.
     gl.bindVertexArray(vao);
 
@@ -299,6 +314,59 @@ export const useRawWebglRenderer = (
         );
       }
 
+      // ── JS-class canvas textures ────────────────────────────────────────
+      // Canvas → WebGL has a Y-flip: set UNPACK_FLIP_Y_WEBGL so the texture
+      // is right-way-up. Reset to 0 afterwards so it doesn't affect anything
+      // else. Only runs until all canvases are claimed; after that the
+      // forEach body returns immediately every call.
+      gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 1);
+
+      getJsModelCanvasRegistry().forEach((canvas, uniformId) => {
+        if (liveCanvasByUniform.has(uniformId)) return;
+        const location = getUniformLocation(uniformId);
+        if (location === null) return; // not used in this shader
+        const unitIndex = nextCanvasUnit;
+        nextCanvasUnit += 1;
+        const texture = gl.createTexture();
+        if (!texture) return;
+        gl.activeTexture(gl.TEXTURE0 + unitIndex);
+        gl.bindTexture(gl.TEXTURE_2D, texture);
+        gl.texImage2D(
+          gl.TEXTURE_2D,
+          0,
+          gl.RGBA,
+          canvas.width || 1,
+          canvas.height || 1,
+          0,
+          gl.RGBA,
+          gl.UNSIGNED_BYTE,
+          canvas,
+        );
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+        gl.uniform1i(location, unitIndex);
+        liveCanvasByUniform.set(uniformId, { canvas, texture, unitIndex });
+      });
+
+      // Push fresh canvas pixels to the GPU before drawing.
+      liveCanvasByUniform.forEach(({ canvas, texture, unitIndex }) => {
+        gl.activeTexture(gl.TEXTURE0 + unitIndex);
+        gl.bindTexture(gl.TEXTURE_2D, texture);
+        gl.texSubImage2D(
+          gl.TEXTURE_2D,
+          0,
+          0,
+          0,
+          gl.RGBA,
+          gl.UNSIGNED_BYTE,
+          canvas,
+        );
+      });
+
+      gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 0);
+
       if (drawTriangles) {
         gl.drawElements(gl.TRIANGLES, indexCount, gl.UNSIGNED_INT, 0);
       } else {
@@ -323,6 +391,7 @@ export const useRawWebglRenderer = (
       for (let i = 0; i < textures.length; i += 1) {
         gl.deleteTexture(textures[i].texture);
       }
+      liveCanvasByUniform.forEach(({ texture }) => gl.deleteTexture(texture));
       deleteRawWebglAttributes(gl, extraAttributeBindings);
       gl.deleteBuffer(positionBuffer);
       gl.deleteBuffer(normalBuffer);

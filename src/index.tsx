@@ -50,3 +50,8 @@ export {
 } from "./peripheral/onCameraPeripheralTrigger";
 
 export { externalUpdate } from "./peripheral/externalUpdate";
+
+export {
+  registerJsModelCanvas,
+  unregisterJsModelCanvas,
+} from "./consts/jsModelCanvasRegistry";
