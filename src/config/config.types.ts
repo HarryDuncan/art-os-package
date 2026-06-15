@@ -162,12 +162,27 @@ export type ScreenSizeAdjustmentConfig = {
   threeJsConfig: Partial<ThreeJSConfig>;
 };
 
+export type RawWebglConfig = {
+  planeGeometryConfig: {
+    xSegments: number;
+    ySegments: number;
+  };
+  drawMode: "TRIANGLES" | "POINTS";
+  blending: {
+    transparent: boolean;
+    blendSrc: number;
+    blendDst: number;
+  };
+  depthTest: boolean;
+  clearColor: [number, number, number, number];
+};
 export type SceneConfig = {
   id: string;
   engine?: string;
   title?: string;
   assetPath?: string;
   description?: string;
+  rawWebglConfig?: RawWebglConfig;
   cameraConfig?: CameraConfig;
   controlsConfig?: Partial<ControlConfig>;
   assets?: Asset[];
