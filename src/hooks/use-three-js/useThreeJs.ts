@@ -7,7 +7,7 @@ import { useSceneContext } from "../../context/context";
 
 export const useThreeJs = (
   controlConfig: Partial<ControlConfig>,
-  sceneProperties: SceneProperties
+  sceneProperties: SceneProperties,
 ) => {
   const { camera, renderer, currentFrameRef } = useSceneContext();
 
