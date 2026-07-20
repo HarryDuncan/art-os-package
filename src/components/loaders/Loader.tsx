@@ -1,31 +1,14 @@
 import { useSceneContext } from "../../context/context";
 import { PROCESS_STATUS } from "../../consts/consts";
-import { ReactNode, useEffect, useRef, useState } from "react";
+import { ReactNode } from "react";
 
 interface LoaderProps {
   loaderComponent?: ReactNode;
   loaderMinTime?: number;
 }
 
-export const Loader = ({
-  loaderComponent,
-  loaderMinTime = 1500,
-}: LoaderProps) => {
+export const Loader = ({ loaderComponent }: LoaderProps) => {
   const { sceneStatus } = useSceneContext();
-
-  const startTime = useRef<number>(Date.now());
-  const [shouldRender, setShouldRender] = useState<boolean>(true);
-
-  useEffect(() => {
-    const elapsedTime = Date.now() - startTime.current;
-    const remainingTime = loaderMinTime - elapsedTime;
-    if (remainingTime > 0) {
-      const timer = setTimeout(() => setShouldRender(true), remainingTime);
-      return () => clearTimeout(timer);
-    } else {
-      setShouldRender(false);
-    }
-  }, [loaderMinTime]);
 
   if (sceneStatus === PROCESS_STATUS.RUNNING) return null;
   if (loaderComponent) {
