@@ -4,6 +4,7 @@ import { RawWebglSceneNode } from "./RawWebglSceneNode";
 import { useRawWebglAssets } from "../../assets/raw-webgl/useRawWebglAssets";
 import { useSceneContext } from "../../context/context";
 import { generateRawWebglShaderMaterials } from "../../config/material/shaders/raw-webgl/generateRawWebglShaderMaterials";
+import { formatSceneProperties } from "../../config/scene-properties/formatSceneProperties";
 
 // Loader for the `webgl` engine. Mirrors `ThreeJsLoader` in
 // ProgressiveLoading.tsx but builds a raw WebGL pipeline instead of the
@@ -40,12 +41,25 @@ export const RawWebglLoader = ({
     return builtShaders[0] ?? null;
   }, [sceneConfig, assets]);
 
+  // Resolves asset-guid-valued properties (`videoBackground`, `backgroundUrl`)
+  // to their file paths, same as the three.js path does via `useSceneData`.
+  // Memoized to keep `RawWebglSceneNode`'s memo() intact.
+  const sceneProperties = useMemo(() => {
+    if (!assets) return null;
+    return formatSceneProperties(sceneConfig.sceneProperties, assets);
+  }, [sceneConfig.sceneProperties, assets]);
+
   if (!assets) return null;
-  if (!shaderMaterial) {
+
+  // A scene with no shader is valid as long as it has a background to show, so
+  // only flag the case where there is nothing at all to draw.
+  const hasBackground = !!(
+    sceneProperties?.videoBackground || sceneProperties?.backgroundUrl
+  );
+  if (!shaderMaterial && !hasBackground) {
     console.warn(
-      "RawWebglLoader: no built shader at sceneMaterialConfigs[0]; nothing to render",
+      "RawWebglLoader: no built shader at sceneMaterialConfigs[0] and no scene background; nothing to render",
     );
-    return null;
   }
 
   return (
@@ -53,6 +67,8 @@ export const RawWebglLoader = ({
       shaderMaterial={shaderMaterial}
       assets={assets}
       meshTransforms={sceneConfig.meshTransforms}
+      sceneProperties={sceneProperties}
+      clearColor={sceneConfig.rawWebglConfig?.clearColor}
     />
   );
 };

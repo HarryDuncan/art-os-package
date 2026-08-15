@@ -9,6 +9,7 @@ import {
   getSceneWidth,
 } from "../../../../utils/scene-properties";
 import { useSceneContext } from "../../../../context/context";
+import { logWebGLGpuInfo } from "../../../../utils/logWebGLGpuInfo";
 
 export const useWebGLRenderer = (
   sceneProperties: SceneProperties,
@@ -20,14 +21,41 @@ export const useWebGLRenderer = (
 
   useEffect(() => {
     if (!renderer) {
-      const renderer = new WebGLRenderer({
+      console.log("[WebGL] creating Three.js WebGLRenderer", {
+        powerPreference: "high-performance",
+        antialias: true,
+        screenType,
+        width,
+        height,
+        devicePixelRatio,
+      });
+      const nextRenderer = new WebGLRenderer({
         powerPreference: "high-performance",
         antialias: true,
       });
-      renderer.setClearColor(0x112233, 0);
-      renderer.outputColorSpace =
+      nextRenderer.setClearColor(0x112233, 0);
+      nextRenderer.outputColorSpace =
         rendererParams.outputColorSpace ?? SRGBColorSpace;
-      setRenderer(renderer);
+
+      const gl = nextRenderer.getContext();
+      logWebGLGpuInfo(gl, "Three.js WebGLRenderer", {
+        powerPreference: "high-performance",
+        screenType,
+      });
+
+      const canvas = nextRenderer.domElement;
+      canvas.addEventListener("webglcontextlost", (event) => {
+        console.warn("[WebGL] Three.js canvas webglcontextlost", {
+          defaultPrevented: event.defaultPrevented,
+          timeStamp: event.timeStamp,
+        });
+      });
+      canvas.addEventListener("webglcontextrestored", () => {
+        console.log("[WebGL] Three.js canvas webglcontextrestored");
+        logWebGLGpuInfo(nextRenderer.getContext(), "Three.js after restore");
+      });
+
+      setRenderer(nextRenderer);
     }
   }, [rendererParams]);
 
@@ -36,6 +64,12 @@ export const useWebGLRenderer = (
     if (renderer) {
       const rendererWidth = getSceneWidth(sceneProperties, width);
       const rendererHeight = getSceneHeight(sceneProperties, height);
+      console.log("[WebGL] Three.js setSize", {
+        rendererWidth,
+        rendererHeight,
+        devicePixelRatio,
+        screenType,
+      });
       renderer.setPixelRatio(devicePixelRatio ?? 1);
       renderer.setSize(rendererWidth, rendererHeight);
     }
@@ -45,6 +79,10 @@ export const useWebGLRenderer = (
   useEffect(() => {
     return () => {
       if (renderer) {
+        console.warn(
+          "[WebGL] useWebGLRenderer cleanup disposing renderer (deps: renderer/screenType)",
+          { screenType },
+        );
         renderer.dispose();
       }
     };

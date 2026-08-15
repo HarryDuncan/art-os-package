@@ -2,7 +2,10 @@ import { RefObject, useEffect, useRef } from "react";
 import { Asset } from "../../../assets/types";
 import { MeshTransformConfig } from "../../../config/config.types";
 import { PROCESS_STATUS } from "../../../consts/consts";
-import { RawWebglShaderMaterial } from "../../../config/material/shaders/raw-webgl/types";
+import {
+  RawWebglClearColor,
+  RawWebglShaderMaterial,
+} from "../../../config/material/shaders/raw-webgl/types";
 import { useSceneContext } from "../../../context/context";
 import { buildRawWebglProgram } from "./compileRawWebglProgram";
 import { createPlaneGeometry } from "./createPlaneGeometry";
@@ -15,6 +18,7 @@ import {
 import { setRawWebglUniform } from "./setRawWebglUniforms";
 import { uploadRawWebglTextures } from "./uploadRawWebglTextures";
 import { getJsModelCanvasRegistry } from "../../../consts/jsModelCanvasRegistry";
+import { logWebGLGpuInfo } from "../../../utils/logWebGLGpuInfo";
 
 // Identity matrices used to satisfy the three.js-shaped builtins the shader
 // generator emits. They never change at runtime, so we upload them once at
@@ -48,16 +52,27 @@ type DrawMode = "TRIANGLES" | "POINTS";
 // "no overlap" comparison; the value is still constrained to the union.
 const DRAW_MODE = "POINTS" as DrawMode;
 
+// Equivalent of three.js `renderer.setClearColor(colour, 0)`: the canvas
+// composites over whatever the DOM puts behind it (e.g. `videoBackground`).
+// Module-level so the default arg keeps a stable identity across renders —
+// an inline literal would be a new array every render and thrash the effect.
+const TRANSPARENT_CLEAR_COLOR: RawWebglClearColor = [0, 0, 0, 0];
+
 // Hot path uses raw WebGL + plain JS only. React is involved exclusively in
 // the setup `useEffect` and a one-shot status flip; the rAF loop closes over
 // local variables (no hooks, no state reads) so it can run cheaply on
 // low-power hardware (e.g. Raspberry Pi installations).
 export const useRawWebglRenderer = (
-  canvasRef: RefObject<HTMLCanvasElement>,
-  shaderMaterial: RawWebglShaderMaterial,
+  canvasRef: RefObject<HTMLCanvasElement | null>,
+  shaderMaterial: RawWebglShaderMaterial | null,
   assets: Asset[],
   meshTransforms?: MeshTransformConfig[],
+  clearColor: RawWebglClearColor = TRANSPARENT_CLEAR_COLOR,
 ) => {
+  // Spread into primitives so a caller passing an inline array can't rebuild
+  // the whole GL pipeline on every render.
+  const [clearRed, clearGreen, clearBlue, clearAlpha] = clearColor;
+
   // setStatus is read once per render and snapshotted in a ref so the rAF
   // loop never reaches into React's render tree, and so changes to the
   // context value identity can't churn the effect's dep array.
@@ -66,10 +81,26 @@ export const useRawWebglRenderer = (
   setStatusRef.current = setStatus;
 
   useEffect(() => {
+    // Background-only scenes (e.g. just a `videoBackground`) have no shader to
+    // build. There's no GL work to do, but the shared Loader still has to be
+    // dismissed or it covers the background forever.
+    if (!shaderMaterial) {
+      setStatusRef.current(PROCESS_STATUS.RUNNING);
+      return;
+    }
+
     const canvas = canvasRef.current;
     if (!canvas) return;
 
+    console.log("[WebGL] creating raw WebGL2 context", {
+      powerPreference: "(not set — browser default)",
+      premultipliedAlpha: false,
+      antialias: true,
+    });
     const gl = canvas.getContext("webgl2", {
+      // Transparent framebuffer so DOM layers behind the canvas (e.g. the
+      // `videoBackground` element) show through where nothing is drawn.
+      alpha: true,
       premultipliedAlpha: false,
       antialias: true,
     });
@@ -77,6 +108,9 @@ export const useRawWebglRenderer = (
       console.error("useRawWebglRenderer: failed to acquire WebGL2 context");
       return;
     }
+    logWebGLGpuInfo(gl, "raw WebGL2", {
+      powerPreference: "(not set — browser default)",
+    });
 
     let handles;
     try {
@@ -164,7 +198,16 @@ export const useRawWebglRenderer = (
     const { blending } = shaderMaterial;
     if (blending.transparent) {
       gl.enable(gl.BLEND);
-      gl.blendFunc(blending.blendSrc, blending.blendDst);
+      // Alpha uses its own factors (as three.js does for a non-premultiplied
+      // context). Running alpha through the colour factors instead would
+      // square it against the transparent clear colour, so fragments would
+      // composite far weaker than their shader alpha over the background.
+      gl.blendFuncSeparate(
+        blending.blendSrc,
+        blending.blendDst,
+        gl.ONE,
+        gl.ONE_MINUS_SRC_ALPHA,
+      );
     } else {
       gl.disable(gl.BLEND);
     }
@@ -173,7 +216,7 @@ export const useRawWebglRenderer = (
     } else {
       gl.disable(gl.DEPTH_TEST);
     }
-    gl.clearColor(0, 0, 0, 0);
+    gl.clearColor(clearRed, clearGreen, clearBlue, clearAlpha);
 
     // The renderer owns this program for its entire lifetime; setting it
     // once here and never re-setting it removes a state call per frame.
@@ -307,11 +350,7 @@ export const useRawWebglRenderer = (
         // setRawWebglUniform dispatches on the JS shape of `value` — fine for
         // our scale; specialise to a baked setter per entry if we ever need
         // to squeeze more out of this loop.
-        setRawWebglUniform(
-          gl,
-          entry.location,
-          entry.uniform.value as never,
-        );
+        setRawWebglUniform(gl, entry.location, entry.uniform.value as never);
       }
 
       // ── JS-class canvas textures ────────────────────────────────────────
@@ -401,5 +440,14 @@ export const useRawWebglRenderer = (
       gl.deleteShader(vertexShader);
       gl.deleteShader(fragmentShader);
     };
-  }, [canvasRef, shaderMaterial, assets, meshTransforms]);
+  }, [
+    canvasRef,
+    shaderMaterial,
+    assets,
+    meshTransforms,
+    clearRed,
+    clearGreen,
+    clearBlue,
+    clearAlpha,
+  ]);
 };

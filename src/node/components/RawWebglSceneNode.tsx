@@ -1,8 +1,15 @@
 import { memo, useRef } from "react";
 import { Asset } from "../../assets/types";
-import { MeshTransformConfig } from "../../config/config.types";
-import { RawWebglShaderMaterial } from "../../config/material/shaders/raw-webgl/types";
+import {
+  MeshTransformConfig,
+  SceneProperties,
+} from "../../config/config.types";
+import {
+  RawWebglClearColor,
+  RawWebglShaderMaterial,
+} from "../../config/material/shaders/raw-webgl/types";
 import { useRawWebglRenderer } from "./raw-webgl/useRawWebglRenderer";
+import { VideoBackground } from "../root/video-background/VideoBackground";
 
 // Scene node for the `webgl` engine, parallel to `SceneDisplay` for the
 // three.js engine. Renders a fullscreen <canvas> and drives the raw-WebGL
@@ -16,30 +23,46 @@ export const RawWebglSceneNode = memo(function RawWebglSceneNode({
   shaderMaterial,
   assets,
   meshTransforms,
+  sceneProperties,
+  clearColor,
 }: {
-  shaderMaterial: RawWebglShaderMaterial;
+  shaderMaterial: RawWebglShaderMaterial | null;
   assets: Asset[];
   meshTransforms?: MeshTransformConfig[];
+  sceneProperties?: SceneProperties | null;
+  clearColor?: RawWebglClearColor;
 }) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  useRawWebglRenderer(canvasRef, shaderMaterial, assets, meshTransforms);
+  useRawWebglRenderer(
+    canvasRef,
+    shaderMaterial,
+    assets,
+    meshTransforms,
+    clearColor,
+  );
 
-  // TODO: Apply scene properties (viewWidth, viewHeight, backgroundColor,
-  //       videoBackground, position, zIndex, etc.) - mirroring
+  console.log("sceneProperties", sceneProperties);
+  // TODO: Apply remaining scene properties (viewWidth, viewHeight,
+  //       backgroundColor, position, zIndex, etc.) - mirroring
   //       `RootContainer.tsx`. Currently the canvas is fullscreen.
 
   return (
-    <canvas
-      ref={canvasRef}
-      style={{
-        position: "absolute",
-        top: 0,
-        left: 0,
-        width: "100vw",
-        height: "100vh",
-        display: "block",
-        cursor: "none",
-      }}
-    />
+    <>
+      {shaderMaterial && (
+        <canvas
+          ref={canvasRef}
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100vw",
+            height: "100vh",
+            display: "block",
+            cursor: "none",
+          }}
+        />
+      )}
+      <VideoBackground videoSrc={sceneProperties?.videoBackground} />
+    </>
   );
 });

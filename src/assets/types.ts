@@ -18,6 +18,7 @@ export type AssetData =
   | Model
   | Texture
   | HTMLImageElement
+  | HTMLVideoElement
   | ImageBitmap
   | LoadedGroup
   | AdvancedScene;

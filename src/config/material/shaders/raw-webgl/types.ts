@@ -18,6 +18,9 @@ export type RawWebglTextureBinding = {
   relationship: RawWebglTextureRelationship;
 };
 
+/** Normalised RGBA, matching the `clearColor` field on `RawWebglConfig`. */
+export type RawWebglClearColor = [number, number, number, number];
+
 export type RawWebglBlending = {
   blendSrc: number;
   blendDst: number;

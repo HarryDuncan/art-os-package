@@ -5,7 +5,6 @@ import { Loader } from "../../components/loaders/Loader";
 import { SceneConfig } from "../../config/config.types";
 import { useSceneData } from "../../config/useSceneData";
 import { SceneDisplay } from "./SceneDisplay";
-import { useSetInteractionConfigs } from "../../interaction/hooks/useSetInteractionConfigs";
 import { formatConfigForScreen } from "../../config/scene-properties/formatConfigForScreen";
 import { useCamera } from "../../config/three-js/use-camera/useCamera";
 import { InteractiveScene } from "../../components/interactive-scene/InteractiveScene";
@@ -51,7 +50,6 @@ export const ProgressiveLoading = ({
 };
 
 const PostWindowSizeLoader = ({
-  loaderComponent,
   sceneConfig,
   setExternalScene,
 }: {

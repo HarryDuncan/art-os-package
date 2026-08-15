@@ -101,6 +101,13 @@ const SceneProvider: FC<SceneProviderProps> = ({
 
   // --- THE CLEANUP LOGIC ---
   const performCleanup = useCallback(() => {
+    console.log("[WebGL] SceneProvider.performCleanup() start", {
+      hasRenderer: !!rendererRef.current,
+      hasScene: !!initializedScene.current,
+      hasAssets: !!assetsRef.current,
+      frame: currentFrameRef.current,
+    });
+
     // 1. Stop the loop
     if (currentFrameRef.current) {
       cancelAnimationFrame(currentFrameRef.current);
@@ -134,6 +141,10 @@ const SceneProvider: FC<SceneProviderProps> = ({
       // Strict cleanup: lose context to force GPU memory release
       const gl = rendererRef.current.getContext();
       const ext = gl.getExtension("WEBGL_lose_context");
+      console.log(
+        "[WebGL] SceneProvider calling loseContext() — this WILL log THREE.WebGLRenderer: Context Lost",
+        { hasLoseContextExt: !!ext },
+      );
       if (ext) ext.loseContext();
 
       rendererRef.current.domElement.remove();
@@ -143,14 +154,16 @@ const SceneProvider: FC<SceneProviderProps> = ({
 
     setSceneData(null);
     sceneDataRef.current = null;
+    console.log("[WebGL] SceneProvider.performCleanup() done");
   }, []);
 
   // --- MOUNT / UNMOUNT EFFECT ---
   useEffect(() => {
-    // Mount logic here if needed
+    console.log("[WebGL] SceneProvider mounted");
 
     return () => {
       // UNMOUNT: This runs only when the component is removed from the DOM
+      console.log("[WebGL] SceneProvider unmounting → cleanup");
       setStatus(PROCESS_STATUS.CLEANING_UP);
       performCleanup();
     };
