@@ -11,6 +11,7 @@ import {
 import { useRawWebglRenderer } from "./raw-webgl/useRawWebglRenderer";
 import { VideoBackground } from "../root/video-background/VideoBackground";
 
+import { packageConsole } from "../../utils/packageConsole";
 // Scene node for the `webgl` engine, parallel to `SceneDisplay` for the
 // three.js engine. Renders a fullscreen <canvas> and drives the raw-WebGL
 // render loop via `useRawWebglRenderer`.
@@ -41,7 +42,7 @@ export const RawWebglSceneNode = memo(function RawWebglSceneNode({
     clearColor,
   );
 
-  console.log("sceneProperties", sceneProperties);
+  packageConsole.log("sceneProperties", sceneProperties);
   // TODO: Apply remaining scene properties (viewWidth, viewHeight,
   //       backgroundColor, position, zIndex, etc.) - mirroring
   //       `RootContainer.tsx`. Currently the canvas is fullscreen.

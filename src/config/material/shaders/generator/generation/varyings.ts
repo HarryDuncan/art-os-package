@@ -20,6 +20,7 @@ import { generateDeclaration } from "./helpers/generateDeclaration";
 import { getDefaultValueAsString } from "./helpers/shaderValues";
 import { getTransformsMappedToParameters } from "./transforms/getTransfomsMappedToParameters";
 
+import { packageConsole } from "../../../../../utils/packageConsole";
 export const generateVaryings = (
   parameterMap: ShaderParameterMap,
   functionConfigs: EffectConfig[]
@@ -130,7 +131,7 @@ const getDefaultVaryingString = (config: ParameterConfig[]) => {
         );
         break;
       default:
-        console.warn(`nothing made for default varying ${item.key}`);
+        packageConsole.warn(`nothing made for default varying ${item.key}`);
     }
   });
   return strings;

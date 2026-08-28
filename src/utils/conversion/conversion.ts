@@ -1,6 +1,7 @@
 import { Vector2, Vector3, Vector4 } from "three";
 import { PositionConfig } from "../../types/position.types";
 
+import { packageConsole } from "../packageConsole";
 export const position3dToVector = (position: PositionConfig) => {
   const { x, y, z } = position;
   return new Vector3(x ?? 0, y ?? 0, z ?? 0);
@@ -41,7 +42,7 @@ export const arrayToVector = (numberArray: number[]) => {
         numberArray[3]
       );
     default:
-      console.warn(
+      packageConsole.warn(
         `${arrayLength} can not be matched to a vector size - returning a 2d vector`
       );
       return new Vector2(numberArray[0] ?? 0, numberArray[1] ?? 0);

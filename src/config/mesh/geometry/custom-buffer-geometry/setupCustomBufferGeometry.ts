@@ -11,6 +11,7 @@ import {
 } from "../createPlaneFromTexture";
 import { MeshType } from "../../../../assets/geometry/geometry.types";
 
+import { packageConsole } from "../../../../utils/packageConsole";
 export const setUpCustomBufferGeometry = (
   bufferGeometryType: CustomBufferGeometryType,
   bufferGeometryConfig: CustomGeometryConfig,
@@ -35,7 +36,7 @@ export const setUpCustomBufferGeometry = (
         centerGeometryToOrigin,
       );
     default:
-      console.warn(
+      packageConsole.warn(
         `No custom buffer geometry has been set for ${bufferGeometryType}`,
       );
   }

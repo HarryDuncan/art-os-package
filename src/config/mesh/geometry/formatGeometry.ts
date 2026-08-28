@@ -16,6 +16,7 @@ import { CustomBufferGeometryType } from "../types";
 import { CUSTOM_GEOMETRY_TYPES, MESH_TYPES } from "../consts";
 import { MeshType } from "../../../assets/geometry/geometry.types";
 
+import { packageConsole } from "../../../utils/packageConsole";
 export const formatGeometry = (
   loadedAssets: Asset[],
   meshComponentConfigs: MeshComponentConfig[],
@@ -92,7 +93,7 @@ const getGeometryForMeshConfig = (
   }
   const asset = loadedAssets.find((asset) => asset.guid === assetId);
   if (!asset) {
-    console.warn(
+    packageConsole.warn(
       `no asset found for ${assetId} this mesh will not be rendered`,
     );
     return null;
@@ -100,7 +101,7 @@ const getGeometryForMeshConfig = (
   const geometry = getAssetGeometry(asset, meshComponentConfig);
 
   if (!geometry) {
-    console.warn(
+    packageConsole.warn(
       `no geometry found for ${assetId} this mesh will not be rendered`,
     );
     return null;

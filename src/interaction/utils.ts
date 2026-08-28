@@ -1,6 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 import { Scene } from "three";
+import { packageConsole } from "../utils/packageConsole";
 
 export const setUniforms = (
   scene: Scene,
@@ -45,6 +46,6 @@ export const setMeshUniform = (
   try {
     mesh.material.uniforms[uniformKey].value = value;
   } catch (error) {
-    console.error(error);
+    packageConsole.error(error);
   }
 };

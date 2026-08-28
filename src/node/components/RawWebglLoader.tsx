@@ -6,6 +6,7 @@ import { useSceneContext } from "../../context/context";
 import { generateRawWebglShaderMaterials } from "../../config/material/shaders/raw-webgl/generateRawWebglShaderMaterials";
 import { formatSceneProperties } from "../../config/scene-properties/formatSceneProperties";
 
+import { packageConsole } from "../../utils/packageConsole";
 // Loader for the `webgl` engine. Mirrors `ThreeJsLoader` in
 // ProgressiveLoading.tsx but builds a raw WebGL pipeline instead of the
 // three.js one. Asset loading + shader-material generation are wired up;
@@ -57,7 +58,7 @@ export const RawWebglLoader = ({
     sceneProperties?.videoBackground || sceneProperties?.backgroundUrl
   );
   if (!shaderMaterial && !hasBackground) {
-    console.warn(
+    packageConsole.warn(
       "RawWebglLoader: no built shader at sceneMaterialConfigs[0] and no scene background; nothing to render",
     );
   }

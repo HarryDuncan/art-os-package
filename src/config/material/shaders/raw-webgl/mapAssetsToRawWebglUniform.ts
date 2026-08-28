@@ -8,6 +8,7 @@ import {
   RawWebglUniformObject,
 } from "./types";
 
+import { packageConsole } from "../../../../utils/packageConsole";
 export const STREAM_TEXTURE_CONFIG_ID = "stream-texture-config";
 export const STREAM_TEXTURE_DIMENSION_ID = "stream-texture-dimension";
 
@@ -64,7 +65,7 @@ const resolveMapping = (
 
   const mappedAsset = assets.find((asset) => asset.guid === assetId);
   if (!mappedAsset || !mappedAsset.data) {
-    console.warn(`no mapped asset found for ${assetId}`);
+    packageConsole.warn(`no mapped asset found for ${assetId}`);
     return null;
   }
 
@@ -107,7 +108,7 @@ const resolveMapping = (
       return { kind: "uniform", value: [width, height] };
     }
     default: {
-      console.warn(`No raw-webgl configuration for ${relationship}`);
+      packageConsole.warn(`No raw-webgl configuration for ${relationship}`);
       return null;
     }
   }

@@ -10,6 +10,7 @@ import {
 import { MeshComponentConfig } from "../../config.types";
 import { MeshType } from "../../../assets/geometry/geometry.types";
 
+import { packageConsole } from "../../../utils/packageConsole";
 export const getAssetGeometry = (
   asset: Asset,
   meshComponentConfig: MeshComponentConfig,
@@ -73,7 +74,7 @@ export const getAssetGeometry = (
     case FILE_TYPES.MODELS.GLTF:
       return getObjectGeometries(data as LoadedGroup, name ?? "");
     default:
-      console.warn(`no formatting for ${modelFileType}`);
+      packageConsole.warn(`no formatting for ${modelFileType}`);
       return null;
   }
 };
@@ -87,7 +88,7 @@ export const getObjectGeometries = (data: LoadedGroup, name: string) => {
       geometry: child.geometry,
     }));
   }
-  console.warn(`geometry not valid ${name}`);
+  packageConsole.warn(`geometry not valid ${name}`);
   return [];
 };
 
@@ -96,5 +97,5 @@ export const getObjectGeometries = (data: LoadedGroup, name: string) => {
 //   if (assetGeometry) {
 //     return assetGeometry[0].geometry;
 //   }
-//   console.warn(`no buffer geometry found for ${asset.name}`);
+//   packageConsole.warn(`no buffer geometry found for ${asset.name}`);
 // };

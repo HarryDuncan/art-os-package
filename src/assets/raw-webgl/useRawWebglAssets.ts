@@ -3,6 +3,7 @@ import { Asset } from "../types";
 import { useSceneContext } from "../../context/context";
 import { loadRawWebglAsset } from "./loadRawWebglAsset";
 
+import { packageConsole } from "../../utils/packageConsole";
 export const useRawWebglAssets = (
   assets: Asset[] | undefined | null,
   assetPath?: string,
@@ -14,7 +15,7 @@ export const useRawWebglAssets = (
     return Promise.all(
       assets.map(async (asset) => {
         if (!asset || !asset.path) {
-          console.warn(
+          packageConsole.warn(
             `asset ${asset?.guid} not properly loaded - missing path`,
           );
         }
@@ -23,7 +24,7 @@ export const useRawWebglAssets = (
           : asset;
         const data = await loadRawWebglAsset(formattedAsset);
         if (!data) {
-          console.warn(`asset ${formattedAsset.path} not properly loaded`);
+          packageConsole.warn(`asset ${formattedAsset.path} not properly loaded`);
         }
         return { ...formattedAsset, data } as Asset;
       }),

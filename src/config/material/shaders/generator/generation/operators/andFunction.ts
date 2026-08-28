@@ -2,6 +2,7 @@ import { OperatorConfig } from "../../../schema";
 import { findKeyMatch } from "../../../utils";
 import { ShaderParameterMap, ConfiguredTransform } from "../../types";
 
+import { packageConsole } from "../../../../../../utils/packageConsole";
 export const andFunctionTransform = (
   effectTransforms: ConfiguredTransform[],
   operatorTransform: OperatorConfig,
@@ -76,7 +77,7 @@ export const andFunctionTransform = (
 //     (parameter) => parameter.guid === value.itemId
 //   );
 //   if (!inputParameter) {
-//     console.error(`No input parameter found for id ${value.itemId}`);
+//     packageConsole.error(`No input parameter found for id ${value.itemId}`);
 //     return [];
 //   }
 //   return {

@@ -1,6 +1,7 @@
 import { Vector2, Camera, Vector3, Ray } from "three";
 import { EVENT_KEYS } from "../../peripheral/consts";
 
+import { packageConsole } from "../../utils/packageConsole";
 export const mouseMoveKeyPoints = (
   event: MouseEvent,
   params: {
@@ -12,7 +13,7 @@ export const mouseMoveKeyPoints = (
 ) => {
   const { camera, rendererHeight, rendererWidth, zTarget } = params;
   if (!camera || !rendererHeight || !rendererWidth) {
-    console.warn(
+    packageConsole.warn(
       "Camera, rendererHeight, rendererWidth are required for mouseMoveKeyPoints",
     );
     return {

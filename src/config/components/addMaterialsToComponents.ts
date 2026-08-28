@@ -1,6 +1,7 @@
 import { Material, MeshPhongMaterial } from "three";
 import { SceneComponentConfig } from "../config.types";
 
+import { packageConsole } from "../../utils/packageConsole";
 export const addMaterialsToComponents = (
   componentConfigs: SceneComponentConfig[],
   materials: Material[]
@@ -23,7 +24,7 @@ const getComponentMaterial = (
 ): Material => {
   const { materialId } = componentConfig;
   if (!materialId) {
-    console.warn(
+    packageConsole.warn(
       `material not linked does not exist for ${componentConfig.id}`
     );
     return new MeshPhongMaterial({
@@ -37,7 +38,7 @@ const getComponentMaterial = (
   if (selectedMaterial) {
     return selectedMaterial;
   }
-  console.warn(
+  packageConsole.warn(
     `could not select material by id ${materialId} for ${componentConfig.id}`
   );
   return new MeshPhongMaterial({

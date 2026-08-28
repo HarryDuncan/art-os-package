@@ -1,5 +1,6 @@
 import { Camera, Vector3, Ray } from "three";
 
+import { packageConsole } from "../../utils/packageConsole";
 export const rayTraceCoordinateAsPercentage = (
   normalizedCoords: { x: number; y: number },
   params: {
@@ -10,7 +11,7 @@ export const rayTraceCoordinateAsPercentage = (
   const { camera, zTarget } = params;
 
   if (!camera) {
-    console.warn("Camera is required for rayTraceCoordinateAsPercentage");
+    packageConsole.warn("Camera is required for rayTraceCoordinateAsPercentage");
     return {
       x: 0,
       y: 0,

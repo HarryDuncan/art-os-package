@@ -27,6 +27,15 @@ export {
 } from "./utils/logger";
 export type { LogEntry, LogLevel } from "./utils/logger";
 
+export {
+  packageConsole,
+} from "./utils/packageConsole";
+export {
+  setDebugLogging,
+  isDebugLoggingEnabled,
+  isLocalhost,
+} from "./utils/debugLogging";
+
 export * from "./thread";
 export * from "./exports/schema";
 export * from "./exports/consts";

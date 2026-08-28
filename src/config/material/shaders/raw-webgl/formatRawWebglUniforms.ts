@@ -9,6 +9,7 @@ import {
   RawWebglUniformValue,
 } from "./types";
 
+import { packageConsole } from "../../../../utils/packageConsole";
 export const formatRawWebglUniforms = (
   parameterMap: ShaderParameterMap,
   assets: Asset[],
@@ -104,7 +105,7 @@ const getValue = (
         return typeof value === "number" ? value : 0;
     }
   } catch (error) {
-    console.warn(
+    packageConsole.warn(
       `Error formatting raw-webgl uniform value for type ${valueType}:`,
       error,
     );

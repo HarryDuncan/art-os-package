@@ -1,6 +1,7 @@
 import { getRegisteredParameterControlScene } from "./register";
 import { MeshTransformParams, Vec3Params } from "./types";
 
+import { packageConsole } from "../utils/packageConsole";
 const applyPartialXYZ = (
   target: { x: number; y: number; z: number },
   params: Vec3Params | undefined,
@@ -17,13 +18,13 @@ export const setMeshTransform = (
 ): void => {
   const scene = getRegisteredParameterControlScene();
   if (!scene) {
-    console.warn("setMeshTransform: no parameter-control scene registered");
+    packageConsole.warn("setMeshTransform: no parameter-control scene registered");
     return;
   }
 
   const mesh = scene.getObjectByName(meshId);
   if (!mesh) {
-    console.warn(`setMeshTransform: no mesh found with name "${meshId}"`);
+    packageConsole.warn(`setMeshTransform: no mesh found with name "${meshId}"`);
     return;
   }
 

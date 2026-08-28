@@ -4,6 +4,7 @@ import { formatMeshTransforms } from "./formatMeshTransforms";
 import { Asset } from "../../../assets/types";
 import { setAttributes } from "./setAttributes";
 
+import { packageConsole } from "../../../utils/packageConsole";
 export const applyMeshTransforms = (
   meshTransforms: MeshTransformConfig[] | undefined,
   formattedGeometries: FormattedGeometry[],
@@ -30,7 +31,7 @@ export const applyMeshTransforms = (
         return { ...formattedGeometry, geometry: setAttributeGeometry };
       });
     } else {
-      console.warn(
+      packageConsole.warn(
         `No transformed meshes - check transform config ${transformedMeshIds}`
       );
     }

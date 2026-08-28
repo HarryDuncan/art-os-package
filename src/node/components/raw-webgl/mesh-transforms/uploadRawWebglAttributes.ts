@@ -1,5 +1,6 @@
 import { RawWebglAttribute } from "./buildRawWebglAttributes";
 
+import { packageConsole } from "../../../../utils/packageConsole";
 // GL-side handle for a single mesh-transform attribute. We resolve the
 // attribute location once at upload time so the per-frame bind path is just a
 // few cheap GL calls per attribute.
@@ -23,14 +24,14 @@ export const uploadRawWebglAttributes = (
   Object.entries(attributes).forEach(([name, { array, itemSize }]) => {
     const location = gl.getAttribLocation(program, name);
     if (location < 0) {
-      console.warn(
+      packageConsole.warn(
         `uploadRawWebglAttributes: attribute "${name}" not active in program; skipping`,
       );
       return;
     }
     const buffer = gl.createBuffer();
     if (!buffer) {
-      console.warn(
+      packageConsole.warn(
         `uploadRawWebglAttributes: failed to create buffer for "${name}"`,
       );
       return;

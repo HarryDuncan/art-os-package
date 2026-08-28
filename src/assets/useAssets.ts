@@ -10,6 +10,7 @@ import { loadAdvancedScene } from "./advanced-scene/loadAdvancedScene";
 import { ASSET_TYPES } from "./consts";
 import { useSceneContext } from "../context/context";
 
+import { packageConsole } from "../utils/packageConsole";
 export const useAssets = (
   assets: Asset[] | undefined | null,
   assetPath?: string,
@@ -19,7 +20,7 @@ export const useAssets = (
   async function loadAssetData(asset: Asset) {
     const loadedAsset = await loadAsset(asset);
     if (!loadedAsset) {
-      console.warn(`asset ${asset.path} not properly loaded`);
+      packageConsole.warn(`asset ${asset.path} not properly loaded`);
     }
     return { ...asset, data: loadedAsset };
   }
@@ -29,7 +30,7 @@ export const useAssets = (
     const loadedAssets = await Promise.all(
       assets.flatMap(async (asset) => {
         if (!asset || !asset.path) {
-          console.warn(
+          packageConsole.warn(
             `asset ${asset.guid} not properly loaded no assetPath or path found`,
           );
         }
@@ -101,7 +102,7 @@ const loadAsset = async (asset: Asset) => {
         video.addEventListener("ended", () => {
           if (video) {
             video.currentTime = 0;
-            video.play().catch(console.warn);
+            video.play().catch((e) => packageConsole.warn(e));
           }
         });
 

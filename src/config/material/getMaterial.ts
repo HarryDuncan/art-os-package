@@ -19,6 +19,7 @@ import {
 } from "./types";
 import { setUpEnvMap } from "./env-map/setUpEnvMap";
 
+import { packageConsole } from "../../utils/packageConsole";
 export const getMaterial = (
   materialType: MaterialType,
   materialProps: MaterialConfigProps
@@ -48,7 +49,7 @@ export const getMaterial = (
         const parameters = { color: 0xffffff, map: texture };
         return new MeshBasicMaterial(parameters);
       }
-      console.warn("no video element found");
+      packageConsole.warn("no video element found");
       return new MeshStandardMaterial({});
     }
     case MATERIAL_TYPES.PHONG: {

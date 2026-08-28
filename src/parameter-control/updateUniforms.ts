@@ -3,13 +3,14 @@ import { buildMaterialMeshMap } from "./helpers/buildMaterialMeshMap";
 import { getRegisteredParameterControlScene } from "./register";
 import { ParameterControlSelector } from "./types";
 
+import { packageConsole } from "../utils/packageConsole";
 export const setMaterialUniforms = (
   selector: ParameterControlSelector,
   data: Record<string, unknown>,
 ): void => {
   const scene = getRegisteredParameterControlScene();
   if (!scene) {
-    console.warn("setMaterialUniforms: no parameter-control scene registered");
+    packageConsole.warn("setMaterialUniforms: no parameter-control scene registered");
     return;
   }
 
@@ -20,7 +21,7 @@ export const setMaterialUniforms = (
     for (const materialId of selector.materialIds) {
       const found = materialMeshMap[materialId] ?? [];
       if (!found.length) {
-        console.warn(
+        packageConsole.warn(
           `setMaterialUniforms: no meshes found for materialId "${materialId}"`,
         );
       }
@@ -32,7 +33,7 @@ export const setMaterialUniforms = (
     for (const meshId of selector.meshIds) {
       const found = scene.getObjectByName(meshId);
       if (!found) {
-        console.warn(
+        packageConsole.warn(
           `setMaterialUniforms: no mesh found with name "${meshId}"`,
         );
         continue;
@@ -50,7 +51,7 @@ export const setMaterialUniforms = (
 
     for (const [key, value] of Object.entries(data)) {
       if (!(key in uniforms)) {
-        console.warn(
+        packageConsole.warn(
           `setMaterialUniforms: uniform "${key}" not found on mesh "${mesh.name || mesh.uuid}"`,
         );
         continue;

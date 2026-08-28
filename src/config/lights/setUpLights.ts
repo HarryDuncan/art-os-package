@@ -3,6 +3,7 @@ import { DirectionalLightElement } from "./light-elements/DirectionalLightElemen
 import { PointLightElement } from "./light-elements/PointLightElement";
 import { LightConfigs, SceneLight } from "../../types";
 import { DEFAULT_LIGHT_COLOR, LIGHT_TYPES } from "../../consts/lights/lights";
+import { packageConsole } from "../../utils/packageConsole";
 export const setUpLights = (lightConfigs: LightConfigs[] = []): SceneLight[] =>
   lightConfigs.flatMap(({ name, lightType, props }) => {
     switch (lightType) {
@@ -22,7 +23,7 @@ export const setUpLights = (lightConfigs: LightConfigs[] = []): SceneLight[] =>
       }
 
       default:
-        console.warn("no light has been configured for this light type");
+        packageConsole.warn("no light has been configured for this light type");
         return [];
     }
   });

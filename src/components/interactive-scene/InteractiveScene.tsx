@@ -24,6 +24,7 @@ import {
   deregisterParameterControlContext,
 } from "../../parameter-control";
 
+import { packageConsole } from "../../utils/packageConsole";
 export type InteractiveSceneFunctions = {
   onTimeUpdate?: (scene: InteractiveScene) => void;
   onTriggeredUpdate?: (scene: InteractiveScene) => void;
@@ -156,13 +157,13 @@ export class InteractiveScene extends Scene {
         const interactionHandler = EVENT_HANDLER_MAP[interaction.type];
         const eventKey = EVENT_KEY_MAP[interaction.type];
         if (!eventKey) {
-          console.warn(
+          packageConsole.warn(
             `Event key not found for interaction type ${interaction.type}`,
           );
           return;
         }
         if (!interactionHandler) {
-          console.warn(
+          packageConsole.warn(
             `Interaction handler not found for interaction type ${interaction.type}`,
           );
           return;
@@ -185,7 +186,7 @@ export class InteractiveScene extends Scene {
   //     //   KEY_POINT_EXTRACTORS[interactionConfig.modelConfig.eventKey];
 
   //     // if (!eventFunction) {
-  //     //   console.warn(
+  //     //   packageConsole.warn(
   //     //     `Event function ${
   //     //       interactionConfig.functionType
   //     //     } not found for interaction config ${

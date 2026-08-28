@@ -23,6 +23,7 @@ import { formatOperatorConfigs } from "./formatOperatorConfigs";
 import { isDefaultParameter } from "../generator/generation/helpers/parameterUtils";
 import { InterNodeMap } from "../../../../types";
 
+import { packageConsole } from "../../../../utils/packageConsole";
 export const preformat = (
   effectParameters: ParameterConfig[],
   shaderEffectConfigs: EffectConfig[],
@@ -244,7 +245,7 @@ const getFunctionBasedVaryings = (
     if (!schemaId) return parameter;
     const transformSchema = functionSchemas[schemaId];
     if (!transformSchema) {
-      console.warn(`Transform schema not found for function ${schemaId}`);
+      packageConsole.warn(`Transform schema not found for function ${schemaId}`);
     }
     if (!transformSchema) return parameter;
     return {

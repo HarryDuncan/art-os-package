@@ -16,6 +16,7 @@ import {
 } from "./consts";
 import { generateStructs } from "./generation/structs";
 
+import { packageConsole } from "../../../../utils/packageConsole";
 const DEBUG = false;
 export const generateShaders = (
   operatorConfigs: OperatorConfig[],
@@ -75,8 +76,8 @@ export const generateShaders = (
     fragmentEffects.fragColor,
   );
   if (DEBUG) {
-    console.log("Vertex Shader: ", vertexShader);
-    console.log("Fragment Shader: ", fragmentShader);
+    packageConsole.log("Vertex Shader: ", vertexShader);
+    packageConsole.log("Fragment Shader: ", fragmentShader);
   }
 
   return {

@@ -13,6 +13,7 @@ import {
   ShaderBackgroundProps,
 } from "./threeJsComponents.types";
 
+import { packageConsole } from "../../utils/packageConsole";
 export const getSceneComponents = (
   componentConfigs: SceneComponentConfig[] = []
 ) =>
@@ -64,7 +65,7 @@ export const getSceneComponents = (
       }
 
       default:
-        console.warn("component not set up for this component type");
+        packageConsole.warn("component not set up for this component type");
         return [];
     }
   });

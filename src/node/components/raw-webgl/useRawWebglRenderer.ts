@@ -21,6 +21,7 @@ import { getJsModelCanvasRegistry } from "../../../consts/jsModelCanvasRegistry"
 import { getJsModelUniformRegistry } from "../../../consts/jsModelUniformRegistry";
 import { logWebGLGpuInfo } from "../../../utils/logWebGLGpuInfo";
 
+import { packageConsole } from "../../../utils/packageConsole";
 // Identity matrices used to satisfy the three.js-shaped builtins the shader
 // generator emits. They never change at runtime, so we upload them once at
 // program-link time (see "set static uniforms ONCE" below) and never touch
@@ -93,7 +94,7 @@ export const useRawWebglRenderer = (
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    console.log("[WebGL] creating raw WebGL2 context", {
+    packageConsole.log("[WebGL] creating raw WebGL2 context", {
       powerPreference: "(not set — browser default)",
       premultipliedAlpha: false,
       antialias: true,
@@ -106,7 +107,7 @@ export const useRawWebglRenderer = (
       antialias: true,
     });
     if (!gl) {
-      console.error("useRawWebglRenderer: failed to acquire WebGL2 context");
+      packageConsole.error("useRawWebglRenderer: failed to acquire WebGL2 context");
       return;
     }
     logWebGLGpuInfo(gl, "raw WebGL2", {
@@ -121,7 +122,7 @@ export const useRawWebglRenderer = (
         shaderMaterial.fragmentShader,
       );
     } catch (error) {
-      console.error("useRawWebglRenderer: program build failed", error);
+      packageConsole.error("useRawWebglRenderer: program build failed", error);
       return;
     }
 

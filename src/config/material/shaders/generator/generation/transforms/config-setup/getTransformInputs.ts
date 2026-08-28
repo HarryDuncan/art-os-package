@@ -11,6 +11,7 @@ import { shaderValueTypeInstantiation } from "../../helpers/shaderValues";
 import { isStruct } from "../../../../utils";
 import { InputMap } from "../../../../../../../types";
 
+import { packageConsole } from "../../../../../../../utils/packageConsole";
 export const getTransformInputs = (
   transformConfig: ShaderTransformationSchema,
   parameterMap: ShaderParameterMap,
@@ -80,7 +81,7 @@ export const getShaderInputMap = (
       ) {
         shaderInputMap.set(key, parameter);
       } else {
-        console.warn(
+        packageConsole.warn(
           `Input key ${parameterName}_${schemaGuid} not found in inputKeys`,
         );
       }

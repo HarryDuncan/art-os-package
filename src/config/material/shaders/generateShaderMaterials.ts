@@ -9,6 +9,7 @@ import { generateShaders } from "./generator/generateShaders";
 import { ExternalSchema, MaterialConfig } from "../types";
 import { buildUniformControlsMap } from "./schema/controls/buildUniformControlsMap";
 
+import { packageConsole } from "../../../utils/packageConsole";
 const DEBUG = false;
 
 export const generateShader = (
@@ -67,9 +68,9 @@ export const generateShaderMaterials = (
           materialConfig.schemas,
         );
         if (DEBUG) {
-          console.log("Vertex Shader: ", vertexShader);
-          console.log("Fragment Shader: ", fragmentShader);
-          console.log("Parameter Map: ", parameterMap);
+          packageConsole.log("Vertex Shader: ", vertexShader);
+          packageConsole.log("Fragment Shader: ", fragmentShader);
+          packageConsole.log("Parameter Map: ", parameterMap);
         }
         const formattedUniforms = formatBuiltShaderUniforms(
           parameterMap,

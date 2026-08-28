@@ -1,3 +1,4 @@
+import { packageConsole } from "../../../../../../utils/packageConsole";
 export const t = () => {
   return null;
 };
@@ -18,7 +19,7 @@ export const t = () => {
 //       (parameter) => parameter.guid === value.itemId
 //     );
 //     if (!inputParameter) {
-//       console.error(`No input parameter found for id ${value.itemId}`);
+//       packageConsole.error(`No input parameter found for id ${value.itemId}`);
 //       return [];
 //     }
 //     return {

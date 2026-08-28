@@ -1,3 +1,4 @@
+import { packageConsole } from "../../../../utils/packageConsole";
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 
 import { ASSET_TYPES } from "../../../../assets/consts";
@@ -46,7 +47,7 @@ const getMappedAsset = (
       "test-stream-canvas"
     ) as HTMLCanvasElement;
     if (!canvas) {
-      console.warn("Stream canvas not found, creating placeholder texture");
+      packageConsole.warn("Stream canvas not found, creating placeholder texture");
       return new Texture(); // Return empty texture if canvas not ready
     }
 
@@ -116,9 +117,9 @@ const getMappedAsset = (
       }
 
       default:
-        console.warn(`No configuration for ${assetMapping.relationship}`);
+        packageConsole.warn(`No configuration for ${assetMapping.relationship}`);
         return null;
     }
   }
-  console.warn(`no mapped asset found for ${assetMapping.assetId}`);
+  packageConsole.warn(`no mapped asset found for ${assetMapping.assetId}`);
 };

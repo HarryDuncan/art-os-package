@@ -4,10 +4,11 @@ import { setUpLights } from "./setUpLights";
 import { DEFAULT_LIGHTS } from "../../consts/lights/lights";
 import { SceneLight } from "../../types";
 
+import { packageConsole } from "../../utils/packageConsole";
 export const getLightsFromConfig = (config: SceneConfig): SceneLight[] => {
   const { lightConfig } = config;
   if (!lightConfig) {
-    console.warn("no light config found - return default light config");
+    packageConsole.warn("no light config found - return default light config");
     return setUpLights(DEFAULT_LIGHTS);
   }
   const formattedConfigs = lightConfig.map(({ name, lightType, props }) => {

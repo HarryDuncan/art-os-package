@@ -11,6 +11,7 @@ import {
 import { useSceneContext } from "../../../../context/context";
 import { logWebGLGpuInfo } from "../../../../utils/logWebGLGpuInfo";
 
+import { packageConsole } from "../../../../utils/packageConsole";
 export const useWebGLRenderer = (
   sceneProperties: SceneProperties,
   rendererParams: RendererParams = DEFAULT_RENDERER_PARAMS as RendererParams
@@ -21,7 +22,7 @@ export const useWebGLRenderer = (
 
   useEffect(() => {
     if (!renderer) {
-      console.log("[WebGL] creating Three.js WebGLRenderer", {
+      packageConsole.log("[WebGL] creating Three.js WebGLRenderer", {
         powerPreference: "high-performance",
         antialias: true,
         screenType,
@@ -45,13 +46,13 @@ export const useWebGLRenderer = (
 
       const canvas = nextRenderer.domElement;
       canvas.addEventListener("webglcontextlost", (event) => {
-        console.warn("[WebGL] Three.js canvas webglcontextlost", {
+        packageConsole.warn("[WebGL] Three.js canvas webglcontextlost", {
           defaultPrevented: event.defaultPrevented,
           timeStamp: event.timeStamp,
         });
       });
       canvas.addEventListener("webglcontextrestored", () => {
-        console.log("[WebGL] Three.js canvas webglcontextrestored");
+        packageConsole.log("[WebGL] Three.js canvas webglcontextrestored");
         logWebGLGpuInfo(nextRenderer.getContext(), "Three.js after restore");
       });
 
@@ -64,7 +65,7 @@ export const useWebGLRenderer = (
     if (renderer) {
       const rendererWidth = getSceneWidth(sceneProperties, width);
       const rendererHeight = getSceneHeight(sceneProperties, height);
-      console.log("[WebGL] Three.js setSize", {
+      packageConsole.log("[WebGL] Three.js setSize", {
         rendererWidth,
         rendererHeight,
         devicePixelRatio,
@@ -79,7 +80,7 @@ export const useWebGLRenderer = (
   useEffect(() => {
     return () => {
       if (renderer) {
-        console.warn(
+        packageConsole.warn(
           "[WebGL] useWebGLRenderer cleanup disposing renderer (deps: renderer/screenType)",
           { screenType },
         );

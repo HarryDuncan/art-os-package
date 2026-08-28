@@ -3,10 +3,11 @@ import { applyVec3 } from "./helpers/applyVec3";
 import { getRegisteredParameterControlCamera } from "./register";
 import { CameraParams } from "./types";
 
+import { packageConsole } from "../utils/packageConsole";
 export const setCameraParams = (params: CameraParams): void => {
   const camera = getRegisteredParameterControlCamera();
   if (!camera) {
-    console.warn("setCameraParams: no parameter-control camera registered");
+    packageConsole.warn("setCameraParams: no parameter-control camera registered");
     return;
   }
 

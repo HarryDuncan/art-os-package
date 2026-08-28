@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { SceneConfig } from "./config.types";
 import { useAssetLocation } from "../compat/asset-location/useAssetLocation";
 
+import { packageConsole } from "../utils/packageConsole";
 export const useFetchConfig = (filePath: string | null) => {
   const [data, setData] = useState<SceneConfig | null>(null);
   const configuredData = useAssetLocation(data);
@@ -17,7 +18,7 @@ export const useFetchConfig = (filePath: string | null) => {
           setData(jsonData);
         }
       } catch (error) {
-        console.error(error);
+        packageConsole.error(error);
       }
     };
     if (filePath) {

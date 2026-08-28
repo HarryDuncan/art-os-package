@@ -1,3 +1,4 @@
+import { packageConsole } from "../../../../utils/packageConsole";
 // Stable WebGL numeric blend factor constants. Mirrors the entries in
 // `BLENDING_DIST` / `BLENDING_SRC` so callers can pass either a src or dst
 // blending key. These values match `WebGLRenderingContext.*` constants and
@@ -19,7 +20,7 @@ const FACTORS: Record<string, number> = {
 export const getRawWebglBlendingFactor = (key: string): number => {
   const value = FACTORS[key];
   if (value === undefined) {
-    console.error("Unknown blending mode:", key);
+    packageConsole.error("Unknown blending mode:", key);
     return FACTORS.ONE;
   }
   return value;

@@ -1,3 +1,5 @@
+import { isDebugLoggingEnabled } from './debugLogging';
+
 export type LogLevel = 'log' | 'warn' | 'error' | 'info' | 'debug';
 
 export interface LogEntry {
@@ -45,8 +47,8 @@ class LoggerInstance {
       }
     }
 
-    // Also log to console in development
-    if (process.env.NODE_ENV !== 'production') {
+    // Errors always; other levels only when debug logging is enabled
+    if (level === 'error' || isDebugLoggingEnabled()) {
       const consoleMethod = console[level] || console.log;
       consoleMethod(`[${level.toUpperCase()}]`, message, data || '');
     }

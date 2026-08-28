@@ -10,6 +10,7 @@ import { ASSET_TYPES } from "../../../assets/consts";
 import { getAssetGeometry } from "../geometry/getAssetGeometries";
 import { getNormals, getVertices } from "./attribute.functions";
 
+import { packageConsole } from "../../../utils/packageConsole";
 export const formatMeshTransforms = (
   meshTransforms: MeshTransformConfig[],
   assets: Asset[],
@@ -21,7 +22,7 @@ export const formatMeshTransforms = (
       transform.transformedMeshIds.includes(meshConfig.guid)
     );
     if (!meshComponentConfig) {
-      console.warn(
+      packageConsole.warn(
         `No mesh component config found for transform ${transform.guid}`
       );
       return [];
@@ -87,7 +88,7 @@ export const getAttributeValuesFromAssets = (
             break;
           }
           default: {
-            console.warn(`No configuration for ${relationship}`);
+            packageConsole.warn(`No configuration for ${relationship}`);
             return { ...acc, [key]: { value, type, relationship } };
           }
         }

@@ -5,6 +5,7 @@ import { SHADER_PROPERTY_TYPES, SHADER_PROPERTY_VALUE_TYPES } from "../schema";
 import { ShaderParameterMap, UniformObject } from "../generator/types";
 import { filterParametersByType } from "../utils";
 
+import { packageConsole } from "../../../../utils/packageConsole";
 export const formatBuiltShaderUniforms = (
   parameterMap: ShaderParameterMap,
   assets: Asset[],
@@ -90,7 +91,7 @@ const getValue = (
         return value;
     }
   } catch (error) {
-    console.warn(
+    packageConsole.warn(
       `Error formatting uniform value for type ${valueType}:`,
       error,
     );

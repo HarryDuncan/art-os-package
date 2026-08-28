@@ -2,6 +2,7 @@ import { FILE_TYPES } from "../../../consts";
 import { loadGLTF } from "./loadGLTF";
 import { loadObject } from "./loadObject";
 
+import { packageConsole } from "../../../utils/packageConsole";
 export const loadModel = async (path: string, fileType: string) => {
   switch (fileType) {
     case FILE_TYPES.MODELS.GLTF:
@@ -15,7 +16,7 @@ export const loadModel = async (path: string, fileType: string) => {
     }
     case "":
     default: {
-      console.warn(`no file type specified for ${fileType}`);
+      packageConsole.warn(`no file type specified for ${fileType}`);
       return null;
     }
   }

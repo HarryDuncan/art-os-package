@@ -1,5 +1,6 @@
 import { Vector2, Camera, Vector3, Ray } from "three";
 
+import { packageConsole } from "../../utils/packageConsole";
 export const mousePositionHandler = (
   event: MouseEvent,
   params: {
@@ -11,7 +12,7 @@ export const mousePositionHandler = (
 ) => {
   const { camera, rendererHeight, rendererWidth, zTarget } = params;
   if (!camera || !rendererHeight || !rendererWidth) {
-    console.warn(
+    packageConsole.warn(
       "Camera, rendererHeight, rendererWidth are required for mousePositionHandler",
     );
     return new Vector2(0, 0);

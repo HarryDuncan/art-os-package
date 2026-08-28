@@ -4,6 +4,7 @@ import PostProcessor from "../../components/post-processor/PostProcessor";
 import { sceneUpdateEvent } from "../threadEvents";
 import { useSceneContext } from "../../context/context";
 
+import { packageConsole } from "../../utils/packageConsole";
 export interface VRRuntimeConfig {
   currentFrameRef: MutableRefObject<number>;
   renderer: WebGLRenderer;
@@ -78,13 +79,13 @@ export const useVRRuntime = ({
   // Initialize VR session
   const initVR = async () => {
     if (!navigator.xr) {
-      console.warn("WebXR not supported");
+      packageConsole.warn("WebXR not supported");
       return false;
     }
 
     const isSupported = await navigator.xr.isSessionSupported("immersive-vr");
     if (!isSupported) {
-      console.warn("VR not supported");
+      packageConsole.warn("VR not supported");
       return false;
     }
 
@@ -110,7 +111,7 @@ export const useVRRuntime = ({
 
       return true;
     } catch (error) {
-      console.error("Failed to start VR session:", error);
+      packageConsole.error("Failed to start VR session:", error);
       return false;
     }
   };
@@ -135,7 +136,7 @@ export const useVRRuntime = ({
           document.body.appendChild(button);
         }
       } catch (error) {
-        console.error("Failed to create VR button:", error);
+        packageConsole.error("Failed to create VR button:", error);
       }
     };
 

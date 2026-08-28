@@ -1,3 +1,4 @@
+import { packageConsole } from "./packageConsole";
 /* eslint-disable */
 /* ts-nocheck */
 export const composeFunctions = (functions: any[]) => {
@@ -8,7 +9,7 @@ export const composeFunctions = (functions: any[]) => {
         return [newResult1, newResult2];
       }, args);
     } catch (error) {
-      console.error("Error in composeFunctions:", error);
+      packageConsole.error("Error in composeFunctions:", error);
       throw error;
     }
   };

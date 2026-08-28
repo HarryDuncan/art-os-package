@@ -1,6 +1,7 @@
 import { ExternalSchema } from "../../../types";
 import { EffectConfig } from "../../schema";
 
+import { packageConsole } from "../../../../../utils/packageConsole";
 export const formatEffectsAndSchemas = (
   shaderEffectConfigs: EffectConfig[],
   functionConfigs: EffectConfig[],
@@ -41,7 +42,7 @@ const mergeExternalSchema = (
     externalSchemas[config.type as keyof ExternalSchema]?.[schemaId];
 
   if (!externalSchemaForEffect) {
-    console.warn(
+    packageConsole.warn(
       `External schema not found for effect ${config.guid} ${config.type} ${schemaId}`
     );
     return null;

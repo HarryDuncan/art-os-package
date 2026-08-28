@@ -1,3 +1,4 @@
+import { packageConsole } from "../packageConsole";
 export const hexToRgb = (hexCode: string): number[] | null => {
   // Remove the '#' if present
   const hex = String(hexCode).replace(/^#/, "");
@@ -5,7 +6,7 @@ export const hexToRgb = (hexCode: string): number[] | null => {
   // Validate hex code
   const hexRegex = /^[0-9A-Fa-f]{6}$/;
   if (!hexRegex.test(hex)) {
-    console.error("Invalid hex color code");
+    packageConsole.error("Invalid hex color code");
     return null;
   }
 

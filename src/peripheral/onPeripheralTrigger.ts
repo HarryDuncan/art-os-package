@@ -5,6 +5,7 @@ import { buildMaterialMeshMap } from "./helpers/buildMaterialMeshMap";
 import { setUniforms } from "./helpers/setUniforms";
 import { getUniformsForOutput } from "../utils/getUniformsForOutput";
 
+import { packageConsole } from "../utils/packageConsole";
 let registeredScene: Scene | null = null;
 let registeredConfigs: PeripheralConfig[] = [];
 
@@ -28,7 +29,7 @@ export const onPeripheralTrigger = (
   eventData: unknown,
 ) => {
   if (!registeredScene) {
-    console.warn("onPeripheralTrigger: no peripheral context registered");
+    packageConsole.warn("onPeripheralTrigger: no peripheral context registered");
     return;
   }
 
@@ -44,7 +45,7 @@ export const onPeripheralTrigger = (
   }
 
   if (!matchedConfig || !matchedInteraction) {
-    console.warn(
+    packageConsole.warn(
       `onPeripheralTrigger: no interaction found with id "${interactionId}"`,
     );
     return;

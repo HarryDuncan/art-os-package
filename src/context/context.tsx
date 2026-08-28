@@ -16,6 +16,7 @@ import { Asset } from "../assets/types";
 import { disposeAssets } from "../utils/cleanup/disposeAssets";
 import { PeripheralConfig, SceneData } from "../config/config.types";
 
+import { packageConsole } from "../utils/packageConsole";
 type SceneContextType = {
   initializedScene: React.MutableRefObject<InteractiveScene | null>;
   camera: React.MutableRefObject<Camera | null>;
@@ -101,7 +102,7 @@ const SceneProvider: FC<SceneProviderProps> = ({
 
   // --- THE CLEANUP LOGIC ---
   const performCleanup = useCallback(() => {
-    console.log("[WebGL] SceneProvider.performCleanup() start", {
+    packageConsole.log("[WebGL] SceneProvider.performCleanup() start", {
       hasRenderer: !!rendererRef.current,
       hasScene: !!initializedScene.current,
       hasAssets: !!assetsRef.current,
@@ -141,7 +142,7 @@ const SceneProvider: FC<SceneProviderProps> = ({
       // Strict cleanup: lose context to force GPU memory release
       const gl = rendererRef.current.getContext();
       const ext = gl.getExtension("WEBGL_lose_context");
-      console.log(
+      packageConsole.log(
         "[WebGL] SceneProvider calling loseContext() — this WILL log THREE.WebGLRenderer: Context Lost",
         { hasLoseContextExt: !!ext },
       );
@@ -154,16 +155,16 @@ const SceneProvider: FC<SceneProviderProps> = ({
 
     setSceneData(null);
     sceneDataRef.current = null;
-    console.log("[WebGL] SceneProvider.performCleanup() done");
+    packageConsole.log("[WebGL] SceneProvider.performCleanup() done");
   }, []);
 
   // --- MOUNT / UNMOUNT EFFECT ---
   useEffect(() => {
-    console.log("[WebGL] SceneProvider mounted");
+    packageConsole.log("[WebGL] SceneProvider mounted");
 
     return () => {
       // UNMOUNT: This runs only when the component is removed from the DOM
-      console.log("[WebGL] SceneProvider unmounting → cleanup");
+      packageConsole.log("[WebGL] SceneProvider unmounting → cleanup");
       setStatus(PROCESS_STATUS.CLEANING_UP);
       performCleanup();
     };

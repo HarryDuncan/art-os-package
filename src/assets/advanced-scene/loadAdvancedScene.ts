@@ -1,6 +1,7 @@
 import { FILE_TYPES } from "../../consts";
 import { loadGLTF } from "../geometry/load-model/loadGLTF";
 
+import { packageConsole } from "../../utils/packageConsole";
 export const loadAdvancedScene = async (path: string, fileType: string) => {
   switch (fileType) {
     case FILE_TYPES.MODELS.GLTF:
@@ -10,7 +11,7 @@ export const loadAdvancedScene = async (path: string, fileType: string) => {
     }
     case "":
     default: {
-      console.warn(`no file type specified for ${fileType}`);
+      packageConsole.warn(`no file type specified for ${fileType}`);
       return null;
     }
   }

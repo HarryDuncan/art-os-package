@@ -1,5 +1,6 @@
 import React, { Component, ErrorInfo, ReactNode } from "react";
 
+import { packageConsole } from "../../utils/packageConsole";
 interface ErrorBoundaryProps {
   children: ReactNode;
   fallback?: ReactNode;
@@ -25,7 +26,7 @@ export class ErrorBoundary extends Component<
   }
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    console.error("Scene Error Boundary caught an error:", error, errorInfo);
+    packageConsole.error("Scene Error Boundary caught an error:", error, errorInfo);
 
     if (this.props.onError) {
       this.props.onError(error, errorInfo);

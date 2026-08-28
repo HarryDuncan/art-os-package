@@ -5,6 +5,7 @@ import {
 } from "../../../assets/geometry/geometry.types";
 import { MeshComponentConfig } from "../../config.types";
 
+import { packageConsole } from "../../../utils/packageConsole";
 export const addMaterials = (
   formattedGeometries: FormattedGeometry[],
   materials: Material[],
@@ -15,7 +16,7 @@ export const addMaterials = (
       (config) => formattedGeometry.meshId === (config.guid ?? "")
     );
     if (!meshConfig) {
-      console.warn(
+      packageConsole.warn(
         `no mesh config found for ${formattedGeometry.assetId} this mesh will not be rendered`
       );
       return [];
@@ -43,13 +44,13 @@ const setUpMaterial = (
     if (selectedMaterial) {
       return selectedMaterial;
     }
-    console.warn(`Could not assign ${materialId} material to mesh:${guid}`);
+    packageConsole.warn(`Could not assign ${materialId} material to mesh:${guid}`);
     return new MeshPhongMaterial({
       specular: 0x111111,
       shininess: 250,
     });
   }
-  console.warn(`Could not assign ${materialId} material to mesh:${guid}`);
+  packageConsole.warn(`Could not assign ${materialId} material to mesh:${guid}`);
   return new MeshPhongMaterial({
     specular: 0x111111,
     shininess: 250,

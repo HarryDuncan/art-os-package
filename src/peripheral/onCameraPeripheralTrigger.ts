@@ -2,6 +2,7 @@ import { Camera } from "three";
 import { PeripheralConfig } from "../config/config.types";
 import { PeripheralInteraction } from "./types";
 
+import { packageConsole } from "../utils/packageConsole";
 let registeredCamera: Camera | null = null;
 let registeredConfigs: PeripheralConfig[] = [];
 
@@ -25,7 +26,7 @@ export const onCameraPeripheralTrigger = (
   eventData: unknown,
 ) => {
   if (!registeredCamera) {
-    console.warn(
+    packageConsole.warn(
       "onCameraPeripheralTrigger: no camera peripheral context registered",
     );
     return;
@@ -43,13 +44,13 @@ export const onCameraPeripheralTrigger = (
   }
 
   if (!matchedConfig || !matchedInteraction) {
-    console.warn(
+    packageConsole.warn(
       `onCameraPeripheralTrigger: no interaction found with id "${interactionId}"`,
     );
     return;
   }
 
-  // console.log("onCameraPeripheralTrigger: camera update", {
+  // packageConsole.log("onCameraPeripheralTrigger: camera update", {
   //   interactionId,
   //   eventData,
   //   outputForCamera: matchedConfig.outputForCamera,

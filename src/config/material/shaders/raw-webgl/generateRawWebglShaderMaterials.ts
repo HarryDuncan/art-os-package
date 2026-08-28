@@ -9,6 +9,7 @@ import { formatRawWebglUniforms } from "./formatRawWebglUniforms";
 import { injectRawWebglHeader } from "./injectRawWebglHeader";
 import { RawWebglShaderMaterial } from "./types";
 
+import { packageConsole } from "../../../../utils/packageConsole";
 const DEBUG = false;
 
 export const generateRawWebglShader = (
@@ -44,8 +45,8 @@ export const generateRawWebglShader = (
     structsConfigs,
   );
 
-  console.log("vertexShader", vertexShader);
-  console.log("fragmentShader", fragmentShader);
+  packageConsole.log("vertexShader", vertexShader);
+  packageConsole.log("fragmentShader", fragmentShader);
   return {
     vertexShader: injectRawWebglHeader(vertexShader, "vertex"),
     fragmentShader: injectRawWebglHeader(fragmentShader, "fragment"),
@@ -72,9 +73,9 @@ export const generateRawWebglShaderMaterials = (
       generateRawWebglShader(materialConfig, materialConfig.schemas);
 
     if (DEBUG) {
-      console.log("Raw WebGL Vertex Shader: ", vertexShader);
-      console.log("Raw WebGL Fragment Shader: ", fragmentShader);
-      console.log("Raw WebGL Parameter Map: ", parameterMap);
+      packageConsole.log("Raw WebGL Vertex Shader: ", vertexShader);
+      packageConsole.log("Raw WebGL Fragment Shader: ", fragmentShader);
+      packageConsole.log("Raw WebGL Parameter Map: ", parameterMap);
     }
 
     const { uniforms, textureBindings } = formatRawWebglUniforms(

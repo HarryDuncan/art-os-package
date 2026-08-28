@@ -1,6 +1,7 @@
 import { Asset } from "../../../assets/types";
 import { RawWebglTextureBinding } from "../../../config/material/shaders/raw-webgl/types";
 
+import { packageConsole } from "../../../utils/packageConsole";
 export type UploadedRawWebglTexture = {
   uniformId: string;
   texture: WebGLTexture;
@@ -20,7 +21,7 @@ export const uploadRawWebglTextures = (
       binding.relationship === "video_stream"
     ) {
       // TODO: implement video / video_stream raw-webgl texture uploads.
-      console.warn(
+      packageConsole.warn(
         `raw-webgl texture binding "${binding.uniformId}" with relationship "${binding.relationship}" not implemented`,
       );
       return;
@@ -29,14 +30,14 @@ export const uploadRawWebglTextures = (
     const asset = assets.find((a) => a.guid === binding.assetId);
     const data = asset?.data;
     if (!asset || !data) {
-      console.warn(
+      packageConsole.warn(
         `raw-webgl texture binding "${binding.uniformId}" - asset ${binding.assetId} not loaded`,
       );
       return;
     }
 
     if (!(data instanceof ImageBitmap)) {
-      console.warn(
+      packageConsole.warn(
         `raw-webgl texture binding "${binding.uniformId}" - asset ${binding.assetId} data is not an ImageBitmap`,
       );
       return;
@@ -44,7 +45,7 @@ export const uploadRawWebglTextures = (
 
     const texture = gl.createTexture();
     if (!texture) {
-      console.warn(
+      packageConsole.warn(
         `raw-webgl texture binding "${binding.uniformId}" - gl.createTexture returned null`,
       );
       return;

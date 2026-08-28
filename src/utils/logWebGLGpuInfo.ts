@@ -1,3 +1,4 @@
+import { packageConsole } from "./packageConsole";
 /**
  * Logs which GPU/driver the browser actually gave this WebGL context.
  * Filter console for `[WebGL GPU]`.
@@ -24,7 +25,7 @@ export const logWebGLGpuInfo = (
     rendererLower.includes("microsoft basic render") ||
     rendererLower.includes("software");
 
-  console.log(`[WebGL GPU] ${label}`, {
+  packageConsole.log(`[WebGL GPU] ${label}`, {
     vendor,
     renderer,
     version,
@@ -36,7 +37,7 @@ export const logWebGLGpuInfo = (
   });
 
   if (looksSoftware) {
-    console.warn(
+    packageConsole.warn(
       `[WebGL GPU] ${label}: software / non-GPU renderer detected — no hardware acceleration`,
       renderer,
     );

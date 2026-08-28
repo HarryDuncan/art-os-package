@@ -2,6 +2,7 @@ import { Asset } from "../types";
 import { ASSET_TYPES } from "../consts";
 import { loadRawTexture } from "./loadRawTexture";
 
+import { packageConsole } from "../../utils/packageConsole";
 const loadRawVideo = (asset: Asset): HTMLVideoElement => {
   const path = asset.path ?? "";
   let video = document.getElementById(asset.guid) as HTMLVideoElement | null;
@@ -55,7 +56,7 @@ export const loadRawWebglAsset = async (asset: Asset) => {
       // TODO: implement raw-webgl loader for `${asset.assetType}`.
       //       MODEL3D / ADVANCED_3D need a non-three GLTF/OBJ parser.
       //       IMAGE / SVG / FONT can use native browser APIs.
-      console.warn(
+      packageConsole.warn(
         `raw-webgl loader for asset type "${asset.assetType}" not implemented`,
       );
       return null;

@@ -6,6 +6,7 @@ import {
   RGBAFormat,
 } from "three";
 
+import { packageConsole } from "../../../utils/packageConsole";
 export const loadTexture = (path: string) =>
   new Promise((resolve: (value: Texture) => void) => {
     const textureLoader = new TextureLoader();
@@ -14,7 +15,7 @@ export const loadTexture = (path: string) =>
         !Math.isPowerOfTwo(data.image.width) ||
         !Math.isPowerOfTwo(data.image.height)
       ) {
-        console.warn(`"${path}" image size is not power of 2.`);
+        packageConsole.warn(`"${path}" image size is not power of 2.`);
       }
       data.minFilter = LinearFilter;
       data.magFilter = LinearFilter;

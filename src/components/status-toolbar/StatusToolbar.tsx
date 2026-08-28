@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useSceneContext } from "../../context/context";
 import { Mesh, Material, ShaderMaterial } from "three";
 
+import { packageConsole } from "../../utils/packageConsole";
 interface StatusToolbarProps {
   isVisible: boolean;
 }
@@ -39,7 +40,7 @@ export const StatusToolbar: React.FC<StatusToolbarProps> = ({ isVisible }) => {
 
   useEffect(() => {
     if (!initializedScene.current || !isVisible) return;
-    //  console.log("StatusToolbar initializedScene", initializedScene.current);
+    //  packageConsole.log("StatusToolbar initializedScene", initializedScene.current);
     const updateSceneData = () => {
       if (!initializedScene.current) return;
       // Calculate runtime

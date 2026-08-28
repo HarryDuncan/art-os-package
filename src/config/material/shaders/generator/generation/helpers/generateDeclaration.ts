@@ -3,6 +3,7 @@ import {
   SHADER_PROPERTY_VALUE_TYPES,
 } from "../../../schema";
 
+import { packageConsole } from "../../../../../../utils/packageConsole";
 export const generateDeclaration = (
   propertyType: keyof typeof SHADER_PROPERTY_TYPES,
   valueType: keyof typeof SHADER_PROPERTY_VALUE_TYPES,
@@ -29,7 +30,7 @@ const getValueTypeString = (
       // if (structProperties) {
       //   return structProperties.key;
       // }
-      console.warn("Struct properties not defined");
+      packageConsole.warn("Struct properties not defined");
       return "";
     case SHADER_PROPERTY_VALUE_TYPES.SAMPLER2D:
       return "sampler2D";

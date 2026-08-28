@@ -13,6 +13,7 @@ import {
 } from "three";
 import { BLENDING_DIST, BLENDING_SRC } from "../schema";
 
+import { packageConsole } from "../../../utils/packageConsole";
 export const getBlendingFactor = (blendMode: string) => {
   switch (blendMode) {
     case BLENDING_DIST.ZERO:
@@ -38,7 +39,7 @@ export const getBlendingFactor = (blendMode: string) => {
     case BLENDING_SRC.SRC_ALPHA_SATURATE:
       return SrcAlphaSaturateFactor;
     default:
-      console.error("Unknown blending mode:", blendMode);
+      packageConsole.error("Unknown blending mode:", blendMode);
   }
 };
 
@@ -66,6 +67,6 @@ export const getBlendingDstFactor = (blendMode: string) => {
       return OneMinusDstColorFactor;
 
     default:
-      console.error("Unknown blending mode:", blendMode);
+      packageConsole.error("Unknown blending mode:", blendMode);
   }
 };
