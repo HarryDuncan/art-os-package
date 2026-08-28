@@ -21,13 +21,92 @@ Changes take effect on the next animation frame because setters mutate live Thre
 
 ## ID conventions
 
-| Concept | Runtime identity (setters) | Display label (`snapshot.*.name`) | Source in scene config |
-|--------|----------------------------|-----------------------------------|-------------------------|
-| Mesh | `Object3D.name` | `userData.configName` | Mesh config `id` / optional `name` |
-| Material | `material.name` | `userData.configName` | Material config `guid` / `name` |
+| Concept     | Runtime identity (setters)       | Display label (`snapshot.*.name`)      | Source in scene config                |
+| ----------- | -------------------------------- | -------------------------------------- | ------------------------------------- |
+| Mesh        | `Object3D.name`                  | `userData.configName`                  | Mesh config `id` / optional `name`    |
+| Material    | `material.name`                  | `userData.configName`                  | Material config `guid` / `name`       |
 | Uniform key | Key on `ShaderMaterial.uniforms` | Parsed parameter key from `u_key_guid` | Typically `u_${parameterKey}_${guid}` |
 
 Always prefer **`getParameterControlSnapshot()`** over guessing keys when the scene is running.
+
+## Scene config: `parameterControls`
+
+Optional on `SceneConfig`. One map per scene: **material id → uniform id → control entry**. Empty `{}` is valid. Uniform-only for now (mesh/camera controls are not configured here yet).
+
+```ts
+import { CONTROLLER_TYPE, type ParameterControlsConfig } from "art-os-package";
+
+parameterControls?: ParameterControlsConfig;
+// Record<materialId, Record<uniformId, ParameterControlConfig>>
+```
+
+- **material id** = material `guid` / snapshot `materials[].id`
+- **uniform id** = full runtime uniform key / snapshot `uniforms[].key`
+
+### `CONTROLLER_TYPE` (SCREAMING_SNAKE)
+
+```ts
+CONTROLLER_TYPE.COLOR; // "color"
+CONTROLLER_TYPE.SLIDER; // "slider"
+CONTROLLER_TYPE.ASSET_CONTROLLER; // "assetController"
+```
+
+Prefer `CONTROLLER_TYPE.*` when writing configs instead of raw strings.
+
+### Entry shape
+
+```ts
+// Slider — one bounds entry per component (float=1, vec2=2, vec3=3, vec4=4)
+{
+  controllerType: CONTROLLER_TYPE.SLIDER,
+  controllerConfig: {
+    dimensions: Array<{ lowerBound: number; upperBound: number }>;
+  };
+}
+
+// Color / asset — no controllerConfig yet
+{ controllerType: CONTROLLER_TYPE.COLOR }
+{ controllerType: CONTROLLER_TYPE.ASSET_CONTROLLER }
+```
+
+### Example
+
+```ts
+parameterControls: {
+  [materialGuid]: {
+    [`u_tint_${paramGuid}`]: {
+      controllerType: CONTROLLER_TYPE.COLOR,
+    },
+    [`u_intensity_${paramGuid}`]: {
+      controllerType: CONTROLLER_TYPE.SLIDER,
+      controllerConfig: {
+        dimensions: [{ lowerBound: 0, upperBound: 1 }],
+      },
+    },
+    [`u_offset_${paramGuid}`]: {
+      controllerType: CONTROLLER_TYPE.SLIDER,
+      controllerConfig: {
+        // vec4 → four sliders
+        dimensions: [
+          { lowerBound: -1, upperBound: 1 },
+          { lowerBound: -1, upperBound: 1 },
+          { lowerBound: -1, upperBound: 1 },
+          { lowerBound: 0, upperBound: 1 },
+        ],
+      },
+    },
+  },
+}
+```
+
+Render `controllerConfig.dimensions.length` sliders; index `0..n-1` maps to vector components `x/y/z/w` (or the float itself when length is 1).
+
+### Merging with the live snapshot
+
+1. Call `getParameterControlSnapshot()` for live values / labels.
+2. Look up `sceneConfig.parameterControls?.[materialId]?.[uniformKey]`.
+3. If missing, fall back to a default widget from `valueType` (e.g. float → slider without bounds).
+4. Apply changes with `setMaterialUniforms({ materialIds: [materialId] }, { [uniformKey]: nextValue })`.
 
 ## Lifecycle
 
@@ -45,6 +124,7 @@ Import from `art-os-package`:
 
 ```ts
 import {
+  CONTROLLER_TYPE,
   setMaterialUniforms,
   setMeshTransform,
   setCameraParams,
@@ -53,6 +133,7 @@ import {
   type MeshTransformParams,
   type CameraParams,
   type ParameterControlSnapshot,
+  type ParameterControlsConfig,
 } from "art-os-package";
 ```
 
@@ -105,21 +186,21 @@ setCameraParams({
 ```ts
 type ParameterControlSnapshot = {
   meshes: {
-    id: string;           // use for setters (mesh Object3D.name / config guid)
-    name: string;         // display label from config (falls back to id)
+    id: string; // use for setters (mesh Object3D.name / config guid)
+    name: string; // display label from config (falls back to id)
     materialId: string | null;
     position: { x: number; y: number; z: number };
     rotation: { x: number; y: number; z: number };
     scale: { x: number; y: number; z: number };
   }[];
   materials: {
-    id: string;           // use for setters (material.name / config guid)
-    name: string;         // display label from config (falls back to id)
+    id: string; // use for setters (material.name / config guid)
+    name: string; // display label from config (falls back to id)
     uniforms: {
-      key: string;        // use for setters
-      name: string;       // display label (`u_param_guid` → `param`; defaults like `uTime` unchanged)
+      key: string; // use for setters
+      name: string; // display label (`u_param_guid` → `param`; defaults like `uTime` unchanged)
       valueType: string; // float | int | bool | vec2 | vec3 | vec4 | texture | other
-      value: unknown;    // plain numbers / {x,y[,z[,w]]}; texture → null
+      value: unknown; // plain numbers / {x,y[,z[,w]]}; texture → null
     }[];
   }[];
   camera: {
@@ -152,10 +233,7 @@ When generating UI code from this package:
 ### Example: uniform slider
 
 ```ts
-setMaterialUniforms(
-  { materialIds: [materialId] },
-  { [uniformKey]: nextFloat },
-);
+setMaterialUniforms({ materialIds: [materialId] }, { [uniformKey]: nextFloat });
 ```
 
 ### Example: continuous mesh drag
@@ -198,10 +276,10 @@ setCameraParams({ fov: 45 });
 
 ## Quick reference
 
-| Action | Call |
-|--------|------|
-| Set uniforms by material or mesh | `setMaterialUniforms` |
-| Move / rotate / scale mesh | `setMeshTransform` |
-| Move / aim / reproject camera | `setCameraParams` |
-| List controllable targets + values | `getParameterControlSnapshot` |
-| Legacy uniform update | `externalUpdate` (= `setMaterialUniforms`) |
+| Action                             | Call                                       |
+| ---------------------------------- | ------------------------------------------ |
+| Set uniforms by material or mesh   | `setMaterialUniforms`                      |
+| Move / rotate / scale mesh         | `setMeshTransform`                         |
+| Move / aim / reproject camera      | `setCameraParams`                          |
+| List controllable targets + values | `getParameterControlSnapshot`              |
+| Legacy uniform update              | `externalUpdate` (= `setMaterialUniforms`) |

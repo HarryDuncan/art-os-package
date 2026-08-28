@@ -1,0 +1,5 @@
+export const CONTROLLER_TYPE = {
+  COLOR: "color",
+  SLIDER: "slider",
+  ASSET_CONTROLLER: "assetController",
+} as const;

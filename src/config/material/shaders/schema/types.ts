@@ -6,6 +6,7 @@ import {
   SHADER_PROPERTY_VALUE_TYPES,
   VARYING_TYPES,
 } from "./consts";
+import { ParameterControlConfig } from "./controls/types";
 
 export interface BaseShaderElementConfig {
   guid: string;
@@ -42,7 +43,6 @@ export interface ParameterConfig extends BaseShaderElementConfig {
   value?: unknown;
   isArray?: boolean;
   arrayLength?: number;
-  valueEditorType?: string;
   parameterType: keyof typeof SHADER_PROPERTY_TYPES;
   isAssetMapped?: boolean;
   isDefault?: boolean;
@@ -58,6 +58,7 @@ export interface ParameterConfig extends BaseShaderElementConfig {
   // TODO - update this and remove function config
   isFunctionBased?: boolean;
   functionConfig?: EffectConfig;
+  controlsConfig?: ParameterControlConfig;
 }
 
 export type SplitValueEditorConfig = {
