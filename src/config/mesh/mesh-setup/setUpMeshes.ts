@@ -6,11 +6,20 @@ import { MESH_TYPES } from "../consts";
 
 export const setUpMeshes = (meshConfigs: MeshConfig[] = []) =>
   meshConfigs.flatMap(
-    ({ id, geometry, material, meshType, position, rotation, groupId }) => {
+    ({
+      id,
+      name,
+      geometry,
+      material,
+      meshType,
+      position,
+      rotation,
+      groupId,
+    }) => {
       const mesh = getMesh(geometry, material, meshType);
 
       if (!mesh) return [];
-      formatMesh(mesh, id, position, rotation, groupId);
+      formatMesh(mesh, id, name ?? id, position, rotation, groupId);
       return mesh;
     }
   );
@@ -35,12 +44,14 @@ const getMesh = (
 
 const formatMesh = (
   mesh: CustomMesh,
-  name: string,
+  id: string,
+  configName: string,
   position?: Position3d,
   rotation?: Position3d,
   groupId?: string
 ) => {
-  mesh.name = name;
+  mesh.name = id;
+  mesh.userData.configName = configName;
   mesh.groupId = groupId;
   if (position) {
     const { x, y, z } = position;

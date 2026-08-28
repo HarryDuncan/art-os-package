@@ -18,6 +18,7 @@ import {
 import { setRawWebglUniform } from "./setRawWebglUniforms";
 import { uploadRawWebglTextures } from "./uploadRawWebglTextures";
 import { getJsModelCanvasRegistry } from "../../../consts/jsModelCanvasRegistry";
+import { getJsModelUniformRegistry } from "../../../consts/jsModelUniformRegistry";
 import { logWebGLGpuInfo } from "../../../utils/logWebGLGpuInfo";
 
 // Identity matrices used to satisfy the three.js-shaped builtins the shader
@@ -321,6 +322,7 @@ export const useRawWebglRenderer = (
     };
     const liveCanvasByUniform = new Map<string, LiveCanvasTex>();
     let nextCanvasUnit = textures.length; // static textures occupy units 0..N-1
+    const liveUniformLocations = new Map<string, WebGLUniformLocation>();
 
     // Bind the VAO once; nothing else in this renderer ever switches it.
     gl.bindVertexArray(vao);
@@ -352,6 +354,20 @@ export const useRawWebglRenderer = (
         // to squeeze more out of this loop.
         setRawWebglUniform(gl, entry.location, entry.uniform.value as never);
       }
+
+      // ── External / remote-model numeric overrides ─────────────────────────
+      // Populated asynchronously by WebSocket clients (Pi → PC model). Values
+      // are plain numbers / arrays / TypedArrays so setRawWebglUniform works.
+      getJsModelUniformRegistry().forEach((value, uniformId) => {
+        let location = liveUniformLocations.get(uniformId);
+        if (!location) {
+          const resolved = getUniformLocation(uniformId);
+          if (resolved === null) return;
+          location = resolved;
+          liveUniformLocations.set(uniformId, location);
+        }
+        setRawWebglUniform(gl, location, value as never);
+      });
 
       // ── JS-class canvas textures ────────────────────────────────────────
       // Canvas → WebGL has a Y-flip: set UNPACK_FLIP_Y_WEBGL so the texture

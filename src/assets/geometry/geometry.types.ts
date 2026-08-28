@@ -19,6 +19,8 @@ export interface FormattedGeometry {
 }
 export type MeshConfig = FormattedGeometry & {
   id: string;
+  /** Human-readable label from scene config; falls back to id when absent. */
+  name?: string;
   material: Material;
   meshType?: string;
   meshAttributeConfig?: MeshAttributeConfig;

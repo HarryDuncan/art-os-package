@@ -23,6 +23,7 @@ export const addMaterials = (
     const material = setUpMaterial(materials, meshConfig);
     return {
       id: meshConfig.guid,
+      name: meshConfig.name ?? meshConfig.guid,
       ...formattedGeometry,
       material,
     };

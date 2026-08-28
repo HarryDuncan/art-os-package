@@ -45,7 +45,6 @@ const getVertexTransformations = (
       configuredTransforms,
       parameterMap,
     );
-    console.log("transformData", transformData);
     if (transformData) {
       unmergedTransformations.push(...transformData.transformAssignments);
       allTransformDefinitions.push(...transformData.transformDefinitions);

@@ -87,6 +87,7 @@ export const generateShaderMaterials = (
           side: DoubleSide,
         });
         shaderMaterial.name = materialConfig.guid;
+        shaderMaterial.userData.configName = materialConfig.name;
         return shaderMaterial;
       }
       return [];

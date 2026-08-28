@@ -50,8 +50,35 @@ export {
 } from "./peripheral/onCameraPeripheralTrigger";
 
 export { externalUpdate } from "./peripheral/externalUpdate";
+export type { ExternalUpdateSelector } from "./peripheral/externalUpdate";
+
+export {
+  registerParameterControlContext,
+  deregisterParameterControlContext,
+  setMaterialUniforms,
+  setMeshTransform,
+  setCameraParams,
+  getParameterControlSnapshot,
+} from "./parameter-control";
+export type {
+  ParameterControlSelector,
+  Vec3Params,
+  MeshTransformParams,
+  CameraParams,
+  UniformSnapshot,
+  MeshSnapshot,
+  MaterialSnapshot,
+  CameraSnapshot,
+  ParameterControlSnapshot,
+} from "./parameter-control";
 
 export {
   registerJsModelCanvas,
   unregisterJsModelCanvas,
 } from "./consts/jsModelCanvasRegistry";
+
+export {
+  setJsModelUniform,
+  clearJsModelUniform,
+  clearAllJsModelUniforms,
+} from "./consts/jsModelUniformRegistry";

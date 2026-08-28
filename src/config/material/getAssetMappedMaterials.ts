@@ -27,6 +27,7 @@ export const getAssetMappedMaterials = (
       const material = formatMaterial(configItem, mappedAsset);
       if (material) {
         material.name = configItem.guid;
+        material.userData.configName = configItem.name;
         return material;
       }
       return [];

@@ -19,6 +19,10 @@ import {
   registerCameraPeripheralContext,
   deregisterCameraPeripheralContext,
 } from "../../peripheral/onCameraPeripheralTrigger";
+import {
+  registerParameterControlContext,
+  deregisterParameterControlContext,
+} from "../../parameter-control";
 
 export type InteractiveSceneFunctions = {
   onTimeUpdate?: (scene: InteractiveScene) => void;
@@ -74,6 +78,7 @@ export class InteractiveScene extends Scene {
     this.camera = camera;
     this.rendererHeight = 0;
     this.rendererWidth = 0;
+    registerParameterControlContext(this, this.camera);
   }
 
   bindExecutionFunctions() {
@@ -232,6 +237,7 @@ export class InteractiveScene extends Scene {
 
   dispose() {
     this.removePeripheralInteractions();
+    deregisterParameterControlContext();
 
     // Remove event listeners added in bindExecutionFunctions
     if (this.boundEventHandlers.updateScene) {
