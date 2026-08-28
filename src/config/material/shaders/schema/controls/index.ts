@@ -6,3 +6,4 @@ export type {
   ParameterControlsConfig,
 } from "./types";
 export { CONTROLLER_TYPE } from "./consts";
+export { buildUniformControlsMap } from "./buildUniformControlsMap";

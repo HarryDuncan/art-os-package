@@ -1,4 +1,5 @@
 import { Position3d } from "../types/position.types";
+import { ParameterControlConfig } from "../config/material/shaders/schema/controls/types";
 
 export type ParameterControlSelector = {
   materialIds?: string[];
@@ -29,6 +30,8 @@ export type UniformSnapshot = {
   /** Coarse type hint for UI widgets: float | vec2 | vec3 | vec4 | bool | int | other */
   valueType: string;
   value: unknown;
+  /** UI controller config from the parameter's `controlsConfig`, if any. */
+  controlsConfig: ParameterControlConfig | null;
 };
 
 export type MeshSnapshot = {

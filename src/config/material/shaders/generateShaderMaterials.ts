@@ -7,6 +7,7 @@ import { MATERIAL_TYPES } from "../schema/consts";
 import { preformat } from "./preformat/preformat";
 import { generateShaders } from "./generator/generateShaders";
 import { ExternalSchema, MaterialConfig } from "../types";
+import { buildUniformControlsMap } from "./schema/controls/buildUniformControlsMap";
 
 const DEBUG = false;
 
@@ -88,6 +89,8 @@ export const generateShaderMaterials = (
         });
         shaderMaterial.name = materialConfig.guid;
         shaderMaterial.userData.configName = materialConfig.name;
+        shaderMaterial.userData.parameterControls =
+          buildUniformControlsMap(parameterMap);
         return shaderMaterial;
       }
       return [];

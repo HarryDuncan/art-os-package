@@ -104,14 +104,28 @@ const uniformDisplayName = (key: string): string => {
 
 const collectUniformSnapshots = (object: Object3D): UniformSnapshot[] => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const uniforms = (object as any).material?.uniforms as
+  const material = (object as any).material as Material | Material[] | undefined;
+  const primary = Array.isArray(material) ? material[0] : material;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const uniforms = (primary as any)?.uniforms as
     | Record<string, { value: unknown }>
     | undefined;
   if (!uniforms) return [];
 
+  const controlsByUniform =
+    (primary?.userData?.parameterControls as
+      | Record<string, UniformSnapshot["controlsConfig"]>
+      | undefined) ?? {};
+
   return Object.entries(uniforms).map(([key, uniform]) => {
     const { valueType, value } = classifyUniformValue(uniform?.value);
-    return { key, name: uniformDisplayName(key), valueType, value };
+    return {
+      key,
+      name: uniformDisplayName(key),
+      valueType,
+      value,
+      controlsConfig: controlsByUniform[key] ?? null,
+    };
   });
 };
 

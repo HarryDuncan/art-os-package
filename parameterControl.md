@@ -103,9 +103,9 @@ Render `controllerConfig.dimensions.length` sliders; index `0..n-1` maps to vect
 
 ### Merging with the live snapshot
 
-1. Call `getParameterControlSnapshot()` for live values / labels.
-2. Look up `sceneConfig.parameterControls?.[materialId]?.[uniformKey]`.
-3. If missing, fall back to a default widget from `valueType` (e.g. float → slider without bounds).
+1. Call `getParameterControlSnapshot()` for live values, labels, and `controlsConfig`.
+2. For each uniform, use `uniform.controlsConfig` when present to pick the widget and bounds.
+3. If `controlsConfig` is null, fall back to a default widget from `valueType`.
 4. Apply changes with `setMaterialUniforms({ materialIds: [materialId] }, { [uniformKey]: nextValue })`.
 
 ## Lifecycle
@@ -201,6 +201,7 @@ type ParameterControlSnapshot = {
       name: string; // display label (`u_param_guid` → `param`; defaults like `uTime` unchanged)
       valueType: string; // float | int | bool | vec2 | vec3 | vec4 | texture | other
       value: unknown; // plain numbers / {x,y[,z[,w]]}; texture → null
+      controlsConfig: ParameterControlConfig | null; // from parameter `controlsConfig`; null if unset
     }[];
   }[];
   camera: {
@@ -214,7 +215,7 @@ type ParameterControlSnapshot = {
 };
 ```
 
-Use this to populate the controller UI. Show `name` in labels; keep using `id` / `materialId` / uniform `key` for setter calls. Skip uniforms with `valueType: "texture"` (not editable via this API).
+Use this to populate the controller UI. Show `name` in labels; keep using `id` / `materialId` / uniform `key` for setter calls. Prefer `controlsConfig.controllerType` (and slider `dimensions` bounds) when present; otherwise fall back from `valueType`. Skip uniforms with `valueType: "texture"` (not editable via this API).
 
 ## Building an external controller (prompt checklist)
 
@@ -222,12 +223,10 @@ When generating UI code from this package:
 
 1. **Discover** — On scene ready (or on a short interval), call `getParameterControlSnapshot()`.
 2. **Map widgets**
-   - `float` / `int` → slider or number input
-   - `bool` → toggle
-   - `vec2` / `vec3` / `vec4` → grouped XYZ(W) controls
+   - Prefer `uniform.controlsConfig` when non-null (`CONTROLLER_TYPE.SLIDER` → one slider per `dimensions` entry, etc.)
+   - Else infer from `valueType`: `float` / `int` → slider; `bool` → toggle; `vec2` / `vec3` / `vec4` → grouped XYZ(W)
    - Mesh / camera transforms → XYZ groups (rotation in radians; show degrees in UI if desired)
-3. **Apply live** — On change, call the matching setter immediately. Do **not** remount the scene or patch config JSON for live tweaks.
-4. **Throttle continuous input** — For dragging sliders, call setters every frame or throttle (~16–32ms). Snapshot polling can be slower (e.g. 250–1000ms) if you only need to refresh labels.
+3. **Apply live** — On change, call the matching setter immediately. Do **not** remount the scene or patch config JSON for live tweaks.4. **Throttle continuous input** — For dragging sliders, call setters every frame or throttle (~16–32ms). Snapshot polling can be slower (e.g. 250–1000ms) if you only need to refresh labels.
 5. **Identity** — Bind material uniform rows to `materials[].id` + `uniforms[].key`. Bind mesh rows to `meshes[].id`.
 
 ### Example: uniform slider
