@@ -23,6 +23,11 @@ import {
   registerParameterControlContext,
   deregisterParameterControlContext,
 } from "../../parameter-control";
+import {
+  enableLightUniformInteraction,
+  disableLightUniformInteraction,
+  refreshLightUniformInteraction,
+} from "../../parameter-control/lightUniformInteraction";
 
 import { packageConsole } from "../../utils/packageConsole";
 export type InteractiveSceneFunctions = {
@@ -104,6 +109,7 @@ export class InteractiveScene extends Scene {
     this.boundEventHandlers.meshAdded = (event: Event) => {
       const detail = (event as CustomEvent).detail;
       this.add(detail);
+      refreshLightUniformInteraction();
     };
     document.addEventListener(
       THREAD_EVENTS.MESH_ADDED,
@@ -238,6 +244,7 @@ export class InteractiveScene extends Scene {
 
   dispose() {
     this.removePeripheralInteractions();
+    disableLightUniformInteraction();
     deregisterParameterControlContext();
 
     // Remove event listeners added in bindExecutionFunctions
@@ -278,8 +285,10 @@ export class InteractiveScene extends Scene {
     this.sceneStatus = status;
     if (status === "active") {
       this.initializePeripheralInteractions(this.peripheralConfigs);
+      enableLightUniformInteraction(this);
     } else {
       this.removePeripheralInteractions();
+      disableLightUniformInteraction();
     }
   }
 

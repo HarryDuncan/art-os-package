@@ -2,6 +2,7 @@ export type {
   ControllerType,
   SliderDimensionConfig,
   SliderControllerConfig,
+  LightControllerConfig,
   ParameterControlConfig,
   ParameterControlsConfig,
 } from "./types";

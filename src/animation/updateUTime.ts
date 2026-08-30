@@ -6,7 +6,9 @@ export const updateUTime = (scene: InteractiveScene) => {
   scene.children.forEach((child) => {
     if (child instanceof Mesh || child instanceof Points) {
       const material = child.material as RawShaderMaterial;
-      material.uniforms.uTime.value = time;
+      if (material?.uniforms && material?.uniforms.uTime) {
+        material.uniforms.uTime.value = time;
+      }
     }
   });
 };

@@ -49,6 +49,7 @@ parameterControls?: ParameterControlsConfig;
 CONTROLLER_TYPE.COLOR; // "color"
 CONTROLLER_TYPE.SLIDER; // "slider"
 CONTROLLER_TYPE.ASSET_CONTROLLER; // "assetController"
+CONTROLLER_TYPE.LIGHT; // "light" — vec3 uniform (shader light position)
 ```
 
 Prefer `CONTROLLER_TYPE.*` when writing configs instead of raw strings.
@@ -67,11 +68,24 @@ Prefer `CONTROLLER_TYPE.*` when writing configs instead of raw strings.
 // Color / asset — no controllerConfig yet
 { controllerType: CONTROLLER_TYPE.COLOR }
 { controllerType: CONTROLLER_TYPE.ASSET_CONTROLLER }
+
+// Light — vec3 uniform; when selectable, click-drag in the viewport updates it
+{
+  controllerType: CONTROLLER_TYPE.LIGHT,
+  controllerConfig: { selectable: boolean };
+}
 ```
 
 ### Example
 
 ```ts
+// On a ParameterConfig (vec3 light position):
+controlsConfig: {
+  controllerType: CONTROLLER_TYPE.LIGHT,
+  controllerConfig: { selectable: true },
+}
+
+// Or scene-style map / host config:
 parameterControls: {
   [materialGuid]: {
     [`u_tint_${paramGuid}`]: {
@@ -83,23 +97,22 @@ parameterControls: {
         dimensions: [{ lowerBound: 0, upperBound: 1 }],
       },
     },
-    [`u_offset_${paramGuid}`]: {
-      controllerType: CONTROLLER_TYPE.SLIDER,
-      controllerConfig: {
-        // vec4 → four sliders
-        dimensions: [
-          { lowerBound: -1, upperBound: 1 },
-          { lowerBound: -1, upperBound: 1 },
-          { lowerBound: -1, upperBound: 1 },
-          { lowerBound: 0, upperBound: 1 },
-        ],
-      },
+    [`u_lightPos_${paramGuid}`]: {
+      controllerType: CONTROLLER_TYPE.LIGHT,
+      controllerConfig: { selectable: true },
     },
   },
 }
 ```
 
-Render `controllerConfig.dimensions.length` sliders; index `0..n-1` maps to vector components `x/y/z/w` (or the float itself when length is 1).
+Render `controllerConfig.dimensions.length` sliders for slider types. For `CONTROLLER_TYPE.LIGHT`, treat the value as `{x,y,z}` / `Vector3` and optionally toggle selectable:
+
+```ts
+setLightUniformSelectable(materialId, uniformKey, true);
+isLightUniformSelectable(materialId, uniformKey);
+```
+
+When selectable, the package shows a **visible gizmo** at the uniform’s vec3 (yellow center sphere + RGB XYZ axes). Drag the sphere to move freely on the camera plane, or drag an axis to constrain movement. Updates write through `setMaterialUniforms` (orbit controls pause while dragging). Snapshot `controlsConfig.controllerConfig.selectable` reflects the effective (config + runtime override) value.
 
 ### Merging with the live snapshot
 
@@ -129,6 +142,8 @@ import {
   setMeshTransform,
   setCameraParams,
   getParameterControlSnapshot,
+  setLightUniformSelectable,
+  isLightUniformSelectable,
   type ParameterControlSelector,
   type MeshTransformParams,
   type CameraParams,

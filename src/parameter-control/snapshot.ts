@@ -13,6 +13,7 @@ import {
   getRegisteredParameterControlCamera,
   getRegisteredParameterControlScene,
 } from "./register";
+import { withEffectiveLightSelectable } from "./lightSelectable";
 import {
   MaterialSnapshot,
   MeshSnapshot,
@@ -102,7 +103,10 @@ const uniformDisplayName = (key: string): string => {
   return match?.[1] ?? key;
 };
 
-const collectUniformSnapshots = (object: Object3D): UniformSnapshot[] => {
+const collectUniformSnapshots = (
+  object: Object3D,
+  materialId: string,
+): UniformSnapshot[] => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const material = (object as any).material as Material | Material[] | undefined;
   const primary = Array.isArray(material) ? material[0] : material;
@@ -124,7 +128,11 @@ const collectUniformSnapshots = (object: Object3D): UniformSnapshot[] => {
       name: uniformDisplayName(key),
       valueType,
       value,
-      controlsConfig: controlsByUniform[key] ?? null,
+      controlsConfig: withEffectiveLightSelectable(
+        materialId,
+        key,
+        controlsByUniform[key] ?? null,
+      ),
     };
   });
 };
@@ -143,6 +151,8 @@ export const getParameterControlSnapshot = (): ParameterControlSnapshot => {
     // Only include objects that look like meshes (have a material)
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     if (!(child as any).material) return;
+    // Skip internal light-drag handles
+    if (child.userData?.lightUniformHandle) return;
     meshes.push({
       id: child.name,
       name: getConfigName(child.userData, child.name),
@@ -158,7 +168,7 @@ export const getParameterControlSnapshot = (): ParameterControlSnapshot => {
     ([id, objects]) => ({
       id,
       name: objects[0] ? getMaterialConfigName(objects[0], id) : id,
-      uniforms: objects[0] ? collectUniformSnapshots(objects[0]) : [],
+      uniforms: objects[0] ? collectUniformSnapshots(objects[0], id) : [],
     }),
   );
 

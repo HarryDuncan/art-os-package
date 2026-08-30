@@ -17,6 +17,12 @@ export type SliderControllerConfig = {
   dimensions: SliderDimensionConfig[];
 };
 
+/** Light UI for a vec3 uniform (shader light position). */
+export type LightControllerConfig = {
+  /** When true, this light uniform can be picked and dragged in the viewport. */
+  selectable: boolean;
+};
+
 export type ParameterControlConfig =
   | {
       controllerType: typeof CONTROLLER_TYPE.SLIDER;
@@ -29,6 +35,10 @@ export type ParameterControlConfig =
   | {
       controllerType: typeof CONTROLLER_TYPE.ASSET_CONTROLLER;
       controllerConfig?: undefined;
+    }
+  | {
+      controllerType: typeof CONTROLLER_TYPE.LIGHT;
+      controllerConfig: LightControllerConfig;
     };
 
 /**

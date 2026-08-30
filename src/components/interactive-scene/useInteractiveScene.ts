@@ -10,6 +10,7 @@ import { setSceneProperties } from "../../utils/scene/setSceneProperties";
 import { GLTF } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { useSceneContext } from "../../context/context";
 import { PROCESS_STATUS } from "../../consts/consts";
+import { refreshLightUniformInteraction } from "../../parameter-control/lightUniformInteraction";
 // import { SceneLight } from "../../types";
 
 export const useInteractiveScene = (
@@ -35,6 +36,7 @@ export const useInteractiveScene = (
   useEffect(() => {
     if (initializedScene.current && orbitControls) {
       initializedScene.current.orbitControls = orbitControls;
+      refreshLightUniformInteraction();
     }
   }, [initializedScene, orbitControls]);
 

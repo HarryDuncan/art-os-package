@@ -68,6 +68,8 @@ export {
   setMeshTransform,
   setCameraParams,
   getParameterControlSnapshot,
+  setLightUniformSelectable,
+  isLightUniformSelectable,
 } from "./parameter-control";
 export type {
   ParameterControlSelector,

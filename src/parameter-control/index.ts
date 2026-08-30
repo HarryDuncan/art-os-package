@@ -21,3 +21,14 @@ export { setMaterialUniforms } from "./updateUniforms";
 export { setMeshTransform } from "./updateMeshTransform";
 export { setCameraParams } from "./updateCamera";
 export { getParameterControlSnapshot } from "./snapshot";
+
+export {
+  setLightUniformSelectable,
+  isLightUniformSelectable,
+} from "./lightUniformApi";
+
+export {
+  enableLightUniformInteraction,
+  disableLightUniformInteraction,
+  refreshLightUniformInteraction,
+} from "./lightUniformInteraction";
