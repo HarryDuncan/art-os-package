@@ -7,6 +7,8 @@ import { useLoggerHandler } from "../../utils/useLoggerHandler";
 
 export const SceneNode = ({
   sceneConfig,
+  windowWidth,
+  windowHeight,
   loaderComponent,
   setExternalScene,
   onLog,
@@ -15,7 +17,10 @@ export const SceneNode = ({
   useLoggerHandler(onLog);
   return (
     <ErrorBoundary>
-      <WindowStateProvider>
+      <WindowStateProvider
+        windowWidth={windowWidth}
+        windowHeight={windowHeight}
+      >
         <SceneProvider onStatusChange={onStatusChange}>
           <ProgressiveLoading
             sceneConfig={sceneConfig}

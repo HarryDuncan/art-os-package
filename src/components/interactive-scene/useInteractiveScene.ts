@@ -25,8 +25,6 @@ export const useInteractiveScene = (
   const setUpSceneObjects = useCallback(
     async (scene: InteractiveScene) => {
       meshes.forEach((mesh) => scene.add(mesh as Object3D));
-      // lights.forEach((light) => scene.add(light));
-      //    sceneComponents.forEach((component) => scene.add(component));
       setSceneProperties(sceneProperties, scene);
       initializedScene.current = scene;
     },

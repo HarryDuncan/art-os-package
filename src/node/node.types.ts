@@ -11,6 +11,10 @@ export interface SceneNodeProps {
   isSandboxMode?: boolean;
   sceneConfig: SceneConfig;
   externalSchemas?: Record<string, string>;
+  /** When set, window state width uses this instead of `window.innerWidth`. */
+  windowWidth?: number;
+  /** When set, window state height uses this instead of `window.innerHeight`. */
+  windowHeight?: number;
   loaderComponent?: ReactNode;
   setExternalScene?: (
     scene: InteractiveScene | null,

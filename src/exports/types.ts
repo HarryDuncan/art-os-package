@@ -1,6 +1,5 @@
 export * from "../config/material/types";
 export * from "../config/config.types";
-export * from "../types/lights";
 export * from "../types/position.types";
 export * from "../types/three.types";
 export * from "../node/node.types";

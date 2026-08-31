@@ -1,5 +1,4 @@
 import { MESH_TYPES } from "../config/mesh/consts";
-import { DEFAULT_LIGHTS } from "./lights/lights";
 import { ENGINE } from "./consts";
 
 export const DEFAULT_SCENE_PROPERTIES = {
@@ -19,9 +18,7 @@ export const DEFAULT_CONFIG = {
   assets: [],
   meshComponentConfigs: [],
   sceneMaterialConfigs: [],
-  advancedMeshConfigs: [],
   meshTransforms: [],
-  lightConfig: DEFAULT_LIGHTS,
   sceneComponentConfigs: [],
   interactionConfigs: [],
   sceneProperties: DEFAULT_SCENE_PROPERTIES,

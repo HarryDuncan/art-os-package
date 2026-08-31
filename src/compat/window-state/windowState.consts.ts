@@ -1,6 +1,7 @@
 export const SCREEN_BREAKPOINTS = {
   wideScreen: 1501,
   desktop: 1280,
+  laptop: 1080,
   tablet: 650,
   mobile: 350,
   smallMobile: 0,

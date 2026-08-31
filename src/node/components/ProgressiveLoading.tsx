@@ -9,7 +9,6 @@ import { formatConfigForScreen } from "../../config/scene-properties/formatConfi
 import { useCamera } from "../../config/three-js/use-camera/useCamera";
 import { InteractiveScene } from "../../components/interactive-scene/InteractiveScene";
 import { Camera } from "three";
-import { useSetWindowState } from "../../compat/window-state/useSetWindowState";
 import { useWindowState } from "../../compat/window-state/windowStateProvider";
 import { useSceneContext } from "../../context/context";
 import { useSetPeripheralConfigs } from "../../interaction/hooks/useSetPeripheralConfigs";
@@ -30,7 +29,6 @@ export const ProgressiveLoading = ({
   ) => void;
   onStatusChange?: (status: string) => void;
 }) => {
-  useSetWindowState();
   const {
     state: { windowSize },
   } = useWindowState();

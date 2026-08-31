@@ -1,5 +1,3 @@
-import { useEffect } from "react";
-import { useSetWindowState } from "../../compat/window-state/useSetWindowState";
 import { useInteractiveScene } from "../../components/interactive-scene/useInteractiveScene";
 import {
   StatusToolbar,

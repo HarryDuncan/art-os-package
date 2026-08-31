@@ -8,6 +8,9 @@ export const getWindowScreenType = (width: number): ScreenType => {
   if (width >= SCREEN_BREAKPOINTS.desktop) {
     return SCREEN_TYPE.DESKTOP as ScreenType;
   }
+  if (width >= SCREEN_BREAKPOINTS.laptop) {
+    return SCREEN_TYPE.LAPTOP as ScreenType;
+  }
   if (width >= SCREEN_BREAKPOINTS.tablet) {
     return SCREEN_TYPE.TABLET as ScreenType;
   }

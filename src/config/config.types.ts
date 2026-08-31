@@ -17,7 +17,6 @@ import {
   ComponentProps,
   SceneElementType,
 } from "./components/threeJsComponents.types";
-import { LightConfigs, SceneLight } from "../types/lights";
 import { CustomGeometryConfig } from "./mesh/types";
 import { RaycasterConfig } from "../types/three.types";
 import { OverlayConfig } from "../components/overlays/types";
@@ -190,10 +189,8 @@ export type SceneConfig = {
   peripheralInteractions: PeripheralConfig[];
   /** Optional; material graph audio-interaction nodes persist here. */
   audioInteractionConfigs?: AudioInteractionConfig[];
-  // advancedMeshConfigs?: AdvancedMeshConfig[];
   meshTransforms?: MeshTransformConfig[];
   sceneMaterialConfigs: MaterialConfig[];
-  lightConfig: LightConfigs[];
   sceneComponentConfigs?: SceneComponentConfig[];
   interactionConfigs?: InteractionConfig[];
   sceneProperties: SceneProperties;
@@ -226,7 +223,7 @@ export type SceneData = {
   meshes: Object3D[] | GLTF[];
   // sceneComponents: Object3D[];
   overlays: Asset[];
-  lights: SceneLight[];
+
   sceneProperties: SceneProperties;
   postEffects: unknown[];
 };

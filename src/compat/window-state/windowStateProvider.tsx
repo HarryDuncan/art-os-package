@@ -19,6 +19,16 @@ const WindowStateContext = createContext<WindowStateContextProps | undefined>(
   undefined
 );
 
+function resolveWindowSize(
+  overrideWidth?: number,
+  overrideHeight?: number,
+): WindowSize {
+  return {
+    width: overrideWidth ?? window.innerWidth,
+    height: overrideHeight ?? window.innerHeight,
+  };
+}
+
 export const useWindowState = (): WindowStateContextProps => {
   const context = useContext(WindowStateContext);
   if (!context) {
@@ -27,23 +37,48 @@ export const useWindowState = (): WindowStateContextProps => {
   return context;
 };
 
-export const WindowStateProvider = ({ children }: { children: ReactNode }) => {
+type WindowStateProviderProps = {
+  children: ReactNode;
+  windowWidth?: number;
+  windowHeight?: number;
+};
+
+export const WindowStateProvider = ({
+  children,
+  windowWidth,
+  windowHeight,
+}: WindowStateProviderProps) => {
   const [state, dispatch] = useReducer(windowStateReducer, INITIAL_STATE);
 
   useEffect(() => {
+    dispatch({
+      type: "SET_WINDOW_SIZE",
+      payload: resolveWindowSize(windowWidth, windowHeight),
+    });
+  }, [windowWidth, windowHeight]);
+
+  useEffect(() => {
+    const hasFixedWidth = windowWidth !== undefined;
+    const hasFixedHeight = windowHeight !== undefined;
+    if (hasFixedWidth && hasFixedHeight) {
+      return;
+    }
+
     const handleResize = () => {
-      const windowSize: WindowSize = {
-        width: window.innerWidth,
-        height: window.innerHeight,
-      };
-      dispatch({ type: "SET_WINDOW_SIZE", payload: windowSize });
+      dispatch({
+        type: "SET_WINDOW_SIZE",
+        payload: {
+          width: windowWidth ?? window.innerWidth,
+          height: windowHeight ?? window.innerHeight,
+        },
+      });
     };
-    handleResize();
+
     window.addEventListener("resize", handleResize);
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, []);
+  }, [windowWidth, windowHeight]);
 
   return (
     <WindowStateContext.Provider value={{ state, dispatch }}>
