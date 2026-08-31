@@ -95,3 +95,5 @@ export {
   clearJsModelUniform,
   clearAllJsModelUniforms,
 } from "./consts/jsModelUniformRegistry";
+
+export { getWindowScreenType } from "./compat/window-state/screen-type/getWindowScreenType";
