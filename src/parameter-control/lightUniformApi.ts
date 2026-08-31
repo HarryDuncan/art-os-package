@@ -37,7 +37,7 @@ const findControlsConfig = (
   return found;
 };
 
-/** Read effective selectable (runtime override ?? stamped LIGHT config). */
+/** Read effective selectable (runtime override ?? stamped POSITION config). */
 export const isLightUniformSelectable = (
   materialId: string,
   uniformKey: string,
@@ -45,7 +45,7 @@ export const isLightUniformSelectable = (
   const controlsConfig = findControlsConfig(materialId, uniformKey);
   if (
     controlsConfig &&
-    controlsConfig.controllerType !== CONTROLLER_TYPE.LIGHT
+    controlsConfig.controllerType !== CONTROLLER_TYPE.POSITION
   ) {
     return false;
   }

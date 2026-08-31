@@ -28,7 +28,18 @@ export {
 } from "./lightUniformApi";
 
 export {
+  setMeshPositionSelectable,
+  isMeshPositionSelectable,
+} from "./meshSelectable";
+
+export {
   enableLightUniformInteraction,
   disableLightUniformInteraction,
   refreshLightUniformInteraction,
 } from "./lightUniformInteraction";
+
+export {
+  enableMeshPositionInteraction,
+  disableMeshPositionInteraction,
+  refreshMeshPositionInteraction,
+} from "./meshPositionInteraction";

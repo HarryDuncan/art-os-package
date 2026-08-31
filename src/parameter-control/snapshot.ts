@@ -151,8 +151,9 @@ export const getParameterControlSnapshot = (): ParameterControlSnapshot => {
     // Only include objects that look like meshes (have a material)
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     if (!(child as any).material) return;
-    // Skip internal light-drag handles
+    // Skip internal light/mesh drag handles
     if (child.userData?.lightUniformHandle) return;
+    if (child.userData?.meshPositionHandle) return;
     meshes.push({
       id: child.name,
       name: getConfigName(child.userData, child.name),

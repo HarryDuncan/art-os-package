@@ -7,6 +7,8 @@ export type ControllerType =
 export type SliderDimensionConfig = {
   lowerBound: number;
   upperBound: number;
+  /** Optional slider increment. When omitted, the UI picks a default. */
+  step?: number;
 };
 
 /**
@@ -17,9 +19,9 @@ export type SliderControllerConfig = {
   dimensions: SliderDimensionConfig[];
 };
 
-/** Light UI for a vec3 uniform (shader light position). */
-export type LightControllerConfig = {
-  /** When true, this light uniform can be picked and dragged in the viewport. */
+/** Position UI for a vec3 uniform (viewport gizmo). */
+export type PositionControllerConfig = {
+  /** When true, this position uniform can be picked and dragged in the viewport. */
   selectable: boolean;
 };
 
@@ -37,8 +39,8 @@ export type ParameterControlConfig =
       controllerConfig?: undefined;
     }
   | {
-      controllerType: typeof CONTROLLER_TYPE.LIGHT;
-      controllerConfig: LightControllerConfig;
+      controllerType: typeof CONTROLLER_TYPE.POSITION;
+      controllerConfig: PositionControllerConfig;
     };
 
 /**
@@ -49,3 +51,24 @@ export type ParameterControlsConfig = Record<
   string,
   Record<string, ParameterControlConfig>
 >;
+
+/** Reference to a ParameterConfig.guid on the same material. */
+export type ShaderEffectLightParameterRef = {
+  parameterId: string;
+};
+
+export type ShaderEffectLightConfig = {
+  /** Stable identity for UI keys / updates (independent of editable name). */
+  id: string;
+  name: string;
+  /** Maps to a vec3 parameter. */
+  position?: ShaderEffectLightParameterRef;
+  /** Maps to a float parameter (0–1). */
+  strength?: ShaderEffectLightParameterRef;
+  /** Maps to a vec3 parameter. */
+  color?: ShaderEffectLightParameterRef;
+};
+
+export type ShaderEffectControlConfig = {
+  lights?: ShaderEffectLightConfig[];
+};

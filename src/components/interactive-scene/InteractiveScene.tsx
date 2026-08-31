@@ -28,6 +28,10 @@ import {
   disableLightUniformInteraction,
   refreshLightUniformInteraction,
 } from "../../parameter-control/lightUniformInteraction";
+import {
+  enableMeshPositionInteraction,
+  disableMeshPositionInteraction,
+} from "../../parameter-control/meshPositionInteraction";
 
 import { packageConsole } from "../../utils/packageConsole";
 export type InteractiveSceneFunctions = {
@@ -245,6 +249,7 @@ export class InteractiveScene extends Scene {
   dispose() {
     this.removePeripheralInteractions();
     disableLightUniformInteraction();
+    disableMeshPositionInteraction();
     deregisterParameterControlContext();
 
     // Remove event listeners added in bindExecutionFunctions
@@ -286,9 +291,11 @@ export class InteractiveScene extends Scene {
     if (status === "active") {
       this.initializePeripheralInteractions(this.peripheralConfigs);
       enableLightUniformInteraction(this);
+      enableMeshPositionInteraction(this);
     } else {
       this.removePeripheralInteractions();
       disableLightUniformInteraction();
+      disableMeshPositionInteraction();
     }
   }
 

@@ -70,6 +70,8 @@ export {
   getParameterControlSnapshot,
   setLightUniformSelectable,
   isLightUniformSelectable,
+  setMeshPositionSelectable,
+  isMeshPositionSelectable,
 } from "./parameter-control";
 export type {
   ParameterControlSelector,

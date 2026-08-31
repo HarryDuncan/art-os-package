@@ -1,6 +1,6 @@
 import { CONTROLLER_TYPE } from "../config/material/shaders/schema/controls/consts";
 import {
-  LightControllerConfig,
+  PositionControllerConfig,
   ParameterControlConfig,
 } from "../config/material/shaders/schema/controls/types";
 
@@ -46,16 +46,16 @@ export const isLightUniformSelectable = (
   const override = getLightUniformSelectableOverride(materialId, uniformKey);
   if (override !== undefined) return override;
   if (
-    controlsConfig?.controllerType === CONTROLLER_TYPE.LIGHT &&
+    controlsConfig?.controllerType === CONTROLLER_TYPE.POSITION &&
     controlsConfig.controllerConfig
   ) {
-    return (controlsConfig.controllerConfig as LightControllerConfig)
+    return (controlsConfig.controllerConfig as PositionControllerConfig)
       .selectable;
   }
   return false;
 };
 
-/** Merge runtime selectable into a LIGHT controlsConfig for snapshots. */
+/** Merge runtime selectable into a POSITION controlsConfig for snapshots. */
 export const withEffectiveLightSelectable = (
   materialId: string,
   uniformKey: string,
@@ -63,12 +63,12 @@ export const withEffectiveLightSelectable = (
 ): ParameterControlConfig | null => {
   if (
     !controlsConfig ||
-    controlsConfig.controllerType !== CONTROLLER_TYPE.LIGHT
+    controlsConfig.controllerType !== CONTROLLER_TYPE.POSITION
   ) {
     return controlsConfig;
   }
   return {
-    controllerType: CONTROLLER_TYPE.LIGHT,
+    controllerType: CONTROLLER_TYPE.POSITION,
     controllerConfig: {
       selectable: isLightUniformSelectable(
         materialId,

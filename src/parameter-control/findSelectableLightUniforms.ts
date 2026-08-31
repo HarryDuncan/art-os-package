@@ -33,7 +33,7 @@ const readVec3 = (value: unknown): Vector3 | null => {
   return null;
 };
 
-/** Discover LIGHT uniforms that are currently selectable. */
+/** Discover POSITION uniforms that are currently selectable. */
 export const findSelectableLightUniforms = (
   scene: Scene,
 ): LightUniformTarget[] => {
@@ -57,7 +57,7 @@ export const findSelectableLightUniforms = (
     if (!uniforms) return;
 
     for (const [uniformKey, control] of Object.entries(controlsByUniform)) {
-      if (control?.controllerType !== CONTROLLER_TYPE.LIGHT) continue;
+      if (control?.controllerType !== CONTROLLER_TYPE.POSITION) continue;
       if (!isLightUniformSelectable(materialId, uniformKey, control)) continue;
 
       const dedupeKey = `${materialId}::${uniformKey}`;

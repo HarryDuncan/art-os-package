@@ -49,7 +49,7 @@ parameterControls?: ParameterControlsConfig;
 CONTROLLER_TYPE.COLOR; // "color"
 CONTROLLER_TYPE.SLIDER; // "slider"
 CONTROLLER_TYPE.ASSET_CONTROLLER; // "assetController"
-CONTROLLER_TYPE.LIGHT; // "light" — vec3 uniform (shader light position)
+CONTROLLER_TYPE.POSITION; // "position" — vec3 uniform (viewport position gizmo)
 ```
 
 Prefer `CONTROLLER_TYPE.*` when writing configs instead of raw strings.
@@ -69,9 +69,9 @@ Prefer `CONTROLLER_TYPE.*` when writing configs instead of raw strings.
 { controllerType: CONTROLLER_TYPE.COLOR }
 { controllerType: CONTROLLER_TYPE.ASSET_CONTROLLER }
 
-// Light — vec3 uniform; when selectable, click-drag in the viewport updates it
+// Position — vec3 uniform; when selectable, click-drag in the viewport updates it
 {
-  controllerType: CONTROLLER_TYPE.LIGHT,
+  controllerType: CONTROLLER_TYPE.POSITION,
   controllerConfig: { selectable: boolean };
 }
 ```
@@ -79,9 +79,9 @@ Prefer `CONTROLLER_TYPE.*` when writing configs instead of raw strings.
 ### Example
 
 ```ts
-// On a ParameterConfig (vec3 light position):
+// On a ParameterConfig (vec3 position):
 controlsConfig: {
-  controllerType: CONTROLLER_TYPE.LIGHT,
+  controllerType: CONTROLLER_TYPE.POSITION,
   controllerConfig: { selectable: true },
 }
 
@@ -98,14 +98,14 @@ parameterControls: {
       },
     },
     [`u_lightPos_${paramGuid}`]: {
-      controllerType: CONTROLLER_TYPE.LIGHT,
+      controllerType: CONTROLLER_TYPE.POSITION,
       controllerConfig: { selectable: true },
     },
   },
 }
 ```
 
-Render `controllerConfig.dimensions.length` sliders for slider types. For `CONTROLLER_TYPE.LIGHT`, treat the value as `{x,y,z}` / `Vector3` and optionally toggle selectable:
+Render `controllerConfig.dimensions.length` sliders for slider types. For `CONTROLLER_TYPE.POSITION`, treat the value as `{x,y,z}` / `Vector3` and optionally toggle selectable:
 
 ```ts
 setLightUniformSelectable(materialId, uniformKey, true);
