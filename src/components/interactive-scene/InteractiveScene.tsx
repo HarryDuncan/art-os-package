@@ -32,6 +32,10 @@ import {
   enableMeshPositionInteraction,
   disableMeshPositionInteraction,
 } from "../../parameter-control/meshPositionInteraction";
+import {
+  enableCameraTimelineInteraction,
+  disableCameraTimelineInteraction,
+} from "../../parameter-control/cameraTimelineInteraction";
 
 import { packageConsole } from "../../utils/packageConsole";
 export type InteractiveSceneFunctions = {
@@ -292,10 +296,12 @@ export class InteractiveScene extends Scene {
       this.initializePeripheralInteractions(this.peripheralConfigs);
       enableLightUniformInteraction(this);
       enableMeshPositionInteraction(this);
+      enableCameraTimelineInteraction(this);
     } else {
       this.removePeripheralInteractions();
       disableLightUniformInteraction();
       disableMeshPositionInteraction();
+      disableCameraTimelineInteraction();
     }
   }
 

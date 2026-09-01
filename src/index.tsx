@@ -72,6 +72,21 @@ export {
   isLightUniformSelectable,
   setMeshPositionSelectable,
   isMeshPositionSelectable,
+  setTimelineConfig,
+  getTimelineConfig,
+  setTimelinePlaybackPaused,
+  setCameraTimelineActiveItem,
+  setCameraTimelineGizmosVisible,
+  setCameraTimelineChangeListener,
+  updateCameraTimelineItem,
+  setCameraTimelinePoint,
+  getCameraTimelineSnapshot,
+  createDefaultCameraTimelineItem,
+  playCameraTimelines,
+  TIMELINE_PLAYBACK_EVENT,
+  TIMELINE_ITEM_TYPES,
+  TIMELINE_EASING,
+  TIMELINE_REPEAT,
 } from "./parameter-control";
 export type {
   ParameterControlSelector,
@@ -83,6 +98,13 @@ export type {
   MaterialSnapshot,
   CameraSnapshot,
   ParameterControlSnapshot,
+  TimelineConfig,
+  TimelineItem,
+  CameraTimelineItem,
+  TimelineEasing,
+  TimelineRepeat,
+  CameraTimelinePointKey,
+  CameraTimelineSnapshot,
 } from "./parameter-control";
 
 export {

@@ -175,10 +175,15 @@ export const getParameterControlSnapshot = (): ParameterControlSnapshot => {
 
   let cameraSnapshot: ParameterControlSnapshot["camera"] = null;
   if (camera) {
+    const forward = new Vector3();
+    camera.getWorldDirection(forward);
+    const lookAtPoint = camera.position.clone().add(forward.multiplyScalar(5));
+
     cameraSnapshot = {
       type: camera.type,
       position: toPosition3d(camera.position),
       rotation: toPosition3d(camera.rotation),
+      lookAt: toPosition3d(lookAtPoint),
     };
     if (camera instanceof PerspectiveCamera) {
       cameraSnapshot.fov = camera.fov;

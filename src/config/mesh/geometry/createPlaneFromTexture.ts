@@ -25,10 +25,11 @@ export const createPlaneFromTexture = (
     const x = i % width;
     const y = Math.floor(i / width);
 
-    // Set vertex positions (centered around origin)
-    positions[i * 3 + 0] = x - width / 2; // x coordinate, normalized
-    positions[i * 3 + 1] = y - height / 2; // y coordinate, normalized
-    positions[i * 3 + 2] = 0; // z: flat plane
+    // Corner-origin (0..width, 0..height). Mesh.position of (-w/2, -h/2)
+    // then places the texture around the origin so the full image is visible.
+    positions[i * 3 + 0] = x;
+    positions[i * 3 + 1] = y;
+    positions[i * 3 + 2] = 0;
 
     // Set normals pointing up
     normals[i * 3 + 0] = 0; // nx

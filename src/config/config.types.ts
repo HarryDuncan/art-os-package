@@ -22,6 +22,7 @@ import { RaycasterConfig } from "../types/three.types";
 import { OverlayConfig } from "../components/overlays/types";
 import { InterNodeMap } from "../types";
 import { PeripheralInteraction, PeripheralOutput } from "../peripheral/types";
+import { TimelineConfig } from "./timeline/timeline.types";
 
 export type BaseConfig = {
   guid: string;
@@ -200,6 +201,8 @@ export type SceneConfig = {
   sceneProperties: SceneProperties;
   screenSizeAdjustments?: ScreenSizeAdjustmentConfig[];
   overlayConfig?: OverlayConfig[];
+  /** Optional scene timelines (camera animations, etc.). */
+  timeline?: TimelineConfig;
 };
 
 export type SceneProperties = {

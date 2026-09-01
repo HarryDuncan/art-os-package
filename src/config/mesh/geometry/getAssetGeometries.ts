@@ -15,9 +15,11 @@ export const getAssetGeometry = (
   asset: Asset,
   meshComponentConfig: MeshComponentConfig,
 ) => {
-  const { meshType, geometryConfig } = meshComponentConfig;
+  const { meshType, geometryConfig, centerGeometryToOrigin } =
+    meshComponentConfig;
   const { assetType, path: assetPath, data, name } = asset;
   const path = assetPath ?? "";
+
   if (assetType === ASSET_TYPES.VIDEO) {
     const video = document.getElementById(
       asset.guid,
@@ -31,11 +33,15 @@ export const getAssetGeometry = (
       meshType as MeshType,
     );
 
-    const positionOffset = {
-      x: width !== 0 ? -(width / 2) : 0,
-      y: height !== 0 ? -(height / 2) : 0,
-      z: 0,
-    };
+    // When the editor centers via mesh.position (-w/2, -h/2), skip geometry
+    // offset or it double-shifts and looks cut off.
+    const positionOffset = centerGeometryToOrigin
+      ? { x: 0, y: 0, z: 0 }
+      : {
+          x: width !== 0 ? -(width / 2) : 0,
+          y: height !== 0 ? -(height / 2) : 0,
+          z: 0,
+        };
     return [
       {
         name: asset.name,
@@ -48,19 +54,13 @@ export const getAssetGeometry = (
   if (assetType === ASSET_TYPES.TEXTURE) {
     const texture = data as Texture;
     const geometry = createPlaneFromTexture(texture, meshType as MeshType);
-    const width = texture.image?.width ?? 0;
-    const height = texture.image?.height ?? 0;
-    const positionOffset = {
-      x: width !== 0 ? width / 2 : 0,
-      y: height !== 0 ? height / 2 : 0,
-      z: 0,
-    };
+
     return [
       {
         name: asset.name,
         geometry,
         isCustomGeometry: true,
-        positionOffset,
+        positionOffset: { x: 0, y: 0, z: 0 },
       },
     ];
   }

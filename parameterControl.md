@@ -297,3 +297,121 @@ setCameraParams({ fov: 45 });
 | Move / aim / reproject camera      | `setCameraParams`                          |
 | List controllable targets + values | `getParameterControlSnapshot`              |
 | Legacy uniform update              | `externalUpdate` (= `setMaterialUniforms`) |
+
+## Timeline (camera animation)
+
+Scene configs may include an optional `timeline` property (`TimelineConfig`). The first supported item type is **`camera`**: animate the live Three.js camera along a cubic Bezier path with optional FOV interpolation, easing, and repeat modes.
+
+### Config shape
+
+```ts
+import {
+  TIMELINE_ITEM_TYPES,
+  TIMELINE_EASING,
+  TIMELINE_REPEAT,
+  createDefaultCameraTimelineItem,
+  type TimelineConfig,
+  type CameraTimelineItem,
+} from "art-os-package";
+
+// On SceneConfig:
+timeline?: TimelineConfig;
+
+type TimelineConfig = {
+  items: TimelineItem[];
+  activeItemId?: string; // which item shows viewport gizmos
+};
+
+type CameraTimelineItem = {
+  id: string;
+  title: string;
+  description: string;
+  type: "camera";
+  duration: number; // seconds
+  easing: "linear" | "easeIn" | "easeOut" | "easeInOut";
+  repeat: "none" | "loop" | "pingPong";
+  enabled?: boolean;
+  start: { position: { x; y; z }; fov?: number };
+  end: { position: { x; y; z }; fov?: number };
+  bezier: {
+    controlPoint1: { x; y; z };
+    controlPoint2: { x; y; z };
+  };
+};
+```
+
+Use `createDefaultCameraTimelineItem(id, title?, description?)` to seed keyframes from the current camera snapshot when available.
+
+### Runtime playback
+
+Playback runs automatically each frame via `updateCameraTimelines` (wired into default `onTimeUpdate`). When an item has `enabled: true`, the **first enabled camera item** drives `setCameraParams` (position + optional FOV). Use `pingPong` repeat for infinite forwards/backwards motion.
+
+### External UI API
+
+Push config to the runtime without remounting:
+
+```ts
+import {
+  setTimelineConfig,
+  getTimelineConfig,
+  setTimelinePlaybackPaused,
+  setCameraTimelineActiveItem,
+  setCameraTimelineChangeListener,
+  updateCameraTimelineItem,
+  setCameraTimelinePoint,
+  getCameraTimelineSnapshot,
+} from "art-os-package";
+
+// On panel mount / sceneConfig.timeline change:
+setTimelineConfig(sceneConfig.timeline ?? { items: [] });
+
+// Pause animation while editing path or manual camera sliders:
+setTimelinePlaybackPaused(true);
+
+// Show viewport gizmos for one item:
+setCameraTimelineActiveItem(itemId);
+
+// Listen for gizmo drag updates:
+setCameraTimelineChangeListener((item) => {
+  // merge item back into local React state + setTimelineConfig(next)
+});
+
+// Update item fields from UI:
+updateCameraTimelineItem(itemId, {
+  duration: 8,
+  easing: TIMELINE_EASING.EASE_IN_OUT,
+  repeat: TIMELINE_REPEAT.PING_PONG,
+  enabled: true,
+  start: { position: { x: 0, y: 2, z: 5 }, fov: 75 },
+});
+
+// Read active item + curve samples for UI preview:
+const { activeItem, curveSamples } = getCameraTimelineSnapshot();
+```
+
+### Viewport gizmos
+
+When `activeItemId` points to a camera item and the scene is **active**, the package shows:
+
+- **Start** (green), **End** (red), **CP1** / **CP2** (yellow) handles — larger than mesh/light gizmos, with text labels
+- A Bezier curve preview line
+- Drag handles to move keyframes; orbit controls pause while dragging
+
+Gizmo drags call `setCameraTimelinePoint` internally and fire `setCameraTimelineChangeListener`.
+
+### Persistence
+
+Unlike uniform/mesh live tweaks, **timeline data lives on `SceneConfig.timeline`**. The host app should write `timeline` back when saving (see `applyLiveTweaksToSceneConfig` in art-os-2 parameter control).
+
+### Quick reference (timeline)
+
+| Action | Call |
+| ------ | ---- |
+| Load timeline into runtime | `setTimelineConfig` |
+| Read live timeline | `getTimelineConfig` |
+| Pause/resume playback | `setTimelinePlaybackPaused` |
+| Select item for gizmos | `setCameraTimelineActiveItem` |
+| Update item from UI | `updateCameraTimelineItem` |
+| Gizmo drag callback | `setCameraTimelineChangeListener` |
+| Active path snapshot | `getCameraTimelineSnapshot` |
+| Create default camera item | `createDefaultCameraTimelineItem` |

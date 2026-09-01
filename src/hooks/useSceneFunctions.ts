@@ -4,6 +4,7 @@ import {
   InteractiveSceneFunctions,
 } from "../components/interactive-scene/InteractiveScene";
 import { updateUTime } from "../animation/updateUTime";
+import { updateCameraTimelines } from "../parameter-control/timeline/cameraTimelineApi";
 
 export const useSceneFunctions = (
   sceneFunctions: InteractiveSceneFunctions | undefined
@@ -12,6 +13,7 @@ export const useSceneFunctions = (
     const defaultSceneFunctions = {
       onTimeUpdate: (scene: InteractiveScene) => {
         updateUTime(scene);
+        updateCameraTimelines(scene);
       },
     };
     if (sceneFunctions) {

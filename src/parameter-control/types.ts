@@ -55,6 +55,8 @@ export type CameraSnapshot = {
   type: string;
   position: Position3d;
   rotation: Position3d;
+  /** Approximate world-space look-at target derived from camera orientation. */
+  lookAt?: Position3d;
   fov?: number;
   near?: number;
   far?: number;
