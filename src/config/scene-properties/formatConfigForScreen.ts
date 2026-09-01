@@ -1,4 +1,8 @@
-import { SceneConfig } from "../config.types";
+import {
+  MeshComponentConfig,
+  MeshGeometryConfig,
+  SceneConfig,
+} from "../config.types";
 import { useMemo } from "react";
 import { useWindowState } from "../../compat/window-state/windowStateProvider";
 import { Asset } from "../../assets/types";
@@ -31,63 +35,75 @@ export const formatConfigForScreen = (
       config.cameraConfig,
       screenType
     );
+    const updatedMeshConfigs = updateMeshConfigs(
+      config.meshComponentConfigs,
+      screenType
+    );
     return {
       ...config,
       assets: updatedAssets,
       sceneMaterialConfigs: updatedMaterialConfigs,
       cameraConfig: updatedCameraConfig,
+      meshComponentConfigs: updatedMeshConfigs,
     };
   }, [config, screenType]);
 };
 
-// const mergeMeshConfigs = (
-//   currentMeshConfigs: MeshComponentConfig[] = [],
-//   meshesToMerge: Partial<MeshComponentConfig>[] = []
-// ): MeshComponentConfig[] => {
-//   const currentMeshConfigMap = new Map<string, MeshComponentConfig>();
-//   currentMeshConfigs.forEach((meshConfig) => {
-//     currentMeshConfigMap.set(meshConfig.id, meshConfig);
-//   });
+const updateMeshConfigs = (
+  meshConfigs: MeshComponentConfig[] | undefined,
+  screenType: string
+): MeshComponentConfig[] | undefined => {
+  if (!meshConfigs) {
+    return meshConfigs;
+  }
 
-//   const mergedMeshConfigs: MeshComponentConfig[] = [];
+  return meshConfigs.map((meshConfig) => {
+    const adjustment =
+      meshConfig.screenSizeAdjustment?.[screenType as ScreenType];
+    if (!adjustment) {
+      return meshConfig;
+    }
+    return applyMeshScreenAdjustment(meshConfig, adjustment);
+  });
+};
 
-//   meshesToMerge.forEach((meshToMerge) => {
-//     const currentMeshConfig = currentMeshConfigMap.get(meshToMerge.id ?? "");
-//     if (currentMeshConfig) {
-//       const mergedMeshConfig: MeshComponentConfig = {
-//         ...currentMeshConfig,
-//         ...meshToMerge,
-//         rotation: {
-//           ...(currentMeshConfig.rotation || {}),
-//           ...(meshToMerge.rotation || {}),
-//         },
-//         position: {
-//           ...(currentMeshConfig.position || {}),
-//           ...(meshToMerge.position || {}),
-//         },
-//         geometryConfig: {
-//           ...(currentMeshConfig.geometryConfig || {}),
-//           ...(meshToMerge.geometryConfig || {}),
-//         } as GeometryConfig,
-//       };
+const applyMeshScreenAdjustment = (
+  meshConfig: MeshComponentConfig,
+  adjustment: MeshGeometryConfig
+): MeshComponentConfig => {
+  const updated: MeshComponentConfig = { ...meshConfig };
 
-//       mergedMeshConfigs.push(mergedMeshConfig);
-//     } else {
-//       mergedMeshConfigs.push(meshToMerge as MeshComponentConfig);
-//     }
-//   });
-//   const mergedMeshConfigMap = new Map<string, MeshComponentConfig>();
-//   mergedMeshConfigs.forEach((meshConfig) => {
-//     mergedMeshConfigMap.set(meshConfig.id, meshConfig);
-//   });
+  if (adjustment.position) {
+    updated.position = {
+      ...(meshConfig.position || {}),
+      ...adjustment.position,
+    };
+  }
 
-//   currentMeshConfigs.forEach((currentMeshConfig) => {
-//     if (!mergedMeshConfigMap.has(currentMeshConfig.id)) {
-//       mergedMeshConfigs.push(currentMeshConfig);
-//     }
-//   });
-//   return mergedMeshConfigs;
-// };
+  if (adjustment.rotation) {
+    updated.rotation = {
+      ...(meshConfig.rotation || {}),
+      ...adjustment.rotation,
+    };
+  }
+
+  if (adjustment.scale !== undefined) {
+    updated.geometryConfig = {
+      ...(meshConfig.geometryConfig || {}),
+      scale: adjustment.scale,
+    };
+  }
+
+  if (adjustment.assetId) {
+    updated.assetId = adjustment.assetId;
+    updated.geometryType = undefined;
+  } else if (adjustment.geometryType) {
+    updated.geometryType = adjustment.geometryType;
+    updated.assetId = undefined;
+  }
+
+  return updated;
+};
 
 const getFallback = (asset: Asset, allAssets: Asset[], screenType: string) => {
   let fallback = null;

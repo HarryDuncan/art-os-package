@@ -75,12 +75,16 @@ export type MeshConfig = {
   customGeometryConfig?: CustomGeometryConfig;
 };
 
-interface MeshGeometryConfig {
+export interface MeshGeometryConfig {
   rotation?: Partial<Position3d>;
   position?: Partial<Position3d>;
-  scale: number;
+  scale?: number;
+  assetId?: string;
+  geometryType?: string;
 }
-export type MeshScreenAdjustmentConfig = Record<ScreenType, MeshGeometryConfig>;
+export type MeshScreenAdjustmentConfig = Partial<
+  Record<ScreenType, MeshGeometryConfig>
+>;
 export type MeshComponentConfig = MeshConfig & {
   geometryType?: string;
   assetId?: string;
