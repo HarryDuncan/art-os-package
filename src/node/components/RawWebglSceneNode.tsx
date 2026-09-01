@@ -1,8 +1,8 @@
 import { memo, useRef } from "react";
 import { Asset } from "../../assets/types";
 import {
+  FormattedSceneProperties,
   MeshTransformConfig,
-  SceneProperties,
 } from "../../config/config.types";
 import {
   RawWebglClearColor,
@@ -10,6 +10,7 @@ import {
 } from "../../config/material/shaders/raw-webgl/types";
 import { useRawWebglRenderer } from "./raw-webgl/useRawWebglRenderer";
 import { VideoBackground } from "../root/video-background/VideoBackground";
+import { getVideoBackgroundUrl } from "../root/root-container/getRootContainerStyles";
 
 import { packageConsole } from "../../utils/packageConsole";
 // Scene node for the `webgl` engine, parallel to `SceneDisplay` for the
@@ -30,7 +31,7 @@ export const RawWebglSceneNode = memo(function RawWebglSceneNode({
   shaderMaterial: RawWebglShaderMaterial | null;
   assets: Asset[];
   meshTransforms?: MeshTransformConfig[];
-  sceneProperties?: SceneProperties | null;
+  sceneProperties?: FormattedSceneProperties | null;
   clearColor?: RawWebglClearColor;
 }) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -46,6 +47,8 @@ export const RawWebglSceneNode = memo(function RawWebglSceneNode({
   // TODO: Apply remaining scene properties (viewWidth, viewHeight,
   //       backgroundColor, position, zIndex, etc.) - mirroring
   //       `RootContainer.tsx`. Currently the canvas is fullscreen.
+
+  const videoSrc = getVideoBackgroundUrl(sceneProperties?.background);
 
   return (
     <>
@@ -63,7 +66,7 @@ export const RawWebglSceneNode = memo(function RawWebglSceneNode({
           }}
         />
       )}
-      <VideoBackground videoSrc={sceneProperties?.videoBackground} />
+      <VideoBackground videoSrc={videoSrc} />
     </>
   );
 });

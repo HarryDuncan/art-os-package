@@ -5,7 +5,7 @@ import {
 } from "./InteractiveScene";
 import { Camera, Object3D } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
-import { SceneProperties } from "../../config/config.types";
+import { FormattedSceneProperties } from "../../config/config.types";
 import { setSceneProperties } from "../../utils/scene/setSceneProperties";
 import { GLTF } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { useSceneContext } from "../../context/context";
@@ -17,7 +17,7 @@ export const useInteractiveScene = (
   sceneFunction: InteractiveSceneFunctions,
   meshes: Object3D[] | GLTF[],
   orbitControls: OrbitControls | null,
-  sceneProperties: SceneProperties,
+  sceneProperties: FormattedSceneProperties,
 ) => {
   const { initializedScene, camera, peripheralConfigs, sceneStatus } =
     useSceneContext();

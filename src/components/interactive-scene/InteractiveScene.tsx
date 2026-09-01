@@ -1,6 +1,6 @@
 import { Clock, Scene, Camera, Object3D } from "three";
 import { THREAD_EVENTS } from "../../thread/thread.consts";
-import { PeripheralConfig, SceneProperties } from "../../config/config.types";
+import { PeripheralConfig, FormattedSceneProperties } from "../../config/config.types";
 import { OrbitControl } from "../../types";
 import { disposeObject3D } from "../../utils/cleanup/disposeAssets";
 import {
@@ -54,7 +54,7 @@ export class InteractiveScene extends Scene {
 
   eventsSet: boolean;
 
-  sceneProperties: SceneProperties;
+  sceneProperties: FormattedSceneProperties;
 
   peripheralConfigs: PeripheralConfig[];
 
@@ -75,7 +75,7 @@ export class InteractiveScene extends Scene {
   constructor(
     sceneFunctions: InteractiveSceneFunctions,
     peripheralConfigs: PeripheralConfig[],
-    sceneProperties: SceneProperties,
+    sceneProperties: FormattedSceneProperties,
     camera: Camera,
   ) {
     super();

@@ -1,15 +1,16 @@
 import { MESH_TYPES } from "../config/mesh/consts";
 import { ENGINE } from "./consts";
+import { CURRENT_SCENE_CONFIG_VERSION } from "../config/scene-migrations";
 
 export const DEFAULT_SCENE_PROPERTIES = {
   viewWidth: "100vw",
   viewHeight: "100vh",
-  backgroundColor: "white",
-  backgroundUrl: "",
   position: "fixed",
+  background: { type: "color" as const, color: "white" },
 };
 
 export const DEFAULT_CONFIG = {
+  configVersion: CURRENT_SCENE_CONFIG_VERSION,
   title: "",
   assetPath: "",
   description: "",

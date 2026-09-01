@@ -137,10 +137,40 @@ export type ThreeJSConfig = {
   raycaster?: RaycasterConfig;
 };
 
+export type SceneBackgroundColor = { type: "color"; color: string };
+
+export type SceneBackgroundGradient = {
+  type: "gradient";
+  startColor: string;
+  endColor: string;
+  angle?: number;
+};
+
+export type SceneBackgroundAsset = { type: "asset"; assetGuid: string };
+
+export type SceneBackground =
+  | SceneBackgroundColor
+  | SceneBackgroundGradient
+  | SceneBackgroundAsset;
+
+export type ResolvedSceneBackgroundAsset = {
+  type: "asset";
+  assetType: string;
+  url: string;
+};
+
+export type ResolvedSceneBackground =
+  | SceneBackgroundColor
+  | SceneBackgroundGradient
+  | ResolvedSceneBackgroundAsset;
+
 export type ScenePropertiesConfig = {
   viewWidth?: string;
   viewHeight?: string;
+  background?: SceneBackground;
+  /** @deprecated use sceneProperties.background */
   backgroundColor?: string;
+  /** @deprecated use sceneProperties.background */
   backgroundUrl?: string;
   position?: string;
 };
@@ -182,6 +212,8 @@ export type RawWebglConfig = {
 };
 export type SceneConfig = {
   id: string;
+  /** Schema version; missing means legacy (0). */
+  configVersion?: number;
   engine?: string;
   title?: string;
   assetPath?: string;
@@ -210,13 +242,26 @@ export type SceneProperties = {
   position: string;
   viewWidth: string;
   viewHeight: string;
-  backgroundColor: string;
-  backgroundUrl: string;
-  background?: Texture;
+  background: SceneBackground;
+  /** Runtime Three.js texture; not persisted in scene config JSON. */
+  backgroundTexture?: Texture;
+  /** @deprecated migrated to background */
+  backgroundColor?: string;
+  /** @deprecated migrated to background */
+  backgroundUrl?: string;
+  /** @deprecated migrated to background */
   videoBackground?: string;
   fixed?: boolean;
   cursor?: string;
   zIndex?: number;
+};
+
+/** Scene properties after asset GUIDs in background are resolved to URLs. */
+export type FormattedSceneProperties = Omit<
+  SceneProperties,
+  "background"
+> & {
+  background: ResolvedSceneBackground;
 };
 
 export type ThreeJsParams = {
@@ -231,7 +276,7 @@ export type SceneData = {
   // sceneComponents: Object3D[];
   overlays: Asset[];
 
-  sceneProperties: SceneProperties;
+  sceneProperties: FormattedSceneProperties;
   postEffects: unknown[];
 };
 

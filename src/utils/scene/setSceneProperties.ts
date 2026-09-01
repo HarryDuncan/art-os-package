@@ -1,13 +1,13 @@
 import { InteractiveScene } from "../../components/interactive-scene/InteractiveScene";
-import { SceneProperties } from "../../config/config.types";
+import { FormattedSceneProperties } from "../../config/config.types";
 
 export const setSceneProperties = (
-  sceneProperties: SceneProperties | undefined,
+  sceneProperties: FormattedSceneProperties | undefined,
   scene: InteractiveScene
 ) => {
   if (!sceneProperties) return;
-  if (sceneProperties.background) {
-    scene.background = sceneProperties?.background;
+  if (sceneProperties.backgroundTexture) {
+    scene.background = sceneProperties.backgroundTexture;
   }
   const sceneId = sceneProperties.sceneId ?? "";
   scene.guid = sceneId;

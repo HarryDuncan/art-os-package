@@ -119,3 +119,10 @@ export {
 } from "./consts/jsModelUniformRegistry";
 
 export { getWindowScreenType } from "./compat/window-state/screen-type/getWindowScreenType";
+
+export {
+  migrateSceneConfig,
+  CURRENT_SCENE_CONFIG_VERSION,
+  SCENE_CONFIG_MIGRATIONS,
+} from "./config/scene-migrations";
+export type { SceneConfigMigration } from "./config/scene-migrations";

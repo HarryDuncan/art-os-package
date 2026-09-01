@@ -1,22 +1,24 @@
 import { Asset } from "../../assets/types";
-import { SceneProperties } from "../config.types";
+import { FormattedSceneProperties, SceneProperties } from "../config.types";
+import { resolveSceneBackground } from "./resolveSceneBackground";
 
-const assetMappedScenePropertyKeys = ["backgroundUrl", "videoBackground"];
 export const formatSceneProperties = (
   sceneProperties: SceneProperties,
-  assets: Asset[]
-) => {
-  const updatedSceneProperties = { ...sceneProperties };
-  assetMappedScenePropertyKeys.forEach((key) => {
-    if (!updatedSceneProperties[key as keyof SceneProperties]) return;
-    const asset = assets.find(
-      (asset) =>
-        asset.guid === updatedSceneProperties[key as keyof SceneProperties]
-    );
-    if (asset) {
-      // @ts-ignore
-      updatedSceneProperties[key as keyof SceneProperties] = asset.path ?? "";
-    }
-  });
-  return updatedSceneProperties;
+  assets: Asset[],
+): FormattedSceneProperties => {
+  const background = resolveSceneBackground(sceneProperties.background, assets);
+
+  const {
+    backgroundColor: _backgroundColor,
+    backgroundUrl: _backgroundUrl,
+    videoBackground: _videoBackground,
+    backgroundTexture,
+    ...rest
+  } = sceneProperties;
+
+  return {
+    ...rest,
+    background,
+    ...(backgroundTexture ? { backgroundTexture } : {}),
+  };
 };

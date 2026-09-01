@@ -5,6 +5,11 @@ import { useRawWebglAssets } from "../../assets/raw-webgl/useRawWebglAssets";
 import { useSceneContext } from "../../context/context";
 import { generateRawWebglShaderMaterials } from "../../config/material/shaders/raw-webgl/generateRawWebglShaderMaterials";
 import { formatSceneProperties } from "../../config/scene-properties/formatSceneProperties";
+import {
+  hasResolvedSceneBackground,
+  isAssetSceneBackground,
+} from "../../config/scene-properties/backgroundUtils";
+import { TRANSPARENT_CLEAR_COLOR } from "../../config/material/shaders/raw-webgl/types";
 
 import { packageConsole } from "../../utils/packageConsole";
 // Loader for the `webgl` engine. Mirrors `ThreeJsLoader` in
@@ -54,9 +59,7 @@ export const RawWebglLoader = ({
 
   // A scene with no shader is valid as long as it has a background to show, so
   // only flag the case where there is nothing at all to draw.
-  const hasBackground = !!(
-    sceneProperties?.videoBackground || sceneProperties?.backgroundUrl
-  );
+  const hasBackground = hasResolvedSceneBackground(sceneProperties?.background);
   if (!shaderMaterial && !hasBackground) {
     packageConsole.warn(
       "RawWebglLoader: no built shader at sceneMaterialConfigs[0] and no scene background; nothing to render",
@@ -69,7 +72,11 @@ export const RawWebglLoader = ({
       assets={assets}
       meshTransforms={sceneConfig.meshTransforms}
       sceneProperties={sceneProperties}
-      clearColor={sceneConfig.rawWebglConfig?.clearColor}
+      clearColor={
+        isAssetSceneBackground(sceneProperties?.background)
+          ? TRANSPARENT_CLEAR_COLOR
+          : sceneConfig.rawWebglConfig?.clearColor
+      }
     />
   );
 };
