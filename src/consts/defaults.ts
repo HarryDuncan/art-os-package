@@ -1,10 +1,23 @@
 import { MESH_TYPES } from "../config/mesh/consts";
 import { ENGINE } from "./consts";
-import { CURRENT_SCENE_CONFIG_VERSION } from "../config/scene-migrations";
+
+/** Known scene config schema versions. Missing `configVersion` means legacy (0). */
+export const SCENE_CONFIG_VERSIONS = {
+  LEGACY: 0,
+  BACKGROUND: 1,
+  VIEW_UNITS: 2,
+} as const;
+
+export type SceneConfigVersion =
+  (typeof SCENE_CONFIG_VERSIONS)[keyof typeof SCENE_CONFIG_VERSIONS];
+
+/** Latest schema version applied by scene config middleware. */
+export const CURRENT_SCENE_CONFIG_VERSION =
+  SCENE_CONFIG_VERSIONS.VIEW_UNITS satisfies SceneConfigVersion;
 
 export const DEFAULT_SCENE_PROPERTIES = {
-  viewWidth: "100vw",
-  viewHeight: "100vh",
+  viewWidth: "100%",
+  viewHeight: "100%",
   position: "fixed",
   background: { type: "color" as const, color: "white" },
 };

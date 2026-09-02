@@ -121,8 +121,26 @@ export {
 export { getWindowScreenType } from "./compat/window-state/screen-type/getWindowScreenType";
 
 export {
+  getResolvedSceneDimensions,
+  parseViewDimension,
+  parseViewSize,
+  resolveViewDimensionToPx,
+} from "./utils/scene-properties";
+export type {
+  ParsedViewDimension,
+  ParsedViewSize,
+} from "./utils/scene-properties/parseViewDimension";
+
+export {
+  sceneConfigMiddleware,
   migrateSceneConfig,
-  CURRENT_SCENE_CONFIG_VERSION,
+  migrateV0ToV1Background,
+  migrateV1ToV2ViewUnits,
   SCENE_CONFIG_MIGRATIONS,
+  SCENE_CONFIG_VERSIONS,
+  CURRENT_SCENE_CONFIG_VERSION,
 } from "./config/scene-migrations";
-export type { SceneConfigMigration } from "./config/scene-migrations";
+export type {
+  SceneConfigMigration,
+  SceneConfigVersion,
+} from "./config/scene-migrations";
