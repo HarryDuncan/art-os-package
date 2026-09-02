@@ -104,3 +104,35 @@ export type AssetToUniformMappingConfig = {
   assetId: string;
   relationship: string;
 };
+
+/** Sequential link between two shader effects inside an effect group. */
+export type EffectGroupRelation = {
+  sourceGuid: string;
+  targetGuid: string;
+};
+
+/**
+ * Reusable subgraph of shader effects / functions / animation loops / operators / parameters.
+ * Stored as a standalone library config; reminted when inserted into a material.
+ */
+export type EffectGroupConfig = {
+  guid: string;
+  name: string;
+  description?: string;
+  /** Vertex + fragment effects in processing order. */
+  shaderEffectConfigs: EffectConfig[];
+  functionConfigs: EffectConfig[];
+  animationLoopConfigs: EffectConfig[];
+  operatorConfigs?: OperatorConfig[];
+  /**
+   * Parameters in the group: selected single-parameter nodes plus those
+   * referenced by effect/function/loop/operator mappings.
+   * Asset-mapped parameters have `value` cleared (and assetId blanked).
+   */
+  parameterConfigs: ParameterConfig[];
+  effectRelations: EffectGroupRelation[];
+  /** Baked schemas so the group can plug into a material offline. */
+  schemas?: ExternalSchema;
+  createdAt?: string;
+  updatedAt?: string;
+};
