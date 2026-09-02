@@ -18,7 +18,7 @@ export const SCENE_CONFIG_MIGRATIONS: SceneConfigMigration[] = [
     fromVersion: 0,
     toVersion: 1,
     description:
-      "Consolidate backgroundColor, backgroundUrl, and videoBackground into sceneProperties.background",
+      "Consolidate legacy background fields into sceneProperties.background as a color",
     migrate: migrateV0ToV1Background,
   },
   {

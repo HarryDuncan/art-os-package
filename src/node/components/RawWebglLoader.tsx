@@ -7,9 +7,7 @@ import { generateRawWebglShaderMaterials } from "../../config/material/shaders/r
 import { formatSceneProperties } from "../../config/scene-properties/formatSceneProperties";
 import {
   hasResolvedSceneBackground,
-  isAssetSceneBackground,
 } from "../../config/scene-properties/backgroundUtils";
-import { TRANSPARENT_CLEAR_COLOR } from "../../config/material/shaders/raw-webgl/types";
 
 import { packageConsole } from "../../utils/packageConsole";
 // Loader for the `webgl` engine. Mirrors `ThreeJsLoader` in
@@ -47,8 +45,7 @@ export const RawWebglLoader = ({
     return builtShaders[0] ?? null;
   }, [sceneConfig, assets]);
 
-  // Resolves asset-guid-valued properties (`videoBackground`, `backgroundUrl`)
-  // to their file paths, same as the three.js path does via `useSceneData`.
+  // Formats scene properties for runtime (normalizes background to color).
   // Memoized to keep `RawWebglSceneNode`'s memo() intact.
   const sceneProperties = useMemo(() => {
     if (!assets) return null;
@@ -72,11 +69,7 @@ export const RawWebglLoader = ({
       assets={assets}
       meshTransforms={sceneConfig.meshTransforms}
       sceneProperties={sceneProperties}
-      clearColor={
-        isAssetSceneBackground(sceneProperties?.background)
-          ? TRANSPARENT_CLEAR_COLOR
-          : sceneConfig.rawWebglConfig?.clearColor
-      }
+      clearColor={sceneConfig.rawWebglConfig?.clearColor}
     />
   );
 };

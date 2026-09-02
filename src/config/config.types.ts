@@ -139,30 +139,9 @@ export type ThreeJSConfig = {
 
 export type SceneBackgroundColor = { type: "color"; color: string };
 
-export type SceneBackgroundGradient = {
-  type: "gradient";
-  startColor: string;
-  endColor: string;
-  angle?: number;
-};
+export type SceneBackground = SceneBackgroundColor;
 
-export type SceneBackgroundAsset = { type: "asset"; assetGuid: string };
-
-export type SceneBackground =
-  | SceneBackgroundColor
-  | SceneBackgroundGradient
-  | SceneBackgroundAsset;
-
-export type ResolvedSceneBackgroundAsset = {
-  type: "asset";
-  assetType: string;
-  url: string;
-};
-
-export type ResolvedSceneBackground =
-  | SceneBackgroundColor
-  | SceneBackgroundGradient
-  | ResolvedSceneBackgroundAsset;
+export type ResolvedSceneBackground = SceneBackgroundColor;
 
 export type ScenePropertiesConfig = {
   viewWidth?: string;
@@ -256,7 +235,7 @@ export type SceneProperties = {
   zIndex?: number;
 };
 
-/** Scene properties after asset GUIDs in background are resolved to URLs. */
+/** Scene properties after background is normalized for runtime. */
 export type FormattedSceneProperties = Omit<
   SceneProperties,
   "background"
