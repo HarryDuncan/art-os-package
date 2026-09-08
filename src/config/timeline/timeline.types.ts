@@ -55,6 +55,11 @@ export type CameraTimelineItem = TimelineItemBase & {
   bezier: CameraBezierConfig;
   /** Optional Bezier path for interpolating lookAt between keyframes. */
   lookAtBezier?: CameraBezierConfig;
+  /**
+   * When true, camera keeps a fixed look-at (start.lookAt) while moving along
+   * the position spline — end lookAt / lookAtBezier are ignored during playback.
+   */
+  persistLookAt?: boolean;
 };
 
 export type TimelineItem = CameraTimelineItem;

@@ -115,6 +115,7 @@ export const updateCameraTimelineItem = (
   };
   liveTimelineConfig.items[index] = next;
   notifyChange(next);
+  notifyRefresh();
   return next;
 };
 
@@ -149,13 +150,22 @@ export const setCameraTimelinePoint = (
           controlPoint2: { ...position },
         },
       });
-    case "startLookAt":
+    case "startLookAt": {
+      const nextLookAt = { ...position };
+      // Keep end lookAt in sync when look-at is locked to a single target.
+      if (item.persistLookAt) {
+        return updateCameraTimelineItem(itemId, {
+          start: { ...item.start, lookAt: nextLookAt },
+          end: { ...item.end, lookAt: nextLookAt },
+        });
+      }
       return updateCameraTimelineItem(itemId, {
         start: {
           ...item.start,
-          lookAt: { ...position },
+          lookAt: nextLookAt,
         },
       });
+    }
     case "endLookAt":
       return updateCameraTimelineItem(itemId, {
         end: {

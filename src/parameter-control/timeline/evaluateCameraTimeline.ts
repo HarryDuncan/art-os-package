@@ -48,7 +48,16 @@ export const evaluateCameraTimeline = (
   const endLookAt = item.end.lookAt;
   let lookAt: EvaluatedCameraState["lookAt"];
 
-  if (startLookAt && endLookAt) {
+  if (item.persistLookAt) {
+    const fixed = startLookAt ?? endLookAt;
+    if (fixed) {
+      lookAt = {
+        x: fixed.x ?? 0,
+        y: fixed.y ?? 0,
+        z: fixed.z ?? 0,
+      };
+    }
+  } else if (startLookAt && endLookAt) {
     if (item.lookAtBezier) {
       lookAt = cubicBezier3D(
         startLookAt,

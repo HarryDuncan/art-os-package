@@ -420,21 +420,29 @@ const updateCurveLine = (
 
   if (item.start.lookAt && item.end.lookAt) {
     const la0 = getPointPosition(item, "startLookAt");
-    const la1 = getPointPosition(item, "lookAtControlPoint1");
-    const la2 = getPointPosition(item, "lookAtControlPoint2");
-    const la3 = getPointPosition(item, "endLookAt");
 
-    lookAtCurveLine = addLine(
-      sampleBezierPoints(la0, la1, la2, la3),
-      0xe056fd,
-      0.75,
-      997,
-    );
+    if (item.persistLookAt) {
+      facingLines.push(
+        addLine([p0, la0], 0xffffff, 0.45, 996),
+        addLine([p3, la0], 0xffffff, 0.45, 996),
+      );
+    } else {
+      const la1 = getPointPosition(item, "lookAtControlPoint1");
+      const la2 = getPointPosition(item, "lookAtControlPoint2");
+      const la3 = getPointPosition(item, "endLookAt");
 
-    facingLines.push(
-      addLine([p0, la0], 0xffffff, 0.45, 996),
-      addLine([p3, la3], 0xffffff, 0.45, 996),
-    );
+      lookAtCurveLine = addLine(
+        sampleBezierPoints(la0, la1, la2, la3),
+        0xe056fd,
+        0.75,
+        997,
+      );
+
+      facingLines.push(
+        addLine([p0, la0], 0xffffff, 0.45, 996),
+        addLine([p3, la3], 0xffffff, 0.45, 996),
+      );
+    }
   }
 };
 
@@ -474,12 +482,25 @@ const syncHandles = () => {
   }
 
   for (const config of HANDLE_CONFIG) {
+    if (
+      item.persistLookAt &&
+      (config.pointKey === "endLookAt" ||
+        config.pointKey === "lookAtControlPoint1" ||
+        config.pointKey === "lookAtControlPoint2")
+    ) {
+      continue;
+    }
+
     const position = getPointPosition(item, config.pointKey);
+    const label =
+      item.persistLookAt && config.pointKey === "startLookAt"
+        ? "Look At"
+        : config.label;
     const gizmo = createHandleGizmo(
       item.id,
       config.pointKey,
       config.color,
-      config.label,
+      label,
       position,
       config.radius,
     );
