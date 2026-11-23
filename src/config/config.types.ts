@@ -17,7 +17,7 @@ import {
   ComponentProps,
   SceneElementType,
 } from "./components/threeJsComponents.types";
-import { CustomGeometryConfig } from "./mesh/types";
+import { CustomGeometryConfig, DetailedPlaneConfig } from "./mesh/types";
 import { RaycasterConfig } from "../types/three.types";
 import { OverlayConfig } from "../components/overlays/types";
 import { InterNodeMap } from "../types";
@@ -175,11 +175,31 @@ export type ScreenSizeAdjustmentConfig = {
   threeJsConfig: Partial<ThreeJSConfig>;
 };
 
+/**
+ * A plane mesh rendered by the `webgl` engine. A `MeshComponentConfig`
+ * narrowed to the fields the raw-WebGL runtime reads; any extra fields are
+ * ignored by it but kept for the three.js engine.
+ */
+export type RawWebglPlaneMeshConfig = Pick<
+  MeshComponentConfig,
+  "guid" | "id" | "name" | "materialId" | "position" | "rotation" | "centerGeometryToOrigin"
+> & {
+  /** `MESH_TYPES.MESH` (solid, triangles) or `MESH_TYPES.POINTS`. */
+  meshType: string;
+  /** `CUSTOM_BUFFER_GEOMETRY_TYPES.SIMPLE_PLANE` or `DETAILED_PLANE`. */
+  geometryType: string;
+  /** Simple plane: size in world units. Detailed plane: vertices per axis. */
+  customGeometryConfig: DetailedPlaneConfig;
+  geometryConfig?: Partial<GeometryConfig>;
+};
+
 export type RawWebglConfig = {
+  /** @deprecated legacy fullscreen plane only; use plane `meshComponentConfigs`. */
   planeGeometryConfig: {
     xSegments: number;
     ySegments: number;
   };
+  /** @deprecated legacy fullscreen plane only; use `meshType` per mesh. */
   drawMode: "TRIANGLES" | "POINTS";
   blending: {
     transparent: boolean;

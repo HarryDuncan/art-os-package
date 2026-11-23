@@ -1,4 +1,3 @@
-import { packageConsole } from "../../utils/packageConsole";
 export const loadRawTexture = async (path: string): Promise<ImageBitmap> => {
   const response = await fetch(path);
   if (!response.ok) {
@@ -11,11 +10,5 @@ export const loadRawTexture = async (path: string): Promise<ImageBitmap> => {
     imageOrientation: "flipY",
     premultiplyAlpha: "none",
   });
-  if (!isPowerOfTwo(bitmap.width) || !isPowerOfTwo(bitmap.height)) {
-    packageConsole.warn(`"${path}" image size is not power of 2.`);
-  }
   return bitmap;
 };
-
-const isPowerOfTwo = (value: number) =>
-  (value & (value - 1)) === 0 && value > 0;

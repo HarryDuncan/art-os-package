@@ -5,8 +5,8 @@ import { Position3d, PositionConfig } from "../../../types/position.types";
 export const CAMERA_TYPES = {
   PERSPECTIVE_CAMERA: "perspectiveCamera",
   ORTHOGRAPHIC_CAMERA: "orthographicCamera",
-};
-export type CameraType = keyof typeof CAMERA_TYPES;
+} as const;
+export type CameraType = (typeof CAMERA_TYPES)[keyof typeof CAMERA_TYPES];
 
 export interface CameraConfig {
   cameraType: CameraType;

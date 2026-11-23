@@ -1,64 +1,52 @@
 import { RefObject, useEffect, useRef } from "react";
 import { Asset } from "../../../assets/types";
-import { MeshTransformConfig } from "../../../config/config.types";
+import {
+  MeshComponentConfig,
+  MeshTransformConfig,
+  RawWebglConfig,
+} from "../../../config/config.types";
+import { CameraConfig } from "../../../config/three-js/use-camera/camera.types";
 import { PROCESS_STATUS } from "../../../consts/consts";
 import {
+  RawWebglBlending,
   RawWebglClearColor,
   RawWebglShaderMaterial,
+  TRANSPARENT_CLEAR_COLOR,
 } from "../../../config/material/shaders/raw-webgl/types";
 import { useSceneContext } from "../../../context/context";
-import { buildRawWebglProgram } from "./compileRawWebglProgram";
-import { createPlaneGeometry } from "./createPlaneGeometry";
-import { buildRawWebglAttributes } from "./mesh-transforms/buildRawWebglAttributes";
-import {
-  bindRawWebglAttributes,
-  deleteRawWebglAttributes,
-  uploadRawWebglAttributes,
-} from "./mesh-transforms/uploadRawWebglAttributes";
-import { setRawWebglUniform } from "./setRawWebglUniforms";
-import { uploadRawWebglTextures } from "./uploadRawWebglTextures";
 import { getJsModelCanvasRegistry } from "../../../consts/jsModelCanvasRegistry";
 import { getJsModelUniformRegistry } from "../../../consts/jsModelUniformRegistry";
 import { logWebGLGpuInfo } from "../../../utils/logWebGLGpuInfo";
-
 import { packageConsole } from "../../../utils/packageConsole";
-// Identity matrices used to satisfy the three.js-shaped builtins the shader
-// generator emits. They never change at runtime, so we upload them once at
-// program-link time (see "set static uniforms ONCE" below) and never touch
-// them in the hot loop.
-const IDENTITY_MAT4 = new Float32Array([
-  1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1,
-]);
-const IDENTITY_MAT3 = new Float32Array([1, 0, 0, 0, 1, 0, 0, 0, 1]);
+import { buildRawWebglCamera } from "./camera/buildRawWebglCamera";
+import {
+  buildRawWebglDrawItems,
+  isRawWebglPlaneMesh,
+  RawWebglDrawItem,
+  RawWebglProgramEntry,
+} from "./buildRawWebglDrawItems";
+import { setRawWebglUniform } from "./setRawWebglUniforms";
+import {
+  createRawWebglTextureCache,
+  createTextureUnitAllocator,
+} from "./uploadRawWebglTextures";
 
-// Names of uniforms the renderer drives itself. Anything in this set is
-// excluded from the per-frame "user uniforms" walk so the user-side scene
-// config can't fight the renderer for control of these slots.
-const RENDERER_OWNED_UNIFORMS = new Set([
-  "uTime",
-  "uResolution",
-  "modelMatrix",
-  "viewMatrix",
-  "modelViewMatrix",
-  "projectionMatrix",
-  "normalMatrix",
-]);
+export type RawWebglRendererScene = {
+  shaderMaterials: RawWebglShaderMaterial[];
+  assets: Asset[];
+  meshComponentConfigs?: MeshComponentConfig[];
+  meshTransforms?: MeshTransformConfig[];
+  cameraConfig?: Partial<CameraConfig>;
+  legacyConfig?: Partial<RawWebglConfig>;
+};
 
-// TODO: drive this from the scene config (e.g.
-// `sceneConfig.meshComponentConfigs[0].meshType`) so each material can pick its
-// primitive. For now we default to TRIANGLES (which renders the subdivided
-// plane as a solid surface via the index buffer) and expose POINTS as the
-// alternative used by point-cloud-style shaders.
-type DrawMode = "TRIANGLES" | "POINTS";
-// `as DrawMode` widens the literal so TS doesn't flag the if/else below as a
-// "no overlap" comparison; the value is still constrained to the union.
-const DRAW_MODE = "POINTS" as DrawMode;
-
-// Equivalent of three.js `renderer.setClearColor(colour, 0)`: the canvas
-// composites over whatever the DOM puts behind it (e.g. `videoBackground`).
-// Module-level so the default arg keeps a stable identity across renders —
-// an inline literal would be a new array every render and thrash the effect.
-const TRANSPARENT_CLEAR_COLOR: RawWebglClearColor = [0, 0, 0, 0];
+type LiveCanvasTexture = {
+  canvas: HTMLCanvasElement;
+  texture: WebGLTexture;
+  unit: number;
+  width: number;
+  height: number;
+};
 
 // Hot path uses raw WebGL + plain JS only. React is involved exclusively in
 // the setup `useEffect` and a one-shot status flip; the rAF loop closes over
@@ -66,18 +54,16 @@ const TRANSPARENT_CLEAR_COLOR: RawWebglClearColor = [0, 0, 0, 0];
 // low-power hardware (e.g. Raspberry Pi installations).
 export const useRawWebglRenderer = (
   canvasRef: RefObject<HTMLCanvasElement | null>,
-  shaderMaterial: RawWebglShaderMaterial | null,
-  assets: Asset[],
-  meshTransforms?: MeshTransformConfig[],
+  scene: RawWebglRendererScene | null,
   clearColor: RawWebglClearColor = TRANSPARENT_CLEAR_COLOR,
 ) => {
   // Spread into primitives so a caller passing an inline array can't rebuild
   // the whole GL pipeline on every render.
   const [clearRed, clearGreen, clearBlue, clearAlpha] = clearColor;
 
-  // setStatus is read once per render and snapshotted in a ref so the rAF
-  // loop never reaches into React's render tree, and so changes to the
-  // context value identity can't churn the effect's dep array.
+  // setStatus is snapshotted in a ref so the rAF loop never reaches into
+  // React's render tree, and so context identity changes can't churn the
+  // effect's dep array.
   const { setStatus } = useSceneContext();
   const setStatusRef = useRef(setStatus);
   setStatusRef.current = setStatus;
@@ -86,7 +72,7 @@ export const useRawWebglRenderer = (
     // Background-only scenes (e.g. just a `videoBackground`) have no shader to
     // build. There's no GL work to do, but the shared Loader still has to be
     // dismissed or it covers the background forever.
-    if (!shaderMaterial) {
+    if (!scene || !scene.shaderMaterials.length) {
       setStatusRef.current(PROCESS_STATUS.RUNNING);
       return;
     }
@@ -114,186 +100,38 @@ export const useRawWebglRenderer = (
       powerPreference: "(not set — browser default)",
     });
 
-    let handles;
-    try {
-      handles = buildRawWebglProgram(
-        gl,
-        shaderMaterial.vertexShader,
-        shaderMaterial.fragmentShader,
-      );
-    } catch (error) {
-      packageConsole.error("useRawWebglRenderer: program build failed", error);
-      return;
-    }
+    // The legacy fullscreen plane is authored in clip space, so it ignores
+    // the camera even if the scene carries a `cameraConfig`.
+    const hasPlaneMeshes = (scene.meshComponentConfigs ?? []).some(isRawWebglPlaneMesh);
+    const camera = buildRawWebglCamera(hasPlaneMeshes ? scene.cameraConfig : undefined);
 
-    const {
-      program,
-      vertexShader,
-      fragmentShader,
-      attribs,
-      getUniformLocation,
-    } = handles;
-
-    const geometry = createPlaneGeometry();
-
-    // ---------------------------------------------------------------------
-    // Vertex Array Object: bake all attribute pointer + element-buffer state
-    // once so the render loop just needs `gl.bindVertexArray(vao)` to restore
-    // it. Major win on low-power GPUs vs re-binding every buffer per frame.
-    // ---------------------------------------------------------------------
-    const vao = gl.createVertexArray();
-    gl.bindVertexArray(vao);
-
-    const positionBuffer = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
-    gl.bufferData(gl.ARRAY_BUFFER, geometry.positions, gl.STATIC_DRAW);
-    if (attribs.position >= 0) {
-      gl.enableVertexAttribArray(attribs.position);
-      gl.vertexAttribPointer(attribs.position, 3, gl.FLOAT, false, 0, 0);
-    }
-
-    const normalBuffer = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, normalBuffer);
-    gl.bufferData(gl.ARRAY_BUFFER, geometry.normals, gl.STATIC_DRAW);
-    if (attribs.normal >= 0) {
-      gl.enableVertexAttribArray(attribs.normal);
-      gl.vertexAttribPointer(attribs.normal, 3, gl.FLOAT, false, 0, 0);
-    }
-
-    const uvBuffer = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, uvBuffer);
-    gl.bufferData(gl.ARRAY_BUFFER, geometry.uvs, gl.STATIC_DRAW);
-    if (attribs.uv >= 0) {
-      gl.enableVertexAttribArray(attribs.uv);
-      gl.vertexAttribPointer(attribs.uv, 2, gl.FLOAT, false, 0, 0);
-    }
-
-    // The plane vertices are stored in row-major order so consecutive triples
-    // are colinear. drawArrays(TRIANGLES, ...) on this buffer would therefore
-    // render only degenerate (invisible) triangles — drawElements with the
-    // index buffer is required for the TRIANGLES path. POINTS uses drawArrays
-    // and ignores this buffer.
-    const indexBuffer = gl.createBuffer();
-    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
-    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, geometry.indices, gl.STATIC_DRAW);
-
-    // Mesh transforms -> per-vertex GL attributes. Same `a_<key>` naming as
-    // the three.js path. The bind call recorded into the VAO so the loop
-    // doesn't re-bind these either.
-    const extraAttributes = buildRawWebglAttributes(
-      meshTransforms,
-      geometry.vertexCount,
-      assets,
-    );
-    const extraAttributeBindings = uploadRawWebglAttributes(
+    const textureUnits = createTextureUnitAllocator(gl);
+    const textureCache = createRawWebglTextureCache(gl, scene.assets, textureUnits);
+    const { items, programs, dispose } = buildRawWebglDrawItems({
       gl,
-      program,
-      extraAttributes,
-    );
-    bindRawWebglAttributes(gl, extraAttributeBindings);
-
-    gl.bindVertexArray(null);
-
-    // ---------------------------------------------------------------------
-    // One-time GL state: blending, depth, clear color, current program.
-    // ---------------------------------------------------------------------
-    const { blending } = shaderMaterial;
-    if (blending.transparent) {
-      gl.enable(gl.BLEND);
-      // Alpha uses its own factors (as three.js does for a non-premultiplied
-      // context). Running alpha through the colour factors instead would
-      // square it against the transparent clear colour, so fragments would
-      // composite far weaker than their shader alpha over the background.
-      gl.blendFuncSeparate(
-        blending.blendSrc,
-        blending.blendDst,
-        gl.ONE,
-        gl.ONE_MINUS_SRC_ALPHA,
-      );
-    } else {
-      gl.disable(gl.BLEND);
+      meshComponentConfigs: scene.meshComponentConfigs,
+      shaderMaterials: scene.shaderMaterials,
+      meshTransforms: scene.meshTransforms,
+      assets: scene.assets,
+      viewMatrix: camera.viewMatrix,
+      textureCache,
+      legacyConfig: scene.legacyConfig,
+    });
+    if (!items.length) {
+      packageConsole.warn("useRawWebglRenderer: no drawable meshes");
     }
-    if (blending.depthTest) {
-      gl.enable(gl.DEPTH_TEST);
-    } else {
-      gl.disable(gl.DEPTH_TEST);
-    }
+
+    const usesDepth = items.some((item) => item.program.blending.depthTest);
+    const clearMask = usesDepth
+      ? gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT
+      : gl.COLOR_BUFFER_BIT;
     gl.clearColor(clearRed, clearGreen, clearBlue, clearAlpha);
 
-    // The renderer owns this program for its entire lifetime; setting it
-    // once here and never re-setting it removes a state call per frame.
-    gl.useProgram(program);
-
     // ---------------------------------------------------------------------
-    // Cache uniform locations and set "static" uniforms once. After this,
-    // the hot loop never queries any uniform location by string.
+    // Viewport / resize. Projection and uResolution are re-uploaded lazily,
+    // once per program, the next time each program is used.
     // ---------------------------------------------------------------------
-    const uTimeLocation = getUniformLocation("uTime");
-    const uResolutionLocation = getUniformLocation("uResolution");
-    // Pre-allocated; reused on every resize so we don't churn GC.
-    const uResolutionValue = new Float32Array(2);
-
-    const setStaticMatrix = (
-      name: string,
-      value: Float32Array,
-      isMat3: boolean,
-    ) => {
-      const location = getUniformLocation(name);
-      if (location === null) return;
-      if (isMat3) gl.uniformMatrix3fv(location, false, value);
-      else gl.uniformMatrix4fv(location, false, value);
-    };
-    setStaticMatrix("modelMatrix", IDENTITY_MAT4, false);
-    setStaticMatrix("viewMatrix", IDENTITY_MAT4, false);
-    setStaticMatrix("modelViewMatrix", IDENTITY_MAT4, false);
-    setStaticMatrix("projectionMatrix", IDENTITY_MAT4, false);
-    setStaticMatrix("normalMatrix", IDENTITY_MAT3, true);
-
-    // Pre-build the per-frame numeric uniform list. Each entry holds the
-    // resolved location AND a reference to the uniform OBJECT (not a snapshot
-    // of `.value`), so external mutation of `shaderMaterial.uniforms[x].value`
-    // is picked up on the next frame without any React or string-lookup work.
-    type PerFrameUniform = {
-      location: WebGLUniformLocation;
-      uniform: { value: unknown };
-    };
-    const perFrameUniforms: PerFrameUniform[] = [];
-    const uniformNames = Object.keys(shaderMaterial.uniforms);
-    for (let i = 0; i < uniformNames.length; i += 1) {
-      const name = uniformNames[i];
-      if (RENDERER_OWNED_UNIFORMS.has(name)) continue;
-      const location = getUniformLocation(name);
-      if (location === null) continue;
-      perFrameUniforms.push({
-        location,
-        uniform: shaderMaterial.uniforms[name] as { value: unknown },
-      });
-    }
-
-    // ---------------------------------------------------------------------
-    // Textures: assign each sampler to its texture unit and leave the
-    // texture bound for the lifetime of the renderer. Samplers don't change
-    // unit assignments, so the hot loop never touches gl.activeTexture /
-    // gl.bindTexture / gl.uniform1i again.
-    // ---------------------------------------------------------------------
-    const textures = uploadRawWebglTextures(
-      gl,
-      shaderMaterial.textureBindings,
-      assets,
-    );
-    for (let i = 0; i < textures.length; i += 1) {
-      const t = textures[i];
-      gl.activeTexture(gl.TEXTURE0 + t.unitIndex);
-      gl.bindTexture(gl.TEXTURE_2D, t.texture);
-      const location = getUniformLocation(t.uniformId);
-      if (location !== null) gl.uniform1i(location, t.unitIndex);
-    }
-
-    // ---------------------------------------------------------------------
-    // Viewport / resize. uResolution is uploaded ONLY when the size changes,
-    // not every frame. The shader sees the latest value via WebGL's retained
-    // uniform state.
-    // ---------------------------------------------------------------------
+    const resolution = new Float32Array(2);
     const resize = () => {
       const dpr = window.devicePixelRatio || 1;
       const w = Math.max(1, Math.floor(canvas.clientWidth * dpr));
@@ -301,132 +139,194 @@ export const useRawWebglRenderer = (
       if (canvas.width !== w) canvas.width = w;
       if (canvas.height !== h) canvas.height = h;
       gl.viewport(0, 0, w, h);
-      uResolutionValue[0] = w;
-      uResolutionValue[1] = h;
-      if (uResolutionLocation !== null) {
-        gl.uniform2fv(uResolutionLocation, uResolutionValue);
+      resolution[0] = w;
+      resolution[1] = h;
+      camera.setAspect(w / h);
+      for (let i = 0; i < programs.length; i += 1) {
+        programs[i].projectionDirty = true;
+        programs[i].resolutionDirty = true;
       }
     };
     resize();
-    window.addEventListener("resize", resize);
+    const resizeObserver =
+      typeof ResizeObserver !== "undefined" ? new ResizeObserver(resize) : null;
+    if (resizeObserver) resizeObserver.observe(canvas);
+    else window.addEventListener("resize", resize);
 
     // ---------------------------------------------------------------------
-    // Live canvas textures (JS-class model outputs, e.g. person mask).
-    // The registry is populated asynchronously (after MediaPipe warms up),
-    // so we lazily allocate a WebGLTexture the first time each canvas
-    // appears and then re-upload its pixels every frame with texSubImage2D.
+    // Registry-driven inputs (JS-class models, remote streams). Callbacks
+    // are created once and read `activeProgram` so the per-frame
+    // Map.forEach calls allocate nothing.
     // ---------------------------------------------------------------------
-    type LiveCanvasTex = {
-      canvas: HTMLCanvasElement;
-      texture: WebGLTexture;
-      unitIndex: number;
+    let activeProgram: RawWebglProgramEntry | null = null;
+    const applyRegistryUniform = (value: unknown, uniformId: string) => {
+      if (!activeProgram) return;
+      const location = activeProgram.handles.getUniformLocation(uniformId);
+      if (location === null) return;
+      setRawWebglUniform(gl, location, value as never);
+      // The material's cached value no longer matches what's on the GPU.
+      const overwritten = activeProgram.materialUniformsByName.get(uniformId);
+      if (overwritten) overwritten.last = undefined;
     };
-    const liveCanvasByUniform = new Map<string, LiveCanvasTex>();
-    let nextCanvasUnit = textures.length; // static textures occupy units 0..N-1
-    const liveUniformLocations = new Map<string, WebGLUniformLocation>();
 
-    // Bind the VAO once; nothing else in this renderer ever switches it.
-    gl.bindVertexArray(vao);
+    const liveCanvases = new Map<string, LiveCanvasTexture>();
+    const uploadLiveCanvas = (canvasEl: HTMLCanvasElement, uniformId: string) => {
+      const width = canvasEl.width || 1;
+      const height = canvasEl.height || 1;
+      let entry = liveCanvases.get(uniformId);
+      if (!entry) {
+        const users = programs.filter(
+          (p) => p.handles.getUniformLocation(uniformId) !== null,
+        );
+        if (!users.length) return;
+        const unit = textureUnits.allocate();
+        if (unit === null) return;
+        const texture = gl.createTexture();
+        if (!texture) return;
+        gl.activeTexture(gl.TEXTURE0 + unit);
+        gl.bindTexture(gl.TEXTURE_2D, texture);
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, width, height, 0, gl.RGBA, gl.UNSIGNED_BYTE, canvasEl);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+        for (let i = 0; i < users.length; i += 1) {
+          gl.useProgram(users[i].handles.program);
+          gl.uniform1i(users[i].handles.getUniformLocation(uniformId), unit);
+        }
+        activeProgram = null;
+        liveCanvases.set(uniformId, { canvas: canvasEl, texture, unit, width, height });
+        return;
+      }
+      gl.activeTexture(gl.TEXTURE0 + entry.unit);
+      gl.bindTexture(gl.TEXTURE_2D, entry.texture);
+      if (entry.canvas !== canvasEl || entry.width !== width || entry.height !== height) {
+        // texSubImage2D can't change the texture size; reallocate instead.
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, width, height, 0, gl.RGBA, gl.UNSIGNED_BYTE, canvasEl);
+        entry.canvas = canvasEl;
+        entry.width = width;
+        entry.height = height;
+      } else {
+        gl.texSubImage2D(gl.TEXTURE_2D, 0, 0, 0, gl.RGBA, gl.UNSIGNED_BYTE, canvasEl);
+      }
+    };
+
+    // ---------------------------------------------------------------------
+    // Per-program, once-per-frame uploads.
+    // ---------------------------------------------------------------------
+    const uniformRegistry = getJsModelUniformRegistry();
+    const canvasRegistry = getJsModelCanvasRegistry();
+    let time = 0;
+
+    const prepareProgram = (program: RawWebglProgramEntry, frameId: number) => {
+      const { locations } = program;
+      if (locations.uTime !== null) gl.uniform1f(locations.uTime, time);
+      if (program.resolutionDirty) {
+        if (locations.uResolution !== null) gl.uniform2fv(locations.uResolution, resolution);
+        program.resolutionDirty = false;
+      }
+      if (program.projectionDirty) {
+        if (locations.projectionMatrix !== null) {
+          gl.uniformMatrix4fv(locations.projectionMatrix, false, camera.projectionMatrix);
+        }
+        program.projectionDirty = false;
+      }
+      const uniforms = program.materialUniforms;
+      for (let i = 0; i < uniforms.length; i += 1) {
+        const entry = uniforms[i];
+        const value = entry.uniform.value;
+        if (typeof value === "number") {
+          if (value === entry.last) continue;
+          gl.uniform1f(entry.location, value);
+          entry.last = value;
+        } else if (Array.isArray(value)) {
+          if (sameNumbers(entry.last, value)) continue;
+          setRawWebglUniform(gl, entry.location, value);
+          entry.last = value.slice();
+        } else {
+          setRawWebglUniform(gl, entry.location, value);
+        }
+      }
+      // Streamed values win over the scene's static uniforms.
+      if (uniformRegistry.size) uniformRegistry.forEach(applyRegistryUniform);
+      program.frameId = frameId;
+    };
+
+    const uploadItemMatrices = (item: RawWebglDrawItem) => {
+      const { locations } = item.program;
+      if (locations.modelMatrix !== null) {
+        gl.uniformMatrix4fv(locations.modelMatrix, false, item.modelMatrix);
+      }
+      if (locations.modelViewMatrix !== null) {
+        gl.uniformMatrix4fv(locations.modelViewMatrix, false, item.modelViewMatrix);
+      }
+      if (locations.normalMatrix !== null) {
+        gl.uniformMatrix3fv(locations.normalMatrix, false, item.normalMatrix);
+      }
+      item.program.lastItem = item;
+    };
+
+    let appliedBlending: RawWebglBlending | null = null;
+    const applyBlending = (blending: RawWebglBlending) => {
+      if (
+        appliedBlending &&
+        appliedBlending.transparent === blending.transparent &&
+        appliedBlending.blendSrc === blending.blendSrc &&
+        appliedBlending.blendDst === blending.blendDst &&
+        appliedBlending.depthTest === blending.depthTest
+      ) {
+        return;
+      }
+      if (blending.transparent) {
+        gl.enable(gl.BLEND);
+        // Alpha uses its own factors (as three.js does for a non-premultiplied
+        // context). Running alpha through the colour factors instead would
+        // square it against the transparent clear colour, so fragments would
+        // composite far weaker than their shader alpha over the background.
+        gl.blendFuncSeparate(blending.blendSrc, blending.blendDst, gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
+      } else {
+        gl.disable(gl.BLEND);
+      }
+      if (blending.depthTest) gl.enable(gl.DEPTH_TEST);
+      else gl.disable(gl.DEPTH_TEST);
+      appliedBlending = blending;
+    };
 
     // ---------------------------------------------------------------------
     // Hot loop. Closes over local variables only — no hooks, no React
     // reads, no string lookups, no allocations.
     // ---------------------------------------------------------------------
     const start = performance.now();
-    const indexCount = geometry.indexCount;
-    const vertexCount = geometry.vertexCount;
-    const drawTriangles = DRAW_MODE === "TRIANGLES";
+    let frameId = 0;
     let rafId = 0;
 
     const draw = (now: number) => {
-      gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+      frameId += 1;
+      time = (now - start) * 0.001;
 
-      if (uTimeLocation !== null) {
-        gl.uniform1f(uTimeLocation, (now - start) * 0.001);
+      if (canvasRegistry.size) {
+        // Canvas -> WebGL has a Y-flip; scoped to the canvas uploads only.
+        gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 1);
+        canvasRegistry.forEach(uploadLiveCanvas);
+        gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 0);
       }
 
-      // for-i over a pre-built array (cheaper than forEach / Object.entries
-      // because the callback closure isn't reallocated per call and there's
-      // no iterator allocation).
-      for (let i = 0; i < perFrameUniforms.length; i += 1) {
-        const entry = perFrameUniforms[i];
-        // setRawWebglUniform dispatches on the JS shape of `value` — fine for
-        // our scale; specialise to a baked setter per entry if we ever need
-        // to squeeze more out of this loop.
-        setRawWebglUniform(gl, entry.location, entry.uniform.value as never);
-      }
+      gl.clear(clearMask);
 
-      // ── External / remote-model numeric overrides ─────────────────────────
-      // Populated asynchronously by WebSocket clients (Pi → PC model). Values
-      // are plain numbers / arrays / TypedArrays so setRawWebglUniform works.
-      getJsModelUniformRegistry().forEach((value, uniformId) => {
-        let location = liveUniformLocations.get(uniformId);
-        if (!location) {
-          const resolved = getUniformLocation(uniformId);
-          if (resolved === null) return;
-          location = resolved;
-          liveUniformLocations.set(uniformId, location);
+      for (let i = 0; i < items.length; i += 1) {
+        const item = items[i];
+        const { program } = item;
+        if (program !== activeProgram) {
+          gl.useProgram(program.handles.program);
+          activeProgram = program;
         }
-        setRawWebglUniform(gl, location, value as never);
-      });
+        if (program.frameId !== frameId) prepareProgram(program, frameId);
+        if (program.lastItem !== item) uploadItemMatrices(item);
+        applyBlending(program.blending);
 
-      // ── JS-class canvas textures ────────────────────────────────────────
-      // Canvas → WebGL has a Y-flip: set UNPACK_FLIP_Y_WEBGL so the texture
-      // is right-way-up. Reset to 0 afterwards so it doesn't affect anything
-      // else. Only runs until all canvases are claimed; after that the
-      // forEach body returns immediately every call.
-      gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 1);
-
-      getJsModelCanvasRegistry().forEach((canvas, uniformId) => {
-        if (liveCanvasByUniform.has(uniformId)) return;
-        const location = getUniformLocation(uniformId);
-        if (location === null) return; // not used in this shader
-        const unitIndex = nextCanvasUnit;
-        nextCanvasUnit += 1;
-        const texture = gl.createTexture();
-        if (!texture) return;
-        gl.activeTexture(gl.TEXTURE0 + unitIndex);
-        gl.bindTexture(gl.TEXTURE_2D, texture);
-        gl.texImage2D(
-          gl.TEXTURE_2D,
-          0,
-          gl.RGBA,
-          canvas.width || 1,
-          canvas.height || 1,
-          0,
-          gl.RGBA,
-          gl.UNSIGNED_BYTE,
-          canvas,
-        );
-        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-        gl.uniform1i(location, unitIndex);
-        liveCanvasByUniform.set(uniformId, { canvas, texture, unitIndex });
-      });
-
-      // Push fresh canvas pixels to the GPU before drawing.
-      liveCanvasByUniform.forEach(({ canvas, texture, unitIndex }) => {
-        gl.activeTexture(gl.TEXTURE0 + unitIndex);
-        gl.bindTexture(gl.TEXTURE_2D, texture);
-        gl.texSubImage2D(
-          gl.TEXTURE_2D,
-          0,
-          0,
-          0,
-          gl.RGBA,
-          gl.UNSIGNED_BYTE,
-          canvas,
-        );
-      });
-
-      gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 0);
-
-      if (drawTriangles) {
-        gl.drawElements(gl.TRIANGLES, indexCount, gl.UNSIGNED_INT, 0);
-      } else {
-        gl.drawArrays(gl.POINTS, 0, vertexCount);
+        gl.bindVertexArray(item.vao);
+        if (item.indexType === null) gl.drawArrays(item.mode, 0, item.count);
+        else gl.drawElements(item.mode, item.count, item.indexType, 0);
       }
 
       rafId = requestAnimationFrame(draw);
@@ -435,36 +335,25 @@ export const useRawWebglRenderer = (
 
     // Mirror the three.js path's `useThread` -> RUNNING transition so the
     // shared Loader (which hides on PROCESS_STATUS.RUNNING) dismisses once
-    // the raw-webgl pipeline is up. Read via ref so this path doesn't pull
-    // setStatus into the effect's dep array.
+    // the raw-webgl pipeline is up.
     setStatusRef.current(PROCESS_STATUS.RUNNING);
 
     return () => {
       cancelAnimationFrame(rafId);
-      window.removeEventListener("resize", resize);
+      if (resizeObserver) resizeObserver.disconnect();
+      else window.removeEventListener("resize", resize);
       gl.bindVertexArray(null);
-      gl.deleteVertexArray(vao);
-      for (let i = 0; i < textures.length; i += 1) {
-        gl.deleteTexture(textures[i].texture);
-      }
-      liveCanvasByUniform.forEach(({ texture }) => gl.deleteTexture(texture));
-      deleteRawWebglAttributes(gl, extraAttributeBindings);
-      gl.deleteBuffer(positionBuffer);
-      gl.deleteBuffer(normalBuffer);
-      gl.deleteBuffer(uvBuffer);
-      gl.deleteBuffer(indexBuffer);
-      gl.deleteProgram(program);
-      gl.deleteShader(vertexShader);
-      gl.deleteShader(fragmentShader);
+      dispose();
+      textureCache.dispose();
+      liveCanvases.forEach(({ texture }) => gl.deleteTexture(texture));
     };
-  }, [
-    canvasRef,
-    shaderMaterial,
-    assets,
-    meshTransforms,
-    clearRed,
-    clearGreen,
-    clearBlue,
-    clearAlpha,
-  ]);
+  }, [canvasRef, scene, clearRed, clearGreen, clearBlue, clearAlpha]);
+};
+
+const sameNumbers = (last: number | number[] | undefined, value: number[]) => {
+  if (!Array.isArray(last) || last.length !== value.length) return false;
+  for (let i = 0; i < value.length; i += 1) {
+    if (last[i] !== value[i]) return false;
+  }
+  return true;
 };

@@ -10,9 +10,8 @@ import {
 
 // Raw-WebGL port of `applyMeshTransforms` + `setAttributes` from
 // src/config/mesh/mesh-transforms/. Differences from the three.js path:
-// - We don't honour `transformedMeshIds`; the raw-webgl path renders a single
-//   mesh (the fullscreen plane), so every transform's values are baked onto
-//   it. Mismatched mesh ids are silently ignored.
+// - A transform with no `transformedMeshIds` applies to every mesh. With no
+//   `meshId` (the legacy fullscreen plane) every transform applies.
 // - Only DIMENSION asset relationships are resolved here. VERTEX_POINT and
 //   NORMAL require model geometry which the raw-webgl asset path doesn't
 //   load yet (see TODO below).
@@ -30,11 +29,13 @@ export const buildRawWebglAttributes = (
   meshTransforms: MeshTransformConfig[] | undefined,
   vertexCount: number,
   assets: Asset[],
+  meshId?: string,
 ): Record<string, RawWebglAttribute> => {
   if (!meshTransforms || !meshTransforms.length || vertexCount <= 0) return {};
 
   const out: Record<string, RawWebglAttribute> = {};
   meshTransforms.forEach((transform) => {
+    if (!appliesToMesh(transform, meshId)) return;
     const resolved = resolveAttributeValues(transform.values ?? {}, assets);
     Object.entries(resolved).forEach(([key, config]) => {
       const attribute = buildAttribute(vertexCount, config);
@@ -47,6 +48,12 @@ export const buildRawWebglAttributes = (
   });
 
   return out;
+};
+
+const appliesToMesh = (transform: MeshTransformConfig, meshId?: string) => {
+  if (meshId === undefined) return true;
+  const ids = transform.transformedMeshIds;
+  return !ids || !ids.length || ids.includes(meshId);
 };
 
 // Mirrors `getAttributeValuesFromAssets` in

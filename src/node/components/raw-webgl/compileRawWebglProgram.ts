@@ -63,6 +63,18 @@ export const buildRawWebglProgram = (
   );
   const program = linkProgram(gl, vertexShader, fragmentShader);
 
+  // Misses are cached too: registry-driven uniforms are looked up every frame
+  // against every program, and most programs don't declare most of them.
+  const uniformLocations = new Map<string, WebGLUniformLocation | null>();
+  const getUniformLocation = (name: string) => {
+    let location = uniformLocations.get(name);
+    if (location === undefined) {
+      location = gl.getUniformLocation(program, name);
+      uniformLocations.set(name, location);
+    }
+    return location;
+  };
+
   return {
     program,
     vertexShader,
@@ -72,6 +84,6 @@ export const buildRawWebglProgram = (
       normal: gl.getAttribLocation(program, "normal"),
       uv: gl.getAttribLocation(program, "uv"),
     },
-    getUniformLocation: (name: string) => gl.getUniformLocation(program, name),
+    getUniformLocation,
   };
 };

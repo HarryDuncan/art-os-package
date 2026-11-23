@@ -8,12 +8,12 @@ import { formatSceneProperties } from "../../config/scene-properties/formatScene
 import {
   hasResolvedSceneBackground,
 } from "../../config/scene-properties/backgroundUtils";
+import { RawWebglRendererScene } from "./raw-webgl/useRawWebglRenderer";
 
 import { packageConsole } from "../../utils/packageConsole";
 // Loader for the `webgl` engine. Mirrors `ThreeJsLoader` in
 // ProgressiveLoading.tsx but builds a raw WebGL pipeline instead of the
-// three.js one. Asset loading + shader-material generation are wired up;
-// remaining stages are TODOs.
+// three.js one.
 export const RawWebglLoader = ({
   sceneConfig,
 }: {
@@ -22,27 +22,29 @@ export const RawWebglLoader = ({
   const { areAssetsInitialized, assetsRef } = useSceneContext();
   useRawWebglAssets(sceneConfig.assets, sceneConfig.assetPath);
 
-  // TODO: Initialize a raw WebGL camera/projection abstraction from
-  //       `sceneConfig.cameraConfig`, parallel to `useCamera` for three.js.
-
   // TODO: Wire interaction / peripheral configs into the raw WebGL runtime
   //       (see `useSetInteractionConfigs` / `useSetPeripheralConfigs`).
 
   const assets = areAssetsInitialized ? assetsRef.current : null;
 
-  // Memoize the generated shader material so its identity is stable across
-  // re-renders (e.g. the context update fired by the renderer's
-  // `setStatus(RUNNING)`). Without this, every re-render produces a new
-  // `shaderMaterial` reference, which thrashes `useRawWebglRenderer`'s effect
-  // — tearing down and rebuilding the WebGL program/buffers/textures every
-  // frame and producing no visible output.
-  const shaderMaterial = useMemo(() => {
+  // Memoized so the scene's identity is stable across re-renders (e.g. the
+  // context update fired by the renderer's `setStatus(RUNNING)`). A new
+  // object here tears down and rebuilds every WebGL program, buffer and
+  // texture in `useRawWebglRenderer`.
+  const scene = useMemo((): RawWebglRendererScene | null => {
     if (!assets) return null;
     const { builtShaders } = generateRawWebglShaderMaterials(
       sceneConfig,
       assets,
     );
-    return builtShaders[0] ?? null;
+    return {
+      shaderMaterials: builtShaders,
+      assets,
+      meshComponentConfigs: sceneConfig.meshComponentConfigs,
+      meshTransforms: sceneConfig.meshTransforms,
+      cameraConfig: sceneConfig.cameraConfig,
+      legacyConfig: sceneConfig.rawWebglConfig,
+    };
   }, [sceneConfig, assets]);
 
   // Formats scene properties for runtime (normalizes background to color).
@@ -57,17 +59,15 @@ export const RawWebglLoader = ({
   // A scene with no shader is valid as long as it has a background to show, so
   // only flag the case where there is nothing at all to draw.
   const hasBackground = hasResolvedSceneBackground(sceneProperties?.background);
-  if (!shaderMaterial && !hasBackground) {
+  if (!scene?.shaderMaterials.length && !hasBackground) {
     packageConsole.warn(
-      "RawWebglLoader: no built shader at sceneMaterialConfigs[0] and no scene background; nothing to render",
+      "RawWebglLoader: no built shader materials and no scene background; nothing to render",
     );
   }
 
   return (
     <RawWebglSceneNode
-      shaderMaterial={shaderMaterial}
-      assets={assets}
-      meshTransforms={sceneConfig.meshTransforms}
+      scene={scene}
       sceneProperties={sceneProperties}
       clearColor={sceneConfig.rawWebglConfig?.clearColor}
     />

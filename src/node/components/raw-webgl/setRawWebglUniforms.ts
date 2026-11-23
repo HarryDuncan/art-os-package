@@ -1,8 +1,4 @@
-import {
-  RawWebglUniformObject,
-  RawWebglUniformValue,
-} from "../../../config/material/shaders/raw-webgl/types";
-import { UploadedRawWebglTexture } from "./uploadRawWebglTextures";
+import { RawWebglUniformValue } from "../../../config/material/shaders/raw-webgl/types";
 
 // Heuristic dispatch keyed on the JS shape of each uniform value. Good enough
 // for float-only shaders. TODO: plumb GLSL `valueType` through from
@@ -61,31 +57,4 @@ export const setRawWebglUniform = (
     gl.uniform1iv(location, value);
     return;
   }
-};
-
-export const setRawWebglNumericUniforms = (
-  gl: WebGL2RenderingContext,
-  uniforms: RawWebglUniformObject,
-  resolve: (name: string) => WebGLUniformLocation | null,
-  skip?: Set<string>,
-) => {
-  Object.entries(uniforms).forEach(([name, uniform]) => {
-    if (skip?.has(name)) return;
-    setRawWebglUniform(gl, resolve(name), uniform.value);
-  });
-};
-
-export const bindRawWebglSamplerUniforms = (
-  gl: WebGL2RenderingContext,
-  textures: UploadedRawWebglTexture[],
-  resolve: (name: string) => WebGLUniformLocation | null,
-) => {
-  textures.forEach(({ uniformId, texture, unitIndex }) => {
-    gl.activeTexture(gl.TEXTURE0 + unitIndex);
-    gl.bindTexture(gl.TEXTURE_2D, texture);
-    const location = resolve(uniformId);
-    if (location !== null) {
-      gl.uniform1i(location, unitIndex);
-    }
-  });
 };
