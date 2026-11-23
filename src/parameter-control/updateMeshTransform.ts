@@ -1,4 +1,5 @@
 import { getRegisteredParameterControlScene } from "./register";
+import { markMeshEdited } from "./meshEdits";
 import { MeshTransformParams, Vec3Params } from "./types";
 
 import { packageConsole } from "../utils/packageConsole";
@@ -28,6 +29,7 @@ export const setMeshTransform = (
     return;
   }
 
+  markMeshEdited(mesh);
   applyPartialXYZ(mesh.position, params.position);
   applyPartialXYZ(mesh.rotation, params.rotation);
   applyPartialXYZ(mesh.scale, params.scale);

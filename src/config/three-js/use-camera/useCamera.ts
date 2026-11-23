@@ -26,6 +26,10 @@ export const useCamera = (
       const newCamera = getCamera(aspect, cameraConfig);
       const { x, y, z } = positionConfigToPosition(config?.position ?? {});
       newCamera.position.set(x, y, z);
+      if (cameraConfig.lookAt) {
+        const { x: tx, y: ty, z: tz } = cameraConfig.lookAt;
+        newCamera.lookAt(tx, ty, tz);
+      }
       camera.current = newCamera;
     }
   }, [camera, config, aspect]);

@@ -57,9 +57,16 @@ export type CameraSnapshot = {
   rotation: Position3d;
   /** Approximate world-space look-at target derived from camera orientation. */
   lookAt?: Position3d;
+  /** Orbit-controls target, when the scene has orbit controls. */
+  target?: Position3d;
   fov?: number;
   near?: number;
   far?: number;
+};
+
+export type MeshEditDelta = {
+  position: Position3d;
+  rotation: Position3d;
 };
 
 export type ParameterControlSnapshot = {

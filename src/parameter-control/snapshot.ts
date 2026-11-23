@@ -185,6 +185,13 @@ export const getParameterControlSnapshot = (): ParameterControlSnapshot => {
       rotation: toPosition3d(camera.rotation),
       lookAt: toPosition3d(lookAtPoint),
     };
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const orbitTarget = (scene as any).orbitControls?.target as
+      | Vector3
+      | undefined;
+    if (orbitTarget) {
+      cameraSnapshot.target = toPosition3d(orbitTarget);
+    }
     if (camera instanceof PerspectiveCamera) {
       cameraSnapshot.fov = camera.fov;
       cameraSnapshot.near = camera.near;

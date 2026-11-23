@@ -40,6 +40,7 @@ type SceneContextType = {
   manualCleanup: () => void; // Exposed if you need to trigger it manually
   sceneDataRef: React.MutableRefObject<SceneData | null>;
   setSceneData: (sceneData: SceneData | null) => void;
+  preserveDrawingBuffer: boolean;
 };
 
 export const SceneContext = createContext<SceneContextType | undefined>(
@@ -49,11 +50,13 @@ export const SceneContext = createContext<SceneContextType | undefined>(
 interface SceneProviderProps {
   children: ReactNode;
   onStatusChange?: (status: string) => void;
+  preserveDrawingBuffer?: boolean;
 }
 
 const SceneProvider: FC<SceneProviderProps> = ({
   children,
   onStatusChange,
+  preserveDrawingBuffer = false,
 }) => {
   // --- REFS (The Source of Truth for Cleanup) ---
   const initializedScene = useRef<InteractiveScene | null>(null);
@@ -195,6 +198,7 @@ const SceneProvider: FC<SceneProviderProps> = ({
         setSceneData,
         peripheralConfigs,
         setPeripheralConfigs,
+        preserveDrawingBuffer,
       }}
     >
       {children}

@@ -34,7 +34,11 @@ export const useOrbitControls = (
       controls.enableRotate = config.enableRotate ?? false;
       controls.autoRotate = config.autoRotate ?? false;
       controls.autoRotateSpeed = config.autoRotateSpeed ?? 0;
-      //     controls.target.set(config.target?.x, config.target?.y, config.target?.z);
+      if (config.target) {
+        const { x = 0, y = 0, z = 0 } = config.target;
+        controls.target.set(x, y, z);
+        controls.update();
+      }
     }
 
     setOrbitControls(controls);

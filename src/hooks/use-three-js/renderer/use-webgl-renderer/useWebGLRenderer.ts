@@ -16,7 +16,7 @@ export const useWebGLRenderer = (
   sceneProperties: SceneProperties,
   rendererParams: RendererParams = DEFAULT_RENDERER_PARAMS as RendererParams
 ) => {
-  const { setRenderer, renderer } = useSceneContext();
+  const { setRenderer, renderer, preserveDrawingBuffer } = useSceneContext();
   const { width, height, devicePixelRatio, screenType } =
     useRendererSize(rendererParams);
 
@@ -33,6 +33,7 @@ export const useWebGLRenderer = (
       const nextRenderer = new WebGLRenderer({
         powerPreference: "high-performance",
         antialias: true,
+        preserveDrawingBuffer,
       });
       nextRenderer.setClearColor(0x112233, 0);
       nextRenderer.outputColorSpace =

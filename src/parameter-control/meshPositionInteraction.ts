@@ -21,6 +21,7 @@ import {
   setMeshSelectableChangeListener,
 } from "./meshSelectable";
 import { getRegisteredParameterControlScene } from "./register";
+import { markMeshEdited } from "./meshEdits";
 
 const HANDLE_USER_DATA_KEY = "meshPositionHandle";
 const PART_USER_DATA_KEY = "meshPositionPart";
@@ -288,6 +289,9 @@ const onPointerDown = (event: PointerEvent) => {
   dragMode =
     part[PART_USER_DATA_KEY] && part.dragMode ? part.dragMode : "free";
   draggingGizmo = gizmo;
+  const { meshId } = gizmo.userData as MeshHandleUserData;
+  const editedMesh = activeHost.getObjectByName(meshId);
+  if (editedMesh) markMeshEdited(editedMesh);
   axisOrigin.copy(gizmo.position);
   setupDragPlane(axisOrigin, dragMode);
 

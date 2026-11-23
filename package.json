@@ -1,6 +1,6 @@
 {
   "name": "art-os-package",
-  "version": "2.2.5",
+  "version": "2.2.6",
   "description": "Reusable visual effects made with Three.js and raw webgl ",
   "repository": {
     "type": "git",

@@ -7,8 +7,11 @@ export type {
   MeshSnapshot,
   MaterialSnapshot,
   CameraSnapshot,
+  MeshEditDelta,
   ParameterControlSnapshot,
 } from "./types";
+
+export { getMeshEditDeltas, resetMeshEdits } from "./meshEdits";
 
 export {
   registerParameterControlContext,

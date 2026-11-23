@@ -23,6 +23,8 @@ export interface SceneNodeProps {
   onLog?: (entry: LogEntry) => void;
   onStatusChange?: (status: string) => void;
   onCleanup?: (data: unknown) => void;
+  /** Keeps the WebGL drawing buffer so the canvas can be read back (e.g. `toDataURL`). */
+  preserveDrawingBuffer?: boolean;
 }
 
 export interface SceneNodeContentProps {

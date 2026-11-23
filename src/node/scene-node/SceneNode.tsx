@@ -13,6 +13,7 @@ export const SceneNode = ({
   setExternalScene,
   onLog,
   onStatusChange,
+  preserveDrawingBuffer,
 }: SceneNodeProps) => {
   useLoggerHandler(onLog);
   return (
@@ -21,7 +22,10 @@ export const SceneNode = ({
         windowWidth={windowWidth}
         windowHeight={windowHeight}
       >
-        <SceneProvider onStatusChange={onStatusChange}>
+        <SceneProvider
+          onStatusChange={onStatusChange}
+          preserveDrawingBuffer={preserveDrawingBuffer}
+        >
           <ProgressiveLoading
             sceneConfig={sceneConfig}
             loaderComponent={loaderComponent}
