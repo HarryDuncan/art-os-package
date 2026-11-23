@@ -304,6 +304,8 @@ export const useRawWebglRenderer = (
       frameId += 1;
       time = (now - start) * 0.001;
 
+      textureCache.uploadVideoFrames();
+
       if (canvasRegistry.size) {
         // Canvas -> WebGL has a Y-flip; scoped to the canvas uploads only.
         gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 1);

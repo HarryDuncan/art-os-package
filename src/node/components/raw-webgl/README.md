@@ -174,9 +174,13 @@ UVs run 0..1 across every plane, bottom-left (0,0) to top-right (1,1), with the 
 
 **Points mode (`POINTS` + `DETAILED_PLANE`):** each vertex becomes one point and carries the UV of its grid cell. Sampling the texture with `vUv` therefore colours each point with the image's texel at that position. With `width`/`height` equal to the image's pixel size, you get one point per pixel. Point size comes from the material graph's point-size output (`gl_PointSize`, the `pointSize` shader variable). Without one, the size is undefined in WebGL; most GPUs draw 1-pixel points. Warn when a `POINTS` plane's material has no point-size output.
 
-One image used by several materials is uploaded to the GPU once. The number of distinct textures per scene is capped by the GPU, usually at least 32 units including live model canvases. Warn above 16 distinct textures.
+One image used by several materials is uploaded to the GPU once. The number of distinct textures per scene is capped by the GPU, usually at least 32 units including live model canvases and videos. Warn above 16 distinct textures.
 
-Video textures aren't supported on this engine yet (section 10). Disable video assets in the material picker when `engine === ENGINE.WEBGL`.
+**Video:** a `VIDEO` asset mapped with relationship `texture` or `video` samples like an image. Add it to `assets[]` with `assetType: ASSET_TYPES.VIDEO`, and point the sampler's `assetMappingConfig.relationship` at `ASSET_MAPPING_RELATIONSHIPS.TEXTURE` or `ASSET_MAPPING_RELATIONSHIPS.VIDEO`. The runtime uploads the playing `<video>` element straight into that sampler. Do not draw the video to a canvas first.
+
+`video_stream` and the stream canvas stay unsupported. Keep those disabled in the material picker when `engine === ENGINE.WEBGL`.
+
+A `dimension` uniform is read once, when the material is built. If the video has no metadata yet, that uniform is `[0, 0]`. Size a detailed plane from the video file's own width and height, not from that uniform.
 
 ## 8. Examples
 
@@ -355,7 +359,7 @@ Keep these pure, returning new objects, and unit-test them.
 
 The `webgl` engine doesn't support the following. Don't build UI for them on `webgl` scenes; disable or hide them instead:
 - geometry other than the two plane types: model files (OBJ/GLB/GLTF), `EMPTY` geometry, groups (`groupId`), and `multipleInstanceConfig`
-- video and video-stream textures
+- video-stream textures and the stream canvas (`video_stream`). A file video mapped as `texture` or `video` works
 - `viewWidth` / `viewHeight` / `position` scene properties; the canvas is always fullscreen
 - interactions, raycasting, orbit controls, and camera animation or timelines (the camera is static)
 - morph and quad mesh transforms; supported `meshTransforms` value types are `indexed`, `random_value`, `single_random_value`, `randomized_binary`, and `single_value`
